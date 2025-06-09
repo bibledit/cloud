@@ -55,7 +55,7 @@ std::string edit_edit (Webserver_Request& webserver_request)
   Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   
   // Check whether a Bible editor is alive.
-  int timestamp = webserver_request.database_config_user()->getLiveBibleEditor ();
+  int timestamp = webserver_request.database_config_user()->get_live_bible_editor ();
   bool alive = (timestamp > (filter::date::seconds_since_epoch () - 5));
   
   if (alive) 

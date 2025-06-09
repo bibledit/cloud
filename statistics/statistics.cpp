@@ -57,7 +57,7 @@ void statistics_statistics ()
     
   
     size_t change_notificatons_count = 0;
-    if (webserver_request.database_config_user()->getUserPendingChangesNotification (user)) {
+    if (webserver_request.database_config_user()->get_user_pending_changes_notification (user)) {
       std::string any_bible = std::string();
       std::vector <int> ids = database::modifications::getNotificationIdentifiers (user, any_bible);
       change_notificatons_count = ids.size();
@@ -66,7 +66,7 @@ void statistics_statistics ()
     
 
     size_t assigned_notes_count = 0;
-    if (webserver_request.database_config_user()->getUserAssignedNotesStatisticsNotification (user)) {
+    if (webserver_request.database_config_user()->get_user_assigned_notes_statistics_notification (user)) {
       std::vector <int> ids = database_notes.select_notes (
                                                      bibles, // Bibles.
                                                      0,      // Book
@@ -89,7 +89,7 @@ void statistics_statistics ()
     
 
     size_t subscribed_notes_count = 0;
-    if (webserver_request.database_config_user()->getUserSubscribedNotesStatisticsNotification (user)) {
+    if (webserver_request.database_config_user()->get_user_subscribed_notes_statistics_notification (user)) {
       body << "<p>" << translate("Number of consultation notes you are subscribed to") << ":</p>" << std::endl;
       body << "<ul>" << std::endl;
       webserver_request.session_logic ()->set_username (user);

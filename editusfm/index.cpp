@@ -72,7 +72,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   // Set the user chosen Bible as the current Bible.
   if (webserver_request.post.count ("bibleselect")) {
     const std::string bibleselect = webserver_request.post ["bibleselect"];
-    webserver_request.database_config_user ()->setBible (bibleselect);
+    webserver_request.database_config_user ()->set_bible (bibleselect);
     return std::string();
   }
   
@@ -93,7 +93,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   // Or if the user have used query to preset the active Bible, get the preset Bible.
   // If needed, change Bible to one it has read access to.
   // Set the chosen Bible on the option HTML tag.
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   if (webserver_request.query.count ("bible"))
     bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
   std::string bible_html;
@@ -109,7 +109,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
   
-  const int verticalCaretPosition = webserver_request.database_config_user ()->getVerticalCaretPosition ();
+  const int verticalCaretPosition = webserver_request.database_config_user ()->get_vertical_caret_position ();
   std::stringstream ss{};
   ss << "var usfmEditorChapterLoaded = " << std::quoted(locale_logic_text_loaded ()) << ";" << std::endl;
   ss << "var usfmEditorWillSave = " << std::quoted(locale_logic_text_will_save ()) << ";" << std::endl;
@@ -126,7 +126,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
 
   const std::string cls = Filter_Css::getClass (bible);
   const std::string font = fonts::logic::get_text_font (bible);
-  const int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
+  const int current_theme_index = webserver_request.database_config_user ()->get_current_theme ();
   const int direction = database::config::bible::get_text_direction (bible);
   const int lineheight = database::config::bible::get_line_height (bible);
   const int letterspacing = database::config::bible::get_letter_spacing (bible);
@@ -137,7 +137,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
                                                         direction, lineheight, letterspacing));
   
   // Whether to enable fast Bible editor switching.
-  if (webserver_request.database_config_user ()->getFastEditorSwitchingAvailable ()) {
+  if (webserver_request.database_config_user ()->get_fast_editor_switching_available ()) {
     view.enable_zone ("fastswitcheditor");
   }
   

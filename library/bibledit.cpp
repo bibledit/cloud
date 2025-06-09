@@ -421,7 +421,7 @@ const char * bibledit_get_reference_for_accordance ()
   Webserver_Request webserver_request;
   webserver_request.session_logic()->set_username(user);
   Database_Config_User database_config_user (webserver_request);
-  std::string bible = webserver_request.database_config_user ()->getBible ();
+  std::string bible = webserver_request.database_config_user ()->get_bible ();
   std::string versification = database::config::bible::get_versification_system (bible);
 
   int book = Ipc_Focus::getBook (webserver_request);
@@ -462,7 +462,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
   webserver_request.session_logic()->set_username(user);
 
   // Setting whether to enable receiving verse references from Accordance.
-  bool enabled = webserver_request.database_config_user ()->getReceiveFocusedReferenceFromAccordance ();
+  bool enabled = webserver_request.database_config_user ()->get_receive_focused_reference_from_accordance ();
   if (!enabled) return;
   
   // Interpret the passage from Accordance, e.g. MAT 1:1.
@@ -477,7 +477,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
 
   // Get the active Bible and its versification system.
   Database_Config_User database_config_user (webserver_request);
-  std::string bible = webserver_request.database_config_user ()->getBible ();
+  std::string bible = webserver_request.database_config_user ()->get_bible ();
   std::string versification = database::config::bible::get_versification_system (bible);
 
   // Accordance expects a verse reference in the English versification system.

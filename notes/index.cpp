@@ -59,32 +59,32 @@ std::string notes_index (Webserver_Request& webserver_request)
   // Presets for notes selectors.
   // This is for the daily statistics and the workspace.
   if (webserver_request.query.count ("presetselection")) {
-    webserver_request.database_config_user()->setConsultationNotesPassageSelector (3);
-    webserver_request.database_config_user()->setConsultationNotesEditSelector (0);
-    webserver_request.database_config_user()->setConsultationNotesNonEditSelector (0);
-    webserver_request.database_config_user()->setConsultationNotesStatusSelector ("");
-    webserver_request.database_config_user()->setConsultationNotesBibleSelector ("");
-    webserver_request.database_config_user()->setConsultationNotesAssignmentSelector ("");
-    webserver_request.database_config_user()->setConsultationNotesSubscriptionSelector (0);
-    webserver_request.database_config_user()->setConsultationNotesSeveritySelector (-1);
-    webserver_request.database_config_user()->setConsultationNotesTextSelector (0);
+    webserver_request.database_config_user()->set_consultation_notes_passage_selector (3);
+    webserver_request.database_config_user()->set_consultation_notes_edit_selector (0);
+    webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (0);
+    webserver_request.database_config_user()->set_consultation_notes_status_selector ("");
+    webserver_request.database_config_user()->set_consultation_notes_bible_selector ("");
+    webserver_request.database_config_user()->set_consultation_notes_assignment_selector ("");
+    webserver_request.database_config_user()->set_consultation_notes_subscription_selector (0);
+    webserver_request.database_config_user()->set_consultation_notes_severity_selector (-1);
+    webserver_request.database_config_user()->set_consultation_notes_text_selector (0);
     std::string preset_selector = webserver_request.query ["presetselection"];
     if (preset_selector == "assigned") {
-      webserver_request.database_config_user()->setConsultationNotesAssignmentSelector (webserver_request.session_logic ()->get_username ());
+      webserver_request.database_config_user()->set_consultation_notes_assignment_selector (webserver_request.session_logic ()->get_username ());
     }
     if (preset_selector == "subscribed") {
-      webserver_request.database_config_user()->setConsultationNotesSubscriptionSelector (1);
+      webserver_request.database_config_user()->set_consultation_notes_subscription_selector (1);
     }
     if (preset_selector == "subscribeddayidle") {
-      webserver_request.database_config_user()->setConsultationNotesSubscriptionSelector (1);
-      webserver_request.database_config_user()->setConsultationNotesNonEditSelector (1);
+      webserver_request.database_config_user()->set_consultation_notes_subscription_selector (1);
+      webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (1);
     }
     if (preset_selector == "subscribedweekidle") {
-      webserver_request.database_config_user()->setConsultationNotesSubscriptionSelector (1);
-      webserver_request.database_config_user()->setConsultationNotesNonEditSelector (3);
+      webserver_request.database_config_user()->set_consultation_notes_subscription_selector (1);
+      webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (3);
     }
     if (preset_selector == "forverse") {
-      webserver_request.database_config_user()->setConsultationNotesPassageSelector (0);
+      webserver_request.database_config_user()->set_consultation_notes_passage_selector (0);
     }
   }
 

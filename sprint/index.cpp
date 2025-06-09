@@ -69,32 +69,32 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("previoussprint")) {
-    int month = webserver_request.database_config_user()->getSprintMonth ();
-    int year = webserver_request.database_config_user()->getSprintYear ();
+    int month = webserver_request.database_config_user()->get_sprint_month ();
+    int year = webserver_request.database_config_user()->get_sprint_year ();
     filter::date::get_previous_month (month, year);
-    webserver_request.database_config_user()->setSprintMonth (month);
-    webserver_request.database_config_user()->setSprintYear (year);
+    webserver_request.database_config_user()->set_sprint_month (month);
+    webserver_request.database_config_user()->set_sprint_year (year);
   }
   
   
   if (webserver_request.query.count ("currentprint")) {
-    webserver_request.database_config_user()->setSprintMonth (filter::date::numerical_month (filter::date::seconds_since_epoch ()));
-    webserver_request.database_config_user()->setSprintYear (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
+    webserver_request.database_config_user()->set_sprint_month (filter::date::numerical_month (filter::date::seconds_since_epoch ()));
+    webserver_request.database_config_user()->set_sprint_year (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
   }
   
   
   if (webserver_request.query.count ("nextsprint")) {
-    int month = webserver_request.database_config_user()->getSprintMonth ();
-    int year = webserver_request.database_config_user()->getSprintYear ();
+    int month = webserver_request.database_config_user()->get_sprint_month ();
+    int year = webserver_request.database_config_user()->get_sprint_year ();
     filter::date::get_next_month (month, year);
-    webserver_request.database_config_user()->setSprintMonth (month);
-    webserver_request.database_config_user()->setSprintYear (year);
+    webserver_request.database_config_user()->set_sprint_month (month);
+    webserver_request.database_config_user()->set_sprint_year (year);
   }
   
   
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
-  int month = webserver_request.database_config_user()->getSprintMonth ();
-  int year = webserver_request.database_config_user()->getSprintYear ();
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
+  int month = webserver_request.database_config_user()->get_sprint_month ();
+  int year = webserver_request.database_config_user()->get_sprint_year ();
   
 
   if (webserver_request.post.count ("id")) {
@@ -137,8 +137,8 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("mail")) {
-    int mail_year = webserver_request.database_config_user()->getSprintYear ();
-    int mail_month = webserver_request.database_config_user()->getSprintMonth ();
+    int mail_year = webserver_request.database_config_user()->get_sprint_year ();
+    int mail_month = webserver_request.database_config_user()->get_sprint_month ();
     sprint_burndown (bible, mail_year, mail_month);
     view.set_variable ("success", translate("The information was mailed to the subscribers"));
   }
@@ -155,12 +155,12 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      webserver_request.database_config_user()->setBible (bible);
+      webserver_request.database_config_user()->set_bible (bible);
     }
   }
   
   
-  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   
   
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
@@ -176,8 +176,8 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
     filter::date::get_previous_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the previous sprint"));
-    webserver_request.database_config_user()->setSprintMonth (month);
-    webserver_request.database_config_user()->setSprintYear (year);
+    webserver_request.database_config_user()->set_sprint_month (month);
+    webserver_request.database_config_user()->set_sprint_year (year);
   }
                         
                         
@@ -185,8 +185,8 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
     filter::date::get_next_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the next sprint"));
-    webserver_request.database_config_user()->setSprintMonth (month);
-    webserver_request.database_config_user()->setSprintYear (year);
+    webserver_request.database_config_user()->set_sprint_month (month);
+    webserver_request.database_config_user()->set_sprint_year (year);
   }
 
   

@@ -82,12 +82,12 @@ std::string manage_exports (Webserver_Request& webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      webserver_request.database_config_user()->setBible (bible);
+      webserver_request.database_config_user()->set_bible (bible);
     }
   }
   
   
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   view.set_variable ("bible", bible);
   
   

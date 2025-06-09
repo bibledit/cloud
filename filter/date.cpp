@@ -338,7 +338,7 @@ std::string localized_date_format (Webserver_Request& webserver_request)
   std::string month = std::to_string (numerical_month (time));
   std::string year = std::to_string (numerical_year (time));
 
-  date_format df = static_cast<date_format>(webserver_request.database_config_user()->getNotesDateFormat());
+  date_format df = static_cast<date_format>(webserver_request.database_config_user()->get_notes_date_format());
 
   switch (df) {
     case dd_mm_yyyy:

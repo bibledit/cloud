@@ -93,7 +93,7 @@ std::string resource_cache (Webserver_Request& webserver_request)
   
 
   std::vector <std::string> active_resources;
-  resources = webserver_request.database_config_user()->getActiveResources ();
+  resources = webserver_request.database_config_user()->get_active_resources ();
   for (auto & resource2 : resources) {
     active_resources.push_back (resource2);
   }

@@ -76,7 +76,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   // Set the user chosen Bible as the current Bible.
   if (webserver_request.post.count ("bibleselect")) {
     const std::string bibleselect = webserver_request.post ["bibleselect"];
-    webserver_request.database_config_user ()->setBible (bibleselect);
+    webserver_request.database_config_user ()->set_bible (bibleselect);
     // Going to another Bible, ensure that the focused book exists there.
     int book = Ipc_Focus::getBook (webserver_request);
     const std::vector <int> books = database::bibles::get_books (bibleselect);
@@ -107,7 +107,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   // Active Bible, and check access.
   // Or if the user have used query to preset the active Bible, get the preset Bible.
   // Set the chosen Bible on the option HTML tag.
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   if (webserver_request.query.count ("bible"))
     bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
   std::string bible_html{};
@@ -135,7 +135,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   script_stream << "var editorChapterSaved = " << std::quoted(locale_logic_text_saved ()) << ";\n";
   script_stream << "var editorChapterRetrying = " << std::quoted(locale_logic_text_retrying ()) << ";\n";
   script_stream << "var editorChapterVerseUpdatedLoaded = " << std::quoted(locale_logic_text_reload ()) << ";\n";
-  script_stream << "var verticalCaretPosition = " << webserver_request.database_config_user ()->getVerticalCaretPosition () << ";\n";
+  script_stream << "var verticalCaretPosition = " << webserver_request.database_config_user ()->get_vertical_caret_position () << ";\n";
   script_stream << "var verseSeparator = " << std::quoted(database::config::general::get_notes_verse_separator ()) << ";\n";
   std::string script = script_stream.str();
   config::logic::swipe_enabled (webserver_request, script);
@@ -144,7 +144,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   
   const std::string clss = Filter_Css::getClass (bible);
   const std::string font = fonts::logic::get_text_font (bible);
-  const int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
+  const int current_theme_index = webserver_request.database_config_user ()->get_current_theme ();
   const int direction = database::config::bible::get_text_direction (bible);
   const int lineheight = database::config::bible::get_line_height (bible);
   const int letterspacing = database::config::bible::get_letter_spacing (bible);
@@ -166,13 +166,13 @@ std::string edit_index (Webserver_Request& webserver_request)
   
   
   // Whether to enable fast Bible editor switching.
-  if (!basic_mode && webserver_request.database_config_user ()->getFastEditorSwitchingAvailable ()) {
+  if (!basic_mode && webserver_request.database_config_user ()->get_fast_editor_switching_available ()) {
     view.enable_zone ("fastswitcheditor");
   }
 
   
   // Whether to enable the styles button.
-  if (webserver_request.database_config_user ()->getEnableStylesButtonVisualEditors ()) {
+  if (webserver_request.database_config_user ()->get_enable_styles_button_visual_editors ()) {
     view.enable_zone ("stylesbutton");
   }
   

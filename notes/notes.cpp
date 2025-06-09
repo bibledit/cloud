@@ -50,24 +50,24 @@ std::string notes_notes (Webserver_Request& webserver_request)
   Database_Notes database_notes (webserver_request);
 
   
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible());
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
   int verse = Ipc_Focus::getVerse (webserver_request);
 
   
-  int passage_selector = webserver_request.database_config_user()->getConsultationNotesPassageSelector();
-  int edit_selector = webserver_request.database_config_user()->getConsultationNotesEditSelector();
-  int non_edit_selector = webserver_request.database_config_user()->getConsultationNotesNonEditSelector();
-  std::string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
-  std::string bible_selector = webserver_request.database_config_user()->getConsultationNotesBibleSelector();
-  std::string assignment_selector = webserver_request.database_config_user()->getConsultationNotesAssignmentSelector();
-  bool subscription_selector = webserver_request.database_config_user()->getConsultationNotesSubscriptionSelector();
-  int severity_selector = webserver_request.database_config_user()->getConsultationNotesSeveritySelector();
-  int text_selector = webserver_request.database_config_user()->getConsultationNotesTextSelector();
-  std::string search_text = webserver_request.database_config_user()->getConsultationNotesSearchText();
-  int passage_inclusion_selector = webserver_request.database_config_user()->getConsultationNotesPassageInclusionSelector();
-  int text_inclusion_selector = webserver_request.database_config_user()->getConsultationNotesTextInclusionSelector();
+  int passage_selector = webserver_request.database_config_user()->get_consultation_notes_passage_selector();
+  int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
+  int non_edit_selector = webserver_request.database_config_user()->get_consultation_notes_non_edit_selector();
+  std::string status_selector = webserver_request.database_config_user()->get_consultation_notes_status_selector();
+  std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
+  std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
+  bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
+  int severity_selector = webserver_request.database_config_user()->get_consultation_notes_severity_selector();
+  int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
+  std::string search_text = webserver_request.database_config_user()->get_consultation_notes_search_text();
+  int passage_inclusion_selector = webserver_request.database_config_user()->get_consultation_notes_passage_inclusion_selector();
+  int text_inclusion_selector = webserver_request.database_config_user()->get_consultation_notes_text_inclusion_selector();
 
   
   // The Bibles the current user has access to.
@@ -102,9 +102,9 @@ std::string notes_notes (Webserver_Request& webserver_request)
   }
 
 
-  bool show_bible_in_notes_list = webserver_request.database_config_user ()->getShowBibleInNotesList ();
-  bool show_note_status = webserver_request.database_config_user ()->getShowNoteStatus ();
-  bool color_note_status = webserver_request.database_config_user ()->getUseColoredNoteStatusLabels ();
+  const bool show_bible_in_notes_list = webserver_request.database_config_user ()->get_show_bible_in_notes_list ();
+  const bool show_note_status = webserver_request.database_config_user ()->get_show_note_status ();
+  const bool color_note_status = webserver_request.database_config_user ()->get_use_colored_note_status_labels ();
   std::stringstream notesblock;
   for (auto & identifier : identifiers) {
 

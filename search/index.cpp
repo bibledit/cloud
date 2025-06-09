@@ -49,7 +49,7 @@ bool search_index_acl (Webserver_Request& webserver_request)
 
 std::string search_index (Webserver_Request& webserver_request)
 {
-  std::string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->get_bible ();
   if (webserver_request.query.count ("b")) {
     bible = webserver_request.query ["b"];
   }
@@ -99,7 +99,7 @@ std::string search_index (Webserver_Request& webserver_request)
   // Set the user chosen Bible as the current Bible.
   if (webserver_request.post.count ("bibleselect")) {
     const std::string bibleselect = webserver_request.post ["bibleselect"];
-    webserver_request.database_config_user ()->setBible (bibleselect);
+    webserver_request.database_config_user ()->set_bible (bibleselect);
     return std::string();
   }
 

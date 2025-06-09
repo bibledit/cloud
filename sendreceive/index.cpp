@@ -100,12 +100,12 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      webserver_request.database_config_user()->setBible (bible);
+      webserver_request.database_config_user()->set_bible (bible);
     }
   }
   
   
-  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   view.set_variable ("bible", bible);
 
 

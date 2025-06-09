@@ -119,13 +119,16 @@ std::string manage_users (Webserver_Request& webserver_request)
         DatabasePrivileges::set_feature (user, privilege, state);
       }
 
-      bool deletenotes = webserver_request.database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (*default_username);
-      bool useadvancedmode = webserver_request.database_config_user ()->getPrivilegeUseAdvancedModeForUser (*default_username);
-      bool editstylesheets = webserver_request.database_config_user ()->getPrivilegeSetStylesheetsForUser (*default_username);
+      const bool deletenotes = webserver_request.database_config_user ()->get_privilege_delete_consultation_notes_for_user (*default_username);
+      const bool useadvancedmode = webserver_request.database_config_user ()->get_privilege_use_advanced_mode_for_user (*default_username);
+      const bool editstylesheets = webserver_request.database_config_user ()->get_privilege_set_stylesheets_for_user (*default_username);
 
-      if (deletenotes) webserver_request.database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, 1);
-      if (useadvancedmode) webserver_request.database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, 1);
-      if (editstylesheets) webserver_request.database_config_user ()->setPrivilegeSetStylesheetsForUser (user, 1);
+      if (deletenotes)
+        webserver_request.database_config_user ()->set_privilege_delete_consultation_notes_for_user (user, 1);
+      if (useadvancedmode)
+        webserver_request.database_config_user ()->set_privilege_use_advanced_mode_for_user (user, 1);
+      if (editstylesheets)
+        webserver_request.database_config_user ()->set_privilege_set_stylesheets_for_user (user, 1);
 
       page += assets_page::error (*default_username);
 

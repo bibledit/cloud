@@ -60,7 +60,7 @@ TEST_F (workspaces, basic)
   EXPECT_EQ ("1", workspace_process_units ("100 px"));
   
   EXPECT_EQ ("Default", workspace_get_active_name (webserver_request));
-  webserver_request.database_config_user()->setActiveWorkspace ("unittest");
+  webserver_request.database_config_user()->set_active_workspace ("unittest");
   EXPECT_EQ ("unittest", workspace_get_active_name (webserver_request));
   
   std::map <int, std::string> standard = {
@@ -101,9 +101,9 @@ TEST_F (workspaces, get_names_1)
 {
   Webserver_Request webserver_request;
   setup (webserver_request);
-  webserver_request.database_config_user()->setActiveWorkspace ("unittest");
+  webserver_request.database_config_user()->set_active_workspace ("unittest");
   workspace_set_urls (webserver_request, {std::pair (10, "url10")});
-  webserver_request.database_config_user()->setActiveWorkspace ("unittest2");
+  webserver_request.database_config_user()->set_active_workspace ("unittest2");
   std::map <int, std::string> standard = { std::pair (0, "url0"), std::pair (5, "url5")};
   workspace_set_urls (webserver_request, standard);
   std::vector <std::string> workspaces = workspace_get_names (webserver_request);
@@ -121,11 +121,11 @@ TEST_F (workspaces, get_names_2)
 {
   Webserver_Request webserver_request;
   setup (webserver_request);
-  webserver_request.database_config_user()->setActiveWorkspace ("unittest2");
+  webserver_request.database_config_user()->set_active_workspace ("unittest2");
   workspace_set_urls (webserver_request, {std::pair (10, "url10")});
-  webserver_request.database_config_user()->setActiveWorkspace ("abc32");
+  webserver_request.database_config_user()->set_active_workspace ("abc32");
   workspace_set_urls (webserver_request, {std::pair (10, "url10"), std::pair (11, "url11")});
-  webserver_request.database_config_user()->setActiveWorkspace ("zzz");
+  webserver_request.database_config_user()->set_active_workspace ("zzz");
   workspace_set_urls (webserver_request, {std::pair (120, "url120"), std::pair (121, "url121")});
   workspace_reorder (webserver_request, {"zzz", "yyy", "unittest2", "abc32"});
   std::vector <std::string> workspaces = workspace_get_names (webserver_request);

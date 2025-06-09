@@ -124,7 +124,7 @@ std::string admin_email ()
 // Returns whether the interface is supposed to be in basic mode.
 bool basic_mode (Webserver_Request& webserver_request)
 {
-  const bool basic_mode {webserver_request.database_config_user ()->getBasicInterfaceMode ()};
+  const bool basic_mode {webserver_request.database_config_user ()->get_basic_interface_mode ()};
   return basic_mode;
 }
 
@@ -233,7 +233,7 @@ void swipe_enabled (Webserver_Request& webserver_request, std::string& script)
   bool swipe_operations {false};
   std::string true_false {"false"};
   if (webserver_request.session_logic ()->get_touch_enabled ()) {
-    if (webserver_request.database_config_user ()->getSwipeActionsAvailable ()) {
+    if (webserver_request.database_config_user ()->get_swipe_actions_available ()) {
       true_false = "true";
       swipe_operations = true;
     }

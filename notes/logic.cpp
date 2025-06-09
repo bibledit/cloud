@@ -327,7 +327,7 @@ void Notes_Logic::handlerAssignNote (int identifier, const std::string& user)
   if (client_logic_client_enabled ()) return;
   
   Database_Config_User database_config_user (m_webserver_request);
-  if (database_config_user.getUserAssignedConsultationNoteNotification (user)) {
+  if (database_config_user.get_user_assigned_consultation_note_notification (user)) {
     // Only email the user if the user was not yet assigned this note.
     Database_Notes database_notes (m_webserver_request);
     std::vector <std::string> assignees = database_notes.get_assignees (identifier);
@@ -369,7 +369,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   if (notification != notifyMarkNoteForDeletion) {
 
     // Whether current user gets subscribed to the note.
-    if (m_webserver_request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ()) {
+    if (m_webserver_request.database_config_user ()->get_subscribe_to_consultation_notes_edited_by_me ()) {
       database_notes.subscribe (identifier);
     }
 
@@ -377,15 +377,15 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     std::vector <std::string> users = m_webserver_request.database_users ()->get_users ();
     for (const std::string& user : users) {
       if (access_bible::read (m_webserver_request, bible, user)) {
-        if (m_webserver_request.database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
+        if (m_webserver_request.database_config_user ()->get_notify_user_of_any_consultation_notes_edits (user)) {
           database_notes.subscribe_user (identifier, user);
         }
-        if (m_webserver_request.database_config_user ()->getUserAssignedToConsultationNotesChanges (user)) {
+        if (m_webserver_request.database_config_user ()->get_user_assigned_to_consultation_notes_changes (user)) {
           database_notes.assign_user (identifier, user);
         }
       }
     }
-    std::vector <std::string> auto_assignees = m_webserver_request.database_config_user ()->getAutomaticNoteAssignment ();
+    std::vector <std::string> auto_assignees = m_webserver_request.database_config_user ()->get_automatic_note_assignment ();
     for (auto assignee : auto_assignees) {
       database_notes.assign_user (identifier, assignee);
     }
@@ -397,7 +397,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   // Subscribers who receive email.
   std::vector <std::string> subscribers = database_notes.get_subscribers (identifier);
   for (const std::string& subscriber : subscribers) {
-    if (m_webserver_request.database_config_user ()->getUserSubscribedConsultationNoteNotification (subscriber)) {
+    if (m_webserver_request.database_config_user ()->get_user_subscribed_consultation_note_notification (subscriber)) {
       recipients.push_back (subscriber);
     }
   }
@@ -405,7 +405,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   // Assignees who receive email.
   std::vector <std::string> assignees = database_notes.get_assignees (identifier);
   for (const std::string& assignee : assignees) {
-    if (m_webserver_request.database_config_user ()->getUserAssignedConsultationNoteNotification (assignee)) {
+    if (m_webserver_request.database_config_user ()->get_user_assigned_consultation_note_notification (assignee)) {
       recipients.push_back (assignee);
     }
   }
@@ -416,7 +416,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     recipients.clear ();
     std::vector <std::string> users = m_webserver_request.database_users ()->get_users ();
     for (const auto & user : users) {
-      if (m_webserver_request.database_config_user ()->getUserDeletedConsultationNoteNotification (user)) {
+      if (m_webserver_request.database_config_user ()->get_user_deleted_consultation_note_notification (user)) {
         if (access_bible::read (m_webserver_request, bible, user)) {
           recipients.push_back (user);
         }
@@ -430,7 +430,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
 
   // Deal with suppressing mail to the user when he made the update himself.
   const std::string& username = m_webserver_request.session_logic ()->get_username ();
-  if (m_webserver_request.database_config_user ()->getUserSuppressMailFromYourUpdatesNotes (username)) {
+  if (m_webserver_request.database_config_user ()->get_user_suppress_mail_from_your_updates_notes (username)) {
     recipients.erase (remove (recipients.begin(), recipients.end(), username), recipients.end());
   }
 
@@ -447,7 +447,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   // Optional postponing sending email.
   bool postpone = false;
   if (notification == notifyNoteNew) {
-    if (m_webserver_request.database_config_user ()->getPostponeNewNotesMails ()) {
+    if (m_webserver_request.database_config_user ()->get_postpone_new_notes_mails ()) {
       postpone = true;
     }
   }
@@ -574,7 +574,7 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
   addComment (identifier, body);
   m_webserver_request.session_logic ()->set_username (sessionuser);
   // Mail confirmation to the username.
-  if (m_webserver_request.database_config_user()->getUserNotifyMeOfMyPosts (username)) {
+  if (m_webserver_request.database_config_user()->get_user_notify_me_of_my_posts (username)) {
     std::string confirm_subject = translate("Your comment was posted");
     confirm_subject.append (" [CNID");
     confirm_subject.append (std::to_string (identifier));
@@ -655,12 +655,12 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
   const std::string& sessionuser = m_webserver_request.session_logic ()->get_username ();
   m_webserver_request.session_logic()->set_username (username);
   Database_Notes database_notes (m_webserver_request);
-  std::string bible = m_webserver_request.database_config_user()->getBible ();
+  std::string bible = m_webserver_request.database_config_user()->get_bible ();
   int identifier = database_notes.store_new_note (bible, static_cast<int>(book), chapter, verse, summary, body, false);
   handlerNewNote (identifier);
   m_webserver_request.session_logic()->set_username (sessionuser);
   // Mail confirmation to the username.
-  if (m_webserver_request.database_config_user()->getUserNotifyMeOfMyPosts (username)) {
+  if (m_webserver_request.database_config_user()->get_user_notify_me_of_my_posts (username)) {
     subject = translate("Your new note was posted");
     email_schedule (username, subject + ": " + originalSubject, body);
   }

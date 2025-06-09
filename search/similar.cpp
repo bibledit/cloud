@@ -54,7 +54,7 @@ std::string search_similar (Webserver_Request& webserver_request)
   const int myIdentifier = filter::strings::user_identifier (webserver_request);
   
   
-  std::string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->get_bible ();
   if (webserver_request.query.count ("b")) {
     bible = webserver_request.query ["b"];
   }
@@ -140,7 +140,7 @@ std::string search_similar (Webserver_Request& webserver_request)
     
     // Get the Bible and passage for this identifier.
     Passage passage = filter_integer_to_passage (id);
-    std::string bible2 = webserver_request.database_config_user()->getBible ();
+    std::string bible2 = webserver_request.database_config_user()->get_bible ();
     // string bible = passage.bible;
     int book = passage.m_book;
     int chapter = passage.m_chapter;

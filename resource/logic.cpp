@@ -182,7 +182,7 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
   Database_Mappings database_mappings;
 
   // Retrieve versification system of the active Bible.
-  std::string bible = webserver_request.database_config_user ()->getBible ();
+  std::string bible = webserver_request.database_config_user ()->get_bible ();
   std::string bible_versification = database::config::bible::get_versification_system (bible);
 
   // Determine the versification system of the current resource.
@@ -226,7 +226,7 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
   bool add_passages_in_full = false;
 
   // Deal with user's preference whether to include related passages.
-  if (webserver_request.database_config_user ()->getIncludeRelatedPassages ()) {
+  if (webserver_request.database_config_user ()->get_include_related_passages ()) {
     
     // Take the Bible's active passage and mapping, and translate that to the original mapping.
     std::vector <Passage> related_passages = database_mappings.translate (bible_versification, database_mappings.original (), book, chapter, verse);

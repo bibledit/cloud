@@ -158,17 +158,17 @@ std::string Sync_Logic::post (std::map <std::string, std::string> & post, const 
 std::string Sync_Logic::settings_checksum (const std::vector <std::string> & bibles)
 {
   std::string checksum;
-  checksum.append (m_webserver_request.database_config_user()->getWorkspaceURLs ());
-  checksum.append (m_webserver_request.database_config_user()->getWorkspaceWidths ());
-  checksum.append (m_webserver_request.database_config_user()->getWorkspaceHeights ());
-  std::vector <std::string> resources = m_webserver_request.database_config_user()->getActiveResources ();
+  checksum.append (m_webserver_request.database_config_user()->get_workspace_urls ());
+  checksum.append (m_webserver_request.database_config_user()->get_workspace_widths ());
+  checksum.append (m_webserver_request.database_config_user()->get_workspace_heights ());
+  std::vector <std::string> resources = m_webserver_request.database_config_user()->get_active_resources ();
   checksum.append (filter::strings::implode (resources, "\n"));
   for (auto & bible : bibles) {
     checksum.append (bible);
     // Download Bible text font name: It is the default name for the clients.
     checksum.append (database::config::bible::get_text_font (bible));
   }
-  checksum.append (filter::strings::convert_to_string (m_webserver_request.database_config_user()->getPrivilegeDeleteConsultationNotes ()));
+  checksum.append (filter::strings::convert_to_string (m_webserver_request.database_config_user()->get_privilege_delete_consultation_notes ()));
   return md5 (checksum);
 }
 

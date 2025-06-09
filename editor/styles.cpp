@@ -39,11 +39,11 @@
 
 std::string Editor_Styles::get_recently_used (Webserver_Request& webserver_request)
 {
-  const std::string bible = webserver_request.database_config_user()->getBible ();
+  const std::string bible = webserver_request.database_config_user()->get_bible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
   // The recent styles.
-  const std::string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
+  const std::string s_styles = webserver_request.database_config_user()->get_recently_applied_styles ();
   const std::vector <std::string> styles = filter::strings::explode (s_styles, ' ');
   std::string fragment = translate("Select style") + ": ";
   for (const auto& marker : styles) {
@@ -79,7 +79,7 @@ std::string Editor_Styles::get_recently_used (Webserver_Request& webserver_reque
 
 std::string Editor_Styles::get_all (Webserver_Request& webserver_request)
 {
-  const std::string bible = webserver_request.database_config_user()->getBible ();
+  const std::string bible = webserver_request.database_config_user()->get_bible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
   // The styles.
@@ -120,7 +120,7 @@ std::string Editor_Styles::get_all (Webserver_Request& webserver_request)
 void Editor_Styles::record_usage (Webserver_Request& webserver_request, const std::string& style)
 {
   if (style.empty()) return;
-  std::string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
+  std::string s_styles = webserver_request.database_config_user()->get_recently_applied_styles ();
   std::vector <std::string> styles = filter::strings::explode (s_styles, ' ');
   // Erase the style.
   styles.erase (remove (styles.begin(), styles.end(), style), styles.end());
@@ -131,13 +131,13 @@ void Editor_Styles::record_usage (Webserver_Request& webserver_request, const st
     styles.pop_back ();
   }
   s_styles = filter::strings::implode (styles, " ");
-  webserver_request.database_config_user()->setRecentlyAppliedStyles (s_styles);
+  webserver_request.database_config_user()->set_recently_applied_styles (s_styles);
 }
 
 
 std::string Editor_Styles::get_action (Webserver_Request& webserver_request, const std::string& marker)
 {
-  const std::string bible = webserver_request.database_config_user()->getBible ();
+  const std::string bible = webserver_request.database_config_user()->get_bible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
   if (const stylesv2::Style* style {database::styles::get_marker_data (stylesheet, marker)}; style)

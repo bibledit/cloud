@@ -76,11 +76,11 @@ std::string edit_preview (Webserver_Request& webserver_request)
   // If so, write that to the active Bible in the user configuration.
   // More info: https://github.com/bibledit/cloud/issues/1003
   if (!bible.empty())
-    webserver_request.database_config_user()->setBible(bible);
+    webserver_request.database_config_user()->set_bible(bible);
 
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
-  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
 
   std::string cls = Filter_Css::getClass (bible);
   std::string font = fonts::logic::get_text_font (bible);

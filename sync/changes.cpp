@@ -73,16 +73,16 @@ std::string sync_changes (Webserver_Request& webserver_request)
       // The server deletes the change notification.
       database::modifications::deleteNotification (id);
       Database_Logs::log ("Client deletes change notification from server: " + std::to_string (id), roles::translator);
-      webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
+      webserver_request.database_config_user ()->set_change_notifications_checksum ("");
       return std::string();
     }
     case Sync_Logic::changes_get_checksum:
     {
       // The server responds with the possibly cached total checksum for the user's change notifications.
-      std::string checksum = webserver_request.database_config_user ()->getChangeNotificationsChecksum ();
+      std::string checksum = webserver_request.database_config_user ()->get_change_notifications_checksum ();
       if (checksum.empty ()) {
         checksum = Sync_Logic::changes_checksum (user);
-        webserver_request.database_config_user ()->setChangeNotificationsChecksum (checksum);
+        webserver_request.database_config_user ()->set_change_notifications_checksum (checksum);
       }
       return checksum;
     }

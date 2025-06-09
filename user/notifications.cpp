@@ -76,74 +76,74 @@ std::string user_notifications (Webserver_Request& webserver_request)
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
   if (checkbox == "editednotessubscription") {
-    database_config_user.setSubscribeToConsultationNotesEditedByMe (checked);
+    database_config_user.set_subscribe_to_consultation_notes_edited_by_me (checked);
     return std::string();
   }
-  view.set_variable ("editednotessubscription", filter::strings::get_checkbox_status (database_config_user.getSubscribeToConsultationNotesEditedByMe ()));
+  view.set_variable ("editednotessubscription", filter::strings::get_checkbox_status (database_config_user.get_subscribe_to_consultation_notes_edited_by_me ()));
 
   if (checkbox == "anynotessubscription") {
-    database_config_user.setNotifyMeOfAnyConsultationNotesEdits (checked);
+    database_config_user.set_notify_me_of_any_consultation_notes_edits (checked);
     return std::string();
   }
-  view.set_variable ("anynotessubscription", filter::strings::get_checkbox_status (database_config_user.getNotifyMeOfAnyConsultationNotesEdits ()));
+  view.set_variable ("anynotessubscription", filter::strings::get_checkbox_status (database_config_user.get_notify_me_of_any_consultation_notes_edits ()));
 
   if (checkbox == "emailconfirmationyourposts") {
-    database_config_user.setNotifyMeOfMyPosts (checked);
+    database_config_user.set_notify_me_of_my_posts (checked);
     return std::string();
   }
-  view.set_variable ("emailconfirmationyourposts", filter::strings::get_checkbox_status (database_config_user.getNotifyMeOfMyPosts ()));
+  view.set_variable ("emailconfirmationyourposts", filter::strings::get_checkbox_status (database_config_user.get_notify_me_of_my_posts ()));
 
   if (checkbox == "subscribednotenotification") {
-    database_config_user.setSubscribedConsultationNoteNotification (checked);
+    database_config_user.set_subscribed_consultation_note_notification (checked);
     return std::string();
   }
-  view.set_variable ("subscribednotenotification", filter::strings::get_checkbox_status (database_config_user.getSubscribedConsultationNoteNotification ()));
+  view.set_variable ("subscribednotenotification", filter::strings::get_checkbox_status (database_config_user.get_subscribed_consultation_note_notification ()));
 
   if (checkbox == "notesassignment") {
-    database_config_user.setAssignedToConsultationNotesChanges (checked);
+    database_config_user.set_assigned_to_consultation_notes_changes (checked);
     return std::string();
   }
-  view.set_variable ("notesassignment", filter::strings::get_checkbox_status (database_config_user.getAssignedToConsultationNotesChanges ()));
+  view.set_variable ("notesassignment", filter::strings::get_checkbox_status (database_config_user.get_assigned_to_consultation_notes_changes ()));
   
   if (checkbox == "assignednotenotification") {
-    database_config_user.setAssignedConsultationNoteNotification (checked);
+    database_config_user.set_assigned_consultation_note_notification (checked);
     return std::string();
   }
-  view.set_variable ("assignednotenotification", filter::strings::get_checkbox_status (database_config_user.getAssignedConsultationNoteNotification ()));
+  view.set_variable ("assignednotenotification", filter::strings::get_checkbox_status (database_config_user.get_assigned_consultation_note_notification ()));
   
   if (checkbox == "suppressemailsfromnotesyouupdated") {
-    database_config_user.setSuppressMailFromYourUpdatesNotes (checked);
+    database_config_user.set_suppress_mail_from_your_updates_notes (checked);
     return std::string();
   }
-  view.set_variable ("suppressemailsfromnotesyouupdated", filter::strings::get_checkbox_status (database_config_user.getSuppressMailFromYourUpdatesNotes ()));
+  view.set_variable ("suppressemailsfromnotesyouupdated", filter::strings::get_checkbox_status (database_config_user.get_suppress_mail_from_your_updates_notes ()));
 
   if (checkbox == "assignednotesnotification") {
-    database_config_user.setAssignedNotesStatisticsNotification (checked);
+    database_config_user.set_assigned_notes_statistics_notification (checked);
     return std::string();
   }
-  view.set_variable ("assignednotesnotification", filter::strings::get_checkbox_status (database_config_user.getAssignedNotesStatisticsNotification ()));
+  view.set_variable ("assignednotesnotification", filter::strings::get_checkbox_status (database_config_user.get_assigned_notes_statistics_notification ()));
 
   if (checkbox == "subscribednotesnotification") {
-    database_config_user.setSubscribedNotesStatisticsNotification (checked);
+    database_config_user.set_subscribed_notes_statistics_notification (checked);
     return std::string();
   }
-  view.set_variable ("subscribednotesnotification", filter::strings::get_checkbox_status (database_config_user.getSubscribedNotesStatisticsNotification ()));
+  view.set_variable ("subscribednotesnotification", filter::strings::get_checkbox_status (database_config_user.get_subscribed_notes_statistics_notification ()));
 
   if (checkbox == "deletednotenotification") {
-    database_config_user.setDeletedConsultationNoteNotification (checked);
+    database_config_user.set_deleted_consultation_note_notification (checked);
     return std::string();
   }
-  view.set_variable ("deletednotenotification", filter::strings::get_checkbox_status (database_config_user.getDeletedConsultationNoteNotification ()));
+  view.set_variable ("deletednotenotification", filter::strings::get_checkbox_status (database_config_user.get_deleted_consultation_note_notification ()));
 
   if (checkbox == "postponenewnotesmails") {
-    database_config_user.setPostponeNewNotesMails (checked);
+    database_config_user.set_postpone_new_notes_mails (checked);
     return std::string();
   }
-  view.set_variable ("postponenewnotesmails", filter::strings::get_checkbox_status (database_config_user.getPostponeNewNotesMails ()));
+  view.set_variable ("postponenewnotesmails", filter::strings::get_checkbox_status (database_config_user.get_postpone_new_notes_mails ()));
 
   const std::string& user = webserver_request.session_logic ()->get_username ();
   const std::vector <std::string> all_assignees = database_noteassignment.assignees (user);
-  std::vector <std::string> current_assignees = database_config_user.getAutomaticNoteAssignment();
+  std::vector <std::string> current_assignees = database_config_user.get_automatic_note_assignment();
   for (const auto& assignee : all_assignees) {
     if (checkbox == "autoassign" + assignee) {
       if (checked) {
@@ -151,7 +151,7 @@ std::string user_notifications (Webserver_Request& webserver_request)
       } else {
         current_assignees = filter::strings::array_diff (current_assignees, {assignee});
       }
-      database_config_user.setAutomaticNoteAssignment (current_assignees);
+      database_config_user.set_automatic_note_assignment (current_assignees);
     }
   }
   for (const auto& assignee : all_assignees) {
@@ -162,40 +162,40 @@ std::string user_notifications (Webserver_Request& webserver_request)
   }
   
   if (checkbox == "anyonechangesemailnotification") {
-    database_config_user.setBibleChangesNotification (checked);
+    database_config_user.set_bible_changes_notification (checked);
     return std::string();
   }
-  view.set_variable ("anyonechangesemailnotification", filter::strings::get_checkbox_status (database_config_user.getBibleChangesNotification ()));
+  view.set_variable ("anyonechangesemailnotification", filter::strings::get_checkbox_status (database_config_user.get_bible_changes_notification ()));
 
   if (checkbox == "anyonechangesonlinenotifications") {
-    database_config_user.setGenerateChangeNotifications (checked);
+    database_config_user.set_generate_change_notifications (checked);
     return std::string();
   }
-  view.set_variable ("anyonechangesonlinenotifications", filter::strings::get_checkbox_status (database_config_user.getGenerateChangeNotifications ()));
+  view.set_variable ("anyonechangesonlinenotifications", filter::strings::get_checkbox_status (database_config_user.get_generate_change_notifications ()));
 
   if (checkbox == "pendingchangenotifications") {
-    database_config_user.setPendingChangesNotification (checked);
+    database_config_user.set_pending_changes_notification (checked);
     return std::string();
   }
-  view.set_variable ("pendingchangenotifications", filter::strings::get_checkbox_status (database_config_user.getPendingChangesNotification ()));
+  view.set_variable ("pendingchangenotifications", filter::strings::get_checkbox_status (database_config_user.get_pending_changes_notification ()));
   
   if (checkbox == "mychangesemailnotifications") {
-    database_config_user.setUserChangesNotification (checked);
+    database_config_user.set_user_changes_notification (checked);
     return std::string();
   }
-  view.set_variable ("mychangesemailnotifications", filter::strings::get_checkbox_status (database_config_user.getUserChangesNotification ()));
+  view.set_variable ("mychangesemailnotifications", filter::strings::get_checkbox_status (database_config_user.get_user_changes_notification ()));
   
   if (checkbox == "mychangesonlinenotifications") {
-    database_config_user.setUserChangesNotificationsOnline (checked);
+    database_config_user.set_user_changes_notifications_online (checked);
     return std::string();
   }
-  view.set_variable ("mychangesonlinenotifications", filter::strings::get_checkbox_status (database_config_user.getUserChangesNotificationsOnline ()));
+  view.set_variable ("mychangesonlinenotifications", filter::strings::get_checkbox_status (database_config_user.get_user_changes_notifications_online ()));
 
   if (checkbox == "contributorschangesonlinenotifications") {
-    database_config_user.setContributorChangesNotificationsOnline (checked);
+    database_config_user.set_contributor_changes_notifications_online (checked);
     return std::string();
   }
-  view.set_variable ("contributorschangesonlinenotifications", filter::strings::get_checkbox_status (database_config_user.getContributorChangesNotificationsOnline ()));
+  view.set_variable ("contributorschangesonlinenotifications", filter::strings::get_checkbox_status (database_config_user.get_contributor_changes_notifications_online ()));
 
   // Setting per user for which Bibles the user will receive change notifications.
   // The set of Bibles the user can choose
@@ -204,16 +204,16 @@ std::string user_notifications (Webserver_Request& webserver_request)
     std::vector <std::string> bibles = access_bible::bibles (webserver_request);
     for (const auto& bible : bibles) {
       if (checkbox == "changenotificationbible" + bible) {
-        std::vector <std::string> currentbibles = database_config_user.getChangeNotificationsBibles();
+        std::vector <std::string> currentbibles = database_config_user.get_change_notifications_bibles();
         if (checked) {
           currentbibles.push_back(bible);
         } else {
           currentbibles = filter::strings::array_diff (currentbibles, {bible});
         }
-        database_config_user.setChangeNotificationsBibles(currentbibles);
+        database_config_user.set_change_notifications_bibles(currentbibles);
       }
     }
-    const std::vector <std::string> currentbibles = database_config_user.getChangeNotificationsBibles();
+    const std::vector <std::string> currentbibles = database_config_user.get_change_notifications_bibles();
     for (const auto& bible : bibles) {
       std::map <std::string, std::string> values;
       values ["bible"] = bible;
@@ -223,16 +223,16 @@ std::string user_notifications (Webserver_Request& webserver_request)
   }
   
   if (checkbox == "biblechecksnotification") {
-    database_config_user.setBibleChecksNotification (checked);
+    database_config_user.set_bible_checks_notification (checked);
     return std::string();
   }
-  view.set_variable ("biblechecksnotification", filter::strings::get_checkbox_status (database_config_user.getBibleChecksNotification ()));
+  view.set_variable ("biblechecksnotification", filter::strings::get_checkbox_status (database_config_user.get_bible_checks_notification ()));
 
   if (checkbox == "sprintprogressnotification") {
-    database_config_user.setSprintProgressNotification (checked);
+    database_config_user.set_sprint_progress_notification (checked);
     return std::string();
   }
-  view.set_variable ("sprintprogressnotification", filter::strings::get_checkbox_status (database_config_user.getSprintProgressNotification ()));
+  view.set_variable ("sprintprogressnotification", filter::strings::get_checkbox_status (database_config_user.get_sprint_progress_notification ()));
   
 #ifdef HAVE_CLIENT
   view.enable_zone ("client");

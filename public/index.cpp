@@ -60,14 +60,14 @@ std::string public_index (Webserver_Request& webserver_request)
 
   
   // Take the Bible for this user, and ensure that it is one of the Bibles that have public feedback enabled.
-  std::string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->get_bible ();
   const std::vector <std::string> public_bibles = public_logic_bibles ();
   if (!in_array (bible, public_bibles)) {
     bible.clear ();
     if (!public_bibles.empty ()) {
       bible = public_bibles [0];
     }
-    webserver_request.database_config_user()->setBible (bible);
+    webserver_request.database_config_user()->set_bible (bible);
   }
   
   
@@ -84,7 +84,7 @@ std::string public_index (Webserver_Request& webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      webserver_request.database_config_user()->setBible (bible);
+      webserver_request.database_config_user()->set_bible (bible);
     }
   }
   
@@ -100,7 +100,7 @@ std::string public_index (Webserver_Request& webserver_request)
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
 
   
-  bible = webserver_request.database_config_user()->getBible ();
+  bible = webserver_request.database_config_user()->get_bible ();
   view.set_variable ("bible", bible);
   
   

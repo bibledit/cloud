@@ -55,7 +55,7 @@ std::string manage_hyphenation (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   
   
   std::string success;
@@ -83,10 +83,10 @@ std::string manage_hyphenation (Webserver_Request& webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      webserver_request.database_config_user()->setBible (bible2);
+      webserver_request.database_config_user()->set_bible (bible2);
     }
   }
-  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   
   
   std::string firstset = database::config::bible::get_hyphenation_first_set (bible);

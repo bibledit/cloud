@@ -67,40 +67,40 @@ std::string sync_settings (Webserver_Request& webserver_request)
     }
     case Sync_Logic::settings_send_workspace_urls:
     {
-      webserver_request.database_config_user()->setWorkspaceURLs (value);
+      webserver_request.database_config_user()->set_workspace_urls (value);
       return std::string();
     }
     case Sync_Logic::settings_get_workspace_urls:
     {
-      return webserver_request.database_config_user()->getWorkspaceURLs ();
+      return webserver_request.database_config_user()->get_workspace_urls ();
     }
     case Sync_Logic::settings_send_workspace_widths:
     {
-      webserver_request.database_config_user()->setWorkspaceWidths (value);
+      webserver_request.database_config_user()->set_workspace_widths (value);
       return std::string();
     }
     case Sync_Logic::settings_get_workspace_widths:
     {
-      return webserver_request.database_config_user()->getWorkspaceWidths ();
+      return webserver_request.database_config_user()->get_workspace_widths ();
     }
     case Sync_Logic::settings_send_workspace_heights:
     {
-      webserver_request.database_config_user()->setWorkspaceHeights (value);
+      webserver_request.database_config_user()->set_workspace_heights (value);
       return std::string();
     }
     case Sync_Logic::settings_get_workspace_heights:
     {
-      return webserver_request.database_config_user()->getWorkspaceHeights ();
+      return webserver_request.database_config_user()->get_workspace_heights ();
     }
     case Sync_Logic::settings_send_resources_organization:
     {
       std::vector <std::string> resources = filter::strings::explode (value, '\n');
-      webserver_request.database_config_user()->setActiveResources (resources);
+      webserver_request.database_config_user()->set_active_resources (resources);
       return std::string();
     }
     case Sync_Logic::settings_get_resources_organization:
     {
-      std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
+      std::vector <std::string> resources = webserver_request.database_config_user()->get_active_resources ();
       return filter::strings::implode (resources, "\n");
     }
     case Sync_Logic::settings_get_bible_id:
@@ -119,7 +119,7 @@ std::string sync_settings (Webserver_Request& webserver_request)
     }
     case Sync_Logic::settings_get_privilege_delete_consultation_notes:
     {
-      return filter::strings::convert_to_string (webserver_request.database_config_user()->getPrivilegeDeleteConsultationNotes ());
+      return filter::strings::convert_to_string (webserver_request.database_config_user()->get_privilege_delete_consultation_notes ());
     }
     default:
     {

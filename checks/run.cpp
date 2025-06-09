@@ -274,7 +274,7 @@ void checks_run (std::string bible)
     const std::string body = filter::strings::implode (emailBody, "\n");
     std::vector <std::string> users = webserver_request.database_users ()->get_users ();
     for (const auto& user : users) {
-      if (webserver_request.database_config_user()->getUserBibleChecksNotification (user)) {
+      if (webserver_request.database_config_user()->get_user_bible_checks_notification (user)) {
         if (access_bible::read (webserver_request, bible, user)) {
           if (!client_logic_client_enabled ()) {
             email_schedule (user, subject, body);

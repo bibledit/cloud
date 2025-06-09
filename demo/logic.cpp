@@ -185,7 +185,7 @@ void demo_clean_data ()
 
   // Set and/or trim resources to display.
   // Too many resources crash the demo: Limit the amount.
-  std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
+  std::vector <std::string> resources = webserver_request.database_config_user()->get_active_resources ();
   bool reset_resources {false};
   size_t max_resource {25};
   if (resources.size () > max_resource) reset_resources = true;
@@ -196,12 +196,12 @@ void demo_clean_data ()
   }
   if (reset_resources) {
     resources = demo_logic_default_resources ();
-    webserver_request.database_config_user()->setActiveResources (resources);
+    webserver_request.database_config_user()->set_active_resources (resources);
   }
   
   
   // No flipped basic <> advanded mode.
-  webserver_request.database_config_user ()->setBasicInterfaceMode (false);
+  webserver_request.database_config_user ()->set_basic_interface_mode (false);
 }
 
 
@@ -378,7 +378,7 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
     std::pair (2, "")
   };
   
-  webserver_request.database_config_user()->setActiveWorkspace ("USFM");
+  webserver_request.database_config_user()->set_active_workspace ("USFM");
   workspace_set_urls (webserver_request, urls);
   workspace_set_widths (webserver_request, widths);
   workspace_set_heights (webserver_request, row_heights);
@@ -386,7 +386,7 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
   urls[0] = editone_index_url ();
   urls[1] = resource_index_url ();
   
-  webserver_request.database_config_user()->setActiveWorkspace (demo_workspace ());
+  webserver_request.database_config_user()->set_active_workspace (demo_workspace ());
   workspace_set_urls (webserver_request, urls);
   workspace_set_widths (webserver_request, widths);
   workspace_set_heights (webserver_request, row_heights);

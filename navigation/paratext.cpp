@@ -44,7 +44,7 @@ std::string navigation_paratext (Webserver_Request& webserver_request)
     previous_from = from;
     Database_Logs::log("Paratext is at " + from);
     // User should have set to receive references from Paratext.
-    if (webserver_request.database_config_user ()->getReceiveFocusedReferenceFromParatext ()) {
+    if (webserver_request.database_config_user ()->get_receive_focused_reference_from_paratext ()) {
       // Parse the reference from Paratext.
       std::vector<std::string> book_rest = filter::strings::explode (from, ' ');
       if (book_rest.size() == 2) {
@@ -64,7 +64,7 @@ std::string navigation_paratext (Webserver_Request& webserver_request)
           // it means that the reference from Paratext
           // may need to be mapped to the local versification system.
           // Get the active Bible and its versification system.
-          std::string bible = webserver_request.database_config_user ()->getBible ();
+          std::string bible = webserver_request.database_config_user ()->get_bible ();
           std::string versification = database::config::bible::get_versification_system (bible);
           std::vector <Passage> passages;
           Database_Mappings database_mappings;

@@ -52,12 +52,12 @@ bool search_replace2_acl (Webserver_Request& webserver_request)
 std::string search_replace2 (Webserver_Request& webserver_request)
 {
   // Build the advanced replace page.
-  std::string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->get_bible ();
   
   // Set the user chosen Bible as the current Bible.
   if (webserver_request.post.count ("bibleselect")) {
     std::string bibleselect = webserver_request.post ["bibleselect"];
-    webserver_request.database_config_user ()->setBible (bibleselect);
+    webserver_request.database_config_user ()->set_bible (bibleselect);
     return std::string();
   }
 

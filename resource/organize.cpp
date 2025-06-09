@@ -76,14 +76,14 @@ std::string resource_organize (Webserver_Request& webserver_request)
       return std::string();
     } else {
       // Add the new resource to the existing selection of resources for the current user.
-      std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
+      std::vector <std::string> resources = webserver_request.database_config_user()->get_active_resources ();
       if (is_def) resources = default_active_resources;
       resources.push_back (add);
       if (is_def) database::config::general::set_default_active_resources (resources);
-      else webserver_request.database_config_user()->setActiveResources (resources);
-      if (!is_def) 
-        webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-      else 
+      else webserver_request.database_config_user()->set_active_resources (resources);
+      if (!is_def)
+        webserver_request.database_config_user()->add_updated_setting (Sync_Logic::settings_send_resources_organization);
+      else
         redirect_browser (webserver_request, resource_organize_url());
     }
   }
@@ -91,16 +91,16 @@ std::string resource_organize (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("remove")) {
     int remove = filter::strings::convert_to_int (webserver_request.query["remove"]);
-    std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
+    std::vector <std::string> resources = webserver_request.database_config_user()->get_active_resources ();
     if (is_def) resources = default_active_resources;
     if (remove < static_cast<int>(resources.size ())) {
       resources.erase (resources.begin () + remove);
     }
     if (is_def) database::config::general::set_default_active_resources (resources);
-    else webserver_request.database_config_user()->setActiveResources (resources);
-    if (!is_def) 
-      webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-    else 
+    else webserver_request.database_config_user()->set_active_resources (resources);
+    if (!is_def)
+      webserver_request.database_config_user()->add_updated_setting (Sync_Logic::settings_send_resources_organization);
+    else
       redirect_browser (webserver_request, resource_organize_url());
   }
 
@@ -111,14 +111,14 @@ std::string resource_organize (Webserver_Request& webserver_request)
     if (!moveto.empty ()) {
       size_t from = static_cast<size_t> (filter::strings::convert_to_int (movefrom));
       size_t to = static_cast<size_t>(filter::strings::convert_to_int (moveto));
-      std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
+      std::vector <std::string> resources = webserver_request.database_config_user()->get_active_resources ();
       if (is_def) resources = default_active_resources;
       filter::strings::array_move_from_to (resources, from, to);
       if (is_def) database::config::general::set_default_active_resources (resources);
-      else webserver_request.database_config_user()->setActiveResources (resources);
-      if (!is_def) 
-        webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-      else 
+      else webserver_request.database_config_user()->set_active_resources (resources);
+      if (!is_def)
+        webserver_request.database_config_user()->add_updated_setting (Sync_Logic::settings_send_resources_organization);
+      else
         redirect_browser (webserver_request, resource_organize_url());
     }
     return std::string();
@@ -160,7 +160,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
 
   
   // Active resources.
-  std::vector <std::string> active_resources = webserver_request.database_config_user()->getActiveResources ();
+  std::vector <std::string> active_resources = webserver_request.database_config_user()->get_active_resources ();
   std::string activesblock;
   for (size_t i = 0; i < active_resources.size (); i++) {
     activesblock.append ("<p>&#183; ");
@@ -177,46 +177,46 @@ std::string resource_organize (Webserver_Request& webserver_request)
   
   // Context before.
   if (webserver_request.query.count ("before")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), std::to_string (webserver_request.database_config_user ()->getResourceVersesBefore ()), "before", translate ("How many verses of context to display before the focused verse."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), std::to_string (webserver_request.database_config_user ()->get_resource_verses_before ()), "before", translate ("How many verses of context to display before the focused verse."));
     page += dialog_entry.run ();
     return page;
   }
   if (webserver_request.post.count ("before")) {
     int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
     if ((value >= 0) && (value <= 100)) {
-      webserver_request.database_config_user ()->setResourceVersesBefore (value);
+      webserver_request.database_config_user ()->set_resource_verses_before (value);
     }
   }
-  view.set_variable ("before", std::to_string (webserver_request.database_config_user ()->getResourceVersesBefore ()));
+  view.set_variable ("before", std::to_string (webserver_request.database_config_user ()->get_resource_verses_before ()));
 
   
   // Context after.
   if (webserver_request.query.count ("after")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), std::to_string (webserver_request.database_config_user ()->getResourceVersesAfter ()), "after", translate ("How many verses of context to display after the focused verse."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), std::to_string (webserver_request.database_config_user ()->get_resource_verses_after ()), "after", translate ("How many verses of context to display after the focused verse."));
     page += dialog_entry.run ();
     return page;
   }
   if (webserver_request.post.count ("after")) {
     int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
     if ((value >= 0) && (value <= 100)) {
-      webserver_request.database_config_user ()->setResourceVersesAfter (value);
+      webserver_request.database_config_user ()->set_resource_verses_after (value);
     }
   }
-  view.set_variable ("after", std::to_string (webserver_request.database_config_user ()->getResourceVersesAfter ()));
+  view.set_variable ("after", std::to_string (webserver_request.database_config_user ()->get_resource_verses_after ()));
 
   
   if (checkbox == "related") {
-    webserver_request.database_config_user ()->setIncludeRelatedPassages (checked);
+    webserver_request.database_config_user ()->set_include_related_passages (checked);
     return std::string();
   }
-  view.set_variable ("related", filter::strings::get_checkbox_status (webserver_request.database_config_user ()->getIncludeRelatedPassages ()));
+  view.set_variable ("related", filter::strings::get_checkbox_status (webserver_request.database_config_user ()->get_include_related_passages ()));
 
 
   // For users with lower than administrator access levels, they can replace
   // their resource list with the recommended resources list that has been set
   // by the administrator.
   if (webserver_request.query.count ("applydefaultresources")) {
-    webserver_request.database_config_user ()->setActiveResources (default_active_resources);
+    webserver_request.database_config_user ()->set_active_resources (default_active_resources);
     redirect_browser (webserver_request, resource_organize_url ());
   }
 
@@ -224,16 +224,16 @@ std::string resource_organize (Webserver_Request& webserver_request)
   // The same with above, but add the recommended resources to their current
   // list instead of replacing it.
   if (webserver_request.query.count ("adddefaultresources")) {
-    std::vector <std::string> joined_resources = webserver_request.database_config_user ()->getActiveResources ();
+    std::vector <std::string> joined_resources = webserver_request.database_config_user ()->get_active_resources ();
     joined_resources.insert(joined_resources.end(), default_active_resources.begin(), default_active_resources.end());
-    webserver_request.database_config_user ()->setActiveResources (joined_resources);
+    webserver_request.database_config_user ()->set_active_resources (joined_resources);
     redirect_browser (webserver_request, resource_organize_url ());
   }
 
   
   if (webserver_request.query.count ("install")) {
     std::vector <std::string> installing_resources = database::config::general::get_resources_to_cache ();
-    std::vector <std::string> active_resources_2 = webserver_request.database_config_user()->getActiveResources ();
+    std::vector <std::string> active_resources_2 = webserver_request.database_config_user()->get_active_resources ();
     for (auto & resource : active_resources_2) {
       if (resource_logic_can_cache (resource)) {
         if (!in_array (resource, installing_resources)) {

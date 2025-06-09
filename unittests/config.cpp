@@ -99,33 +99,33 @@ TEST(database, config_user)
 
   // Testing setList, getList, plus add/removeUpdatedSetting.
   {
-    EXPECT_EQ (std::vector<int>{}, request.database_config_user ()->getUpdatedSettings ());
+    EXPECT_EQ (std::vector<int>{}, request.database_config_user ()->get_updated_settings ());
     
     std::vector <int> standard1 = {123, 456};
-    request.database_config_user ()->setUpdatedSettings (standard1);
-    EXPECT_EQ (standard1, request.database_config_user ()->getUpdatedSettings ());
+    request.database_config_user ()->set_updated_settings (standard1);
+    EXPECT_EQ (standard1, request.database_config_user ()->get_updated_settings ());
     
-    request.database_config_user ()->addUpdatedSetting (789);
+    request.database_config_user ()->add_updated_setting (789);
     standard1.push_back (789);
-    EXPECT_EQ (standard1, request.database_config_user ()->getUpdatedSettings ());
+    EXPECT_EQ (standard1, request.database_config_user ()->get_updated_settings ());
     
-    request.database_config_user ()->removeUpdatedSetting (456);
+    request.database_config_user ()->remove_updated_setting (456);
     std::vector <int> standard2 = {123, 789};
-    EXPECT_EQ (standard2, request.database_config_user ()->getUpdatedSettings ());
+    EXPECT_EQ (standard2, request.database_config_user ()->get_updated_settings ());
   }
   
   // Testing the Sprint month and trimming it.
   // It should get today's month.
   {
     int month = filter::date::numerical_month (filter::date::seconds_since_epoch ());
-    EXPECT_EQ (month, request.database_config_user ()->getSprintMonth ());
+    EXPECT_EQ (month, request.database_config_user ()->get_sprint_month ());
     // Set the sprint month to another month value: It should get this value back from the database.
     int newmonth = 123;
-    request.database_config_user ()->setSprintMonth (newmonth);
-    EXPECT_EQ (newmonth, request.database_config_user ()->getSprintMonth ());
+    request.database_config_user ()->set_sprint_month (newmonth);
+    EXPECT_EQ (newmonth, request.database_config_user ()->get_sprint_month ());
     // Trim: The sprint month should not be reset.
     request.database_config_user ()->trim ();
-    EXPECT_EQ (newmonth, request.database_config_user ()->getSprintMonth ());
+    EXPECT_EQ (newmonth, request.database_config_user ()->get_sprint_month ());
     // Set the modification time of the sprint month record to more than two days ago:
     // Trimming resets the sprint month to the current month.
     std::string filename = filter_url_create_path ({testing_directory, "databases", "config", "user", "username", "sprint-month"});
@@ -136,49 +136,49 @@ TEST(database, config_user)
     new_times.modtime = filter::date::seconds_since_epoch () - (2 * 24 * 3600) - 10;
     utime (filename.c_str(), &new_times);
     request.database_config_user ()->trim ();
-    EXPECT_EQ (month, request.database_config_user ()->getSprintMonth ());
+    EXPECT_EQ (month, request.database_config_user ()->get_sprint_month ());
   }
   
   // Test boolean setting.
-  EXPECT_EQ (false, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
-  request.database_config_user ()->setSubscribeToConsultationNotesEditedByMe (true);
-  EXPECT_EQ (true, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
+  EXPECT_EQ (false, request.database_config_user ()->get_subscribe_to_consultation_notes_edited_by_me ());
+  request.database_config_user ()->set_subscribe_to_consultation_notes_edited_by_me (true);
+  EXPECT_EQ (true, request.database_config_user ()->get_subscribe_to_consultation_notes_edited_by_me ());
   
   // Test integer setting.
-  EXPECT_EQ (1, request.database_config_user ()->getConsultationNotesPassageSelector ());
-  request.database_config_user ()->setConsultationNotesPassageSelector (11);
-  EXPECT_EQ (11, request.database_config_user ()->getConsultationNotesPassageSelector ());
+  EXPECT_EQ (1, request.database_config_user ()->get_consultation_notes_passage_selector ());
+  request.database_config_user ()->set_consultation_notes_passage_selector (11);
+  EXPECT_EQ (11, request.database_config_user ()->get_consultation_notes_passage_selector ());
   
   // Test string setting.
-  EXPECT_EQ (std::string(), request.database_config_user ()->getConsultationNotesAssignmentSelector ());
-  request.database_config_user ()->setConsultationNotesAssignmentSelector ("test");
-  EXPECT_EQ ("test", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
+  EXPECT_EQ (std::string(), request.database_config_user ()->get_consultation_notes_assignment_selector ());
+  request.database_config_user ()->set_consultation_notes_assignment_selector ("test");
+  EXPECT_EQ ("test", request.database_config_user ()->get_consultation_notes_assignment_selector ());
 
   // Sprint year.
-  EXPECT_EQ (filter::date::numerical_year (filter::date::seconds_since_epoch ()), request.database_config_user ()->getSprintYear ());
+  EXPECT_EQ (filter::date::numerical_year (filter::date::seconds_since_epoch ()), request.database_config_user ()->get_sprint_year ());
   
   // Test getting a Bible that does not exist: It creates one.
-  EXPECT_EQ (demo_sample_bible_name (), request.database_config_user ()->getBible ());
+  EXPECT_EQ (demo_sample_bible_name (), request.database_config_user ()->get_bible ());
   
   // Test that after removing a user, the setting reverts to its default value.
-  EXPECT_EQ (0, request.database_config_user ()->getConsultationNotesTextInclusionSelector ());
-  request.database_config_user ()->setConsultationNotesTextInclusionSelector (1);
-  EXPECT_EQ (1, request.database_config_user ()->getConsultationNotesTextInclusionSelector ());
+  EXPECT_EQ (0, request.database_config_user ()->get_consultation_notes_text_inclusion_selector ());
+  request.database_config_user ()->set_consultation_notes_text_inclusion_selector (1);
+  EXPECT_EQ (1, request.database_config_user ()->get_consultation_notes_text_inclusion_selector ());
   request.database_config_user ()->remove (username);
-  EXPECT_EQ (0, request.database_config_user ()->getConsultationNotesTextInclusionSelector ());
+  EXPECT_EQ (0, request.database_config_user ()->get_consultation_notes_text_inclusion_selector ());
 
   // Test setting privileges for a user, and the user retrieving them.
   {
     // Privilege is on by default.
-    EXPECT_EQ (true, request.database_config_user ()->getPrivilegeUseAdvancedMode ());
+    EXPECT_EQ (true, request.database_config_user ()->get_privilege_use_advanced_mode ());
     // Privilege is on for another user also.
     std::string anotheruser = "anotheruser";
-    EXPECT_EQ (true, request.database_config_user ()->getPrivilegeUseAdvancedModeForUser (anotheruser));
+    EXPECT_EQ (true, request.database_config_user ()->get_privilege_use_advanced_mode_for_user (anotheruser));
     // Set it off for the other user.
-    request.database_config_user ()->setPrivilegeUseAdvancedModeForUser (anotheruser, false);
-    EXPECT_EQ (false, request.database_config_user ()->getPrivilegeUseAdvancedModeForUser (anotheruser));
+    request.database_config_user ()->set_privilege_use_advanced_mode_for_user (anotheruser, false);
+    EXPECT_EQ (false, request.database_config_user ()->get_privilege_use_advanced_mode_for_user (anotheruser));
     // The privilege is still on for the current user.
-    EXPECT_EQ (true, request.database_config_user ()->getPrivilegeUseAdvancedMode ());
+    EXPECT_EQ (true, request.database_config_user ()->get_privilege_use_advanced_mode ());
   }
   
   // Filter allowed journal entries.

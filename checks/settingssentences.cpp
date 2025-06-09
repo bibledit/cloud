@@ -63,7 +63,7 @@ std::string checks_settingssentences (Webserver_Request& webserver_request)
   Assets_View view {};
   
   
-  const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   
   
   if (webserver_request.post.count ("capitals")) {

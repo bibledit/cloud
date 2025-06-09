@@ -65,97 +65,97 @@ std::string notes_select (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("passageselector")) {
     int passage_selector = filter::strings::convert_to_int (webserver_request.query["passageselector"]);
     if ((passage_selector < 0) || (passage_selector > 3)) passage_selector = 0;
-    webserver_request.database_config_user()->setConsultationNotesPassageSelector (passage_selector);
+    webserver_request.database_config_user()->set_consultation_notes_passage_selector (passage_selector);
   }
   
   
   if (webserver_request.query.count ("editselector")) {
     int edit_selector = filter::strings::convert_to_int (webserver_request.query["editselector"]);
     if ((edit_selector < 0) || (edit_selector > 4)) edit_selector = 0;
-    webserver_request.database_config_user()->setConsultationNotesEditSelector (edit_selector);
+    webserver_request.database_config_user()->set_consultation_notes_edit_selector (edit_selector);
   }
   
   
   if (webserver_request.query.count ("noneditselector")) {
     int non_edit_selector = filter::strings::convert_to_int (webserver_request.query["noneditselector"]);
     if ((non_edit_selector < 0) || (non_edit_selector > 5)) non_edit_selector = 0;
-    webserver_request.database_config_user()->setConsultationNotesNonEditSelector (non_edit_selector);
+    webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (non_edit_selector);
   }
   
   
   if (webserver_request.query.count ("statusselector")) {
     std::string status_selector = webserver_request.query["statusselector"];
-    webserver_request.database_config_user()->setConsultationNotesStatusSelector (status_selector);
+    webserver_request.database_config_user()->set_consultation_notes_status_selector (status_selector);
   }
   
   
   if (webserver_request.query.count ("bibleselector")) {
     std::string bible_selector = webserver_request.query["bibleselector"];
-    webserver_request.database_config_user()->setConsultationNotesBibleSelector (bible_selector);
+    webserver_request.database_config_user()->set_consultation_notes_bible_selector (bible_selector);
     // Also set the active Bible for the user.
     if (bible_selector != "") {
-      webserver_request.database_config_user()->setBible (bible_selector);
+      webserver_request.database_config_user()->set_bible (bible_selector);
     }
   }
   
   
   if (webserver_request.query.count ("assignmentselector")) {
     std::string assignment_selector = webserver_request.query["assignmentselector"];
-    webserver_request.database_config_user()->setConsultationNotesAssignmentSelector(assignment_selector);
+    webserver_request.database_config_user()->set_consultation_notes_assignment_selector(assignment_selector);
   }
   
   
   if (webserver_request.query.count ("subscriptionselector")) {
     bool subscription_selector = filter::strings::convert_to_bool (webserver_request.query["subscriptionselector"]);
-    webserver_request.database_config_user()->setConsultationNotesSubscriptionSelector (subscription_selector);
+    webserver_request.database_config_user()->set_consultation_notes_subscription_selector (subscription_selector);
   }
   
   
   if (webserver_request.query.count ("severityselector")) {
     int severity_selector = filter::strings::convert_to_int (webserver_request.query["severityselector"]);
-    webserver_request.database_config_user()->setConsultationNotesSeveritySelector (severity_selector);
+    webserver_request.database_config_user()->set_consultation_notes_severity_selector (severity_selector);
   }
   
   
   if (webserver_request.query.count ("textselector")) {
     int text_selector = filter::strings::convert_to_int (webserver_request.query["textselector"]);
-    webserver_request.database_config_user()->setConsultationNotesTextSelector (text_selector);
+    webserver_request.database_config_user()->set_consultation_notes_text_selector (text_selector);
   }
   if (webserver_request.post.count ("text")) {
     std::string search_text = webserver_request.post["text"];
-    webserver_request.database_config_user()->setConsultationNotesSearchText (search_text);
+    webserver_request.database_config_user()->set_consultation_notes_search_text (search_text);
     success = translate("Search text saved");
   }
   
   
   if (webserver_request.query.count ("passageinclusionselector")) {
     int passage_inclusion_selector = filter::strings::convert_to_int (webserver_request.query["passageinclusionselector"]);
-    webserver_request.database_config_user()->setConsultationNotesPassageInclusionSelector (passage_inclusion_selector);
+    webserver_request.database_config_user()->set_consultation_notes_passage_inclusion_selector (passage_inclusion_selector);
   }
   
   
   if (webserver_request.query.count ("textinclusionselector")) {
     int text_inclusion_selector = filter::strings::convert_to_int (webserver_request.query["textinclusionselector"]);
-    webserver_request.database_config_user()->setConsultationNotesTextInclusionSelector (text_inclusion_selector);
+    webserver_request.database_config_user()->set_consultation_notes_text_inclusion_selector (text_inclusion_selector);
   }
   
   
   std::string active_class = R"(class="active")";
   
   
-  int passage_selector = webserver_request.database_config_user()->getConsultationNotesPassageSelector();
+  int passage_selector = webserver_request.database_config_user()->get_consultation_notes_passage_selector();
   view.set_variable ("passageselector" + std::to_string (passage_selector), active_class);
 
   
-  int edit_selector = webserver_request.database_config_user()->getConsultationNotesEditSelector();
+  int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
   view.set_variable ("editselector" + std::to_string (edit_selector), active_class);
   
   
-  int non_edit_selector = webserver_request.database_config_user()->getConsultationNotesNonEditSelector();
+  int non_edit_selector = webserver_request.database_config_user()->get_consultation_notes_non_edit_selector();
   view.set_variable ("noneditselector" + std::to_string (non_edit_selector), active_class);
   
   
-  std::string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
+  std::string status_selector = webserver_request.database_config_user()->get_consultation_notes_status_selector();
   if (status_selector.empty ()) view.set_variable ("anystatus", active_class);
   std::vector <Database_Notes_Text> possible_statuses = database_notes.get_possible_statuses ();
   std::stringstream statusblock;
@@ -173,7 +173,7 @@ std::string notes_select (Webserver_Request& webserver_request)
   // The information about available Bibles could be gathered from the notes database.
   // But multiple teams can be hosted, the information about available Bibles
   // is gathered from the Bibles the user has access to.
-  std::string bible_selector = webserver_request.database_config_user()->getConsultationNotesBibleSelector();
+  std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
   if (bible_selector.empty ()) view.set_variable ("anybible", active_class);
   std::stringstream bibleblock;
   std::vector <std::string> bibles = access_bible::bibles (webserver_request);
@@ -192,7 +192,7 @@ std::string notes_select (Webserver_Request& webserver_request)
   view.set_variable ("bibleblock", bibleblock.str());
   
 
-  std::string assignment_selector = webserver_request.database_config_user()->getConsultationNotesAssignmentSelector();
+  std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
   if (assignment_selector.empty ()) view.set_variable ("anyassignee", active_class);
   std::stringstream assigneeblock;
   std::vector <std::string> assignees = database_notes.get_all_assignees (bibles);
@@ -211,11 +211,11 @@ std::string notes_select (Webserver_Request& webserver_request)
   }
   
   
-  bool subscription_selector = webserver_request.database_config_user()->getConsultationNotesSubscriptionSelector();
+  bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
   view.set_variable ("subscriptionselector" + filter::strings::convert_to_string (subscription_selector), active_class);
 
 
-  int severity_selector = webserver_request.database_config_user()->getConsultationNotesSeveritySelector ();
+  int severity_selector = webserver_request.database_config_user()->get_consultation_notes_severity_selector ();
   if (severity_selector < 0) view.set_variable ("anyseverity", active_class);
   std::stringstream severityblock;
   std::vector <Database_Notes_Text> severities = database_notes.get_possible_severities();
@@ -228,18 +228,18 @@ std::string notes_select (Webserver_Request& webserver_request)
   view.set_variable ("severityblock", severityblock.str());
 
   
-  int text_selector = webserver_request.database_config_user()->getConsultationNotesTextSelector();
+  int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
   view.set_variable ("textselector" + std::to_string (text_selector), active_class);
   if (text_selector == 1) view.enable_zone ("textselection");
-  std::string search_text = webserver_request.database_config_user()->getConsultationNotesSearchText();
+  std::string search_text = webserver_request.database_config_user()->get_consultation_notes_search_text();
   view.set_variable ("searchtext", search_text);
 
 
-  int passage_inclusion_selector = webserver_request.database_config_user()->getConsultationNotesPassageInclusionSelector();
+  int passage_inclusion_selector = webserver_request.database_config_user()->get_consultation_notes_passage_inclusion_selector();
   view.set_variable ("passageinclusionselector" + std::to_string (passage_inclusion_selector), active_class);
                      
                      
-  int text_inclusion_selector = webserver_request.database_config_user()->getConsultationNotesTextInclusionSelector();
+  int text_inclusion_selector = webserver_request.database_config_user()->get_consultation_notes_text_inclusion_selector();
   view.set_variable ("textinclusionselector" + std::to_string (text_inclusion_selector), active_class);
                                         
 

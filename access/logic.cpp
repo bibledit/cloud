@@ -84,7 +84,7 @@ bool privilege_delete_consultation_notes (Webserver_Request& webserver_request, 
   int level {0};
   user_level (webserver_request, user, level);
   if (level >= delete_consultation_notes_role ()) return true;
-  return webserver_request.database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (user);
+  return webserver_request.database_config_user ()->get_privilege_delete_consultation_notes_for_user (user);
 }
 
 
@@ -99,7 +99,7 @@ bool privilege_use_advanced_mode (Webserver_Request& webserver_request, std::str
   int level {0};
   user_level (webserver_request, user, level);
   if (level >= use_advanced_mode_role ()) return true;
-  return webserver_request.database_config_user ()->getPrivilegeUseAdvancedModeForUser (user);
+  return webserver_request.database_config_user ()->get_privilege_use_advanced_mode_for_user (user);
 }
 
 
@@ -114,7 +114,7 @@ bool privilege_set_stylesheets (Webserver_Request& webserver_request, std::strin
   int level {0};
   user_level (webserver_request, user, level);
   if (level >= set_stylesheets_role ()) return true;
-  return webserver_request.database_config_user ()->getPrivilegeSetStylesheetsForUser (user);
+  return webserver_request.database_config_user ()->get_privilege_set_stylesheets_for_user (user);
 }
 
 

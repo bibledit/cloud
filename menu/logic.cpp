@@ -194,7 +194,7 @@ std::string menu_logic_main_categories (Webserver_Request& webserver_request, st
   }
 
   std::string menutooltip;
-  int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
+  int current_theme_index = webserver_request.database_config_user ()->get_current_theme ();
   std::string color = Filter_Css::theme_picker (current_theme_index, 1);
 
   if (!menu_logic_translate_category (webserver_request, &menutooltip).empty ()) {
@@ -288,7 +288,7 @@ std::string menu_logic_basic_categories (Webserver_Request& webserver_request)
 {
   std::vector <std::string> html;
 
-  int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
+  int current_theme_index = webserver_request.database_config_user ()->get_current_theme ();
   std::string color = Filter_Css::theme_picker (current_theme_index, 1);
 
   if (read_index_acl (webserver_request)) {
@@ -304,7 +304,7 @@ std::string menu_logic_basic_categories (Webserver_Request& webserver_request)
   }
   
   if (changes_changes_acl (webserver_request)) {
-    if (webserver_request.database_config_user ()->getMenuChangesInBasicMode ()) {
+    if (webserver_request.database_config_user ()->get_menu_changes_in_basic_mode ()) {
       html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true, "", color));
     }
   }
@@ -365,7 +365,7 @@ std::string menu_logic_workspace_category (Webserver_Request& webserver_request,
   // Add the available configured workspaces to the menu.
   // The user's role should be sufficiently high.
   if (workspace_organize_acl (webserver_request)) {
-    std::string activeWorkspace = webserver_request.database_config_user()->getActiveWorkspace ();
+    std::string activeWorkspace = webserver_request.database_config_user()->get_active_workspace ();
 
     std::vector <std::string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
@@ -1189,8 +1189,8 @@ bool menu_logic_editor_enabled (Webserver_Request& webserver_request, bool visua
 {
   // Get the user's preference for the visual or USFM editors.
   int selection = 0;
-  if (visual) selection = webserver_request.database_config_user ()->getFastSwitchVisualEditors ();
-  else selection = webserver_request.database_config_user ()->getFastSwitchUsfmEditors ();
+  if (visual) selection = webserver_request.database_config_user ()->get_fast_switch_visual_editors ();
+  else selection = webserver_request.database_config_user ()->get_fast_switch_usfm_editors ();
 
   if (visual) {
     // Check whether the visual chapter or verse editor is active.
@@ -1253,7 +1253,7 @@ void menu_logic_tabbed_mode_save_json (Webserver_Request& webserver_request)
     bool generate_json = database::config::general::get_menu_in_tabbed_view_on ();
     
     // Tabbed view not possible in advanced mode.
-    if (!webserver_request.database_config_user ()->getBasicInterfaceMode ()) {
+    if (!webserver_request.database_config_user ()->get_basic_interface_mode ()) {
       generate_json = false;
     }
     
@@ -1268,7 +1268,7 @@ void menu_logic_tabbed_mode_save_json (Webserver_Request& webserver_request)
       // Add the consultation notes tab.
       json_array << menu_logic_tabbed_mode_add_tab (notes_index_url (), menu_logic_consultation_notes_text ());
       // Add the change notifications, if enabled.
-      if (webserver_request.database_config_user ()->getMenuChangesInBasicMode ()) {
+      if (webserver_request.database_config_user ()->get_menu_changes_in_basic_mode ()) {
         json_array << menu_logic_tabbed_mode_add_tab (changes_changes_url (), menu_logic_changes_text ());
       }
       // Add the preferences tab.

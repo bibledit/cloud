@@ -70,7 +70,7 @@ std::string notes_create (Webserver_Request& webserver_request)
   // If no Bible is passed, it takes the user's active Bible.
   std::string bible = webserver_request.post ["bible"];
   if (bible.empty ()) {
-    bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+    bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   }
   
   
@@ -124,7 +124,7 @@ std::string notes_create (Webserver_Request& webserver_request)
   view.set_variable ("verse", std::to_string (verse));
   std::string passage = filter_passage_display (book, chapter, std::to_string (verse));
   view.set_variable ("passage", passage);
-  if (webserver_request.database_config_user ()->getShowVerseTextAtCreateNote ()) {
+  if (webserver_request.database_config_user ()->get_show_verse_text_at_create_note ()) {
     std::string versetext;
     std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
     std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);

@@ -683,9 +683,9 @@ std::string save_is_safe (Webserver_Request& webserver_request,
   // Allowed percentage difference.
   int allowed_percentage = 0;
   if (chapter)
-    allowed_percentage = webserver_request.database_config_user ()->getEditingAllowedDifferenceChapter ();
+    allowed_percentage = webserver_request.database_config_user ()->get_editing_allowed_difference_chapter ();
   else
-    allowed_percentage = webserver_request.database_config_user ()->getEditingAllowedDifferenceVerse ();
+    allowed_percentage = webserver_request.database_config_user ()->get_editing_allowed_difference_verse ();
 
   // When the verse editor has an empty verse, it should allow for 100% change.
   // Same for the chapter editor, if it has empty verses, allow for a 100% change.

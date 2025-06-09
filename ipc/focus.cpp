@@ -31,9 +31,9 @@ void Ipc_Focus::set (Webserver_Request& webserver_request, int book, int chapter
   if (chapter != getChapter (webserver_request)) set = true;
   if (verse != getVerse (webserver_request)) set = true;
   if (set) {
-    webserver_request.database_config_user()->setFocusedBook (book);
-    webserver_request.database_config_user()->setFocusedChapter (chapter);
-    webserver_request.database_config_user()->setFocusedVerse (verse);
+    webserver_request.database_config_user()->set_focused_book (book);
+    webserver_request.database_config_user()->set_focused_chapter (chapter);
+    webserver_request.database_config_user()->set_focused_verse (verse);
   }
 }
 
@@ -41,7 +41,7 @@ void Ipc_Focus::set (Webserver_Request& webserver_request, int book, int chapter
 // Gets the focused book.
 int Ipc_Focus::getBook (Webserver_Request& webserver_request)
 {
-  int book = webserver_request.database_config_user()->getFocusedBook ();
+  int book = webserver_request.database_config_user()->get_focused_book ();
   return book;
 }
 
@@ -49,7 +49,7 @@ int Ipc_Focus::getBook (Webserver_Request& webserver_request)
 // Gets the focused chapter.
 int Ipc_Focus::getChapter (Webserver_Request& webserver_request)
 {
-  int chapter = webserver_request.database_config_user()->getFocusedChapter ();
+  int chapter = webserver_request.database_config_user()->get_focused_chapter ();
   return chapter;
 }
 
@@ -57,6 +57,6 @@ int Ipc_Focus::getChapter (Webserver_Request& webserver_request)
 // Gets the focused verse.
 int Ipc_Focus::getVerse (Webserver_Request& webserver_request)
 {
-  int verse = webserver_request.database_config_user()->getFocusedVerse ();
+  int verse = webserver_request.database_config_user()->get_focused_verse ();
   return verse;
 }

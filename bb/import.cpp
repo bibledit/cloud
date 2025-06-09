@@ -95,7 +95,7 @@ std::string bible_import (Webserver_Request& webserver_request)
       success_message = translate("Nothing was imported.");
     }
     // User imported something into this Bible: Set it as the default Bible.
-    webserver_request.database_config_user()->setBible (bible);
+    webserver_request.database_config_user()->set_bible (bible);
   }
 
   // Handle (multiple) file upload.
@@ -120,7 +120,7 @@ std::string bible_import (Webserver_Request& webserver_request)
       error_message = translate ("Nothing was uploaded");
     }
     // User imported something into this Bible: Set it as the default Bible.
-    webserver_request.database_config_user()->setBible (bible);
+    webserver_request.database_config_user()->set_bible (bible);
   }
   
 #ifdef HAVE_UPLOAD

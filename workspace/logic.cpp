@@ -157,12 +157,12 @@ std::map <int, std::string> workspace_get_default_heights (int id)
 void workspace_create_defaults (Webserver_Request& webserver_request)
 {
   // Save current active workspace.
-  std::string workspace = webserver_request.database_config_user()->getActiveWorkspace ();
+  std::string workspace = webserver_request.database_config_user()->get_active_workspace ();
 
   // Create or update the default workspaces.
   std::vector <std::string> names = workspace_get_default_names ();
   for (unsigned int i = 0; i < names.size (); i++) {
-    webserver_request.database_config_user()->setActiveWorkspace (names [i]);
+    webserver_request.database_config_user()->set_active_workspace (names [i]);
     int bench = static_cast<int>(i + 1);
     workspace_set_urls (webserver_request, workspace_get_default_urls (bench));
     workspace_set_widths (webserver_request, workspace_get_default_widths (bench));
@@ -170,13 +170,13 @@ void workspace_create_defaults (Webserver_Request& webserver_request)
   }
 
   // Restore current active workspace.
-  webserver_request.database_config_user()->setActiveWorkspace (workspace);
+  webserver_request.database_config_user()->set_active_workspace (workspace);
 }
 
 
 std::string workspace_get_active_name (Webserver_Request& webserver_request)
 {
-  std::string workspace = webserver_request.database_config_user()->getActiveWorkspace ();
+  std::string workspace = webserver_request.database_config_user()->get_active_workspace ();
 
   if (workspace.empty ()) {
     workspace = workspace_get_default_name ();
@@ -207,10 +207,10 @@ void workspace_set_values (Webserver_Request& webserver_request, int selector, c
   // Store values locally, and for a client, store them also for sending to the server.
   std::string workspace = workspace_get_active_name (webserver_request);
   std::string rawvalue;
-  if (selector == URLS) rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
-  if (selector == WIDTHS) rawvalue = webserver_request.database_config_user()->getWorkspaceWidths ();
-  if (selector == HEIGHTS) rawvalue = webserver_request.database_config_user()->getWorkspaceHeights ();
-  if (selector == ENTIREWIDTH) rawvalue = webserver_request.database_config_user()->getEntireWorkspaceWidths ();
+  if (selector == URLS) rawvalue = webserver_request.database_config_user()->get_workspace_urls ();
+  if (selector == WIDTHS) rawvalue = webserver_request.database_config_user()->get_workspace_widths ();
+  if (selector == HEIGHTS) rawvalue = webserver_request.database_config_user()->get_workspace_heights ();
+  if (selector == ENTIREWIDTH) rawvalue = webserver_request.database_config_user()->get_entire_workspace_widths ();
   std::vector <std::string> currentlines = filter::strings::explode (rawvalue, '\n');
   std::vector <std::string> newlines;
   for (auto & line : currentlines) {
@@ -224,19 +224,19 @@ void workspace_set_values (Webserver_Request& webserver_request, int selector, c
   }
   rawvalue = filter::strings::implode (newlines, "\n");
   if (selector == URLS) {
-    webserver_request.database_config_user()->setWorkspaceURLs (rawvalue);
+    webserver_request.database_config_user()->set_workspace_urls (rawvalue);
     workspace_cache_for_cloud (webserver_request, true, false, false);
   }
   if (selector == WIDTHS) {
-    webserver_request.database_config_user()->setWorkspaceWidths (rawvalue);
+    webserver_request.database_config_user()->set_workspace_widths (rawvalue);
     workspace_cache_for_cloud (webserver_request, false, true, false);
   }
   if (selector == HEIGHTS) {
-    webserver_request.database_config_user()->setWorkspaceHeights (rawvalue);
+    webserver_request.database_config_user()->set_workspace_heights (rawvalue);
     workspace_cache_for_cloud (webserver_request, false, false, true);
   }
   if (selector == ENTIREWIDTH) {
-    webserver_request.database_config_user()->setEntireWorkspaceWidths (rawvalue);
+    webserver_request.database_config_user()->set_entire_workspace_widths (rawvalue);
     workspace_cache_for_cloud (webserver_request, false, true, false);
   }
 }
@@ -279,10 +279,10 @@ std::map <int, std::string> workspace_get_values (Webserver_Request& webserver_r
   std::string workspace = workspace_get_active_name (webserver_request);
   
   std::string rawvalue;
-  if (selector == URLS) rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
-  if (selector == WIDTHS) rawvalue = webserver_request.database_config_user()->getWorkspaceWidths ();
-  if (selector == HEIGHTS) rawvalue = webserver_request.database_config_user()->getWorkspaceHeights ();
-  if (selector == ENTIREWIDTH) rawvalue = webserver_request.database_config_user()->getEntireWorkspaceWidths ();
+  if (selector == URLS) rawvalue = webserver_request.database_config_user()->get_workspace_urls ();
+  if (selector == WIDTHS) rawvalue = webserver_request.database_config_user()->get_workspace_widths ();
+  if (selector == HEIGHTS) rawvalue = webserver_request.database_config_user()->get_workspace_heights ();
+  if (selector == ENTIREWIDTH) rawvalue = webserver_request.database_config_user()->get_entire_workspace_widths ();
   std::vector <std::string> lines = filter::strings::explode (rawvalue, '\n');
   for (auto & line : lines) {
     if (line.find (workspace + "_") == 0) {
@@ -372,7 +372,7 @@ std::vector <std::string> workspace_get_names (Webserver_Request& webserver_requ
 {
   std::vector <std::string> workspaces;
   // The names and the order of the workspaces is taken from the URLs.
-  std::string rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
+  std::string rawvalue = webserver_request.database_config_user()->get_workspace_urls ();
   std::vector <std::string> lines = filter::strings::explode (rawvalue, '\n');
   for (auto & line : lines) {
     std::vector <std::string> bits = filter::strings::explode (line, '_');
@@ -395,34 +395,34 @@ void workspace_delete (Webserver_Request& webserver_request, std::string workspa
   std::vector <std::string> currentlines;
   std::vector <std::string> newlines;
   
-  rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
+  rawvalue = webserver_request.database_config_user()->get_workspace_urls ();
   currentlines = filter::strings::explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
   rawvalue = filter::strings::implode (newlines, "\n");
-  webserver_request.database_config_user()->setWorkspaceURLs (rawvalue);
+  webserver_request.database_config_user()->set_workspace_urls (rawvalue);
   
-  rawvalue = webserver_request.database_config_user()->getWorkspaceWidths ();
+  rawvalue = webserver_request.database_config_user()->get_workspace_widths ();
   currentlines = filter::strings::explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
   rawvalue = filter::strings::implode (newlines, "\n");
-  webserver_request.database_config_user()->setWorkspaceWidths (rawvalue);
+  webserver_request.database_config_user()->set_workspace_widths (rawvalue);
   
-  rawvalue = webserver_request.database_config_user()->getWorkspaceHeights ();
+  rawvalue = webserver_request.database_config_user()->get_workspace_heights ();
   currentlines = filter::strings::explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
   rawvalue = filter::strings::implode (newlines, "\n");
-  webserver_request.database_config_user()->setWorkspaceHeights (rawvalue);
+  webserver_request.database_config_user()->set_workspace_heights (rawvalue);
   
-  webserver_request.database_config_user()->setActiveWorkspace ("");
+  webserver_request.database_config_user()->set_active_workspace ("");
   
   // For a client, store the setting for sending to the server.
   workspace_cache_for_cloud (webserver_request, true, true, true);
@@ -437,7 +437,7 @@ void workspace_reorder (Webserver_Request& webserver_request, const std::vector 
   // Widths and heights are not considered for the order.
   
   // Retrieve the old order of the workspaces, plus their details.
-  std::string rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
+  std::string rawvalue = webserver_request.database_config_user()->get_workspace_urls ();
   std::vector <std::string> oldlines = filter::strings::explode (rawvalue, '\n');
   
   // Create vector with the sorted workspace definitions.
@@ -460,7 +460,7 @@ void workspace_reorder (Webserver_Request& webserver_request, const std::vector 
 
   // Save everything.
   rawvalue = filter::strings::implode (newlines, "\n");
-  webserver_request.database_config_user()->setWorkspaceURLs (rawvalue);
+  webserver_request.database_config_user()->set_workspace_urls (rawvalue);
 
   // Schedule for sending to Cloud.
   workspace_cache_for_cloud (webserver_request, true, false, false);
@@ -471,22 +471,22 @@ void workspace_reorder (Webserver_Request& webserver_request, const std::vector 
 void workspace_copy (Webserver_Request& webserver_request, std::string source, std::string destination)
 {
   // Save current active workspace.
-  std::string active_workspace = webserver_request.database_config_user()->getActiveWorkspace ();
+  std::string active_workspace = webserver_request.database_config_user()->get_active_workspace ();
   
   // Copy source workspace to destination.
-  webserver_request.database_config_user()->setActiveWorkspace (source);
+  webserver_request.database_config_user()->set_active_workspace (source);
   std::map <int, std::string> urls = workspace_get_urls (webserver_request, false);
   std::map <int, std::string> widths = workspace_get_widths (webserver_request);
   std::map <int, std::string> heights = workspace_get_heights (webserver_request);
   std::string entire_width = workspace_get_entire_width (webserver_request);
-  webserver_request.database_config_user()->setActiveWorkspace (destination);
+  webserver_request.database_config_user()->set_active_workspace (destination);
   workspace_set_urls (webserver_request, urls);
   workspace_set_widths (webserver_request, widths);
   workspace_set_heights (webserver_request, heights);
   workspace_set_entire_width (webserver_request, entire_width);
   
   // Restore current active workspace.
-  webserver_request.database_config_user()->setActiveWorkspace (active_workspace);
+  webserver_request.database_config_user()->set_active_workspace (active_workspace);
 }
 
 
@@ -518,25 +518,25 @@ std::string workspace_get_default_name ()
 void workspace_send (Webserver_Request& webserver_request, std::string workspace, std::string user)
 {
   // Save current active workspace.
-  std::string active_workspace = webserver_request.database_config_user()->getActiveWorkspace ();
+  std::string active_workspace = webserver_request.database_config_user()->get_active_workspace ();
   
   // Retrieve settings for the $workspace of the current user.
-  webserver_request.database_config_user()->setActiveWorkspace (workspace);
+  webserver_request.database_config_user()->set_active_workspace (workspace);
   std::map <int, std::string> urls = workspace_get_urls (webserver_request, false);
   std::map <int, std::string> widths = workspace_get_widths (webserver_request);
   std::map <int, std::string> heights = workspace_get_heights (webserver_request);
   std::string entire_width = workspace_get_entire_width (webserver_request);
   
   // Restore current active workspace.
-  webserver_request.database_config_user()->setActiveWorkspace (active_workspace);
+  webserver_request.database_config_user()->set_active_workspace (active_workspace);
 
   // New webserver request object for the destination user.
   Webserver_Request destination_request;
   destination_request.session_logic ()->set_username (user);
   
   // Save workspace for destination user.
-  active_workspace = destination_request.database_config_user()->getActiveWorkspace ();
-  destination_request.database_config_user()->setActiveWorkspace (workspace);
+  active_workspace = destination_request.database_config_user()->get_active_workspace ();
+  destination_request.database_config_user()->set_active_workspace (workspace);
   
   // Copy source workspace to destination.
   workspace_set_urls (destination_request, urls);
@@ -545,7 +545,7 @@ void workspace_send (Webserver_Request& webserver_request, std::string workspace
   workspace_set_entire_width (destination_request, entire_width);
 
   // Restore workspace for the destination user.
-  webserver_request.database_config_user()->setActiveWorkspace (active_workspace);
+  webserver_request.database_config_user()->set_active_workspace (active_workspace);
 }
 
 

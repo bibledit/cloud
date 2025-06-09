@@ -108,7 +108,7 @@ std::string notes_note (Webserver_Request& webserver_request)
   view.set_variable ("summary", summary);
 
   
-  bool show_note_status = webserver_request.database_config_user ()->getShowNoteStatus ();
+  bool show_note_status = webserver_request.database_config_user ()->get_show_note_status ();
   if (show_note_status) {
     std::string status = database_notes.get_status (id);
     view.set_variable ("status", status);
@@ -131,7 +131,7 @@ std::string notes_note (Webserver_Request& webserver_request)
   view.set_variable ("brs", filter_html_android_brs ());
   
 
-  if (webserver_request.database_config_user ()->getQuickNoteEditLink ()) {
+  if (webserver_request.database_config_user ()->get_quick_note_edit_link ()) {
     view.enable_zone ("editcontent");
   }
     

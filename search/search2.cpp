@@ -56,7 +56,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
   std::string siteUrl = config::logic::site_url (webserver_request);
   
   
-  std::string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->get_bible ();
   if (webserver_request.query.count ("bible")) bible = webserver_request.query ["bible"];
 
   
@@ -202,7 +202,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
   // Set the user chosen Bible as the current Bible.
   if (webserver_request.post.count ("bibleselect")) {
     std::string bibleselect = webserver_request.post ["bibleselect"];
-    webserver_request.database_config_user ()->setBible (bibleselect);
+    webserver_request.database_config_user ()->set_bible (bibleselect);
     return std::string();
   }
   

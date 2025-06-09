@@ -154,7 +154,7 @@ void changes_clear_notifications_user (std::string jobid, std::string username)
   } while (cleared_count_in_one_go);
   
   Webserver_Request request;
-  request.database_config_user ()->setUserChangeNotificationsChecksum (username, "");
+  request.database_config_user ()->set_user_change_notifications_checksum (username, "");
   
   database_jobs.set_result (filter::strings::convert_to_int (jobid), translate ("Ready clearing change notifications"));
   

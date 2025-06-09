@@ -38,8 +38,8 @@ m_webserver_request (webserver_request), m_id (id)
 std::string Consistency_Logic::response ()
 {
   // The resources to display in the Consistency tool.
-  std::vector <std::string> resources = m_webserver_request.database_config_user()->getConsistencyResources ();
-  std::string bible = access_bible::clamp (m_webserver_request, m_webserver_request.database_config_user()->getBible ());
+  std::vector <std::string> resources = m_webserver_request.database_config_user()->get_consistency_resources ();
+  std::string bible = access_bible::clamp (m_webserver_request, m_webserver_request.database_config_user()->get_bible ());
   resources.insert (resources.begin (), bible);
   
   // The passages entered in the Consistency tool.

@@ -73,16 +73,16 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
   int verse = Ipc_Focus::getVerse (webserver_request);
-  int passage_selector = webserver_request.database_config_user()->getConsultationNotesPassageSelector();
-  int edit_selector = webserver_request.database_config_user()->getConsultationNotesEditSelector();
-  int non_edit_selector = webserver_request.database_config_user()->getConsultationNotesNonEditSelector();
-  std::string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
-  std::string bible_selector = webserver_request.database_config_user()->getConsultationNotesBibleSelector();
-  std::string assignment_selector = webserver_request.database_config_user()->getConsultationNotesAssignmentSelector();
-  bool subscription_selector = webserver_request.database_config_user()->getConsultationNotesSubscriptionSelector();
-  int severity_selector = webserver_request.database_config_user()->getConsultationNotesSeveritySelector();
-  int text_selector = webserver_request.database_config_user()->getConsultationNotesTextSelector();
-  std::string search_text = webserver_request.database_config_user()->getConsultationNotesSearchText();
+  int passage_selector = webserver_request.database_config_user()->get_consultation_notes_passage_selector();
+  int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
+  int non_edit_selector = webserver_request.database_config_user()->get_consultation_notes_non_edit_selector();
+  std::string status_selector = webserver_request.database_config_user()->get_consultation_notes_status_selector();
+  std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
+  std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
+  bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
+  int severity_selector = webserver_request.database_config_user()->get_consultation_notes_severity_selector();
+  int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
+  std::string search_text = webserver_request.database_config_user()->get_consultation_notes_search_text();
   
   
   int userid = filter::strings::user_identifier (webserver_request);

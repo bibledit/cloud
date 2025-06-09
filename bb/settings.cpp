@@ -145,7 +145,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
         book_create (bible, static_cast<book_id>(filter::strings::convert_to_int (createbook)), -1, feedback);
     }
     // User creates a book in this Bible: Set it as the default Bible.
-    webserver_request.database_config_user()->setBible (bible);
+    webserver_request.database_config_user()->set_bible (bible);
   }
   
   

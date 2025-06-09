@@ -197,7 +197,7 @@ std::string clamp (Webserver_Request& webserver_request, std::string bible)
     bible = std::string();
     std::vector <std::string> bibles = access_bible::bibles (webserver_request);
     if (!bibles.empty ()) bible = bibles [0];
-    webserver_request.database_config_user ()->setBible (bible);
+    webserver_request.database_config_user ()->set_bible (bible);
   }
   return bible;
 }

@@ -305,13 +305,13 @@ void test_database_notes ()
     // Create a note again, but this time set the session variable to a certain user.
     database_users.add_user ("unittest", "", 5, "");
     webserver_request.session_logic()->set_username ("unittest");
-    webserver_request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
+    webserver_request.database_config_user()->set_subscribe_to_consultation_notes_edited_by_me (true);
     identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
     notes_logic.handlerNewNote (identifier);
     subscribers = database_notes.get_subscribers (identifier);
     EXPECT_EQ (std::vector <std::string>{"unittest"}, subscribers);
     EXPECT_EQ (true, database_notes.is_subscribed (identifier, "unittest"));
-    webserver_request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
+    webserver_request.database_config_user()->set_subscribe_to_consultation_notes_edited_by_me (false);
     // Test various other subscription related functions.
     EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest_unittest"));
     database_notes.unsubscribe (identifier);
@@ -322,7 +322,7 @@ void test_database_notes ()
     EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest_unittest_unittest"));
     
     // With the username still set, test the plan subscribe and unsubscribe mechanisms.
-    webserver_request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
+    webserver_request.database_config_user()->set_subscribe_to_consultation_notes_edited_by_me (false);
     identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
     EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest"));
     database_notes.subscribe (identifier);

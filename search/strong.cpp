@@ -54,7 +54,7 @@ std::string search_strong (Webserver_Request& webserver_request)
   Database_Kjv database_kjv = Database_Kjv ();
   
   
-  std::string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->get_bible ();
   if (webserver_request.query.count ("b")) {
     bible = webserver_request.query ["b"];
   }

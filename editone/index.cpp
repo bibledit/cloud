@@ -74,7 +74,7 @@ std::string editone_index (Webserver_Request& webserver_request)
   // Set the user chosen Bible as the current Bible.
   if (webserver_request.post.count ("bibleselect")) {
     const std::string bibleselect = webserver_request.post ["bibleselect"];
-    webserver_request.database_config_user ()->setBible (bibleselect);
+    webserver_request.database_config_user ()->set_bible (bibleselect);
     return std::string();
   }
 
@@ -95,7 +95,7 @@ std::string editone_index (Webserver_Request& webserver_request)
   // Or if the user haw used a query to preset the active Bible, get the preset Bible.
   // If needed, change the Bible to one it has read access to.
   // Set the chosen Bible on the option HTML tag.
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   if (webserver_request.query.count ("bible")) 
     bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
   std::string bible_html;
@@ -119,7 +119,7 @@ std::string editone_index (Webserver_Request& webserver_request)
   script_stream << "var oneverseEditorVerseSaved = " << std::quoted(locale_logic_text_saved ()) << ";\n";
   script_stream << "var oneverseEditorVerseRetrying = " << std::quoted(locale_logic_text_retrying ()) << ";\n";
   script_stream << "var oneverseEditorVerseUpdatedLoaded = " << std::quoted(locale_logic_text_reload ()) << ";\n";
-  int verticalCaretPosition = webserver_request.database_config_user ()->getVerticalCaretPosition ();
+  int verticalCaretPosition = webserver_request.database_config_user ()->get_vertical_caret_position ();
   script_stream << "var verticalCaretPosition = " << verticalCaretPosition << ";\n";
   script_stream << "var verseSeparator = " << std::quoted(database::config::general::get_notes_verse_separator ()) << ";\n";
   std::string script {script_stream.str()};
@@ -128,7 +128,7 @@ std::string editone_index (Webserver_Request& webserver_request)
 
   const std::string custom_class = Filter_Css::getClass (bible);
   const std::string font = fonts::logic::get_text_font (bible);
-  const int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
+  const int current_theme_index = webserver_request.database_config_user ()->get_current_theme ();
   const int direction = database::config::bible::get_text_direction (bible);
   const int lineheight = database::config::bible::get_line_height (bible);
   const int letterspacing = database::config::bible::get_letter_spacing (bible);
@@ -142,12 +142,12 @@ std::string editone_index (Webserver_Request& webserver_request)
 
   
   // Whether to enable fast Bible editor switching.
-  if (webserver_request.database_config_user ()->getFastEditorSwitchingAvailable ()) {
+  if (webserver_request.database_config_user ()->get_fast_editor_switching_available ()) {
     view.enable_zone ("fastswitcheditor");
   }
 
   // Whether to enable the styles button.
-  if (webserver_request.database_config_user ()->getEnableStylesButtonVisualEditors ()) {
+  if (webserver_request.database_config_user ()->get_enable_styles_button_visual_editors ()) {
     view.enable_zone ("stylesbutton");
   }
   

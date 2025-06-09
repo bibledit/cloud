@@ -60,22 +60,22 @@ std::string consistency_index (Webserver_Request& webserver_request)
   
   std::string add = webserver_request.post ["add"];
   if (!add.empty ()) {
-    std::vector <std::string> resources = webserver_request.database_config_user()->getConsistencyResources ();
+    std::vector <std::string> resources = webserver_request.database_config_user()->get_consistency_resources ();
     resources.push_back (add);
-    webserver_request.database_config_user()->setConsistencyResources (resources);
+    webserver_request.database_config_user()->set_consistency_resources (resources);
   }
   
   
   std::string remove = webserver_request.query ["remove"];
   if (!remove.empty ()) {
-    std::vector <std::string> resources = webserver_request.database_config_user()->getConsistencyResources ();
+    std::vector <std::string> resources = webserver_request.database_config_user()->get_consistency_resources ();
     resources = filter::strings::array_diff (resources, {remove});
-    webserver_request.database_config_user()->setConsistencyResources (resources);
+    webserver_request.database_config_user()->set_consistency_resources (resources);
   }
   
   
   std::stringstream resourceblock;
-  std::vector <std::string> resources = webserver_request.database_config_user()->getConsistencyResources ();
+  std::vector <std::string> resources = webserver_request.database_config_user()->get_consistency_resources ();
   for (auto resource : resources) {
     resourceblock << resource;
     resourceblock << "\n";

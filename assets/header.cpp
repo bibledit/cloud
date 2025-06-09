@@ -75,7 +75,7 @@ void Assets_Header::set_navigator ()
 // Display the user's basic stylesheet.css.
 void Assets_Header::set_stylesheet ()
 {
-  const std::string bible = m_webserver_request.database_config_user()->getBible ();
+  const std::string bible = m_webserver_request.database_config_user()->get_bible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   m_included_stylesheet = std::move(stylesheet);
 }
@@ -84,7 +84,7 @@ void Assets_Header::set_stylesheet ()
 // Display the user's editor stylesheet.css.
 void Assets_Header::set_editor_stylesheet ()
 {
-  const std::string bible = m_webserver_request.database_config_user()->getBible ();
+  const std::string bible = m_webserver_request.database_config_user()->get_bible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   m_included_editor_stylesheet = std::move(stylesheet);
 }
@@ -196,7 +196,7 @@ std::string Assets_Header::run ()
     const std::string item = m_webserver_request.query ["item"];
     bool main_menu_always_on = false;
     if (item.empty ())
-      if (m_webserver_request.database_config_user ()->getMainMenuAlwaysVisible ()) {
+      if (m_webserver_request.database_config_user ()->get_main_menu_always_visible ()) {
         main_menu_always_on = true;
         // Add the main menu status as a Javascript variable.
         m_view->set_variable ("mainmenualwayson", filter::strings::convert_to_string (main_menu_always_on));
@@ -241,42 +241,42 @@ std::string Assets_Header::run ()
     if (!m_fading_menu.empty ()) {
       m_view->enable_zone ("fading_menu");
       m_view->set_variable ("fadingmenu", m_fading_menu);
-      std::string delay = std::to_string (m_webserver_request.database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
+      std::string delay = std::to_string (m_webserver_request.database_config_user ()->get_workspace_menu_fadeout_delay ()) + "000";
       m_view->set_variable ("fadingmenudelay", delay);
       m_fading_menu.clear ();
     }
 
     if (m_display_navigator) {
       m_view->enable_zone ("display_navigator");
-      // string bible = access_bible::clamp (request, m_webserver_request.database_config_user()->getBible ());
+      // string bible = access_bible::clamp (request, m_webserver_request.database_config_user()->get_bible ());
       // The clamping above does not work for public feedback as it would reset the Bible always.
-      const std::string bible = m_webserver_request.database_config_user()->getBible ();
+      const std::string bible = m_webserver_request.database_config_user()->get_bible ();
       m_view->set_variable ("navigation_code", Navigation_Passage::code (bible));
     }
   }
 
   std::vector <std::string> embedded_css {};
-  int fontsize = m_webserver_request.database_config_user ()->getGeneralFontSize ();
+  int fontsize = m_webserver_request.database_config_user ()->get_general_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back ("body { font-size: " + std::to_string (fontsize) + "%; }");
   }
-  fontsize = m_webserver_request.database_config_user ()->getMenuFontSize ();
+  fontsize = m_webserver_request.database_config_user ()->get_menu_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + std::to_string (fontsize) + "%; }");
   }
-  fontsize = m_webserver_request.database_config_user ()->getBibleEditorsFontSize ();
+  fontsize = m_webserver_request.database_config_user ()->get_bible_editors_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back (".bibleeditor { font-size: " + std::to_string (fontsize) + "% !important; }");
   }
-  fontsize = m_webserver_request.database_config_user ()->getResourcesFontSize ();
+  fontsize = m_webserver_request.database_config_user ()->get_resources_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back (".resource { font-size: " + std::to_string (fontsize) + "% !important; }");
   }
-  fontsize = m_webserver_request.database_config_user ()->getHebrewFontSize ();
+  fontsize = m_webserver_request.database_config_user ()->get_hebrew_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back (".hebrew { font-size: " + std::to_string (fontsize) + "%!important; }");
   }
-  fontsize = m_webserver_request.database_config_user ()->getGreekFontSize ();
+  fontsize = m_webserver_request.database_config_user ()->get_greek_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back (".greek { font-size: " + std::to_string (fontsize) + "%!important; }");
   }
@@ -284,7 +284,7 @@ std::string Assets_Header::run ()
     m_view->set_variable ("embedded_css", filter::strings::implode (embedded_css, "\n"));
   }
 
-  int current_theme_index = m_webserver_request.database_config_user ()->getCurrentTheme ();
+  int current_theme_index = m_webserver_request.database_config_user ()->get_current_theme ();
   // Add the theme color css class selector name on the body element,..
   m_view->set_variable ("body_theme_color", Filter_Css::theme_picker (current_theme_index, 0));
   // ..workspacewrapper div element..
@@ -292,7 +292,7 @@ std::string Assets_Header::run ()
   // ..and as a variable for JavaScript.
   m_view->set_variable ("themecolorfortabs", Filter_Css::theme_picker (current_theme_index, 1));
 
-  if (m_webserver_request.database_config_user ()->getDisplayBreadcrumbs ()) {
+  if (m_webserver_request.database_config_user ()->get_display_breadcrumbs ()) {
     if (!m_bread_crumbs.empty ()) {
       // No bread crumbs in basic mode.
       // The crumbs would be incorrect anyway, because they show the trail of advanced mode.

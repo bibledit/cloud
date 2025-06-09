@@ -113,10 +113,10 @@ TEST (DISABLED_memory, basic)
     demo_create_sample_bible ();
     Webserver_Request request;
     request.session_logic ()->set_username (session_admin_credentials ());
-    request.database_config_user ()->setGenerateChangeNotifications (true);
-    request.database_config_user ()->setUserChangesNotification (true);
-    request.database_config_user ()->setUserChangesNotificationsOnline (true);
-    request.database_config_user ()->setContributorChangesNotificationsOnline (true);
+    request.database_config_user ()->set_generate_change_notifications (true);
+    request.database_config_user ()->set_user_changes_notification (true);
+    request.database_config_user ()->set_user_changes_notifications_online (true);
+    request.database_config_user ()->set_contributor_changes_notifications_online (true);
     std::string bible = demo_sample_bible_name ();
     for (int book = 1; book <= 1; book++) {
       for (int chapter = 1; chapter <= 1; chapter++) {

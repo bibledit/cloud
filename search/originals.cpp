@@ -57,7 +57,7 @@ std::string search_originals (Webserver_Request& webserver_request)
   Database_Sblgnt database_sblgnt = Database_Sblgnt ();
   
   
-  std::string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->get_bible ();
   if (webserver_request.query.count ("b")) {
     bible = webserver_request.query ["b"];
   }

@@ -136,7 +136,7 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
         int category_percentage = static_cast<int>(round (100 / category_count));
         std::vector <std::string> users = request.database_users ()->get_users ();
         for (auto user : users) {
-          if (request.database_config_user()->getUserSprintProgressNotification (user)) {
+          if (request.database_config_user()->get_user_sprint_progress_notification (user)) {
             
             std::string subject = translate("Team's progress in Sprint");
             if (sprintstart) subject = translate("Sprint has started");

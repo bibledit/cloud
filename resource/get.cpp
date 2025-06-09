@@ -62,7 +62,7 @@ std::string resource_get (Webserver_Request& webserver_request)
     // In JavaScript the resource identifier starts at 1.
     // In the C++ Bibledit kernel it starts at 0.
     resource--;
-    std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
+    std::vector <std::string> resources = webserver_request.database_config_user()->get_active_resources ();
     if (resource < resources.size ()) {
       s_resource = resources [resource];
 
@@ -74,7 +74,7 @@ std::string resource_get (Webserver_Request& webserver_request)
       }
       
       
-      std::string bible = webserver_request.database_config_user ()->getBible ();
+      std::string bible = webserver_request.database_config_user ()->get_bible ();
       std::string versification = database::config::bible::get_versification_system (bible);
       Database_Versifications database_versifications;
       std::vector <int> chapters = database_versifications.getChapters (versification, book);
@@ -82,9 +82,9 @@ std::string resource_get (Webserver_Request& webserver_request)
       
       // Whether to add extra verse numbers, for clarity in case of viewing more than one verse.
       bool add_verse_numbers = false;
-      int context_before = webserver_request.database_config_user ()->getResourceVersesBefore ();
+      int context_before = webserver_request.database_config_user ()->get_resource_verses_before ();
       if (context_before) add_verse_numbers = true;
-      int context_after = webserver_request.database_config_user ()->getResourceVersesAfter ();
+      int context_after = webserver_request.database_config_user ()->get_resource_verses_after ();
       if (context_after) add_verse_numbers = true;
       
       

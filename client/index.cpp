@@ -81,7 +81,7 @@ void client_index_enable_client (Webserver_Request& webserver_request, const std
   database::bible_actions::clear ();
   database::bible_actions::create ();
   webserver_request.session_logic ()->set_username (username);
-  webserver_request.database_config_user()->setUpdatedSettings ({});
+  webserver_request.database_config_user()->set_updated_settings ({});
   database::config::general::set_unsent_bible_data_time (0);
   database::config::general::set_unreceived_bible_data_time (filter::date::seconds_since_epoch ());
   

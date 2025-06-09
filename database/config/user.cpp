@@ -1497,3 +1497,14 @@ void Database_Config_User::set_enable_spell_check (bool value) const
 {
   set_boolean_value (enable_spell_check_key, value);
 }
+
+
+constexpr const auto show_navigation_arrows_key {"show-navigation-arrows"};
+bool Database_Config_User::get_show_navigation_arrows () const
+{
+  return get_boolean_value (show_navigation_arrows_key, false);
+}
+void Database_Config_User::set_show_navigation_arrows (bool value) const
+{
+  set_boolean_value (show_navigation_arrows_key, value);
+}

@@ -450,6 +450,14 @@ std::string personalize_index (Webserver_Request& webserver_request)
   }
   view.set_variable ("spellcheck", filter::strings::get_checkbox_status(webserver_request.database_config_user ()->get_enable_spell_check ()));
   
+  
+  // Displaying arrows in the passage navigator for going to previous/next book/chapter/verse.
+  if (checkbox == "navigationarrows") {
+    webserver_request.database_config_user ()->set_show_navigation_arrows(checked);
+  }
+  view.set_variable ("navigationarrows", filter::strings::get_checkbox_status(webserver_request.database_config_user ()->get_show_navigation_arrows()));
+
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic::privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");

@@ -248,6 +248,8 @@ public:
   void set_change_notifications_bibles (const std::vector <std::string>& values) const;
   bool get_enable_spell_check () const;
   void set_enable_spell_check (bool value) const;
+  bool get_show_navigation_arrows() const;
+  void set_show_navigation_arrows(bool value) const;
 private:
   Webserver_Request& m_webserver_request;
   std::string file (const std::string& user) const;

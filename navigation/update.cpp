@@ -151,7 +151,19 @@ std::string navigation_update (Webserver_Request& webserver_request)
   else if (webserver_request.query.count ("nextchapter")) {
     Navigation_Passage::goto_next_chapter (webserver_request, bible);
   }
+
   
+  // Go to the previous book.
+  else if (webserver_request.query.count ("previousbook")) {
+    Navigation_Passage::goto_previous_book (webserver_request, bible);
+  }
+  
+  
+  // Go to the next book.
+  else if (webserver_request.query.count ("nextbook")) {
+    Navigation_Passage::goto_next_book (webserver_request, bible);
+  }
+
   
   // Provide html for history going back.
   else if (webserver_request.query.count ("historyback")) {

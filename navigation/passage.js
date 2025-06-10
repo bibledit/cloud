@@ -110,10 +110,16 @@ function bindClickHandlers () {
   $("#navigateforward").on ("contextmenu", function (event) {
     event.preventDefault();
   });
+  $("#previousbook").on ("click", function (event) {
+    navigatePreviousBook (event);
+  });
   $("#selectbook").on ("click", function (event) {
     $ (".fadeout").hide ();
     $ ('#topbar').addClass('wrap-active');
     displayBooks (event);
+  });
+  $("#nextbook").on ("click", function (event) {
+    navigateNextBook (event);
   });
   $("#previouschapter").on ("click", function (event) {
     navigatePreviousChapter (event);
@@ -360,6 +366,40 @@ function navigateNextChapter (event) {
       navigationPollPassage ();
     },
   });
+}
+
+
+function navigatePreviousBook (event) {
+  event.preventDefault ();
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, previousbook: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+    });
+}
+
+
+function navigateNextBook (event) {
+  event.preventDefault ();
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, nextbook: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+    });
 }
 
 

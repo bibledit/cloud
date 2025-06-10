@@ -1034,26 +1034,18 @@ input#cancel,
 .menu-advanced span {
   margin-right: 0.2em;
 }
-.previouschapter {
+.previousbook, .previouschapter, .previousverse {
   margin-right: -0.2em;
   padding-right: 0.1em;
 }
-.nextchapter {
+.nextbook, .nextchapter, .nextverse {
   margin-left: -0.2em;
   padding-left: 0.1em;
-}
-.previousverse {
-  margin-right: -0.2em;
-  padding-right: 0.1em;
 }
 .selectverse {
   margin-right: -0.1em;
   margin-left: -0.1em;
   padding-right: 0.1em;
-  padding-left: 0.1em;
-}
-.nextverse {
-  margin-left: -0.2em;
   padding-left: 0.1em;
 }
 .nextresource {

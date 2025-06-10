@@ -36,6 +36,8 @@ public:
   static void set_chapter (Webserver_Request& webserver_request, int chapter);
   static void set_verse (Webserver_Request& webserver_request, int verse);
   static void set_passage (Webserver_Request& webserver_request, std::string bible, std::string passage);
+  static void goto_next_book (Webserver_Request& webserver_request, std::string bible);
+  static void goto_previous_book (Webserver_Request& webserver_request, std::string bible);
   static void goto_next_chapter (Webserver_Request& webserver_request, std::string bible);
   static void goto_previous_chapter (Webserver_Request& webserver_request, std::string bible);
   static void goto_next_verse (Webserver_Request& webserver_request, std::string bible);
@@ -50,6 +52,8 @@ public:
   static void go_history (Webserver_Request& webserver_request, std::string message);
 private:
   static void add_selector_link (std::string& html, std::string id, std::string href, std::string text, bool selected, std::string extra_class);
+  static Passage get_next_book (std::string bible, int book);
+  static Passage get_previous_book (std::string bible, int book);
   static Passage get_next_chapter (std::string bible, int book, int chapter);
   static Passage get_previous_chapter (std::string bible, int book, int chapter);
   static Passage get_next_verse (std::string bible, int book, int chapter, int verse);

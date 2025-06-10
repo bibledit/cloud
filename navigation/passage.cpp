@@ -65,7 +65,9 @@ std::string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserve
   
   bool passage_clipped = false;
   
-  bool basic_mode = config::logic::basic_mode (webserver_request);
+  const bool basic_mode = config::logic::basic_mode (webserver_request);
+  
+  const bool have_arrows = webserver_request.database_config_user()->get_show_navigation_arrows();
   
   pugi::xml_document document;
   
@@ -104,10 +106,10 @@ std::string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserve
   int book = Ipc_Focus::getBook (webserver_request);
   
   // The book should exist in the Bible.
-  if (bible != "") {
-    std::vector <int> books = database::bibles::get_books (bible);
+  if (!bible.empty()) {
+    const std::vector <int> books = database::bibles::get_books (bible);
     if (find (books.begin(), books.end(), book) == books.end()) {
-      if (!books.empty ()) book = books [0];
+      if (!books.empty ()) book = books.at(0);
       else book = 0;
       passage_clipped = true;
     }
@@ -127,35 +129,85 @@ std::string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserve
 
   int chapter = Ipc_Focus::getChapter (webserver_request);
   
+  bool next_chapter_is_available = true;
+  
   // The chapter should exist in the book.
-  if (bible != "") {
-    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
+  if (!bible.empty()) {
+    const std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
-      if (!chapters.empty()) chapter = chapters [0];
+      if (!chapters.empty()) chapter = chapters.at(0);
       else chapter = 1;
       passage_clipped = true;
     }
+    if (!chapters.empty ()) {
+      if (chapter >= chapters.back ()) {
+        next_chapter_is_available = false;
+      }
+    }
   }
 
-  {
+  
+  
+  if (have_arrows) {
+    constexpr const auto previouschapter {"previouschapter"};
     pugi::xml_node span_node = document.append_child("span");
     pugi::xml_node a_node = span_node.append_child("a");
-    a_node.append_attribute("id") = "selectchapter";
-    a_node.append_attribute("href") = "selectchapter";
+    if (!basic_mode) {
+      a_node.append_attribute("class") = previouschapter;
+    }
+    if (chapter) {
+      a_node.append_attribute("id") = previouschapter;
+      a_node.append_attribute("href") = previouschapter;
+      a_node.append_attribute("title") = translate("Go to previous chapter").c_str();
+    }
+    a_node.text() = left_arrow;
+  }
+
+  
+  
+  {
+    constexpr const auto selectchapter {"selectchapter"};
+    pugi::xml_node span_node = document.append_child("span");
+    pugi::xml_node a_node = span_node.append_child("a");
+    a_node.append_attribute("id") = selectchapter;
+    a_node.append_attribute("href") = selectchapter;
     a_node.append_attribute("title") = translate("Select chapter").c_str();
     a_node.text() = std::to_string (chapter).c_str();
   }
+
+  
+  
+  if (next_chapter_is_available and have_arrows) {
+    constexpr const auto nextchapter {"nextchapter"};
+    pugi::xml_node span_node = document.append_child("span");
+    pugi::xml_node a_node = span_node.append_child("a");
+    if (!basic_mode) {
+      a_node.append_attribute("class") = nextchapter;
+    }
+    a_node.append_attribute("id") = nextchapter;
+    a_node.append_attribute("href") = nextchapter;
+    a_node.append_attribute("title") = translate("Go to next chapter").c_str();
+    a_node.text() = right_arrow;
+  }
+
+  
+  
+  
+  
+  
+  
+  
   
   int verse = Ipc_Focus::getVerse (webserver_request);
   
   bool next_verse_is_available = true;
   
   // The verse should exist in the chapter.
-  if (bible != "") {
-    std::string usfm = database::bibles::get_chapter (bible, book, chapter);
-    std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
+  if (!bible.empty()) {
+    const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
+    const std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
     if (!in_array (verse, verses)) {
-      if (!verses.empty()) verse = verses [0];
+      if (!verses.empty()) verse = verses.at(0);
       else verse = 1;
       passage_clipped = true;
     }
@@ -166,40 +218,43 @@ std::string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserve
     }
   }
 
-  {
+  if (have_arrows) {
+    constexpr const auto previousverse {"previousverse"};
     pugi::xml_node span_node = document.append_child("span");
     pugi::xml_node a_node = span_node.append_child("a");
     if (!basic_mode) {
-      a_node.append_attribute("class") = "previousverse";
+      a_node.append_attribute("class") = previousverse;
     }
     if (verse) {
-      a_node.append_attribute("id") = "previousverse";
-      a_node.append_attribute("href") = "previousverse";
+      a_node.append_attribute("id") = previousverse;
+      a_node.append_attribute("href") = previousverse;
       a_node.append_attribute("title") = translate("Go to previous verse").c_str();
     }
     a_node.text() = left_arrow;
   }
 
   {
+    constexpr const auto selectverse {"selectverse"};
     pugi::xml_node span_node = document.append_child("span");
     pugi::xml_node a_node = span_node.append_child("a");
     if (!basic_mode) {
-      a_node.append_attribute("class") = "selectverse";
+      a_node.append_attribute("class") = selectverse;
     }
-    a_node.append_attribute("id") = "selectverse";
-    a_node.append_attribute("href") = "selectverse";
+    a_node.append_attribute("id") = selectverse;
+    a_node.append_attribute("href") = selectverse;
     a_node.append_attribute("title") = translate("Select verse").c_str();
     a_node.text() = std::to_string(verse).c_str();
   }
 
-  if (next_verse_is_available) {
+  if (next_verse_is_available and have_arrows) {
+    constexpr const auto nextverse {"nextverse"};
     pugi::xml_node span_node = document.append_child("span");
     pugi::xml_node a_node = span_node.append_child("a");
     if (!basic_mode) {
-      a_node.append_attribute("class") = "nextverse";
+      a_node.append_attribute("class") = nextverse;
     }
-    a_node.append_attribute("id") = "nextverse";
-    a_node.append_attribute("href") = "nextverse";
+    a_node.append_attribute("id") = nextverse;
+    a_node.append_attribute("href") = nextverse;
     a_node.append_attribute("title") = translate("Go to next verse").c_str();
     a_node.text() = right_arrow;
   }

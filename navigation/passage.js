@@ -115,9 +115,15 @@ function bindClickHandlers () {
     $ ('#topbar').addClass('wrap-active');
     displayBooks (event);
   });
+  $("#previouschapter").on ("click", function (event) {
+    navigatePreviousChapter (event);
+  });
   $("#selectchapter").on ("click", function (event) {
     $ (".fadeout").hide ();
     displayChapters (event);
+  });
+  $("#nextchapter").on ("click", function (event) {
+    navigateNextChapter (event);
   });
   $("#previousverse").on ("click", function (event) {
     navigatePreviousVerse (event);

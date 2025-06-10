@@ -1034,6 +1034,14 @@ input#cancel,
 .menu-advanced span {
   margin-right: 0.2em;
 }
+.previouschapter {
+  margin-right: -0.2em;
+  padding-right: 0.1em;
+}
+.nextchapter {
+  margin-left: -0.2em;
+  padding-left: 0.1em;
+}
 .previousverse {
   margin-right: -0.2em;
   padding-right: 0.1em;

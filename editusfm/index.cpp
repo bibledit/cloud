@@ -65,7 +65,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
     const int book = filter::strings::convert_to_int (switchbook);
     const int chapter = filter::strings::convert_to_int (switchchapter);
     Ipc_Focus::set (webserver_request, book, chapter, 1);
-    Navigation_Passage::record_history (webserver_request, book, chapter, 1);
+    navigation_passage::record_history (webserver_request, book, chapter, 1);
   }
 
 
@@ -106,7 +106,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   
   
   // Store the active Bible in the page's javascript.
-  view.set_variable ("navigationCode", Navigation_Passage::code (bible));
+  view.set_variable ("navigationCode", navigation_passage::code (bible));
   
   
   const int verticalCaretPosition = webserver_request.database_config_user ()->get_vertical_caret_position ();

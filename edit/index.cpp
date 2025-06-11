@@ -69,7 +69,7 @@ std::string edit_index (Webserver_Request& webserver_request)
     if (webserver_request.query.count ("switchverse")) 
       switchverse = filter::strings::convert_to_int (webserver_request.query ["switchverse"]);
     Ipc_Focus::set (webserver_request, switchbook, switchchapter, switchverse);
-    Navigation_Passage::record_history (webserver_request, switchbook, switchchapter, switchverse);
+    navigation_passage::record_history (webserver_request, switchbook, switchchapter, switchverse);
   }
 
 
@@ -120,7 +120,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   
   
   // Store the active Bible in the page's javascript.
-  view.set_variable ("navigationCode", Navigation_Passage::code (bible));
+  view.set_variable ("navigationCode", navigation_passage::code (bible));
   
 
   // Create the script.

@@ -93,7 +93,7 @@ std::string notes_note (Webserver_Request& webserver_request)
       int desired_chapter = passages[0].m_chapter;
       int desired_verse = filter::strings::convert_to_int (passages[0].m_verse);
       Ipc_Focus::set (webserver_request, desired_book, desired_chapter, desired_verse);
-      Navigation_Passage::record_history (webserver_request, desired_book, desired_chapter, desired_verse);
+      navigation_passage::record_history (webserver_request, desired_book, desired_chapter, desired_verse);
     }
   }
   

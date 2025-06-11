@@ -116,7 +116,7 @@ std::string edit_preview (Webserver_Request& webserver_request)
   }
 
   // Store the active Bible in the page's javascript.
-  view.set_variable ("navigationCode", Navigation_Passage::code (bible));
+  view.set_variable ("navigationCode", navigation_passage::code (bible));
   
   page += view.render ("edit", "preview");
   

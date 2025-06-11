@@ -68,7 +68,7 @@ std::string editone_index (Webserver_Request& webserver_request)
     const int switchbook = filter::strings::convert_to_int (webserver_request.query ["switchbook"]);
     const int switchchapter = filter::strings::convert_to_int (webserver_request.query ["switchchapter"]);
     Ipc_Focus::set (webserver_request, switchbook, switchchapter, 1);
-    Navigation_Passage::record_history (webserver_request, switchbook, switchchapter, 1);
+    navigation_passage::record_history (webserver_request, switchbook, switchchapter, 1);
   }
 
   // Set the user chosen Bible as the current Bible.
@@ -107,7 +107,7 @@ std::string editone_index (Webserver_Request& webserver_request)
   view.set_variable ("bible", bible);
   
   // Store the active Bible in the page's javascript.
-  view.set_variable ("navigationCode", Navigation_Passage::code (bible));
+  view.set_variable ("navigationCode", navigation_passage::code (bible));
   
   // Create the script, quote the strings to ensure it's legal Javascript.
   std::stringstream script_stream {};

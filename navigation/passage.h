@@ -24,38 +24,30 @@
 
 class Webserver_Request;
 
-class Navigation_Passage
-{
-public:
-  static std::string get_mouse_navigator (Webserver_Request& webserver_request, std::string bible);
-  static std::string get_books_fragment (Webserver_Request& webserver_request, std::string bible);
-  static std::string get_chapters_fragment (std::string bible, int book, int chapter);
-  static std::string get_verses_fragment (std::string bible, int book, int chapter, int verse);
-  static std::string code (std::string bible);
-  static void set_book (Webserver_Request& webserver_request, int book);
-  static void set_chapter (Webserver_Request& webserver_request, int chapter);
-  static void set_verse (Webserver_Request& webserver_request, int verse);
-  static void set_passage (Webserver_Request& webserver_request, std::string bible, std::string passage);
-  static void goto_next_book (Webserver_Request& webserver_request, std::string bible);
-  static void goto_previous_book (Webserver_Request& webserver_request, std::string bible);
-  static void goto_next_chapter (Webserver_Request& webserver_request, std::string bible);
-  static void goto_previous_chapter (Webserver_Request& webserver_request, std::string bible);
-  static void goto_next_verse (Webserver_Request& webserver_request, std::string bible);
-  static void goto_previous_verse (Webserver_Request& webserver_request, std::string bible);
-  static void record_history (Webserver_Request& webserver_request, int book, int chapter, int verse);
-  static void go_back (Webserver_Request& webserver_request);
-  static void go_forward (Webserver_Request& webserver_request);
-  static std::string get_keyboard_navigator (Webserver_Request& webserver_request, std::string bible);
-  static void interpret_keyboard_navigator (Webserver_Request& webserver_request, std::string bible, std::string passage);
-  static std::string get_history_back (Webserver_Request& webserver_request);
-  static std::string get_history_forward (Webserver_Request& webserver_request);
-  static void go_history (Webserver_Request& webserver_request, std::string message);
-private:
-  static void add_selector_link (std::string& html, std::string id, std::string href, std::string text, bool selected, std::string extra_class);
-  static Passage get_next_book (std::string bible, int book);
-  static Passage get_previous_book (std::string bible, int book);
-  static Passage get_next_chapter (std::string bible, int book, int chapter);
-  static Passage get_previous_chapter (std::string bible, int book, int chapter);
-  static Passage get_next_verse (std::string bible, int book, int chapter, int verse);
-  static Passage get_previous_verse (std::string bible, int book, int chapter, int verse);
-};
+namespace navigation_passage {
+
+std::string get_mouse_navigator (Webserver_Request& webserver_request, const std::string& bible);
+std::string get_books_fragment (Webserver_Request& webserver_request, const std::string& bible);
+std::string get_chapters_fragment (const std::string& bible, const int book, const int chapter);
+std::string get_verses_fragment (const std::string& bible, const int book, const int chapter, const int verse);
+std::string code (const std::string& bible);
+void set_book (Webserver_Request& webserver_request, const int book);
+void set_chapter (Webserver_Request& webserver_request, const int chapter);
+void set_verse (Webserver_Request& webserver_request, const int verse);
+void set_passage (Webserver_Request& webserver_request, const std::string& bible, std::string passage);
+void goto_next_book (Webserver_Request& webserver_request, const std::string& bible);
+void goto_previous_book (Webserver_Request& webserver_request, const std::string& bible);
+void goto_next_chapter (Webserver_Request& webserver_request, const std::string& bible);
+void goto_previous_chapter (Webserver_Request& webserver_request, const std::string& bible);
+void goto_next_verse (Webserver_Request& webserver_request, const std::string& bible);
+void goto_previous_verse (Webserver_Request& webserver_request, const std::string& bible);
+void record_history (Webserver_Request& webserver_request, const int book, const int chapter, const int verse);
+void go_back (Webserver_Request& webserver_request);
+void go_forward (Webserver_Request& webserver_request);
+std::string get_keyboard_navigator (Webserver_Request& webserver_request, const std::string& bible);
+void interpret_keyboard_navigator (Webserver_Request& webserver_request, std::string bible, std::string passage);
+std::string get_history_back (Webserver_Request& webserver_request);
+std::string get_history_forward (Webserver_Request& webserver_request);
+void go_history (Webserver_Request& webserver_request, std::string message);
+
+}

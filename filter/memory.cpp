@@ -52,7 +52,7 @@ int filter_memory_percentage_available ()
 
   // BSD:
   // https://forums.freebsd.org/threads/38754/
-  // http://stackoverflow.com/questions/2513505/how-to-get-available-memory-c-g
+  // https://stackoverflow.com/questions/2513505/how-to-get-available-memory-c-g
   
   // Linux.
   std::string path = "/proc/meminfo";

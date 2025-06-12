@@ -24,7 +24,7 @@
   <li>
     translate("Enter the name of a font available on the Internet.")
     translate("Example:")
-    http://website.org/fonts/GentiumPlus-R.ttf
+    https://website.org/fonts/GentiumPlus-R.ttf
   </li>
   </ul>
   <!-- #BEGINZONE client -->

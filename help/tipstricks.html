@@ -20,7 +20,7 @@
   translate("The system administrator should have a reliable backup strategy in place.")
   translate("Bibledit uses SQLite for data storage.")
   translate("If a database is backed up while SQLite is storing data in it, the database may get malformed.")
-  <a href="http://www.sqlite.org/faq.html#q21" ##external##>translate("Information.")</a>
+  <a href="https://www.sqlite.org/faq.html#q21" ##external##>translate("Information.")</a>
   translate("This applies to any database software, not just SQLite.")
   translate("To accommodate backup, Bibledit does not access databases from 0:00 to 0:05 at midnight.")
   translate("If no users access Bibledit during that time, then there is no database access at all.")

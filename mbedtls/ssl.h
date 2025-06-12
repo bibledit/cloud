@@ -1184,7 +1184,7 @@ typedef struct {
  * For code readability use a typedef for DTLS-SRTP profiles
  *
  * Use_srtp extension protection profiles values as defined in
- * http://www.iana.org/assignments/srtp-protection/srtp-protection.xhtml
+ * https://www.iana.org/assignments/srtp-protection/srtp-protection.xhtml
  *
  * Reminder: if this list is expanded mbedtls_ssl_check_srtp_profile_value
  * must be updated too.

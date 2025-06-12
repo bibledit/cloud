@@ -1504,7 +1504,7 @@ std::string convert_xml_character_entities_to_characters (std::string data)
     ss >> codepoint;
     
     int cp = codepoint;
-    // Adapted from: http://www.zedwood.com/article/cpp-utf8-char-to-codepoint.
+    // Adapted from: https://www.zedwood.com/article/cpp-utf8-char-to-codepoint.
     char c[5]={ 0x00,0x00,0x00,0x00,0x00 };
     if (cp<=0x7F) {
       c[0] = static_cast<char> (cp);

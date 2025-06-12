@@ -1,1 +1,1 @@
-http://bibledit.org:1500
+https://bibledit.org:1500

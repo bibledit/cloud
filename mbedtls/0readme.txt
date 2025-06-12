@@ -9,7 +9,7 @@ https://www.wolfssl.com
 https://github.com/wolfSSL/wolfssl-examples
 
 Botan
-http://botan.randombit.net/
+https://botan.randombit.net/
 It can generate a single amalgamation file:
 ./configure.py --gen-amalgamation --single-amalgamation-file
 There's a lot of dependency on the processor architecture, including endian-ness and assembler code.
@@ -20,7 +20,7 @@ https://tls.mbed.org/
 This looks good, it is low level, loosely coupled, easy to understand.
 
 MatrixSSL
-http://www.matrixssl.org/
+https://www.matrixssl.org/
 The code looks okay, but the implementation in the client is complicated, judging from the sample client application.
 
 NanoSSL

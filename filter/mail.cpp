@@ -24,7 +24,7 @@
 #ifdef HAVE_CLOUD
 
 
-// http://www.codesink.org/mimetic_mime_library.html
+// https://www.codesink.org/mimetic_mime_library.html
 
 
 // Suppress warnings in the included header.

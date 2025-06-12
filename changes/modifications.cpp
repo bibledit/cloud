@@ -320,7 +320,7 @@ void changes_modifications ()
     int processedChangesCount = 0;
     
     
-    // The files get stored at http://site.org:<port>/revisions/<Bible>/<date>
+    // The files get stored at https://site.org:<port>/revisions/<Bible>/<date>
     const int seconds = filter::date::seconds_since_epoch ();
     std::string timepath;
     timepath.append (std::to_string (filter::date::numerical_year (seconds)));

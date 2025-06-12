@@ -39,7 +39,7 @@ void Editor_Html2Format::load (std::string html)
   
   std::string xml = "<body>" + html + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
-  // See http://pugixml.org/docs/manual.html for more information.
+  // See https://pugixml.org/docs/manual.html for more information.
   // It is not enough to only parse with parse_ws_pcdata_single, it really needs parse_ws_pcdata.
   // This is significant for, for example, the space after verse numbers, among other cases.
   pugi::xml_parse_result result = document.load_string (xml.c_str(), pugi::parse_ws_pcdata);

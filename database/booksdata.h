@@ -163,7 +163,3 @@ constexpr const book_record books_table [] =
   {"Topical Index", "", "TDX", "", "", book_id::_topical_index, 108, book_type::front_back, false},
   {"Names Index", "", "NDX", "", "", book_id::_names_index, 109, book_type::front_back, false}
 };
-
-
-// For OSIS abbreviations see http://www.crosswire.org/wiki/OSIS_Book_Abbreviations.
-

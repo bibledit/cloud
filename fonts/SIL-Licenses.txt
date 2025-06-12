@@ -5,10 +5,10 @@ and John Hudson, and licensed under the MIT/X11 License (copied
 below).
 
 All other font software is copyright (c) 1997-2007, SIL International
-(http://www.sil.org/), with Reserved Font Names "SIL" and "Ezra", and
-is licensed under the SIL Open Font License, Version 1.1. This license is 
+(https://www.sil.org/), with Reserved Font Names "SIL" and "Ezra", and
+is licensed under the SIL Open Font License, Version 1.1. This license is
 copied below, and is also available with a FAQ at:
-http://scripts.sil.org/OFL
+https://scripts.sil.org/OFL
 
 ------------------------
 
@@ -18,7 +18,7 @@ Copyright (c) 2002-2011, David J. Perry (hospes02@scholarsfonts.net)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
-http://scripts.sil.org/OFL
+https://scripts.sil.org/OFL
 
 ------------------------
 

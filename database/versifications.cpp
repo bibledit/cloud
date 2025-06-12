@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Versification information is also available from the Bible Organisational System.
 // (This system contains versification information, no mapping data.)
-// See http://freely-given.org/Software/BibleOrganisationalSystem/
+// See https://freely-given.org/Software/BibleOrganisationalSystem/
 // See https://github.com/openscriptures/BibleOrgSys/
 
 

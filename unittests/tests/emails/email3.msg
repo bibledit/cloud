@@ -103,8 +103,8 @@ USA: 111-222-3333
 Indonesia: 1234567890
 P.O. Box 111, Dry Grounds, AA 111111
 
-http://website.info
-http://website.info
+https://website.info
+https://website.info
 
 Firman Allah adalah Kunci Kehidupan
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D

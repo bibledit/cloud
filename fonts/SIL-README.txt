@@ -9,9 +9,9 @@ the thousands of minority languages around the world.
 
 We are happy to make these fonts available to the general 
 public at no charge, under the terms of the SIL Open Font License 
-(http://scripts.sil.org/OFL) and the MIT/X11 License (see Licenses.txt).
+(https://scripts.sil.org/OFL) and the MIT/X11 License (see Licenses.txt).
 
-More SIL fonts can be found at: http://scripts.sil.org
+More SIL fonts can be found at: https://scripts.sil.org
 
 Ezra SIL is a trademark of SIL International.
 
@@ -46,21 +46,21 @@ Unicode-Ezra-Chart17short.pdf provides a Unicode chart.
 Keyboarding on Windows:
 For information on the provided Keyman keyboard layout, print 
 Ezra SIL Keyboard Chart23.pdf. The Keyman program is available from
-http://www.tavultesoft.com.
+https://www.tavultesoft.com.
 
 For detailed installation instructions, print the installation
 guide: Keying in Hebrew.pdf or go to 
-http://scripts.sil.org/KeyboardInstallationAndUse 
-and select Keyman Install from the table of contents, if you are using the 
+https://scripts.sil.org/KeyboardInstallationAndUse
+and select Keyman Install from the table of contents, if you are using the
 Keyman keyboard.
 
 Another Windows keyboard is an MSKLC keyboard provided by The 
 Society of Biblical Literature. It can be found here: 
-http://www.sbl-site.org/Resources/Resources_BiblicalFonts.aspx
+https://www.sbl-site.org/Resources/Resources_BiblicalFonts.aspx
 
 Keyboarding on Linux:
 For information on the dedicated keyboard layout, see KMFL
-(http://kmfl.sourceforge.net) and the corresponding kmfl-keyboard-SIL-Ezra
+(https://kmfl.sourceforge.net) and the corresponding kmfl-keyboard-SIL-Ezra
 package.
 
 Typographic Features:
@@ -80,7 +80,7 @@ CONTACT
 ========
 For more information please visit the Ezra SIL page on SIL International's
 Computers and Writing systems website:
-http://scripts.sil.org/EzraSIL_Home
+https://scripts.sil.org/EzraSIL_Home
 
 Or send an email to <fonts AT sil DOT org>
 

@@ -1122,7 +1122,7 @@ std::string lexicon_logic_hebrew_morphology_render (std::string value)
   if (!hebrew && !aramaic) hebrew = true;
  
   // Description of the Hebrew Morphology Codes:
-  // http://openscriptures.github.io/morphhb/parsing/HebrewMorphologyCodes.html
+  // https://openscriptures.github.io/morphhb/parsing/HebrewMorphologyCodes.html
   
   std::vector <std::string> renderings;
   

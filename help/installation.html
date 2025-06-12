@@ -99,10 +99,10 @@ translate("The changes made in this way can be synchronized with Bibledit Cloud 
 </p>
 <ol>
   <li>
-    <a href="http://ramnode.com/vps.php" ##external##>RamNode</a>, Premium OpenVZ SSD 128MB for $15 per year (2018).
+    <a href="https://ramnode.com/pricing/" ##external##>RamNode</a>, VPS for $5 per month (2025).
   </li>
   <li>
-    <a href="https://www.digitalocean.com/?refcode=5189a8e56d7a" ##external##>Digital Ocean</a>, 512 Mb / 1 CPU / 20 Gb SSD Disk for $5 per month = $60 per year (2018).
+    <a href="https://www.digitalocean.com/?refcode=5189a8e56d7a" ##external##>Digital Ocean</a>, droplet for $4 per month (2025).
   </li>
 </ol>
 <p>

@@ -28,7 +28,7 @@
 /*
  
  Public LDAP test server:
- http://www.forumsys.com/en/tutorials/integration-how-to/ldap/online-ldap-test-server/
+ https://www.forumsys.com/en/tutorials/integration-how-to/ldap/online-ldap-test-server/
  
  Examples of search queries against the test server:
  

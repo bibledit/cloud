@@ -10,5 +10,5 @@
 <p>1. translate("Developing desired conditions.")</p>
 <p>2. translate("Developing capable people who can develop the desired conditions.")</p>
 <br>
-<p><a href="http://www.lean.org" ##external##>translate("External reference")</a></p>
+<p><a href="https://www.lean.org" ##external##>translate("External reference")</a></p>
 <script type="text/javascript" src="../assets/external.js"></script>

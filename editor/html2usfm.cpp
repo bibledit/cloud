@@ -71,7 +71,7 @@ void Editor_Html2Usfm::load (std::string html)
 
   const std::string xml = "<body>" + std::move(html) + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
-  // See http://pugixml.org/docs/manual.html for more information.
+  // See https://pugixml.org/docs/manual.html for more information.
   // It is not enough to only parse with parse_ws_pcdata_single, it really needs parse_ws_pcdata.
   // This is significant for, for example, the space after verse numbers, among other cases.
   pugi::xml_parse_result result = m_document.load_string (xml.c_str(), pugi::parse_ws_pcdata);
@@ -455,7 +455,7 @@ void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node)
   // <p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">notetext</span></p>
   // Retrieve the <a> element from it.
   // This was initially done through an XPath expression:
-  // http://www.grinninglizard.com/tinyxml2docs/index.html
+  // https://www.grinninglizard.com/tinyxml2docs/index.html
   // But XPath crashed on Android with libxml2.
   // Therefore now it iterates over all the nodes to find the required element.
   // After moving to pugixml, the XPath expression could have been used again, but this was not done.

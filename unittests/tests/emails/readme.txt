@@ -64,7 +64,7 @@ means that you will have to edit the output of the program to get just
 the email message.
 
 The URL for this collection of messages is
-<http://hunnysoft.com/mime/samples.zip>
+<https://hunnysoft.com/mime/samples.zip>
 
 
 

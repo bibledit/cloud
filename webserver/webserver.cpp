@@ -1015,7 +1015,7 @@ void https_server ()
  
  In case a client can only connect through port 80, 
  then this may proxy a certain folder to another port:
- http://serverfault.com/questions/472482/proxypass-redirect-directory-url-to-non-standard-port
+ https://serverfault.com/questions/472482/proxypass-redirect-directory-url-to-non-standard-port
  
  Or to write our own server in C acting as a proxy 
  to forward incoming requests to the bibledit instances on localhost.

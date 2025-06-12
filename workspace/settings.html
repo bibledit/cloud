@@ -106,11 +106,11 @@ translate("The Notes page is")
 <br>
 <p>
 translate("Some useful websites with resources that can be embedded are")
-"http://biblehub.com/interlinear",
-"http://unbound.biola.edu",
-"http://www.biblegateway.com/resources",
-"http://www.biblestudytools.com",
-"http://www.blueletterbible.org".
+"https://biblehub.com/interlinear",
+"https://unbound.biola.edu",
+"https://www.biblegateway.com/resources",
+"https://www.biblestudytools.com",
+"https://www.blueletterbible.org".
 translate("There are many more of them.")
 </p>
 <br>

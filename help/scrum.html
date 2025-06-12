@@ -233,7 +233,7 @@
   translate("Side conversations are taken offline.")
 </p>
 <br>
-<p><a href="http://en.wikipedia.org/wiki/Stand-up_meeting" ##external##>translate("External reference")</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Stand-up_meeting" ##external##>translate("External reference")</a></p>
 
 <h2>translate("Burn down chart")</h2>
 <p>
@@ -243,7 +243,7 @@
  translate("It is useful for predicting when all of the work will be completed.")
 </p>
 <br>
-<p><a href="http://en.wikipedia.org/wiki/Burn_down_chart" ##external##>translate("External reference")</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Burn_down_chart" ##external##>translate("External reference")</a></p>
 
 <h2>translate("Sprint Review")</h2>
 <p>translate("The Product Owner looks through the sprint’s work and provides feedback.")</p>

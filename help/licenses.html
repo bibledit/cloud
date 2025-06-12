@@ -4,17 +4,17 @@
 <p>translate("Copyright (©) 2003-2025 Teus Benschop.")</p>
 <p>translate("This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.")</p>
 <p>translate("This program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. See the GNU General Public License for more details.")</p>
-<p>translate("You should have received a copy of the GNU General Public License along with this program. See also") <a href="http://www.gnu.org/licenses/gpl.html" ##external##>http://www.gnu.org/licenses/gpl.html</a>.</p>
+<p>translate("You should have received a copy of the GNU General Public License along with this program. See also") <a href="https://www.gnu.org/licenses/gpl.html" ##external##>https://www.gnu.org/licenses/gpl.html</a>.</p>
 
 <h3>translate("ETCBC4 Hebrew text database")</h3>
 <p>
 translate("The ETCBC database of the Hebrew Bible contains the scholarly text of the Hebrew Bible with linguistic markup.")
 translate ("Original data source:")
-<a href="http://dx.doi.org/10.17026%2Fdans-z6y-skyh" ##external##>HEBREW TEXT DATABASE ETCBC4</a>.
+<a href="https://dx.doi.org/10.17026%2Fdans-z6y-skyh" ##external##>HEBREW TEXT DATABASE ETCBC4</a>.
 translate("Bibledit's data source:")
 <a href="https://shebanq.ancient-data.org/sources" ##external##>translate("SHEBANQ, a search engine for the Hebrew Bible")</a>.
 translate("License:")
-<a href="http://creativecommons.org/licenses/by-nc/4.0" ##external##>translate("Creative Commons Attribution-NonCommercial 4.0 International License")</a>.
+<a href="https://creativecommons.org/licenses/by-nc/4.0" ##external##>translate("Creative Commons Attribution-NonCommercial 4.0 International License")</a>.
 translate("You may not use the data for commercial applications without consent.")
 </p>
 

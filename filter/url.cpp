@@ -208,7 +208,7 @@ void redirect_browser (Webserver_Request& webserver_request, std::string path)
 }
 
 
-// C++ equivalent for the dirname function, see http://linux.die.net/man/3/dirname.
+// C++ equivalent for the dirname function, see https://linux.die.net/man/3/dirname.
 // The BSD dirname is not thread-safe, see the implementation notes on $ man 3 dirname,
 // therefore it is not used here.
 // It uses the defined slash as the separator.

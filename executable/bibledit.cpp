@@ -57,7 +57,7 @@ static std::string backtrace_path ()
 
 
 #ifdef HAVE_EXECINFO
-// http://stackoverflow.com/questions/77005/how-to-generate-a-stacktrace-when-my-gcc-c-app-crashes
+// https://stackoverflow.com/questions/77005/how-to-generate-a-stacktrace-when-my-gcc-c-app-crashes
 // To add linker flag -rdynamic is essential.
 [[ noreturn ]]
 static void sigsegv_handler ([[maybe_unused]] int sig)

@@ -73,7 +73,7 @@
 <p> 
   translate("The translator becomes the leader of the translation team.")
   translate("The team leader is acquainted with open licenses.")
-  <a href="http://www.gnu.org/licenses/fdl-1.3-standalone.html">translate("He chooses the GNU Free Documentation License as an appropriate license for the Bible.")</a>
+  <a href="https://www.gnu.org/licenses/fdl-1.3-standalone.html">translate("He chooses the GNU Free Documentation License as an appropriate license for the Bible.")</a>
   translate("He is of the view that it is appropriate for the Word of God to be created under an open license to allow it to have free course.")
 </p>
 <br>

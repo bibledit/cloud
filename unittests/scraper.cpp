@@ -717,11 +717,19 @@ TEST (scraper, net_bible)
 {
   using ::testing::HasSubstr;
   constexpr int hebrews {58};
-  const char* net_bible {resource_external_net_bible_name ()};
-  std::string result = resource_external_cloud_fetch_cache_extract (net_bible, hebrews, 2, 3);
-  result = filter::strings::html2text (std::move(result));
-  EXPECT_THAT(result, Not(HasSubstr("Cloudflare")));
-  EXPECT_THAT(result, HasSubstr("It was first communicated through the Lord"));
+  const char* net_bible {resource_external_net_bible_name()};
+  {
+    std::string result = resource_external_cloud_fetch_cache_extract (net_bible, hebrews, 2, 3);
+    result = filter::strings::html2text (std::move(result));
+    EXPECT_THAT(result, Not(HasSubstr("Cloudflare")));
+    EXPECT_THAT(result, HasSubstr("It was first communicated through the Lord"));
+  }
+  {
+    std::string result = resource_external_cloud_fetch_cache_extract (net_bible, hebrews, 2, 4);
+    result = filter::strings::html2text (std::move(result));
+    EXPECT_THAT(result, HasSubstr("various miracles and gifts of the Holy Spirit")); // Canonical text.
+    EXPECT_THAT(result, HasSubstr("and distributions of the Holy Spirit")); // Footnote.
+  }
 }
 
 

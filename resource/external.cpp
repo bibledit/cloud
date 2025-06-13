@@ -37,6 +37,7 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
+#include <pugixml/utils.h>
 
 
 // Local forward declarations:
@@ -52,7 +53,7 @@ std::string resource_external_get_king_james_version_plus_gbs (int book, int cha
 std::string resource_external_get_biblehub_interlinear (int book, int chapter, int verse);
 std::string resource_external_get_biblehub_scrivener (int book, int chapter, int verse);
 std::string resource_external_get_biblehub_westminster (int book, int chapter, int verse);
-std::string resource_external_get_net_bible (int book, int chapter, int verse);
+std::string resource_external_get_net_bible (const int book, const int chapter, const int verse);
 std::string resource_external_get_blue_letter_bible (int book, int chapter, int verse);
 std::string resource_external_get_elberfelder_bibel (int book, int chapter, int verse);
 std::string resource_external_convert_book_biblehub (int book);
@@ -818,51 +819,136 @@ std::string resource_external_get_biblehub_westminster (int book, int chapter, i
 
 
 // This displays the text and the notes of the NET Bible.
-std::string resource_external_get_net_bible (int book, int chapter, int verse)
+std::string resource_external_get_net_bible (const int book, const int chapter, const int verse)
 {
-  std::string bookname = resource_external_convert_book_netbible (book);
+  const std::string bookname = resource_external_convert_book_netbible (book);
   
-  std::string url = bookname + " " + std::to_string (chapter) + ":" + std::to_string (verse);
-  url = filter_url_urlencode (url);
-  url.insert (0, "https://netbible.org/resource/netTexts/");
-  
+  const auto get_passage = [&bookname, chapter, verse](const bool include_verse) {
+    std::string url = bookname + " " + std::to_string (chapter);
+    if (include_verse)
+      url.append( + ":" + std::to_string (verse));
+    return filter_url_urlencode (std::move(url));
+  };
+
+  std::string url;
   std::string error;
+
+  // This fetches the canonical text from the NET Bible API.
+  // https://labs.bible.org/api_web_service
+  url = "https://labs.bible.org/api/?passage=" + get_passage(true) + "&formatting=para";
+  // It was tried to add "&type=xml" but this gives no XML, it gives an empty string.
   std::string text = resource_logic_web_or_cache_get (url, error);
   
-  // Due to an error, the result could include PHP.
-  // See https://github.com/bibledit/cloud/issues/579.
-  // So if the text contains ".php", then there's that error.
-  if (text.find(".php") != std::string::npos) text.clear();
+  // In case of an error, the result could include PHP code.
+  // See https://github.com/bibledit/cloud/issues/579
+  // In such a case the text contains "Kohana".
+  if (text.find("Kohana") != std::string::npos) text.clear();
   
-  std::string output = text;
+  // Add the canonical text to the output.
+  std::string output = std::move(text);
+
+  // Get the JSON with the canonical text.
+  // The purpose of this is to extract the footnote callers.
+  url = "https://netbible.org/resource/netTexts/" + get_passage(false) + "?bible1Translation=net_strongs2";
+  text = resource_logic_web_or_cache_get (url, error);
   
-  url = bookname + " " + std::to_string (chapter) + ":" + std::to_string (verse);
-  url = filter_url_urlencode (url);
-  url.insert (0, "https://netbible.org/resource/netNotes/");
+  // Parse the incoming JSON and get the relevant html bit.
+  jsonxx::Object json;
+  json.parse (text);
+  text = json.get<jsonxx::String> ("bible1");
   
+  // The html obtained above is not well-formed.
+  // It cannot be loaded as an XML document without errors and missing text.
+  // Therefore the html is tidied first.
+  text = filter::strings::fix_invalid_html_tidy(std::move(text));
+
+  // Container to store the footnote identifiers.
+  std::vector<std::string> note_ids{};
+  {
+    pugi::xml_document document;
+    pugi::xml_parse_result result = document.load_string (text.c_str(), pugi::parse_ws_pcdata);
+    pugixml_utils_error_logger (&result, text);
+    constexpr const auto selector = "//sup";
+    pugi::xpath_node_set nodeset = document.select_nodes(selector);
+    for (const auto supnode: nodeset) {
+      const auto a_node = supnode.node().child("a");
+      if (const std::string data_chapter = a_node.attribute("data-chapter").value();
+          data_chapter != std::to_string(chapter))
+        continue;
+      if (const std::string data_verse = a_node.attribute("data-verse").value();
+          data_verse != std::to_string(verse))
+        continue;
+      note_ids.push_back(a_node.attribute("id").value());
+    }
+  }
+
+  // Fetch the html page with all notes for the current chapter.
+  url = "https://netbible.org/resource/netNotes/" + get_passage(false) + "?bible1Translation=net_strongs2";
   std::string notes = resource_logic_web_or_cache_get (url, error);
-  // If notes fail with an error, don't include the note text.
-  if (!error.empty ()) notes.clear ();
+  
+  // If fetching the notes fail with an error, don't include the note text.
+  if (!error.empty ())
+    return output;
 
   // It the verse contains no notes, the website returns an unusual message.
-  if (notes.find ("We are currently offline") != std::string::npos) notes.clear ();
+  if (notes.find ("We are currently offline") != std::string::npos)
+      return output;
 
-  // Deal with the following message:
+  // Deal with the following kind of messages:
   // Warning Message
   // An error was detected which prevented the loading of this page. If this problem persists, please contact the website administrator.
   // libraries/DB_Bible.php [780]:
   // Invalid argument supplied for foreach()
   // Loaded in 0.0303 seconds, using 0.59MB of memory. Generated by Kohana v2.3.4.
   // This error contains so much additional code, that the entire Bibledit program gets confused.
-  if (notes.find ("Warning Message") != std::string::npos) notes.clear ();
+  if (notes.find ("Kohana") != std::string::npos)
+      return output;
 
   // The "bibleref" class experiences interference from other resources,
   // so that the reference would become invisible.
   // Remove this class, and the references will remain visible.
   notes = filter::strings::replace ("class=\"bibleref\"", "", notes);
-  
-  output += notes;
-  
+
+  // Go over the notes from identifiers fetched above.
+  // For each note, calculate the ID.
+  // Using XPath, fetch the id, get a few parents, print it to html and add it to the output.
+  // That's all.
+
+  // One note, note number 1, looks simular to this:
+  // <div class="note">
+  //  <sup>
+  //    <span class="noteNoteSuper" id="note_1">1</span>&nbsp;
+  //  </sup>
+  //  <span class="notetype">tn</span>
+  //  The noun <span class="greek">βίβλος</span>
+  //  (
+  //  <span class="translit">biblos</span>
+  //  ), rest of the note...
+  // </div>
+  pugi::xml_document notes_doc;
+  pugi::xml_parse_result result = notes_doc.load_string (notes.c_str(), pugi::parse_ws_pcdata);
+  pugixml_utils_error_logger (&result, notes);
+  for (const auto& id : note_ids) {
+    // The note ID comes from the canonical text. It looks like: noteSuper_1_Matthew_2
+    // So split it on the underscores and take the second value in the array.
+    // In this case it is the "1".
+    const auto bits = filter::strings::explode (id, '_');
+    if (bits.size() != 4) {
+      output.append("<p>Note not found<p>");
+      continue;
+    }
+    const std::string note_id = "note_" + bits.at(1);
+    const std::string selector = "//span[@id='" + note_id + "']";
+    pugi::xpath_node_set nodeset = notes_doc.select_nodes(selector.c_str());
+    for (const auto span: nodeset) {
+      const auto div = span.node().parent().parent();
+      std::stringstream ss {};
+      div.print (ss, "", pugi::format_raw);
+      output.append(filter::strings::unescape_special_xml_characters(std::move(ss).str()));
+    }
+  }
+
+  // Done.
   return output;
 }
 

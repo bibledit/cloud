@@ -716,7 +716,8 @@ TEST (scraper, studylight_thomas_constable)
 TEST (scraper, net_bible)
 {
   using ::testing::HasSubstr;
-  constexpr int hebrews {58};
+  constexpr int hebrews {58}; // Book consisting of one word.
+  constexpr int three_john {64}; // Book with a space in its name.
   const char* net_bible {resource_external_net_bible_name()};
   {
     std::string result = resource_external_cloud_fetch_cache_extract (net_bible, hebrews, 2, 3);
@@ -729,6 +730,12 @@ TEST (scraper, net_bible)
     result = filter::strings::html2text (std::move(result));
     EXPECT_THAT(result, HasSubstr("various miracles and gifts of the Holy Spirit")); // Canonical text.
     EXPECT_THAT(result, HasSubstr("and distributions of the Holy Spirit")); // Footnote.
+  }
+  {
+    const std::string result = resource_external_cloud_fetch_cache_extract (net_bible, three_john, 1, 4);
+    EXPECT_THAT(result, HasSubstr("living according to the truth")); // Text.
+    EXPECT_THAT(result, HasSubstr("ἵνα")); // Note 1.
+    EXPECT_THAT(result, HasSubstr("walking in (the) truth")); // Note 2.
   }
 }
 

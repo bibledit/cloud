@@ -830,46 +830,89 @@ std::string resource_external_get_net_bible (const int book, const int chapter, 
     return filter_url_urlencode (std::move(url));
   };
 
-  std::string url;
-  std::string error;
-
+  std::string text;
+  
   // This fetches the canonical text from the NET Bible API.
   // https://labs.bible.org/api_web_service
-  url = "https://labs.bible.org/api/?passage=" + get_passage(true) + "&formatting=para";
-  // It was tried to add "&type=xml" but this gives no XML, it gives an empty string.
-  std::string text = resource_logic_web_or_cache_get (url, error);
+  // This way of fetching the canonical text could lead to this:
+  // Sorry, you have been blocked
+  // You are unable to access bible.org
+  // Why have I been blocked?
+  // This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. ...
+  // So as a result, the text is not fetched here.
+  {
+    //std::string error;
+    //const std::string url = "https://labs.bible.org/api/?passage=" + get_passage(true) + "&formatting=para";
+    // It was tried to add "&type=xml" but this gives no XML, it gives an empty string.
+    //text = resource_logic_web_or_cache_get (url, error);
+  }
   
   // In case of an error, the result could include PHP code.
   // See https://github.com/bibledit/cloud/issues/579
   // In such a case the text contains "Kohana".
-  if (text.find("Kohana") != std::string::npos) text.clear();
+  //if (text.find("Kohana") != std::string::npos) text.clear();
+  
+  // The output to display.
+  std::string output{};
   
   // Add the canonical text to the output.
-  std::string output = std::move(text);
+  //std::string output = std::move(text);
 
   // Get the JSON with the canonical text.
-  // The purpose of this is to extract the footnote callers.
-  url = "https://netbible.org/resource/netTexts/" + get_passage(false) + "?bible1Translation=net_strongs2";
-  text = resource_logic_web_or_cache_get (url, error);
+  // The purpose of this is two-fold.
+  // 1. Extract the canonical text with footnote callers (as the above text does not have those).
+  // 2. Extract the footnote callers themselves.
+  {
+    std::string error;
+    const std::string url = "https://netbible.org/resource/netTexts/" + get_passage(false) + "?bible1Translation=net_strongs2";
+    text = resource_logic_web_or_cache_get (url, error);
+    
+    // Parse the incoming JSON and get the relevant html bit.
+    jsonxx::Object json;
+    json.parse (text);
+    text = json.get<jsonxx::String> ("bible1");
+
+    // The html obtained above is not well-formed.
+    // It cannot be loaded as an XML document without errors and missing text.
+    // Therefore the html is tidied first.
+    text = filter::strings::fix_invalid_html_tidy(std::move(text));
+  }
   
-  // Parse the incoming JSON and get the relevant html bit.
-  jsonxx::Object json;
-  json.parse (text);
-  text = json.get<jsonxx::String> ("bible1");
-  
-  // The html obtained above is not well-formed.
-  // It cannot be loaded as an XML document without errors and missing text.
-  // Therefore the html is tidied first.
-  text = filter::strings::fix_invalid_html_tidy(std::move(text));
+  // Parse the canonical text into an XML document.
+  pugi::xml_document text_doc;
+  pugi::xml_parse_result result = text_doc.load_string (text.c_str(), pugi::parse_ws_pcdata);
+  pugixml_utils_error_logger (&result, text);
+
+  // Obtain the node with the verse content.
+  // Example content:
+  // <span id="netText_3_John_1_2" alt="3_John_1_2" class="netVerse">
+  //   Dear friend, I pray that all may go well with you
+  //   and that you may be in good health, just as it is well with your soul.
+  //   <sup>
+  //     <a href="#" class="netNoteSuper" pos="1" data-book="3 John" data-chapter="1" data-verse="2" id="noteSuper_5_3_John_1">5</a>
+  //     &nbsp;
+  //   </sup>
+  // </span>
+  // If the name of the book has a space, like in "1 John", then replace this with an underscore.
+  {
+    std::string text_id = "netText_" + bookname + "_" + std::to_string(chapter) + "_" + std::to_string(verse);
+    text_id = filter::strings::replace (" ", "_", std::move(text_id));
+    const std::string selector = "//span[@id='" + text_id + "']";
+    pugi::xpath_node_set nodeset = text_doc.select_nodes(selector.c_str());
+    //if (!nodeset.empty())
+    //  output.clear();
+    for (const auto span: nodeset) {
+      std::stringstream ss {};
+      span.node().print (ss, "", pugi::format_raw);
+      output.append(filter::strings::unescape_special_xml_characters(std::move(ss).str()));
+    }
+  }
 
   // Container to store the footnote identifiers.
   std::vector<std::string> note_ids{};
   {
-    pugi::xml_document document;
-    pugi::xml_parse_result result = document.load_string (text.c_str(), pugi::parse_ws_pcdata);
-    pugixml_utils_error_logger (&result, text);
     constexpr const auto selector = "//sup";
-    pugi::xpath_node_set nodeset = document.select_nodes(selector);
+    pugi::xpath_node_set nodeset = text_doc.select_nodes(selector);
     for (const auto supnode: nodeset) {
       const auto a_node = supnode.node().child("a");
       if (const std::string data_chapter = a_node.attribute("data-chapter").value();
@@ -883,7 +926,8 @@ std::string resource_external_get_net_bible (const int book, const int chapter, 
   }
 
   // Fetch the html page with all notes for the current chapter.
-  url = "https://netbible.org/resource/netNotes/" + get_passage(false) + "?bible1Translation=net_strongs2";
+  std::string error;
+  const std::string url = "https://netbible.org/resource/netNotes/" + get_passage(false) + "?bible1Translation=net_strongs2";
   std::string notes = resource_logic_web_or_cache_get (url, error);
   
   // If fetching the notes fail with an error, don't include the note text.
@@ -904,11 +948,6 @@ std::string resource_external_get_net_bible (const int book, const int chapter, 
   if (notes.find ("Kohana") != std::string::npos)
       return output;
 
-  // The "bibleref" class experiences interference from other resources,
-  // so that the reference would become invisible.
-  // Remove this class, and the references will remain visible.
-  notes = filter::strings::replace ("class=\"bibleref\"", "", notes);
-
   // Go over the notes from identifiers fetched above.
   // For each note, calculate the ID.
   // Using XPath, fetch the id, get a few parents, print it to html and add it to the output.
@@ -926,14 +965,15 @@ std::string resource_external_get_net_bible (const int book, const int chapter, 
   //  ), rest of the note...
   // </div>
   pugi::xml_document notes_doc;
-  pugi::xml_parse_result result = notes_doc.load_string (notes.c_str(), pugi::parse_ws_pcdata);
+  result = notes_doc.load_string (notes.c_str(), pugi::parse_ws_pcdata);
   pugixml_utils_error_logger (&result, notes);
   for (const auto& id : note_ids) {
     // The note ID comes from the canonical text. It looks like: noteSuper_1_Matthew_2
+    // Or like: noteSuper_7_3_John_1
     // So split it on the underscores and take the second value in the array.
     // In this case it is the "1".
     const auto bits = filter::strings::explode (id, '_');
-    if (bits.size() != 4) {
+    if (bits.size() < 4) {
       output.append("<p>Note not found<p>");
       continue;
     }

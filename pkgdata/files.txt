@@ -58,13 +58,6 @@
 /collaboration/index.html
 /collaboration/link.html
 /collaboration/settings.html
-/coloris
-/coloris/coloris.css
-/coloris/coloris.js
-/coloris/coloris.min.css
-/coloris/coloris.min.js
-/coloris/examples.html
-/coloris/LICENSE
 /compare
 /compare/index.html
 /config

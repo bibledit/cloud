@@ -41,7 +41,6 @@ if [ $? -ne 0 ]; then exit; fi
 
 echo Removing files not to be processed.
 rm -rf autom4te.cache
-rm -rf coloris
 rm -rf developer
 rm -rf dtl
 rm -rf flate

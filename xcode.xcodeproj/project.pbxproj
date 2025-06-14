@@ -1917,7 +1917,6 @@
 		CAECA50A25EFDE1E00650B41 /* divider.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = divider.html; sourceTree = "<group>"; };
 		CAF563462729364E0093614C /* jquery.longpress.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.longpress.js; sourceTree = "<group>"; };
 		CAFA33C329269F1100474A52 /* libpugixml.1.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpugixml.1.12.dylib; path = ../../../../opt/local/lib/libpugixml.1.12.dylib; sourceTree = "<group>"; };
-		CAFD9257280DAD2C00345F1D /* coloris */ = {isa = PBXFileReference; lastKnownFileType = folder; path = coloris; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -1940,7 +1939,6 @@
 				CADE377624F173D4003165BB /* client */,
 				CADE475824F17BF4003165BB /* cloud-macos.entitlements */,
 				CADE380C24F173EB003165BB /* collaboration */,
-				CAFD9257280DAD2C00345F1D /* coloris */,
 				CADE381F24F173EB003165BB /* compare */,
 				CA47B2C925E8D957001370A4 /* config.h */,
 				CADE37F824F173EB003165BB /* config */,

@@ -34,6 +34,17 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <checks/settings.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#ifndef HAVE_PUGIXML
+#include <pugixml/pugixml.hpp>
+#endif
+#ifdef HAVE_PUGIXML
+#include <pugixml.hpp>
+#endif
+#pragma GCC diagnostic pop
 
 
 std::string checks_index_url ()
@@ -83,30 +94,51 @@ std::string checks_index (Webserver_Request& webserver_request)
   }
   
   
-  std::stringstream resultblock {};
+  pugi::xml_document document {};
   const std::vector <database::check::Hit>& hits = database::check::get_hits ();
   for (const auto& hit : hits) {
     std::string bible = hit.bible;
-    if (find (bibles.begin(), bibles.end (), bible) != bibles.end ()) {
-      const int id = hit.rowid;
-      bible = filter::strings::escape_special_xml_characters (bible);
-      int book = hit.book;
-      int chapter = hit.chapter;
-      int verse = hit.verse;
-      const std::string link = filter_passage_link_for_opening_editor_at (book, chapter, std::to_string (verse));
-      const std::string information = filter::strings::escape_special_xml_characters (hit.data);
-      resultblock << "<p>\n";
-      resultblock << "<a href=" << std::quoted("index?approve=" + std::to_string (id)) << "> ✔ </a>\n";
-      resultblock << "<a href=" << std::quoted ("index?delete=" + std::to_string (id)) << ">" << filter::strings::emoji_wastebasket () << "</a>\n";
-      resultblock << bible;
-      resultblock << " ";
-      resultblock << link;
-      resultblock << " ";
-      resultblock << information;
-      resultblock << "</p>\n";
+    if (find (bibles.begin(), bibles.end (), bible) == bibles.end ())
+      continue;
+    const int id = hit.rowid;
+    bible = filter::strings::escape_special_xml_characters (bible);
+    const int book = hit.book;
+    const int chapter = hit.chapter;
+    const int verse = hit.verse;
+    const std::string information = filter::strings::escape_special_xml_characters (hit.data);
+    pugi::xml_node p = document.append_child("p");
+    // Add the Bible.
+    p.append_child("span").text().set(bible.c_str());
+    // Add space.
+    p.append_child("span").text().set(" ");
+    // Add the link to open the passage in a Bible editor.
+    filter_passage_link_for_opening_editor_at (p, book, chapter, std::to_string (verse));
+    // Add space.
+    p.append_child("span").text().set(" ");
+    // Add the checking info.
+    p.append_child("span").text().set(information.c_str());
+    {
+      // Add link to approve this checking result.
+      pugi::xml_node a = p.append_child("a");
+      const std::string href = "index?approve=" + std::to_string (id);
+      a.append_attribute("href") = href.c_str();
+      const std::string text = " [" + translate("approve") + "]";
+      a.text ().set(text.c_str());
+    }
+    {
+      // Add link to delete this checking result.
+      pugi::xml_node a = p.append_child("a");
+      const std::string href = "index?delete=" + std::to_string (id);
+      a.append_attribute("href") = href.c_str();
+      const std::string text = " [" + translate("delete") + "] ";
+      a.text ().set(text.c_str());
     }
   }
-  view.set_variable ("resultblock", resultblock.str());
+  {
+    std::stringstream ss {};
+    document.print(ss, "", pugi::format_raw);
+    view.set_variable ("resultblock", std::move(ss).str());
+  }
 
   
   if (checks_settings_acl (webserver_request)) {

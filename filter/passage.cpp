@@ -449,23 +449,28 @@ std::vector <std::string> filter_passage_handle_sequences_ranges (const std::str
 }
 
 
-std::string filter_passage_link_for_opening_editor_at (int book, int chapter, std::string verse)
+void filter_passage_link_for_opening_editor_at (pugi::xml_node& node, int book, int chapter, std::string verse)
 {
-  std::string display = filter_passage_display (book, chapter, verse);
-  Passage passage = Passage ("", book, chapter, verse);
-  std::string numeric = std::to_string (filter_passage_to_integer (passage));
-  pugi::xml_document document;
-  pugi::xml_node a_node = document.append_child ("a");
+  const std::string display = filter_passage_display (book, chapter, verse);
+  const Passage passage = Passage ("", book, chapter, verse);
+  const std::string numeric = std::to_string (filter_passage_to_integer (passage));
+  pugi::xml_node a_node = node.append_child ("a");
   a_node.append_attribute("class") = "starteditor";
   a_node.append_attribute("href") = "nothing";
   a_node.append_attribute("passage") = numeric.c_str();
   a_node.text().set(display.c_str());
-  pugi::xml_node span_node = document.append_child("span");
+  pugi::xml_node span_node = node.append_child("span");
   span_node.text().set(" ");
+}
+
+
+std::string filter_passage_link_for_opening_editor_at (int book, int chapter, std::string verse)
+{
+  pugi::xml_document document;
+  filter_passage_link_for_opening_editor_at(document, book, chapter, verse);
   std::stringstream output;
   document.print (output, "", pugi::format_raw);
-  std::string link = output.str ();
-  return link;
+  return output.str ();
 }
 
 

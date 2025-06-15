@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Forward declaration.
 enum class book_id;
+namespace pugi { class xml_node; }
 
 class Passage
 {
@@ -48,5 +49,6 @@ std::string filter_passage_clean_passage (std::string text);
 Passage filter_passage_explode_passage (std::string text);
 Passage filter_passage_interpret_passage (Passage currentPassage, std::string rawPassage);
 std::vector <std::string> filter_passage_handle_sequences_ranges (const std::string& passage);
+void filter_passage_link_for_opening_editor_at (pugi::xml_node& node, int book, int chapter, std::string verse);
 std::string filter_passage_link_for_opening_editor_at (int book, int chapter, std::string verse);
 std::vector <int> filter_passage_get_ordered_books (const std::string& bible);

@@ -23,17 +23,24 @@
 #include <tasks/logic.h>
 
 
-void checks_logic_start_all ()
+namespace checks::logic {
+
+
+void start_all ()
 {
   const std::vector <std::string>& bibles = database::bibles::get_bibles ();
   for (const auto& bible : bibles) {
     const bool enabled = database::config::bible::get_daily_checks_enabled (bible);
-    if (enabled) checks_logic_start (bible);
+    if (enabled)
+      start (bible);
   }
 }
 
 
-void checks_logic_start (const std::string& bible)
+void start (const std::string& bible)
 {
   tasks_logic_queue (task::check_bible, {bible});
 }
+
+
+} // Namespace.

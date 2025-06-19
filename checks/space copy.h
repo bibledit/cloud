@@ -21,9 +21,13 @@
 
 #include <config/libraries.h>
 
-namespace checks::logic {
+namespace checks::space {
 
-void start_all ();
-void start (const std::string & bible);
+void double_space_usfm (const std::string & bible, int book, int chapter, int verse, const std::string & data);
+void space_before_punctuation (const std::string & bible, int book, int chapter, const std::map <int, std::string> & texts);
+void space_end_verse (const std::string & bible, int book, int chapter, const std::string & usfm);
+bool transpose_note_space (std::string & usfm);
+void space_before_final_note_markup (const std::string & bible, int book, int chapter, int verse, const std::string & data);
 
-} // Namespace.
+}
+

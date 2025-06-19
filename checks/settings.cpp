@@ -82,7 +82,7 @@ std::string checks_settings (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("run")) {
-    checks_logic_start (bible);
+    checks::logic::start (bible);
     view.set_variable ("success", translate("Will run the checks."));
     view.set_variable ("journal", journal_logic_see_journal_for_progress ());
   }

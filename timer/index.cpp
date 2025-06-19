@@ -142,7 +142,7 @@ void timer_index ()
       // Run the checks on the Bibles.
       // This takes 15 minutes on a production machine with two Bibles.
       if ((hour == 0) && (minute == 30)) {
-        checks_logic_start_all ();
+        checks::logic::start_all ();
       }
 #endif
 

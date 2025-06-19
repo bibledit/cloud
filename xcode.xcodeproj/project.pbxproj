@@ -111,6 +111,8 @@
 		CA47B2C925E8D957001370A4 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CA4AB3E32CB05EFC00071E3E /* scraper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scraper.cpp; sourceTree = "<group>"; };
 		CA4CA5432946111900939907 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../opt/local/lib/libiconv.2.dylib; sourceTree = "<group>"; };
+		CA63845E2E041ED800795321 /* issues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = issues.h; sourceTree = "<group>"; };
+		CA63845F2E041ED800795321 /* issues.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = issues.cpp; sourceTree = "<group>"; };
 		CA6A12CD26F782C600CDB5DB /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		CA6A12CE26F782C700CDB5DB /* image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
 		CA6A12CF26F79EC900CDB5DB /* stb */ = {isa = PBXFileReference; lastKnownFileType = folder; path = stb; sourceTree = "<group>"; };
@@ -2479,6 +2481,8 @@
 				CADE378624F173D4003165BB /* index.h */,
 				CADE378B24F173D4003165BB /* index.html */,
 				CADE379B24F173D4003165BB /* index.js */,
+				CA63845E2E041ED800795321 /* issues.h */,
+				CA63845F2E041ED800795321 /* issues.cpp */,
 				CADE379424F173D4003165BB /* logic.cpp */,
 				CADE37A324F173D4003165BB /* logic.h */,
 				CADE378524F173D4003165BB /* pairs.cpp */,

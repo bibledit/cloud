@@ -21,6 +21,7 @@
 #include <webserver/request.h>
 #include <filter/string.h>
 #include <locale/translate.h>
+#include <checks/issues.h>
 
 
 void Checks_Sentences::enter_capitals (const std::string& capitals)
@@ -135,41 +136,41 @@ void Checks_Sentences::check_character ()
     if (this->space_position > 0)
       if (this->current_position == this->space_position + 1)
         if (this->current_position == this->center_mark_position + 2)
-          this->add_result (translate ("Capital follows mid-sentence punctuation mark"), Checks_Sentences::skip_names);
+          this->add_result (checks::issues::text(checks::issues::issue::capital_follows_mid_sentence_punctuation_mark), Checks_Sentences::skip_names);
   
   
   // Handle a small letter straight after mid-sentence punctuation: ... He said,go ...
   if (this->is_small_letter)
     if (this->center_mark_position > 0)
       if (this->current_position == this->center_mark_position + 1)
-        this->add_result (translate ("Small letter follows straight after a mid-sentence punctuation mark"), Checks_Sentences::display_context);
+        this->add_result (checks::issues::text(checks::issues::issue::small_letter_follows_straight_after_a_mid_sentence_punctuation_mark), Checks_Sentences::display_context);
   
   
   // Handle a capital straight after mid-sentence punctuation: ... He said,Go ...
   if (this->is_capital)
     if (this->center_mark_position > 0)
       if (this->current_position == this->center_mark_position + 1)
-        this->add_result (translate ("Capital follows straight after a mid-sentence punctuation mark"), Checks_Sentences::display_context);
+        this->add_result (checks::issues::text(checks::issues::issue::capital_follows_straight_after_a_mid_sentence_punctuation_mark), Checks_Sentences::display_context);
   
   
   // Handle small letter or capital straight after end-sentence punctuation: He said.Go. // He said.go.
   if ((this->is_small_letter) || (this->is_capital))
     if (this->end_mark_position > 0)
       if (this->current_position == this->end_mark_position + 1)
-        this->add_result (translate ("A letter follows straight after an end-sentence punctuation mark"), Checks_Sentences::display_context);
+        this->add_result (checks::issues::text(checks::issues::issue::a_letter_follows_straight_after_an_end_sentence_punctuation_mark), Checks_Sentences::display_context);
   
   
   // Handle case of no capital after end-sentence punctuation: He did that. he went.
   if (this->is_small_letter)
     if (this->end_mark_position > 0)
       if (this->current_position == this->end_mark_position + 2)
-        this->add_result (translate ("No capital after an end-sentence punctuation mark"), Checks_Sentences::display_context);
+        this->add_result (checks::issues::text(checks::issues::issue::no_capital_after_an_end_sentence_punctuation_mark), Checks_Sentences::display_context);
   
   
   // Handle two punctuation marks in sequence.
   if (this->is_end_mark || this->is_center_mark)
     if (this->current_position == this->previous_mark_position + 1)
-      this->add_result (translate ("Two punctuation marks in sequence"), Checks_Sentences::display_context);
+      this->add_result (checks::issues::text(checks::issues::issue::two_punctuation_marks_in_sequence), Checks_Sentences::display_context);
   
 }
 
@@ -207,7 +208,7 @@ void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_st
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
         std::string context = verses_paragraph.begin()->second;
         context = filter::strings::unicode_string_substr (context, 0, 15);
-        checking_results.push_back (std::pair (verse, translate ("Paragraph does not start with a capital:") + " " + context));
+        checking_results.push_back (std::pair (verse, checks::issues::text(checks::issues::issue::paragraph_does_not_start_with_a_capital) + ": " + context));
       }
     }
     
@@ -244,7 +245,7 @@ void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_st
         if (length >= 15) {
           context = filter::strings::unicode_string_substr (context, length - 15, 15);
         }
-        checking_results.push_back (std::pair (verse, translate ("Paragraph does not end with an end marker:") + " " + context));
+        checking_results.push_back (std::pair (verse, checks::issues::text(checks::issues::issue::paragraph_does_not_end_with_an_end_marker) + ": " + context));
       }
     }
     
@@ -306,7 +307,7 @@ void Checks_Sentences::check_unknown_character ()
   if (is_small_letter) return;
   if (is_end_mark) return;
   if (is_center_mark) return;
-  add_result (translate ("Unknown character"), Checks_Sentences::display_character_only);
+  add_result (checks::issues::text(checks::issues::issue::unknown_character), Checks_Sentences::display_character_only);
 }
 
 

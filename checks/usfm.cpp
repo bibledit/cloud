@@ -27,6 +27,7 @@
 #include <database/bibleimages.h>
 #include <styles/logic.h>
 #include <locale/translate.h>
+#include <checks/issues.h>
 
 
 Checks_Usfm::Checks_Usfm (const std::string& bible)
@@ -146,7 +147,7 @@ void Checks_Usfm::finalize ()
 {
   // Check on unclosed markers.
   if (open_matching_markers.size () > 0) {
-    add_result (translate ("Unclosed markers:") + " " + filter::strings::implode (open_matching_markers, " "), display_nothing);
+    add_result (checks::issues::text(checks::issues::issue::unclosed_markers) + ": " + filter::strings::implode (open_matching_markers, " "), display_nothing);
   }
 }
 
@@ -203,7 +204,7 @@ void Checks_Usfm::malformed_verse_number ()
     std::string dirtyVerseNumber {};
     if (!v_dirtyVerseNumber.empty ()) dirtyVerseNumber = v_dirtyVerseNumber [0];
     if (cleanVerseNumber != dirtyVerseNumber) {
-      add_result (translate ("Malformed verse number"), display_full);
+      add_result (checks::issues::text(checks::issues::issue::malformed_verse_number), display_full);
     }
   }
 }
@@ -224,7 +225,7 @@ void Checks_Usfm::new_line_in_usfm (const std::string& usfm)
     if (position == 0) position = 1;
     std::string bit = usfm.substr (position - 1, 10);
     bit = filter::strings::replace ("\n", " ", bit);
-    add_result (translate ("New line within USFM:") + " " + bit, display_nothing);
+    add_result (checks::issues::text(checks::issues::issue::new_line_within_usfm) + ": " + bit, display_nothing);
   }
 }
 
@@ -241,7 +242,7 @@ void Checks_Usfm::marker_in_stylesheet ()
   }
   if (marker.empty()) return;
   if (in_array (marker, markers_stylesheet)) return;
-  add_result (translate ("Marker not in stylesheet"), Checks_Usfm::display_current);
+  add_result (checks::issues::text(checks::issues::issue::marker_not_in_stylesheet), Checks_Usfm::display_current);
 }
 
 
@@ -258,10 +259,10 @@ void Checks_Usfm::malformed_id ()
     if (!vid.empty ()) id = vid [0];
     book_id book = database::books::get_id_from_usfm (id);
     if (book == book_id::_unknown) {
-      add_result (translate ("Unknown ID"), display_full);
+      add_result (checks::issues::text(checks::issues::issue::unknown_id), display_full);
     } else {
       if (filter::strings::unicode_string_uppercase (id) != id) {
-        add_result (translate ("ID is not in uppercase"), display_full);
+        add_result (checks::issues::text(checks::issues::issue::id_is_not_in_uppercase), display_full);
       }
     }
   }
@@ -286,7 +287,7 @@ void Checks_Usfm::forward_slash (const std::string& usfm)
     }
     const std::string marker = bit.substr (1, 100);
     if (find (markers_stylesheet.begin(), markers_stylesheet.end(), marker) != markers_stylesheet.end ()) {
-      add_result (translate ("Forward slash instead of backslash:") + " " + bit, display_nothing);
+      add_result (checks::issues::text(checks::issues::issue::forward_slash_instead_of_backslash) + ": " + bit, display_nothing);
     }
   }
 }
@@ -297,7 +298,7 @@ void Checks_Usfm::widow_back_slash ()
   std::string marker = usfm_item;
   marker = filter::strings::trim (marker);
   if (marker.length() == 1) {
-    add_result (translate ("Widow backslash"), display_current);
+    add_result (checks::issues::text(checks::issues::issue::widow_backslash), display_current);
   }
 }
 
@@ -317,7 +318,7 @@ void Checks_Usfm::matching_endmarker ()
     return;
   if (is_opener) {
     if (in_array (marker, open_matching_markers)) {
-      add_result (translate ("Repeating opening marker"), Checks_Usfm::display_current);
+      add_result (checks::issues::text(checks::issues::issue::repeating_opening_marker), Checks_Usfm::display_current);
     } else {
       open_matching_markers.push_back (marker);
     }
@@ -325,7 +326,7 @@ void Checks_Usfm::matching_endmarker ()
     if (in_array (marker, open_matching_markers)) {
       open_matching_markers = filter::strings::array_diff (open_matching_markers, {marker});
     } else {
-      add_result (translate ("Closing marker does not match opening marker") + " " + filter::strings::implode (open_matching_markers, " "), display_current);
+      add_result (checks::issues::text(checks::issues::issue::closing_marker_does_not_match_opening_marker) + " " + filter::strings::implode (open_matching_markers, " "), display_current);
     }
   }
 }
@@ -378,7 +379,7 @@ void Checks_Usfm::embedded_marker ()
   
   if (checkEmbedding) {
     if (marker.substr (0, 1) != "+") {
-      add_result (translate ("Embedded marker requires a plus sign"), display_full);
+      add_result (checks::issues::text(checks::issues::issue::embedded_marker_requires_a_plus_sign), display_full);
     }
   }
 }
@@ -400,14 +401,14 @@ void Checks_Usfm::toc (std::string usfm)
     if (chapter_number == 0) {
       // Required: \toc1
       if (!toc1_present) {
-        add_result (translate ("The book lacks the marker for the verbose book name:") + " " + filter::usfm::get_opening_usfm (long_toc1_marker), display_nothing);
+        add_result (checks::issues::text(checks::issues::issue::the_book_lacks_the_marker_for_the_verbose_book_name) + ": " + filter::usfm::get_opening_usfm (long_toc1_marker), display_nothing);
       }
       // Required: \toc2
       if (!toc2_present) {
-        add_result (translate ("The book lacks the marker for the short book name:") + " " + filter::usfm::get_opening_usfm (short_toc2_marker), display_nothing);
+        add_result (checks::issues::text(checks::issues::issue::the_book_lacks_the_marker_for_the_short_book_name) + ": " + filter::usfm::get_opening_usfm (short_toc2_marker), display_nothing);
       }
     } else {
-      const std::string msg = translate ("The following marker belongs in chapter 0:") + " ";
+      const std::string msg = checks::issues::text(checks::issues::issue::the_following_marker_belongs_in_chapter_0) + ": ";
       // Required markers.
       if (toc1_present) {
         add_result (msg + filter::usfm::get_opening_usfm (long_toc1_marker), display_nothing);
@@ -431,16 +432,16 @@ void Checks_Usfm::figure ()
     std::string caption, alt, src, size, loc, copy, ref;
     filter::usfm::extract_fig (usfm, caption, alt, src, size, loc, copy, ref);
     if (src.empty()) {
-      add_result (translate ("Empty figure source:") + " " + usfm, display_nothing);
+      add_result (checks::issues::text(checks::issues::issue::empty_figure_source) + ": " + usfm, display_nothing);
     } else {
       const std::string image_contents = database::bible_images::get (src);
       if (image_contents.empty()) {
-        add_result (translate ("Could not find Bible image:") + " " + src, display_nothing);
+        add_result (checks::issues::text(checks::issues::issue::could_not_find_bible_image) + ": " + src, display_nothing);
       }
     }
     const size_t pos = usfm.find("“");
     if (pos != std::string::npos) {
-      add_result (translate ("Unusual quotation mark found:") + " " + usfm, display_nothing);
+      add_result (checks::issues::text(checks::issues::issue::unusual_quotation_mark_found) + ": " + usfm, display_nothing);
     }
   }
 }
@@ -519,7 +520,7 @@ void Checks_Usfm::empty_markup ()
   // Flag the following situation:
   // An opener is followed by a closer without intervening text.
   if (previous_is_opener && current_is_closer) {
-    add_result (translate ("Opening markup is followed by closing markup without intervening text:") + " " + empty_markup_previous_item + current_item, Checks_Usfm::display_nothing);
+    add_result (checks::issues::text(checks::issues::issue::opening_markup_is_followed_by_closing_markup_without_intervening_text) + ": " + empty_markup_previous_item + current_item, Checks_Usfm::display_nothing);
   }
 
   // Save the current item (markup or text) into the object for next iteration.
@@ -612,7 +613,7 @@ void Checks_Usfm::note ()
 
   // It has not passed the text for a correctly formatted note.
   // So add a message.
-  add_result (translate ("This sequence in the note does not look right:") + " " + usfm_item + next_item, display_nothing);
+  add_result (checks::issues::text(checks::issues::issue::this_sequence_in_the_note_does_not_look_right) + ": " + usfm_item + next_item, display_nothing);
 }
 
 

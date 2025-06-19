@@ -43,4 +43,7 @@ void start (const std::string& bible)
 }
 
 
+std::string text (const issue issue);
+
+
 } // Namespace.

@@ -305,6 +305,7 @@ libbibledit_a_SOURCES = \
 	checks/run.cpp \
 	checks/headers.cpp \
 	checks/index.cpp \
+	checks/issues.cpp \
 	checks/logic.cpp \
 	checks/sentences.cpp \
 	checks/settings.cpp \

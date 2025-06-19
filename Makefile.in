@@ -278,9 +278,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	changes/modifications.$(OBJEXT) changes/statistics.$(OBJEXT) \
 	sprint/burndown.$(OBJEXT) sprint/index.$(OBJEXT) \
 	checks/run.$(OBJEXT) checks/headers.$(OBJEXT) \
-	checks/index.$(OBJEXT) checks/logic.$(OBJEXT) \
-	checks/sentences.$(OBJEXT) checks/settings.$(OBJEXT) \
-	checks/settingspatterns.$(OBJEXT) \
+	checks/index.$(OBJEXT) checks/issues.$(OBJEXT) \
+	checks/logic.$(OBJEXT) checks/sentences.$(OBJEXT) \
+	checks/settings.$(OBJEXT) checks/settingspatterns.$(OBJEXT) \
 	checks/settingssentences.$(OBJEXT) checks/space.$(OBJEXT) \
 	checks/suppress.$(OBJEXT) checks/usfm.$(OBJEXT) \
 	checks/verses.$(OBJEXT) checks/versification.$(OBJEXT) \
@@ -508,9 +508,10 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	changes/$(DEPDIR)/manage.Po changes/$(DEPDIR)/modifications.Po \
 	changes/$(DEPDIR)/statistics.Po checks/$(DEPDIR)/french.Po \
 	checks/$(DEPDIR)/headers.Po checks/$(DEPDIR)/index.Po \
-	checks/$(DEPDIR)/logic.Po checks/$(DEPDIR)/pairs.Po \
-	checks/$(DEPDIR)/run.Po checks/$(DEPDIR)/sentences.Po \
-	checks/$(DEPDIR)/settings.Po checks/$(DEPDIR)/settingspairs.Po \
+	checks/$(DEPDIR)/issues.Po checks/$(DEPDIR)/logic.Po \
+	checks/$(DEPDIR)/pairs.Po checks/$(DEPDIR)/run.Po \
+	checks/$(DEPDIR)/sentences.Po checks/$(DEPDIR)/settings.Po \
+	checks/$(DEPDIR)/settingspairs.Po \
 	checks/$(DEPDIR)/settingspatterns.Po \
 	checks/$(DEPDIR)/settingssentences.Po \
 	checks/$(DEPDIR)/space.Po checks/$(DEPDIR)/suppress.Po \
@@ -1413,6 +1414,7 @@ libbibledit_a_SOURCES = \
 	checks/run.cpp \
 	checks/headers.cpp \
 	checks/index.cpp \
+	checks/issues.cpp \
 	checks/logic.cpp \
 	checks/sentences.cpp \
 	checks/settings.cpp \
@@ -2843,6 +2845,8 @@ checks/headers.$(OBJEXT): checks/$(am__dirstamp) \
 	checks/$(DEPDIR)/$(am__dirstamp)
 checks/index.$(OBJEXT): checks/$(am__dirstamp) \
 	checks/$(DEPDIR)/$(am__dirstamp)
+checks/issues.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
 checks/logic.$(OBJEXT): checks/$(am__dirstamp) \
 	checks/$(DEPDIR)/$(am__dirstamp)
 checks/sentences.$(OBJEXT): checks/$(am__dirstamp) \
@@ -3844,6 +3848,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/french.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/headers.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/issues.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/pairs.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/run.Po@am__quote@ # am--include-marker
@@ -5045,6 +5050,7 @@ distclean: distclean-am
 	-rm -f checks/$(DEPDIR)/french.Po
 	-rm -f checks/$(DEPDIR)/headers.Po
 	-rm -f checks/$(DEPDIR)/index.Po
+	-rm -f checks/$(DEPDIR)/issues.Po
 	-rm -f checks/$(DEPDIR)/logic.Po
 	-rm -f checks/$(DEPDIR)/pairs.Po
 	-rm -f checks/$(DEPDIR)/run.Po
@@ -5736,6 +5742,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f checks/$(DEPDIR)/french.Po
 	-rm -f checks/$(DEPDIR)/headers.Po
 	-rm -f checks/$(DEPDIR)/index.Po
+	-rm -f checks/$(DEPDIR)/issues.Po
 	-rm -f checks/$(DEPDIR)/logic.Po
 	-rm -f checks/$(DEPDIR)/pairs.Po
 	-rm -f checks/$(DEPDIR)/run.Po

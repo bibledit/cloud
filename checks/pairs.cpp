@@ -23,6 +23,7 @@
 #include <database/check.h>
 #include <locale/translate.h>
 #include <checks/french.h>
+#include <checks/issues.h>
 
 
 void checks_pairs::run (const std::string& bible, int book, int chapter,
@@ -76,8 +77,8 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
           mismatch = true;
         }
         if (mismatch) {
-          const std::string fragment1 = translate ("Closing character");
-          const std::string fragment2 = translate ("without its matching opening character");
+          const std::string fragment1 = checks::issues::text(checks::issues::issue::closing_character);
+          const std::string fragment2 = checks::issues::text(checks::issues::issue::without_its_matching_opening_character);
           std::stringstream message {};
           message << fragment1 << " " << std::quoted(character) << " " << fragment2 << " " << std::quoted(opener);
           database::check::record_output (bible, book, chapter, verse, message.str());
@@ -91,8 +92,8 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
     int verse = verses [i];
     const std::string opener = opened [i];
     const std::string closer = match (opener, pairs);
-    const std::string fragment1 = translate ("Opening character");
-    const std::string fragment2 = translate ("without its matching closing character");
+    const std::string fragment1 = checks::issues::text(checks::issues::issue::opening_character);
+    const std::string fragment2 = checks::issues::text(checks::issues::issue::without_its_matching_closing_character);
     std::stringstream message {};
     message << fragment1 << " " << std::quoted(opener) << " " << fragment2 << " " << std::quoted(closer);
     database::check::record_output (bible, book, chapter, verse, message.str());

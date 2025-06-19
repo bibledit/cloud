@@ -24,6 +24,7 @@
 #include <database/config/bible.h>
 #include <database/check.h>
 #include <locale/translate.h>
+#include <checks/issues.h>
 
 
 void checks_versification::books (const std::string& bible, const std::vector <int> & books)
@@ -35,10 +36,10 @@ void checks_versification::books (const std::string& bible, const std::vector <i
   const std::vector <int> absentBooks = filter::strings::array_diff (standardBooks, books);
   const std::vector <int> extraBooks = filter::strings::array_diff (books, standardBooks);
   for (auto book : absentBooks) {
-    database::check::record_output (bible, book, 1, 1, translate ("This book is absent from the Bible"));
+    database::check::record_output (bible, book, 1, 1, checks::issues::text(checks::issues::issue::this_book_is_absent_from_the_bible));
   }
   for (auto book : extraBooks) {
-    database::check::record_output (bible, book, 1, 1, translate ("This book is extra in the Bible"));
+    database::check::record_output (bible, book, 1, 1, checks::issues::text(checks::issues::issue::this_book_is_extra_in_the_bible));
   }
 }
 
@@ -52,10 +53,10 @@ void checks_versification::chapters (const std::string& bible, int book, const s
   const std::vector <int> absentChapters = filter::strings::array_diff (standardChapters, chapters);
   const std::vector <int> extraChapters = filter::strings::array_diff (chapters, standardChapters);
   for (auto chapter : absentChapters) {
-    database::check::record_output (bible, book, chapter, 1, translate ("This chapter is missing"));
+    database::check::record_output (bible, book, chapter, 1, checks::issues::text(checks::issues::issue::this_chapter_is_missing));
   }
   for (auto chapter : extraChapters) {
-    database::check::record_output (bible, book, chapter, 1, translate ("This chapter is extra"));
+    database::check::record_output (bible, book, chapter, 1, checks::issues::text(checks::issues::issue::this_chapter_is_extra));
   }
 }
 
@@ -71,11 +72,11 @@ void checks_versification::verses (const std::string& bible, int book, int chapt
   const std::vector <int> absentVerses = filter::strings::array_diff (standardVerses, verses);
   const std::vector <int> extraVerses = filter::strings::array_diff (verses, standardVerses);
   for (auto verse : absentVerses) {
-    database::check::record_output (bible, book, chapter, verse, translate ("This verse is missing according to the versification system"));
+    database::check::record_output (bible, book, chapter, verse, checks::issues::text(checks::issues::issue::this_verse_is_missing_according_to_the_versification_system));
   }
   for (auto verse : extraVerses) {
     //if ((chapter == 0) && (verse == 0)) continue;
-    database::check::record_output (bible, book, chapter, verse, translate ("This verse is extra according to the versification system"));
+    database::check::record_output (bible, book, chapter, verse, checks::issues::text(checks::issues::issue::this_verse_is_extra_according_to_the_versification_system));
   }
   // Look for verses out of order.
   int previousVerse {0};
@@ -83,7 +84,7 @@ void checks_versification::verses (const std::string& bible, int book, int chapt
     int verse = verses[i];
     if (i > 0) {
       if (verse != (previousVerse + 1)) {
-        database::check::record_output (bible, book, chapter, verse, translate ("The verse is out of sequence"));
+        database::check::record_output (bible, book, chapter, verse, checks::issues::text(checks::issues::issue::the_verse_is_out_of_sequence));
       }
     }
     previousVerse = verse;

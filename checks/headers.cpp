@@ -21,6 +21,7 @@
 #include <filter/string.h>
 #include <database/check.h>
 #include <locale/translate.h>
+#include <checks/issues.h>
 
 
 void checks_headers::no_punctuation_at_end (const std::string& bible, int book, int chapter,
@@ -28,18 +29,22 @@ void checks_headers::no_punctuation_at_end (const std::string& bible, int book, 
                                             const std::string& centermarks, const std::string& endmarks)
 {
   for (const auto & element : headings) {
-    int verse = element.first;
+    const int verse = element.first;
     const std::string heading = element.second;
     // Full stops often occur in the inspired headings of many Psalms in verse 0.
     // Skip these.
-    if ((book == 19) && (verse == 0)) continue;
+    if ((book == 19) && (verse == 0))
+      continue;
     std::string last_character {};
-    if (!heading.empty ()) last_character = heading.substr (heading.size () - 1);
+    if (!heading.empty ())
+      last_character = heading.substr (heading.size () - 1);
     bool message {false};
-    if (centermarks.find (last_character) != std::string::npos) message = true;
-    if (endmarks.find (last_character) != std::string::npos) message = true;
+    if (centermarks.find (last_character) != std::string::npos)
+      message = true;
+    if (endmarks.find (last_character) != std::string::npos)
+      message = true;
     if (message) {
-      database::check::record_output (bible, book, chapter, verse, translate ("Punctuation at end of heading:") + " " + heading);
+      database::check::record_output (bible, book, chapter, verse, checks::issues::text(checks::issues::issue::punctuation_at_end_of_heading) + ": " + heading);
     }
   }
 }

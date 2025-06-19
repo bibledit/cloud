@@ -36,7 +36,7 @@ TEST (checks, space)
   
   // Test reporting space at end of verse: No spaces here.
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     std::string usfm =
     "\\v 2 This is verse 2.\n"
     "\\v 3 This is verse 3.\n"
@@ -48,7 +48,7 @@ TEST (checks, space)
 
   // Test reporting space at end of verse: One space here.
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     std::string usfm =
     "\\v 4 This is verse 4. \n"
     ;
@@ -63,7 +63,7 @@ TEST (checks, space)
   // So in the pure text stream, the space is at the end of a verse.
   // Check that it gets reported.
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     std::string usfm =
     "\\v 5 This is verse \\add 5. \\add*\n"
     ;
@@ -74,7 +74,7 @@ TEST (checks, space)
   
   // Test there's no space in the cleaned text at the end of the verse.
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     std::string usfm =
     "\\v 6 This is verse \\add 6.\\add*\n"
     ;
@@ -85,7 +85,7 @@ TEST (checks, space)
   
   // Check that it catches a double space in USFM.
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     std::string usfm = R"(\v 1 This contains  a double space.)";
     checks::space::double_space_usfm (bible, 2, 3, 4, usfm);
     std::vector <database::check::Hit> hits = database::check::get_hits ();
@@ -110,7 +110,7 @@ TEST (checks, space)
   
   // Check on a space before final note and cross reference markup.
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     int verse = 4;
     std::string usfm = R"(\v 1 Note \f ... \f*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
@@ -118,7 +118,7 @@ TEST (checks, space)
     EXPECT_EQ (1, hits.size ());
   }
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     int verse = 5;
     std::string usfm = R"(\v 2 Endnote \fe ... \fe*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
@@ -126,7 +126,7 @@ TEST (checks, space)
     EXPECT_EQ (1, hits.size ());
   }
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     int verse = 6;
     std::string usfm = R"(\v 3 Cross reference \x ... \x*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);

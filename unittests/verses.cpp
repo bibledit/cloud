@@ -53,7 +53,7 @@ TEST (verses, basic)
       EXPECT_EQ ("No punctuation at end of verse: y", hit.data);
     }
   }
-  database::check::truncate_output ("");
+  database::check::delete_output ("");
   // Test Pattern
   {
     std::map <int, std::string> verses = {
@@ -74,7 +74,7 @@ TEST (verses, basic)
       EXPECT_EQ ("Pattern found in text: did", hit.data);
     }
   }
-  database::check::truncate_output ("");
+  database::check::delete_output ("");
   // Test Pattern
   {
     std::map <int, std::string> verses = {
@@ -86,7 +86,7 @@ TEST (verses, basic)
     std::vector <database::check::Hit> results = database::check::get_hits ();
     EXPECT_EQ (0, static_cast<int>(results.size()));
   }
-  database::check::truncate_output ("");
+  database::check::delete_output ("");
   // Test Pattern
   {
     std::map <int, std::string> verses = {
@@ -114,7 +114,7 @@ TEST (verses, basic)
       EXPECT_EQ ("Pattern found in text: said", hit.data);
     }
   }
-  database::check::truncate_output ("");
+  database::check::delete_output ("");
 }
 
 #endif

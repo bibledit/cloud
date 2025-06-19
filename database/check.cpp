@@ -86,22 +86,6 @@ void optimize ()
 }
 
 
-// This trunctates, that is, deletes, all entries for the given Bible.
-// If the Bible is left empty, then it truncates all entries.
-void truncate_output (const std::string& bible)
-{
-  SqliteDatabase sql (database_name);
-  if (bible.empty()) {
-    sql.add ("DELETE FROM output2;");
-  } else {
-    sql.add ("DELETE FROM output2 WHERE bible =");
-    sql.add (bible);
-    sql.add (";");
-  }
-  sql.execute ();
-}
-
-
 void record_output (const std::string& bible, int book, int chapter, int verse, std::string data)
 {
   SqliteDatabase sql (database_name);
@@ -219,12 +203,28 @@ void approve (int id)
 }
 
 
-void erase (int id)
+void delete_id (int id)
 {
   SqliteDatabase sql (database_name);
   sql.add ("DELETE FROM output2 WHERE rowid =");
   sql.add (id);
   sql.add (";");
+  sql.execute ();
+}
+
+
+// This deletes all entries for the given Bible.
+// If the Bible is left empty, then it deletes all entries.
+void delete_output (const std::string& bible)
+{
+  SqliteDatabase sql (database_name);
+  if (bible.empty()) {
+    sql.add ("DELETE FROM output2;");
+  } else {
+    sql.add ("DELETE FROM output2 WHERE bible =");
+    sql.add (bible);
+    sql.add (";");
+  }
   sql.execute ();
 }
 

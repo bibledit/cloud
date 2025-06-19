@@ -294,7 +294,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
       database::config::bible::set_daily_checks_enabled (bible, checked);
       if (!checked) {
         // If checking is switched off, also remove any existing checking results for this Bible.
-        database::check::truncate_output(bible);
+        database::check::delete_output(bible);
       }
     }
   }

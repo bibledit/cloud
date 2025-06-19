@@ -59,7 +59,7 @@ void checks_run (std::string bible)
   Database_Logs::log ("Check " + bible + ": Start", roles::translator);
   
   
-  database::check::truncate_output (bible);
+  database::check::delete_output (bible);
   
   
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);

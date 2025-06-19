@@ -75,14 +75,14 @@ std::string checks_index (Webserver_Request& webserver_request)
   
                         
   if (webserver_request.query.count ("delete")) {
-    const int erase = filter::strings::convert_to_int (webserver_request.query["delete"]);
-    database::check::erase (erase);
+    const int id = filter::strings::convert_to_int (webserver_request.query["delete"]);
+    database::check::delete_id (id);
     view.set_variable ("success", translate("The entry was deleted for just now."));
   }
 
   
   if (webserver_request.query.count ("deleteall")) {
-    database::check::truncate_output(std::string());
+    database::check::delete_output(std::string());
   }
 
   

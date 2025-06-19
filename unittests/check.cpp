@@ -52,7 +52,7 @@ TEST (database, check)
     hits = database::check::get_hits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
     
-    database::check::truncate_output ("");
+    database::check::delete_output ("");
     hits = database::check::get_hits ();
     EXPECT_EQ (0, static_cast<int> (hits.size()));
   }
@@ -111,8 +111,8 @@ TEST (database, check)
     database::check::record_output ("phpunit", 3, 4, 5, "test2");
     std::vector <database::check::Hit> hits = database::check::get_hits ();
     EXPECT_EQ (2, static_cast<int> (hits.size()));
-    int id = hits [0].rowid;
-    database::check::erase (id);
+    const int id = hits [0].rowid;
+    database::check::delete_id (id);
     hits = database::check::get_hits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
   }

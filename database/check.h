@@ -38,11 +38,11 @@ struct Hit
 
 void create ();
 void optimize ();
-void truncate_output (const std::string& bible);
 void record_output (const std::string& bible, int book, int chapter, int verse, std::string data);
 std::vector <Hit> get_hits ();
 void approve (int id);
-void erase (int id);
+void delete_id (int id);
+void delete_output (const std::string& bible);
 Passage get_passage (int id);
 std::vector <Hit> get_suppressions ();
 void release (int id);

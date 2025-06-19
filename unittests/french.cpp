@@ -41,7 +41,7 @@ TEST (checks, french)
   
   // Test reporting lacking no-break space at French square brackets and other punctuation.
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     std::map <int, std::string> texts;
     texts [1] = "This is «French» text.";
     texts [2] = "This is « French » text.";
@@ -80,7 +80,7 @@ TEST (checks, french)
   
   // Test French citation style.
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     std::string usfm = R"(
 \c 1
 \p
@@ -124,7 +124,7 @@ TEST (checks, french)
   
   // Real-life data, fixed, regression test.
   {
-    database::check::truncate_output (bible);
+    database::check::delete_output (bible);
     // In the example following, there is the « in the beginning of the verse 13, it needs to begin a new paragraph, or be considered as an extra «, but the checks don't find it.
     std::string usfm = R"(
 \p

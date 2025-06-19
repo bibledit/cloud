@@ -53,7 +53,7 @@ TEST (checks, pairs)
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database::check::get_hits ();
     EXPECT_EQ (0, results.size());
-    database::check::truncate_output ("");
+    database::check::delete_output ("");
   }
 
   {
@@ -65,7 +65,7 @@ TEST (checks, pairs)
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database::check::get_hits ();
     EXPECT_EQ (0, results.size());
-    database::check::truncate_output ("");
+    database::check::delete_output ("");
   }
 
   {
@@ -88,7 +88,7 @@ TEST (checks, pairs)
       hit = results[1];
       EXPECT_EQ ("Opening character \"(\" without its matching closing character \")\"", hit.data);
     }
-    database::check::truncate_output ("");
+    database::check::delete_output ("");
   }
 
   {
@@ -112,7 +112,7 @@ TEST (checks, pairs)
       EXPECT_EQ (2, hit.verse);
       EXPECT_EQ (R"(Opening character "[" without its matching closing character "]")", hit.data);
     }
-    database::check::truncate_output ("");
+    database::check::delete_output ("");
   }
 }
 

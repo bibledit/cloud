@@ -86,10 +86,12 @@ void optimize ()
 }
 
 
+// This trunctates, that is, deletes, all entries for the given Bible.
+// If the Bible is left empty, then it truncates all entries.
 void truncate_output (const std::string& bible)
 {
   SqliteDatabase sql (database_name);
-  if (bible == "") {
+  if (bible.empty()) {
     sql.add ("DELETE FROM output2;");
   } else {
     sql.add ("DELETE FROM output2 WHERE bible =");

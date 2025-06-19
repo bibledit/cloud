@@ -61,10 +61,9 @@ bool checks_index_acl (Webserver_Request& webserver_request)
 
 std::string checks_index (Webserver_Request& webserver_request)
 {
-  std::string page {};
   Assets_Header header = Assets_Header (translate("Checks"), webserver_request);
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
-  page = header.run ();
+  std::string page = header.run ();
   Assets_View view {};
   
 
@@ -79,6 +78,11 @@ std::string checks_index (Webserver_Request& webserver_request)
     const int erase = filter::strings::convert_to_int (webserver_request.query["delete"]);
     database::check::erase (erase);
     view.set_variable ("success", translate("The entry was deleted for just now."));
+  }
+
+  
+  if (webserver_request.query.count ("deleteall")) {
+    database::check::truncate_output(std::string());
   }
 
   

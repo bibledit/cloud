@@ -716,8 +716,8 @@ TEST (scraper, studylight_thomas_constable)
 TEST (scraper, net_bible)
 {
   using ::testing::HasSubstr;
-  constexpr int hebrews {58}; // Book consisting of one word.
-  constexpr int three_john {64}; // Book with a space in its name.
+  constexpr int hebrews {static_cast<int>(book_id::_hebrews)}; // Book consisting of one word.
+  constexpr int three_john {static_cast<int>(book_id::_3_john)}; // Book with a space in its name.
   const char* net_bible {resource_external_net_bible_name()};
   {
     std::string result = resource_external_cloud_fetch_cache_extract (net_bible, hebrews, 2, 3);

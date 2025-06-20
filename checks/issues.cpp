@@ -27,7 +27,6 @@ namespace checks::issues {
 std::string text (const issue issue)
 {
   switch (issue) {
-    case issue::start_boundary:
     case issue::should_be_followed_by_a_no_break_space_rather_than_a_plain_space_in_french:
       return translate ("Should be followed by a no-break space rather than a plain space in French");
     case issue::should_be_followed_by_a_no_break_space_in_french:
@@ -146,6 +145,7 @@ std::string text (const issue issue)
       return translate ("This verse is extra according to the versification system");
     case issue::the_verse_is_out_of_sequence:
       return translate ("The verse is out of sequence");
+    case issue::start_boundary:
     case issue::stop_boundary:
     default:
       return std::string();

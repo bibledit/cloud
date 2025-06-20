@@ -1831,7 +1831,7 @@
 		CADE445124F174BE003165BB /* paratext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = paratext.cpp; sourceTree = "<group>"; };
 		CADE445424F174BE003165BB /* workspaces.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = workspaces.cpp; sourceTree = "<group>"; };
 		CADE445524F174BE003165BB /* bibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibles.cpp; sourceTree = "<group>"; };
-		CADE445724F174BE003165BB /* check.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = check.cpp; sourceTree = "<group>"; };
+		CADE445724F174BE003165BB /* checks.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = checks.cpp; sourceTree = "<group>"; };
 		CADE445924F174BE003165BB /* rss.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rss.cpp; sourceTree = "<group>"; };
 		CADE44BA24F174BF003165BB /* shell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shell.cpp; sourceTree = "<group>"; };
 		CADE44BC24F174BF003165BB /* json.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = json.cpp; sourceTree = "<group>"; };
@@ -4516,7 +4516,7 @@
 				CADE445524F174BE003165BB /* bibles.cpp */,
 				CADE441A24F174BE003165BB /* books.cpp */,
 				CADE441E24F174BE003165BB /* cache.cpp */,
-				CADE445724F174BE003165BB /* check.cpp */,
+				CADE445724F174BE003165BB /* checks.cpp */,
 				CADE42E724F174BD003165BB /* checksum.cpp */,
 				CADE42DD24F174BD003165BB /* client.cpp */,
 				CADE442A24F174BE003165BB /* config.cpp */,

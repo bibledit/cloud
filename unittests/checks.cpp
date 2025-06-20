@@ -28,9 +28,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <database/bibles.h>
 #include <filter/passage.h>
+#include <checks/issues.h>
 
 
-TEST (database, check)
+TEST (checks, database)
 {
   {
     // Test optimize.
@@ -145,5 +146,24 @@ TEST (database, check)
     EXPECT_EQ (12, static_cast<int> (hits.size()));
   }
 }
+
+
+// Check that each issue has a translation.
+// Check there's no duplicate translations.
+TEST (checks, issues)
+{
+  using namespace checks::issues;
+  constexpr auto start {static_cast<int>(issue::start_boundary)};
+  constexpr auto stop {static_cast<int>(issue::stop_boundary)};
+  std::set<std::string> translations;
+  for (int i {start + 1}; i < stop; i++) {
+    const auto issue = static_cast<enum issue>(i);
+    const auto translation = text(issue);
+    EXPECT_FALSE(translation.empty());
+    EXPECT_FALSE(translations.count(translation));
+    translations.insert(translation);
+  }
+}
+
 
 #endif

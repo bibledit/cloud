@@ -619,7 +619,7 @@ unittest_SOURCES = \
 	unittests/config.cpp \
 	unittests/log.cpp \
 	unittests/books.cpp \
-	unittests/check.cpp \
+	unittests/checks.cpp \
 	unittests/localization.cpp \
 	unittests/confirm.cpp \
 	unittests/jobs.cpp \

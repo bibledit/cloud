@@ -37,7 +37,7 @@ std::string text (const issue issue)
     case issue::should_be_preceded_by_a_no_break_space_in_french:
       return translate ("Should be preceded by a no-break space in French");
     case issue::the_previous_paragraph_contains_a_citation_not_closed_with_a_right_guillemet_therefore_the_current_paragraph_is_expected_to_start_with_a_left_guillemet_to_continue_that_citation_in_french:
-      return ("The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French");
+      return translate ("The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French");
     case issue::the_paragraph_contains_more_left_guillements_than_needed:
       return translate ("The paragraph contains more left guillements than needed");
     case issue::the_paragraph_contains_more_right_guillements_than_needed:
@@ -129,23 +129,23 @@ std::string text (const issue issue)
     case issue::this_sequence_in_the_note_does_not_look_right:
       return translate ("This sequence in the note does not look right");
     case issue::no_punctuation_at_end_of_verse:
-      translate ("No punctuation at end of verse");
+      return translate ("No punctuation at end of verse");
     case issue::pattern_found_in_text:
-      translate ("Pattern found in text");
+      return translate ("Pattern found in text");
     case issue::this_book_is_absent_from_the_bible:
-      translate ("This book is absent from the Bible");
+      return translate ("This book is absent from the Bible");
     case issue::this_book_is_extra_in_the_bible:
-      translate ("This book is extra in the Bible");
+      return translate ("This book is extra in the Bible");
     case issue::this_chapter_is_missing:
-      translate ("This chapter is missing");
+      return translate ("This chapter is missing");
     case issue::this_chapter_is_extra:
-      translate ("This chapter is extra");
+      return translate ("This chapter is extra");
     case issue::this_verse_is_missing_according_to_the_versification_system:
-      translate ("This verse is missing according to the versification system");
+      return translate ("This verse is missing according to the versification system");
     case issue::this_verse_is_extra_according_to_the_versification_system:
-      translate ("This verse is extra according to the versification system");
+      return translate ("This verse is extra according to the versification system");
     case issue::the_verse_is_out_of_sequence:
-      translate ("The verse is out of sequence");
+      return translate ("The verse is out of sequence");
     case issue::stop_boundary:
     default:
       return std::string();

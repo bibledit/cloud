@@ -580,11 +580,9 @@ unittest_SOURCES = \
 	unittests/usfm-html.cpp \
 	unittests/workspaces.cpp \
 	unittests/client.cpp \
-	unittests/sentences.cpp \
 	unittests/versification.cpp \
 	unittests/usfm.cpp \
 	unittests/verses.cpp \
-	unittests/pairs.cpp \
 	unittests/paratext.cpp \
 	unittests/hyphenate.cpp \
 	unittests/search.cpp \
@@ -595,7 +593,6 @@ unittest_SOURCES = \
 	unittests/memory.cpp \
 	unittests/tasks.cpp \
 	unittests/rss.cpp \
-	unittests/space.cpp \
 	unittests/roles.cpp \
 	unittests/md5.cpp \
 	unittests/string.cpp \
@@ -644,7 +641,6 @@ unittest_SOURCES = \
 	unittests/statistics.cpp \
 	unittests/webview.cpp \
 	unittests/javascript.cpp \
-	unittests/french.cpp \
 	unittests/merge.cpp \
 	unittests/html2format.cpp \
 	unittests/bibleimages.cpp \

@@ -45,6 +45,7 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
+#include <checks/issues.h>
 
 
 std::string checks_index_url ()
@@ -96,52 +97,119 @@ std::string checks_index (Webserver_Request& webserver_request)
       }
     }
   }
+
   
-  
-  pugi::xml_document document {};
-  const std::vector <database::check::Hit>& hits = database::check::get_hits ();
-  for (const auto& hit : hits) {
-    std::string bible = hit.bible;
-    if (find (bibles.begin(), bibles.end (), bible) == bibles.end ())
-      continue;
-    const int id = hit.rowid;
-    bible = filter::strings::escape_special_xml_characters (bible);
-    const int book = hit.book;
-    const int chapter = hit.chapter;
-    const int verse = hit.verse;
-    const std::string information = filter::strings::escape_special_xml_characters (hit.data);
-    pugi::xml_node p = document.append_child("p");
-    // Add the Bible.
-    p.append_child("span").text().set(bible.c_str());
-    // Add space.
-    p.append_child("span").text().set(" ");
-    // Add the link to open the passage in a Bible editor.
-    filter_passage_link_for_opening_editor_at (p, book, chapter, std::to_string (verse));
-    // Add space.
-    p.append_child("span").text().set(" ");
-    // Add the checking info.
-    p.append_child("span").text().set(information.c_str());
-    {
-      // Add link to approve this checking result.
-      pugi::xml_node a = p.append_child("a");
-      const std::string href = "index?approve=" + std::to_string (id);
-      a.append_attribute("href") = href.c_str();
-      const std::string text = " [" + translate("approve") + "]";
-      a.text ().set(text.c_str());
-    }
-    {
-      // Add link to delete this checking result.
-      pugi::xml_node a = p.append_child("a");
-      const std::string href = "index?delete=" + std::to_string (id);
-      a.append_attribute("href") = href.c_str();
-      const std::string text = " [" + translate("delete") + "] ";
-      a.text ().set(text.c_str());
+  if (webserver_request.query.count ("deletegroup")) {
+    const int group = filter::strings::convert_to_int (webserver_request.query.at("deletegroup"));
+    using namespace checks::issues;
+    if (group > static_cast<int>(issue::start_boundary) and group < static_cast<int>(issue::stop_boundary)) {
+      const auto fragment = text(static_cast<enum issue>(group));
+      const std::vector <database::check::Hit>& hits = database::check::get_hits ();
+      for (const auto& hit : hits) {
+        if (std::find (bibles.begin(), bibles.end (), hit.bible) == bibles.end ())
+          continue;
+        if (hit.data.find(fragment) != std::string::npos) {
+          const int id = hit.rowid;
+          database::check::delete_id (id);
+        }
+      }
+      view.set_variable ("success", translate("The matching entries were deleted for just now."));
+    } else {
+      view.set_variable ("error", translate("This group of issues is not known."));
     }
   }
+  
+  
   {
-    std::stringstream ss {};
-    document.print(ss, "", pugi::format_raw);
-    view.set_variable ("resultblock", std::move(ss).str());
+    pugi::xml_document document {};
+    const std::vector <database::check::Hit>& hits = database::check::get_hits ();
+    for (const auto& hit : hits) {
+      std::string bible = hit.bible;
+      if (find (bibles.begin(), bibles.end (), bible) == bibles.end ())
+        continue;
+      const int id = hit.rowid;
+      bible = filter::strings::escape_special_xml_characters (bible);
+      const int book = hit.book;
+      const int chapter = hit.chapter;
+      const int verse = hit.verse;
+      const std::string information = filter::strings::escape_special_xml_characters (hit.data);
+      pugi::xml_node p = document.append_child("p");
+      // Add the Bible.
+      p.append_child("span").text().set(bible.c_str());
+      // Add space.
+      p.append_child("span").text().set(" ");
+      // Add the link to open the passage in a Bible editor.
+      filter_passage_link_for_opening_editor_at (p, book, chapter, std::to_string (verse));
+      // Add space.
+      p.append_child("span").text().set(" ");
+      // Add the checking info.
+      p.append_child("span").text().set(information.c_str());
+      {
+        // Add link to approve this checking result.
+        pugi::xml_node a = p.append_child("a");
+        const std::string href = "index?approve=" + std::to_string (id);
+        a.append_attribute("href") = href.c_str();
+        const std::string text = " [" + translate("approve") + "]";
+        a.text ().set(text.c_str());
+      }
+      {
+        // Add link to delete this checking result.
+        pugi::xml_node a = p.append_child("a");
+        const std::string href = "index?delete=" + std::to_string (id);
+        a.append_attribute("href") = href.c_str();
+        const std::string text = " [" + translate("delete") + "] ";
+        a.text ().set(text.c_str());
+      }
+    }
+    {
+      std::stringstream ss {};
+      document.print(ss, "", pugi::format_raw);
+      view.set_variable ("resultblock", std::move(ss).str());
+    }
+  }
+
+
+  // Assemble a block with zero or more fragments of checking results to delete all in one go.
+  {
+    const auto get_fragments = [&bibles]() {
+      std::set<std::string> fragments{};
+      const std::vector <database::check::Hit>& hits = database::check::get_hits ();
+      for (const auto& hit : hits) {
+        if (std::find (bibles.begin(), bibles.end(), hit.bible) == bibles.end())
+          continue;
+        fragments.insert(hit.data);
+      }
+      return fragments;
+    };
+    const std::set<std::string> fragments{get_fragments()};
+    pugi::xml_document document {};
+    using namespace checks::issues;
+    constexpr auto start {static_cast<int>(issue::start_boundary)};
+    constexpr auto stop {static_cast<int>(issue::stop_boundary)};
+    for (int i {start + 1}; i < stop; i++) {
+      const auto issue = static_cast<enum issue>(i);
+      const auto translation = text(issue);
+      const auto is_among_fragments = [&fragments] (const auto& translation) {
+        for (const auto& fragment : fragments)
+          if (fragment.find(translation) != std::string::npos)
+            return true;
+        return false;
+      };
+      if (!is_among_fragments(translation))
+        continue;
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      const std::string href = "?deletegroup=" + std::to_string (i);
+      a.append_attribute("href") = href.c_str();
+      std::stringstream text {};
+      text << translate("Delete items with") << " " << std::quoted(translation);
+      a.text ().set(text.str().c_str());
+    }
+    {
+      std::stringstream ss {};
+      document.print(ss, "", pugi::format_raw);
+      view.set_variable ("deleteblock", std::move(ss).str());
+    }
   }
 
   

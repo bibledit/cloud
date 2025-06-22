@@ -66,7 +66,7 @@
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
 // Testing the std::fileystem in August 2024.
-// Results: 5 out of 6 devices tested had crahes in C++.
+// Results: 5 out of 6 devices tested had crashes in C++.
 // See https://github.com/bibledit/cloud/issues/952 for more info.
 #endif
 

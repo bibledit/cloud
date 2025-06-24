@@ -61,6 +61,7 @@
 /compare
 /compare/index.html
 /config
+/config/certificates.sh
 /config/googletranslate.txt
 /config/ldap.txt
 /config/userfacingurl.txt

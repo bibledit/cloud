@@ -99,6 +99,7 @@
 		CA314CD22662298D00EF8CE3 /* delay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = delay.cpp; sourceTree = "<group>"; };
 		CA314CD32662298D00EF8CE3 /* delay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = delay.h; sourceTree = "<group>"; };
 		CA37D368293D2EC50065795A /* 00readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 00readme.txt; sourceTree = "<group>"; };
+		CA3AF3182E0857BC0034F559 /* certificates.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = certificates.sh; sourceTree = "<group>"; };
 		CA40E47028A91E7200E0A563 /* translated9edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translated9edit.cpp; sourceTree = "<group>"; };
 		CA40E47128A91E7200E0A563 /* translated1edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translated1edit.cpp; sourceTree = "<group>"; };
 		CA40E47228A91E7200E0A563 /* translated9edit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = translated9edit.h; sourceTree = "<group>"; };
@@ -2551,6 +2552,7 @@
 		CADE37F824F173EB003165BB /* config */ = {
 			isa = PBXGroup;
 			children = (
+				CA3AF3182E0857BC0034F559 /* certificates.sh */,
 				CA842042289FEB58006EEA23 /* googletranslate.txt */,
 				CADE37F924F173EB003165BB /* config.h */,
 				CADE380124F173EB003165BB /* globals.cpp */,

@@ -70,7 +70,7 @@ std::string styles_new (Webserver_Request& webserver_request)
   if (userlevel >= roles::admin) write = true;
   
   // Allowed characters in the style.
-  constexpr const std::string_view allowed {"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-"};
+  constexpr const std::string_view allowed {"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789-"};
   
   // Handle new style submission.
   if (webserver_request.post.count ("style")) {

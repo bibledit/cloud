@@ -100,17 +100,17 @@ std::string system_index (Webserver_Request& webserver_request)
   std::map <std::string, std::string> localizations = locale_logic_localizations ();
 
 
-  // Set the language on the page.
-    // Create the option tags for interface language selection.
-  // Also the current selected option.
-  std::string language_html {};
-  for (const auto& element : localizations) {
-    language_html = Options_To_Select::add_selection (element.second, element.first, language_html);
+  // Set the interface language on the page and make it selectable.
+  {
+    std::vector<std::string> values, texts;
+    for (const auto& element : localizations) {
+      values.push_back(element.first);
+      texts.push_back(element.second);
+    }
+    const std::string language = database::config::general::get_site_language ();
+    view.set_variable ("languageselectionoptags", dialog_list2_create_options(values, texts, language));
+    view.set_variable ("languageselection", language);
   }
-  const std::string current_user_preference = database::config::general::get_site_language ();
-  const std::string language = current_user_preference;
-  view.set_variable ("languageselectionoptags", Options_To_Select::mark_selected (language, language_html));
-  view.set_variable ("languageselection", language);
 
   
   // Entry of time zone offset in hours.

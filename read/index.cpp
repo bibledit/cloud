@@ -96,14 +96,14 @@ std::string read_index (Webserver_Request& webserver_request)
   // If needed, change Bible to one it has read access to.
   // Set the chosen Bible on the option HTML tag.
   std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
-  if (webserver_request.query.count ("bible")) bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
-  std::string bible_html;
-  std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-  for (auto selectable_bible : bibles) {
-    bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
+  if (webserver_request.query.count ("bible"))
+    bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
+  {
+    const std::vector <std::string> bibles = access_bible::bibles (webserver_request);
+    const auto html = dialog_list2_create_options (bibles, bibles, bible);
+    view.set_variable ("bibleoptags", html);
+    view.set_variable ("bible", bible);
   }
-  view.set_variable ("bibleoptags", Options_To_Select::mark_selected (bible, bible_html));
-  view.set_variable ("bible", bible);
 
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", navigation_passage::code (bible));

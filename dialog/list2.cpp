@@ -31,36 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic pop
 
 
-// Generate the option tags based on the inserted key and its value.
-std::string Options_To_Select::add_selection (std::string text, std::string value, std::string html)
-{
-    if (value == "") {
-        html.append ("<option value=''>" + text + "</option>");
-    } else {
-        html.append ("<option value='" + value + "'>" + text + "</option>");
-    }
-
-    return html;
-}
-
-
-// Mark the current selected option's option tag.
-std::string Options_To_Select::mark_selected (std::string value, std::string html)
-{
-    const std::string new_value = "value='" + value + "'";
-    const size_t new_pos = html.find (new_value) + new_value.length ();
-    const std::string mark = " selected";
-
-    if (html.find (mark) != std::string::npos) {
-        html.erase (html.find (mark), mark.length ());
-    }
-
-    html.insert (new_pos, mark);
-
-    return html;
-}
-
-
 std::string dialog_list2_create_options(const std::vector<std::string>& values,
                                         const std::vector<std::string>& displayed,
                                         const std::string& selected)

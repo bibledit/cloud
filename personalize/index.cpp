@@ -200,15 +200,14 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   
   // Set the chosen theme on the option HTML tag.
-  std::string theme_key = std::to_string (webserver_request.database_config_user ()->get_current_theme ());
-  std::string theme_html;
-  theme_html = Options_To_Select::add_selection ("Basic", "0", theme_html);
-  theme_html = Options_To_Select::add_selection ("Light", "1", theme_html);
-  theme_html = Options_To_Select::add_selection ("Dark", "2", theme_html);
-  theme_html = Options_To_Select::add_selection ("Red Blue Light", "3", theme_html);
-  theme_html = Options_To_Select::add_selection ("Red Blue Dark", "4", theme_html);
-  view.set_variable ("themepickeroptags", Options_To_Select::mark_selected (theme_key, theme_html));
-  view.set_variable ("themepicker", theme_key);
+  {
+    const auto theme = webserver_request.database_config_user ()->get_current_theme();
+    const std::vector<std::string> names  { "Basic", "Light", "Dark", "Red Blue Light", "Red Blue Dark" };
+    const std::vector<std::string> values { "0",     "1",     "2",    "3",              "4"             };
+    const std::string html {dialog_list2_create_options (values, names, std::to_string(theme))};
+    view.set_variable ("themepickeroptags", html);
+    view.set_variable ("themepicker", std::to_string(theme));
+  }
 
   
   // Workspace menu fade-out delay.
@@ -251,35 +250,44 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   
   // Visual editors in the fast Bible editor switcher.
-  const char * fastswitchvisualeditors = "fastswitchvisualeditors";
-  std::string visual_editors_html;
-  for (int i = 0; i < 3; i++) {
-    visual_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (true, i), std::to_string (i), visual_editors_html);
-  }
+  constexpr const char * fastswitchvisualeditors = "fastswitchvisualeditors";
   if (webserver_request.post.count (fastswitchvisualeditors)) {
-    int visual_editor_key = filter::strings::convert_to_int (webserver_request.post [fastswitchvisualeditors]);
-    webserver_request.database_config_user ()->set_fast_switch_visual_editors (visual_editor_key);
+    const auto value = filter::strings::convert_to_int (webserver_request.post [fastswitchvisualeditors]);
+    webserver_request.database_config_user ()->set_fast_switch_visual_editors (value);
     return std::string();
   }
-  std::string editor_key = std::to_string (webserver_request.database_config_user ()->get_fast_switch_visual_editors ());
-  view.set_variable ("fastswitchvisualeditorsoptags", Options_To_Select::mark_selected (editor_key, visual_editors_html));
-  view.set_variable (fastswitchvisualeditors, editor_key);
+  {
+    std::vector<std::string> values;
+    std::vector<std::string> texts;
+    for (int i = 0; i < 3; i++) {
+      values.emplace_back(std::to_string(i));
+      texts.emplace_back(menu_logic_editor_settings_text(true, i));
+    }
+    const auto editor_key = webserver_request.database_config_user ()->get_fast_switch_visual_editors();
+    const std::string html {dialog_list2_create_options (values, texts, std::to_string(editor_key))};
+    view.set_variable ("fastswitchvisualeditorsoptags", html);
+    view.set_variable (fastswitchvisualeditors, std::to_string(editor_key));
+  }
 
   
   // USFM editors fast Bible editor switcher.
-  const char * fastswitchusfmeditors = "fastswitchusfmeditors";
-  std::string usfm_editors_html;
-  for (int i = 0; i < 2; i++) {
-    usfm_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (false, i), std::to_string (i), usfm_editors_html);
-  }
+  constexpr const char * fastswitchusfmeditors = "fastswitchusfmeditors";
   if (webserver_request.post.count (fastswitchusfmeditors)) {
-    int usfm_editor_key = filter::strings::convert_to_int (webserver_request.post [fastswitchusfmeditors]);
-    webserver_request.database_config_user ()->set_fast_switch_usfm_editors (usfm_editor_key);
+    const int value = filter::strings::convert_to_int (webserver_request.post [fastswitchusfmeditors]);
+    webserver_request.database_config_user ()->set_fast_switch_usfm_editors (value);
     return std::string();
   }
-  editor_key = std::to_string(webserver_request.database_config_user ()->get_fast_switch_usfm_editors ());
-  view.set_variable ("fastswitchusfmeditorsoptags", Options_To_Select::mark_selected (editor_key, usfm_editors_html));
-  view.set_variable (fastswitchusfmeditors, editor_key);
+  {
+    const std::vector<std::string> values { "0", "1" };
+    const std::vector<std::string> texts {
+      menu_logic_editor_settings_text (false, 0),
+      menu_logic_editor_settings_text (false, 1),
+    };
+    const auto editor_key = std::to_string(webserver_request.database_config_user ()->get_fast_switch_usfm_editors ());
+    const std::string html {dialog_list2_create_options (values, texts, editor_key)};
+    view.set_variable ("fastswitchusfmeditorsoptags", html);
+    view.set_variable (fastswitchusfmeditors, editor_key);
+  }
 
   
   // Whether to enable editing styles in the visual editors.
@@ -400,16 +408,18 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   
   // Setting for the verse separator during notes entry.
-  if (webserver_request.post.count ("verseseparator")) {
-    database::config::general::set_notes_verse_separator (webserver_request.post["verseseparator"]);
+  constexpr const char* verseseparator {"verseseparator"};
+  if (webserver_request.post.count (verseseparator)) {
+    database::config::general::set_notes_verse_separator (webserver_request.post[verseseparator]);
     return std::string();
   }
-  std::string separator_key = database::config::general::get_notes_verse_separator ();
-  std::string separator_html;
-  separator_html = Options_To_Select::add_selection (menu_logic_verse_separator ("."), ".", separator_html);
-  separator_html = Options_To_Select::add_selection (menu_logic_verse_separator (":"), ":", separator_html);
-  view.set_variable ("verseseparatoroptags", Options_To_Select::mark_selected (separator_key, separator_html));
-  view.set_variable ("verseseparator", menu_logic_verse_separator (separator_key));
+  {
+    std::string separator_key = database::config::general::get_notes_verse_separator ();
+    const std::vector<std::string> values {                             ".",                              ":"  };
+    const std::vector<std::string> texts  { menu_logic_verse_separator ("."), menu_logic_verse_separator (":") };
+    view.set_variable ("verseseparatoroptags", dialog_list2_create_options (values, texts, separator_key));
+    view.set_variable ("verseseparator", menu_logic_verse_separator (separator_key));
+  }
 
   
   // Setting for whether to receive the focused reference from Paratext on Windows.
@@ -427,21 +437,24 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   
   // The date format to be used in the Consultation Notes.
-  const char * dateformat = "dateformat";
+  constexpr const char * dateformat = "dateformat";
   if (webserver_request.post.count (dateformat)) {
-    int date_format_key = filter::strings::convert_to_int (webserver_request.post [dateformat]);
-    webserver_request.database_config_user ()->set_notes_date_format(date_format_key);
+    const int format = filter::strings::convert_to_int (webserver_request.post [dateformat]);
+    webserver_request.database_config_user ()->set_notes_date_format(format);
     return std::string();
   }
-  std::string date_format_key = std::to_string (webserver_request.database_config_user ()->get_notes_date_format());
-  std::string date_format_html;
-  for (filter::date::date_format df = filter::date::dd_mm_yyyy;
-       df <= filter::date::yyyy_mn_dd;
-       df = static_cast<filter::date::date_format>(df + 1)) {
-    date_format_html = Options_To_Select::add_selection (filter::date::date_format_to_text (df), std::to_string(df), date_format_html);
+  {
+    std::string date_format_key = std::to_string (webserver_request.database_config_user ()->get_notes_date_format());
+    std::vector<std::string> values, texts;
+    for (auto df {filter::date::dd_mm_yyyy}; df <= filter::date::yyyy_mn_dd;
+         df = static_cast<filter::date::date_format>(df + 1)) {
+      values.emplace_back(std::to_string(df));
+      texts.emplace_back(filter::date::date_format_to_text (df));
+    }
+    const std::string html {dialog_list2_create_options (values, texts, date_format_key)};
+    view.set_variable ("dateformatoptags", html);
+    view.set_variable (dateformat, date_format_key);
   }
-  view.set_variable ("dateformatoptags", Options_To_Select::mark_selected (date_format_key, date_format_html));
-  view.set_variable (dateformat, date_format_key);
 
   
   // Spell check in the Bible editors.

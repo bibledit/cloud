@@ -66,16 +66,8 @@ std::string search_replace2 (Webserver_Request& webserver_request)
   header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   Assets_View view;
-
-  {
-    std::string bible_html;
-    std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-    for (auto selectable_bible : bibles) {
-      bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
-    }
-    view.set_variable ("bibleoptags", Options_To_Select::mark_selected (bible, bible_html));
-  }
-
+  const std::vector <std::string> accessible_bibles = access_bible::bibles (webserver_request);
+  view.set_variable ("bibleoptags", dialog_list2_create_options (accessible_bibles, accessible_bibles, bible));
   view.set_variable ("bible", bible);
   std::stringstream script {};
   script << "var searchBible = " << std::quoted(bible) << ";";

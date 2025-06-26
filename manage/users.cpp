@@ -85,13 +85,14 @@ std::string manage_users (Webserver_Request& webserver_request)
 
 
   // Set the chosen default new user role on the option HTML tag.
-  std::string default_acl = std::to_string (database::config::general::get_default_new_user_access_level ());
-  std::string default_acl_html;
-  default_acl_html = Options_To_Select::add_selection ("Guest", std::to_string(roles::guest), default_acl_html);
-  default_acl_html = Options_To_Select::add_selection ("Member", std::to_string(roles::member), default_acl_html);
-  view.set_variable ("defaultacloptags", Options_To_Select::mark_selected (default_acl, default_acl_html));
-  view.set_variable ("defaultacl", default_acl);
-  
+  {
+    const std::string default_acl = std::to_string (database::config::general::get_default_new_user_access_level ());
+    const std::vector<std::string> enums { std::to_string(roles::guest), std::to_string(roles::member) };
+    const std::vector<std::string> texts { roles::english(roles::guest), roles::english(roles::member) };
+    view.set_variable ("defaultacloptags", dialog_list2_create_options (enums, texts, default_acl));
+    view.set_variable ("defaultacl", default_acl);
+  }
+
   
   // New user creation.
   if (webserver_request.query.count ("new")) {

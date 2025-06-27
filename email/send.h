@@ -23,6 +23,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace email {
 
+// Maximum email size, on the safe side, that libcurl can send without it crashing.
+constexpr const int max_email_size {100000};
+
 void send ();
 std::string send (std::string to_mail, std::string to_name, std::string subject, std::string body, bool verbose = false);
 void schedule (std::string to, std::string subject, std::string body, int time = 0);

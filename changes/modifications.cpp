@@ -415,26 +415,25 @@ void changes_modifications ()
     
     // Email the changes to the subscribed users.
     if (!email_changes.empty ()) {
+      constexpr const int max_body_size {static_cast<int>(email::max_email_size * 0.8)};
       // Split large emails up into parts.
       // The size of the parts has been found by checking the maximum size that the emailer will send,
       // then each part should remain well below that maximum size.
       // The size was reduced even more later on:
       // https://github.com/bibledit/cloud/issues/727
       std::vector <std::string> bodies {};
-      int counter {0};
       std::string body {};
       for (const auto & line : email_changes) {
         body.append ("<div>");
         body.append (line);
         body.append ("</div>\n");
-        counter++;
-        if (counter >= 50) { // Todo
-          bodies.push_back (body);
+        if (body.size() >= max_body_size) {
+          bodies.push_back (std::move(body));
           body.clear ();
-          counter = 0;
         }
       }
-      if (!body.empty ()) bodies.push_back (body);
+      if (!body.empty ())
+        bodies.push_back (body);
       for (size_t b = 0; b < bodies.size (); b++) {
         std::string subject = translate("Recent changes:") + " " + bible;
         if (bodies.size () > 1) {

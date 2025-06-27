@@ -181,7 +181,7 @@ std::string send ([[maybe_unused]] std::string to_mail,
 {
   // Truncate huge emails because libcurl crashes on it.
   const size_t length = body.length();
-  if (length > 100000) // Todo
+  if (length > max_email_size)
     body = "This email was " + std::to_string (length) + " bytes long. It was too long, and could not be sent.";
   
   // Deal with empty subject.

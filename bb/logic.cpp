@@ -506,7 +506,7 @@ void bible_logic::merge_irregularity_mail (const std::vector <std::string>& user
     
     // Schedule the mail for sending to the user(s).
     for (const auto & user : users) {
-      email_schedule (user, newsubject, html);
+      email::schedule (user, newsubject, html);
     }
   }
 }
@@ -546,7 +546,7 @@ void bible_logic::unsafe_save_mail (std::string subject, const std::string& expl
   const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
-  email_schedule (user, subject, html);
+  email::schedule (user, subject, html);
 }
 
 
@@ -635,7 +635,7 @@ void bible_logic::client_receive_merge_mail (const std::string& bible, int book,
   const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
-  email_schedule (user, subject, html);
+  email::schedule (user, subject, html);
 }
 
 
@@ -697,7 +697,7 @@ void bible_logic::client_mail_pending_bible_updates (const std::string& user)
         const std::string html = output.str ();
         
         // Schedule the mail for sending to the user.
-        email_schedule (user, subject, html);
+        email::schedule (user, subject, html);
       }
     }
   }
@@ -772,7 +772,7 @@ void bible_logic::client_no_write_access_mail (const std::string& bible, int boo
   const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
-  email_schedule (user, subject, html);
+  email::schedule (user, subject, html);
 }
 
 
@@ -862,7 +862,7 @@ void bible_logic::recent_save_email (const std::string& bible,
   const std::string html = output.str ();
 
   // Schedule the mail for sending to the user.
-  email_schedule (user, subject, html);
+  email::schedule (user, subject, html);
 }
 
 
@@ -975,7 +975,7 @@ void bible_logic::optional_merge_irregularity_email (const std::string& bible, i
   const std::string html = output.str ();
 
   // Schedule the mail for sending to the user.
-  email_schedule (user, subject, html);
+  email::schedule (user, subject, html);
 }
 
 

@@ -88,7 +88,7 @@ std::string email_index (Webserver_Request& webserver_request)
     database::config::general::set_mail_storage_port (storageport);
     std::string storage_success = translate("The details were saved.");
     std::string storage_error;
-    int mailcount = email_receive_count (storage_error, true);
+    int mailcount = email::receive_count (storage_error, true);
     if (storage_error.empty ()) {
       storage_success.append (" ");
       storage_success.append (translate("The account was accessed successfully."));
@@ -122,7 +122,7 @@ std::string email_index (Webserver_Request& webserver_request)
     std::string send_success  = translate("The details were saved.");
     std::string send_error;
     std::string send_debug;
-    std::string result = email_send (database::config::general::get_site_mail_address(), database::config::general::get_site_mail_name(), "Test", "This is to check sending email.", true);
+    std::string result = email::send (database::config::general::get_site_mail_address(), database::config::general::get_site_mail_name(), "Test", "This is to check sending email.", true);
     if (result.empty()) {
       send_success.append (" ");
       send_success.append ("For checking sending email, a test email was sent out to the account above:");

@@ -65,7 +65,7 @@ static void inform_managers (const std::string& email, const std::string& body)
       newbody.append (translate ("The following email was sent to this user:"));
       newbody.append (" ");
       newbody.append (body);
-      email_schedule (mailto, subject, newbody);
+      email::schedule (mailto, subject, newbody);
     }
   }
 }
@@ -101,7 +101,7 @@ void setup (Webserver_Request& webserver_request,
   std::stringstream output;
   document.print (output, "", pugi::format_raw);
   initial_body.append (output.str ());
-  email_schedule (mailto, initial_subject, initial_body);
+  email::schedule (mailto, initial_subject, initial_body);
   database::confirm::store (confirmation_id, query, mailto, subsequent_subject, subsequent_body, username);
 }
 
@@ -132,7 +132,7 @@ bool handle_link (Webserver_Request& webserver_request, std::string& email)
   const std::string mailto = database::confirm::get_mail_to (id);
   const std::string subject = database::confirm::get_subject (id);
   const std::string body = database::confirm::get_body (id);
-  email_schedule (mailto, subject, body);
+  email::schedule (mailto, subject, body);
   
   // Delete the confirmation record.
   database::confirm::erase (id);

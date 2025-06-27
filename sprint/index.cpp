@@ -255,7 +255,7 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   view.set_variable ("chart", sprint_create_burndown_chart (bible, year, month));
   
   
-  view.set_variable ("mailer", email_setup_information (true, false));
+  view.set_variable ("mailer", email::setup_information (true, false));
 
 
   page += view.render ("sprint", "index");

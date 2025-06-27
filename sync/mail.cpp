@@ -83,7 +83,7 @@ std::string sync_mail (Webserver_Request& webserver_request)
         body.append(client_information);
         
         // Send the email.
-        email_schedule (name, subject, body);
+        email::schedule (name, subject, body);
         return std::string();
       }
     }

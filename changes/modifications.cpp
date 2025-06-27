@@ -267,7 +267,7 @@ void changes_modifications ()
         // Send the user email with the user's personal changes if the user opted to receive it.
         if (webserver_request.database_config_user()->get_user_user_changes_notification (user)) {
           const std::string subject = translate("Changes you entered in") + " " + bible;
-          if (!client_logic_client_enabled ()) email_schedule (user, subject, email);
+          if (!client_logic_client_enabled ()) email::schedule (user, subject, email);
         }
       }
     }
@@ -428,7 +428,7 @@ void changes_modifications ()
         body.append (line);
         body.append ("</div>\n");
         counter++;
-        if (counter >= 150) {
+        if (counter >= 50) { // Todo
           bodies.push_back (body);
           body.clear ();
           counter = 0;
@@ -445,7 +445,7 @@ void changes_modifications ()
           if (webserver_request.database_config_user()->get_user_bible_changes_notification (user)) {
             if (access_bible::read (webserver_request, bible, user)) {
               if (!client_logic_client_enabled ()) {
-                email_schedule (user, subject, bodies[b]);
+                email::schedule (user, subject, bodies[b]);
               }
             }
           }

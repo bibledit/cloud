@@ -307,7 +307,7 @@ std::string session_signup ([[maybe_unused]] Webserver_Request& webserver_reques
     }
   }
   
-  view.set_variable ("mailer", email_setup_information (true, false));
+  view.set_variable ("mailer", email::setup_information (true, false));
 
   if (signed_up) page += view.render ("session", "signedup");
   else page += view.render ("session", "signup");

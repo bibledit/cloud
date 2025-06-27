@@ -152,7 +152,7 @@ void statistics_statistics ()
 
     
     if (change_notificatons_count || assigned_notes_count || subscribed_notes_count) {
-      email_schedule (user, subject, body.str());
+      email::schedule (user, subject, body.str());
     }
   }
 }

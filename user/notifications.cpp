@@ -251,7 +251,7 @@ std::string user_notifications (Webserver_Request& webserver_request)
   if (roles::access_control (webserver_request, roles::consultant))
     view.enable_zone ("consultant");
   
-  view.set_variable ("error", email_setup_information (true, false));
+  view.set_variable ("error", email::setup_information (true, false));
   
   page += view.render ("user", "notifications");
 

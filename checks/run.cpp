@@ -277,7 +277,7 @@ void checks_run (std::string bible)
       if (webserver_request.database_config_user()->get_user_bible_checks_notification (user)) {
         if (access_bible::read (webserver_request, bible, user)) {
           if (!client_logic_client_enabled ()) {
-            email_schedule (user, subject, body);
+            email::schedule (user, subject, body);
           }
         }
       }

@@ -40,20 +40,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 
 
-void email_send ()
+namespace email {
+
+
+void send ()
 {
   // No more than one email send process to run simultaneously.
   if (config_globals_mail_send_running) return;
   config_globals_mail_send_running = true;
-
+  
   // The databases involved.
   Webserver_Request webserver_request;
   Database_Mail database_mail (webserver_request);
   Database_Users database_users;
-
+  
   std::vector <int> mails = database_mail.getMailsToSend ();
   for (auto id : mails) {
-
+    
     // Get all details of the mail.
     Database_Mail_Item details = database_mail.get (id);
     std::string username = details.username;
@@ -67,7 +70,7 @@ void email_send ()
     email = username;
     
 #else
-
+    
     // In the Cloud, if this username was not found, it could be that the email was addressed to a non-user,
     // and that the To: address was actually contained in the username.
     if (email.empty()) {
@@ -81,9 +84,9 @@ void email_send ()
       Database_Logs::log ("Email to " + email + " was deleted because of an invalid email address");
       continue;
     }
-
+    
 #endif
-
+    
     // If there had been a crash while sending an email,
     // log this email and erase it.
     // Do not attempt to send it again as it would cause the crash again in an endless loop.
@@ -95,7 +98,7 @@ void email_send ()
     }
     
     // Send the email.
-    std::string result = email_send (email, username, subject, body);
+    std::string result = email::send (email, username, subject, body);
     if (result.empty ()) {
       database_mail.erase (id);
       std::stringstream ss;
@@ -147,7 +150,7 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 {
   upload_status *upload_ctx = static_cast <upload_status *> (userp);
   const char *data;
-
+  
   if((size == 0) || (nmemb == 0) || ((size*nmemb) < 1)) {
     return 0;
   }
@@ -155,13 +158,13 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
   if (upload_ctx->lines_read >= payload_text.size()) {
     return 0;
   }
-
+  
   data = payload_text[upload_ctx->lines_read].c_str();
-
+  
   size_t len = strlen(data);
   memcpy(ptr, data, len);
   upload_ctx->lines_read++;
-
+  
   return len;
 }
 #endif
@@ -170,46 +173,45 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // Sends the email as specified by the parameters.
 // If all went well, it returns an empty string.
 // In case of failure, it returns the error message.
-std::string email_send ([[maybe_unused]] std::string to_mail,
+std::string send ([[maybe_unused]] std::string to_mail,
                         std::string to_name,
                         std::string subject,
                         std::string body,
                         [[maybe_unused]] bool verbose)
 {
   // Truncate huge emails because libcurl crashes on it.
-  size_t length = body.length ();
-  if (length > 100000) {
+  const size_t length = body.length();
+  if (length > 100000) // Todo
     body = "This email was " + std::to_string (length) + " bytes long. It was too long, and could not be sent.";
-  }
   
   // Deal with empty subject.
-  if (subject.empty ()) subject = translate ("Bibledit");
+  if (subject.empty ())
+    subject = translate ("Bibledit");
   
 #ifdef HAVE_CLIENT
-
-  if (!client_logic_client_enabled ()) {
+  
+  if (!client_logic_client_enabled ())
     return std::string();
-  }
-
+  
   Webserver_Request webserver_request;
   Sync_Logic sync_logic (webserver_request);
-
+  
   std::map <std::string, std::string> post;
   post ["n"] = filter::strings::bin2hex (to_name);
   post ["s"] = subject;
   post ["b"] = body;
-
+  
   std::string address = database::config::general::get_server_address ();
   int port = database::config::general::get_server_port ();
   std::string url = client_logic_url (address, port, sync_mail_url ());
-
+  
   std::string error;
   std::string response = sync_logic.post (post, url, error);
-
+  
   if (!error.empty ()) {
     Database_Logs::log ("Failure sending email: " + error, roles::guest);
   }
-
+  
   return error;
   
 #else
@@ -221,9 +223,9 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
   CURLcode res = CURLE_OK;
   curl_slist * recipients {nullptr};
   upload_status upload_ctx;
-
+  
   upload_ctx.lines_read = 0;
-
+  
   int seconds = filter::date::seconds_since_epoch ();
   payload_text.clear();
   std::string payload;
@@ -271,14 +273,14 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
   payload_text.push_back ("</html>\n");
   // Empty line.
   payload_text.push_back ("\n");
-
+  
   curl = curl_easy_init();
   /* Set username and password */
   std::string username = database::config::general::get_mail_send_username();
   std::string password = database::config::general::get_mail_send_password();
   curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
   curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
-
+  
   /* This is the URL for your mailserver. Note the use of port 587 here,
    * instead of the normal SMTP port (25). Port 587 is commonly used for
    * secure mail submission (see RFC4403), but you should use whatever
@@ -289,14 +291,14 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
   std::string port = database::config::general::get_mail_send_port();
   smtp.append (port);
   curl_easy_setopt(curl, CURLOPT_URL, smtp.c_str());
-
+  
   /* In this example, we'll start with a plain text connection, and upgrade
    * to Transport Layer Security (TLS) using the STARTTLS command. Be careful
    * of using CURLUSESSL_TRY here, because if TLS upgrade fails, the transfer
    * will continue anyway - see the security discussion in the libcurl
    * tutorial for more details. */
   if (port != "25") curl_easy_setopt(curl, CURLOPT_USE_SSL, static_cast<long>(CURLUSESSL_ALL));
-
+  
   /* If your server doesn't have a valid certificate, then you can disable
    * part of the Transport Layer Security protection by setting the
    * CURLOPT_SSL_VERIFYPEER and CURLOPT_SSL_VERIFYHOST options to 0 (false).
@@ -311,7 +313,7 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
    * that are known to libcurl using CURLOPT_CAINFO and/or CURLOPT_CAPATH. See
    * docs/SSLCERTS for more information. */
   //curl_easy_setopt(curl, CURLOPT_CAINFO, "/path/to/certificate.pem");
-
+  
   /* Note that this option isn't strictly required, omitting it will result in
    * libcurl sending the MAIL FROM command with empty sender data. All
    * autoresponses should have an empty reverse-path, and should be directed
@@ -319,19 +321,19 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
    * could cause an endless loop. See RFC 5321 Section 4.5.5 for more details.
    */
   curl_easy_setopt(curl, CURLOPT_MAIL_FROM, from_mail.c_str());
-
+  
   /* Add the recipients, in this particular case they correspond to the
    * To: addressee in the header, but they could be any kind of recipient. */
   recipients = curl_slist_append(recipients, to_mail.c_str());
   curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
-
+  
   /* We're using a callback function to specify the payload (the headers and
    * body of the message). You could just use the CURLOPT_READDATA option to
    * specify a FILE pointer to read from. */
   curl_easy_setopt(curl, CURLOPT_READFUNCTION, payload_source);
   curl_easy_setopt(curl, CURLOPT_READDATA, &upload_ctx);
   curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
-
+  
   // Since the traffic will be encrypted, it is very useful to turn on debug
   // information within libcurl to see what is happening during the transfer.
   if (verbose) {
@@ -341,26 +343,26 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
   
   // Timeout values.
   filter_url_curl_set_timeout (curl);
-
+  
   /* Send the message */
   res = curl_easy_perform(curl);
-
+  
   /* Check for errors */
   std::string result;
   if (res != CURLE_OK) result = curl_easy_strerror (res);
-
+  
   /* Free the list of recipients */
   curl_slist_free_all(recipients);
-
+  
   /* Always cleanup */
   curl_easy_cleanup(curl);
-
+  
   return result;
 #endif
 }
 
 
-void email_schedule (std::string to, std::string subject, std::string body, int time)
+void schedule (std::string to, std::string subject, std::string body, int time)
 {
   // Schedule the mail for sending.
   Webserver_Request webserver_request;
@@ -376,7 +378,7 @@ void email_schedule (std::string to, std::string subject, std::string body, int 
 // If the email sending and receiving has not yet been (completely) set up,
 // it returns information about that.
 // If everything's OK, it returns nothing.
-std::string email_setup_information (bool require_send, bool require_receive)
+std::string setup_information (bool require_send, bool require_receive)
 {
 #ifdef HAVE_CLIENT
   (void) require_send;
@@ -407,3 +409,6 @@ std::string email_setup_information (bool require_send, bool require_receive)
 #endif
   return std::string();
 }
+
+
+} // End namespace.

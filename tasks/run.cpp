@@ -129,10 +129,10 @@ void tasks_run_one (const std::string& filename)
     Database_Logs::rotate ();
   }
   else if (command == task::receive_email) {
-    email_receive ();
+    email::receive ();
   }
   else if (command == task::send_email) {
-    email_send ();
+    email::send ();
   }
   else if (command == task::reindex_bibles) {
     search_reindex_bibles (filter::strings::convert_to_bool (parameter1));

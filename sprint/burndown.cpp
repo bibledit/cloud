@@ -169,7 +169,7 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
             
             if (!body.empty ()) {
               std::string mailbody = filter::strings::implode (body, "\n");
-              email_schedule (user, subject, mailbody);
+              email::schedule (user, subject, mailbody);
             }
             
           }

@@ -21,6 +21,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-void email_receive ();
-int email_receive_count (std::string& error, bool verbose = false);
-std::string email_receive_message (std::string& error);
+namespace email {
+
+void receive ();
+int receive_count (std::string& error, bool verbose = false);
+std::string receive_message (std::string& error);
+
+}

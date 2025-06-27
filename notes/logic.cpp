@@ -524,7 +524,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, std::str
       subject.append (" | (CNID");
       subject.append (std::to_string (identifier));
       subject.append (")");
-      email_schedule (user, subject, contents.str(), timestamp);
+      email::schedule (user, subject, contents.str(), timestamp);
     }
   }
 }
@@ -579,7 +579,7 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
     confirm_subject.append (" [CNID");
     confirm_subject.append (std::to_string (identifier));
     confirm_subject.append ("]");
-    email_schedule (username, confirm_subject, body);
+    email::schedule (username, confirm_subject, body);
   }
   // Log operation.
   Database_Logs::log ("Comment posted: " + body);
@@ -646,7 +646,7 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
   // Mail user if the note could not be posted.
   if (noteCheck != "") {
     subject = translate("Your new note could not be posted");
-    email_schedule (username, subject  + ": " + originalSubject, noteCheck);
+    email::schedule (username, subject  + ": " + originalSubject, noteCheck);
     return false;
   }
   // Clean the email's body.
@@ -662,7 +662,7 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
   // Mail confirmation to the username.
   if (m_webserver_request.database_config_user()->get_user_notify_me_of_my_posts (username)) {
     subject = translate("Your new note was posted");
-    email_schedule (username, subject + ": " + originalSubject, body);
+    email::schedule (username, subject + ": " + originalSubject, body);
   }
   // Log operation.
   Database_Logs::log ("New note posted : " + body);

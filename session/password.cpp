@@ -89,14 +89,14 @@ std::string session_password (Webserver_Request& webserver_request)
       body += generated_password;
       body += "\n\n";
       body += translate("It is recommended to log into your account with this new password, and then change it.");
-      email_schedule (username, subject, body);
+      email::schedule (username, subject, body);
       view.set_variable ("success_message", translate("A message was sent to the email address belonging to this account to help you getting the password"));
     } else {
       view.set_variable ("error_message", translate("Username or email address cannot be found"));
     }
   }
   
-  view.set_variable ("mailer", email_setup_information (true, false));
+  view.set_variable ("mailer", email::setup_information (true, false));
 
   page += view.render ("session", "password");
 

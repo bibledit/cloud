@@ -30,7 +30,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-void email_receive ()
+namespace email {
+
+
+void receive ()
 {
 #ifdef HAVE_CLOUD
   // Bail out when the mail storage host has not been defined, rather than giving an error message.
@@ -44,25 +47,25 @@ void email_receive ()
   
   // Email count.
   std::string error;
-  int emailcount = email_receive_count (error);
+  int emailcount = email::receive_count (error);
   // Messages start at number 1 instead of 0.
   for (int i = 1; i <= emailcount; i++) {
-
+    
     Webserver_Request webserver_request;
     Notes_Logic notes_logic (webserver_request);
     
     error.clear ();
-    std::string message = email_receive_message (error);
+    std::string message = email::receive_message (error);
     if (error.empty ()) {
-  
+      
       // Extract "from" and subject, and clean body.
       std::string from;
       std::string subject;
       std::string body;
       filter_mail_dissect (message, from, subject, body);
-  
+      
       Database_Logs::log ("Processing email from " + from + " with subject " + subject);
-
+      
       if (notes_logic.handleEmailComment (from, subject, body)) {
       }
       else if (notes_logic.handleEmailNew (from, subject, body)) {
@@ -71,13 +74,13 @@ void email_receive ()
         Database_Logs::log ("Could not allocate email from " + from + ", subject " + subject);
         Database_Logs::log (body);
       }
-  
+      
     } else {
       Database_Logs::log ("Error retrieving mail: " + error);
     }
-
+    
   }
-
+  
   config_globals_mail_receive_running = false;
 #endif
 }
@@ -122,48 +125,48 @@ std::string url ()
 
 
 // Returns how many emails are waiting in the mail storage host's POP3 email inbox.
-int email_receive_count (std::string& error, bool verbose)
+int receive_count (std::string& error, bool verbose)
 {
 #ifdef HAVE_CLIENT
   error = "Not implemented with embedded http library";
   if (verbose) {}
   return 0;
 #endif
-
+  
 #ifdef HAVE_CLOUD
   CURL *curl;
   CURLcode res = CURLE_OK;
-
+  
   cstring s;
   init_string (&s);
-
+  
   curl = curl_easy_init ();
-
+  
   curl_easy_setopt (curl, CURLOPT_USERNAME, database::config::general::get_mail_storage_username ().c_str());
   curl_easy_setopt (curl, CURLOPT_PASSWORD, database::config::general::get_mail_storage_password ().c_str());
-
+  
   curl_easy_setopt (curl, CURLOPT_URL, url ().c_str());
-
+  
   curl_easy_setopt (curl, CURLOPT_USE_SSL, static_cast<long>(CURLUSESSL_ALL));
-  curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, 0); 
-  curl_easy_setopt (curl, CURLOPT_SSL_VERIFYHOST, 0); 
-
+  curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, 0);
+  curl_easy_setopt (curl, CURLOPT_SSL_VERIFYHOST, 0);
+  
   curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, writefunc);
-
+  
   curl_easy_setopt (curl, CURLOPT_WRITEDATA, &s);
-
+  
   if (verbose) {
     curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, filter_url_curl_debug_callback);
     curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
   }
-
+  
   // Some servers need this validation.
   curl_easy_setopt (curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
-
+  
   filter_url_curl_set_timeout (curl);
   
   res = curl_easy_perform (curl);
-
+  
   int mailcount = 0;
   
   if (res == CURLE_OK) {
@@ -175,17 +178,17 @@ int email_receive_count (std::string& error, bool verbose)
   } else {
     error = curl_easy_strerror (res);
   }
-
+  
   if (s.ptr) free (s.ptr);
-
+  
   curl_easy_cleanup (curl);
-
+  
   return mailcount;
 #endif
 }
 
 
-std::string email_receive_message (std::string& error)
+std::string receive_message (std::string& error)
 {
 #ifdef HAVE_CLIENT
   error = "Not implemented with embedded http library";
@@ -195,33 +198,33 @@ std::string email_receive_message (std::string& error)
 #ifdef HAVE_CLOUD
   CURL *curl;
   CURLcode res = CURLE_OK;
-
+  
   cstring s;
   init_string (&s);
-
+  
   curl = curl_easy_init ();
-
+  
   curl_easy_setopt (curl, CURLOPT_USERNAME, database::config::general::get_mail_storage_username ().c_str());
   curl_easy_setopt (curl, CURLOPT_PASSWORD, database::config::general::get_mail_storage_password ().c_str());
-
+  
   std::string message_url = url () + "/1";
   curl_easy_setopt (curl, CURLOPT_URL, message_url.c_str());
-
+  
   curl_easy_setopt (curl, CURLOPT_USE_SSL, static_cast<long>(CURLUSESSL_ALL));
-  curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, 0); 
-  curl_easy_setopt (curl, CURLOPT_SSL_VERIFYHOST, 0); 
-
+  curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, 0);
+  curl_easy_setopt (curl, CURLOPT_SSL_VERIFYHOST, 0);
+  
   curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, writefunc);
-
+  
   curl_easy_setopt (curl, CURLOPT_WRITEDATA, &s);
-
+  
   // Some servers need this validation.
   curl_easy_setopt (curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
-
+  
   filter_url_curl_set_timeout (curl);
   
   res = curl_easy_perform (curl);
-
+  
   std::string body {};
   
   if (res == CURLE_OK) {
@@ -229,20 +232,23 @@ std::string email_receive_message (std::string& error)
   } else {
     error = curl_easy_strerror (res);
   }
-
+  
   // Set the DELE command.
   curl_easy_setopt (curl, CURLOPT_CUSTOMREQUEST, "DELE");
- 
+  
   // Do not perform a transfer as DELE returns no data.
   curl_easy_setopt (curl, CURLOPT_NOBODY, 1L);
- 
+  
   // Perform the custom request.
   res = curl_easy_perform(curl);
-
+  
   if (s.ptr) free (s.ptr);
-
+  
   curl_easy_cleanup (curl);
-
+  
   return body;
 #endif
 }
+
+
+} // End namespace.

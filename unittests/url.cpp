@@ -330,21 +330,20 @@ TEST_F (filter_url, https)
   url = filter_url_set_scheme ("http://localhost", true);
   EXPECT_EQ ("https://localhost", url);
   
-  result = filter_url_http_request_mbed ("http://www.google.nl", error, {}, "", false);
-  EXPECT_EQ (true, result.find ("google") != std::string::npos);
-  EXPECT_EQ (true, result.find ("search") != std::string::npos);
-  EXPECT_EQ (true, result.find ("background") != std::string::npos);
-  EXPECT_EQ ("", error);
-  
-  result = filter_url_http_request_mbed ("https://www.google.nl", error, {}, "", false);
-  EXPECT_EQ (true, result.find ("google") != std::string::npos);
-  EXPECT_EQ (true, result.find ("search") != std::string::npos);
-  EXPECT_EQ (true, result.find ("background") != std::string::npos);
-  EXPECT_EQ ("", error);
-  
-  result = filter_url_http_request_mbed ("https://bibledit.org:8091", error, {}, "", false);
-  EXPECT_EQ ("", result);
-  EXPECT_EQ ("Response code: 302 Found", error);
+  result = filter_url_http_request_mbed ("http://httpforever.com/", error, {}, "", false);
+  EXPECT_TRUE (result.find ("insecure") != std::string::npos);
+  EXPECT_TRUE (result.find ("WiFi") != std::string::npos);
+  EXPECT_EQ (std::string(), error);
+
+  result = filter_url_http_request_mbed ("https://www.google.com", error, {}, "", false);
+  EXPECT_TRUE (result.find ("google") != std::string::npos);
+  EXPECT_TRUE (result.find ("search") != std::string::npos);
+  EXPECT_TRUE (result.find ("background") != std::string::npos);
+  EXPECT_EQ (std::string(), error);
+
+  result = filter_url_http_request_mbed ("https://bibledit.org:8091/index/index", error, {}, "", false);
+  EXPECT_EQ (std::string(), error);
+  EXPECT_TRUE (result.find ("Enable JavaScript to work with Bibledit") != std::string::npos);
   
   filter_url_ssl_tls_finalize ();
 }

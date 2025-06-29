@@ -61,7 +61,8 @@ private:
   pugi::xml_node m_word_level_attributes_node {};
   pugi::xml_node m_milestone_attributes_node {};
 
-  pugi::xml_node m_current_p_node {}; // The current p node.
+  // The current p node.
+  pugi::xml_node m_current_p_node {};
   bool m_current_p_open {false};
   std::vector <std::string> m_current_text_styles {};
   
@@ -72,6 +73,7 @@ private:
   
   // The note citations.
   filter::note::citations m_note_citations {};
+  std::string m_last_citation{};
 
   // Whether note is open.
   bool m_note_opened {false};
@@ -93,7 +95,7 @@ private:
   void add_note (const std::string& citation, const std::string& style);
   void add_note_text (const std::string& text);
   void close_current_note ();
-  void add_notel_link (pugi::xml_node& dom_node, const int identifier, const std::string& style, const std::string& text);
+  void add_note_link (pugi::xml_node& dom_node, const int identifier, const std::string& style, const std::string& text);
   bool road_is_clear ();
   
   // Word-level attributes.

@@ -30,7 +30,7 @@
 void Editor_Usfm2Html::load (std::string usfm)
 {
   // Clean the USFM up.
-  usfm = filter::strings::trim (usfm);
+  usfm = filter::strings::trim (std::move(usfm));
   usfm.append ("\n");
   // Separate the USFM into markers and text fragments.
   // Load it into the object.
@@ -42,7 +42,7 @@ void Editor_Usfm2Html::load (std::string usfm)
 void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
 {
   m_stylesheet = stylesheet;
-  // Load style version 2 information into the object.
+  // Load style information into the object.
   for (const stylesv2::Style& style : database::styles::get_styles(stylesheet)) {
     m_note_citations.evaluate_style(style);
   }
@@ -60,7 +60,7 @@ std::string Editor_Usfm2Html::get ()
 {
   close_paragraph ();
   
-  // If there are notes, move the notes <p> after everything else.
+  // If there are any notes, move the notes <p> after everything else.
   // (It has the <hr> or <br> as a child).
   {
     const long count = std::distance (m_notes_node.begin (), m_notes_node.end ());
@@ -109,18 +109,17 @@ std::string Editor_Usfm2Html::get ()
   std::string html = output.str ();
   
   // Remain with the stuff within the <body> elements.
-  size_t pos = html.find ("<body>");
-  if (pos != std::string::npos) {
-    html.erase (0, pos + 6);
-    pos = html.find ("</body>");
-    if (pos != std::string::npos) {
-      html.erase (pos);
+  constexpr const std::string_view body {"<body>"};
+  if (const size_t pos1 = html.find (body); pos1 != std::string::npos) {
+    html.erase (0, pos1 + body.length());
+    if (const size_t pos2 = html.find ("</body>"); pos2 != std::string::npos) {
+      html.erase (pos2);
     }
   }
   
   // Currently the XML library produces hexadecimal character entities.
   // This is unwanted behaviour: Convert them to normal characters.
-  html = filter::strings::convert_xml_character_entities_to_characters (html);
+  html = filter::strings::convert_xml_character_entities_to_characters (std::move(html));
   
   // Result.
   return html;
@@ -145,8 +144,8 @@ void Editor_Usfm2Html::preprocess ()
   // It comes at the start of the document.
   // (Later, it will either be deleted, or moved to the end).
   {
-    std::string notes_class = quill::notes_class;
     m_notes_node = m_document.append_child ("p");
+    std::string notes_class = quill::notes_class;
     notes_class.insert (0, quill::class_prefix_block);
     m_notes_node.append_attribute ("class") = notes_class.c_str ();
     m_notes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
@@ -156,8 +155,8 @@ void Editor_Usfm2Html::preprocess ()
   // It comes near the start of the document.
   // (Later, it will either be deleted, or moved to the end).
   {
-    std::string word_level_attributes_class = quill::word_level_attributes_class;
     m_word_level_attributes_node = m_document.append_child ("p");
+    std::string word_level_attributes_class = quill::word_level_attributes_class;
     word_level_attributes_class.insert (0, quill::class_prefix_block);
     m_word_level_attributes_node.append_attribute ("class") = word_level_attributes_class.c_str ();
     m_word_level_attributes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
@@ -167,8 +166,8 @@ void Editor_Usfm2Html::preprocess ()
   // It comes near the start of the document.
   // (Later, it will either be deleted, or moved to the end).
   {
-    std::string milestone_attributes_class = quill::milestone_attributes_class;
     m_milestone_attributes_node = m_document.append_child ("p");
+    std::string milestone_attributes_class = quill::milestone_attributes_class;
     milestone_attributes_class.insert (0, quill::class_prefix_block);
     m_milestone_attributes_node.append_attribute ("class") = milestone_attributes_class.c_str ();
     m_milestone_attributes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
@@ -306,8 +305,8 @@ void Editor_Usfm2Html::process ()
           {
             close_text_style (false);
             if (is_opening_marker) {
-              const std::string caller = m_note_citations.get (style->marker, "+");
-              add_note (caller, marker);
+              m_last_citation = m_note_citations.get (style->marker, "+");
+              add_note (m_last_citation, marker);
             } else {
               close_current_note ();
             }
@@ -316,8 +315,17 @@ void Editor_Usfm2Html::process ()
           case stylesv2::Type::note_standard_content:
           case stylesv2::Type::note_content:
           case stylesv2::Type::note_content_with_endmarker:
-          case stylesv2::Type::note_paragraph:
           {
+            if (is_opening_marker) {
+              open_text_style (style->marker, is_embedded_marker);
+            } else {
+              close_text_style (is_embedded_marker);
+            }
+            break;
+          }
+          case stylesv2::Type::note_paragraph: // Todo
+          {
+            // This should start a new paragraph, but it is implemented like a character style.
             if (is_opening_marker) {
               open_text_style (style->marker, is_embedded_marker);
             } else {
@@ -611,7 +619,6 @@ void Editor_Usfm2Html::add_text (const std::string& text)
 // This function adds a note to the current paragraph.
 // $citation: The text of the note citation.
 // $style: Style name for the paragraph in the note body.
-// $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
 void Editor_Usfm2Html::add_note (const std::string& citation, const std::string& style)
 {
   // Be sure that the road ahead is clear.
@@ -629,7 +636,7 @@ void Editor_Usfm2Html::add_note (const std::string& citation, const std::string&
   m_note_opened = true;
   
   // Add the link with all relevant data for the note citation.
-  add_notel_link (m_current_p_node, m_note_count, "call", citation);
+  add_note_link (m_current_p_node, m_note_count, "call", citation);
   
   // Open a paragraph element for the note body.
   m_note_p_node = m_notes_node.append_child ("p");
@@ -641,7 +648,7 @@ void Editor_Usfm2Html::add_note (const std::string& citation, const std::string&
   close_text_style (false);
   
   // Add the link with all relevant data for the note body.
-  add_notel_link (m_note_p_node, m_note_count, "body", citation);
+  add_note_link (m_note_p_node, m_note_count, "body", citation);
   
   // Add a space.
   add_note_text (" ");
@@ -688,13 +695,13 @@ void Editor_Usfm2Html::close_current_note ()
 // $style: A style for the note citation, and one for the note body.
 // $text: The link's text.
 // It also deals with a Quill-based editor, in a slightly different way.
-void Editor_Usfm2Html::add_notel_link (pugi::xml_node& dom_node, const int identifier,
-                                       const std::string& style, const std::string& text)
+void Editor_Usfm2Html::add_note_link (pugi::xml_node& dom_node, const int identifier,
+                                      const std::string& style, const std::string& text)
 {
-  pugi::xml_node a_dom_element = dom_node.append_child ("span");
-  const std::string class_value = "i-note" + style + std::to_string (identifier);
-  a_dom_element.append_attribute ("class") = class_value.c_str();
-  a_dom_element.text ().set (text.c_str());
+  pugi::xml_node a_dom_element = dom_node.append_child("span");
+  const std::string class_value = "i-note" + style + std::to_string(identifier);
+  a_dom_element.append_attribute("class") = class_value.c_str();
+  a_dom_element.text().set(text.c_str());
 }
 
 

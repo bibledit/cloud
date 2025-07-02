@@ -34,7 +34,7 @@
 #include <fonts/logic.h>
 #include <navigation/passage.h>
 #include <dialog/list.h>
-#include <dialog/list2.h>
+#include <dialog/select.h>
 #include <ipc/focus.h>
 #include <menu/logic.h>
 #include <bb/logic.h>

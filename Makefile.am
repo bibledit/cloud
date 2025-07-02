@@ -174,7 +174,7 @@ libbibledit_a_SOURCES = \
 	access/logic.cpp \
 	dialog/entry.cpp \
 	dialog/list.cpp \
-	dialog/list2.cpp \
+	dialog/select.cpp \
 	dialog/yes.cpp \
 	dialog/color.cpp \
 	dialog/books.cpp \

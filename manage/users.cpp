@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/header.h>
 #include <dialog/entry.h>
 #include <dialog/list.h>
-#include <dialog/list2.h>
+#include <dialog/select.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>

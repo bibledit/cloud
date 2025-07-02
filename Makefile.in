@@ -213,7 +213,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
 	access/bible.$(OBJEXT) access/logic.$(OBJEXT) \
 	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
-	dialog/list2.$(OBJEXT) dialog/yes.$(OBJEXT) \
+	dialog/select.$(OBJEXT) dialog/yes.$(OBJEXT) \
 	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
 	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
 	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
@@ -558,7 +558,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	developer/$(DEPDIR)/delay.Po developer/$(DEPDIR)/index.Po \
 	developer/$(DEPDIR)/logic.Po dialog/$(DEPDIR)/books.Po \
 	dialog/$(DEPDIR)/color.Po dialog/$(DEPDIR)/entry.Po \
-	dialog/$(DEPDIR)/list.Po dialog/$(DEPDIR)/list2.Po \
+	dialog/$(DEPDIR)/list.Po dialog/$(DEPDIR)/select.Po \
 	dialog/$(DEPDIR)/upload.Po dialog/$(DEPDIR)/yes.Po \
 	edit/$(DEPDIR)/edit.Po edit/$(DEPDIR)/id.Po \
 	edit/$(DEPDIR)/index.Po edit/$(DEPDIR)/load.Po \
@@ -1279,7 +1279,7 @@ libbibledit_a_SOURCES = \
 	access/logic.cpp \
 	dialog/entry.cpp \
 	dialog/list.cpp \
-	dialog/list2.cpp \
+	dialog/select.cpp \
 	dialog/yes.cpp \
 	dialog/color.cpp \
 	dialog/books.cpp \
@@ -2429,7 +2429,7 @@ dialog/entry.$(OBJEXT): dialog/$(am__dirstamp) \
 	dialog/$(DEPDIR)/$(am__dirstamp)
 dialog/list.$(OBJEXT): dialog/$(am__dirstamp) \
 	dialog/$(DEPDIR)/$(am__dirstamp)
-dialog/list2.$(OBJEXT): dialog/$(am__dirstamp) \
+dialog/select.$(OBJEXT): dialog/$(am__dirstamp) \
 	dialog/$(DEPDIR)/$(am__dirstamp)
 dialog/yes.$(OBJEXT): dialog/$(am__dirstamp) \
 	dialog/$(DEPDIR)/$(am__dirstamp)
@@ -3915,7 +3915,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/color.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/entry.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/list.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/list2.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/select.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/upload.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/yes.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/edit.Po@am__quote@ # am--include-marker
@@ -5113,7 +5113,7 @@ distclean: distclean-am
 	-rm -f dialog/$(DEPDIR)/color.Po
 	-rm -f dialog/$(DEPDIR)/entry.Po
 	-rm -f dialog/$(DEPDIR)/list.Po
-	-rm -f dialog/$(DEPDIR)/list2.Po
+	-rm -f dialog/$(DEPDIR)/select.Po
 	-rm -f dialog/$(DEPDIR)/upload.Po
 	-rm -f dialog/$(DEPDIR)/yes.Po
 	-rm -f edit/$(DEPDIR)/edit.Po
@@ -5801,7 +5801,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f dialog/$(DEPDIR)/color.Po
 	-rm -f dialog/$(DEPDIR)/entry.Po
 	-rm -f dialog/$(DEPDIR)/list.Po
-	-rm -f dialog/$(DEPDIR)/list2.Po
+	-rm -f dialog/$(DEPDIR)/select.Po
 	-rm -f dialog/$(DEPDIR)/upload.Po
 	-rm -f dialog/$(DEPDIR)/yes.Po
 	-rm -f edit/$(DEPDIR)/edit.Po

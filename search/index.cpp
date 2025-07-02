@@ -29,7 +29,7 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <access/bible.h>
-#include <dialog/list2.h>
+#include <dialog/select.h>
 
 
 std::string search_index_url ()

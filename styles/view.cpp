@@ -23,7 +23,7 @@
 #include <assets/page.h>
 #include <dialog/entry.h>
 #include <dialog/list.h>
-#include <dialog/list2.h>
+#include <dialog/select.h>
 #include <dialog/color.h>
 #include <filter/roles.h>
 #include <filter/url.h>

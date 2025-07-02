@@ -33,7 +33,7 @@
 #include <ipc/focus.h>
 #include <search/logic.h>
 #include <menu/logic.h>
-#include <dialog/list2.h>
+#include <dialog/select.h>
 
 
 std::string search_search2_url ()

@@ -119,8 +119,8 @@
 		CA6A12CF26F79EC900CDB5DB /* stb */ = {isa = PBXFileReference; lastKnownFileType = folder; path = stb; sourceTree = "<group>"; };
 		CA6A12D026F7BBE400CDB5DB /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		CA6A2765260B966200EE8844 /* focus.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = focus.js; sourceTree = "<group>"; };
-		CA6BEA0326456C08009A0416 /* list2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = list2.cpp; sourceTree = "<group>"; };
-		CA6BEA0426456C08009A0416 /* list2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = list2.h; sourceTree = "<group>"; };
+		CA6BEA0326456C08009A0416 /* select.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = select.cpp; sourceTree = "<group>"; };
+		CA6BEA0426456C08009A0416 /* select.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = select.h; sourceTree = "<group>"; };
 		CA70A069282ECF3F0077D241 /* enums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = enums.h; sourceTree = "<group>"; };
 		CA74778627F7376700192B66 /* note.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = note.cpp; sourceTree = "<group>"; };
 		CA74778727F7376700192B66 /* note.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = note.h; sourceTree = "<group>"; };
@@ -2978,8 +2978,8 @@
 				CADE3A2B24F17423003165BB /* list.cpp */,
 				CADE3A2824F17423003165BB /* list.h */,
 				CADE3A1E24F17423003165BB /* list.html */,
-				CA6BEA0326456C08009A0416 /* list2.cpp */,
-				CA6BEA0426456C08009A0416 /* list2.h */,
+				CA6BEA0326456C08009A0416 /* select.cpp */,
+				CA6BEA0426456C08009A0416 /* select.h */,
 				CADE3A1C24F17423003165BB /* text.html */,
 				CADE3A1D24F17423003165BB /* upload.cpp */,
 				CADE3A3624F17423003165BB /* upload.h */,

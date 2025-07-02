@@ -323,7 +323,7 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case stylesv2::Type::note_paragraph: // Todo
+          case stylesv2::Type::note_paragraph:
           {
             // This should start a new paragraph, but it is implemented like a character style.
             if (is_opening_marker) {

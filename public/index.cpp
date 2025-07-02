@@ -75,7 +75,7 @@ std::string public_index (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("bible")) {
     bible = webserver_request.query ["bible"];
     if (bible.empty()) {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display"), "", ""); // Todo
       for (const auto& public_bible : public_bibles) {
         dialog_list.add_row (public_bible, "bible", public_bible);
       }

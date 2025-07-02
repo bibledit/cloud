@@ -89,7 +89,7 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("bible")) {
     bible = webserver_request.query["bible"];
     if (bible.empty()) {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Select a Bible"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select a Bible"), "", ""); // Todo
       std::vector <std::string> bibles = access_bible::bibles (webserver_request);
       for (auto & selectable_bible : bibles) {
         // Select Bibles the user has write access to.

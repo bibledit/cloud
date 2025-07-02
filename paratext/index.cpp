@@ -61,7 +61,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("selectbible")) {
     std::string select = webserver_request.query["selectbible"];
     if (select == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", ""); // Todo
       dialog_list.add_query ("bible", bible);
       std::vector <std::string> bibles = database::bibles::get_bibles();
       for (auto & value : bibles) {
@@ -126,7 +126,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("paratextproject")) {
     std::string project = webserver_request.query["paratextproject"];
     if (project == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Which Paratext project are you going to use?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Which Paratext project are you going to use?"), "", ""); // Todo
       dialog_list.add_query ("bible", bible);
       std::vector <std::string> projects = Paratext_Logic::searchProjects (paratext_folder);
       for (auto & value : projects) {
@@ -148,7 +148,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("master")) {
     std::string master = webserver_request.query["master"];
     if (master == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Where are you going to take the initial Bible data from?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Where are you going to take the initial Bible data from?"), "", ""); // Todo
       dialog_list.add_query ("bible", bible);
       dialog_list.add_row (translate ("Bibledit"), "master", "bibledit");
       dialog_list.add_row ("Paratext", "master", "paratext");

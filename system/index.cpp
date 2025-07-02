@@ -108,7 +108,7 @@ std::string system_index (Webserver_Request& webserver_request)
       texts.push_back(element.second);
     }
     const std::string language = database::config::general::get_site_language ();
-    view.set_variable ("languageselectionoptags", dialog_list2_create_options(values, texts, language));
+    view.set_variable ("languageselectionoptags", dialog_select_create_options(values, texts, language));
     view.set_variable ("languageselection", language);
   }
 

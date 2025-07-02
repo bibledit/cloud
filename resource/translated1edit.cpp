@@ -95,7 +95,7 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("original")) {
     std::string value = webserver_request.query["original"];
     if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as the original resource"), translate ("The original resource will be translated from the source language to the target language."), std::string());
+      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as the original resource"), translate ("The original resource will be translated from the source language to the target language."), std::string()); // Todo
       dialog_list.add_query ("name", name);
       std::vector <std::string> resources = resource_logic_get_names (webserver_request, true);
       for (const auto & resource : resources) {
@@ -114,7 +114,7 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("source")) {
     std::string value = webserver_request.query["source"];
     if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language of the original resource"), translate ("The language the original resource is written in."), std::string());
+      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language of the original resource"), translate ("The language the original resource is written in."), std::string()); // Todo
       dialog_list.add_query ("name", name);
       std::vector <std::pair <std::string, std::string> > languages = filter::google::get_languages ("en");
       for (const auto & language : languages) {
@@ -133,7 +133,7 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("target")) {
     std::string value = webserver_request.query["target"];
     if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language to translate the resource into"), translate ("The language the resource will be translated into."), std::string());
+      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language to translate the resource into"), translate ("The language the resource will be translated into."), std::string()); // Todo
       dialog_list.add_query ("name", name);
       std::vector <std::pair <std::string, std::string> > languages = filter::google::get_languages ("en");
       for (const auto & language : languages) {

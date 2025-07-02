@@ -42,7 +42,7 @@ Dialog_List::Dialog_List (std::string url, std::string question, std::string inf
 }
 
 
-Dialog_List::~Dialog_List ()
+Dialog_List::~Dialog_List () // Todo
 {
 }
 

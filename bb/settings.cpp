@@ -114,7 +114,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("versification")) {
     const std::string versification = webserver_request.query["versification"];
     if (versification.empty()) {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the versification system?"), translate ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), "");
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the versification system?"), translate ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), ""); // Todo
       dialog_list.add_query ("bible", bible);
       Database_Versifications database_versifications;
       const std::vector <std::string> versification_names = database_versifications.getSystems ();
@@ -171,7 +171,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   // Importing text from a resource.
   if (webserver_request.query.count ("resource")) {
     Dialog_List dialog_list = Dialog_List ("settings", translate("Select a resource to import into the Bible"), translate ("The resource will be imported.") + " " + translate ("It will overwrite the content of the Bible."), "", true);
-    dialog_list.add_query ("bible", bible);
+    dialog_list.add_query ("bible", bible); // Todo
     std::vector <std::string> resources = resource_external_names ();
     for (const auto& resource : resources) {
       dialog_list.add_row (resource, "resource", resource);
@@ -251,7 +251,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("stylesheetediting")) {
     const std::string stylesheet = webserver_request.query["stylesheetediting"];
     if (stylesheet.empty()) {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the stylesheet for editing?"), translate ("The stylesheet affects how the Bible text in the editor looks.") + " " + translate ("Please make your choice below."), "");
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the stylesheet for editing?"), translate ("The stylesheet affects how the Bible text in the editor looks.") + " " + translate ("Please make your choice below."), ""); // Todo
       dialog_list.add_query ("bible", bible);
       const std::vector <std::string> sheets = database::styles::get_sheets();
       for (const auto& name : sheets) {
@@ -271,7 +271,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("stylesheetexport")) {
     const std::string export_stylesheet = webserver_request.query["stylesheetexport"];
     if (export_stylesheet.empty()) {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the stylesheet for export?"), translate ("The stylesheet affects how the Bible text looks when exported.") + " " + translate ("Please make your choice below."), "");
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the stylesheet for export?"), translate ("The stylesheet affects how the Bible text looks when exported.") + " " + translate ("Please make your choice below."), ""); // Todo
       dialog_list.add_query ("bible", bible);
       const std::vector <std::string> sheets = database::styles::get_sheets();
       for (const auto& name : sheets) {

@@ -85,7 +85,7 @@ std::string resource_select (Webserver_Request& webserver_request)
     // Any resources added is POSTed because when it was still done through GET,
     // the crawlers of the search engines kept clicking links and so adding resources on the public demo.
     // The POST method is supposed to be immune to that.
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible"), "", "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible"), "", "", true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> bibles = access_bible::bibles (webserver_request);
@@ -98,7 +98,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   
 
   if (webserver_request.query.count ("usfm")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a USFM resource"), "", "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a USFM resource"), "", "", true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources;
@@ -119,7 +119,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   
 
   if (webserver_request.query.count ("web_orig")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), disconnected_info, "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), disconnected_info, "", true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources = resource_external_get_original_language_resources ();
@@ -133,7 +133,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("web_bibles")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible translation"), disconnected_info, "", true);
-    dialog_list.add_query ("page", webserver_request.query["page"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]); // Todo
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources = resource_external_get_bibles ();
     for (const auto & resource : resources) {
@@ -145,7 +145,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("image")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select an image resource"), "", "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select an image resource"), "", "", true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     Database_ImageResources database_imageresources;
@@ -159,7 +159,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   
 
   if (webserver_request.query.count ("lexicon")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a lexicon resource"), "", "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a lexicon resource"), "", "", true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources = lexicon_logic_resource_names ();
@@ -172,7 +172,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("sword")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a SWORD resource"), disconnected_info, "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a SWORD resource"), disconnected_info, "", true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources = sword_logic_get_available ();
@@ -185,7 +185,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("divider")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a divider"), "", "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a divider"), "", "", true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources = {
@@ -206,7 +206,7 @@ std::string resource_select (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("biblegateway")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a BibleGateway resource"), disconnected_info, "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a BibleGateway resource"), disconnected_info, "", true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources = resource_logic_bible_gateway_module_list_get ();
@@ -219,7 +219,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("studylight")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a StudyLight resource"), disconnected_info, "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a StudyLight resource"), disconnected_info, "", true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources = resource_logic_study_light_module_list_get ();
@@ -236,7 +236,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   // One of those properties is the title.
   // This selection mechanism here shows that title only.
   if (webserver_request.query.count ("comparative")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Comparative resource"), disconnected_info, std::string(), true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Comparative resource"), disconnected_info, std::string(), true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources;
@@ -265,7 +265,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   // One of those properties is the title.
   // This selection mechanism here shows that title only.
   if (webserver_request.query.count ("translated")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Translated resource"), disconnected_info, std::string(), true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Translated resource"), disconnected_info, std::string(), true); // Todo
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources;

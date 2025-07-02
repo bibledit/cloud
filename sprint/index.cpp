@@ -148,7 +148,7 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
     bible = webserver_request.query ["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display the Sprint for"), "", "");
-      std::vector <std::string> bibles = access_bible::bibles (webserver_request);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request); // Todo
       for (auto & selection_bible : bibles) {
         dialog_list.add_row (selection_bible, "bible", selection_bible);
       }

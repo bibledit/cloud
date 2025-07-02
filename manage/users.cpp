@@ -89,7 +89,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     const std::string default_acl = std::to_string (database::config::general::get_default_new_user_access_level ());
     const std::vector<std::string> enums { std::to_string(roles::guest), std::to_string(roles::member) };
     const std::vector<std::string> texts { roles::english(roles::guest), roles::english(roles::member) };
-    view.set_variable ("defaultacloptags", dialog_list2_create_options (enums, texts, default_acl));
+    view.set_variable ("defaultacloptags", dialog_select_create_options (enums, texts, default_acl));
     view.set_variable ("defaultacl", default_acl);
   }
 
@@ -170,7 +170,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("level")) {
     std::string level = webserver_request.query ["level"];
     if (level == "") {
-      Dialog_List dialog_list = Dialog_List ("users", translate("Select a role for") + " " + objectUsername, "", "");
+      Dialog_List dialog_list = Dialog_List ("users", translate("Select a role for") + " " + objectUsername, "", ""); // Todo
       dialog_list.add_query ("user", objectUsername);
       for (int i = roles::lowest; i <= roles::highest; i++) {
         if (i <= myLevel) {
@@ -218,7 +218,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("addbible")) {
     std::string addbible = webserver_request.query["addbible"];
     if (addbible == "") {
-      Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), "", ""); // Todo
       dialog_list.add_query ("user", objectUsername);
       for (auto bible : allbibles) {
         dialog_list.add_row (bible, "addbible", bible);

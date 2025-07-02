@@ -108,7 +108,7 @@ std::string resource_print (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("frombook")) {
     std::string frombook = webserver_request.query["frombook"];
     if (frombook == "") {
-      Dialog_List dialog_list = Dialog_List ("print", translate("Select a book"), "", "");
+      Dialog_List dialog_list = Dialog_List ("print", translate("Select a book"), "", ""); // Todo
       std::vector <int> books = database::bibles::get_books (bible);
       for (auto & book : books) {
         std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
@@ -143,7 +143,7 @@ std::string resource_print (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("fromchapter")) {
     std::string fromchapter = webserver_request.query["fromchapter"];
     if (fromchapter == "") {
-      Dialog_List dialog_list = Dialog_List ("print", translate("Select a chapter"), "", "");
+      Dialog_List dialog_list = Dialog_List ("print", translate("Select a chapter"), "", ""); // Todo
       Passage passage = webserver_request.database_config_user()->get_print_passage_from ();
       std::vector <int> chapters = database::bibles::get_chapters (bible, passage.m_book);
       for (auto & chapter : chapters) {
@@ -174,7 +174,7 @@ std::string resource_print (Webserver_Request& webserver_request)
   if (webserver_request.query.count("fromverse")) {
     std::string fromverse = webserver_request.query["fromverse"];
     if (fromverse == "") {
-      Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", "");
+      Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", ""); // Todo
       Passage passage = webserver_request.database_config_user()->get_print_passage_from ();
       std::string usfm = database::bibles::get_chapter (bible, passage.m_book, passage.m_chapter);
       std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
@@ -203,7 +203,7 @@ std::string resource_print (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("tobook")) {
     std::string tobook = webserver_request.query["tobook"];
     if (tobook == "") {
-      Dialog_List dialog_list = Dialog_List ("print", translate("Select a book"), "", "");
+      Dialog_List dialog_list = Dialog_List ("print", translate("Select a book"), "", ""); // Todo
       std::vector <int> books = database::bibles::get_books (bible);
       for (auto & book : books) {
         std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
@@ -234,7 +234,7 @@ std::string resource_print (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("tochapter")) {
     std::string tochapter = webserver_request.query["tochapter"];
     if (tochapter == "") {
-      Dialog_List dialog_list = Dialog_List ("print", translate("Select a chapter"), "", "");
+      Dialog_List dialog_list = Dialog_List ("print", translate("Select a chapter"), "", ""); // Todo
       Passage passage = webserver_request.database_config_user()->get_print_passage_to ();
       std::vector <int> chapters = database::bibles::get_chapters (bible, passage.m_book);
       for (auto & chapter : chapters) {
@@ -264,7 +264,7 @@ std::string resource_print (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("toverse")) {
     std::string toverse = webserver_request.query["toverse"];
     if (toverse == "") {
-      Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", "");
+      Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", ""); // Todo
       Passage passage = webserver_request.database_config_user()->get_print_passage_to ();
       std::string usfm = database::bibles::get_chapter (bible, passage.m_book, passage.m_chapter);
       std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);

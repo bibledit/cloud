@@ -31,9 +31,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic pop
 
 
-std::string dialog_list2_create_options(const std::vector<std::string>& values,
-                                        const std::vector<std::string>& displayed,
-                                        const std::string& selected)
+std::string dialog_select_create_options(const std::vector<std::string>& values,
+                                         const std::vector<std::string>& displayed,
+                                         const std::string& selected)
 {
   pugi::xml_document document {};
   for (size_t i {0}; i < values.size(); i++) {

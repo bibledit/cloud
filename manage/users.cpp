@@ -89,7 +89,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     const std::string default_acl = std::to_string (database::config::general::get_default_new_user_access_level ());
     const std::vector<std::string> enums { std::to_string(roles::guest), std::to_string(roles::member) };
     const std::vector<std::string> texts { roles::english(roles::guest), roles::english(roles::member) };
-    view.set_variable ("defaultacloptags", dialog_select_create_options (enums, texts, default_acl));
+    view.set_variable ("defaultacloptags", dialog::select::create_options (enums, texts, default_acl));
     view.set_variable ("defaultacl", default_acl);
   }
 

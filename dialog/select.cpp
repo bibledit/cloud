@@ -32,9 +32,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-std::string dialog_select_create_options(const std::vector<std::string>& values,
-                                         const std::vector<std::string>& displayed,
-                                         const std::string& selected)
+namespace dialog::select {
+
+
+std::string create_options(const std::vector<std::string>& values,
+                           const std::vector<std::string>& displayed,
+                           const std::string& selected)
 {
   pugi::xml_document document {};
   for (size_t i {0}; i < values.size(); i++) {
@@ -51,14 +54,14 @@ std::string dialog_select_create_options(const std::vector<std::string>& values,
 }
 
 
-std::string dialog_select_create(const std::string& identification,
-                                 const std::vector<std::string>& values,
-                                 const std::vector<std::string>& displayed,
-                                 const std::string& selected,
-                                 std::vector<std::pair<std::string,std::string>> parameters)
+std::string create(const std::string& identification,
+                   const std::vector<std::string>& values,
+                   const std::vector<std::string>& displayed,
+                   const std::string& selected,
+                   std::vector<std::pair<std::string,std::string>> parameters)
 {
   pugi::xml_document document {};
-
+  
   // Create the html <select> element and fill them with the values.
   pugi::xml_node select_node = document.append_child("select");
   select_node.append_attribute("id") = identification.c_str();
@@ -71,7 +74,7 @@ std::string dialog_select_create(const std::string& identification,
     const std::string display = (i >= displayed.size()) ? values.at(i) : displayed.at(i);
     option_node.text().set(display.c_str());
   }
-
+  
   // The Javascript to POST the selected value if it changes.
   std::string javascript = R"(
 $("#identification").on( "change", function() {
@@ -96,9 +99,12 @@ $("#identification").on( "change", function() {
   
   pugi::xml_node script_node = document.append_child("script");
   script_node.text().set(javascript.c_str());
-
+  
   // Convert it to html including Javascript.
   std::stringstream html_ss {};
   document.print (html_ss, "", pugi::format_raw);
   return html_ss.str();
+}
+
+
 }

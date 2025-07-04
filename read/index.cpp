@@ -100,7 +100,7 @@ std::string read_index (Webserver_Request& webserver_request)
     bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
   {
     const std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-    const auto html = dialog_select_create_options (bibles, bibles, bible);
+    const auto html = dialog::select::create_options (bibles, bibles, bible);
     view.set_variable ("bibleoptags", html);
     view.set_variable ("bible", bible);
   }

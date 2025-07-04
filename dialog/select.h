@@ -21,11 +21,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-std::string dialog_select_create_options(const std::vector<std::string>& values,
-                                         const std::vector<std::string>& displayed,
-                                         const std::string& selected);
-std::string dialog_select_create(const std::string& identification,
-                                 const std::vector<std::string>& values,
-                                 const std::vector<std::string>& displayed,
-                                 const std::string& selected,
-                                 std::vector<std::pair<std::string,std::string>> parameters);
+namespace dialog::select {
+
+std::string create_options(const std::vector<std::string>& values,
+                           const std::vector<std::string>& displayed,
+                           const std::string& selected);
+std::string create(const std::string& identification,
+                   const std::vector<std::string>& values,
+                   const std::vector<std::string>& displayed,
+                   const std::string& selected,
+                   std::vector<std::pair<std::string,std::string>> parameters);
+
+}

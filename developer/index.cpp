@@ -156,7 +156,7 @@ std::string developer_index (Webserver_Request& webserver_request)
     {"a", "one"},
     {"b", "two"}
   };
-  view.set_variable(selector, dialog_select_create(selector, selector_options, selector_options, selector_options.front(), parameters));
+  view.set_variable(selector, dialog::select::create(selector, selector_options, selector_options, selector_options.front(), parameters));
   
   view.set_variable ("code", code);
 

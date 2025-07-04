@@ -162,7 +162,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     for (const auto state2 : stylesv2::get_four_states()) {
       states.emplace_back(fourstate_enum_to_value(state2));
     }
-    return dialog_select_create_options(states, states, stylesv2::fourstate_enum_to_value(state));
+    return dialog::select::create_options(states, states, stylesv2::fourstate_enum_to_value(state));
   };
   
   // Function to generate html for the TwoState options, i.e. on / off.
@@ -171,7 +171,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     for (const auto state2 : stylesv2::get_two_states()) {
       states.emplace_back(twostate_enum_to_value(state2));
     }
-    return dialog_select_create_options(states, states, stylesv2::twostate_enum_to_value(state));
+    return dialog::select::create_options(states, states, stylesv2::twostate_enum_to_value(state));
   };
 
   
@@ -224,7 +224,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       for (const auto alignment2 : stylesv2::get_text_alignments()) {
         alignments.emplace_back(textalignment_enum_to_value(alignment2));
       }
-      return dialog_select_create_options(alignments, alignments, stylesv2::textalignment_enum_to_value(alignment));
+      return dialog::select::create_options(alignments, alignments, stylesv2::textalignment_enum_to_value(alignment));
     };
     view.set_variable("textalignment", get_textalignment_html(marker_data.paragraph.value().text_alignment));
 
@@ -392,7 +392,7 @@ std::string styles_view (Webserver_Request& webserver_request)
         stylesv2::notes_numbering_restart_book,
         stylesv2::notes_numbering_restart_chapter
       };
-      view.set_variable("restart_options", dialog_select_create_options(values, values, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_restart)));
+      view.set_variable("restart_options", dialog::select::create_options(values, values, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_restart)));
     }
   }
 

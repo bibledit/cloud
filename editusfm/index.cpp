@@ -97,7 +97,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("bible"))
     bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
   const std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-  view.set_variable ("bibleoptags", dialog_select_create_options(bibles, bibles, bible));
+  view.set_variable ("bibleoptags", dialog::select::create_options(bibles, bibles, bible));
   view.set_variable ("bible", bible);
   
   

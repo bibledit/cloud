@@ -57,8 +57,7 @@ std::string create_options(const std::vector<std::string>& values,
 std::string create(const std::string& identification,
                    const std::vector<std::string>& values,
                    const std::vector<std::string>& displayed,
-                   const std::string& selected,
-                   std::vector<std::pair<std::string,std::string>> parameters)
+                   Options options)
 {
   pugi::xml_document document {};
   
@@ -69,7 +68,7 @@ std::string create(const std::string& identification,
   for (size_t i {0}; i < values.size(); i++) {
     pugi::xml_node option_node = select_node.append_child("option");
     option_node.append_attribute("value") = values.at(i).c_str();
-    if (selected == values[i])
+    if (options.selected && options.selected.value() == values.at(i))
       option_node.append_attribute("selected");
     const std::string display = (i >= displayed.size()) ? values.at(i) : displayed.at(i);
     option_node.text().set(display.c_str());
@@ -90,7 +89,7 @@ $("#identification").on( "change", function() {
   
   // Update the Javascript with the parameters to append to the POST request.
   std::stringstream ss{};
-  for (const std::pair<std::string, std::string>& parameter : parameters) {
+  for (const std::pair<std::string, std::string>& parameter : options.parameters) {
     if (!ss.str().empty())
       ss << ", ";
     ss << parameter.first << ": " << std::quoted(parameter.second);

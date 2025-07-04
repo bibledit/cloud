@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <library/bibledit.h>
 #include <developer/logic.h>
 #include <webserver/request.h>
+#include <dialog/select.h>
 
 
 const char * developer_index_url ()
@@ -108,9 +109,9 @@ std::string developer_index (Webserver_Request& webserver_request)
     view.set_variable ("success", "Task disabled");
   }
   
-  if (debug == "receive") {
+  if (debug == "sendreceive") {
     tasks_logic_queue (task::receive_email);
-    view.set_variable ("success", "Receiving email and running tasks that send mail");
+    view.set_variable ("success", "Sending and receiving email");
   }
 
   if (debug == "ipv6") {
@@ -144,6 +145,18 @@ std::string developer_index (Webserver_Request& webserver_request)
     developer_logic_import_changes ();
     view.set_variable ("success", "Task was done see Journal");
   }
+  
+  constexpr const char* selector {"selector"};
+  const std::vector<std::string> selector_options {"aaa", "bbb", "ccc"};
+  if (webserver_request.post.count (selector)) {
+    [[maybe_unused]] const std::string value {webserver_request.post.at(selector)};
+    return std::string();
+  }
+  std::vector<std::pair<std::string,std::string>> parameters {
+    {"a", "one"},
+    {"b", "two"}
+  };
+  view.set_variable(selector, dialog_select_create(selector, selector_options, selector_options, selector_options.front(), parameters));
   
   view.set_variable ("code", code);
 

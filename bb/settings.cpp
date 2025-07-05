@@ -121,12 +121,14 @@ std::string bible_settings (Webserver_Request& webserver_request)
       if (write_access)
         database::config::bible::set_versification_system (bible, system);
     }
-    dialog::select::Options options {
+    dialog::select::Settings settings {
+      .identification = versification,
+      .values = systems,
       .selected = database::config::bible::get_versification_system (bible),
       .parameters = { {"bible", bible} },
       .disabled = !write_access,
     };
-    view.set_variable(versification, dialog::select::create(versification, systems, systems, options));
+    view.set_variable(versification, dialog::select::create(settings));
   }
 
 

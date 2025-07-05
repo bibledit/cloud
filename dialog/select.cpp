@@ -54,25 +54,22 @@ std::string create_options(const std::vector<std::string>& values,
 }
 
 
-std::string create(const std::string& identification,
-                   const std::vector<std::string>& values,
-                   const std::vector<std::string>& displayed,
-                   Options options)
+std::string create(Settings& settings)
 {
   pugi::xml_document document {};
   
   // Create the html <select> element and fill them with the values.
   pugi::xml_node select_node = document.append_child("select");
-  select_node.append_attribute("id") = identification.c_str();
-  select_node.append_attribute("name") = identification.c_str();
-  if (options.disabled)
+  select_node.append_attribute("id") = settings.identification;
+  select_node.append_attribute("name") = settings.identification;
+  if (settings.disabled)
     select_node.append_attribute("disabled") = "";
-  for (size_t v {0}; v < values.size(); v++) {
+  for (size_t v {0}; v < settings.values.size(); v++) {
     pugi::xml_node option_node = select_node.append_child("option");
-    option_node.append_attribute("value") = values.at(v).c_str();
-    if (options.selected and options.selected.value() == values.at(v))
+    option_node.append_attribute("value") = settings.values.at(v).c_str();
+    if (settings.selected and settings.selected.value() == settings.values.at(v))
       option_node.append_attribute("selected");
-    const std::string display = (v >= displayed.size()) ? values.at(v) : displayed.at(v);
+    const std::string display = (v >= settings.displayed.size()) ? settings.values.at(v) : settings.displayed.at(v);
     option_node.text().set(display.c_str());
   }
   
@@ -87,11 +84,11 @@ $("#identification").on( "change", function() {
   });
 });
 )";
-  javascript = filter::strings::replace("identification", identification, std::move(javascript));
+  javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
   
   // Update the Javascript with the parameters to append to the POST request.
   std::stringstream ss{};
-  for (const std::pair<std::string, std::string>& parameter : options.parameters) {
+  for (const std::pair<std::string, std::string>& parameter : settings.parameters) {
     if (!ss.str().empty())
       ss << ", ";
     ss << parameter.first << ": " << std::quoted(parameter.second);

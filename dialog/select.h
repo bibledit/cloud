@@ -27,15 +27,15 @@ std::string create_options(const std::vector<std::string>& values,
                            const std::vector<std::string>& displayed,
                            const std::string& selected);
 
-struct Options {
-  std::optional<std::string> selected {std::nullopt};
-  std::vector<std::pair<std::string,std::string>> parameters;
+struct Settings {
+  const char* identification;
+  const std::vector<std::string> values;
+  const std::vector<std::string> displayed;
+  const std::optional<std::string> selected {std::nullopt};
+  const std::vector<std::pair<std::string,std::string>> parameters;
   bool disabled {false};
 };
 
-std::string create(const std::string& identification,
-                   const std::vector<std::string>& values,
-                   const std::vector<std::string>& displayed,
-                   Options options);
+std::string create(Settings& settings);
 
 }

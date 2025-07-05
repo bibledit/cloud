@@ -147,19 +147,17 @@ std::string developer_index (Webserver_Request& webserver_request)
   }
   
   constexpr const char* selector {"selector"};
-  const std::vector<std::string> selector_options {"aaa", "bbb", "ccc"};
   if (webserver_request.post.count (selector)) {
     [[maybe_unused]] const std::string value {webserver_request.post.at(selector)};
     return std::string();
   }
-  dialog::select::Options options {
-    .selected = selector_options.front(),
-    .parameters = {
-      {"a", "one"},
-      {"b", "two"}
-    }
+  dialog::select::Settings settings {
+    .identification = selector,
+    .values = {"aaa", "bbb", "ccc"},
+    .selected = "aaa",
+    .parameters = { {"a", "one"}, {"b", "two"} }
   };
-  view.set_variable(selector, dialog::select::create(selector, selector_options, selector_options, options));
+  view.set_variable(selector, dialog::select::create(settings));
   
   view.set_variable ("code", code);
 

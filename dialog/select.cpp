@@ -65,12 +65,12 @@ std::string create(const std::string& identification,
   pugi::xml_node select_node = document.append_child("select");
   select_node.append_attribute("id") = identification.c_str();
   select_node.append_attribute("name") = identification.c_str();
-  for (size_t i {0}; i < values.size(); i++) {
+  for (size_t v {0}; v < values.size(); v++) {
     pugi::xml_node option_node = select_node.append_child("option");
-    option_node.append_attribute("value") = values.at(i).c_str();
-    if (options.selected && options.selected.value() == values.at(i))
+    option_node.append_attribute("value") = values.at(v).c_str();
+    if (options.selected and options.selected.value() == values.at(v))
       option_node.append_attribute("selected");
-    const std::string display = (i >= displayed.size()) ? values.at(i) : displayed.at(i);
+    const std::string display = (v >= displayed.size()) ? values.at(v) : displayed.at(v);
     option_node.text().set(display.c_str());
   }
   

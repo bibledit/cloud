@@ -33,6 +33,7 @@
 #include <dialog/entry.h>
 #include <dialog/yes.h>
 #include <dialog/list.h>
+#include <dialog/select.h>
 #include <dialog/books.h>
 #include <access/bible.h>
 #include <book/create.h>
@@ -110,25 +111,24 @@ std::string bible_settings (Webserver_Request& webserver_request)
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
   
-  // Versification.
-  if (webserver_request.query.count ("versification")) {
-    const std::string versification = webserver_request.query["versification"];
-    if (versification.empty()) {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the versification system?"), translate ("A versification system determines how many chapters are in each book, and how many verses are in each chapter. Please make your choice below."), ""); // Todo
-      dialog_list.add_query ("bible", bible);
-      Database_Versifications database_versifications;
-      const std::vector <std::string> versification_names = database_versifications.getSystems ();
-      for (const auto& versification_name : versification_names) {
-        dialog_list.add_row (versification_name, "versification", versification_name);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      if (write_access) database::config::bible::set_versification_system (bible, versification);
+  // Versification
+  {
+    constexpr const char* versification {"versification"};
+    Database_Versifications database_versifications;
+    const std::vector <std::string> systems = database_versifications.getSystems ();
+    if (webserver_request.post.count (versification)) {
+      const std::string system {webserver_request.post.at(versification)};
+      if (write_access)
+        database::config::bible::set_versification_system (bible, system);
     }
+    dialog::select::Options options {
+      .selected = database::config::bible::get_versification_system (bible),
+      .parameters = { {"bible", bible} },
+      .disabled = !write_access,
+    };
+    view.set_variable(versification, dialog::select::create(versification, systems, systems, options));
   }
-  const std::string versification = database::config::bible::get_versification_system (bible);
-  view.set_variable ("versification", versification);
+
 
   
   // Book creation.

@@ -65,6 +65,8 @@ std::string create(const std::string& identification,
   pugi::xml_node select_node = document.append_child("select");
   select_node.append_attribute("id") = identification.c_str();
   select_node.append_attribute("name") = identification.c_str();
+  if (options.disabled)
+    select_node.append_attribute("disabled") = "";
   for (size_t v {0}; v < values.size(); v++) {
     pugi::xml_node option_node = select_node.append_child("option");
     option_node.append_attribute("value") = values.at(v).c_str();

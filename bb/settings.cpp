@@ -259,24 +259,25 @@ std::string bible_settings (Webserver_Request& webserver_request)
 
   
   // Stylesheet for editing.
-  if (webserver_request.query.count ("stylesheetediting")) {
-    const std::string stylesheet = webserver_request.query["stylesheetediting"];
-    if (stylesheet.empty()) {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the stylesheet for editing?"), translate ("The stylesheet affects how the Bible text in the editor looks.") + " " + translate ("Please make your choice below."), ""); // Todo
-      dialog_list.add_query ("bible", bible);
-      const std::vector <std::string> sheets = database::styles::get_sheets();
-      for (const auto& name : sheets) {
-        dialog_list.add_row (name, "stylesheetediting", name);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      if (write_access) database::config::bible::set_editor_stylesheet (bible, stylesheet);
+  {
+    constexpr const char* identification {"stylesheetediting"};
+    if (webserver_request.post.count (identification)) {
+      const std::string value {webserver_request.post.at(identification)};
+      database::config::bible::set_editor_stylesheet (bible, value);
+      return std::string();
     }
+    dialog::select::Settings settings {
+      .info_before = translate("Stylesheet for editing"),
+      .identification = identification,
+      .values = database::styles::get_sheets(),
+      .selected = database::config::bible::get_editor_stylesheet (bible),
+      .parameters = { {"bible", bible} },
+      .disabled = !(write_access and access_logic::privilege_set_stylesheets (webserver_request, current_user)),
+      .info_after = "This affects how the Bible text in the editor looks.",
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
   }
-  std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
-  view.set_variable ("stylesheetediting", stylesheet);
-
+  
   
   // Stylesheet for export.
   if (webserver_request.query.count ("stylesheetexport")) {
@@ -294,7 +295,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
       if (write_access) database::config::bible::set_export_stylesheet (bible, export_stylesheet);
     }
   }
-  stylesheet = database::config::bible::get_export_stylesheet (bible);
+  const auto stylesheet = database::config::bible::get_export_stylesheet (bible);
   view.set_variable ("stylesheetexport", stylesheet);
   
   

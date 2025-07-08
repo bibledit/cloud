@@ -280,23 +280,24 @@ std::string bible_settings (Webserver_Request& webserver_request)
   
   
   // Stylesheet for export.
-  if (webserver_request.query.count ("stylesheetexport")) {
-    const std::string export_stylesheet = webserver_request.query["stylesheetexport"];
-    if (export_stylesheet.empty()) {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the stylesheet for export?"), translate ("The stylesheet affects how the Bible text looks when exported.") + " " + translate ("Please make your choice below."), ""); // Todo
-      dialog_list.add_query ("bible", bible);
-      const std::vector <std::string> sheets = database::styles::get_sheets();
-      for (const auto& name : sheets) {
-        dialog_list.add_row (name, "stylesheetexport", name);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      if (write_access) database::config::bible::set_export_stylesheet (bible, export_stylesheet);
+  {
+    constexpr const char* identification {"stylesheetexport"};
+    if (webserver_request.post.count (identification)) {
+      const std::string value {webserver_request.post.at(identification)};
+      database::config::bible::set_export_stylesheet (bible, value);
+      return std::string();
     }
+    dialog::select::Settings settings {
+      .info_before = translate("Stylesheet for export"),
+      .identification = identification,
+      .values = database::styles::get_sheets(),
+      .selected = database::config::bible::get_export_stylesheet (bible),
+      .parameters = { {"bible", bible} },
+      .disabled = !(write_access and access_logic::privilege_set_stylesheets (webserver_request, current_user)),
+      .info_after = "This affects how the Bible text looks when exported.",
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
   }
-  const auto stylesheet = database::config::bible::get_export_stylesheet (bible);
-  view.set_variable ("stylesheetexport", stylesheet);
   
   
   // Automatic daily checks on text.

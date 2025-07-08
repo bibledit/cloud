@@ -146,19 +146,41 @@ std::string developer_index (Webserver_Request& webserver_request)
     view.set_variable ("success", "Task was done see Journal");
   }
   
-  constexpr const char* selector {"selector"};
-  if (webserver_request.post.count (selector)) {
-    [[maybe_unused]] const std::string value {webserver_request.post.at(selector)};
-    return std::string();
+  {
+    constexpr const char* identification {"selectorajax"};
+    if (webserver_request.post.count (identification)) {
+      [[maybe_unused]] const std::string value {webserver_request.post.at(identification)};
+      return std::string();
+    }
+    dialog::select::Settings settings {
+      .info_before = "Info before",
+      .identification = identification,
+      .values = {"aaa", "bbb", "ccc"},
+      .selected = "aaa",
+      .parameters = { {"a", "one"}, {"b", "two"} },
+      .info_after = "Info after",
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
   }
-  dialog::select::Settings settings {
-    .identification = selector,
-    .values = {"aaa", "bbb", "ccc"},
-    .selected = "aaa",
-    .parameters = { {"a", "one"}, {"b", "two"} }
-  };
-  view.set_variable(selector, dialog::select::create(settings));
-  
+
+  {
+    constexpr const char* identification {"selectorform"};
+    std::string selected = "aaa";
+    if (webserver_request.post.count (identification)) {
+      selected = webserver_request.post.at(identification).c_str();
+      view.set_variable ("success", "Submitted: " + selected);
+    }
+    dialog::select::Settings settings {
+      .info_before = "Info before",
+      .identification = identification,
+      .values = {"aaa", "bbb", "ccc"},
+      .selected = selected.c_str(),
+      .parameters = { {"a", "one"}, {"b", "two"} },
+      .info_after = "Info after",
+    };
+    view.set_variable(identification, dialog::select::form(settings)); // Todo
+  }
+
   view.set_variable ("code", code);
 
   page += view.render ("developer", "index");

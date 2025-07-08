@@ -128,7 +128,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
       .parameters = { {"bible", bible} },
       .disabled = !write_access,
     };
-    view.set_variable(versification, dialog::select::create(settings));
+    view.set_variable(versification, dialog::select::ajax(settings));
   }
 
 
@@ -171,31 +171,40 @@ std::string bible_settings (Webserver_Request& webserver_request)
   
   
   // Importing text from a resource.
-  if (webserver_request.query.count ("resource")) {
-    Dialog_List dialog_list = Dialog_List ("settings", translate("Select a resource to import into the Bible"), translate ("The resource will be imported.") + " " + translate ("It will overwrite the content of the Bible."), "", true);
-    dialog_list.add_query ("bible", bible); // Todo
-    std::vector <std::string> resources = resource_external_names ();
-    for (const auto& resource : resources) {
-      dialog_list.add_row (resource, "resource", resource);
+  {
+    constexpr const char* selector {"resource"};
+    if (webserver_request.post.count (selector)) {
+      const std::string resource {webserver_request.post.at(selector)};
+      if (!resource.empty ()) {
+        const auto bibles = database::bibles::get_books (bible);
+        if (bibles.empty()) {
+          if (write_access) {
+            tasks_logic_queue (task::import_resource, { bible, resource });
+            success_message = translate ("The resource will be imported into the Bible.") + " " + translate ("The journal shows the progress.");
+          }
+        } else {
+          error_message = translate ("Cannot import because the Bible still has books.");
+        }
+      }
     }
-    resources = sword_logic_get_available ();
-    for (const auto& resource : resources) {
+    dialog::select::Settings settings {
+      .info_before = translate("Import text from a resource"),
+      .identification = selector,
+      .parameters = { { "bible", bible } },
+      .disabled = !write_access,
+    };
+    for (const auto& resource : resource_external_names()) {
+      settings.values.push_back (resource);
+      settings.displayed.push_back (resource);
+    }
+    for (const auto& resource : sword_logic_get_available ()) {
       const std::string source = sword_logic_get_source (resource);
       const std::string module = sword_logic_get_remote_module (resource);
       const std::string name = sword_logic_get_resource_name (source, module);
-      dialog_list.add_row (resource, "resource", name);
+      settings.values.push_back (resource);
+      settings.displayed.push_back (name);
     }
-    page += dialog_list.run ();
-    return page;
-  }
-  // The resource should be POSTed.
-  // This is for the demo, where a GET request would allow search crawlers to regularly import resources.
-  const std::string resource = webserver_request.post["add"];
-  if (!resource.empty ()) {
-    if (write_access) {
-      tasks_logic_queue (task::import_resource, { bible, resource });
-      success_message = translate ("The resource will be imported into the Bible.") + " " + translate ("The journal shows the progress.");
-    }
+    view.set_variable(selector, dialog::select::form(settings));
   }
 
   

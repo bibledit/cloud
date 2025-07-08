@@ -235,6 +235,7 @@
 		CA842042289FEB58006EEA23 /* googletranslate.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = googletranslate.txt; sourceTree = "<group>"; };
 		CA84204328A03C39006EEA23 /* google.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = google.cpp; sourceTree = "<group>"; };
 		CA84204428A03C39006EEA23 /* google.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = google.h; sourceTree = "<group>"; };
+		CA85CA3C2E19A01E00EDFA5F /* select.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = select.js; sourceTree = "<group>"; };
 		CA889AB3288310600071B46D /* warnings.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = warnings.sh; sourceTree = "<group>"; };
 		CA9D18992D1CE61900094422 /* temporal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = temporal.h; sourceTree = "<group>"; };
 		CA9D189A2D1CE61900094422 /* temporal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = temporal.cpp; sourceTree = "<group>"; };
@@ -2966,26 +2967,27 @@
 		CADE3A1B24F17423003165BB /* dialog */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3A2A24F17423003165BB /* books.cpp */,
 				CADE3A3924F17423003165BB /* books.h */,
+				CADE3A2A24F17423003165BB /* books.cpp */,
 				CADE3A2024F17423003165BB /* books.html */,
-				CADE3A2524F17423003165BB /* color.cpp */,
 				CADE3A2224F17423003165BB /* color.h */,
+				CADE3A2524F17423003165BB /* color.cpp */,
 				CADE3A3A24F17423003165BB /* color.html */,
-				CADE3A1F24F17423003165BB /* entry.cpp */,
 				CADE3A2424F17423003165BB /* entry.h */,
+				CADE3A1F24F17423003165BB /* entry.cpp */,
 				CADE3A3D24F17423003165BB /* entry.html */,
-				CADE3A2B24F17423003165BB /* list.cpp */,
 				CADE3A2824F17423003165BB /* list.h */,
+				CADE3A2B24F17423003165BB /* list.cpp */,
 				CADE3A1E24F17423003165BB /* list.html */,
-				CA6BEA0326456C08009A0416 /* select.cpp */,
 				CA6BEA0426456C08009A0416 /* select.h */,
+				CA6BEA0326456C08009A0416 /* select.cpp */,
+				CA85CA3C2E19A01E00EDFA5F /* select.js */,
 				CADE3A1C24F17423003165BB /* text.html */,
-				CADE3A1D24F17423003165BB /* upload.cpp */,
 				CADE3A3624F17423003165BB /* upload.h */,
+				CADE3A1D24F17423003165BB /* upload.cpp */,
 				CADE3A3824F17423003165BB /* upload.html */,
-				CADE3A2C24F17423003165BB /* yes.cpp */,
 				CADE3A2624F17423003165BB /* yes.h */,
+				CADE3A2C24F17423003165BB /* yes.cpp */,
 				CADE3A2D24F17423003165BB /* yes.html */,
 			);
 			path = dialog;

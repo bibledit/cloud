@@ -28,14 +28,25 @@ std::string create_options(const std::vector<std::string>& values,
                            const std::string& selected);
 
 struct Settings {
+  // The information to put before the selector.
+  const std::optional<std::string> info_before {std::nullopt};
+  // The key of the value to be POSTed, and the Flate double hash value to place the html and Javascript into.
   const char* identification;
-  const std::vector<std::string> values;
-  const std::vector<std::string> displayed;
+  // The values for the <select> element.
+  std::vector<std::string> values;
+  // The displayed values for the <select> element. May be left empty.
+  std::vector<std::string> displayed;
+  // If any value is to be selected as the default.
   const std::optional<std::string> selected {std::nullopt};
+  // The query parameters to be added to the POSTed URL, like url?key=value
   const std::vector<std::pair<std::string,std::string>> parameters;
+  // Whether the <select> element is to be disabled.
   bool disabled {false};
+  // The information to put after the selector.
+  const std::optional<std::string> info_after {std::nullopt};
 };
 
-std::string create(Settings& settings);
+std::string ajax(Settings& settings);
+std::string form(Settings& settings);
 
 }

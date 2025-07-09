@@ -167,18 +167,18 @@ std::string developer_index (Webserver_Request& webserver_request)
     constexpr const char* identification {"selectorform"};
     std::string selected = "aaa";
     if (webserver_request.post.count (identification)) {
-      selected = webserver_request.post.at(identification).c_str();
+      selected = webserver_request.post.at(identification);
       view.set_variable ("success", "Submitted: " + selected);
     }
     dialog::select::Settings settings {
       .info_before = "Info before",
       .identification = identification,
       .values = {"aaa", "bbb", "ccc"},
-      .selected = selected.c_str(),
+      .selected = selected,
       .parameters = { {"a", "one"}, {"b", "two"} },
       .info_after = "Info after",
     };
-    view.set_variable(identification, dialog::select::form(settings)); // Todo
+    view.set_variable(identification, dialog::select::form(settings));
   }
 
   view.set_variable ("code", code);

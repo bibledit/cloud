@@ -31,6 +31,7 @@
 #include <access/bible.h>
 #include <database/config/bible.h>
 #include <dialog/list.h>
+#include <dialog/select.h>
 #include <menu/logic.h>
 
 
@@ -57,25 +58,26 @@ std::string collaboration_index (Webserver_Request& webserver_request)
   
 #ifdef HAVE_CLOUD
 
-  
+
+  // The selected Bible to set collaboration up for.
   std::string object = webserver_request.query ["object"];
-  if (webserver_request.query.count ("select")) {
-    const std::string& select = webserver_request.query["select"];
-    if (select.empty()) {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", ""); // Todo
-      dialog_list.add_query ("object", object);
-      const std::vector <std::string>& bibles = database::bibles::get_bibles();
-      for (const auto& value : bibles) {
-        dialog_list.add_row (value, "select", value);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      object = select;
+  {
+    constexpr const char* identification {"selectbible"};
+    if (webserver_request.post.count (identification)) {
+      object = webserver_request.post.at(identification);
     }
+    dialog::select::Settings settings {
+      .info_before = translate ("Select Bible"),
+      .identification = identification,
+      .values = database::bibles::get_bibles(),
+      .selected = object,
+      .parameters = { {"object", object} },
+    };
+    view.set_variable(identification, dialog::select::form(settings));
   }
   view.set_variable ("object", object);
-  if (!object.empty ()) view.enable_zone ("objectactive");
+  if (!object.empty ())
+    view.enable_zone ("objectactive");
 
 
   const std::string& repositoryfolder = filter_git_directory (object);

@@ -26,7 +26,6 @@ class Dialog_List
 {
 public:
   Dialog_List (std::string url, std::string question, std::string info_top, std::string info_bottom, bool post = false);
-  ~Dialog_List ();
   Dialog_List(const Dialog_List&) = delete;
   Dialog_List operator=(const Dialog_List&) = delete;
   void add_query (std::string parameter, std::string value);

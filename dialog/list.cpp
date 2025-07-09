@@ -42,11 +42,6 @@ Dialog_List::Dialog_List (std::string url, std::string question, std::string inf
 }
 
 
-Dialog_List::~Dialog_List () // Todo
-{
-}
-
-
 // Add "parameter" and "value" to be added in the base query, or base url.
 // If any $query is passed, if Cancel is clicked in this dialog, it should go go back
 // to the original caller page  with the $query added.

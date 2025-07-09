@@ -33,6 +33,7 @@
 #include <sendreceive/logic.h>
 #include <access/bible.h>
 #include <dialog/list.h>
+#include <dialog/select.h>
 #include <checks/logic.h>
 #include <assets/header.h>
 #include <menu/logic.h>
@@ -62,21 +63,21 @@ std::string checks_settings (Webserver_Request& webserver_request)
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view {};
+    
   
-  
-  if (webserver_request.query.count ("bible")) {
-    const std::string bible = webserver_request.query["bible"];
-    if (bible.empty()) {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Select which Bible to manage"), std::string(), std::string()); // Todo
-      std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-      for (const auto & selectable_bible : bibles) {
-        dialog_list.add_row (selectable_bible, "bible", selectable_bible);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
+  {
+    constexpr const char* identification {"bible"};
+    if (webserver_request.post.count (identification)) {
+      const std::string bible {webserver_request.post.at(identification)};
       webserver_request.database_config_user()->set_bible (bible);
     }
+    dialog::select::Settings settings {
+      .info_before = translate("Bible") + ":",
+      .identification = identification,
+      .values = access_bible::bibles (webserver_request),
+      .selected = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ()),
+    };
+    view.set_variable(identification, dialog::select::form(settings));
   }
   const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
 
@@ -192,9 +193,6 @@ std::string checks_settings (Webserver_Request& webserver_request)
     database::config::bible::set_check_valid_utf8_text (bible, checked);
   }
   view.set_variable ("validutf8", filter::strings::get_checkbox_status (database::config::bible::get_check_valid_utf8_text (bible)));
-
-  
-  view.set_variable ("bible", bible);
 
   
 #ifdef HAVE_CLIENT

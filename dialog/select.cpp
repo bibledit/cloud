@@ -119,18 +119,17 @@ std::string ajax(Settings& settings)
 }
 
 
-std::string form(Settings& settings) // Todo
+std::string form(Settings& settings)
 {
   pugi::xml_document document {};
 
   // The parameters, if any, to append to the POST action.
   std::stringstream ss{};
   for (const std::pair<std::string, std::string>& parameter : settings.parameters) {
-    if (!ss.str().empty())
-      ss << "&";
+    ss << (ss.str().empty()?"?":"&");
     ss << parameter.first << "=" << parameter.second;
   }
-  std::string action {"?" + ss.str()};
+  std::string action {ss.str()};
 
   // Create the form.
   pugi::xml_node form_node = document.append_child("form");

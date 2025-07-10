@@ -42,6 +42,8 @@ struct Settings {
   const std::vector<std::pair<std::string,std::string>> parameters;
   // Whether the <select> element is to be disabled.
   bool disabled {false};
+  // The tooltip on the selector.
+  const std::optional<std::string> tooltip {std::nullopt};
   // The information to put after the selector.
   const std::optional<std::string> info_after {std::nullopt};
 };

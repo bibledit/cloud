@@ -27,6 +27,7 @@
 #include <filter/archive.h>
 #include <filter/usfm.h>
 #include <dialog/list.h>
+#include <dialog/select.h>
 #include <dialog/entry.h>
 #include <access/bible.h>
 #include <locale/translate.h>
@@ -71,24 +72,24 @@ std::string manage_exports (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  if (webserver_request.query.count ("bible")) {
-    std::string bible = webserver_request.query["bible"];
-    if (bible.empty()) {
-      Dialog_List dialog_list = Dialog_List ("exports", translate("Select a Bible"), "", ""); // Todo
-      std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-      for (const auto& bible2 : bibles) {
-        dialog_list.add_row (bible2, "bible", bible2);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
+  {
+    constexpr const char* identification {"bible"};
+    if (webserver_request.post.count (identification)) {
+      const auto bible = webserver_request.post.at(identification);
       webserver_request.database_config_user()->set_bible (bible);
+      view.set_variable ("success", translate("The selected Bible was saved."));
     }
+    dialog::select::Settings settings {
+      .info_before = translate("Bible"),
+      .identification = identification,
+      .values = access_bible::bibles (webserver_request),
+      .selected = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ()),
+    };
+    view.set_variable(identification, dialog::select::form(settings));
   }
   
   
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
-  view.set_variable ("bible", bible);
+  const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   
   
   std::string checkbox = webserver_request.post ["checkbox"];
@@ -356,7 +357,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     std::string font = webserver_request.post["fontentry"];
     Database_State::setExport (bible, 0, export_logic::export_needed);
     database::config::bible::set_export_font (bible, font);
-    view.set_variable ("success", translate("The font for securing exports was saved."));
+    view.set_variable ("success", translate("The font for the exports was saved."));
   }
   view.set_variable ("font", database::config::bible::get_export_font (bible));
 

@@ -135,7 +135,7 @@ $ (document).ready (function () {
       activeTopbarButton ("search", nodeListOfTopbarLinks);
     } else if (/tools/.test(window.location.pathname) || /developer\/index/.test(window.location.pathname) ||
                /consistency\/index/.test(window.location.pathname) || /checks\/index/.test(window.location.pathname) ||
-               /manage\/exports/.test(window.location.pathname) || /manage\/hyphenation/.test(window.location.pathname) ||
+               /manage\/exports/.test(window.location.pathname) ||
                /journal\/index/.test(window.location.pathname) || /sendreceive\/index/.test(window.location.pathname) ||
                /revisions/.test(window.location.pathname) || /sprint\/index/.test(window.location.pathname) ||
                /resources\/print/.test(window.location.pathname)) {

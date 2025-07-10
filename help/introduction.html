@@ -33,7 +33,6 @@
 <p>* translate("Create and edit versification systems.")</p>
 <p>* translate("Create and edit stylesheets.")</p>
 <p>* translate("Import consultation notes from Bibledit-Gtk and remove duplicates.")</p>
-<p>* translate("Deal with automatic hyphenation when exporting to OpenDocument.")</p>
 <p>* translate("Make settings for the automatic check and select Bibles to run them on.")</p>
 <br>
 <p>translate("Administrator can do several things:")</p>

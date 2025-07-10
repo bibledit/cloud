@@ -549,28 +549,6 @@ void set_date_in_header  (const std::string& bible, bool value)
 }
 
 
-constexpr const auto hyphenation_first_set_key {"hyphenation-first-set"};
-std::string get_hyphenation_first_set (const std::string& bible)
-{
-  return get_value (bible, hyphenation_first_set_key, "");
-}
-void set_hyphenation_first_set (const std::string& bible, const std::string& value)
-{
-  set_value (bible, hyphenation_first_set_key, value);
-}
-
-
-constexpr const auto hyphenation_second_set_key {"hyphenation-second-set"};
-std::string get_hyphenation_second_set (const std::string& bible)
-{
-  return get_value (bible, hyphenation_second_set_key, "");
-}
-void set_hyphenation_second_set (const std::string& bible, const std::string& value)
-{
-  set_value (bible, hyphenation_second_set_key, value);
-}
-
-
 constexpr const auto editor_stylesheet_key {"editor-stylesheet"};
 std::string get_editor_stylesheet (const std::string& bible)
 {

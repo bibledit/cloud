@@ -43,10 +43,10 @@ std::string create_options(const std::vector<std::string>& values,
   pugi::xml_document document {};
   for (size_t i {0}; i < values.size(); i++) {
     pugi::xml_node option_node = document.append_child("option");
-    option_node.append_attribute("value") = values[i].c_str();
-    if (selected == values[i])
+    option_node.append_attribute("value") = values.at(i).c_str();
+    if (selected == values.at(i))
       option_node.append_attribute("selected");
-    const std::string display = (i >= displayed.size()) ? values[i] : displayed[i];
+    const std::string display = (i >= displayed.size()) ? values.at(i) : displayed.at(i);
     option_node.text().set(display.c_str());
   }
   std::stringstream html_ss {};

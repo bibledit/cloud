@@ -86,7 +86,7 @@ static void create_info(pugi::xml_node parent, const Position position, std::opt
       info.value().append(" ");
     if (position == Position::after)
       info.value().insert(0, " ");
-    span.text().set(info.value());
+    span.text().set(info.value().c_str());
   }
 }
 

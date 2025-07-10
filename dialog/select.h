@@ -28,8 +28,6 @@ std::string create_options(const std::vector<std::string>& values,
                            const std::string& selected);
 
 struct Settings {
-  // The information to put before the selector.
-  const std::optional<std::string> info_before {std::nullopt};
   // The key of the value to be POSTed, and the Flate double hash value to place the html and Javascript into.
   const char* identification;
   // The values for the <select> element.
@@ -44,8 +42,6 @@ struct Settings {
   bool disabled {false};
   // The tooltip on the selector.
   const std::optional<std::string> tooltip {std::nullopt};
-  // The information to put after the selector.
-  const std::optional<std::string> info_after {std::nullopt};
 };
 
 std::string ajax(Settings& settings);

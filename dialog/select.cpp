@@ -76,27 +76,11 @@ static void create_select(pugi::xml_node parent, const Settings& settings)
 }
 
 
-// Create the info for the select node.
-enum class Position { before, after };
-static void create_info(pugi::xml_node parent, const Position position, std::optional<std::string> info)
-{
-  if (info) {
-    pugi::xml_node span = parent.append_child("span");
-    if (position == Position::before)
-      info.value().append(" ");
-    if (position == Position::after)
-      info.value().insert(0, " ");
-    span.text().set(info.value().c_str());
-  }
-}
-
 std::string ajax(Settings& settings)
 {
   pugi::xml_document document {};
 
-  create_info(document, Position::before, settings.info_before);
   create_select (document, settings);
-  create_info(document, Position::after, settings.info_after);
 
   // The Javascript to POST the selected value if it changes.
   std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/select.js"}));
@@ -138,11 +122,9 @@ std::string form(Settings& settings)
   form_node.append_attribute("action") = action.c_str();
   form_node.append_attribute("method") = "post";
   form_node.append_attribute("style") = "display:inline!important;";
-  create_info(form_node, Position::before, settings.info_before);
   create_select (form_node, settings);
   pugi::xml_node input_node = form_node.append_child("input");
   input_node.append_attribute("type") = "submit";
-  create_info(form_node, Position::after, settings.info_after);
 
   // Convert it to html including Javascript.
   std::stringstream html_ss {};

@@ -153,13 +153,11 @@ std::string developer_index (Webserver_Request& webserver_request)
       return std::string();
     }
     dialog::select::Settings settings {
-      .info_before = "Info before",
       .identification = identification,
       .values = {"aaa", "bbb", "ccc"},
       .selected = "aaa",
       .parameters = { {"a", "one"}, {"b", "two"} },
       .tooltip = "Tooltip",
-      .info_after = "Info after",
     };
     view.set_variable(identification, dialog::select::ajax(settings));
   }

@@ -217,18 +217,18 @@ std::string manage_users (Webserver_Request& webserver_request)
   // Add Bible to user account.
   if (webserver_request.query.count ("addbible")) {
     std::string addbible = webserver_request.query["addbible"];
-    if (addbible == "") {
-      Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), "", ""); // Todo
+    if (addbible.empty()) {
+      Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), std::string(), std::string()); // Todo
       dialog_list.add_query ("user", objectUsername);
-      for (auto bible : allbibles) {
+      for (const auto& bible : allbibles) {
         dialog_list.add_row (bible, "addbible", bible);
       }
-      page += dialog_list.run ();
+      page.append (dialog_list.run());
       return page;
     } else {
       assets_page::success (translate("The user has been granted access to this Bible"));
       // Write access depends on whether it's a translator role or higher.
-      bool write = (objectUserLevel >= roles::translator);
+      const bool write = (objectUserLevel >= roles::translator);
       DatabasePrivileges::set_bible (objectUsername, addbible, write);
       user_updated = true;
       privileges_updated = true;
@@ -238,7 +238,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   // Remove Bible from user.
   if (webserver_request.query.count ("removebible")) {
-    std::string removebible = webserver_request.query ["removebible"];
+    const std::string removebible = webserver_request.query ["removebible"];
     DatabasePrivileges::remove_bible_book (objectUsername, removebible, 0);
     user_updated = true;
     privileges_updated = true;
@@ -298,9 +298,13 @@ std::string manage_users (Webserver_Request& webserver_request)
     // Normally the role can be changed, but when an LDAP server is enabled, it cannot be changed here.
     tbody << "<td>";
     if (enabled) {
-      if (!ldap_on) tbody << "<a href=" << std::quoted ("?user=" + username + "&level") << ">";
+      if (!ldap_on) {
+        tbody << "<a href=" << std::quoted ("?user=" + username + "&level") << ">";
+      }
       tbody << namedrole << "</a>";
-      if (!ldap_on) tbody << "</a>";
+      if (!ldap_on) {
+        tbody << "</a>";
+      }
     }
     tbody << "</td>";
     

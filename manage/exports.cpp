@@ -80,7 +80,6 @@ std::string manage_exports (Webserver_Request& webserver_request)
       view.set_variable ("success", translate("The selected Bible was saved."));
     }
     dialog::select::Settings settings {
-      .info_before = translate("Bible"),
       .identification = identification,
       .values = access_bible::bibles (webserver_request),
       .selected = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ()),

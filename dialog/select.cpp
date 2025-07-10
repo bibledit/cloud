@@ -137,6 +137,7 @@ std::string form(Settings& settings)
   pugi::xml_node form_node = document.append_child("form");
   form_node.append_attribute("action") = action.c_str();
   form_node.append_attribute("method") = "post";
+  form_node.append_attribute("style") = "display:inline!important;";
   create_info(form_node, Position::before, settings.info_before);
   create_select (form_node, settings);
   pugi::xml_node input_node = form_node.append_child("input");

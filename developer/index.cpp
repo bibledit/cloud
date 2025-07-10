@@ -172,13 +172,11 @@ std::string developer_index (Webserver_Request& webserver_request)
       view.set_variable ("success", "Submitted: " + selected);
     }
     dialog::select::Settings settings {
-      .info_before = "Info before",
       .identification = identification,
       .values = {"aaa", "bbb", "ccc"},
       .selected = selected,
       .parameters = { {"a", "one"}, {"b", "two"} },
       .tooltip = "Tooltip",
-      .info_after = "Info after",
     };
     view.set_variable(identification, dialog::select::form(settings));
   }

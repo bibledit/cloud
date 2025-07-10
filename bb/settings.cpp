@@ -188,7 +188,6 @@ std::string bible_settings (Webserver_Request& webserver_request)
       }
     }
     dialog::select::Settings settings {
-      .info_before = translate("Import text from a resource"),
       .identification = selector,
       .parameters = { { "bible", bible } },
       .disabled = !write_access,

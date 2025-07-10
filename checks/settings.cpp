@@ -72,7 +72,6 @@ std::string checks_settings (Webserver_Request& webserver_request)
       webserver_request.database_config_user()->set_bible (bible);
     }
     dialog::select::Settings settings {
-      .info_before = translate("Bible") + ":",
       .identification = identification,
       .values = access_bible::bibles (webserver_request),
       .selected = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ()),

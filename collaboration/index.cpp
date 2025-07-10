@@ -67,7 +67,6 @@ std::string collaboration_index (Webserver_Request& webserver_request)
       object = webserver_request.post.at(identification);
     }
     dialog::select::Settings settings {
-      .info_before = translate ("Select Bible"),
       .identification = identification,
       .values = database::bibles::get_bibles(),
       .selected = object,

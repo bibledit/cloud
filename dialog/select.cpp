@@ -65,14 +65,14 @@ static void create_select(pugi::xml_node parent, const Settings& settings)
     select_node.append_attribute("disabled") = "";
   for (size_t v {0}; v < settings.values.size(); v++) {
     pugi::xml_node option_node = select_node.append_child("option");
-    option_node.append_attribute("value") = settings.values.at(v);
+    option_node.append_attribute("value") = settings.values.at(v).c_str();
     if (settings.selected and settings.selected.value() == settings.values.at(v))
       option_node.append_attribute("selected");
     const std::string display = (v >= settings.displayed.size()) ? settings.values.at(v) : settings.displayed.at(v);
     option_node.text().set(display.c_str());
   }
   if (settings.tooltip)
-    select_node.append_attribute("title") = settings.tooltip.value();
+    select_node.append_attribute("title") = settings.tooltip.value().c_str();
 }
 
 

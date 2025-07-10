@@ -266,13 +266,11 @@ std::string bible_settings (Webserver_Request& webserver_request)
       return std::string();
     }
     dialog::select::Settings settings {
-      .info_before = translate("Stylesheet for editing"),
       .identification = identification,
       .values = database::styles::get_sheets(),
       .selected = database::config::bible::get_editor_stylesheet (bible),
       .parameters = { {"bible", bible} },
       .disabled = !(write_access and access_logic::privilege_set_stylesheets (webserver_request, current_user)),
-      .info_after = "This affects how the Bible text in the editor looks.",
     };
     view.set_variable(identification, dialog::select::ajax(settings));
   }
@@ -287,13 +285,11 @@ std::string bible_settings (Webserver_Request& webserver_request)
       return std::string();
     }
     dialog::select::Settings settings {
-      .info_before = translate("Stylesheet for export"),
       .identification = identification,
       .values = database::styles::get_sheets(),
       .selected = database::config::bible::get_export_stylesheet (bible),
       .parameters = { {"bible", bible} },
       .disabled = !(write_access and access_logic::privilege_set_stylesheets (webserver_request, current_user)),
-      .info_after = "This affects how the Bible text looks when exported.",
     };
     view.set_variable(identification, dialog::select::ajax(settings));
   }

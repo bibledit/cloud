@@ -158,8 +158,6 @@ libbibledit_a_SOURCES = \
 	manage/users.cpp \
 	manage/accounts.cpp \
 	manage/exports.cpp \
-	manage/hyphenation.cpp \
-	manage/hyphenate.cpp \
 	manage/write.cpp \
 	manage/privileges.cpp \
 	system/index.cpp \
@@ -584,7 +582,6 @@ unittest_SOURCES = \
 	unittests/usfm.cpp \
 	unittests/verses.cpp \
 	unittests/paratext.cpp \
-	unittests/hyphenate.cpp \
 	unittests/search.cpp \
 	unittests/json.cpp \
 	unittests/related.cpp \

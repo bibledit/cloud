@@ -46,7 +46,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <journal/index.h>
 #include <locale/translate.h>
 #include <manage/exports.h>
-#include <manage/hyphenation.h>
 #include <manage/users.h>
 #include <mapping/index.h>
 #include <notes/index.h>
@@ -531,16 +530,15 @@ std::string menu_logic_search_category (Webserver_Request& webserver_request, st
 std::string menu_logic_tools_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   // The labels that may end up in the menu.
-  std::string checks = translate ("Checks");
-  std::string consistency = translate ("Consistency");
-  std::string print = translate ("Print");
-  std::string changes = menu_logic_changes_text ();
-  std::string planning = translate ("Planning");
-  std::string send_receive = translate ("Send/receive");
-  std::string hyphenation = translate ("Hyphenate");
-  std::string develop = translate ("Develop");
-  std::string exporting = translate ("Export");
-  std::string journal = translate ("Journal");
+  const std::string checks = translate ("Checks");
+  const std::string consistency = translate ("Consistency");
+  const std::string print = translate ("Print");
+  const std::string changes = menu_logic_changes_text ();
+  const std::string planning = translate ("Planning");
+  const std::string send_receive = translate ("Send/receive");
+  const std::string develop = translate ("Develop");
+  const std::string exporting = translate ("Export");
+  const std::string journal = translate ("Journal");
   std::vector <std::string> labels = {
     checks,
     consistency,
@@ -548,7 +546,6 @@ std::string menu_logic_tools_category (Webserver_Request& webserver_request, std
     changes,
     planning,
     send_receive,
-    hyphenation,
     develop,
     exporting,
     journal
@@ -608,13 +605,6 @@ std::string menu_logic_tools_category (Webserver_Request& webserver_request, std
     if (label == send_receive) {
       if (sendreceive_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (sendreceive_index_url (), label, true, "", ""));
-        tiplabels.push_back (label);
-      }
-    }
-    
-    if (label == hyphenation) {
-      if (manage_hyphenation_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (manage_hyphenation_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }

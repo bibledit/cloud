@@ -372,7 +372,6 @@
 /manage
 /manage/accounts.html
 /manage/exports.html
-/manage/hyphenation.html
 /manage/index.html
 /manage/privileges.html
 /manage/privileges.js

@@ -60,7 +60,6 @@ constexpr const auto export_web_main {"exportwebmain"};
 constexpr const auto export_web_index {"exportwebindex"};
 constexpr const auto export_online_bible {"exportonlinebible"};
 constexpr const auto export_esword {"exportesword"};
-constexpr const auto hyphenate {"hyphenate"};
 constexpr const auto setup_paratext {"setupparatext"};
 constexpr const auto sync_paratext {"syncparatext"};
 constexpr const auto import_images {"importimages"};

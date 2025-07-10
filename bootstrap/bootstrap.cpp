@@ -40,7 +40,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/users.h>
 #include <manage/accounts.h>
 #include <manage/exports.h>
-#include <manage/hyphenation.h>
 #include <manage/write.h>
 #include <manage/privileges.h>
 #include <system/index.h>
@@ -657,11 +656,6 @@ void bootstrap_index (Webserver_Request& webserver_request)
   
   if ((url == manage_exports_url ()) && browser_request_security_okay (webserver_request) && manage_exports_acl (webserver_request)) {
     webserver_request.reply = manage_exports (webserver_request);
-    return;
-  }
-  
-  if ((url == manage_hyphenation_url ()) && browser_request_security_okay (webserver_request) && manage_hyphenation_acl (webserver_request)) {
-    webserver_request.reply = manage_hyphenation (webserver_request);
     return;
   }
   

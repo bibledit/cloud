@@ -40,19 +40,6 @@ translate("No more than that.")
 <p>translate("Some of the words in the OpenDocument files are long. This results in too much space between some words.")</p>
 <p>translate("The words need to get hyphens so that part of the word goes on the next line.")</p>
 <p>translate("LibreOffice and Adobe InDesign and Scribus have hyphenation algorithms for many languages. That would solve the problem.")</p>
-<p>translate("But the programs do not have hyphenation algorithms for all languages.")</p>
-<p>translate("Bibledit has a hyphenater that could assist.")</p>
-<ul>
-  <li>
-    translate("In Bibledit, go to this menu:")
-    translate("Tools") - translate("Hyphenate").
-  </li>
-<li>translate("Enter the first set of characters, and the second set, and save it.")</li>
-<li>translate("Set the Bible where to take the data from. In this case it is 'Ndebele'.")</li>
-<li>translate("Insert the soft hyphens according to the setting. It takes a while to complete.")</li>
-</ul>
-<p>translate("The output Bible is called 'Ndebele-hyphenated'.")</p>
-<p>translate("Use this Bible from now on.")</p>
 
 <h2>translate("Exporting to OpenDocument files")</h2>
 <p>translate("Make an initial export just to see how the text looks.")</p>

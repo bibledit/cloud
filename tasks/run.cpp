@@ -58,7 +58,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/info.h>
 #include <export/esword.h>
 #include <export/onlinebible.h>
-#include <manage/hyphenate.h>
 #include <paratext/logic.h>
 #include <resource/logic.h>
 #include <sword/logic.h>
@@ -235,9 +234,6 @@ void tasks_run_one (const std::string& filename)
   }
   else if (command == task::export_online_bible) {
     export_onlinebible (parameter1, filter::strings::convert_to_bool (parameter2));
-  }
-  else if (command == task::hyphenate) {
-    manage_hyphenate (parameter1, parameter2);
   }
   else if (command == task::setup_paratext) {
     Paratext_Logic::setup (parameter1, parameter2);

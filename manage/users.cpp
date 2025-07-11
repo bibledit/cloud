@@ -73,7 +73,10 @@ std::string manage_users (Webserver_Request& webserver_request)
   Assets_View view;
 
 
-  int myLevel = webserver_request.session_logic ()->get_level ();
+  const int my_level = webserver_request.session_logic ()->get_level ();
+
+  
+  constexpr const char* level_identification {"level"};
 
 
   // Set the default new user role.
@@ -141,25 +144,25 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   
   // The user to act on.
-  std::string objectUsername = webserver_request.query["user"];
-  int objectUserLevel = webserver_request.database_users ()->get_level (objectUsername);
+  std::string object_username = webserver_request.query["user"];
+  int object_user_level = webserver_request.database_users ()->get_level (object_username);
   
   
   // Delete a user.
   if (webserver_request.query.count ("delete")) {
-    std::string role = roles::text (objectUserLevel);
-    std::string email = webserver_request.database_users ()->get_email (objectUsername);
+    std::string role = roles::text (object_user_level);
+    std::string email = webserver_request.database_users ()->get_email (object_username);
     std::vector <std::string> users = webserver_request.database_users ()->get_users ();
     std::vector <std::string> administrators = webserver_request.database_users ()->getAdministrators ();
     if (users.size () == 1) {
       page += assets_page::error (translate("Cannot remove the last user"));
-    } else if ((objectUserLevel >= roles::admin) && (administrators.size () == 1)) {
+    } else if ((object_user_level >= roles::admin) && (administrators.size () == 1)) {
       page += assets_page::error (translate("Cannot remove the last administrator"));
-    } else if (config::logic::demo_enabled () && (objectUsername ==  session_admin_credentials ())) {
+    } else if (config::logic::demo_enabled () && (object_username ==  session_admin_credentials ())) {
       page += assets_page::error (translate("Cannot remove the demo admin"));
     } else {
       std::string message;
-      user_logic_delete_account (objectUsername, role, email, message);
+      user_logic_delete_account (object_username, role, email, message);
       user_updated = true;
       page += assets_page::success (message);
     }
@@ -167,33 +170,20 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   
   // The user's role.
-  if (webserver_request.query.count ("level")) {
-    std::string level = webserver_request.query ["level"];
-    if (level == "") {
-      Dialog_List dialog_list = Dialog_List ("users", translate("Select a role for") + " " + objectUsername, "", ""); // Todo
-      dialog_list.add_query ("user", objectUsername);
-      for (int i = roles::lowest; i <= roles::highest; i++) {
-        if (i <= myLevel) {
-          dialog_list.add_row (roles::text (i), "level", std::to_string (i));
-        }
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      webserver_request.database_users ()->set_level (objectUsername, filter::strings::convert_to_int (level));
-      user_updated = true;
-    }
+  if (webserver_request.post.count (level_identification)) {
+    const std::string value = webserver_request.post.at(level_identification);
+    webserver_request.database_users ()->set_level (object_username, filter::strings::convert_to_int (value));
   }
-  
-  
+
+
   // User's email address.
   if (webserver_request.query.count ("email")) {
     std::string email = webserver_request.query ["email"];
     if (email == "") {
-      std::string question = translate("Please enter an email address for") + " " + objectUsername;
-      std::string value = webserver_request.database_users ()->get_email (objectUsername);
+      std::string question = translate("Please enter an email address for") + " " + object_username;
+      std::string value = webserver_request.database_users ()->get_email (object_username);
       Dialog_Entry dialog_entry = Dialog_Entry ("users", question, value, "email", "");
-      dialog_entry.add_query ("user", objectUsername);
+      dialog_entry.add_query ("user", object_username);
       page += dialog_entry.run ();
       return page;
     }
@@ -202,7 +192,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     std::string email = webserver_request.post["entry"];
     if (filter_url_email_is_valid (email)) {
       page += assets_page::success (translate("Email address was updated"));
-      webserver_request.database_users ()->updateUserEmail (objectUsername, email);
+      webserver_request.database_users ()->updateUserEmail (object_username, email);
       user_updated = true;
     } else {
       page += assets_page::error (translate("The email address is not valid"));
@@ -211,7 +201,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   
   // Fetch all available Bibles.
-  std::vector <std::string> allbibles = database::bibles::get_bibles ();
+  const std::vector <std::string> allbibles = database::bibles::get_bibles ();
   
   
   // Add Bible to user account.
@@ -219,7 +209,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     std::string addbible = webserver_request.query["addbible"];
     if (addbible.empty()) {
       Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), std::string(), std::string()); // Todo
-      dialog_list.add_query ("user", objectUsername);
+      dialog_list.add_query ("user", object_username);
       for (const auto& bible : allbibles) {
         dialog_list.add_row (bible, "addbible", bible);
       }
@@ -228,8 +218,8 @@ std::string manage_users (Webserver_Request& webserver_request)
     } else {
       assets_page::success (translate("The user has been granted access to this Bible"));
       // Write access depends on whether it's a translator role or higher.
-      const bool write = (objectUserLevel >= roles::translator);
-      DatabasePrivileges::set_bible (objectUsername, addbible, write);
+      const bool write = (object_user_level >= roles::translator);
+      DatabasePrivileges::set_bible (object_username, addbible, write);
       user_updated = true;
       privileges_updated = true;
     }
@@ -239,7 +229,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   // Remove Bible from user.
   if (webserver_request.query.count ("removebible")) {
     const std::string removebible = webserver_request.query ["removebible"];
-    DatabasePrivileges::remove_bible_book (objectUsername, removebible, 0);
+    DatabasePrivileges::remove_bible_book (object_username, removebible, 0);
     user_updated = true;
     privileges_updated = true;
     assets_page::success (translate("The user no longer has access to this Bible"));
@@ -248,14 +238,14 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   // Enable or disable a user account.
   if (webserver_request.query.count ("enable")) {
-    webserver_request.database_users ()->set_enabled (objectUsername, true);
+    webserver_request.database_users ()->set_enabled (object_username, true);
     assets_page::success (translate("The user account was enabled"));
   }
   if (webserver_request.query.count ("disable")) {
     // Disable the user in the database.
-    webserver_request.database_users ()->set_enabled (objectUsername, false);
+    webserver_request.database_users ()->set_enabled (object_username, false);
     // Remove all login tokens (cookies) for this user, so the user no longer is logged in.
-    Database_Login::removeTokens (objectUsername);
+    Database_Login::removeTokens (object_username);
     // Feedback.
     assets_page::success (translate("The user account was disabled"));
   }
@@ -263,7 +253,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   // Login on behalf of another user.
   if (webserver_request.query.count ("login")) {
-    webserver_request.session_logic ()->switch_user (objectUsername);
+    webserver_request.session_logic ()->switch_user (object_username);
     redirect_browser (webserver_request, session_switch_url ());
     return std::string();
   }
@@ -277,8 +267,8 @@ std::string manage_users (Webserver_Request& webserver_request)
   for (const auto& username : users) {
     
     // Gather details for this user account.
-    objectUserLevel = webserver_request.database_users ()->get_level (username);
-    std::string namedrole = roles::text (objectUserLevel);
+    object_user_level = webserver_request.database_users ()->get_level (username);
+    std::string namedrole = roles::text (object_user_level);
     std::string email = webserver_request.database_users ()->get_email (username);
     if (email.empty()) email = "--";
     bool enabled = webserver_request.database_users ()->get_enabled (username);
@@ -298,13 +288,24 @@ std::string manage_users (Webserver_Request& webserver_request)
     // Normally the role can be changed, but when an LDAP server is enabled, it cannot be changed here.
     tbody << "<td>";
     if (enabled) {
-      if (!ldap_on) {
-        tbody << "<a href=" << std::quoted ("?user=" + username + "&level") << ">";
+      std::vector<std::string> values;
+      std::vector<std::string> displayed;
+      for (int i = roles::lowest; i <= roles::highest; i++) {
+        if (i <= my_level) {
+          values.push_back(std::to_string(i));
+          displayed.push_back(roles::text(i));
+        }
       }
-      tbody << namedrole << "</a>";
-      if (!ldap_on) {
-        tbody << "</a>";
-      }
+      dialog::select::Settings settings {
+        .identification = level_identification,
+        .values = std::move(values),
+        .displayed = std::move(displayed),
+        .selected = std::to_string(object_user_level),
+        .parameters = { {"user", username} },
+        .disabled = ldap_on,
+        .tooltip = translate("Select a role"),
+      };
+      tbody << dialog::select::form(settings);
     }
     tbody << "</td>";
     
@@ -328,12 +329,12 @@ std::string manage_users (Webserver_Request& webserver_request)
     // Assigned Bibles.
     tbody << "<td>";
     if (enabled) {
-      if (objectUserLevel < roles::manager) {
+      if (object_user_level < roles::manager) {
         for (auto & bible : allbibles) {
           bool exists = DatabasePrivileges::get_bible_book_exists (username, bible, 0);
           if (exists) {
             auto [ read, write ] = DatabasePrivileges::get_bible (username, bible);
-            if  (objectUserLevel >= roles::translator) write = true;
+            if  (object_user_level >= roles::translator) write = true;
             tbody << "<a href=" << std::quoted ("?user=" + username + "&removebible=" + bible) << ">" << filter::strings::emoji_wastebasket () << "</a>";
             tbody << "<a href=" << std::quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";
             tbody << "<a href=" << std::quoted("write?user=" + username + "&bible=" + bible) << ">";
@@ -349,7 +350,7 @@ std::string manage_users (Webserver_Request& webserver_request)
           }
         }
       }
-      if (objectUserLevel >= roles::manager) {
+      if (object_user_level >= roles::manager) {
         // Managers and higher roles have access to all Bibles.
         tbody << "(" << translate ("all") << ")";
       } else {
@@ -364,7 +365,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     // Assigned privileges to the user.
     tbody << "<td>";
     if (enabled) {
-      if (objectUserLevel >= roles::manager) {
+      if (object_user_level >= roles::manager) {
         // Managers and higher roles have all privileges.
         tbody << "(" << translate ("all") << ")";
       } else {
@@ -374,8 +375,8 @@ std::string manage_users (Webserver_Request& webserver_request)
     tbody << "</td>";
     
     // Disable or enable the account.
-    if (myLevel >= roles::manager) {
-      if (myLevel > objectUserLevel) {
+    if (my_level >= roles::manager) {
+      if (my_level > object_user_level) {
         tbody << "<td>│</td>";
         tbody << "<td>";
         bool account_enabled = webserver_request.database_users ()->get_enabled (username);
@@ -390,7 +391,7 @@ std::string manage_users (Webserver_Request& webserver_request)
 
     // Login on behalf of another user.
     if (enabled) {
-      if (myLevel > objectUserLevel) {
+      if (my_level > object_user_level) {
         tbody << "<td>│</td>";
         tbody << "<td>";
         tbody << "<a href=" << std::quoted ("?user=" + username + "&login") << ">" << translate ("Login") << "</a>";
@@ -410,12 +411,14 @@ std::string manage_users (Webserver_Request& webserver_request)
 
   if (webserver_request.session_logic()->get_level () == roles::highest) view.enable_zone ("admin_settings");
 
-  page += view.render ("manage", "users");
+  page.append(view.render("manage", "users"));
 
-  page += assets_page::footer ();
+  page.append(assets_page::footer());
   
-  if (user_updated) notes_logic_maintain_note_assignees (true);
-  if (privileges_updated) database_privileges_client_create (objectUsername, true);
+  if (user_updated)
+    notes_logic_maintain_note_assignees (true);
+  if (privileges_updated)
+    database_privileges_client_create (object_username, true);
 
   return page;
 }

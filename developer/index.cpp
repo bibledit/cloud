@@ -156,7 +156,7 @@ std::string developer_index (Webserver_Request& webserver_request)
       .identification = identification,
       .values = {"aaa", "bbb", "ccc"},
       .selected = "aaa",
-      .parameters = { {"a", "one"}, {"b", "two"} },
+      .parameters = { {"a", "aa"}, {"b", "bb"} },
       .tooltip = "Tooltip",
     };
     view.set_variable(identification, dialog::select::ajax(settings));
@@ -164,16 +164,16 @@ std::string developer_index (Webserver_Request& webserver_request)
 
   {
     constexpr const char* identification {"selectorform"};
-    std::string selected = "aaa";
+    std::string selected = "ddd";
     if (webserver_request.post.count (identification)) {
       selected = webserver_request.post.at(identification);
       view.set_variable ("success", "Submitted: " + selected);
     }
     dialog::select::Settings settings {
       .identification = identification,
-      .values = {"aaa", "bbb", "ccc"},
+      .values = {"ddd", "eee", "fff"},
       .selected = selected,
-      .parameters = { {"a", "one"}, {"b", "two"} },
+      .parameters = { {"d", "dd"}, {"e", "ee"} },
       .tooltip = "Tooltip",
     };
     view.set_variable(identification, dialog::select::form(settings));

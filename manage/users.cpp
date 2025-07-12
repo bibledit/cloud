@@ -209,7 +209,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("addbible")) {
     std::string addbible = webserver_request.query["addbible"];
     if (addbible.empty()) {
-      Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), std::string(), std::string()); // Todo
+      Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), std::string(), std::string());
       dialog_list.add_query ("user", object_username);
       for (const auto& bible : allbibles) {
         dialog_list.add_row (bible, "addbible", bible);

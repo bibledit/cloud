@@ -9,18 +9,15 @@ translate("And changes made in Paratext will be transferred to Bibledit.")
 </p>
 
 <br>
+
+<div>
+translate("Bible in Bibledit"):
+##selectbible##
+<!-- #BEGINZONE bibleactive -->
+<a href="?bible=##bible##&disable=">[translate ("disable")]</a>
+<!-- #ENDZONE bibleactive -->
+</div>
 <table>
-  <tr>
-    <td>translate("Bible in Bibledit")</td>
-    <td>:</td>
-    <td>##bible##</td>
-    <td>
-      <a href="?bible=##bible##&selectbible">[translate ("change")]</a>
-      <!-- #BEGINZONE bibleactive -->
-      <a href="?bible=##bible##&disable=">[translate ("disable")]</a>
-      <!-- #ENDZONE bibleactive -->
-    </td>
-  </tr>
   <!-- #BEGINZONE bibleactive -->
   <tr>
     <td>translate("Paratext Projects folder")</td>

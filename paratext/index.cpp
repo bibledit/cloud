@@ -22,6 +22,7 @@
 #include <assets/page.h>
 #include <dialog/entry.h>
 #include <dialog/list.h>
+#include <dialog/select.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -56,23 +57,6 @@ std::string paratext_index (Webserver_Request& webserver_request)
 
   
   std::string bible = webserver_request.query ["bible"];
-
-  
-  if (webserver_request.query.count ("selectbible")) {
-    std::string select = webserver_request.query["selectbible"];
-    if (select == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", ""); // Todo
-      dialog_list.add_query ("bible", bible);
-      std::vector <std::string> bibles = database::bibles::get_bibles();
-      for (auto & value : bibles) {
-        dialog_list.add_row (value, "selectbible", value);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      bible = select;
-    }
-  }
   
   
   if (webserver_request.query.count ("disable")) {
@@ -81,7 +65,26 @@ std::string paratext_index (Webserver_Request& webserver_request)
     filter_url_rmdir (Paratext_Logic::ancestorPath (bible, 0));
     bible.clear ();
   }
-
+  
+  
+  {
+    constexpr const char* identification {"selectbible"};
+    if (webserver_request.post.count (identification)) {
+      bible = webserver_request.post.at(identification);
+    }
+    std::vector<std::string> values {""};
+    for (const auto& value : database::bibles::get_bibles())
+      values.push_back(value);
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = values,
+      .selected = bible,
+      .parameters = { {"bible", bible} },
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
+  }
+  
   
   view.set_variable ("bible", bible);
   if (!bible.empty ()) view.enable_zone ("bibleactive");

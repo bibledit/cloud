@@ -176,7 +176,8 @@ std::string developer_index (Webserver_Request& webserver_request)
       .parameters = { {"d", "dd"}, {"e", "ee"} },
       .tooltip = "Tooltip",
     };
-    view.set_variable(identification, dialog::select::form(settings));
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
 
   {
@@ -193,8 +194,8 @@ std::string developer_index (Webserver_Request& webserver_request)
       .parameters = { {"g", "gg"}, {"h", "hh"} },
       .tooltip = "Tooltip",
     };
-    const bool auto_submit {true};
-    view.set_variable(identification, dialog::select::form(settings, auto_submit));
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
   
   view.set_variable ("code", code);

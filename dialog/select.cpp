@@ -105,7 +105,7 @@ std::string ajax(const Settings& settings)
 }
 
 
-std::string form(const Settings& settings, const bool auto_submit)
+std::string form(const Settings& settings, const Form& form)
 {
   pugi::xml_document document {};
 
@@ -123,13 +123,13 @@ std::string form(const Settings& settings, const bool auto_submit)
   form_node.append_attribute("method") = "post";
   form_node.append_attribute("style") = "display:inline!important;";
   create_select (form_node, settings);
-  if (!auto_submit) {
+  if (!form.auto_submit) {
     pugi::xml_node input_node = form_node.append_child("input");
     input_node.append_attribute("type") = "submit";
   }
   
   // If automatic submit, add a script that does the job.
-  if (auto_submit) {
+  if (form.auto_submit) {
     std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/selectform.js"}));
     javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
     pugi::xml_node script_node = document.append_child("script");

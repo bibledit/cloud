@@ -72,7 +72,8 @@ std::string collaboration_index (Webserver_Request& webserver_request)
       .selected = object,
       .parameters = { {"object", object} },
     };
-    view.set_variable(identification, dialog::select::form(settings));
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
   view.set_variable ("object", object);
   if (!object.empty ())

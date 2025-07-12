@@ -79,21 +79,22 @@ std::string manage_users (Webserver_Request& webserver_request)
   constexpr const char* level_identification {"level"};
 
 
-  // Set the default new user role.
-  if (webserver_request.post.count ("defaultacl")) {
-    int defaultacl = filter::strings::convert_to_int (webserver_request.post ["defaultacl"]);
-    database::config::general::set_default_new_user_access_level(defaultacl);
-    assets_page::success (translate("The default new user is changed."));
-  }
-
-
-  // Set the chosen default new user role on the option HTML tag.
+  // The default new user role.
   {
-    const std::string default_acl = std::to_string (database::config::general::get_default_new_user_access_level ());
-    const std::vector<std::string> enums { std::to_string(roles::guest), std::to_string(roles::member) };
-    const std::vector<std::string> texts { roles::english(roles::guest), roles::english(roles::member) };
-    view.set_variable ("defaultacloptags", dialog::select::create_options (enums, texts, default_acl));
-    view.set_variable ("defaultacl", default_acl);
+    constexpr const char* identification {"defaultacl"};
+    if (webserver_request.post.count (identification)) {
+      const std::string value {webserver_request.post.at(identification)};
+      const int defaultacl = filter::strings::convert_to_int (value);
+      database::config::general::set_default_new_user_access_level(defaultacl);
+      return std::string();
+    }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = { std::to_string(roles::guest), std::to_string(roles::member) },
+      .displayed = { roles::english(roles::guest), roles::english(roles::member) },
+      .selected = std::to_string (database::config::general::get_default_new_user_access_level()),
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
   }
 
   
@@ -305,7 +306,8 @@ std::string manage_users (Webserver_Request& webserver_request)
         .disabled = ldap_on,
         .tooltip = translate("Select a role"),
       };
-      tbody << dialog::select::form(settings);
+      dialog::select::Form form { .auto_submit = false };
+      tbody << dialog::select::form(settings, form);
     }
     tbody << "</td>";
     

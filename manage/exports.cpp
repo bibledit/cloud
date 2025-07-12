@@ -84,7 +84,8 @@ std::string manage_exports (Webserver_Request& webserver_request)
       .values = access_bible::bibles (webserver_request),
       .selected = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ()),
     };
-    view.set_variable(identification, dialog::select::form(settings));
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
   
   

@@ -203,7 +203,8 @@ std::string bible_settings (Webserver_Request& webserver_request)
       settings.values.push_back (resource);
       settings.displayed.push_back (name);
     }
-    view.set_variable(selector, dialog::select::form(settings));
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(selector, dialog::select::form(settings, form));
   }
 
   

@@ -45,6 +45,12 @@ struct Settings {
 };
 
 std::string ajax(const Settings& settings);
-std::string form(const Settings& settings, const bool auto_submit = false);
+
+struct Form {
+  // Whether to submit the form automatically on selection change.
+  const bool auto_submit {false};
+};
+
+std::string form(const Settings& settings, const Form& form);
 
 }

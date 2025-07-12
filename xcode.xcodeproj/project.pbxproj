@@ -119,6 +119,7 @@
 		CA6A12CF26F79EC900CDB5DB /* stb */ = {isa = PBXFileReference; lastKnownFileType = folder; path = stb; sourceTree = "<group>"; };
 		CA6A12D026F7BBE400CDB5DB /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		CA6A2765260B966200EE8844 /* focus.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = focus.js; sourceTree = "<group>"; };
+		CA6A4B772E21941E008DA8EF /* selectform.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = selectform.js; sourceTree = "<group>"; };
 		CA6BEA0326456C08009A0416 /* select.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = select.cpp; sourceTree = "<group>"; };
 		CA6BEA0426456C08009A0416 /* select.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = select.h; sourceTree = "<group>"; };
 		CA70A069282ECF3F0077D241 /* enums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = enums.h; sourceTree = "<group>"; };
@@ -235,7 +236,7 @@
 		CA842042289FEB58006EEA23 /* googletranslate.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = googletranslate.txt; sourceTree = "<group>"; };
 		CA84204328A03C39006EEA23 /* google.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = google.cpp; sourceTree = "<group>"; };
 		CA84204428A03C39006EEA23 /* google.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = google.h; sourceTree = "<group>"; };
-		CA85CA3C2E19A01E00EDFA5F /* select.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = select.js; sourceTree = "<group>"; };
+		CA85CA3C2E19A01E00EDFA5F /* selectajax.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = selectajax.js; sourceTree = "<group>"; };
 		CA889AB3288310600071B46D /* warnings.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = warnings.sh; sourceTree = "<group>"; };
 		CA9D18992D1CE61900094422 /* temporal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = temporal.h; sourceTree = "<group>"; };
 		CA9D189A2D1CE61900094422 /* temporal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = temporal.cpp; sourceTree = "<group>"; };
@@ -2976,7 +2977,8 @@
 				CADE3A1E24F17423003165BB /* list.html */,
 				CA6BEA0426456C08009A0416 /* select.h */,
 				CA6BEA0326456C08009A0416 /* select.cpp */,
-				CA85CA3C2E19A01E00EDFA5F /* select.js */,
+				CA85CA3C2E19A01E00EDFA5F /* selectajax.js */,
+				CA6A4B772E21941E008DA8EF /* selectform.js */,
 				CADE3A1C24F17423003165BB /* text.html */,
 				CADE3A3624F17423003165BB /* upload.h */,
 				CADE3A1D24F17423003165BB /* upload.cpp */,

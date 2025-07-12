@@ -179,6 +179,24 @@ std::string developer_index (Webserver_Request& webserver_request)
     view.set_variable(identification, dialog::select::form(settings));
   }
 
+  {
+    constexpr const char* identification {"selectorautosubmit"};
+    std::string selected = "ggg";
+    if (webserver_request.post.count (identification)) {
+      selected = webserver_request.post.at(identification);
+      view.set_variable ("success", "Submitted: " + selected);
+    }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = {"ggg", "hhh", "iii"},
+      .selected = selected,
+      .parameters = { {"g", "gg"}, {"h", "hh"} },
+      .tooltip = "Tooltip",
+    };
+    const bool auto_submit {true};
+    view.set_variable(identification, dialog::select::form(settings, auto_submit));
+  }
+  
   view.set_variable ("code", code);
 
   page += view.render ("developer", "index");

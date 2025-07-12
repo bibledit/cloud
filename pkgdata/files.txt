@@ -219,7 +219,8 @@
 /dialog/color.html
 /dialog/entry.html
 /dialog/list.html
-/dialog/select.js
+/dialog/selectajax.js
+/dialog/selectform.js
 /dialog/text.html
 /dialog/upload.html
 /dialog/yes.html

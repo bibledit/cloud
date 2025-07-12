@@ -44,7 +44,7 @@ struct Settings {
   const std::optional<std::string> tooltip {std::nullopt};
 };
 
-std::string ajax(Settings& settings);
-std::string form(Settings& settings);
+std::string ajax(const Settings& settings);
+std::string form(const Settings& settings, const bool auto_submit = false);
 
 }

@@ -16,11 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-$("#identification").on( "change", function() {
-  $.ajax({
-    url: '?' + $.param({ parameters }),
-    type: "POST",
-    data: { "identification": $("#identification").val() },
-    error: function (xhr, ajaxOptions, thrownError) { alert("Could not save the new value"); }
-    });
+$("#identification").on("change", function() {
+  document.getElementById("identification").parentElement.submit();
 });

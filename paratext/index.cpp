@@ -60,7 +60,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("disable")) {
-    database::config::bible::set_paratext_project (bible, "");
+    database::config::bible::set_paratext_project (bible, std::string());
     database::config::bible::set_paratext_collaboration_enabled (bible, false);
     filter_url_rmdir (Paratext_Logic::ancestorPath (bible, 0));
     bible.clear ();
@@ -72,7 +72,8 @@ std::string paratext_index (Webserver_Request& webserver_request)
     if (webserver_request.post.count (identification)) {
       bible = webserver_request.post.at(identification);
     }
-    std::vector<std::string> values {""};
+    // The selector contains an empty value plus all Bibles.
+    std::vector<std::string> values {std::string()};
     for (const auto& value : database::bibles::get_bibles())
       values.push_back(value);
     dialog::select::Settings settings {
@@ -87,13 +88,14 @@ std::string paratext_index (Webserver_Request& webserver_request)
   
   
   view.set_variable ("bible", bible);
-  if (!bible.empty ()) view.enable_zone ("bibleactive");
+  if (!bible.empty ())
+    view.enable_zone ("bibleactive");
   
   
   // Paratext Projects folder.
   std::string paratext_folder = database::config::general::get_paratext_projects_folder ();
-  if (!file_or_dir_exists (paratext_folder)) paratext_folder.clear ();
-  
+  if (!file_or_dir_exists (paratext_folder))
+    paratext_folder.clear ();
   if (webserver_request.query.count ("paratextfolder")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter the name of the Paratext projects folder"), paratext_folder, "paratextfolder", "");
     dialog_entry.add_query ("bible", bible);
@@ -110,9 +112,8 @@ std::string paratext_index (Webserver_Request& webserver_request)
       paratext_folder.clear ();
     }
   }
-
-  if (paratext_folder.empty ()) paratext_folder = Paratext_Logic::searchProjectsFolder ();
-
+  if (paratext_folder.empty ())
+    paratext_folder = Paratext_Logic::searchProjectsFolder ();
   database::config::general::set_paratext_projects_folder (paratext_folder);
   view.set_variable ("paratextfolder", paratext_folder);
   if (paratext_folder.empty ()) {
@@ -122,43 +123,39 @@ std::string paratext_index (Webserver_Request& webserver_request)
   }
 
   
-  // Paratext Project.
+  // The Paratext project.
   std::string paratext_project = database::config::bible::get_paratext_project (bible);
-  if (!file_or_dir_exists (filter_url_create_path ({paratext_folder, paratext_project}))) paratext_project.clear ();
-  
-  if (webserver_request.query.count ("paratextproject")) {
-    std::string project = webserver_request.query["paratextproject"];
-    if (project == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Which Paratext project are you going to use?"), "", ""); // Todo
-      dialog_list.add_query ("bible", bible);
-      std::vector <std::string> projects = Paratext_Logic::searchProjects (paratext_folder);
-      for (auto & value : projects) {
-        dialog_list.add_row (value, "paratextproject", value);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      paratext_project = project;
+  if (!file_or_dir_exists (filter_url_create_path ({paratext_folder, paratext_project})))
+    paratext_project.clear ();
+  {
+    constexpr const char* identification {"paratextproject"};
+    if (webserver_request.post.count (identification)) {
+      paratext_project = webserver_request.post.at(identification);
     }
+    std::vector<std::string> values {std::string()};
+    for (const auto & value : Paratext_Logic::searchProjects (paratext_folder)) {
+      values.push_back(value);
+    }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = std::move(values),
+      .selected = paratext_project,
+      .parameters = { {"bible", bible} },
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
-  
   database::config::bible::set_paratext_project (bible, paratext_project);
-  view.set_variable ("paratextproject", paratext_project);
-  if (!paratext_project.empty ()) view.enable_zone ("paratextprojectactive");
+  if (!paratext_project.empty ())
+    view.enable_zone ("paratextprojectactive");
 
 
   // Authoritative copy: Take from either Bibledit or else from Paratext.
-  if (webserver_request.query.count ("master")) {
-    std::string master = webserver_request.query["master"];
-    if (master == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Where are you going to take the initial Bible data from?"), "", ""); // Todo
-      dialog_list.add_query ("bible", bible);
-      dialog_list.add_row (translate ("Bibledit"), "master", "bibledit");
-      dialog_list.add_row ("Paratext", "master", "paratext");
-      page += dialog_list.run ();
-      return page;
-    } else {
+  {
+    constexpr const char* identification {"master"};
+    if (webserver_request.post.count (identification)) {
       // Set collaboration up.
+      const std::string master = webserver_request.post.at(identification);
       tasks_logic_queue (task::setup_paratext, { bible, master });
       success = translate ("The collaboration will be set up");
       if (database::config::general::get_repeat_send_receive () == 0) {
@@ -168,7 +165,17 @@ std::string paratext_index (Webserver_Request& webserver_request)
       view.enable_zone ("setuprunning");
       redirect_browser (webserver_request, journal_index_url ());
       return std::string();
+      paratext_project = webserver_request.post.at(identification);
     }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = { "", "bibledit", "paratext" },
+      .displayed = { "", "Bibledit", "Paratext" },
+      .selected = "",
+      .parameters = { {"bible", bible} },
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
 
 

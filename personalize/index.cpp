@@ -299,30 +299,31 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
 
   // Change the active Bible.
-  if (webserver_request.query.count ("changebible")) {
-    std::string changebible = webserver_request.query ["changebible"];
-    if (changebible == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to make the active one for editing"), "", ""); // Todo
-      std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-      for (auto & bible : bibles) {
-        dialog_list.add_row (bible, "changebible", bible);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      webserver_request.database_config_user()->set_bible (changebible);
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
+  view.set_variable ("bible", bible);
+  {
+    constexpr const char* identification {"bible"};
+    if (webserver_request.post.count (identification)) {
+      bible = webserver_request.post.at(identification);
+      webserver_request.database_config_user()->set_bible (bible);
       // Going to another Bible, ensure that the focused book exists there.
       int book = Ipc_Focus::getBook (webserver_request);
-      std::vector <int> books = database::bibles::get_books (changebible);
+      std::vector <int> books = database::bibles::get_books (bible);
       if (find (books.begin(), books.end(), book) == books.end()) {
-        if (!books.empty ()) book = books [0];
+        if (!books.empty ()) book = books.at(0);
         else book = 0;
         Ipc_Focus::set (webserver_request, book, 1, 1);
       }
     }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = access_bible::bibles (webserver_request),
+      .selected = bible,
+      .parameters = { },
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
-  view.set_variable ("bible", bible);
 
   
   // Whether to have a menu entry for the Changes in basic mode.

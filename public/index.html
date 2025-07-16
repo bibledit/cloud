@@ -4,15 +4,7 @@
 <style type="text/css">
 ##exports_css##
 </style>
-<p>
-<!-- #BEGINZONE bibles -->
-<a href="?bible=">
-  <!-- #ENDZONE bibles -->
-##bible##
-<!-- #BEGINZONE bibles -->
-</a>
-<!-- #ENDZONE bibles -->
-</p>
+<p>##bible##</p>
 <table>
   <tr>
     <td class="topalign">

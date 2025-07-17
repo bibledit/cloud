@@ -35,6 +35,7 @@
 #include <dialog/yes.h>
 #include <dialog/entry.h>
 #include <dialog/list.h>
+#include <dialog/select.h>
 #include <tasks/logic.h>
 #include <menu/logic.h>
 #include <access/logic.h>
@@ -87,40 +88,37 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
 
   
   // The comparative resource's base resource.
-  if (webserver_request.query.count ("base")) {
-    std::string value = webserver_request.query["base"];
-    if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as a base resource"), translate ("The base resource is used as a starting point for the comparison."), ""); // Todo
-      dialog_list.add_query ("name", name);
-      std::vector <std::string> resources = resource_logic_get_names (webserver_request, true);
-      for (auto & resource : resources) {
-        dialog_list.add_row (resource, "base", resource);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      base = value;
+  {
+    constexpr const char* identification {"base"};
+    if (webserver_request.post.count (identification)) {
+      base = webserver_request.post.at(identification);
       resource_edited = true;
     }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resource_logic_get_names (webserver_request, true),
+      .selected = base,
+      .parameters = { {"name", name} },
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
-  
-  
+
   // The comparative resource's updated resource.
-  if (webserver_request.query.count ("update")) {
-    std::string value = webserver_request.query["update"];
-    if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as the updated resource."), translate ("The updated resource will be compared with the base resource."), ""); // Todo
-      dialog_list.add_query ("name", name);
-      std::vector <std::string> resources = resource_logic_get_names (webserver_request, true);
-      for (auto & resource : resources) {
-        dialog_list.add_row (resource, "update", resource);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      update = value;
+  {
+    constexpr const char* identification {"update"};
+    if (webserver_request.post.count (identification)) {
+      update = webserver_request.post.at(identification);
       resource_edited = true;
     }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resource_logic_get_names (webserver_request, true),
+      .selected = update,
+      .parameters = { {"name", name} },
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
   
   
@@ -201,8 +199,6 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   view.set_variable ("title", title);
-  view.set_variable ("base", base);
-  view.set_variable ("update", update);
   view.set_variable ("remove", remove);
   view.set_variable ("replace", replace);
   view.set_variable ("diacritics", filter::strings::get_checkbox_status (diacritics));

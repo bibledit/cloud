@@ -6,17 +6,15 @@
 <p>translate("Title"): ##name##</p>
 
 <br>
-<p>
+<div>
 translate("Base resource"):
 ##base##
-<a href="comparative1edit?name=##name##&base=">[translate ("edit")]</a>
-</p>
+</div>
 
-<p>
+<div>
 translate("Updated resource"):
 ##update##
-<a href="comparative1edit?name=##name##&update=">[translate ("edit")]</a>
-</p>
+</div>
 <p>
 translate("This resource will take the base resource as a starting point.")
 translate("It will compare the updated resource with the base resource.")

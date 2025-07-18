@@ -10,13 +10,13 @@
 </p>
 <!-- #ENDITERATION resources -->
 <br>
-<p>
-  translate("Print from")
-  <a href="?frombook=">##from_book##</a>
-  <a href="?fromchapter=">##from_chapter##</a>:<a href="?fromverse=">##from_verse##</a>
-  translate("to")
-  <a href="?tobook=">##to_book##</a>
-  <a href="?tochapter=">##to_chapter##</a>:<a href="?toverse=">##to_verse##</a>
-</p>
+<p>translate("Print from")</p>
+<div>
+  ##frombook## translate("chapter") ##fromchapter## translate("verse") ##fromverse##
+</div>
+<p>translate("Print to")</p>
+<div>
+  ##tobook## translate("chapter") ##tochapter## translate("verse") ##toverse##
+</div>
 <br>
 <p><a href="?generate=">translate("Generate the document.")</a></p>

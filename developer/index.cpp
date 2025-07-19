@@ -175,6 +175,7 @@ std::string developer_index (Webserver_Request& webserver_request)
       .selected = selected,
       .parameters = { {"d", "dd"}, {"e", "ee"} },
       .tooltip = "Tooltip",
+      .submit = "Enter",
     };
     dialog::select::Form form { .auto_submit = false };
     view.set_variable(identification, dialog::select::form(settings, form));

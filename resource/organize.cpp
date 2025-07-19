@@ -63,10 +63,40 @@ std::string resource_organize (Webserver_Request& webserver_request)
   const std::vector <std::string> default_active_resources = database::config::general::get_default_active_resources ();
 
   
-  // Deal with a new added resources.
-  if (webserver_request.query.count ("add") || webserver_request.post.count ("add")) {
-    std::string add = webserver_request.query["add"];
-    if (add.empty ()) add = webserver_request.post ["add"];
+  // Deal with adding new resources.Todo
+  const auto get_added_resource = [&webserver_request] () -> std::string {
+    if (webserver_request.query.count("add")) // Todo these four lines out.
+        return webserver_request.query.at("add");
+    if (webserver_request.post.count("add"))
+      return webserver_request.post.at("add");
+    if (webserver_request.post.count("bible"))
+      return webserver_request.post.at("bible");
+    if (webserver_request.post.count("usfm"))
+      return webserver_request.post.at("usfm");
+    if (webserver_request.post.count("web_orig"))
+      return webserver_request.post.at("web_orig");
+    if (webserver_request.post.count("web_bibles"))
+      return webserver_request.post.at("web_bibles");
+    if (webserver_request.post.count("image"))
+      return webserver_request.post.at("image");
+    if (webserver_request.post.count("lexicon"))
+      return webserver_request.post.at("lexicon");
+    if (webserver_request.post.count("sword"))
+      return webserver_request.post.at("sword");
+    if (webserver_request.post.count("divider"))
+      return webserver_request.post.at("divider");
+    if (webserver_request.post.count("biblegateway"))
+      return webserver_request.post.at("biblegateway");
+    if (webserver_request.post.count("studylight"))
+      return webserver_request.post.at("studylight");
+    if (webserver_request.post.count("comparative"))
+      return webserver_request.post.at("comparative");
+    if (webserver_request.post.count("translated"))
+      return webserver_request.post.at("translated");
+    return std::string();
+  };
+  const std::string add {get_added_resource()};
+  if (!add.empty()) {
     if (add == resource_logic_rich_divider ()) {
       // Navigate to the page to set up the rich divider.
       if (is_def) 

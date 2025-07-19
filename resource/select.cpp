@@ -81,26 +81,30 @@ std::string resource_select (Webserver_Request& webserver_request)
 #endif
 
   
-  if (webserver_request.query.count ("bible")) {
-    // Any resources added is POSTed because when it was still done through GET,
-    // the crawlers of the search engines kept clicking links and so adding resources on the public demo.
-    // The POST method is supposed to be immune to that.
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible"), "", "", true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
-    std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-    for (const auto & bible : bibles) {
-      dialog_list.add_row (bible, "add", bible);
-    }
-    page += dialog_list.run ();
-    return page;
-  }
+  const auto get_parameters = [&webserver_request, is_def]() {
+    std::vector<std::pair<std::string,std::string>> parameters {{"page", webserver_request.query["page"]}};
+    if (is_def)
+      parameters.push_back ({"type", webserver_request.query["type"]});
+    return parameters;
+  };
   
 
-  if (webserver_request.query.count ("usfm")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a USFM resource"), "", "", true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
+  {
+    constexpr const char* identification {"bible"};
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = access_bible::bibles (webserver_request),
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
+  }
+
+  
+  {
+    constexpr const char* identification {"usfm"};
     std::vector <std::string> resources;
 #ifdef HAVE_CLIENT
     // Client takes resources available from the Cloud.
@@ -110,85 +114,92 @@ std::string resource_select (Webserver_Request& webserver_request)
     Database_UsfmResources database_usfmresources;
     resources = database_usfmresources.getResources ();
 #endif
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resources,
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
-  
 
-  if (webserver_request.query.count ("web_orig")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), disconnected_info, "", true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
-    std::vector <std::string> resources = resource_external_get_original_language_resources ();
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+  
+  {
+    constexpr const char* identification {"web_orig"};
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resource_external_get_original_language_resources(),
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
+
   
-  
-  if (webserver_request.query.count ("web_bibles")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible translation"), disconnected_info, "", true);
-    dialog_list.add_query ("page", webserver_request.query["page"]); // Todo
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
-    std::vector <std::string> resources = resource_external_get_bibles ();
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+  {
+    constexpr const char* identification {"web_bibles"};
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resource_external_get_bibles(),
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
+
   
-  
-  if (webserver_request.query.count ("image")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select an image resource"), "", "", true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
+  {
+    constexpr const char* identification {"image"};
     Database_ImageResources database_imageresources;
-    std::vector <std::string> resources = database_imageresources.names ();
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = database_imageresources.names(),
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
-  
 
-  if (webserver_request.query.count ("lexicon")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a lexicon resource"), "", "", true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
-    std::vector <std::string> resources = lexicon_logic_resource_names ();
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+    
+  {
+    constexpr const char* identification {"lexicon"};
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = lexicon_logic_resource_names(),
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
   
   
-  if (webserver_request.query.count ("sword")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a SWORD resource"), disconnected_info, "", true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
-    std::vector <std::string> resources = sword_logic_get_available ();
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+  {
+    constexpr const char* identification {"sword"};
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = sword_logic_get_available(),
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
   
   
-  if (webserver_request.query.count ("divider")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a divider"), "", "", true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
-    std::vector <std::string> resources = {
+  {
+    constexpr const char* identification {"divider"};
+    const std::vector <std::string> resources = {
       resource_logic_yellow_divider (),
       resource_logic_green_divider (),
       resource_logic_blue_divider (),
@@ -197,37 +208,43 @@ std::string resource_select (Webserver_Request& webserver_request)
       resource_logic_orange_divider (),
       resource_logic_rich_divider(),
     };
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resources,
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
 
   
-  if (webserver_request.query.count ("biblegateway")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a BibleGateway resource"), disconnected_info, "", true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
-    std::vector <std::string> resources = resource_logic_bible_gateway_module_list_get ();
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+  {
+    constexpr const char* identification {"biblegateway"};
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resource_logic_bible_gateway_module_list_get(),
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
   
   
-  if (webserver_request.query.count ("studylight")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a StudyLight resource"), disconnected_info, "", true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
-    std::vector <std::string> resources = resource_logic_study_light_module_list_get ();
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+  {
+    constexpr const char* identification {"studylight"};
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resource_logic_study_light_module_list_get(),
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
 
   
@@ -235,10 +252,8 @@ std::string resource_select (Webserver_Request& webserver_request)
   // The line contains multiple properties of the resource.
   // One of those properties is the title.
   // This selection mechanism here shows that title only.
-  if (webserver_request.query.count ("comparative")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Comparative resource"), disconnected_info, std::string(), true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
+  {
+    constexpr const char* identification {"comparative"};
     std::vector <std::string> resources;
     std::vector<std::string> raw_resources =
 #ifdef HAVE_CLOUD
@@ -252,11 +267,15 @@ std::string resource_select (Webserver_Request& webserver_request)
         resources.push_back(title);
       }
     }
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resources,
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
 
   
@@ -264,10 +283,8 @@ std::string resource_select (Webserver_Request& webserver_request)
   // The line contains multiple properties of the resource.
   // One of those properties is the title.
   // This selection mechanism here shows that title only.
-  if (webserver_request.query.count ("translated")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Translated resource"), disconnected_info, std::string(), true); // Todo
-    dialog_list.add_query ("page", webserver_request.query["page"]);
-    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
+  {
+    constexpr const char* identification {"translated"};
     std::vector <std::string> resources;
     std:: vector<std::string> raw_resources =
 #ifdef HAVE_CLOUD
@@ -281,11 +298,15 @@ std::string resource_select (Webserver_Request& webserver_request)
         resources.push_back(title);
       }
     }
-    for (const auto & resource : resources) {
-      dialog_list.add_row (resource, "add", resource);
-    }
-    page += dialog_list.run ();
-    return page;
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resources,
+      .url = caller,
+      .parameters = get_parameters(),
+      .submit = translate("Add"),
+    };
+    dialog::select::Form form { .auto_submit = false };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
 
   

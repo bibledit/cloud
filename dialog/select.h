@@ -36,12 +36,16 @@ struct Settings {
   std::vector<std::string> displayed;
   // If any value is to be selected as the default.
   const std::optional<std::string> selected {std::nullopt};
+  // The URL where to POST to.
+  const std::string url;
   // The query parameters to be added to the POSTed URL, like url?key=value
   const std::vector<std::pair<std::string,std::string>> parameters;
   // Whether the <select> element is to be disabled.
   bool disabled {false};
   // The tooltip on the selector.
   const std::optional<std::string> tooltip {std::nullopt};
+  // The text on the submit button.
+  const std::optional<std::string> submit {std::nullopt};
 };
 
 std::string ajax(const Settings& settings);

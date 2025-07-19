@@ -82,7 +82,7 @@ std::string ajax(const Settings& settings)
 
   create_select (document, settings);
 
-  // The Javascript to POST the selected value if it changes.
+  // The Javascript to POST the selected value if it changes. // Todo add the url to the ajax call
   std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/selectajax.js"}));
   javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
   
@@ -115,7 +115,7 @@ std::string form(const Settings& settings, const Form& form)
     ss << (ss.str().empty()?"?":"&");
     ss << parameter.first << "=" << parameter.second;
   }
-  std::string action {ss.str()};
+  const std::string action {settings.url + ss.str()};
 
   // Create the form.
   pugi::xml_node form_node = document.append_child("form");
@@ -126,6 +126,8 @@ std::string form(const Settings& settings, const Form& form)
   if (!form.auto_submit) {
     pugi::xml_node input_node = form_node.append_child("input");
     input_node.append_attribute("type") = "submit";
+    if (settings.submit)
+      input_node.append_attribute("value") = settings.submit.value().c_str();
   }
   
   // If automatic submit, add a script that does the job.

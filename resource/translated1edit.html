@@ -9,17 +9,14 @@
 <p>
 translate("Original resource"):
 ##original##
-<a href="translated1edit?name=##name##&original=">[translate ("edit")]</a>
 </p>
 <p>
 translate("Language of the original resource"):
 ##source##
-<a href="translated1edit?name=##name##&source=">[translate ("edit")]</a>
 </p>
 <p>
 translate("Language to translate the resource into"):
 ##target##
-<a href="translated1edit?name=##name##&target=">[translate ("edit")]</a>
 </p>
 <br>
 <p>

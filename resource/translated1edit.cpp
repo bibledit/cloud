@@ -36,6 +36,7 @@
 #include <dialog/yes.h>
 #include <dialog/entry.h>
 #include <dialog/list.h>
+#include <dialog/select.h>
 #include <tasks/logic.h>
 #include <menu/logic.h>
 #include <access/logic.h>
@@ -92,59 +93,64 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
 
   
   // The translated resource's original resource.
-  if (webserver_request.query.count ("original")) {
-    std::string value = webserver_request.query["original"];
-    if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as the original resource"), translate ("The original resource will be translated from the source language to the target language."), std::string()); // Todo
-      dialog_list.add_query ("name", name);
-      std::vector <std::string> resources = resource_logic_get_names (webserver_request, true);
-      for (const auto & resource : resources) {
-        dialog_list.add_row (resource, "original", resource);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      original_resource = value;
+  {
+    constexpr const char* identification {"original"};
+    if (webserver_request.post.count (identification)) {
+      original_resource = webserver_request.post.at(identification);
       resource_edited = true;
     }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = resource_logic_get_names (webserver_request, true),
+      .selected = original_resource,
+      .parameters = { {"name", name} },
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
+  }
+
+  
+  // The supported languages for translation.
+  const std::vector <std::pair <std::string, std::string>> languages {filter::google::get_languages ("en")};
+  std::vector<std::string> values, displayed;
+  for (const auto & language : languages) {
+    values.push_back(language.first);
+    displayed.push_back(language.second);
   }
 
   
   // The language of the original resource.
-  if (webserver_request.query.count ("source")) {
-    std::string value = webserver_request.query["source"];
-    if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language of the original resource"), translate ("The language the original resource is written in."), std::string()); // Todo
-      dialog_list.add_query ("name", name);
-      std::vector <std::pair <std::string, std::string> > languages = filter::google::get_languages ("en");
-      for (const auto & language : languages) {
-        dialog_list.add_row (language.second, "source", language.first);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      source_language = value;
+  {
+    constexpr const char* identification {"source"};
+    if (webserver_request.post.count (identification)) {
+      source_language = webserver_request.post.at(identification);
       resource_edited = true;
     }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = values,
+      .displayed = displayed,
+      .selected = source_language,
+      .parameters = { {"name", name} },
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
   }
   
   
   // The language to translate the resource into.
-  if (webserver_request.query.count ("target")) {
-    std::string value = webserver_request.query["target"];
-    if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language to translate the resource into"), translate ("The language the resource will be translated into."), std::string()); // Todo
-      dialog_list.add_query ("name", name);
-      std::vector <std::pair <std::string, std::string> > languages = filter::google::get_languages ("en");
-      for (const auto & language : languages) {
-        dialog_list.add_row (language.second, "target", language.first);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      target_language = value;
+  {
+    constexpr const char* identification {"target"};
+    if (webserver_request.post.count (identification)) {
+      target_language = webserver_request.post.at(identification);
       resource_edited = true;
     }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = values,
+      .displayed = displayed,
+      .selected = target_language,
+      .parameters = { {"name", name} },
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
   }
   
   
@@ -185,9 +191,6 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   view.set_variable ("title", title);
-  view.set_variable ("original", original_resource);
-  view.set_variable ("source", source_language);
-  view.set_variable ("target", target_language);
   view.set_variable ("cache", filter::strings::get_checkbox_status (cache));
   page += view.render ("resource", "translated1edit");
   page += assets_page::footer ();

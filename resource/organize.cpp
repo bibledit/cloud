@@ -63,12 +63,8 @@ std::string resource_organize (Webserver_Request& webserver_request)
   const std::vector <std::string> default_active_resources = database::config::general::get_default_active_resources ();
 
   
-  // Deal with adding new resources.Todo
+  // Deal with adding new resources.
   const auto get_added_resource = [&webserver_request] () -> std::string {
-    if (webserver_request.query.count("add")) // Todo these four lines out.
-        return webserver_request.query.at("add");
-    if (webserver_request.post.count("add"))
-      return webserver_request.post.at("add");
     if (webserver_request.post.count("bible"))
       return webserver_request.post.at("bible");
     if (webserver_request.post.count("usfm"))

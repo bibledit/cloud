@@ -82,10 +82,11 @@ std::string ajax(const Settings& settings)
 
   create_select (document, settings);
 
-  // The Javascript to POST the selected value if it changes. // Todo add the url to the ajax call
+  // The Javascript to POST the selected value if it changes.
   std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/selectajax.js"}));
   javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
-  
+  javascript = filter::strings::replace("URL", settings.url, std::move(javascript));
+
   // Update the Javascript with the parameters to append to the POST request.
   std::stringstream ss{};
   for (const std::pair<std::string, std::string>& parameter : settings.parameters) {

@@ -5,9 +5,7 @@
   <div id="editorinnerheader" class="##editor_theme_color##">
     <span id="nostyles">
       <label for="bibleselect">translate("Bible"): </label>
-      <select id="bibleselect" name="bibleselect" value="##bible##">
-        ##bibleoptags##
-      </select>
+      ##bible##
       <!-- #BEGINZONE onestatus -->
       |
       <span id="onestatus"></span>

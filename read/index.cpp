@@ -92,19 +92,23 @@ std::string read_index (Webserver_Request& webserver_request)
   Assets_View view;
   
   // Get active Bible, and check read access to it.
-  // Or if the user have used query to preset the active Bible, get the preset Bible.
-  // If needed, change Bible to one it has read access to.
-  // Set the chosen Bible on the option HTML tag.
+  // Or if the user has used a query to preset the active Bible, get that preset Bible.
+  // If needed, change the Bible to one the user has read access to.
   std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
-  if (webserver_request.query.count ("bible"))
-    bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
   {
-    const std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-    const auto html = dialog::select::create_options (bibles, bibles, bible); // Todo
-    view.set_variable ("bibleoptags", html);
-    view.set_variable ("bible", bible);
+    constexpr const char* identification {"bible"};
+    if (webserver_request.post.count (identification)) {
+      bible = webserver_request.post.at(identification);
+    }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = access_bible::bibles (webserver_request),
+      .selected = bible,
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
-
+  
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", navigation_passage::code (bible));
   

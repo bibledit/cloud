@@ -30,16 +30,13 @@ $ (document).ready (function ()
     "fontsizegreek",
     "caretposition",
     "workspacefadeoutdelay",
-    "verseseparator",
     "chapterpercentage",
     "versepercentage",
-    "dateformat"
     ]
   let arrayOfQuerySubmissionTechniques = [];
   for (var i = 0; i < 4; i++) { arrayOfQuerySubmissionTechniques.push("post+reload") };
-  for (var i = 0; i < 7; i++) { arrayOfQuerySubmissionTechniques.push("post") };
+  for (var i = 0; i < 6; i++) { arrayOfQuerySubmissionTechniques.push("post") };
   for (var i = 0; i < 2; i++) { arrayOfQuerySubmissionTechniques.push("post+") };
-  for (var i = 0; i < 1; i++) { arrayOfQuerySubmissionTechniques.push("post") };
 
   for (let i = 0; i < arrayOfQueryNames.length; i++) {
     (function () {

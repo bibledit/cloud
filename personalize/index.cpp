@@ -415,17 +415,21 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   
   // Setting for the verse separator during notes entry.
-  constexpr const char* verseseparator {"verseseparator"};
-  if (webserver_request.post.count (verseseparator)) {
-    database::config::general::set_notes_verse_separator (webserver_request.post[verseseparator]);
-    return std::string();
-  }
   {
-    std::string separator_key = database::config::general::get_notes_verse_separator ();
-    const std::vector<std::string> values {                             ".",                              ":"  };
-    const std::vector<std::string> texts  { menu_logic_verse_separator ("."), menu_logic_verse_separator (":") };
-    view.set_variable ("verseseparatoroptags", dialog::select::create_options (values, texts, separator_key)); // Todo
-    view.set_variable ("verseseparator", menu_logic_verse_separator (separator_key));
+    constexpr const char* identification {"verseseparator"};
+    if (webserver_request.post.count (identification)) {
+      const std::string value {webserver_request.post.at(identification)};
+      database::config::general::set_notes_verse_separator(value);
+      return std::string();
+    }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = { ".", ":" },
+      .displayed = { menu_logic_verse_separator ("."), menu_logic_verse_separator (":") },
+      .selected = database::config::general::get_notes_verse_separator (),
+      .tooltip = translate("Which verse separator to use for notes entry?"),
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
   }
 
   
@@ -444,23 +448,27 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   
   // The date format to be used in the Consultation Notes.
-  constexpr const char * dateformat = "dateformat";
-  if (webserver_request.post.count (dateformat)) {
-    const int format = filter::strings::convert_to_int (webserver_request.post [dateformat]);
-    webserver_request.database_config_user ()->set_notes_date_format(format);
-    return std::string();
-  }
   {
-    std::string date_format_key = std::to_string (webserver_request.database_config_user ()->get_notes_date_format());
+    constexpr const char* identification {"dateformat"};
+    if (webserver_request.post.count (identification)) {
+      const std::string value {webserver_request.post.at(identification)};
+      webserver_request.database_config_user ()->set_notes_date_format(filter::strings::convert_to_int(value));
+      return std::string();
+    }
     std::vector<std::string> values, texts;
     for (auto df {filter::date::dd_mm_yyyy}; df <= filter::date::yyyy_mn_dd;
          df = static_cast<filter::date::date_format>(df + 1)) {
       values.emplace_back(std::to_string(df));
       texts.emplace_back(filter::date::date_format_to_text (df));
     }
-    const std::string html {dialog::select::create_options (values, texts, date_format_key)}; // Todo
-    view.set_variable ("dateformatoptags", html);
-    view.set_variable (dateformat, date_format_key);
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = std::move(values),
+      .displayed = std::move(texts),
+      .selected = std::to_string (webserver_request.database_config_user ()->get_notes_date_format()),
+      .tooltip = translate("The date format to use for consultation notes?"),
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
   }
 
   

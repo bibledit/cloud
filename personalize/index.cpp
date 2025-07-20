@@ -253,25 +253,27 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   
   // Visual editors in the fast Bible editor switcher.
-  constexpr const char * fastswitchvisualeditors = "fastswitchvisualeditors";
-  if (webserver_request.post.count (fastswitchvisualeditors)) {
-    const auto value = filter::strings::convert_to_int (webserver_request.post [fastswitchvisualeditors]);
-    webserver_request.database_config_user ()->set_fast_switch_visual_editors (value);
-    return std::string();
-  }
   {
+    constexpr const char* identification {"fastswitchvisualeditors"};
+    if (webserver_request.post.count (identification)) {
+      const auto value = filter::strings::convert_to_int (webserver_request.post.at(identification));
+      webserver_request.database_config_user ()->set_fast_switch_visual_editors (value);
+      return std::string();
+    }
     std::vector<std::string> values;
     std::vector<std::string> texts;
     for (int i = 0; i < 3; i++) {
       values.emplace_back(std::to_string(i));
       texts.emplace_back(menu_logic_editor_settings_text(true, i));
     }
-    const auto editor_key = webserver_request.database_config_user ()->get_fast_switch_visual_editors();
-    const std::string html {dialog::select::create_options (values, texts, std::to_string(editor_key))}; // Todo
-    view.set_variable ("fastswitchvisualeditorsoptags", html);
-    view.set_variable (fastswitchvisualeditors, std::to_string(editor_key));
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = std::move(values),
+      .displayed = std::move(texts),
+      .selected = std::to_string(webserver_request.database_config_user ()->get_fast_switch_visual_editors())
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
   }
-
   
   // USFM editors fast Bible editor switcher.
   constexpr const char * fastswitchusfmeditors = "fastswitchusfmeditors";

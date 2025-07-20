@@ -86,7 +86,7 @@ translate("If Paratext were installed on this computer, and Bibles in Bibledit w
 <!-- #BEGINZONE gitwrite -->
 <p>translate("Send a Bible to a git repository.")</p>
 <!-- #ENDZONE gitwrite -->
-<p>translate("Bible"): <a href="?bible=">##bible##</a>.</p>
+<div>translate("Bible"): ##bible##</div>
 <!-- #BEGINZONE collab_off -->
 <p>translate("This Bible has not been linked to a git repository.")</p>
 <!-- #ENDZONE collab_off -->

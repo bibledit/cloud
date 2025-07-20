@@ -24,14 +24,6 @@ var chapterEditorUniqueID = Math.floor (Math.random() * 100000000);
 
 $ (document).ready (function ()
 {
-  // Listens for bibleselect option tags value change to update the loaded Bible.
-  var bibleSelectionElement = document.querySelector ("#bibleselect");
-  bibleSelectionElement.addEventListener ('change', () => {
-    var value = bibleSelectionElement.value;
-    $.post ("index", { bibleselect: bibleSelectionElement.value })
-      .done (function() { window.location.reload () });
-  });
-
   // Reposition the editor's menu so it never scrolls out of view.
   var bar = $ ("#editorheader").remove ();
   $ ("#workspacemenu").append (bar);

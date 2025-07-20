@@ -214,7 +214,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
   page = header.run ();
   Assets_View view;
   const std::vector <std::string> accessible_bibles = access_bible::bibles (webserver_request);
-  view.set_variable ("bibleoptags", dialog::select::create_options (accessible_bibles, accessible_bibles, bible));
+  view.set_variable ("bibleoptags", dialog::select::create_options (accessible_bibles, accessible_bibles, bible)); // Todo
   view.set_variable ("bible", bible);
   std::stringstream script {};
   script << "var searchBible = " << std::quoted(bible) << ";";

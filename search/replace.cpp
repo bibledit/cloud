@@ -107,7 +107,7 @@ std::string search_replace (Webserver_Request& webserver_request)
   Assets_View view;
 
   const std::vector <std::string> accessible_bibles = access_bible::bibles (webserver_request);
-  view.set_variable ("bibleoptags", dialog::select::create_options (accessible_bibles, accessible_bibles, bible));
+  view.set_variable ("bibleoptags", dialog::select::create_options (accessible_bibles, accessible_bibles, bible)); // Todo
   view.set_variable ("bible", bible);
   
   std::stringstream script {};

@@ -204,7 +204,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
     const auto theme = webserver_request.database_config_user ()->get_current_theme();
     const std::vector<std::string> names  { "Basic", "Light", "Dark", "Red Blue Light", "Red Blue Dark" };
     const std::vector<std::string> values { "0",     "1",     "2",    "3",              "4"             };
-    const std::string html {dialog::select::create_options (values, names, std::to_string(theme))};
+    const std::string html {dialog::select::create_options (values, names, std::to_string(theme))}; // Todo
     view.set_variable ("themepickeroptags", html);
     view.set_variable ("themepicker", std::to_string(theme));
   }
@@ -264,7 +264,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
       texts.emplace_back(menu_logic_editor_settings_text(true, i));
     }
     const auto editor_key = webserver_request.database_config_user ()->get_fast_switch_visual_editors();
-    const std::string html {dialog::select::create_options (values, texts, std::to_string(editor_key))};
+    const std::string html {dialog::select::create_options (values, texts, std::to_string(editor_key))}; // Todo
     view.set_variable ("fastswitchvisualeditorsoptags", html);
     view.set_variable (fastswitchvisualeditors, std::to_string(editor_key));
   }
@@ -284,7 +284,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
       menu_logic_editor_settings_text (false, 1),
     };
     const auto editor_key = std::to_string(webserver_request.database_config_user ()->get_fast_switch_usfm_editors ());
-    const std::string html {dialog::select::create_options (values, texts, editor_key)};
+    const std::string html {dialog::select::create_options (values, texts, editor_key)}; // Todo
     view.set_variable ("fastswitchusfmeditorsoptags", html);
     view.set_variable (fastswitchusfmeditors, editor_key);
   }
@@ -418,7 +418,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
     std::string separator_key = database::config::general::get_notes_verse_separator ();
     const std::vector<std::string> values {                             ".",                              ":"  };
     const std::vector<std::string> texts  { menu_logic_verse_separator ("."), menu_logic_verse_separator (":") };
-    view.set_variable ("verseseparatoroptags", dialog::select::create_options (values, texts, separator_key));
+    view.set_variable ("verseseparatoroptags", dialog::select::create_options (values, texts, separator_key)); // Todo
     view.set_variable ("verseseparator", menu_logic_verse_separator (separator_key));
   }
 
@@ -452,7 +452,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
       values.emplace_back(std::to_string(df));
       texts.emplace_back(filter::date::date_format_to_text (df));
     }
-    const std::string html {dialog::select::create_options (values, texts, date_format_key)};
+    const std::string html {dialog::select::create_options (values, texts, date_format_key)}; // Todo
     view.set_variable ("dateformatoptags", html);
     view.set_variable (dateformat, date_format_key);
   }

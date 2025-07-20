@@ -15,9 +15,7 @@
       <span id="activestyles"></span>
       |
       <label for="bibleselect">translate("Bible"): </label>
-      <select id="bibleselect" name="bibleselect" value="##bible##">
-        ##bibleoptags##
-      </select>
+      ##bibleselect##
       |
       <!-- #ENDZONE advancedmode -->
       <span id="editorstatus"></span>

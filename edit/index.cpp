@@ -72,23 +72,44 @@ std::string edit_index (Webserver_Request& webserver_request)
     navigation_passage::record_history (webserver_request, switchbook, switchchapter, switchverse);
   }
 
-
-  // Set the user chosen Bible as the current Bible.
-  if (webserver_request.post.count ("bibleselect")) {
-    const std::string bibleselect = webserver_request.post ["bibleselect"];
-    webserver_request.database_config_user ()->set_bible (bibleselect);
-    // Going to another Bible, ensure that the focused book exists there.
-    int book = Ipc_Focus::getBook (webserver_request);
-    const std::vector <int> books = database::bibles::get_books (bibleselect);
-    if (find (books.begin(), books.end(), book) == books.end()) {
-      if (!books.empty ()) book = books [0];
-      else book = 0;
-      Ipc_Focus::set (webserver_request, book, 1, 1);
-    }
-    return std::string();
-  }
+  
+  Assets_View view{};
 
   
+  // Get the active Bible, and check whether the user has access to it.
+  // And if the user has used a query to preset the active Bible, get that preset Bible.
+  // Set the chosen Bible on the option HTML tag.
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
+  if (webserver_request.query.count ("bible"))
+    bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
+  view.set_variable ("bible", bible);
+
+
+  // Set the user chosen Bible as the current Bible. Todo
+  {
+    constexpr const char* identification {"bibleselect"};
+    if (webserver_request.post.count (identification)) {
+      bible = webserver_request.post.at(identification);
+      webserver_request.database_config_user ()->set_bible (bible);
+      // Going to another Bible, ensure that the focused book exists there.
+      int book = Ipc_Focus::getBook (webserver_request);
+      const std::vector <int> books = database::bibles::get_books (bible);
+      if (std::find (books.begin(), books.end(), book) == books.end()) {
+        if (!books.empty ()) book = books.front();
+        else book = 0;
+        Ipc_Focus::set (webserver_request, book, 1, 1);
+      }
+      return std::string();
+    }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = access_bible::bibles (webserver_request),
+      .selected = bible,
+    };
+    view.set_variable(identification, dialog::select::ajax(settings));
+  }
+
+
   std::string page{};
   
   
@@ -99,20 +120,6 @@ std::string edit_index (Webserver_Request& webserver_request)
   header.notify_it_on ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
-  
-  
-  Assets_View view{};
-  
-  
-  // Active Bible, and check access.
-  // Or if the user have used query to preset the active Bible, get the preset Bible.
-  // Set the chosen Bible on the option HTML tag.
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
-  if (webserver_request.query.count ("bible"))
-    bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
-  const std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-  view.set_variable ("bibleoptags", dialog::select::create_options(bibles, bibles, bible));
-  view.set_variable ("bible", bible);
   
   
   // Store the active Bible in the page's javascript.

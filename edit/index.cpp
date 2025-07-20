@@ -85,7 +85,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   view.set_variable ("bible", bible);
 
 
-  // Set the user chosen Bible as the current Bible. Todo
+  // Set the user chosen Bible as the current Bible.
   {
     constexpr const char* identification {"bibleselect"};
     if (webserver_request.post.count (identification)) {

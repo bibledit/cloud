@@ -11,9 +11,7 @@
         <span id="oneverseactivestyles"></span>
         |
         <label for="bibleselect">translate("Bible"): </label>
-        <select id="bibleselect" name="bibleselect" value="##bible##">
-          ##bibleoptags##
-        </select>
+        ##bibleselect##
         |
         <span id="onestatus"></span>
         <!-- #BEGINZONE fastswitcheditor -->

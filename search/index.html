@@ -1,8 +1,6 @@
 <div id="searchbox">
   <label for="bibleselect">translate("Bible"): </label>
-  <select id="bibleselect" name="bibleselect" value="##bible##">
-    ##bibleoptags##
-  </select>
+  ##bibleselect##
   <input id="searchentry" type="text" value="" placeholder="translate("Search for")" autocorrect="off" autocapitalize="off" />
   <input id="searchbutton" type="button" value="translate("Search")"  />
   <img id="searchloading" src="/pix/loading.gif">

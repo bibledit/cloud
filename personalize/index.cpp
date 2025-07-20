@@ -270,7 +270,8 @@ std::string personalize_index (Webserver_Request& webserver_request)
       .identification = identification,
       .values = std::move(values),
       .displayed = std::move(texts),
-      .selected = std::to_string(webserver_request.database_config_user ()->get_fast_switch_visual_editors())
+      .selected = std::to_string(webserver_request.database_config_user ()->get_fast_switch_visual_editors()),
+      .tooltip = translate("Which visual Bible editors to enable?"),
     };
     view.set_variable(identification, dialog::select::ajax(settings));
   }
@@ -289,6 +290,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
       .values = { "0", "1" },
       .displayed = { menu_logic_editor_settings_text (false, 0), menu_logic_editor_settings_text (false, 1) },
       .selected = std::to_string(webserver_request.database_config_user ()->get_fast_switch_usfm_editors ()),
+      .tooltip = translate("Enable the USFM Bible editor?"),
     };
     view.set_variable(identification, dialog::select::ajax(settings));
   }

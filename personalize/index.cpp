@@ -61,6 +61,9 @@ bool personalize_index_acl (Webserver_Request& webserver_request)
 
 std::string personalize_index (Webserver_Request& webserver_request)
 {
+  Assets_View view{};
+
+  
   std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
@@ -78,17 +81,31 @@ std::string personalize_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user ()->set_editing_allowed_difference_verse (versepercentage);
     return std::string();
   }
-  
 
-  // Set the user chosen theme as the current theme.
-  if (webserver_request.post.count ("themepicker")) {
-    int themepicker = filter::strings::convert_to_int (webserver_request.post ["themepicker"]);
-    if (config::logic::default_bibledit_configuration ()) {
-      webserver_request.database_config_user ()->set_current_theme (themepicker);
+  
+  // Deal with the theme selector.
+  {
+    constexpr const char* identification {"theme"};
+    int theme = webserver_request.database_config_user ()->get_current_theme();
+    if (webserver_request.post.count (identification)) {
+      theme = filter::strings::convert_to_int(webserver_request.post.at(identification));
+      if (config::logic::default_bibledit_configuration ()) {
+        webserver_request.database_config_user ()->set_current_theme (theme);
+      }
     }
+    std::vector<std::string> names  { "Basic", "Light", "Dark", "Red Blue Light", "Red Blue Dark" };
+    std::vector<std::string> values {   "0",     "1",    "2",         "3",              "4"       };
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = std::move(values),
+      .displayed = std::move(names),
+      .selected = std::to_string(theme),
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
 
-  
+
   std::string page;
   std::string success;
   std::string error;
@@ -117,9 +134,6 @@ std::string personalize_index (Webserver_Request& webserver_request)
   Assets_Header header = Assets_Header (translate("Preferences"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
-
-  
-  Assets_View view{};
 
   
   // Font size for everything.
@@ -197,17 +211,6 @@ std::string personalize_index (Webserver_Request& webserver_request)
     return filter::strings::get_reload ();
   }
   view.set_variable ("breadcrumbs", filter::strings::get_checkbox_status (webserver_request.database_config_user ()->get_display_breadcrumbs ()));
-
-  
-  // Set the chosen theme on the option HTML tag.
-  {
-    const auto theme = webserver_request.database_config_user ()->get_current_theme();
-    const std::vector<std::string> names  { "Basic", "Light", "Dark", "Red Blue Light", "Red Blue Dark" };
-    const std::vector<std::string> values { "0",     "1",     "2",    "3",              "4"             };
-    const std::string html {dialog::select::create_options (values, names, std::to_string(theme))}; // Todo
-    view.set_variable ("themepickeroptags", html);
-    view.set_variable ("themepicker", std::to_string(theme));
-  }
 
   
   // Workspace menu fade-out delay.

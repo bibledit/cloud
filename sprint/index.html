@@ -1,14 +1,13 @@
 <h3>translate("Sprint")</h3>
 <p class="error">##error##</p>
 <p class="success">##success##</p>
-<p>
-  translate("Bible"):
-  <a href="?bible=">##bible##</a>
+<div>
+  translate("Bible"): ##bible##
   |
   <a href="?previoussprint=">«</a>
   <a href="?currentprint=">##sprint##</a>
   <a href="?nextsprint=">»</a>
-</p>
+</div>
 <br>
 <table class="burndown">
   <tr>

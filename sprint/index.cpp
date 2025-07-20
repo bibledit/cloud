@@ -33,6 +33,7 @@
 #include <database/config/bible.h>
 #include <access/bible.h>
 #include <dialog/list.h>
+#include <dialog/select.h>
 #include <sprint/burndown.h>
 #include <menu/logic.h>
 #include <email/send.h>
@@ -144,25 +145,23 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   }
   
   
-  if (webserver_request.query.count ("bible")) {
-    bible = webserver_request.query ["bible"];
-    if (bible.empty()) {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display the Sprint for"), "", "");
-      std::vector <std::string> bibles = access_bible::bibles (webserver_request); // Todo
-      for (auto & selection_bible : bibles) {
-        dialog_list.add_row (selection_bible, "bible", selection_bible);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
+  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
+  {
+    constexpr const char* identification {"bible"};
+    if (webserver_request.post.count (identification)) {
+      bible = webserver_request.post.at(identification);
       webserver_request.database_config_user()->set_bible (bible);
     }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = access_bible::bibles (webserver_request),
+      .selected = bible,
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
-  
-  
-  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
-  
-  
+
+ 
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   
   
@@ -204,7 +203,6 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   }
   
   
-  view.set_variable ("bible", bible);
   view.set_variable ("sprint", locale_logic_month (month) + " " + std::to_string (year));
 
   

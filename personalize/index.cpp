@@ -275,26 +275,25 @@ std::string personalize_index (Webserver_Request& webserver_request)
     view.set_variable(identification, dialog::select::ajax(settings));
   }
   
+  
   // USFM editors fast Bible editor switcher.
-  constexpr const char * fastswitchusfmeditors = "fastswitchusfmeditors";
-  if (webserver_request.post.count (fastswitchusfmeditors)) {
-    const int value = filter::strings::convert_to_int (webserver_request.post [fastswitchusfmeditors]);
-    webserver_request.database_config_user ()->set_fast_switch_usfm_editors (value);
-    return std::string();
-  }
   {
-    const std::vector<std::string> values { "0", "1" };
-    const std::vector<std::string> texts {
-      menu_logic_editor_settings_text (false, 0),
-      menu_logic_editor_settings_text (false, 1),
+    constexpr const char* identification {"fastswitchusfmeditors"};
+    if (webserver_request.post.count (identification)) {
+      const int value = filter::strings::convert_to_int(webserver_request.post.at(identification));
+      webserver_request.database_config_user ()->set_fast_switch_usfm_editors (value);
+      return std::string();
+    }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = { "0", "1" },
+      .displayed = { menu_logic_editor_settings_text (false, 0), menu_logic_editor_settings_text (false, 1) },
+      .selected = std::to_string(webserver_request.database_config_user ()->get_fast_switch_usfm_editors ()),
     };
-    const auto editor_key = std::to_string(webserver_request.database_config_user ()->get_fast_switch_usfm_editors ());
-    const std::string html {dialog::select::create_options (values, texts, editor_key)}; // Todo
-    view.set_variable ("fastswitchusfmeditorsoptags", html);
-    view.set_variable (fastswitchusfmeditors, editor_key);
+    view.set_variable(identification, dialog::select::ajax(settings));
   }
 
-  
+
   // Whether to enable editing styles in the visual editors.
   if (checkbox == "enablestylesbutton") {
     webserver_request.database_config_user ()->set_enable_styles_button_visual_editors (checked);

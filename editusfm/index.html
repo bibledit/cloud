@@ -3,9 +3,7 @@
 </style>
 <div id="editorheader" class="##editor_theme_color##">
   <label for="bibleselect">translate("Bible"): </label>
-  <select id="bibleselect" name="bibleselect" value="##bible##">
-    ##bibleoptags##
-  </select>
+  ##bibleselect##
   |
   <span id="usfmstatus"></span>
   <!-- #BEGINZONE fastswitcheditor -->

@@ -69,14 +69,6 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   }
 
 
-  // Set the user chosen Bible as the current Bible.
-  if (webserver_request.post.count ("bibleselect")) {
-    const std::string bibleselect = webserver_request.post ["bibleselect"];
-    webserver_request.database_config_user ()->set_bible (bibleselect);
-    return std::string();
-  }
-  
-  
   std::string page{};
   
   Assets_Header header = Assets_Header (translate("Edit USFM"), webserver_request);
@@ -90,14 +82,25 @@ std::string editusfm_index (Webserver_Request& webserver_request)
 
 
   // Get active Bible, and check read access to it.
-  // Or if the user have used query to preset the active Bible, get the preset Bible.
+  // Or if the user has used a query to preset the active Bible, get that preset Bible.
   // If needed, change Bible to one it has read access to.
-  // Set the chosen Bible on the option HTML tag.
   std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   if (webserver_request.query.count ("bible"))
     bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
-  const std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-  view.set_variable ("bibleoptags", dialog::select::create_options(bibles, bibles, bible)); // Todo
+  {
+    constexpr const char* identification {"bibleselect"};
+    if (webserver_request.post.count (identification)) {
+      bible = webserver_request.post.at(identification);
+      webserver_request.database_config_user ()->set_bible (bible);
+    }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = access_bible::bibles (webserver_request),
+      .selected = bible,
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
+  }
   view.set_variable ("bible", bible);
   
   

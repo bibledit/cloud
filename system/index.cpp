@@ -85,7 +85,6 @@ std::string system_index (Webserver_Request& webserver_request)
     if (webserver_request.post.count (identification)) {
       language = webserver_request.post.at(identification);
       database::config::general::set_site_language (language);
-      std::cout << language << std::endl; // Todo
     }
     const std::map <std::string, std::string> localizations = locale_logic_localizations ();
     std::vector<std::string> values, texts;

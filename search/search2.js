@@ -30,12 +30,6 @@ $(document).ready (function () {
     startSearch ();
   });
   identifier = Math.floor ((Math.random () * 1000000) + 1000000);
-  // Listens for bibleselect option tags value change to update the active Bible.
-  var bibleSelectionElement = document.querySelector ("#bibleselect");
-  bibleSelectionElement.addEventListener ('change', () => {
-    $.post ("search2", { bibleselect: bibleSelectionElement.value })
-      .done (function() { window.location.reload () });
-  });
 });
 
 

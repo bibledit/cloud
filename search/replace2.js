@@ -45,14 +45,6 @@ $(document).ready (function () {
   $ ("#searchresults").on ("click", function (event) {
     handleClick (event);
   });
-  
-  // Listens for bibleselect option tags value change to update the active Bible.
-  var bibleSelectionElement = document.querySelector ("#bibleselect");
-  bibleSelectionElement.addEventListener ('change', () => {
-    $.post ("replace2", { bibleselect: bibleSelectionElement.value })
-    .done (function() { window.location.reload () });
-  });
-  
 });
 
 

@@ -110,8 +110,8 @@ std::string styles_new (Webserver_Request& webserver_request)
     std::vector<std::string> markers{database::styles::get_markers(stylesv2::standard_sheet())};
     markers.push_back(std::string());
     std::sort(markers.begin(), markers.end());
-    std::string base = dialog::select::create_options(markers, markers, std::string()); // Todo
-    view.set_variable ("base", std::move(base));
+    for (const auto& marker : markers)
+      view.add_iteration ("option", { std::pair ("style", marker) } );
   }
   
   page += view.render ("styles", "new");

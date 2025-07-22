@@ -74,11 +74,33 @@ std::string system_index (Webserver_Request& webserver_request)
   std::string error {};
 
   
+  Assets_View view;
+
+  
   // User can set the system language.
   // This is to be done before displaying the header.
-  if (webserver_request.post.count ("languageselection")) {
-    std::string languageselection {webserver_request.post ["languageselection"]};
-    database::config::general::set_site_language (languageselection);
+  std::string language = database::config::general::get_site_language ();
+  {
+    constexpr const char* identification {"languageselection"};
+    if (webserver_request.post.count (identification)) {
+      language = webserver_request.post.at(identification);
+      database::config::general::set_site_language (language);
+      std::cout << language << std::endl; // Todo
+    }
+    const std::map <std::string, std::string> localizations = locale_logic_localizations ();
+    std::vector<std::string> values, texts;
+    for (const auto& element : localizations) {
+      values.push_back(element.first);
+      texts.push_back(element.second);
+    }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = values,
+      .displayed = texts,
+      .selected = language,
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
 
   
@@ -87,32 +109,12 @@ std::string system_index (Webserver_Request& webserver_request)
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
 
-  
-  Assets_View view;
-
 
   // Get values for setting checkboxes.
   const std::string checkbox = webserver_request.post ["checkbox"];
   [[maybe_unused]] const bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
 
-  // The available localizations.
-  std::map <std::string, std::string> localizations = locale_logic_localizations ();
-
-
-  // Set the interface language on the page and make it selectable.
-  {
-    std::vector<std::string> values, texts;
-    for (const auto& element : localizations) {
-      values.push_back(element.first);
-      texts.push_back(element.second);
-    }
-    const std::string language = database::config::general::get_site_language ();
-    view.set_variable ("languageselectionoptags", dialog::select::create_options(values, texts, language)); // Todo
-    view.set_variable ("languageselection", language);
-  }
-
-  
   // Entry of time zone offset in hours.
   if (webserver_request.post.count ("timezone")) {
     std::string input = webserver_request.post ["timezone"];

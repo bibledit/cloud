@@ -4,12 +4,10 @@
 <p>##journal##</p>
 
 <h3>translate("Language")</h3>
-<p class="settings-container">
+<div class="settings-container">
 <label for="languageselection">translate("The language for Bibledit:")</label>
-<select id="languageselection" name="languageselection" value="##languageselection##">
-##languageselectionoptags##
-</select>
-</p>
+##languageselection##
+</div>
 <br>
 <p>
 translate("Your preferred language is not listed?")
@@ -125,6 +123,6 @@ translate("Note that displaying the OSIS content makes the resources hard to rea
 <!-- #ENDZONE cloud -->
 
 <br>
-<script type="text/javascript" src="../personalize/index.js?##VERSION##"></script>
+<script type="text/javascript" src="index.js?##VERSION##"></script>
 <script type="text/javascript" src="../assets/checkbox.js?##VERSION##"></script>
 <script type="text/javascript" src="../assets/external.js"></script>

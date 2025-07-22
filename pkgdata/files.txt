@@ -839,6 +839,7 @@
 /system
 /system/googletranslate.html
 /system/index.html
+/system/index.js
 /tasks
 /tasks/holder
 /tbsx

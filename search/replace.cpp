@@ -91,13 +91,6 @@ std::string search_replace (Webserver_Request& webserver_request)
     return output;
   }
 
-  // Set the user chosen Bible as the current Bible.
-  if (webserver_request.post.count ("bibleselect")) {
-    std::string bibleselect = webserver_request.post ["bibleselect"];
-    webserver_request.database_config_user ()->set_bible (bibleselect);
-    return std::string();
-  }
-  
   std::string page;
   
   Assets_Header header = Assets_Header (translate("Replace"), webserver_request);
@@ -106,10 +99,21 @@ std::string search_replace (Webserver_Request& webserver_request)
   
   Assets_View view;
 
-  const std::vector <std::string> accessible_bibles = access_bible::bibles (webserver_request);
-  view.set_variable ("bibleoptags", dialog::select::create_options (accessible_bibles, accessible_bibles, bible)); // Todo
-  view.set_variable ("bible", bible);
-  
+  {
+    constexpr const char* identification {"bibleselect"};
+    if (webserver_request.post.count (identification)) {
+      bible = webserver_request.post.at(identification);
+      webserver_request.database_config_user ()->set_bible (bible);
+    }
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = access_bible::bibles (webserver_request),
+      .selected = bible,
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
+  }
+
   std::stringstream script {};
   script << "var searchBible = " << std::quoted(bible) << ";";
   view.set_variable ("script", script.str());

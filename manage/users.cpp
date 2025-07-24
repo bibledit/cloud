@@ -171,9 +171,15 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   
   // The user's role.
-  if (webserver_request.post.count (level_identification)) {
-    const std::string value = webserver_request.post.at(level_identification);
-    webserver_request.database_users ()->set_level (object_username, filter::strings::convert_to_int (value));
+  {
+    const std::vector <std::string> users = access_user::assignees (webserver_request);
+    for (unsigned int u {0}; u < users.size(); u++) {
+      const std::string identification = level_identification + std::to_string(u);
+      if (webserver_request.post.count (identification)) {
+        const std::string value = webserver_request.post.at(identification);
+        webserver_request.database_users ()->set_level (object_username, filter::strings::convert_to_int (value));
+      }
+    }
   }
 
 
@@ -263,9 +269,11 @@ std::string manage_users (Webserver_Request& webserver_request)
   // User accounts to display.
   std::stringstream tbody;
   bool ldap_on = ldap_logic_is_on ();
-  // Retrieve assigned users.
-  std::vector <std::string> users = access_user::assignees (webserver_request);
-  for (const auto& username : users) {
+  // Retrieve the assigned users.
+  const std::vector <std::string> users = access_user::assignees (webserver_request);
+  // The offset within the users list is needed below, hence this way of iterating the users container.
+  for (unsigned int u {0}; u < users.size(); u++) {
+    const auto& username = users.at(u);
     
     // Gather details for this user account.
     object_user_level = webserver_request.database_users ()->get_level (username);
@@ -297,8 +305,10 @@ std::string manage_users (Webserver_Request& webserver_request)
           displayed.push_back(roles::text(i));
         }
       }
+      // The "id" of elements should be unique, create that here.
+      const std::string identification = level_identification + std::to_string(u);
       dialog::select::Settings settings {
-        .identification = level_identification,
+        .identification = identification.c_str(),
         .values = std::move(values),
         .displayed = std::move(displayed),
         .selected = std::to_string(object_user_level),
@@ -306,7 +316,7 @@ std::string manage_users (Webserver_Request& webserver_request)
         .disabled = ldap_on,
         .tooltip = translate("Select a role"),
       };
-      dialog::select::Form form { .auto_submit = false };
+      dialog::select::Form form { .auto_submit = true };
       tbody << dialog::select::form(settings, form);
     }
     tbody << "</td>";

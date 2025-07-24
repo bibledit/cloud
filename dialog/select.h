@@ -23,10 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace dialog::select {
 
-std::string create_options(const std::vector<std::string>& values,
-                           const std::vector<std::string>& displayed,
-                           const std::string& selected);
-
 struct Settings {
   // The key of the value to be POSTed, and the Flate double hash value to place the html and Javascript into.
   const char* identification;

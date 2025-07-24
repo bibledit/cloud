@@ -57,6 +57,15 @@ static void create_select(pugi::xml_node parent, const Settings& settings)
 }
 
 
+static std::string remove_comment_from_code (std::string code)
+{
+  // Code with a comment may look like this:
+  /* Code */
+  filter::strings::replace_between (code, "/*", "*/", std::string());
+  return code;
+}
+
+
 std::string ajax(const Settings& settings)
 {
   pugi::xml_document document {};
@@ -65,6 +74,7 @@ std::string ajax(const Settings& settings)
 
   // The Javascript to POST the selected value if it changes.
   std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/selectajax.js"}));
+  javascript = remove_comment_from_code (std::move(javascript));
   javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
   javascript = filter::strings::replace("URL", settings.url, std::move(javascript));
 
@@ -115,6 +125,7 @@ std::string form(const Settings& settings, const Form& form)
   // If automatic submit, add a script that does the job.
   if (form.auto_submit) {
     std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/selectform.js"}));
+    javascript = remove_comment_from_code (std::move(javascript));
     javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
     pugi::xml_node script_node = document.append_child("script");
     script_node.text().set(javascript.c_str());

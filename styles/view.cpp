@@ -490,19 +490,24 @@ std::string styles_view (Webserver_Request& webserver_request)
   
   // Handle footnote numbering restart.
   {
-    const std::string note_numbering_restart {stylesv2::property_enum_to_value (stylesv2::Property::note_numbering_restart)};
-    if (webserver_request.post.count (note_numbering_restart)) {
-      marker_data.properties[stylesv2::Property::note_numbering_restart] = webserver_request.post[note_numbering_restart];
+    constexpr const char* identification {"noterestart"};
+    if (webserver_request.post.count (identification)) {
+      marker_data.properties[stylesv2::Property::note_numbering_restart] = webserver_request.post.at(identification);
       style_is_edited = true;
     }
-    {
-      const std::vector<std::string> values {
-        stylesv2::notes_numbering_restart_never,
-        stylesv2::notes_numbering_restart_book,
-        stylesv2::notes_numbering_restart_chapter
-      };
-      view.set_variable("restart_options", dialog::select::create_options(values, values, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_restart))); // Todo
-    }
+    const std::vector<std::string> values {
+      stylesv2::notes_numbering_restart_never,
+      stylesv2::notes_numbering_restart_book,
+      stylesv2::notes_numbering_restart_chapter
+    };
+    dialog::select::Settings settings {
+      .identification = identification,
+      .values = values,
+      .selected = stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_restart),
+      .parameters = { {"sheet", sheet}, {"style", style} },
+    };
+    dialog::select::Form form { .auto_submit = true };
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
 
   

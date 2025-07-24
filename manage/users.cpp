@@ -73,7 +73,8 @@ std::string manage_users (Webserver_Request& webserver_request)
   Assets_View view;
 
 
-  const int my_level = webserver_request.session_logic ()->get_level ();
+  const int my_level = webserver_request.session_logic ()->get_level();
+  const std::string my_user = webserver_request.session_logic()->get_username();
 
   
   constexpr const char* level_identification {"level"};
@@ -145,7 +146,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   
   // The user to act on.
-  std::string object_username = webserver_request.query["user"];
+  const std::string object_username = webserver_request.query["user"];
   int object_user_level = webserver_request.database_users ()->get_level (object_username);
   
   
@@ -313,7 +314,7 @@ std::string manage_users (Webserver_Request& webserver_request)
         .displayed = std::move(displayed),
         .selected = std::to_string(object_user_level),
         .parameters = { {"user", username} },
-        .disabled = ldap_on,
+        .disabled = ldap_on or (username == my_user),
         .tooltip = translate("Select a role"),
       };
       dialog::select::Form form { .auto_submit = true };

@@ -189,6 +189,9 @@ std::string bible_settings (Webserver_Request& webserver_request)
     }
     dialog::select::Settings settings {
       .identification = selector,
+      .values = {""},
+      .displayed = {""},
+      .selected = std::string(),
       .parameters = { { "bible", bible } },
       .disabled = !write_access,
     };

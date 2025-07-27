@@ -31,7 +31,6 @@
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <access/bible.h>
-#include <dialog/list.h>
 #include <dialog/select.h>
 #include <sendreceive/logic.h>
 #include <demo/logic.h>

@@ -34,7 +34,6 @@
 #include <sync/logic.h>
 #include <access/bible.h>
 #include <client/logic.h>
-#include <dialog/list.h>
 #include <dialog/select.h>
 #include <database/usfmresources.h>
 #include <database/imageresources.h>

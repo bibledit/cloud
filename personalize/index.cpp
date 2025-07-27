@@ -38,7 +38,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <access/logic.h>
 #include <access/bible.h>
-#include <dialog/list.h>
 #include <dialog/select.h>
 #include <bb/logic.h>
 #include <ipc/focus.h>

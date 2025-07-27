@@ -31,7 +31,6 @@
 #include <database/config/bible.h>
 #include <fonts/logic.h>
 #include <navigation/passage.h>
-#include <dialog/list.h>
 #include <dialog/select.h>
 #include <ipc/focus.h>
 #include <menu/logic.h>

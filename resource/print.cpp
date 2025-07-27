@@ -34,7 +34,6 @@
 #include <tasks/logic.h>
 #include <journal/index.h>
 #include <jobs/index.h>
-#include <dialog/list.h>
 #include <dialog/select.h>
 #include <menu/logic.h>
 

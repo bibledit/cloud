@@ -21,7 +21,6 @@
 #include <assets/view.h>
 #include <assets/page.h>
 #include <dialog/entry.h>
-#include <dialog/list.h>
 #include <dialog/yes.h>
 #include <filter/roles.h>
 #include <filter/url.h>

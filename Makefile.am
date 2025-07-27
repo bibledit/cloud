@@ -172,7 +172,6 @@ libbibledit_a_SOURCES = \
 	access/bible.cpp \
 	access/logic.cpp \
 	dialog/entry.cpp \
-	dialog/list.cpp \
 	dialog/select.cpp \
 	dialog/yes.cpp \
 	dialog/color.cpp \

@@ -29,7 +29,6 @@
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <public/logic.h>
-#include <dialog/list.h>
 #include <dialog/select.h>
 #include <public/login.h>
 #include <fonts/logic.h>

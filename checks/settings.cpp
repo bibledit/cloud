@@ -32,7 +32,6 @@
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
 #include <access/bible.h>
-#include <dialog/list.h>
 #include <dialog/select.h>
 #include <checks/logic.h>
 #include <assets/header.h>

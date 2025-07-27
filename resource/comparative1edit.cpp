@@ -34,7 +34,6 @@
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>
-#include <dialog/list.h>
 #include <dialog/select.h>
 #include <tasks/logic.h>
 #include <menu/logic.h>

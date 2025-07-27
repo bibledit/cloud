@@ -218,7 +218,6 @@
 /dialog/books.html
 /dialog/color.html
 /dialog/entry.html
-/dialog/list.html
 /dialog/selectajax.js
 /dialog/selectform.js
 /dialog/text.html

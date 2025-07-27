@@ -32,7 +32,6 @@
 #include <locale/translate.h>
 #include <dialog/entry.h>
 #include <dialog/yes.h>
-#include <dialog/list.h>
 #include <dialog/select.h>
 #include <dialog/books.h>
 #include <access/bible.h>

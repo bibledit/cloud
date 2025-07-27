@@ -26,7 +26,6 @@
 #include <filter/string.h>
 #include <filter/archive.h>
 #include <filter/usfm.h>
-#include <dialog/list.h>
 #include <dialog/select.h>
 #include <dialog/entry.h>
 #include <access/bible.h>

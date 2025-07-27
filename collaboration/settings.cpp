@@ -30,7 +30,6 @@
 #include <access/bible.h>
 #include <database/config/bible.h>
 #include <database/jobs.h>
-#include <dialog/list.h>
 #include <collaboration/link.h>
 #include <tasks/logic.h>
 #include <jobs/index.h>

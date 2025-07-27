@@ -1,7 +1,7 @@
 <h2>translate("Read/write")</h2>
 <p>
   translate("On this page you can set whether a user can modify the text of Bible books.")
-  <a href="users">[translate("back")]</a>
+  <a href="bibles?user=##user##">[translate("back")]</a>
 </p>
 <p>translate("User:") ##user##</p>
 <p>translate("Bible:") ##bible##</p>

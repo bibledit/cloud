@@ -206,33 +206,34 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	manage/index.$(OBJEXT) manage/users.$(OBJEXT) \
 	manage/accounts.$(OBJEXT) manage/exports.$(OBJEXT) \
 	manage/write.$(OBJEXT) manage/privileges.$(OBJEXT) \
-	system/index.$(OBJEXT) system/logic.$(OBJEXT) \
-	collaboration/index.$(OBJEXT) collaboration/link.$(OBJEXT) \
-	collaboration/settings.$(OBJEXT) search/rebibles.$(OBJEXT) \
-	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
-	access/bible.$(OBJEXT) access/logic.$(OBJEXT) \
-	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
-	dialog/select.$(OBJEXT) dialog/yes.$(OBJEXT) \
-	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
-	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
-	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
-	versification/logic.$(OBJEXT) book/create.$(OBJEXT) \
-	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
-	jobs/index.$(OBJEXT) editone/index.$(OBJEXT) \
-	editone/load.$(OBJEXT) editone/save.$(OBJEXT) \
-	editone/verse.$(OBJEXT) editone/logic.$(OBJEXT) \
-	editone/update.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	navigation/paratext.$(OBJEXT) ipc/focus.$(OBJEXT) \
-	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
-	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
-	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
-	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
-	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
-	editor/select.$(OBJEXT) editor/html2format.$(OBJEXT) \
-	editor/id.$(OBJEXT) editor/style.$(OBJEXT) edit/edit.$(OBJEXT) \
-	edit/id.$(OBJEXT) edit/index.$(OBJEXT) edit/load.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	manage/bibles.$(OBJEXT) system/index.$(OBJEXT) \
+	system/logic.$(OBJEXT) collaboration/index.$(OBJEXT) \
+	collaboration/link.$(OBJEXT) collaboration/settings.$(OBJEXT) \
+	search/rebibles.$(OBJEXT) search/renotes.$(OBJEXT) \
+	access/user.$(OBJEXT) access/bible.$(OBJEXT) \
+	access/logic.$(OBJEXT) dialog/entry.$(OBJEXT) \
+	dialog/list.$(OBJEXT) dialog/select.$(OBJEXT) \
+	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
+	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
+	fonts/logic.$(OBJEXT) versification/index.$(OBJEXT) \
+	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
+	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
+	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
+	editone/index.$(OBJEXT) editone/load.$(OBJEXT) \
+	editone/save.$(OBJEXT) editone/verse.$(OBJEXT) \
+	editone/logic.$(OBJEXT) editone/update.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) navigation/paratext.$(OBJEXT) \
+	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
+	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
+	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
+	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
+	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
+	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
+	editor/html2format.$(OBJEXT) editor/id.$(OBJEXT) \
+	editor/style.$(OBJEXT) edit/edit.$(OBJEXT) edit/id.$(OBJEXT) \
+	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	edit/preview.$(OBJEXT) edit/position.$(OBJEXT) \
 	edit/navigate.$(OBJEXT) edit/update.$(OBJEXT) \
 	search/all.$(OBJEXT) search/index.$(OBJEXT) \
@@ -610,15 +611,15 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	lexicon/$(DEPDIR)/definition.Po lexicon/$(DEPDIR)/logic.Po \
 	library/$(DEPDIR)/bibledit.Po library/$(DEPDIR)/locks.Po \
 	locale/$(DEPDIR)/logic.Po locale/$(DEPDIR)/translate.Po \
-	manage/$(DEPDIR)/accounts.Po manage/$(DEPDIR)/exports.Po \
-	manage/$(DEPDIR)/index.Po manage/$(DEPDIR)/privileges.Po \
-	manage/$(DEPDIR)/users.Po manage/$(DEPDIR)/write.Po \
-	mapping/$(DEPDIR)/index.Po mapping/$(DEPDIR)/map.Po \
-	mbedtls/$(DEPDIR)/aes.Po mbedtls/$(DEPDIR)/aesce.Po \
-	mbedtls/$(DEPDIR)/aesni.Po mbedtls/$(DEPDIR)/aria.Po \
-	mbedtls/$(DEPDIR)/asn1parse.Po mbedtls/$(DEPDIR)/asn1write.Po \
-	mbedtls/$(DEPDIR)/base64.Po mbedtls/$(DEPDIR)/bignum.Po \
-	mbedtls/$(DEPDIR)/bignum_core.Po \
+	manage/$(DEPDIR)/accounts.Po manage/$(DEPDIR)/bibles.Po \
+	manage/$(DEPDIR)/exports.Po manage/$(DEPDIR)/index.Po \
+	manage/$(DEPDIR)/privileges.Po manage/$(DEPDIR)/users.Po \
+	manage/$(DEPDIR)/write.Po mapping/$(DEPDIR)/index.Po \
+	mapping/$(DEPDIR)/map.Po mbedtls/$(DEPDIR)/aes.Po \
+	mbedtls/$(DEPDIR)/aesce.Po mbedtls/$(DEPDIR)/aesni.Po \
+	mbedtls/$(DEPDIR)/aria.Po mbedtls/$(DEPDIR)/asn1parse.Po \
+	mbedtls/$(DEPDIR)/asn1write.Po mbedtls/$(DEPDIR)/base64.Po \
+	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/bignum_core.Po \
 	mbedtls/$(DEPDIR)/bignum_mod.Po \
 	mbedtls/$(DEPDIR)/bignum_mod_raw.Po \
 	mbedtls/$(DEPDIR)/block_cipher.Po \
@@ -1261,6 +1262,7 @@ libbibledit_a_SOURCES = \
 	manage/exports.cpp \
 	manage/write.cpp \
 	manage/privileges.cpp \
+	manage/bibles.cpp \
 	system/index.cpp \
 	system/logic.cpp \
 	collaboration/index.cpp \
@@ -2363,6 +2365,8 @@ manage/exports.$(OBJEXT): manage/$(am__dirstamp) \
 manage/write.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 manage/privileges.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
+manage/bibles.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 system/$(am__dirstamp):
 	@$(MKDIR_P) system
@@ -4009,6 +4013,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/translate.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/accounts.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/bibles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/exports.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/privileges.Po@am__quote@ # am--include-marker
@@ -5211,6 +5216,7 @@ distclean: distclean-am
 	-rm -f locale/$(DEPDIR)/logic.Po
 	-rm -f locale/$(DEPDIR)/translate.Po
 	-rm -f manage/$(DEPDIR)/accounts.Po
+	-rm -f manage/$(DEPDIR)/bibles.Po
 	-rm -f manage/$(DEPDIR)/exports.Po
 	-rm -f manage/$(DEPDIR)/index.Po
 	-rm -f manage/$(DEPDIR)/privileges.Po
@@ -5896,6 +5902,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f locale/$(DEPDIR)/logic.Po
 	-rm -f locale/$(DEPDIR)/translate.Po
 	-rm -f manage/$(DEPDIR)/accounts.Po
+	-rm -f manage/$(DEPDIR)/bibles.Po
 	-rm -f manage/$(DEPDIR)/exports.Po
 	-rm -f manage/$(DEPDIR)/index.Po
 	-rm -f manage/$(DEPDIR)/privileges.Po

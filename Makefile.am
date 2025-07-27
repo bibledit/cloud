@@ -160,6 +160,7 @@ libbibledit_a_SOURCES = \
 	manage/exports.cpp \
 	manage/write.cpp \
 	manage/privileges.cpp \
+	manage/bibles.cpp \
 	system/index.cpp \
 	system/logic.cpp \
 	collaboration/index.cpp \

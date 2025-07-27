@@ -212,38 +212,6 @@ std::string manage_users (Webserver_Request& webserver_request)
   const std::vector <std::string> allbibles = database::bibles::get_bibles ();
   
   
-  // Add Bible to user account.
-  if (webserver_request.query.count ("addbible")) {
-    std::string addbible = webserver_request.query["addbible"];
-    if (addbible.empty()) {
-      Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), std::string(), std::string());
-      dialog_list.add_query ("user", object_username);
-      for (const auto& bible : allbibles) {
-        dialog_list.add_row (bible, "addbible", bible);
-      }
-      page.append (dialog_list.run());
-      return page;
-    } else {
-      assets_page::success (translate("The user has been granted access to this Bible"));
-      // Write access depends on whether it's a translator role or higher.
-      const bool write = (object_user_level >= roles::translator);
-      DatabasePrivileges::set_bible (object_username, addbible, write);
-      user_updated = true;
-      privileges_updated = true;
-    }
-  }
-  
-  
-  // Remove Bible from user.
-  if (webserver_request.query.count ("removebible")) {
-    const std::string removebible = webserver_request.query ["removebible"];
-    DatabasePrivileges::remove_bible_book (object_username, removebible, 0);
-    user_updated = true;
-    privileges_updated = true;
-    assets_page::success (translate("The user no longer has access to this Bible"));
-  }
-  
-  
   // Enable or disable a user account.
   if (webserver_request.query.count ("enable")) {
     webserver_request.database_users ()->set_enabled (object_username, true);
@@ -277,13 +245,14 @@ std::string manage_users (Webserver_Request& webserver_request)
     const auto& username = users.at(u);
     
     // Gather details for this user account.
-    object_user_level = webserver_request.database_users ()->get_level (username);
+    object_user_level = webserver_request.database_users()->get_level (username);
     std::string namedrole = roles::text (object_user_level);
-    std::string email = webserver_request.database_users ()->get_email (username);
-    if (email.empty()) email = "--";
-    bool enabled = webserver_request.database_users ()->get_enabled (username);
+    std::string email = webserver_request.database_users()->get_email (username);
+    if (email.empty())
+      email = "--";
+    bool enabled = webserver_request.database_users()->get_enabled (username);
     
-    // New row in table.
+    // Start a new table row.
     tbody << "<tr>";
     
     // Display emoji to delete this account.
@@ -314,6 +283,7 @@ std::string manage_users (Webserver_Request& webserver_request)
         .displayed = std::move(displayed),
         .selected = std::to_string(object_user_level),
         .parameters = { {"user", username} },
+        // Handle LDAP users. A user cannot change his own role to prevent locking himself out of an appropriate role.
         .disabled = ldap_on or (username == my_user),
         .tooltip = translate("Select a role"),
       };
@@ -342,32 +312,11 @@ std::string manage_users (Webserver_Request& webserver_request)
     // Assigned Bibles.
     tbody << "<td>";
     if (enabled) {
-      if (object_user_level < roles::manager) {
-        for (auto & bible : allbibles) {
-          bool exists = DatabasePrivileges::get_bible_book_exists (username, bible, 0);
-          if (exists) {
-            auto [ read, write ] = DatabasePrivileges::get_bible (username, bible);
-            if  (object_user_level >= roles::translator) write = true;
-            tbody << "<a href=" << std::quoted ("?user=" + username + "&removebible=" + bible) << ">" << filter::strings::emoji_wastebasket () << "</a>";
-            tbody << "<a href=" << std::quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";
-            tbody << "<a href=" << std::quoted("write?user=" + username + "&bible=" + bible) << ">";
-            int readwritebooks = 0;
-            std::vector <int> books = database::bibles::get_books (bible);
-            for (auto book : books) {
-              DatabasePrivileges::get_bible_book (username, bible, book, read, write);
-              if (write) readwritebooks++;
-            }
-            tbody << "(" << readwritebooks << "/" << books.size () << ")";
-            tbody << "</a>";
-            tbody << "|";
-          }
-        }
-      }
       if (object_user_level >= roles::manager) {
         // Managers and higher roles have access to all Bibles.
         tbody << "(" << translate ("all") << ")";
       } else {
-        tbody << "<a href=" << std::quoted("?user=" + username + "&addbible=") << ">" << filter::strings::emoji_heavy_plus_sign () << "</a>";
+        tbody << "<a href=" << std::quoted("bibles?user=" + username) << ">" << translate ("edit") << "</a>";
       }
     }
     tbody << "</td>";

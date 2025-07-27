@@ -258,6 +258,9 @@
 		CAA001942569986E00BCA329 /* id.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = id.h; sourceTree = "<group>"; };
 		CAA0019525699DC300BCA329 /* style.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = style.h; sourceTree = "<group>"; };
 		CAA0019625699DC400BCA329 /* style.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = style.cpp; sourceTree = "<group>"; };
+		CAA056BD2E35510A008A7EBA /* bibles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibles.h; sourceTree = "<group>"; };
+		CAA056BE2E35510A008A7EBA /* bibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibles.cpp; sourceTree = "<group>"; };
+		CAA056BF2E35510A008A7EBA /* bibles.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = bibles.html; sourceTree = "<group>"; };
 		CAA323F525FBBE1C00F5A99E /* abbott-smith.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "abbott-smith.txt"; sourceTree = "<group>"; };
 		CAA323F625FBC33F00F5A99E /* abbott-smith.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "abbott-smith.cpp"; sourceTree = "<group>"; };
 		CAA323F725FBC34400F5A99E /* abbott-smith.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "abbott-smith.h"; sourceTree = "<group>"; };
@@ -3729,24 +3732,27 @@
 		CADE3EFC24F17473003165BB /* manage */ = {
 			isa = PBXGroup;
 			children = (
-				CA47750E260FC720001F50DD /* accounts.cpp */,
 				CA47750C260FC71F001F50DD /* accounts.h */,
+				CA47750E260FC720001F50DD /* accounts.cpp */,
 				CA47750D260FC720001F50DD /* accounts.html */,
-				CADE3F2024F17473003165BB /* exports.cpp */,
+				CAA056BD2E35510A008A7EBA /* bibles.h */,
+				CAA056BE2E35510A008A7EBA /* bibles.cpp */,
+				CAA056BF2E35510A008A7EBA /* bibles.html */,
 				CADE3F0624F17473003165BB /* exports.h */,
+				CADE3F2024F17473003165BB /* exports.cpp */,
 				CADE3F1024F17473003165BB /* exports.html */,
-				CADE3F2224F17473003165BB /* index.cpp */,
 				CADE3EFD24F17473003165BB /* index.h */,
+				CADE3F2224F17473003165BB /* index.cpp */,
 				CADE3F0424F17473003165BB /* index.html */,
-				CADE3F0C24F17473003165BB /* privileges.cpp */,
 				CADE3F0224F17473003165BB /* privileges.h */,
+				CADE3F0C24F17473003165BB /* privileges.cpp */,
 				CADE3F1324F17473003165BB /* privileges.html */,
 				CADE3F1124F17473003165BB /* privileges.js */,
-				CADE3F0724F17473003165BB /* users.cpp */,
 				CADE3F0924F17473003165BB /* users.h */,
+				CADE3F0724F17473003165BB /* users.cpp */,
 				CADE3F1224F17473003165BB /* users.html */,
-				CADE3EFE24F17473003165BB /* write.cpp */,
 				CADE3F0E24F17473003165BB /* write.h */,
+				CADE3EFE24F17473003165BB /* write.cpp */,
 				CADE3F1624F17473003165BB /* write.html */,
 			);
 			path = manage;

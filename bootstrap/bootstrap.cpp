@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/accounts.h>
 #include <manage/exports.h>
 #include <manage/write.h>
+#include <manage/bibles.h>
 #include <manage/privileges.h>
 #include <system/index.h>
 #include <system/googletranslate.h>
@@ -896,7 +897,12 @@ void bootstrap_index (Webserver_Request& webserver_request)
     webserver_request.reply = manage_write (webserver_request);
     return;
   }
-  
+
+  if ((url == manage_bibles_url ()) && browser_request_security_okay (webserver_request) && manage_bibles_acl (webserver_request)) {
+    webserver_request.reply = manage_bibles (webserver_request);
+    return;
+  }
+
   if ((url == manage_privileges_url ()) && browser_request_security_okay (webserver_request) && manage_privileges_acl (webserver_request)) {
     webserver_request.reply = manage_privileges (webserver_request);
     return;

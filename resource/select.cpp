@@ -36,7 +36,6 @@
 #include <client/logic.h>
 #include <dialog/select.h>
 #include <database/usfmresources.h>
-#include <database/imageresources.h>
 #include <database/config/general.h>
 #include <lexicon/logic.h>
 #include <sword/logic.h>
@@ -153,21 +152,6 @@ std::string resource_select (Webserver_Request& webserver_request)
   }
 
   
-  {
-    constexpr const char* identification {"image"};
-    Database_ImageResources database_imageresources;
-    dialog::select::Settings settings {
-      .identification = identification,
-      .values = database_imageresources.names(),
-      .url = caller,
-      .parameters = get_parameters(),
-      .submit = translate("Add"),
-    };
-    dialog::select::Form form { .auto_submit = false };
-    view.set_variable(identification, dialog::select::form(settings, form));
-  }
-
-    
   {
     constexpr const char* identification {"lexicon"};
     dialog::select::Settings settings {

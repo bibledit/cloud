@@ -70,7 +70,6 @@ libbibledit_a_SOURCES = \
 	database/notes.cpp \
 	database/temporal.cpp \
 	database/maintenance.cpp \
-	database/imageresources.cpp \
 	database/state.cpp \
 	database/noteassignment.cpp \
 	database/strong.cpp \

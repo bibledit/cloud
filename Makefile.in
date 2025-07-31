@@ -163,16 +163,16 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/versifications.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
 	database/temporal.$(OBJEXT) database/maintenance.$(OBJEXT) \
-	database/imageresources.$(OBJEXT) database/state.$(OBJEXT) \
-	database/noteassignment.$(OBJEXT) database/strong.$(OBJEXT) \
-	database/morphgnt.$(OBJEXT) database/etcbc4.$(OBJEXT) \
-	database/hebrewlexicon.$(OBJEXT) database/cache.$(OBJEXT) \
-	database/login.$(OBJEXT) database/privileges.$(OBJEXT) \
-	database/git.$(OBJEXT) database/userresources.$(OBJEXT) \
-	database/statistics.$(OBJEXT) database/sample.$(OBJEXT) \
-	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
-	session/logout.$(OBJEXT) session/password.$(OBJEXT) \
-	session/signup.$(OBJEXT) session/switch.$(OBJEXT) \
+	database/state.$(OBJEXT) database/noteassignment.$(OBJEXT) \
+	database/strong.$(OBJEXT) database/morphgnt.$(OBJEXT) \
+	database/etcbc4.$(OBJEXT) database/hebrewlexicon.$(OBJEXT) \
+	database/cache.$(OBJEXT) database/login.$(OBJEXT) \
+	database/privileges.$(OBJEXT) database/git.$(OBJEXT) \
+	database/userresources.$(OBJEXT) database/statistics.$(OBJEXT) \
+	database/sample.$(OBJEXT) session/logic.$(OBJEXT) \
+	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
+	session/password.$(OBJEXT) session/signup.$(OBJEXT) \
+	session/switch.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
@@ -526,8 +526,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	database/$(DEPDIR)/books.Po database/$(DEPDIR)/cache.Po \
 	database/$(DEPDIR)/check.Po database/$(DEPDIR)/confirm.Po \
 	database/$(DEPDIR)/etcbc4.Po database/$(DEPDIR)/git.Po \
-	database/$(DEPDIR)/hebrewlexicon.Po \
-	database/$(DEPDIR)/imageresources.Po database/$(DEPDIR)/ipc.Po \
+	database/$(DEPDIR)/hebrewlexicon.Po database/$(DEPDIR)/ipc.Po \
 	database/$(DEPDIR)/jobs.Po database/$(DEPDIR)/kjv.Po \
 	database/$(DEPDIR)/localization.Po database/$(DEPDIR)/logic.Po \
 	database/$(DEPDIR)/login.Po database/$(DEPDIR)/logs.Po \
@@ -1167,7 +1166,6 @@ libbibledit_a_SOURCES = \
 	database/notes.cpp \
 	database/temporal.cpp \
 	database/maintenance.cpp \
-	database/imageresources.cpp \
 	database/state.cpp \
 	database/noteassignment.cpp \
 	database/strong.cpp \
@@ -2064,8 +2062,6 @@ database/notes.$(OBJEXT): database/$(am__dirstamp) \
 database/temporal.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/maintenance.$(OBJEXT): database/$(am__dirstamp) \
-	database/$(DEPDIR)/$(am__dirstamp)
-database/imageresources.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/state.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -3843,7 +3839,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/etcbc4.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/git.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/hebrewlexicon.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/imageresources.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/ipc.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/jobs.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/kjv.Po@am__quote@ # am--include-marker
@@ -5041,7 +5036,6 @@ distclean: distclean-am
 	-rm -f database/$(DEPDIR)/etcbc4.Po
 	-rm -f database/$(DEPDIR)/git.Po
 	-rm -f database/$(DEPDIR)/hebrewlexicon.Po
-	-rm -f database/$(DEPDIR)/imageresources.Po
 	-rm -f database/$(DEPDIR)/ipc.Po
 	-rm -f database/$(DEPDIR)/jobs.Po
 	-rm -f database/$(DEPDIR)/kjv.Po
@@ -5722,7 +5716,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f database/$(DEPDIR)/etcbc4.Po
 	-rm -f database/$(DEPDIR)/git.Po
 	-rm -f database/$(DEPDIR)/hebrewlexicon.Po
-	-rm -f database/$(DEPDIR)/imageresources.Po
 	-rm -f database/$(DEPDIR)/ipc.Po
 	-rm -f database/$(DEPDIR)/jobs.Po
 	-rm -f database/$(DEPDIR)/kjv.Po

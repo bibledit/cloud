@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <resource/external.h>
 #include <database/usfmresources.h>
-#include <database/imageresources.h>
 #include <database/userresources.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -127,112 +126,6 @@ TEST (database, usfmresources)
     database_usfmresources.deleteBook ("bibledit", 2);
     books = database_usfmresources.getBooks ("bibledit");
     EXPECT_EQ (std::vector <int>{}, books);
-  }
-}
-
-
-TEST (database, imageresources)
-{
-  Database_ImageResources database_imageresources;
-  const std::string image = filter_url_create_root_path ({"unittests", "tests", "Genesis-1-1-18.gif"});
-  
-  // Empty.
-  {
-    refresh_sandbox (false);
-    std::vector <std::string> resources = database_imageresources.names ();
-    EXPECT_EQ (0, resources.size());
-  }
-  
-  // Create, names, erase.
-  {
-    refresh_sandbox (true);
-    
-    database_imageresources.create ("unittest");
-    std::vector <std::string> resources = database_imageresources.names ();
-    EXPECT_EQ (1, resources.size());
-    bool hit = false;
-    for (auto & resource : resources) if (resource == "unittest") hit = true;
-    EXPECT_EQ (true, hit);
-    
-    database_imageresources.erase ("none-existing");
-    resources = database_imageresources.names ();
-    EXPECT_EQ (1, resources.size());
-    
-    database_imageresources.erase ("unittest");
-    resources = database_imageresources.names ();
-    EXPECT_EQ (0, resources.size());
-  }
-  
-  // Store, get, erase images.
-  {
-    refresh_sandbox (true);
-    
-    database_imageresources.create ("unittest");
-    
-    std::string path = "/tmp/unittest.jpg";
-    filter_url_file_cp (image, path);
-    database_imageresources.store ("unittest", path);
-    filter_url_file_cp (image, path);
-    database_imageresources.store ("unittest", path);
-    filter_url_unlink (path);
-    
-    std::vector <std::string> images = database_imageresources.get ("unittest");
-    const std::vector <std::string> standard_images {"unittest.jpg", "unittest0.jpg"};
-    EXPECT_EQ (standard_images, images);
-    
-    database_imageresources.erase ("unittest", "unittest.jpg");
-    
-    images = database_imageresources.get ("unittest");
-    EXPECT_EQ (std::vector <std::string>{"unittest0.jpg"}, images);
-  }
-  // Assign passage and get image based on passage.
-  {
-    refresh_sandbox (true);
-    
-    database_imageresources.create ("unittest");
-    
-    for (int i = 10; i < 20; i++) {
-      std::string image_name = "unittest" + std::to_string (i) + ".jpg";
-      std::string image_path = "/tmp/" + image_name;
-      filter_url_file_cp (image_name, image_path);
-      database_imageresources.store ("unittest", image_path);
-      filter_url_unlink (image_path);
-      database_imageresources.assign ("unittest", image_name, i, i, i, i, i, i+10);
-    }
-    
-    std::vector <std::string> images = database_imageresources.get ("unittest", 11, 11, 13);
-    EXPECT_EQ (images, std::vector <std::string>{"unittest11.jpg"});
-    
-    images = database_imageresources.get ("unittest", 11, 11, 100);
-    EXPECT_EQ (images, std::vector <std::string>{});
-  }
-  // Assign passage to image, and retrieve it.
-  {
-    refresh_sandbox (true);
-    
-    database_imageresources.create ("unittest");
-    
-    std::string image_name = "unittest.jpg";
-    std::string path_path = "/tmp/" + image_name;
-    filter_url_file_cp (image_name, path_path);
-    database_imageresources.store ("unittest", path_path);
-    filter_url_unlink (path_path);
-    database_imageresources.assign ("unittest", image_name, 1, 2, 0, 1, 2, 10);
-    
-    int book1, chapter1, verse1, book2, chapter2, verse2;
-    database_imageresources.get ("unittest", "none-existing",
-                                 book1, chapter1, verse1, book2, chapter2, verse2);
-    EXPECT_EQ (book1, 0);
-    EXPECT_EQ (chapter1, 0);
-    
-    database_imageresources.get ("unittest", image_name,
-                                 book1, chapter1, verse1, book2, chapter2, verse2);
-    EXPECT_EQ (book1, 1);
-    EXPECT_EQ (chapter1, 2);
-    EXPECT_EQ (verse1, 0);
-    EXPECT_EQ (book2, 1);
-    EXPECT_EQ (chapter2, 2);
-    EXPECT_EQ (verse2, 10);
   }
 }
 

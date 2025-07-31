@@ -526,7 +526,6 @@
 		CADE386924F17422003165BB /* cache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cache.h; sourceTree = "<group>"; };
 		CADE386A24F17422003165BB /* state.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = state.cpp; sourceTree = "<group>"; };
 		CADE386B24F17422003165BB /* users.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = users.h; sourceTree = "<group>"; };
-		CADE386C24F17422003165BB /* imageresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imageresources.cpp; sourceTree = "<group>"; };
 		CADE386E24F17422003165BB /* localization.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = localization.cpp; sourceTree = "<group>"; };
 		CADE386F24F17422003165BB /* confirm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = confirm.h; sourceTree = "<group>"; };
 		CADE387024F17422003165BB /* hebrewlexicon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hebrewlexicon.h; sourceTree = "<group>"; };
@@ -543,7 +542,6 @@
 		CADE388224F17422003165BB /* versifications.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = versifications.cpp; sourceTree = "<group>"; };
 		CADE388324F17422003165BB /* styles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = styles.h; sourceTree = "<group>"; };
 		CADE388524F17422003165BB /* oshb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = oshb.cpp; sourceTree = "<group>"; };
-		CADE388624F17422003165BB /* imageresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imageresources.h; sourceTree = "<group>"; };
 		CADE388824F17422003165BB /* mail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mail.h; sourceTree = "<group>"; };
 		CADE388A24F17422003165BB /* books.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = books.cpp; sourceTree = "<group>"; };
 		CADE388B24F17422003165BB /* noteactions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = noteactions.cpp; sourceTree = "<group>"; };
@@ -1593,7 +1591,6 @@
 		CADE432124F174BD003165BB /* flate2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = flate2.html; sourceTree = "<group>"; };
 		CADE432224F174BD003165BB /* invalid-utf8-old.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "invalid-utf8-old.txt"; sourceTree = "<group>"; };
 		CADE432324F174BD003165BB /* editor.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = editor.css; sourceTree = "<group>"; };
-		CADE432424F174BD003165BB /* Genesis-1-1-18.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "Genesis-1-1-18.gif"; sourceTree = "<group>"; };
 		CADE432524F174BD003165BB /* merge_2_base.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = merge_2_base.usfm; sourceTree = "<group>"; };
 		CADE432624F174BD003165BB /* editone06verse1prefix.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse1prefix.html; sourceTree = "<group>"; };
 		CADE432C24F174BD003165BB /* editone06verse2prefix.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = editone06verse2prefix.usfm; sourceTree = "<group>"; };
@@ -1743,7 +1740,6 @@
 		CADE43C324F174BE003165BB /* editone06verse3suffix.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse3suffix.html; sourceTree = "<group>"; };
 		CADE43C424F174BE003165BB /* merge_2_modification.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = merge_2_modification.usfm; sourceTree = "<group>"; };
 		CADE43C524F174BE003165BB /* editone01.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone01.html; sourceTree = "<group>"; };
-		CADE43C624F174BE003165BB /* css.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = css.css; sourceTree = "<group>"; };
 		CADE43C724F174BE003165BB /* editone06verse0prefix.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse0prefix.html; sourceTree = "<group>"; };
 		CADE43C824F174BE003165BB /* editone06verse4prefix.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = editone06verse4prefix.usfm; sourceTree = "<group>"; };
 		CADE43C924F174BE003165BB /* verses_new.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = verses_new.usfm; sourceTree = "<group>"; };
@@ -1801,7 +1797,6 @@
 		CADE442A24F174BE003165BB /* config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
 		CADE442B24F174BE003165BB /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notes.cpp; sourceTree = "<group>"; };
 		CADE442D24F174BE003165BB /* search.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = search.cpp; sourceTree = "<group>"; };
-		CADE443024F174BE003165BB /* hyphenate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hyphenate.cpp; sourceTree = "<group>"; };
 		CADE443424F174BE003165BB /* webview.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = webview.cpp; sourceTree = "<group>"; };
 		CADE443D24F174BE003165BB /* geckodriver.log */ = {isa = PBXFileReference; lastKnownFileType = text; path = geckodriver.log; sourceTree = "<group>"; };
 		CADE443E24F174BE003165BB /* editor1.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = editor1.py; sourceTree = "<group>"; };
@@ -2607,8 +2602,6 @@
 				CADE38E524F17422003165BB /* git.cpp */,
 				CADE387024F17422003165BB /* hebrewlexicon.h */,
 				CADE387624F17422003165BB /* hebrewlexicon.cpp */,
-				CADE388624F17422003165BB /* imageresources.h */,
-				CADE386C24F17422003165BB /* imageresources.cpp */,
 				CADE386224F17422003165BB /* ipc.h */,
 				CADE383324F17422003165BB /* ipc.cpp */,
 				CADE382D24F17422003165BB /* jobs.h */,
@@ -4503,7 +4496,6 @@
 				CADE440C24F174BE003165BB /* html.cpp */,
 				CA10382A2527A4010021AF25 /* html2format.cpp */,
 				CADE444624F174BE003165BB /* http.cpp */,
-				CADE443024F174BE003165BB /* hyphenate.cpp */,
 				CA6A12D026F7BBE400CDB5DB /* image.cpp */,
 				CADE42B424F174BD003165BB /* ipc.cpp */,
 				CADE444524F174BE003165BB /* javascript.cpp */,
@@ -4584,7 +4576,6 @@
 				CADE43DA24F174BE003165BB /* changed_verses.html */,
 				CADE43B824F174BE003165BB /* chapters_new.usfm */,
 				CADE431E24F174BD003165BB /* chapters_old.usfm */,
-				CADE43C624F174BE003165BB /* css.css */,
 				CADE43AE24F174BE003165BB /* diff.txt */,
 				CADE43C524F174BE003165BB /* editone01.html */,
 				CADE431324F174BD003165BB /* editone01.usfm */,
@@ -4628,7 +4619,6 @@
 				CADE43DF24F174BE003165BB /* flate1.html */,
 				CADE432124F174BD003165BB /* flate2.html */,
 				CADE431824F174BD003165BB /* flate3.html */,
-				CADE432424F174BD003165BB /* Genesis-1-1-18.gif */,
 				CADE43E424F174BE003165BB /* invalid-utf8-new.txt */,
 				CADE432224F174BD003165BB /* invalid-utf8-old.txt */,
 				CADE43E624F174BE003165BB /* json1.txt */,

@@ -1502,7 +1502,22 @@ void Database_Config_User::set_enable_spell_check (bool value) const
 constexpr const auto show_navigation_arrows_key {"show-navigation-arrows"};
 bool Database_Config_User::get_show_navigation_arrows () const
 {
-  return get_boolean_value (show_navigation_arrows_key, false);
+  // On systems usually without a touch screen, the navigation arrows are on by default.
+  // On mobile devices they will be off by default.
+#if defined(HAVE_CLOUD)
+  constexpr const bool defval {true};
+#elif defined(HAVE_WINDOWS)
+  constexpr const bool defval {true};
+#elif defined(HAVE_MACOS)
+  constexpr const bool defval {true};
+#elif defined(HAVE_LINUX)
+  constexpr const bool defval {true};
+#elif defined(HAVE_ANDROID)
+  constexpr const bool defval {false};
+#elif defined(HAVE_IOS)
+  constexpr const bool defval {false};
+#endif
+  return get_boolean_value (show_navigation_arrows_key, defval);
 }
 void Database_Config_User::set_show_navigation_arrows (bool value) const
 {

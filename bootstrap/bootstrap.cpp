@@ -119,7 +119,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/images.h>
 #include <resource/image.h>
 #include <resource/img.h>
-#include <resource/imagefetch.h>
 #include <resource/sword.h>
 #include <resource/cache.h>
 #include <resource/user9edit.h>
@@ -287,11 +286,6 @@ void bootstrap_index (Webserver_Request& webserver_request)
       || (extension == "webmanifest")
       ) {
     http_stream_file (webserver_request, true);
-    return;
-  }
-
-  if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (webserver_request)) {
-    webserver_request.reply = resource_imagefetch (webserver_request);
     return;
   }
 

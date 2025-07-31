@@ -277,7 +277,6 @@ libbibledit_a_SOURCES = \
 	resource/images.cpp \
 	resource/image.cpp \
 	resource/img.cpp \
-	resource/imagefetch.cpp \
 	resource/sword.cpp \
 	resource/select.cpp \
 	resource/cache.cpp \

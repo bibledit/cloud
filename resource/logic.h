@@ -38,8 +38,6 @@ std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, 
 
 std::vector <std::string> resource_logic_get_names (Webserver_Request& webserver_request, bool bibles_only);
 
-void resource_logic_import_images (std::string resource, std::string path);
-
 std::string resource_logic_yellow_divider ();
 std::string resource_logic_green_divider ();
 std::string resource_logic_blue_divider ();

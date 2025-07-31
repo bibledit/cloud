@@ -68,10 +68,6 @@ static const char* get_executable_internal(const Executable executable)
       return "ldapsearch";
     case Executable::ls:
       return "ls";
-    case Executable::pdfinfo:
-      return "pdfinfo";
-    case Executable::pdftocairo:
-      return "pdftocairo";
     case Executable::ps:
       return "ps";
     case Executable::tar:

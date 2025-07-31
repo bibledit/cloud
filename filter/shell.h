@@ -35,8 +35,6 @@ enum class Executable {
   installmgr,
   ldapsearch,
   ls,
-  pdfinfo,
-  pdftocairo,
   ps,
   tar,
   unzip,

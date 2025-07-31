@@ -243,9 +243,6 @@ void tasks_run_one (const std::string& filename)
     auto method = static_cast<tasks::enums::paratext_sync>(imethod);
     Paratext_Logic::synchronize (method);
   }
-  else if (command == task::import_images) {
-    resource_logic_import_images (parameter1, parameter2);
-  }
   else if (command == task::refresh_sword_modules) {
     sword_logic_refresh_module_list ();
   }

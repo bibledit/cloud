@@ -62,7 +62,6 @@ constexpr const auto export_online_bible {"exportonlinebible"};
 constexpr const auto export_esword {"exportesword"};
 constexpr const auto setup_paratext {"setupparatext"};
 constexpr const auto sync_paratext {"syncparatext"};
-constexpr const auto import_images {"importimages"};
 constexpr const auto refresh_sword_modules {"refreshswordmodules"};
 constexpr const auto install_sword_module {"installswordmodule"};
 constexpr const auto update_sword_modules {"updateallswordmodules"};

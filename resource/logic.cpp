@@ -580,59 +580,6 @@ std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, 
 }
 
 
-// Imports the file at $path into $resource.
-void resource_logic_import_images (std::string resource, std::string path)
-{
-  Database_ImageResources database_imageresources;
-  
-  Database_Logs::log ("Importing: " + filter_url_basename (path));
-  
-  // To begin with, add the path to the main file to the list of paths to be processed.
-  std::vector <std::string> paths = {path};
-  
-  while (!paths.empty ()) {
-  
-    // Take and remove the first path from the container.
-    path = paths[0];
-    paths.erase (paths.begin());
-    std::string basename = filter_url_basename (path);
-    std::string extension = filter_url_get_extension (path);
-    extension = filter::strings::unicode_string_casefold (extension);
-
-    if (extension == "pdf") {
-      
-      Database_Logs::log ("Processing PDF: " + basename);
-      
-      // Retrieve PDF information.
-      filter::shell::run ("", filter::shell::get_executable(filter::shell::Executable::pdfinfo), {path}, nullptr, nullptr);
-
-      // Convert the PDF file to separate images.
-      std::string folder = filter_url_tempfile ();
-      filter_url_mkdir (folder);
-      filter::shell::run (folder, filter::shell::get_executable(filter::shell::Executable::pdftocairo), {"-jpeg", path}, nullptr, nullptr);
-      // Add the images to the ones to be processed.
-      filter_url_recursive_scandir (folder, paths);
-      
-    } else if (filter_archive_is_archive (path)) {
-      
-      Database_Logs::log ("Unpacking archive: " + basename);
-      std::string folder = filter_archive_uncompress (path);
-      filter_url_recursive_scandir (folder, paths);
-      
-    } else {
-
-      if (!extension.empty ()) {
-        basename = database_imageresources.store (resource, path);
-        Database_Logs::log ("Storing image " + basename );
-      }
-      
-    }
-  }
-
-  Database_Logs::log ("Ready importing images");
-}
-
-
 std::string resource_logic_yellow_divider ()
 {
   return "Yellow Divider";

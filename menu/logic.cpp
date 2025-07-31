@@ -1094,12 +1094,6 @@ std::string menu_logic_resources_text ()
 }
 
 
-std::string menu_logic_resource_images_text () // Todo out.
-{
-  return translate ("Image resources");
-}
-
-
 std::string menu_logic_manage_users_text ()
 {
   return translate ("Users");

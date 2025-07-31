@@ -88,7 +88,6 @@ void resource_logic_easy_english_bible_handle_verse_marker (const std::string & 
 bool resource_logic_is_bible (std::string resource);
 bool resource_logic_is_usfm (std::string resource);
 bool resource_logic_is_external (std::string resource);
-bool resource_logic_is_image (std::string resource);
 bool resource_logic_is_lexicon (std::string resource);
 bool resource_logic_is_sword (std::string resource);
 bool resource_logic_is_divider (std::string resource);

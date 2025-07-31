@@ -62,7 +62,6 @@ std::string menu_logic_bible_manage_text ();
 std::string menu_logic_workspace_organize_text ();
 std::string menu_logic_checks_settings_text ();
 std::string menu_logic_resources_text ();
-std::string menu_logic_resource_images_text ();
 std::string menu_logic_manage_users_text ();
 std::string menu_logic_versification_index_text ();
 std::string menu_logic_mapping_index_text ();

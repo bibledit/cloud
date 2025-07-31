@@ -21,7 +21,6 @@
 #include <webserver/request.h>
 #include <access/bible.h>
 #include <database/usfmresources.h>
-#include <database/imageresources.h>
 #include <database/mappings.h>
 #include <database/config/bible.h>
 #include <database/config/general.h>
@@ -110,13 +109,6 @@ std::vector <std::string> resource_logic_get_names (Webserver_Request& webserver
   std::vector <std::string> external_resources = resource_external_names ();
   names.insert (names.end (), external_resources.begin(), external_resources.end());
   
-  // Image resources.
-  if (!bibles_only) {
-    Database_ImageResources database_imageresources {};
-    std::vector <std::string> image_resources = database_imageresources.names ();
-    names.insert (names.end (), image_resources.begin(), image_resources.end());
-  }
-  
   // Lexicon resources.
   if (!bibles_only) {
     std::vector <std::string> lexicon_resources = lexicon_logic_resource_names ();
@@ -145,7 +137,6 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
   bool is_bible = resource_logic_is_bible (resource);
   bool is_usfm = resource_logic_is_usfm (resource);
   bool is_external = resource_logic_is_external (resource);
-  bool is_image = resource_logic_is_image (resource);
   bool is_lexicon = resource_logic_is_lexicon (resource);
   bool is_sword = resource_logic_is_sword (resource);
   bool is_bible_gateway = resource_logic_is_biblegateway (resource);
@@ -191,7 +182,6 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
     resource_versification = database::config::bible::get_versification_system (bible);
   } else if (is_external) {
     resource_versification = resource_external_mapping (resource);
-  } else if (is_image) {
   } else if (is_lexicon) {
     resource_versification = database_mappings.original ();
     if (resource == KJV_LEXICON_NAME) resource_versification = filter::strings::english ();
@@ -256,7 +246,6 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
     std::string possible_included_passage;
     if (add_verse_numbers) possible_included_passage = passage.m_verse + " ";
     if (add_passages_in_full) possible_included_passage = filter_passage_display (passage.m_book, passage.m_chapter, passage.m_verse) + " ";
-    if (is_image) possible_included_passage.clear ();
     html.append (possible_included_passage);
     html.append (resource_logic_get_verse (webserver_request, resource, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse)));
   }
@@ -283,7 +272,6 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
 #endif
   bool isRemoteUsfm = in_array (resource, remote_usfms);
   bool isExternal = resource_logic_is_external (resource);
-  bool isImage = resource_logic_is_image (resource);
   bool isLexicon = resource_logic_is_lexicon (resource);
   bool isSword = resource_logic_is_sword (resource);
   bool isBibleGateway = resource_logic_is_biblegateway (resource);
@@ -311,12 +299,6 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
     // The server fetches it from the web, via the http cache.
     data.append (resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse));
 #endif
-  } else if (isImage) {
-    Database_ImageResources database_imageresources;
-    const std::vector <std::string> images = database_imageresources.get (resource, book, chapter, verse);
-    for (const auto& image : images) {
-      data.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
-    }
   } else if (isLexicon) {
     data = lexicon_logic_get_html (webserver_request, resource, book, chapter, verse);
   } else if (isSword) {
@@ -1904,14 +1886,6 @@ bool resource_logic_is_usfm (std::string resource)
 bool resource_logic_is_external (std::string resource)
 {
   std::vector <std::string> names = resource_external_names ();
-  return in_array (resource, names);
-}
-
-
-bool resource_logic_is_image (std::string resource)
-{
-  Database_ImageResources database_imageresources;
-  std::vector <std::string> names = database_imageresources.names ();
   return in_array (resource, names);
 }
 

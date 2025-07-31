@@ -570,9 +570,6 @@
 /resource/comparative9edit.html
 /resource/divider.html
 /resource/download.html
-/resource/image.html
-/resource/images.html
-/resource/img.html
 /resource/index.html
 /resource/index.js
 /resource/manage.html

@@ -274,9 +274,6 @@ libbibledit_a_SOURCES = \
 	resource/manage.cpp \
 	resource/print.cpp \
 	resource/download.cpp \
-	resource/images.cpp \
-	resource/image.cpp \
-	resource/img.cpp \
 	resource/sword.cpp \
 	resource/select.cpp \
 	resource/cache.cpp \

@@ -52,7 +52,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/select.h>
 #include <paratext/index.h>
 #include <personalize/index.h>
-#include <resource/images.h>
 #include <resource/index.h>
 #include <resource/manage.h>
 #include <resource/print.h>
@@ -907,12 +906,6 @@ std::string menu_logic_settings_resources_category ([[maybe_unused]] Webserver_R
 #endif
   
 #ifdef HAVE_CLOUD
-  if (resource_images_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_images_url (), translate ("Images"), true, "", ""));
-  }
-#endif
-  
-#ifdef HAVE_CLOUD
   if (!config_globals_hide_bible_resources) {
     if (resource_sword_acl (webserver_request)) {
       html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD"), true, "", ""));
@@ -1101,7 +1094,7 @@ std::string menu_logic_resources_text ()
 }
 
 
-std::string menu_logic_resource_images_text ()
+std::string menu_logic_resource_images_text () // Todo out.
 {
   return translate ("Image resources");
 }

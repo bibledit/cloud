@@ -263,23 +263,21 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	resource/convert2resource.$(OBJEXT) \
 	resource/convert2bible.$(OBJEXT) resource/manage.$(OBJEXT) \
 	resource/print.$(OBJEXT) resource/download.$(OBJEXT) \
-	resource/images.$(OBJEXT) resource/image.$(OBJEXT) \
-	resource/img.$(OBJEXT) resource/sword.$(OBJEXT) \
-	resource/select.$(OBJEXT) resource/cache.$(OBJEXT) \
-	resource/user9edit.$(OBJEXT) resource/user1edit.$(OBJEXT) \
-	resource/user9view.$(OBJEXT) resource/user1view.$(OBJEXT) \
-	resource/bbgateway.$(OBJEXT) resource/studylight.$(OBJEXT) \
-	resource/unload.$(OBJEXT) jsonxx/jsonxx.$(OBJEXT) \
-	mapping/index.$(OBJEXT) mapping/map.$(OBJEXT) \
-	statistics/statistics.$(OBJEXT) changes/change.$(OBJEXT) \
-	changes/changes.$(OBJEXT) changes/logic.$(OBJEXT) \
-	changes/manage.$(OBJEXT) changes/modifications.$(OBJEXT) \
-	changes/statistics.$(OBJEXT) sprint/burndown.$(OBJEXT) \
-	sprint/index.$(OBJEXT) checks/run.$(OBJEXT) \
-	checks/headers.$(OBJEXT) checks/index.$(OBJEXT) \
-	checks/issues.$(OBJEXT) checks/logic.$(OBJEXT) \
-	checks/sentences.$(OBJEXT) checks/settings.$(OBJEXT) \
-	checks/settingspatterns.$(OBJEXT) \
+	resource/sword.$(OBJEXT) resource/select.$(OBJEXT) \
+	resource/cache.$(OBJEXT) resource/user9edit.$(OBJEXT) \
+	resource/user1edit.$(OBJEXT) resource/user9view.$(OBJEXT) \
+	resource/user1view.$(OBJEXT) resource/bbgateway.$(OBJEXT) \
+	resource/studylight.$(OBJEXT) resource/unload.$(OBJEXT) \
+	jsonxx/jsonxx.$(OBJEXT) mapping/index.$(OBJEXT) \
+	mapping/map.$(OBJEXT) statistics/statistics.$(OBJEXT) \
+	changes/change.$(OBJEXT) changes/changes.$(OBJEXT) \
+	changes/logic.$(OBJEXT) changes/manage.$(OBJEXT) \
+	changes/modifications.$(OBJEXT) changes/statistics.$(OBJEXT) \
+	sprint/burndown.$(OBJEXT) sprint/index.$(OBJEXT) \
+	checks/run.$(OBJEXT) checks/headers.$(OBJEXT) \
+	checks/index.$(OBJEXT) checks/issues.$(OBJEXT) \
+	checks/logic.$(OBJEXT) checks/sentences.$(OBJEXT) \
+	checks/settings.$(OBJEXT) checks/settingspatterns.$(OBJEXT) \
 	checks/settingssentences.$(OBJEXT) checks/space.$(OBJEXT) \
 	checks/suppress.$(OBJEXT) checks/usfm.$(OBJEXT) \
 	checks/verses.$(OBJEXT) checks/versification.$(OBJEXT) \
@@ -749,12 +747,10 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	resource/$(DEPDIR)/convert2resource.Po \
 	resource/$(DEPDIR)/divider.Po resource/$(DEPDIR)/download.Po \
 	resource/$(DEPDIR)/external.Po resource/$(DEPDIR)/get.Po \
-	resource/$(DEPDIR)/image.Po resource/$(DEPDIR)/images.Po \
-	resource/$(DEPDIR)/img.Po resource/$(DEPDIR)/index.Po \
-	resource/$(DEPDIR)/logic.Po resource/$(DEPDIR)/manage.Po \
-	resource/$(DEPDIR)/organize.Po resource/$(DEPDIR)/print.Po \
-	resource/$(DEPDIR)/select.Po resource/$(DEPDIR)/studylight.Po \
-	resource/$(DEPDIR)/sword.Po \
+	resource/$(DEPDIR)/index.Po resource/$(DEPDIR)/logic.Po \
+	resource/$(DEPDIR)/manage.Po resource/$(DEPDIR)/organize.Po \
+	resource/$(DEPDIR)/print.Po resource/$(DEPDIR)/select.Po \
+	resource/$(DEPDIR)/studylight.Po resource/$(DEPDIR)/sword.Po \
 	resource/$(DEPDIR)/translated1edit.Po \
 	resource/$(DEPDIR)/translated9edit.Po \
 	resource/$(DEPDIR)/unload.Po resource/$(DEPDIR)/user1edit.Po \
@@ -1375,9 +1371,6 @@ libbibledit_a_SOURCES = \
 	resource/manage.cpp \
 	resource/print.cpp \
 	resource/download.cpp \
-	resource/images.cpp \
-	resource/image.cpp \
-	resource/img.cpp \
 	resource/sword.cpp \
 	resource/select.cpp \
 	resource/cache.cpp \
@@ -2730,12 +2723,6 @@ resource/manage.$(OBJEXT): resource/$(am__dirstamp) \
 resource/print.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/download.$(OBJEXT): resource/$(am__dirstamp) \
-	resource/$(DEPDIR)/$(am__dirstamp)
-resource/images.$(OBJEXT): resource/$(am__dirstamp) \
-	resource/$(DEPDIR)/$(am__dirstamp)
-resource/image.$(OBJEXT): resource/$(am__dirstamp) \
-	resource/$(DEPDIR)/$(am__dirstamp)
-resource/img.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/sword.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
@@ -4213,9 +4200,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/download.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/external.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/get.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/image.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/images.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/img.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/manage.Po@am__quote@ # am--include-marker
@@ -5414,9 +5398,6 @@ distclean: distclean-am
 	-rm -f resource/$(DEPDIR)/download.Po
 	-rm -f resource/$(DEPDIR)/external.Po
 	-rm -f resource/$(DEPDIR)/get.Po
-	-rm -f resource/$(DEPDIR)/image.Po
-	-rm -f resource/$(DEPDIR)/images.Po
-	-rm -f resource/$(DEPDIR)/img.Po
 	-rm -f resource/$(DEPDIR)/index.Po
 	-rm -f resource/$(DEPDIR)/logic.Po
 	-rm -f resource/$(DEPDIR)/manage.Po
@@ -6098,9 +6079,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f resource/$(DEPDIR)/download.Po
 	-rm -f resource/$(DEPDIR)/external.Po
 	-rm -f resource/$(DEPDIR)/get.Po
-	-rm -f resource/$(DEPDIR)/image.Po
-	-rm -f resource/$(DEPDIR)/images.Po
-	-rm -f resource/$(DEPDIR)/img.Po
 	-rm -f resource/$(DEPDIR)/index.Po
 	-rm -f resource/$(DEPDIR)/logic.Po
 	-rm -f resource/$(DEPDIR)/manage.Po

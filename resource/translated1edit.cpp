@@ -18,7 +18,6 @@
 
 
 #include <resource/translated1edit.h>
-#include <resource/img.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>

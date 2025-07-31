@@ -116,9 +116,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/print.h>
 #include <resource/download.h>
 #include <resource/select.h>
-#include <resource/images.h>
-#include <resource/image.h>
-#include <resource/img.h>
 #include <resource/sword.h>
 #include <resource/cache.h>
 #include <resource/user9edit.h>
@@ -562,11 +559,6 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == resource_images_url ()) && browser_request_security_okay (webserver_request) && resource_images_acl (webserver_request)) {
-    webserver_request.reply = resource_images (webserver_request);
-    return;
-  }
-  
   if ((url == resource_sword_url ()) && browser_request_security_okay (webserver_request) && resource_sword_acl (webserver_request)) {
     webserver_request.reply = resource_sword (webserver_request);
     return;
@@ -899,16 +891,6 @@ void bootstrap_index (Webserver_Request& webserver_request)
 
   if ((url == manage_privileges_url ()) && browser_request_security_okay (webserver_request) && manage_privileges_acl (webserver_request)) {
     webserver_request.reply = manage_privileges (webserver_request);
-    return;
-  }
-  
-  if ((url == resource_image_url ()) && browser_request_security_okay (webserver_request) && resource_image_acl (webserver_request)) {
-    webserver_request.reply = resource_image (webserver_request);
-    return;
-  }
-  
-  if ((url == resource_img_url ()) && browser_request_security_okay (webserver_request) && resource_img_acl (webserver_request)) {
-    webserver_request.reply = resource_img (webserver_request);
     return;
   }
   

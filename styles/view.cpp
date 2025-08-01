@@ -551,9 +551,7 @@ std::string styles_view (Webserver_Request& webserver_request)
 
   
   // Set the style's documentation.
-  std::string doc {"https://ubsicap.github.io/usfm"};
-  if (!marker_data.doc.empty())
-    doc = marker_data.doc;
+  const std::string doc = marker_data.doc.empty() ? "https://ubsicap.github.io/usfm" : marker_data.doc;
   view.set_variable ("doc", doc);
 
   

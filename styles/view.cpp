@@ -98,6 +98,17 @@ std::string styles_view (Webserver_Request& webserver_request)
   bool write = database::styles::has_write_access (username, sheet);
   if (userlevel >= roles::admin) write = true;
 
+
+  if (webserver_request.query.count ("reset")) {
+    if (write) {
+      database::styles::reset_marker(sheet, style);
+      styles_sheets_create_all();
+      std::string url = filter_url_build_http_query(styles_view_url(), "sheet", sheet);
+      url = filter_url_build_http_query(std::move(url), "style", style);
+      redirect_browser (webserver_request, std::move(url));
+    }
+  }
+  
   
   // Whether a style was edited.
   bool style_is_edited { false };
@@ -551,11 +562,15 @@ std::string styles_view (Webserver_Request& webserver_request)
 
   
   // Set the style's documentation.
-  const std::string doc = marker_data.doc.empty() ? "https://ubsicap.github.io/usfm" : marker_data.doc;
-  view.set_variable ("doc", doc);
+  view.set_variable("doc", marker_data.doc.empty() ? "https://ubsicap.github.io/usfm" : marker_data.doc);
+  view.set_variable("external", assets_external_logic_link_addon());
 
   
-  view.set_variable ("external", assets_external_logic_link_addon ());
+  // A style can be reset to its default values if the style's marker is among the default styles.
+  if (std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), style) != stylesv2::styles.cend())
+    view.enable_zone("reset");
+  else
+    view.enable_zone("noreset");
 
   
   // If a style is edited, save it, and recreate cascaded stylesheets.
@@ -563,7 +578,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     if (write) {
       if (!marker_data.marker.empty())
         database::styles::save_style(sheet, marker_data);
-      styles_sheets_create_all ();
+      styles_sheets_create_all();
     }
   }
 

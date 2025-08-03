@@ -499,11 +499,11 @@ void workspace_cache_for_cloud ([[maybe_unused]] Webserver_Request& webserver_re
 #ifdef HAVE_CLIENT
   // For a client, store the setting for sending to the server.
   if (urls)
-    webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_urls);
+    webserver_request.database_config_user()->add_updated_setting (Sync_Logic::settings_send_workspace_urls);
   if (widths)
-    webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_widths);
+    webserver_request.database_config_user()->add_updated_setting (Sync_Logic::settings_send_workspace_widths);
   if (heights)
-    webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_heights);
+    webserver_request.database_config_user()->add_updated_setting (Sync_Logic::settings_send_workspace_heights);
 #endif
 }
 

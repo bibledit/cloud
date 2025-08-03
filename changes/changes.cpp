@@ -92,7 +92,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
     trash_change_notification (webserver_request, remove);
     database::modifications::deleteNotification (remove);
 #ifdef HAVE_CLIENT
-    webserver_request.database_config_user ()->addRemovedChange (remove);
+    webserver_request.database_config_user ()->add_removed_change (remove);
 #endif
     webserver_request.database_config_user ()->set_change_notifications_checksum ("");
     return std::string();
@@ -154,7 +154,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
 #ifdef HAVE_CLIENT
     // Client records deletions for sending to the Cloud.
     for (const auto id : ids) {
-      webserver_request.database_config_user ()->addRemovedChange (id);
+      webserver_request.database_config_user ()->add_removed_change (id);
     }
 #endif
     // Clear checksum cache.
@@ -169,7 +169,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
       trash_change_notification (webserver_request, id);
       database::modifications::deleteNotification (id);
 #ifdef HAVE_CLIENT
-      webserver_request.database_config_user ()->addRemovedChange (id);
+      webserver_request.database_config_user ()->add_removed_change (id);
 #endif
       webserver_request.database_config_user ()->set_change_notifications_checksum ("");
     }
@@ -183,7 +183,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
       trash_change_notification (webserver_request, id);
       database::modifications::deleteNotification (id);
 #ifdef HAVE_CLIENT
-      webserver_request.database_config_user ()->addRemovedChange (id);
+      webserver_request.database_config_user ()->add_removed_change (id);
 #endif
       webserver_request.database_config_user ()->set_change_notifications_checksum ("");
     }
@@ -198,7 +198,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
       trash_change_notification (webserver_request, id);
       database::modifications::deleteNotification (id);
 #ifdef HAVE_CLIENT
-      webserver_request.database_config_user ()->addRemovedChange (id);
+      webserver_request.database_config_user ()->add_removed_change (id);
 #endif
       webserver_request.database_config_user ()->set_change_notifications_checksum ("");
     }

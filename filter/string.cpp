@@ -25,6 +25,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING 1
 #pragma GCC diagnostic pop
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#include <codecvt>
+#pragma clang diagnostic pop
 #include <filter/string.h>
 #pragma GCC diagnostic push
 #pragma clang diagnostic ignored "-Wimplicit-int-conversion"

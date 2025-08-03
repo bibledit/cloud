@@ -76,10 +76,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <limits>
 #include <atomic>
 #include <unordered_map>
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#include <codecvt>
-#pragma clang diagnostic pop
 #include <memory>
 #include <tuple>
 #ifdef USE_STD_FILESYSTEM

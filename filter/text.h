@@ -223,4 +223,7 @@ public:
 private:
   void set_to_zero (std::string& value);
   void close_text_style_all();
+  
+private:
+  std::string tilde_to_non_breaking_space(std::string);
 };

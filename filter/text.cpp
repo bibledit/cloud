@@ -60,15 +60,24 @@ Filter_Text::Filter_Text (std::string bible)
 
 Filter_Text::~Filter_Text ()
 {
-  if (odf_text_standard) delete odf_text_standard;
-  if (odf_text_text_only) delete odf_text_text_only;
-  if (odf_text_text_and_note_citations) delete odf_text_text_and_note_citations;
-  if (odf_text_notes) delete odf_text_notes;
-  if (html_text_standard) delete html_text_standard;
-  if (html_text_linked) delete html_text_linked;
-  if (onlinebible_text) delete onlinebible_text;
-  if (esword_text) delete esword_text;
-  if (text_text) delete text_text;
+  if (odf_text_standard)
+    delete odf_text_standard;
+  if (odf_text_text_only)
+    delete odf_text_text_only;
+  if (odf_text_text_and_note_citations)
+    delete odf_text_text_and_note_citations;
+  if (odf_text_notes)
+    delete odf_text_notes;
+  if (html_text_standard)
+    delete html_text_standard;
+  if (html_text_linked)
+    delete html_text_linked;
+  if (onlinebible_text)
+    delete onlinebible_text;
+  if (esword_text)
+    delete esword_text;
+  if (text_text)
+    delete text_text;
 }
 
 
@@ -120,7 +129,7 @@ void Filter_Text::run (const std::string& stylesheet)
 
 
 
-// This function return true when there is still unprocessed USFM code available.
+// This function returns true when there is still unprocessed USFM code available.
 bool Filter_Text::unprocessed_usfm_code_available ()
 {
   return (usfm_markers_and_text_ptr < m_usfm_markers_and_text.size());
@@ -183,9 +192,9 @@ void Filter_Text::pre_process_usfm ()
   while (unprocessed_usfm_code_available ()) {
     get_usfm_next_chapter ();
     for (chapter_usfm_markers_and_text_pointer = 0; chapter_usfm_markers_and_text_pointer < chapter_usfm_markers_and_text.size(); chapter_usfm_markers_and_text_pointer++) {
-      std::string currentItem = chapter_usfm_markers_and_text[chapter_usfm_markers_and_text_pointer];
-      if (filter::usfm::is_usfm_marker (currentItem)) {
-        std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
+      std::string current_item = chapter_usfm_markers_and_text[chapter_usfm_markers_and_text_pointer];
+      if (filter::usfm::is_usfm_marker (current_item)) {
+        std::string marker = filter::strings::trim (current_item); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
           if (const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, marker)}; style) {
@@ -198,7 +207,7 @@ void Filter_Text::pre_process_usfm ()
                 // Get book number.
                 std::string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                 // Remove possible soft hyphen.
-                usfm_id = filter::strings::replace (filter::strings::soft_hyphen_u00AD (), "", usfm_id);
+                usfm_id = filter::strings::replace (filter::strings::soft_hyphen_u00AD (), std::string(), usfm_id);
                 // Get Bibledit book number.
                 m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
                 // Reset chapter and verse numbers.
@@ -1136,33 +1145,34 @@ void Filter_Text::process_usfm ()
                 if (odf_text_text_and_note_citations->m_current_paragraph_content.empty())
                   odf_text_text_and_note_citations->add_tab();
           // Output text as normal.
-          if (odf_text_standard) odf_text_standard->add_text (current_item);
-          if (odf_text_text_only) odf_text_text_only->add_text (current_item);
-          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (current_item);
-          if (html_text_standard) html_text_standard->add_text (current_item);
-          if (html_text_linked) html_text_linked->add_text (current_item);
-          if (onlinebible_text) onlinebible_text->add_text (current_item);
-          if (esword_text) esword_text->add_text (current_item);
-          if (text_text) text_text->addtext (current_item);
+          const std::string text_item {tilde_to_non_breaking_space(current_item)};
+          if (odf_text_standard) odf_text_standard->add_text (text_item);
+          if (odf_text_text_only) odf_text_text_only->add_text (text_item);
+          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (text_item);
+          if (html_text_standard) html_text_standard->add_text (text_item);
+          if (html_text_linked) html_text_linked->add_text (text_item);
+          if (onlinebible_text) onlinebible_text->add_text (text_item);
+          if (esword_text) esword_text->add_text (text_item);
+          if (text_text) text_text->addtext (text_item);
           if (headings_text_per_verse_active && heading_started) {
             int iverse = filter::strings::convert_to_int (m_current_verse_number);
-            verses_headings [iverse].append (current_item);
+            verses_headings [iverse].append (text_item);
           }
           if (headings_text_per_verse_active && text_started) {
             int iverse = filter::strings::convert_to_int (m_current_verse_number);
             if (m_verses_text.count (iverse) && !m_verses_text [iverse].empty ()) {
-              m_verses_text [iverse].append (current_item);
-              actual_verses_paragraph [iverse].append (current_item);
+              m_verses_text [iverse].append (text_item);
+              actual_verses_paragraph [iverse].append (text_item);
             } else {
               // The verse text straight after the \v starts with certain space type.
               // Replace it with a normal space.
-              std::string item = filter::strings::replace (space_type_after_verse, " ", current_item);
+              std::string item = filter::strings::replace (space_type_after_verse, " ", text_item);
               m_verses_text [iverse] = filter::strings::ltrim (item);
               actual_verses_paragraph [iverse] = filter::strings::ltrim (item);
             }
           }
           if (note_open_now) {
-            notes_plain_text_buffer.append (current_item);
+            notes_plain_text_buffer.append (text_item);
           }
         }
       }
@@ -1178,14 +1188,14 @@ void Filter_Text::processNote ()
 {
   for ( ; chapter_usfm_markers_and_text_pointer < chapter_usfm_markers_and_text.size(); chapter_usfm_markers_and_text_pointer++)
   {
-    const std::string currentItem = chapter_usfm_markers_and_text[chapter_usfm_markers_and_text_pointer];
-    if (filter::usfm::is_usfm_marker (currentItem))
+    const std::string current_item = chapter_usfm_markers_and_text[chapter_usfm_markers_and_text_pointer];
+    if (filter::usfm::is_usfm_marker (current_item))
     {
       // Flags about the nature of the marker.
-      bool is_opening_marker = filter::usfm::is_opening_marker (currentItem);
-      bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
+      bool is_opening_marker = filter::usfm::is_opening_marker (current_item);
+      bool isEmbeddedMarker = filter::usfm::is_embedded_marker (current_item);
       // Clean up the marker, so we remain with the basic version, e.g. 'f'.
-      const std::string marker = filter::usfm::get_marker (currentItem);
+      const std::string marker = filter::usfm::get_marker (current_item);
       if (const stylesv2::Style* stylev2 {database::styles::get_marker_data (m_stylesheet, marker)}; stylev2)
       {
         switch (stylev2->type) {
@@ -1461,13 +1471,19 @@ void Filter_Text::processNote ()
       }
     } else {
       // Here is no marker. Treat it as text.
-      if (odf_text_standard) odf_text_standard->add_note_text (currentItem);
-      if (odf_text_notes) odf_text_notes->add_text (currentItem);
-      if (html_text_standard) html_text_standard->add_note_text (currentItem);
-      if (html_text_linked) html_text_linked->add_note_text (currentItem);
-      if (text_text) text_text->addnotetext (currentItem); 
+      const std::string text_item {tilde_to_non_breaking_space(current_item)};
+      if (odf_text_standard)
+        odf_text_standard->add_note_text (text_item);
+      if (odf_text_notes)
+        odf_text_notes->add_text (text_item);
+      if (html_text_standard)
+        html_text_standard->add_note_text (text_item);
+      if (html_text_linked)
+        html_text_linked->add_note_text (text_item);
+      if (text_text)
+        text_text->addnotetext (text_item);
       if (note_open_now) {
-        notes_plain_text_buffer.append (currentItem);
+        notes_plain_text_buffer.append (text_item);
       }
     }
   }
@@ -1899,4 +1915,17 @@ void Filter_Text::close_text_style_all()
     html_text_standard->close_text_style (false, false);
   if (html_text_linked)
     html_text_linked->close_text_style (false, false);
+}
+
+
+std::string Filter_Text::tilde_to_non_breaking_space(std::string text) // Todo
+{
+  // According to https://ubsicap.github.io/usfm/characters/index.html#index-23,
+  // change the tilde ( ~ ) to a non-breaking space.
+  constexpr const char* tilde {"~"};
+  if (text.find(tilde) != std::string::npos) {
+    text = filter::strings::replace (tilde, filter::strings::non_breaking_space_u00A0(), std::move(text));
+    add_to_info("A tilde was changed to a non-breaking space");
+  }
+  return text;
 }

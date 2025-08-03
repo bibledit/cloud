@@ -63,8 +63,10 @@ std::string assets_external_logic_link_addon ()
   newtab = true;
 #endif
   std::string addon {};
-  if (newtab) addon = R"(target="_blank")";
-  else addon = R"(class="external")";
+  if (newtab)
+    addon = R"(target="_blank")";
+  else
+    addon = R"(class="external")";
   // Done.
   return addon;
 }

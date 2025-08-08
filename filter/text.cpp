@@ -1145,7 +1145,7 @@ void Filter_Text::process_usfm ()
                 if (odf_text_text_and_note_citations->m_current_paragraph_content.empty())
                   odf_text_text_and_note_citations->add_tab();
           // Output text as normal.
-          const std::string text_item {tilde_to_non_breaking_space(current_item)};
+          const std::string text_item {handle_tilde_and_double_slash(current_item)};
           if (odf_text_standard) odf_text_standard->add_text (text_item);
           if (odf_text_text_only) odf_text_text_only->add_text (text_item);
           if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (text_item);
@@ -1471,7 +1471,7 @@ void Filter_Text::processNote ()
       }
     } else {
       // Here is no marker. Treat it as text.
-      const std::string text_item {tilde_to_non_breaking_space(current_item)};
+      const std::string text_item {handle_tilde_and_double_slash(current_item)};
       if (odf_text_standard)
         odf_text_standard->add_note_text (text_item);
       if (odf_text_notes)
@@ -1918,14 +1918,21 @@ void Filter_Text::close_text_style_all()
 }
 
 
-std::string Filter_Text::tilde_to_non_breaking_space(std::string text) // Todo
+std::string Filter_Text::handle_tilde_and_double_slash(std::string text)
 {
   // According to https://ubsicap.github.io/usfm/characters/index.html#index-23,
-  // change the tilde ( ~ ) to a non-breaking space.
+  // change a tilde ( ~ ) to a non-breaking space.
   constexpr const char* tilde {"~"};
   if (text.find(tilde) != std::string::npos) {
     text = filter::strings::replace (tilde, filter::strings::non_breaking_space_u00A0(), std::move(text));
     add_to_info("A tilde was changed to a non-breaking space");
+  }
+  // According to https://ubsicap.github.io/usfm/characters/index.html#id3,
+  // change a double forward slash ( // ) to a soft hyphen.
+  constexpr const char* double_slash {"//"};
+  if (text.find(double_slash) != std::string::npos) {
+    text = filter::strings::replace (double_slash, filter::strings::soft_hyphen_u00AD(), std::move(text));
+    add_to_info("A double forward slash was changed to a soft hyphen");
   }
   return text;
 }

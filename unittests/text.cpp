@@ -1671,7 +1671,7 @@ TEST_F (filter_text, milestones)
 }
 
 
-TEST_F (filter_text, no_break_space) // Todo test canonical text, test notes too.
+TEST_F (filter_text, tilde_to_no_break_space)
 {
   const std::string usfm = R"(\p text1~text2 ~ text3)" "\n";
   
@@ -1685,6 +1685,26 @@ TEST_F (filter_text, no_break_space) // Todo test canonical text, test notes too
   const std::string odt = filter_url_file_get_contents (text_txt);
   const std::string standard =
   "text1" + filter::strings::non_breaking_space_u00A0() + "text2 " + filter::strings::non_breaking_space_u00A0() + " text3" "\n"
+  "\n"
+  ;
+  EXPECT_EQ (standard, odt);
+}
+
+
+TEST_F (filter_text, double_slash_to_soft_hyphen)
+{
+  const std::string usfm = R"(\p text1//text2 // text3)" "\n";
+  
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (stylesv2::standard_sheet());
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
+  EXPECT_EQ (0, ret);
+  const std::string odt = filter_url_file_get_contents (text_txt);
+  const std::string standard =
+  "text1" + filter::strings::soft_hyphen_u00AD() + "text2 " + filter::strings::soft_hyphen_u00AD() + " text3" "\n"
   "\n"
   ;
   EXPECT_EQ (standard, odt);

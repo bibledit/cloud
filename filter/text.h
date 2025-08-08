@@ -225,5 +225,5 @@ private:
   void close_text_style_all();
   
 private:
-  std::string tilde_to_non_breaking_space(std::string);
+  std::string handle_tilde_and_double_slash(std::string);
 };

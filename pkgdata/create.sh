@@ -17,6 +17,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+# Exit script on error.
+set -e
+
 # Remove unwanted files.
 find . -name ".DS_Store" -delete
 
@@ -24,7 +27,6 @@ find . -name ".DS_Store" -delete
 # Remove the first bit of it.
 # Do case folding to get consistent sorting results across Debian and macOS.
 find . | cut -c 2- | sort --ignore-case --ignore-leading-blanks --dictionary-order > pkgdata/files.txt
-if [ $? -ne 0 ]; then exit 1; fi
 
 # Remove blank lines.
 sed -i.bak '/^$/d' pkgdata/files.txt

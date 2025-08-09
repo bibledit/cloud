@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build e76edd883483c71c468bb038e98836435de44530)\n"
+"X-Generator: Launchpad (build 7aa962af79d02042917108fba5eb8636b85ecd02)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr "À fait l’envoi et la réception au cours de la dernière heure"
@@ -723,39 +723,6 @@ msgstr "Voulez-vous supprimer cette image ?"
 msgid "The image was deleted."
 msgstr "L'image a été supprimée."
 
-msgid "This book is absent from the Bible"
-msgstr "Ce livre est absent de la Bible"
-
-msgid "This book is extra in the Bible"
-msgstr "Ce livre est en trop dans la Bible"
-
-msgid "This chapter is missing"
-msgstr "Ce chapitre est manquant"
-
-msgid "This chapter is extra"
-msgstr "Ce chapitre est en excédent"
-
-msgid "This verse is missing according to the versification system"
-msgstr "Ce verset est manquant selon la versification du système"
-
-msgid "This verse is extra according to the versification system"
-msgstr "Ce verset est en excédent selon la versification du système"
-
-msgid "The verse is out of sequence"
-msgstr "Ce verset n'est pas dans le bon ordre"
-
-msgid "Closing character"
-msgstr "Caractère de clôture"
-
-msgid "without its matching opening character"
-msgstr "sans son caractère d'ouverture correspondant"
-
-msgid "Opening character"
-msgstr "Caractère d'ouverture"
-
-msgid "without its matching closing character"
-msgstr "sans son caractère de fermeture qui l'accompagne"
-
 msgid "Suppressed checking results"
 msgstr "Résultats de vérification supprimés"
 
@@ -771,152 +738,41 @@ msgstr "Une paire est constitué de deux caractères :"
 msgid "The pairs were saved"
 msgstr "Les paires ont été sauvées"
 
-msgid "No punctuation at end of verse:"
-msgstr "Pas de ponctuation à la fin du verset :"
-
-msgid "Pattern found in text:"
-msgstr "Motif trouvé dans le texte :"
-
-msgid "Capital follows mid-sentence punctuation mark"
-msgstr "Une majuscule suit la marque de ponctuation de mi-phrase"
-
-msgid "Small letter follows straight after a mid-sentence punctuation mark"
-msgstr ""
-"Lettre minuscule suit immédiatement après une marque de ponctuation de mi-"
-"phrase"
-
-msgid "Capital follows straight after a mid-sentence punctuation mark"
-msgstr ""
-"Une majuscule suit immédiatement une marque de ponctuation de mi-phrase"
-
-msgid "A letter follows straight after an end-sentence punctuation mark"
-msgstr ""
-"Une lettre suit immédiatement un caractère de ponctuation de fin de phrase."
-
-msgid "No capital after an end-sentence punctuation mark"
-msgstr "Pas de majuscule après un point final"
-
-msgid "Two punctuation marks in sequence"
-msgstr "Deux signes de ponctuation qui se suivent"
-
-msgid "Paragraph does not start with a capital:"
-msgstr "Le paragraphe ne doit pas débuter avec une majuscule :"
-
-msgid "Paragraph does not end with an end marker:"
-msgstr "Le paragraphe ne doit pas se terminer avec une balise de fin :"
-
-msgid "Unknown character"
-msgstr "caractère inconnu"
-
 msgid "Checking results online"
 msgstr "Vérification des résultats en ligne"
 
 msgid "Bible Checks"
 msgstr "Vérifications de Bible"
 
-msgid "Unclosed markers:"
-msgstr "Balise ouverte :"
+msgid "Double space:"
+msgstr "Double espace :"
 
-msgid "Malformed verse number"
-msgstr "Numéro de verset mal formé"
+msgid "Space before a comma"
+msgstr "espace avant une virgule :"
 
-msgid "New line within USFM:"
-msgstr "Nouvelle ligne dans l'USFM :"
+msgid "Space before a semicolon"
+msgstr "Espace avant un point-virgule"
 
-msgid "Marker not in stylesheet"
-msgstr "La balise n'est pas dans la feuille de style"
+msgid "Space before a colon"
+msgstr "Espace avant un double-point"
 
-msgid "Unknown ID"
-msgstr "ID inconnu"
+msgid "Space before a full stop"
+msgstr "Espace avant un point final"
 
-msgid "ID is not in uppercase"
-msgstr "L'ID n'est pas en majuscules"
+msgid "Space before a question mark"
+msgstr "Espace avant un un point d'interrogation"
 
-msgid "Forward slash instead of backslash:"
-msgstr "Barre oblique au lieu de la barre oblique inverse :"
+msgid "Space before an exclamation mark"
+msgstr "Espace avant un un point d'exclamation"
 
-msgid "Widow backslash"
-msgstr "Barre oblique orpheline"
+msgid "Space at the end of the verse"
+msgstr "Espace à la fin du verset"
 
-msgid "Repeating opening marker"
-msgstr "balise d'ouverture répétitive"
+msgid "Space before final note markup"
+msgstr "Espace avant le balisage final de la note"
 
-msgid "Closing marker does not match opening marker"
-msgstr "La balise de clôture ne correspond pas à celle d'ouverture"
-
-msgid "Embedded marker requires a plus sign"
-msgstr "La balise incorporée nécessite un signe plus"
-
-msgid "The book lacks the marker for the verbose book name:"
-msgstr "Le livre n'a pas la balise pour le nom du livre détaillé :"
-
-msgid "The book lacks the marker for the short book name:"
-msgstr "Le livre n'a pas la balise pour le nom du livre court :"
-
-msgid "The following marker belongs in chapter 0:"
-msgstr "La balise suivante appartient au chapitre 0 :"
-
-msgid "Empty figure source:"
-msgstr "Source d’image vide :"
-
-msgid "Could not find Bible image:"
-msgstr "Impossible de trouver une image biblique :"
-
-msgid "Unusual quotation mark found:"
-msgstr "Un guillemet inhabituel a été trouvé :"
-
-msgid ""
-"Opening markup is followed by closing markup without intervening text:"
-msgstr ""
-"La balise d'ouverture est suivie de la balise de fermeture sans texte "
-"intermédiaire :"
-
-msgid "This sequence in the note does not look right:"
-msgstr "Cette séquence dans la note ne semble pas correcte :"
-
-msgid "Sentence Structure"
-msgstr "Structure de la phrase"
-
-msgid "The capitals were stored"
-msgstr "Les lettres capitales ont été stockées"
-
-msgid "The small letters were stored"
-msgstr "Les minuscules ont été stockées"
-
-msgid "The punctuation marks at the ends of sentences were stored"
-msgstr "Les marques de ponctuation à la fin des phrases ont été stockées"
-
-msgid "The punctuation marks within the sentences were stored"
-msgstr "Les marques de ponctuation dans les phrases ont été stockées"
-
-msgid ""
-"The characters that should be disregarded within the sentences were stored"
-msgstr ""
-"Les caractères qui doivent être ignorés dans les phrases ont été stockés"
-
-msgid "The names that may occur after mid-sentence punctuation were stored"
-msgstr ""
-"Les noms qui peuvent survenir après la ponctuation en milieu de phrase ont "
-"été stockés"
-
-msgid ""
-"The markers that start a new line but not necessarily a new sentence were "
-"saved"
-msgstr ""
-"La balise qui débute une nouvelle ligne mais pas nécessairement une nouvelle "
-"phrase a été sauvé"
-
-msgid "Punctuation at end of heading:"
-msgstr "Ponctuation à la fin d'un titre :"
-
-msgid "Manage Checks"
-msgstr "Gérer les vérifications"
-
-msgid "Select which Bible to manage"
-msgstr "Sélectionner quelle Bible gérer"
-
-msgid "Will run the checks."
-msgstr "Exécutions des vérifications."
+msgid "Space before final cross reference markup"
+msgstr "Espace avant le marquage final des références croisées"
 
 msgid ""
 "Should be followed by a no-break space rather than a plain space in French"
@@ -952,41 +808,185 @@ msgstr "Le paragraphe contient plus de guillemets gauche que nécessaire"
 msgid "The paragraph contains more right guillements than needed"
 msgstr "Le paragraphe contient plus de guillemets droit que nécessaire"
 
+msgid "Punctuation at end of heading"
+msgstr ""
+
+msgid "Closing character"
+msgstr "Caractère de clôture"
+
+msgid "without its matching opening character"
+msgstr "sans son caractère d'ouverture correspondant"
+
+msgid "Opening character"
+msgstr "Caractère d'ouverture"
+
+msgid "without its matching closing character"
+msgstr "sans son caractère de fermeture qui l'accompagne"
+
+msgid "Capital follows mid-sentence punctuation mark"
+msgstr "Une majuscule suit la marque de ponctuation de mi-phrase"
+
+msgid "Small letter follows straight after a mid-sentence punctuation mark"
+msgstr ""
+"Lettre minuscule suit immédiatement après une marque de ponctuation de mi-"
+"phrase"
+
+msgid "Capital follows straight after a mid-sentence punctuation mark"
+msgstr ""
+"Une majuscule suit immédiatement une marque de ponctuation de mi-phrase"
+
+msgid "A letter follows straight after an end-sentence punctuation mark"
+msgstr ""
+"Une lettre suit immédiatement un caractère de ponctuation de fin de phrase."
+
+msgid "No capital after an end-sentence punctuation mark"
+msgstr "Pas de majuscule après un point final"
+
+msgid "Two punctuation marks in sequence"
+msgstr "Deux signes de ponctuation qui se suivent"
+
+msgid "Paragraph does not start with a capital"
+msgstr ""
+
+msgid "Paragraph does not end with an end marker"
+msgstr ""
+
+msgid "Unknown character"
+msgstr "caractère inconnu"
+
+msgid "Double space"
+msgstr ""
+
+msgid "Unclosed markers"
+msgstr ""
+
+msgid "Malformed verse number"
+msgstr "Numéro de verset mal formé"
+
+msgid "New line within USFM"
+msgstr ""
+
+msgid "Marker not in stylesheet"
+msgstr "La balise n'est pas dans la feuille de style"
+
+msgid "Unknown ID"
+msgstr "ID inconnu"
+
+msgid "ID is not in uppercase"
+msgstr "L'ID n'est pas en majuscules"
+
+msgid "Forward slash instead of backslash"
+msgstr ""
+
+msgid "Widow backslash"
+msgstr "Barre oblique orpheline"
+
+msgid "Repeating opening marker"
+msgstr "balise d'ouverture répétitive"
+
+msgid "Closing marker does not match opening marker"
+msgstr "La balise de clôture ne correspond pas à celle d'ouverture"
+
+msgid "Embedded marker requires a plus sign"
+msgstr "La balise incorporée nécessite un signe plus"
+
+msgid "The book lacks the marker for the verbose book name"
+msgstr ""
+
+msgid "The book lacks the marker for the short book name"
+msgstr ""
+
+msgid "The following marker belongs in chapter 0"
+msgstr ""
+
+msgid "Empty figure source"
+msgstr ""
+
+msgid "Could not find Bible image"
+msgstr ""
+
+msgid "Unusual quotation mark found"
+msgstr ""
+
+msgid "Opening markup is followed by closing markup without intervening text"
+msgstr ""
+
+msgid "This sequence in the note does not look right"
+msgstr ""
+
+msgid "No punctuation at end of verse"
+msgstr ""
+
+msgid "Pattern found in text"
+msgstr ""
+
+msgid "This book is absent from the Bible"
+msgstr "Ce livre est absent de la Bible"
+
+msgid "This book is extra in the Bible"
+msgstr "Ce livre est en trop dans la Bible"
+
+msgid "This chapter is missing"
+msgstr "Ce chapitre est manquant"
+
+msgid "This chapter is extra"
+msgstr "Ce chapitre est en excédent"
+
+msgid "This verse is missing according to the versification system"
+msgstr "Ce verset est manquant selon la versification du système"
+
+msgid "This verse is extra according to the versification system"
+msgstr "Ce verset est en excédent selon la versification du système"
+
+msgid "The verse is out of sequence"
+msgstr "Ce verset n'est pas dans le bon ordre"
+
+msgid "Sentence Structure"
+msgstr "Structure de la phrase"
+
+msgid "The capitals were stored"
+msgstr "Les lettres capitales ont été stockées"
+
+msgid "The small letters were stored"
+msgstr "Les minuscules ont été stockées"
+
+msgid "The punctuation marks at the ends of sentences were stored"
+msgstr "Les marques de ponctuation à la fin des phrases ont été stockées"
+
+msgid "The punctuation marks within the sentences were stored"
+msgstr "Les marques de ponctuation dans les phrases ont été stockées"
+
+msgid ""
+"The characters that should be disregarded within the sentences were stored"
+msgstr ""
+"Les caractères qui doivent être ignorés dans les phrases ont été stockés"
+
+msgid "The names that may occur after mid-sentence punctuation were stored"
+msgstr ""
+"Les noms qui peuvent survenir après la ponctuation en milieu de phrase ont "
+"été stockés"
+
+msgid ""
+"The markers that start a new line but not necessarily a new sentence were "
+"saved"
+msgstr ""
+"La balise qui débute une nouvelle ligne mais pas nécessairement une nouvelle "
+"phrase a été sauvé"
+
+msgid "Manage Checks"
+msgstr "Gérer les vérifications"
+
+msgid "Select which Bible to manage"
+msgstr "Sélectionner quelle Bible gérer"
+
+msgid "Will run the checks."
+msgstr "Exécutions des vérifications."
+
 msgid "Patterns"
 msgstr "Motifs"
 
 msgid "The patterns were saved"
 msgstr "Le motif a été sauvegardé"
-
-msgid "Double space:"
-msgstr "Double espace :"
-
-msgid "Space before a comma"
-msgstr "espace avant une virgule :"
-
-msgid "Space before a semicolon"
-msgstr "Espace avant un point-virgule"
-
-msgid "Space before a colon"
-msgstr "Espace avant un double-point"
-
-msgid "Space before a full stop"
-msgstr "Espace avant un point final"
-
-msgid "Space before a question mark"
-msgstr "Espace avant un un point d'interrogation"
-
-msgid "Space before an exclamation mark"
-msgstr "Espace avant un un point d'exclamation"
-
-msgid "Space at the end of the verse"
-msgstr "Espace à la fin du verset"
-
-msgid "Space before final note markup"
-msgstr "Espace avant le balisage final de la note"
-
-msgid "Space before final cross reference markup"
-msgstr "Espace avant le marquage final des références croisées"
 
 msgid "Checks"
 msgstr "Vérifications"
@@ -996,6 +996,21 @@ msgstr "L'entrée a été supprimée."
 
 msgid "The entry was deleted for just now."
 msgstr "L'entrée a été supprimée pour le moment."
+
+msgid "The matching entries were deleted for just now."
+msgstr ""
+
+msgid "This group of issues is not known."
+msgstr ""
+
+msgid "approve"
+msgstr ""
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "Delete items with"
+msgstr ""
 
 msgid "Loading ..."
 msgstr "Chargement..."
@@ -1186,11 +1201,23 @@ msgstr "Revenez en arrière ou appuyez longuement pour afficher l'historique"
 msgid "Go forward or long-press to show history"
 msgstr "Avancez ou appuyez longuement pour afficher l'historique"
 
+msgid "Go to previous book"
+msgstr ""
+
 msgid "Select book"
 msgstr "Choisir un livre"
 
+msgid "Go to next book"
+msgstr ""
+
+msgid "Go to previous chapter"
+msgstr ""
+
 msgid "Select chapter"
 msgstr "Sélectionner un chapitre"
+
+msgid "Go to next chapter"
+msgstr ""
 
 msgid "Go to previous verse"
 msgstr "Aller au verset précédent"
@@ -1273,26 +1300,32 @@ msgstr "Où allez-vous prendre les premières données de la Bible?"
 msgid "The collaboration will be set up"
 msgstr "La collaboration sera mise en place"
 
-msgid "Merging and saving chapter."
-msgstr "Fusion et sauvegarde du chapitre."
-
-msgid "No write access"
-msgstr "Aucun accès en écriure"
-
-msgid "Passage mismatch"
-msgstr "Incompatibilité de passage"
-
-msgid "Needs Unicode"
-msgstr "À besoin d'unicode"
-
 msgid "Nothing to save"
 msgstr "Rien à enregistrer"
 
 msgid "Checksum error"
 msgstr "Erreur sur la somme de contrôle"
 
+msgid "Needs Unicode"
+msgstr "À besoin d'unicode"
+
+msgid "No chapter data"
+msgstr ""
+
+msgid "Multiple chapters"
+msgstr ""
+
 msgid "Confusing data"
 msgstr "Les données sont confuses"
+
+msgid "Chapter number mismatch"
+msgstr ""
+
+msgid "Merging and saving chapter."
+msgstr "Fusion et sauvegarde du chapitre."
+
+msgid "No write access"
+msgstr "Aucun accès en écriure"
 
 msgid "Edit USFM"
 msgstr "Éditer l'USFM"
@@ -1436,17 +1469,20 @@ msgstr "Éditer"
 msgid "Stylesheet"
 msgstr "Feuille de style"
 
-msgid "This style already exists"
-msgstr "Le style existe déjà"
+msgid "Enter a name for the new style"
+msgstr ""
 
-msgid "The style has been created"
-msgstr "Le style a été créé"
+msgid "Allowed characters for the style are:"
+msgstr ""
 
-msgid "Please enter the name for the new style"
-msgstr "Entrez le nom du nouveau style"
+msgid "Select an existing style to base the new style on"
+msgstr ""
 
-msgid "delete"
-msgstr "supprimer"
+msgid "The style already exists in the stylesheet"
+msgstr ""
+
+msgid "You don't have sufficient privileges to add a style to the stylesheet"
+msgstr ""
 
 msgid "Style"
 msgstr "Style"
@@ -2441,6 +2477,11 @@ msgstr "Quel format de date utiliser pour les notes de consultation ?"
 msgid "Enable spell check in the Bible editors."
 msgstr ""
 
+msgid ""
+"Show arrows in the passage navigator for previous and next book and chapter "
+"and verse."
+msgstr ""
+
 msgid "Go back"
 msgstr "Précédent"
 
@@ -2818,11 +2859,15 @@ msgid "The page displays a list of results of running the checks."
 msgstr ""
 "Cette page affiche une liste des résultats de l'exécution des vérifications."
 
-msgid "Click ✔ to suppress the entry."
-msgstr "Cliquez sur ✔pour supprimer l'entrée."
+msgid "Click a passage to open it in the Bible text editor."
+msgstr ""
+"Cliquez sur un passage pour l'ouvrir dans l'éditeur de texte biblique."
 
-msgid "Click 🗑 to remove the entry for just now."
-msgstr "Cliquez sur 🗑 pour supprimer l'entrée uniquement pour maintenant."
+msgid "Click approve to suppress the entry."
+msgstr ""
+
+msgid "Click delete to remove the entry for just now."
+msgstr ""
 
 msgid ""
 "It will be back after running the checks again, unless the text of the Bible "
@@ -2831,9 +2876,8 @@ msgstr ""
 "Elle sera de nouveau disponible après une nouvelle exécution des "
 "vérifications, à moins que le texte de la Bible ait été corrigé."
 
-msgid "Click a passage to open it in the Bible text editor."
+msgid "Delete all entries."
 msgstr ""
-"Cliquez sur un passage pour l'ouvrir dans l'éditeur de texte biblique."
 
 msgid "The Manager can enable or disable checks."
 msgstr "Le gestionnaire peut activer ou désactiver les vérifications."
@@ -3931,6 +3975,21 @@ msgstr "Oui"
 msgid "Name"
 msgstr "Nom"
 
+msgid "Add a style to the stylesheet."
+msgstr "Ajouter un style à la feuille de style."
+
+msgid "Delete the entire stylesheet."
+msgstr "Supprimer toute la feuille de style."
+
+msgid "You can copy or backup this stylesheet."
+msgstr "La feuille de style est conservée dans un seul dossier."
+
+msgid "The stylesheet is kept in one folder."
+msgstr "La feuille de style est conservée dans un seul dossier."
+
+msgid "The name of the folder is this:"
+msgstr "Le nom du dossier est le suivant :"
+
 msgid "Font size"
 msgstr "Taille de police"
 
@@ -4030,21 +4089,6 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-msgid "Add a style to the stylesheet."
-msgstr "Ajouter un style à la feuille de style."
-
-msgid "Delete the entire stylesheet."
-msgstr "Supprimer toute la feuille de style."
-
-msgid "You can copy or backup this stylesheet."
-msgstr "La feuille de style est conservée dans un seul dossier."
-
-msgid "The stylesheet is kept in one folder."
-msgstr "La feuille de style est conservée dans un seul dossier."
-
-msgid "The name of the folder is this:"
-msgstr "Le nom du dossier est le suivant :"
-
 msgid "Stylesheets"
 msgstr "Feuilles de style"
 
@@ -4053,6 +4097,18 @@ msgstr "Feuilles de style disponibles."
 
 msgid "Create a new stylesheet."
 msgstr "Créer une nouvelle feuille de style."
+
+msgid "Create new style"
+msgstr ""
+
+msgid "Stylesheet:"
+msgstr ""
+
+msgid "Name for the new style:"
+msgstr ""
+
+msgid "Existing style to base the new style on:"
+msgstr ""
 
 msgid "Language"
 msgstr "Langue"
@@ -12400,6 +12456,36 @@ msgstr "Entrée de liste de mots araméens"
 msgid ""
 "Surround words with this markup to indicate that it should appear in the "
 "Aramaic word list."
+msgstr ""
+
+msgid "Quotation start milestone"
+msgstr ""
+
+msgid "Typically used for indicating the speaker of the text."
+msgstr ""
+
+msgid "Quotation start milestone level 1"
+msgstr ""
+
+msgid "Quotation start milestone level 2"
+msgstr ""
+
+msgid "Quotation end milestone"
+msgstr ""
+
+msgid "Quotation end milestone level 1"
+msgstr ""
+
+msgid "Quotation end milestone level 2"
+msgstr ""
+
+msgid "Translator’s section start milestone"
+msgstr ""
+
+msgid "For identifying a chunk of text suitable for translating at one time."
+msgstr ""
+
+msgid "Translator’s section end milestone"
 msgstr ""
 
 msgid "Extended footnote"

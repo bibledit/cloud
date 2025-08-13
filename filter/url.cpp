@@ -1596,9 +1596,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
       // The connection requires writing more data.
       if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
       // Received NewSessionTicket Post Handshake Message.
-#if MBEDTLS_VERSION_MAJOR == 3
       if (ret == MBEDTLS_ERR_SSL_RECEIVED_NEW_SESSION_TICKET) continue;
-#endif
       // Handle all other error codes.
       filter_url_display_mbed_tls_error (ret, &error, false, std::string());
       connection_healthy = false;
@@ -1676,9 +1674,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
           // until it returns a positive value.
           if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
           if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-#if MBEDTLS_VERSION_MAJOR == 3
           if (ret == MBEDTLS_ERR_SSL_RECEIVED_NEW_SESSION_TICKET) continue;
-#endif
           filter_url_display_mbed_tls_error (ret, &error, false, std::string());
           connection_healthy = false;
         }
@@ -1748,9 +1744,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
         connection_healthy = false;
       } else if (secure && (ret == MBEDTLS_ERR_SSL_WANT_READ)) {
       } else if (secure && (ret == MBEDTLS_ERR_SSL_WANT_WRITE)) {
-#if MBEDTLS_VERSION_MAJOR == 3
       } else if (secure && (ret == MBEDTLS_ERR_SSL_RECEIVED_NEW_SESSION_TICKET)) {
-#endif
       } else if (secure && (ret == MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY)) {
       } else if (secure && (ret < 0)) {
         filter_url_display_mbed_tls_error (ret, &error, false, std::string());
@@ -1827,10 +1821,8 @@ void filter_url_ssl_tls_initialize ()
   mbedtls_entropy_init (&entropy_context);
 
   // Initialize the Platform Security Architecture that MbedTLS version 3 introduces.
-#if MBEDTLS_VERSION_MAJOR == 3
   psa_status_t status = psa_crypto_init();
   filter_url_display_mbed_tls_error (status, nullptr, false, std::string());
-#endif
 
   // Seed the random number generator.
   constexpr const auto pers = "Client";
@@ -1854,9 +1846,7 @@ void filter_url_ssl_tls_finalize ()
   mbedtls_ctr_drbg_free (&ctr_drbg_context);
   mbedtls_entropy_free (&entropy_context);
   mbedtls_x509_crt_free (&x509_ca_cert);
-#if MBEDTLS_VERSION_MAJOR == 3
   mbedtls_psa_crypto_free();
-#endif
 }
 
 

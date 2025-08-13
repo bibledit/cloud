@@ -26,7 +26,6 @@ $(document).ready (function ()
   var bar = $ ("#editorheader").remove ();
   $ ("#workspacemenu").append (bar);
   
-  rangy.init ();
   navigationNewPassage ();
   $ ("#usfmeditor").on ("paste cut keydown", usfmEditorChanged);
   $ (window).on ("unload", usfmEditorUnload);
@@ -419,8 +418,12 @@ function usfmPositionCaret (position)
   var currentPosition = usfmGetCaretPosition ();
   if (currentPosition == undefined) return;
   if (position == undefined) return;
-  var selection = rangy.getSelection ();
-  selection.move ("character", position - currentPosition);
+  var selection = document.getSelection();
+  var direction = (position - currentPosition > 0) ? "forward" : "backward";
+  var iterations = Math.abs(position - currentPosition);
+  for (var i = 0; i < iterations; i++) {
+    selection.modify ("move", direction, "character");
+  }
 }
 
 

@@ -17,8 +17,6 @@
 <script>
   ##script##
 </script>
-<script type="text/javascript" src="/rangy13/rangy-core.min.js?##VERSION##"></script>
-<script type="text/javascript" src="/rangy13/rangy-textrange.min.js?##VERSION##"></script>
 <script type="text/javascript" src="/checksum/logic.js?##VERSION##"></script>
 <script type="text/javascript" src="/edit/keys.js?##VERSION##"></script>
 <script type="text/javascript" src="/filter/url.js?##VERSION##"></script>

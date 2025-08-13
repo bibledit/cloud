@@ -50,8 +50,8 @@ std::string edit_navigate (Webserver_Request& webserver_request)
   const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
 
   
-  // At first the browser used the rangy library to get the offset of the caret.
-  // But the rangy library provides the offset relative to the element that contains the caret,
+  // At first the browser used the DOM Range interface to get the offset of the caret.
+  // But the DOM Range interface provides the offset relative to the element that contains the caret,
   // not relative to the main editor element.
   // Therefore a pure Javascript implementation was Googled for and implemented.
   // This provides the offset of the caret relative to the <div id="editor">.

@@ -56,7 +56,6 @@ rm -rf notifit
 rm -rf parsewebdata
 rm -rf pugixml
 rm -rf quill
-rm -rf rangy13
 rm -rf slip
 rm -rf stb
 rm -rf sword/*

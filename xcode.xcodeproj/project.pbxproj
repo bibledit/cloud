@@ -1171,20 +1171,6 @@
 		CADE3FA224F17488003165BB /* book.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = book.svg; sourceTree = "<group>"; };
 		CADE3FA324F17488003165BB /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		CADE3FA424F17488003165BB /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = splash.jpg; sourceTree = "<group>"; };
-		CADE3FA624F17488003165BB /* rangy-core.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-core.js"; sourceTree = "<group>"; };
-		CADE3FA724F17488003165BB /* rangy-classapplier.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-classapplier.js"; sourceTree = "<group>"; };
-		CADE3FA824F17488003165BB /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		CADE3FA924F17488003165BB /* rangy-textrange.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-textrange.js"; sourceTree = "<group>"; };
-		CADE3FAA24F17488003165BB /* rangy-highlighter.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-highlighter.min.js"; sourceTree = "<group>"; };
-		CADE3FAB24F17488003165BB /* rangy-highlighter.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-highlighter.js"; sourceTree = "<group>"; };
-		CADE3FAC24F17488003165BB /* rangy-core.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-core.min.js"; sourceTree = "<group>"; };
-		CADE3FAD24F17488003165BB /* rangy-textrange.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-textrange.min.js"; sourceTree = "<group>"; };
-		CADE3FAE24F17488003165BB /* rangy-serializer.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-serializer.js"; sourceTree = "<group>"; };
-		CADE3FAF24F17488003165BB /* rangy-serializer.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-serializer.min.js"; sourceTree = "<group>"; };
-		CADE3FB024F17488003165BB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		CADE3FB124F17488003165BB /* rangy-selectionsaverestore.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-selectionsaverestore.min.js"; sourceTree = "<group>"; };
-		CADE3FB224F17488003165BB /* rangy-classapplier.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-classapplier.min.js"; sourceTree = "<group>"; };
-		CADE3FB324F17488003165BB /* rangy-selectionsaverestore.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-selectionsaverestore.js"; sourceTree = "<group>"; };
 		CADE3FB524F17488003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE3FB724F17488003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CADE3FB824F17488003165BB /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
@@ -1991,7 +1977,6 @@
 				CADE3F3B24F17487003165BB /* public */,
 				CADE3F7C24F17488003165BB /* pugixml */,
 				CADE3F8A24F17488003165BB /* quill */,
-				CADE3FA524F17488003165BB /* rangy13 */,
 				CAECA4F825EED7B500650B41 /* read */,
 				CADE406724F17496003165BB /* related */,
 				CADE3FBE24F17495003165BB /* resource */,
@@ -3871,27 +3856,6 @@
 				CADE3FA424F17488003165BB /* splash.jpg */,
 			);
 			path = pix;
-			sourceTree = "<group>";
-		};
-		CADE3FA524F17488003165BB /* rangy13 */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3FA624F17488003165BB /* rangy-core.js */,
-				CADE3FA724F17488003165BB /* rangy-classapplier.js */,
-				CADE3FA824F17488003165BB /* LICENSE */,
-				CADE3FA924F17488003165BB /* rangy-textrange.js */,
-				CADE3FAA24F17488003165BB /* rangy-highlighter.min.js */,
-				CADE3FAB24F17488003165BB /* rangy-highlighter.js */,
-				CADE3FAC24F17488003165BB /* rangy-core.min.js */,
-				CADE3FAD24F17488003165BB /* rangy-textrange.min.js */,
-				CADE3FAE24F17488003165BB /* rangy-serializer.js */,
-				CADE3FAF24F17488003165BB /* rangy-serializer.min.js */,
-				CADE3FB024F17488003165BB /* README.md */,
-				CADE3FB124F17488003165BB /* rangy-selectionsaverestore.min.js */,
-				CADE3FB224F17488003165BB /* rangy-classapplier.min.js */,
-				CADE3FB324F17488003165BB /* rangy-selectionsaverestore.js */,
-			);
-			path = rangy13;
 			sourceTree = "<group>";
 		};
 		CADE3FB424F17488003165BB /* personalize */ = {

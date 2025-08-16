@@ -485,4 +485,22 @@ TEST_F (filter_url, create_path)
 }
 
 
+TEST_F (filter_url, build_http_query)
+{
+  // Empty URL in, empty URL out.
+  EXPECT_EQ(std::string(), filter_url_build_http_query(std::string(), {}));
+  EXPECT_EQ(std::string(), filter_url_build_http_query(std::string(), {{"foo", "bar"}}));
+
+  // No parameters/values given: URL in -> URL out.
+  EXPECT_EQ("url", filter_url_build_http_query("url", {}));
+
+  // One parameter/value test.
+  EXPECT_EQ("url?foo=bar", filter_url_build_http_query("url", {{"foo", "bar"}}));
+  EXPECT_EQ("url?foo=bar&foo=bar", filter_url_build_http_query("url?foo=bar", {{"foo", "bar"}}));
+
+  // Multiple parameters/values test.
+  EXPECT_EQ("url?a=b&c=d", filter_url_build_http_query("url", {{"a","b"}, {"c","d"}}));
+}
+
+
 #endif

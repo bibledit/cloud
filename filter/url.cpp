@@ -903,14 +903,28 @@ bool filter_url_email_is_valid (std::string email)
 }
 
 
-std::string filter_url_build_http_query (std::string url, const std::string& parameter, const std::string& value)
+std::string filter_url_build_http_query (std::string url, const std::string& parameter, const std::string& value) // Todo out.
 {
-  size_t pos = url.find ("?");
+  const size_t pos = url.find ("?");
   if (pos == std::string::npos) url.append ("?");
   else url.append ("&");
   url.append (parameter);
   url.append ("=");
   url.append (value);
+  return url;
+}
+
+
+std::string filter_url_build_http_query (std::string url, const std::vector<std::pair<std::string,std::string>> parameters_values)
+{
+  if (url.empty())
+    return url;
+  for (const auto& [parameter, value] : parameters_values) {
+    url.append ((url.find ("?") == std::string::npos) ? "?" : "&");
+    url.append (parameter);
+    url.append ("=");
+    url.append (value);
+  }
   return url;
 }
 

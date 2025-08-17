@@ -235,9 +235,9 @@ TEST_F (filter_url, error_closed_port)
 {
   // Test low-level http(s) client error for closed port.
   std::string result, error;
-  result = filter_url_http_request_mbed ("http://bibledit.org:8086/non-existing", error, {}, "", false);
-  EXPECT_EQ ("", result);
-  EXPECT_EQ ("bibledit.org:8086: Connection refused | bibledit.org:8086: Connection refused", error);
+  result = filter_url_http_request_mbed ("http://bibledit.org:8086/non-existing", error, {}, std::string(), false);
+  EXPECT_EQ (std::string(), result);
+  EXPECT_EQ ("bibledit.org:8086: Connection refused", error);
 }
 
 

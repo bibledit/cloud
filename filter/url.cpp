@@ -200,7 +200,7 @@ void redirect_browser (Webserver_Request& webserver_request, std::string path)
   // If the page contains the topbar suppressing query,
   // the same query will be appended on the URL of the redirected page.
   if (webserver_request.query.count ("topbar") || webserver_request.post.count ("topbar")) {
-    location = filter_url_build_http_query (location, "topbar", "0");
+    location = filter_url_build_http_query(location, {{"topbar", "0"}});
   }
 
   webserver_request.header = "Location: " + location;
@@ -900,18 +900,6 @@ bool filter_url_email_is_valid (std::string email)
   if (dotbits.size () < 2) return false;
   // The email address is valid.
   return true;
-}
-
-
-std::string filter_url_build_http_query (std::string url, const std::string& parameter, const std::string& value) // Todo out.
-{
-  const size_t pos = url.find ("?");
-  if (pos == std::string::npos) url.append ("?");
-  else url.append ("&");
-  url.append (parameter);
-  url.append ("=");
-  url.append (value);
-  return url;
 }
 
 

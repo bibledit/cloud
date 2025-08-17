@@ -96,7 +96,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
     if (add == resource_logic_rich_divider ()) {
       // Navigate to the page to set up the rich divider.
       if (is_def) 
-        redirect_browser (webserver_request, filter_url_build_http_query (resource_divider_url (), "type", "def"));
+        redirect_browser (webserver_request, filter_url_build_http_query(resource_divider_url(), {{"type", "def"}}));
       else
         redirect_browser (webserver_request, resource_divider_url ());
       return std::string();

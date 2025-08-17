@@ -1006,16 +1006,11 @@ std::string menu_logic_menu_text (std::string menu_item)
 // Returns the URL that belongs to $menu_item.
 std::string menu_logic_menu_url (std::string menu_item)
 {
-  if (
-      (menu_item == menu_logic_translate_menu ())
-      ||
-      (menu_item == menu_logic_search_menu ())
-      ||
-      (menu_item == menu_logic_tools_menu ())
-      ||
-      (menu_item == menu_logic_settings_menu ())
-    ) {
-    return filter_url_build_http_query (index_index_url (), "item", menu_item);
+  if ((menu_item == menu_logic_translate_menu ())
+      || (menu_item == menu_logic_search_menu ())
+      || (menu_item == menu_logic_tools_menu ())
+      || (menu_item == menu_logic_settings_menu ())) {
+      return filter_url_build_http_query(index_index_url (), {{"item", menu_item}});
   }
 
   return menu_item;

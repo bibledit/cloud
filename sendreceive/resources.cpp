@@ -125,21 +125,21 @@ void sendreceive_resources ()
     address = demo_address ();
     port = demo_port ();
   }
-  std::string cloud_url = client_logic_url (address, port, sync_resources_url ());
-  std::string resource_url = filter_url_build_http_query (cloud_url, "r", filter_url_urlencode (resource));
+  const std::string cloud_url = client_logic_url (address, port, sync_resources_url ());
+  const std::string resource_url = filter_url_build_http_query(cloud_url, {{"r", filter_url_urlencode (resource)}});
 
   // Go through all Bible books.
   Database_Versifications database_versifications;
   std::vector <int> books = database_versifications.getMaximumBooks ();
-  for (auto & book : books) {
+  for (const int book : books) {
     sendreceive_resources_delay_during_prioritized_tasks ();
     if (sendreceive_resources_interrupt) continue;
 
     // The URL fragment that contains the current book in its query.
-    std::string book_url = filter_url_build_http_query (resource_url, "b", std::to_string (book));
+    const std::string book_url = filter_url_build_http_query(resource_url, {{"b", std::to_string(book)}});
     
     // The URL to request the resource database for this book from the Cloud.
-    std::string url = filter_url_build_http_query (book_url, "a", std::to_string (Sync_Logic::resources_request_database));
+    std::string url = filter_url_build_http_query(book_url, {{"a", std::to_string (Sync_Logic::resources_request_database)}});
     std::string error;
     std::string response = filter_url_http_get (url, error, false);
     if (error.empty ()) {
@@ -149,7 +149,7 @@ void sendreceive_resources ()
       if (server_size > 0) {
         // The Cloud has now responded with the file size of the resource database, in bytes.
         // Now request the path to download it.
-        url = filter_url_build_http_query (book_url, "a", std::to_string (Sync_Logic::resources_request_download));
+        url = filter_url_build_http_query(book_url, {{"a", std::to_string (Sync_Logic::resources_request_download)}});
         error.clear ();
         std::string response2 = filter_url_http_get (url, error, false);
         if (error.empty ()) {

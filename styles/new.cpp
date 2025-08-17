@@ -99,9 +99,11 @@ std::string styles_new (Webserver_Request& webserver_request)
       // Recreate all stylesheets.
       styles_sheets_create_all ();
       // Redirect to the page editing this style.
-      std::string location = filter_url_build_http_query (styles_view_url(), "sheet", name);
-      location = filter_url_build_http_query (std::move(location), "style", new_style);
-      redirect_browser (webserver_request, std::move(location));
+      const std::string location = filter_url_build_http_query(styles_view_url(), {
+        {"sheet", name},
+        {"style", new_style},
+      });
+      redirect_browser (webserver_request, location);
     }
   }
   

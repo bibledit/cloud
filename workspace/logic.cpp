@@ -307,8 +307,8 @@ std::map <int, std::string> workspace_get_values (Webserver_Request& webserver_r
     if ((selector == URLS) && use) {
   
       // Add query value for suppressing the topbar as the workspace already has one.
-      if (element.second != "") {
-        element.second = filter_url_build_http_query (element.second, "topbar", "0");
+      if (!element.second.empty()) {
+        element.second = filter_url_build_http_query(element.second, {{"topbar", "0"}});
       }
       
       // Transform the internal URLs to full ones.

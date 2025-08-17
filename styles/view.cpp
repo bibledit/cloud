@@ -103,8 +103,9 @@ std::string styles_view (Webserver_Request& webserver_request)
     if (write) {
       database::styles::reset_marker(sheet, style);
       styles_sheets_create_all();
-      std::string url = filter_url_build_http_query(styles_view_url(), "sheet", sheet);
-      url = filter_url_build_http_query(std::move(url), "style", style);
+      const std::string url = filter_url_build_http_query(styles_view_url(), {
+        {"sheet", sheet}, {"style", style},
+      });
       redirect_browser (webserver_request, std::move(url));
     }
   }
@@ -471,8 +472,9 @@ std::string styles_view (Webserver_Request& webserver_request)
   
   // Redirect the browser to a clean styles editor without any previous settings made via the URL.
   const auto redirect = [&webserver_request, &sheet, &style] () {
-    std::string query = filter_url_build_http_query (styles_view_url (), "sheet", sheet);
-    query = filter_url_build_http_query (query, "style", style);
+    const std::string query = filter_url_build_http_query(styles_view_url(), {
+      {"sheet", sheet}, {"style", style}
+    });
     redirect_browser (webserver_request, query);
   };
 

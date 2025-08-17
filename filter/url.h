@@ -57,7 +57,6 @@ std::string filter_url_tempfile (const char * directory = nullptr);
 std::string filter_url_escape_shell_argument (std::string argument);
 std::string filter_url_unique_path (std::string path);
 bool filter_url_email_is_valid (std::string email);
-std::string filter_url_build_http_query (std::string url, const std::string& parameter, const std::string& value);
 std::string filter_url_build_http_query (std::string url, const std::vector<std::pair<std::string,std::string>> parameters_values);
 std::string filter_url_http_get (std::string url, std::string& error, bool check_certificate);
 std::string filter_url_http_post (const std::string & url, std::string post_data, const std::map <std::string, std::string> & post_values, std::string& error, bool burst, bool check_certificate, const std::vector <std::pair <std::string, std::string> > & headers);

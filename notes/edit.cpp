@@ -82,7 +82,7 @@ std::string notes_edit (Webserver_Request& webserver_request)
       }
       noteData = filter::strings::implode (lines, "\n");
       notes_logic.setContent (identifier, noteData);
-      std::string url = filter_url_build_http_query (notes_note_url (), "id", std::to_string (identifier));
+      const std::string url = filter_url_build_http_query(notes_note_url(), {{"id", std::to_string (identifier)}});
       // View the updated note.
       redirect_browser (webserver_request, url);
       return std::string();

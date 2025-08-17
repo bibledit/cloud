@@ -231,11 +231,13 @@ void sendreceive_files ()
       if (!file_or_dir_exists (dirpath)) {
         filter_url_mkdir (dirpath);
       }
-      std::string download_url = filter_url_build_http_query (url, "a", std::to_string (Sync_Logic::files_file_download));
-      download_url = filter_url_build_http_query (download_url, "v", std::to_string (version));
-      download_url = filter_url_build_http_query (download_url, "d", std::to_string (d));
-      download_url = filter_url_build_http_query (download_url, "u", filter::strings::bin2hex (user));
-      download_url = filter_url_build_http_query (download_url, "f", filter_url_urlencode (file));
+      const std::string download_url = filter_url_build_http_query(url, {
+        {"a", std::to_string (Sync_Logic::files_file_download)},
+        {"v", std::to_string (version)},
+        {"d", std::to_string (d)},
+        {"u", filter::strings::bin2hex (user)},
+        {"f", filter_url_urlencode (file)},
+      });
       // Download and save file locally.
       filter_url_download_file (download_url, fullpath, error, true);
       if (!error.empty ()) {

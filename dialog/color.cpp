@@ -42,7 +42,7 @@ Dialog_Color::~Dialog_Color ()
 // Same for when a selection is made: It adds the $query to the page where to go.
 void Dialog_Color::add_query (std::string parameter, std::string value)
 {
-  base_url = filter_url_build_http_query (base_url, parameter, value);
+  base_url = filter_url_build_http_query(base_url, {{parameter, value}});
 }
 
 

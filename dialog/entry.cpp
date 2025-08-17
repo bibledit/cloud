@@ -50,7 +50,7 @@ Dialog_Entry::~Dialog_Entry ()
 
 void Dialog_Entry::add_query (std::string parameter, std::string value)
 {
-  base_url = filter_url_build_http_query (base_url, parameter, value);
+  base_url = filter_url_build_http_query(base_url, {{parameter, value}});
 }
 
 

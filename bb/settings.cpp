@@ -224,8 +224,9 @@ std::string bible_settings (Webserver_Request& webserver_request)
     pugi::xml_node a_or_span_node;
     if (manager_level) {
       a_or_span_node = book_document.append_child("a");
-      std::string href = filter_url_build_http_query ("book", "bible", bible);
-      href = filter_url_build_http_query (href, "book", std::to_string (book));
+      const std::string href = filter_url_build_http_query("book", {
+        {"bible", bible}, {"book", std::to_string (book)}
+      });
       a_or_span_node.append_attribute("href") = href.c_str();
     } else {
       a_or_span_node = book_document.append_child("span");

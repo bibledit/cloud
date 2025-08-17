@@ -151,11 +151,15 @@ void implode_from_beginning_remain_with_max_n_bits (std::vector<std::string>& in
 // Replaces string contents.
 std::string replace (const std::string& search, const std::string& replace, std::string subject, int * count)
 {
-  size_t offposition {subject.find (search)};
-  while (offposition != std::string::npos) {
-    subject.replace (offposition, search.length (), replace);
-    if (count) (*count)++;
-    offposition = subject.find (search, offposition + replace.length ());
+  if (!search.empty()) {
+    if (!subject.empty()) {
+      size_t offposition {subject.find (search)};
+      while (offposition != std::string::npos) {
+        subject.replace (offposition, search.length (), replace);
+        if (count) (*count)++;
+        offposition = subject.find (search, offposition + replace.length ());
+      }
+    }
   }
   return subject;
 }

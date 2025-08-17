@@ -38,6 +38,9 @@ TEST (filter, string)
     int counter = 0;
     EXPECT_EQ ("a", filter::strings::replace ("bc", "", "abc", &counter));
     EXPECT_EQ (1, counter);
+    // Handle empty input.
+    EXPECT_EQ ("test", filter::strings::replace ("", "", "test"));
+    EXPECT_EQ ("", filter::strings::replace ("", "", ""));
     // Same test for the real Unicode replacer.
     EXPECT_EQ ("⇊⇦", filter::strings::unicode_string_str_replace ("⇖", "", "⇊⇖⇦"));
     EXPECT_EQ ("⇊⇖⇦", filter::strings::unicode_string_str_replace ("", "", "⇊⇖⇦"));

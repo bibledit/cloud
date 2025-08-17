@@ -38,9 +38,6 @@
 #ifndef DTL_DIFF_H
 #define DTL_DIFF_H
 
-#pragma clang diagnostic ignored "-Wsign-conversion"
-
-
 namespace dtl {
     
     /**
@@ -70,6 +67,8 @@ namespace dtl {
         bool               editDistanceOnly;
         uniHunkVec         uniHunks;
         comparator         cmp;
+        long long          ox;
+        long long          oy;
     public :
         Diff () {}
         
@@ -263,7 +262,8 @@ namespace dtl {
             if (isHuge()) {
                 pathCordinates.reserve(MAX_CORDINATES_SIZE);
             }
-            
+            ox = 0;
+            oy = 0;
             long long p = -1;
             fp = new long long[M + N + 3];
             fill(&fp[0], &fp[M + N + 3], -1);
@@ -326,12 +326,12 @@ namespace dtl {
          * print differences given an SES
          */
         template < typename stream >
-        void printSES (const Ses< elem >& s, stream& out) {
+        static void printSES (const Ses< elem >& s, stream& out) {
             sesElemVec ses_v = s.getSequence();
             for_each(ses_v.begin(), ses_v.end(), ChangePrinter< sesElem, stream >(out));
         }
         
-        void printSES (const Ses< elem >& s, ostream& out = cout) {
+        static void printSES (const Ses< elem >& s, ostream& out = cout) {
             printSES< ostream >(s, out);
         }
 
@@ -342,6 +342,15 @@ namespace dtl {
         void printSES (stream& out) const {
             sesElemVec ses_v = ses.getSequence ();
             for_each (ses_v.begin (), ses_v.end(), PT < sesElem, stream > (out));
+        }
+
+        /**
+         * store difference between A and B as an SES with custom storage
+         */
+        template < typename storedData, template < typename SEET, typename STRT > class ST >
+        void storeSES(storedData& sd) const {
+            sesElemVec ses_v = ses.getSequence();
+            for_each(ses_v.begin(), ses_v.end(), ST < sesElem, storedData >(sd));
         }
         
         /**
@@ -360,11 +369,11 @@ namespace dtl {
          * print unified format difference with given unified format hunks
          */
         template < typename stream >
-        void printUnifiedFormat (const uniHunkVec& hunks, stream& out) {
+        static void printUnifiedFormat (const uniHunkVec& hunks, stream& out) {
             for_each(hunks.begin(), hunks.end(), UniHunkPrinter< sesElem >(out));
         }
 
-        void printUnifiedFormat (const uniHunkVec& hunks, ostream& out = cout) {
+        static void printUnifiedFormat (const uniHunkVec& hunks, ostream& out = cout) {
             printUnifiedFormat< ostream >(hunks, out);
         }
 
@@ -507,7 +516,7 @@ namespace dtl {
          * compose ses from stream
          */
         template <typename stream>
-        Ses< elem > composeSesFromStream (stream& st)
+        static Ses< elem > composeSesFromStream (stream& st)
         {
             elem        line;
             Ses< elem > ret;
@@ -551,7 +560,7 @@ namespace dtl {
             huge             = false;
             trivial          = false;
             editDistanceOnly = false;
-            fp               = nullptr;
+            fp               = NULL;
         }
         
         /**
@@ -589,18 +598,18 @@ namespace dtl {
                 while(px_idx < v[i].x || py_idx < v[i].y) {
                     if (v[i].y - v[i].x > py_idx - px_idx) {
                         if (!wasSwapped()) {
-                            ses.addSequence(*y, 0, y_idx, SES_ADD);
+                            ses.addSequence(*y, 0, y_idx + oy, SES_ADD);
                         } else {
-                            ses.addSequence(*y, y_idx, 0, SES_DELETE);
+                            ses.addSequence(*y, y_idx + oy, 0, SES_DELETE);
                         }
                         ++y;
                         ++y_idx;
                         ++py_idx;
                     } else if (v[i].y - v[i].x < py_idx - px_idx) {
                         if (!wasSwapped()) {
-                            ses.addSequence(*x, x_idx, 0, SES_DELETE);
+                            ses.addSequence(*x, x_idx + ox, 0, SES_DELETE);
                         } else {
-                            ses.addSequence(*x, 0, x_idx, SES_ADD);
+                            ses.addSequence(*x, 0, x_idx + ox, SES_ADD);
                         }
                         ++x;
                         ++x_idx;
@@ -608,10 +617,10 @@ namespace dtl {
                     } else {
                         if (!wasSwapped()) {
                             lcs.addSequence(*x);
-                            ses.addSequence(*x, x_idx, y_idx, SES_COMMON);
+                            ses.addSequence(*x, x_idx + ox, y_idx + oy, SES_COMMON);
                         } else {
                             lcs.addSequence(*y);
-                            ses.addSequence(*y, y_idx, x_idx, SES_COMMON);
+                            ses.addSequence(*y, y_idx + oy, x_idx + ox, SES_COMMON);
                         }
                         ++x;
                         ++y;
@@ -652,6 +661,8 @@ namespace dtl {
                 fp = new long long[M + N + 3];
                 fill(&fp[0], &fp[M + N + 3], -1);
                 fill(path.begin(), path.end(), -1);
+                ox = x_idx - 1;
+                oy = y_idx - 1;
                 return false;
             }
             return true;

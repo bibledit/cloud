@@ -93,9 +93,9 @@ std::string styles_indexm (Webserver_Request& webserver_request)
         bool write = database::styles::has_write_access (username, del);
         if (userlevel >= roles::admin) write = true;
         if (write) {
-          database::styles::delete_sheet (del);
-          database::styles::revoke_write_access (std::string(), del);
-          page += assets_page::success (translate("The stylesheet has been deleted"));
+          database::styles::delete_sheet(del);
+          database::styles::revoke_write_access(std::string(), del);
+          page += assets_page::success(translate("The stylesheet has been deleted"));
         }
       } if (confirm.empty()) {
         Dialog_Yes dialog_yes = Dialog_Yes ("indexm", translate("Would you like to delete this stylesheet?"));

@@ -132,8 +132,10 @@ std::vector <std::string> get_sheets ()
 // Deletes a stylesheet.
 void delete_sheet (const std::string& sheet)
 {
-  if (!sheet.empty ())
+  if (!sheet.empty ()) {
     filter_url_rmdir (sheetfolder (sheet));
+    sheet_cache.clear();
+  }
 }
 
 

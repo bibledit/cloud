@@ -740,4 +740,15 @@ TEST (scraper, net_bible)
 }
 
 
+TEST (scraper, bible_server)
+{
+  using ::testing::HasSubstr;
+  constexpr int hebrews {static_cast<int>(book_id::_hebrews)}; // Book consisting of one word.
+  const char* bible {resource_external_elberfelder_bibel_name()};
+  const std::string text = resource_external_cloud_fetch_cache_extract (bible, hebrews, 2, 3);
+  EXPECT_THAT(text, HasSubstr("wie werden wir entfliehen")); // Text.
+  EXPECT_THAT(text, HasSubstr("so große Rettung")); // Text.
+}
+
+
 #endif

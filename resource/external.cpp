@@ -91,7 +91,7 @@ resource_record resource_table [] =
   { "Westminster Hebrew", filter::strings::english (), filter::strings::english (), ORIGINAL, & resource_external_get_biblehub_westminster },
   { resource_external_net_bible_name (), filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_net_bible },
   { "Blue Letter Bible", filter::strings::english (), filter::strings::english (), ORIGINAL, & resource_external_get_blue_letter_bible },
-  { "Elberfelder Bibel", filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_elberfelder_bibel },
+  { resource_external_elberfelder_bibel_name(), filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_elberfelder_bibel },
   { resource_logic_easy_english_bible_name (), filter::strings::english (), filter::strings::english (), BIBLE, & resource_logic_easy_english_bible_get },
 };
 
@@ -429,25 +429,45 @@ std::string bibleserver_processor (std::string directory, int book, int chapter,
   
   std::string error;
   std::string text = resource_logic_web_or_cache_get (url, error);
-  std::string tidy = filter::strings::html_tidy (std::move(text));
-  std::vector <std::string> tidied = filter::strings::explode (std::move(tidy), '\n');
-
-  text.clear ();
-  bool relevant_line = false;
-  for (const auto & line : tidied) {
-    size_t pos = line.find ("noscript");
-    if (pos != std::string::npos) relevant_line = false;
-    if (relevant_line) {
-      if (!text.empty ()) text.append (" ");
-      text.append (line);
-    }
-    pos = line.find ("no=\"" + std::to_string (verse) + "," + std::to_string (verse) + "\"");
-    if (pos != std::string::npos) relevant_line = true;
-  }
-  filter::strings::replace_between (text, "<", ">", "");
-  text = filter::strings::trim (std::move(text));
   
-  text.append("<p><a href=\"" + url + "\">" + url + "</a></p>\n");
+  text = filter::strings::html_tidy (std::move(text));
+  
+  // The canonical text starts after the second, that is, the last occurrence of "</header>".
+  for (int i {0}; i < 3; i++) {
+    constexpr const std::string_view header {"</header>"};
+    const size_t pos = text.find(header);
+    if (pos == std::string::npos)
+      break;
+    text.erase(0, pos + header.length());
+  }
+  
+  // Remove footnotes.
+  filter::strings::replace_between(text, "<sup", "</sup>", std::string());
+
+  // Removing cross references was not done just now because it was not that simple.
+//  filter::strings::replace_between(tidy, "<a", "</a>", std::string());
+
+  // Remove some weird cruft.
+  text = filter::strings::replace("<!--[-->", "", std::move(text));
+  text = filter::strings::replace("<!---->", "", std::move(text));
+
+  // No new lines anymore.
+  text = filter::strings::replace("\n", "", std::move(text));
+
+  // The canonical text ends at the location of this string: <footer
+  if (const size_t pos = text.find("<footer"); pos != std::string::npos)
+    text.erase(pos);
+
+  // The text having been cleaned up above, a verse starts like this: <span>1</span>
+  // So take the text between the verse marker and the next verse marker, if available.
+  const std::string start_markup = "<span>" + std::to_string(verse) + "</span>";
+  if (const size_t pos1 = text.find(start_markup); pos1 != std::string::npos) {
+    text.erase(0, pos1);
+    const std::string end_markup = "<span>" + std::to_string(verse + 1) + "</span>";
+    if (const size_t pos2 = text.find(end_markup); pos2 != std::string::npos) {
+      text.erase(pos2);
+    }
+  }
   
   return text;
 }
@@ -1452,4 +1472,10 @@ const char * resource_external_net_bible_name ()
 const char * resource_external_biblehub_interlinear_name ()
 {
   return "Biblehub Interlinear";
+}
+
+
+const char* resource_external_elberfelder_bibel_name()
+{
+  return "Elberfelder Bibel";
 }

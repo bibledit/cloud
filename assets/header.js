@@ -31,8 +31,38 @@ function topbarRemovalQueryAddition (elementsAttribute) {
 }
 
 
-$ (document).ready (function () {
+function is_outside_workspace()
+{
+  // If the window is the top window, it is a main page, that is, not in a workspace.
   if (window.self === window.top) {
+    return true;
+  }
+
+  // At this stage the current page is embedded in some iframe.
+  try {
+    // Get the parent document.
+    // If the current page is in a workspace,
+    // it means that this iframe and the parent iframe are on the same domain.
+    // So getting the parent document would be allowed.
+    var parent = window.parent;
+    var document = parent.document;
+    return false;
+  }
+  catch (error) {
+    // If this iframe is embedded in another website, like in the NextCloud,
+    // then getting the parent document leads to an exception.
+    // It means that although this page is in an iframe, it still it a main page.
+    // It is not embedded in a Bibledit workspace.
+    return true;
+  }
+
+  // In Bibledit iframe.
+  return false;
+}
+
+
+$ (document).ready (function () {
+  if (is_outside_workspace()) {
     // On main page: Enable menu on touch screen.
     $ ('.toggle').click (function () {
       var hovered = $ (this).hasClass ('hover');

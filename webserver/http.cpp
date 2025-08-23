@@ -316,7 +316,7 @@ void http_assemble_response (Webserver_Request& webserver_request)
     // relative to the time the browser received the cookie.
     // If the expiry information were omitted from the cookie, closing the browser would remove the cookie.
     
-    // The Secure attribute could be used, but it is not currently used.
+    // The Secure attribute is set.
     // It is meant to keep cookie communication limited to encrypted transmission,
     // directing browsers to use cookies only via secure/encrypted connections.
     // For maximum security, cookies with the Secure attribute should only be set over a secure connection.
@@ -324,11 +324,14 @@ void http_assemble_response (Webserver_Request& webserver_request)
     // The HttpOnly attribute means that the cookie can be accessed by the HTTP API only,
     // and not by for example Javascript running in the browser.
     // This provides extra security.
+    
+    // The setting "SameSite" is set to "None" to enable cookies while embedded in e.g. NextCloud,
+    // which works via an iframe on a different origin.
 
     std::string identifier = webserver_request.session_identifier;
     if (identifier.empty ())
       identifier = filter::strings::get_new_random_string ();
-    const std::string cookie = "Session=" + identifier + "; Path=/; Max-Age=2678400; HttpOnly";
+    const std::string cookie = "Session=" + identifier + "; Path=/; Max-Age=2678400; HttpOnly; SameSite=None; Secure";
     response.push_back ("Set-Cookie: " + cookie);
   }
   if (!webserver_request.header.empty ()) 

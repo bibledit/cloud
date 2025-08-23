@@ -20,8 +20,10 @@ $(document).ready (function () {
     if (typeof (navigationHandleKeyDown) == 'function') {
       navigationHandleKeyDown (event);
     } else {
-      if (typeof (window.parent.navigationHandleKeyDown) == 'function') {
-        window.parent.navigationHandleKeyDown (event);
+      if (!is_outside_workspace()) {
+        if (typeof (window.parent.navigationHandleKeyDown) == 'function') {
+          window.parent.navigationHandleKeyDown (event);
+        }
       }
     }
   });

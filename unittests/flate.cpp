@@ -28,16 +28,19 @@
 #include <filter/url.h>
 
 
+static const std::string tests_folder() {
+  return filter_url_create_root_path ({"unittests", "tests"});
+  
+}
+
+const std::string template_file(const int number) {
+  return filter_url_create_path ({tests_folder(), "flate" + std::to_string(number) + ".html"});
+}
+
+
+// Test for the flate template engine.
 TEST (flate, basic)
 {
-  // Test for the flate2 template engine.
-  const std::string folder = filter_url_create_root_path ({"unittests", "tests"});
-  const std::string tpl1 = filter_url_create_path ({folder, "flate1.html"});
-  const std::string tpl2 = filter_url_create_path ({folder, "flate2.html"});
-  const std::string tpl3 = filter_url_create_path ({folder, "flate3.html"});
-
-  refresh_sandbox(false);
-
   {
     Flate flate {};
     const std::string desired =
@@ -45,7 +48,7 @@ TEST (flate, basic)
     "line 6\n"
     "LocalizeOne\n"
     "LocalizeTwo\n";
-    std::string actual = flate.render (tpl1);
+    const std::string actual = flate.render (template_file(1));
     EXPECT_EQ (desired, actual);
   }
   
@@ -61,7 +64,7 @@ TEST (flate, basic)
     "line 6\n"
     "LocalizeOne\n"
     "LocalizeTwo\n";
-    std::string actual = flate.render (tpl1);
+    const std::string actual = flate.render (template_file(1));
     EXPECT_EQ (desired, actual);
   }
   
@@ -79,7 +82,7 @@ TEST (flate, basic)
     "line 6\n"
     "LocalizeOne\n"
     "LocalizeTwo\n";
-    std::string actual = flate.render (tpl1);
+    const std::string actual = flate.render (template_file(1));
     EXPECT_EQ (desired, actual);
   }
   
@@ -93,7 +96,7 @@ TEST (flate, basic)
     "one##one\n"
     "two####two\n"
     "three######three\n";
-    std::string actual = flate.render (tpl2);
+    const std::string actual = flate.render (template_file(2));
     EXPECT_EQ (desired, actual);
   }
   
@@ -108,7 +111,7 @@ TEST (flate, basic)
       std::pair ("one", "Translation1"),
       std::pair ("two", "Translation2")
     });
-    std::string actual = flate.render (tpl3);
+    const std::string actual = flate.render (template_file(3));
     const std::string desired =
     "line 1\n"
     "line 2\n"

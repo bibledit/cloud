@@ -1866,6 +1866,7 @@
 		CADE475924F17CF0003165BB /* libmimetic.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmimetic.0.dylib; path = ../../../../opt/local/lib/libmimetic.0.dylib; sourceTree = "<group>"; };
 		CADE475B24F17D04003165BB /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = ../../../../opt/local/lib/libcurl.dylib; sourceTree = "<group>"; };
 		CAE406FD2D134B4E005A9142 /* usfm-html.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "usfm-html.cpp"; sourceTree = "<group>"; };
+		CAE622C92E5B865700BD7CAA /* flate4.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = flate4.html; sourceTree = "<group>"; };
 		CAEB953F27909FDD00F0F093 /* libraries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libraries.h; sourceTree = "<group>"; };
 		CAECA4F925EED7B500650B41 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAECA4FA25EED7B500650B41 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -4577,6 +4578,7 @@
 				CADE43DF24F174BE003165BB /* flate1.html */,
 				CADE432124F174BD003165BB /* flate2.html */,
 				CADE431824F174BD003165BB /* flate3.html */,
+				CAE622C92E5B865700BD7CAA /* flate4.html */,
 				CADE43E424F174BE003165BB /* invalid-utf8-new.txt */,
 				CADE432224F174BD003165BB /* invalid-utf8-old.txt */,
 				CADE43E624F174BE003165BB /* json1.txt */,

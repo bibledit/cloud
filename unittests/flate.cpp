@@ -125,6 +125,21 @@ TEST (flate, basic)
     "line 4\n";
     EXPECT_EQ (desired, actual);
   }
+  {
+    // Test enabling zone with a given name and setting variable with the same name.
+    Flate flate {};
+    flate.enable_zone ("marker");
+    flate.set_variable ("marker", "MARKER");
+    const std::string desired =
+    "line 1\n"
+    "line 2\n"
+    "MARKER\n"
+    "line 3\n"
+    "line 4\n"
+    ;
+    const std::string actual = flate.render (template_file(4));
+    EXPECT_EQ (desired, actual);
+  }
 }
 
   

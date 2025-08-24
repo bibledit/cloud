@@ -1033,6 +1033,7 @@
 /unittests/tests/flate1.html
 /unittests/tests/flate2.html
 /unittests/tests/flate3.html
+/unittests/tests/flate4.html
 /unittests/tests/html-fixed-1-gumbo.html
 /unittests/tests/html-invalid-1.html
 /unittests/tests/http-post-content-1.txt

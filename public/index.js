@@ -33,7 +33,7 @@ var publicFeedbackLoadedChapter;
 
 function navigationNewPassage ()
 {
-  if (typeof navigationBook != 'undefined') {
+  if (is_outside_workspace()) {
     publicFeedbackNavigationBible = navigationBible;
     publicFeedbackNavigationBook = navigationBook;
     publicFeedbackNavigationChapter = navigationChapter;

@@ -100,7 +100,7 @@ var readchooseLoadAjaxRequest;
 
 function navigationNewPassage ()
 {
-  if (typeof navigationBook != 'undefined') {
+  if (is_outside_workspace()) {
     readchooseNavigationBook = navigationBook;
     readchooseNavigationChapter = navigationChapter;
     readchooseNavigationVerse = navigationVerse;
@@ -371,7 +371,7 @@ function readChooseGotoResources ()
 
 function readchooseSwipeLeft (event)
 {
-  if (typeof navigateNextVerse != 'undefined') {
+  if (is_outside_workspace()) {
     navigateNextVerse (event);
   } else if (parent.window.navigateNextVerse != 'undefined') {
     parent.window.navigateNextVerse (event);
@@ -381,7 +381,7 @@ function readchooseSwipeLeft (event)
 
 function readchooseSwipeRight (event)
 {
-  if (typeof navigatePreviousVerse != 'undefined') {
+  if (is_outside_workspace()) {
     navigatePreviousVerse (event);
   } else if (parent.window.navigatePreviousVerse != 'undefined') {
     parent.window.navigatePreviousVerse (event);

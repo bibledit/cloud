@@ -34,7 +34,7 @@ var previewNavigationVerse;
 
 function navigationNewPassage ()
 {
-  if (typeof navigationBook != 'undefined') {
+  if (is_outside_workspace()) {
     previewNavigationBook = navigationBook;
     previewNavigationChapter = navigationChapter;
     previewNavigationVerse = navigationVerse;

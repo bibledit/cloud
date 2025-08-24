@@ -133,7 +133,7 @@ var editorNavigationVerse;
 
 function navigationNewPassage ()
 {
-  if (typeof navigationBook != 'undefined') {
+  if (is_outside_workspace()) {
     editorNavigationBook = navigationBook;
     editorNavigationChapter = navigationChapter;
     editorNavigationVerse = navigationVerse;
@@ -1106,7 +1106,7 @@ function editorLog (msg)
 
 function editorSwipeLeft (event)
 {
-  if (typeof navigateNextChapter != 'undefined') {
+  if (is_outside_workspace()) {
     navigateNextChapter (event);
   } else if (parent.window.navigateNextChapter != 'undefined') {
     parent.window.navigateNextChapter (event);
@@ -1116,7 +1116,7 @@ function editorSwipeLeft (event)
 
 function editorSwipeRight (event)
 {
-  if (typeof navigatePreviousChapter != 'undefined') {
+  if (is_outside_workspace()) {
     navigatePreviousChapter (event);
   } else if (parent.window.navigatePreviousChapter != 'undefined') {
     parent.window.navigatePreviousChapter (event);

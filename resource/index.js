@@ -43,7 +43,7 @@ var resourceAborting = false;
 
 function navigationNewPassage ()
 {
-  if (typeof navigationBook != 'undefined') {
+  if (is_outside_workspace()) {
     resourceBook = navigationBook;
     resourceChapter = navigationChapter;
     resourceVerse = navigationVerse;
@@ -119,7 +119,7 @@ function resourceGetOne ()
 
 function resourceSwipeLeft (event)
 {
-  if (typeof navigateNextVerse != 'undefined') {
+  if (is_outside_workspace()) {
     navigateNextVerse (event);
   } else if (parent.window.navigateNextVerse != 'undefined') {
     parent.window.navigateNextVerse (event);
@@ -129,7 +129,7 @@ function resourceSwipeLeft (event)
 
 function resourceSwipeRight (event)
 {
-  if (typeof navigatePreviousVerse != 'undefined') {
+  if (is_outside_workspace()) {
     navigatePreviousVerse (event);
   } else if (parent.window.navigatePreviousVerse != 'undefined') {
     parent.window.navigatePreviousVerse (event);

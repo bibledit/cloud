@@ -130,7 +130,7 @@ var oneverseEditorWriteAccess = true;
 
 function navigationNewPassage ()
 {
-  if (typeof navigationBook != 'undefined') {
+  if (is_outside_workspace()) {
     oneverseNavigationBook = navigationBook;
     oneverseNavigationChapter = navigationChapter;
     oneverseNavigationVerse = navigationVerse;
@@ -945,7 +945,7 @@ function oneVerseHtmlClicked (event)
 
 function oneverseSwipeLeft (event)
 {
-  if (typeof navigateNextVerse != 'undefined') {
+  if (is_outside_workspace()) {
     navigateNextVerse (event);
   } else if (parent.window.navigateNextVerse != 'undefined') {
     parent.window.navigateNextVerse (event);
@@ -955,7 +955,7 @@ function oneverseSwipeLeft (event)
 
 function oneverseSwipeRight (event)
 {
-  if (typeof navigatePreviousVerse != 'undefined') {
+  if (is_outside_workspace()) {
     navigatePreviousVerse (event);
   } else if (parent.window.navigatePreviousVerse != 'undefined') {
     parent.window.navigatePreviousVerse (event);

@@ -75,7 +75,7 @@ var usfmSaving = false;
 
 function navigationNewPassage ()
 {
-  if (typeof navigationBook != 'undefined') {
+  if (is_outside_workspace()) {
     usfmNavigationBook = navigationBook;
     usfmNavigationChapter = navigationChapter;
     usfmNavigationVerse = navigationVerse;
@@ -493,7 +493,7 @@ function clarifyCaret ()
 
 function editusfmSwipeLeft (event)
 {
-  if (typeof navigateNextChapter != 'undefined') {
+  if (is_outside_workspace()) {
     navigateNextChapter (event);
   } else if (parent.window.navigateNextChapter != 'undefined') {
     parent.window.navigateNextChapter (event);
@@ -503,7 +503,7 @@ function editusfmSwipeLeft (event)
 
 function editusfmSwipeRight (event)
 {
-  if (typeof navigatePreviousChapter != 'undefined') {
+  if (is_outside_workspace()) {
     navigatePreviousChapter (event);
   } else if (parent.window.navigatePreviousChapter != 'undefined') {
     parent.window.navigatePreviousChapter (event);

@@ -39,7 +39,7 @@ var userResourceVerse;
 
 function navigationNewPassage ()
 {
-  if (typeof navigationBook != 'undefined') {
+  if (is_outside_workspace()) {
     userResourceBook = navigationBook;
     userResourceChapter = navigationChapter;
     userResourceVerse = navigationVerse;
@@ -67,7 +67,7 @@ function userResourceSetUrl ()
 
 function userResourceSwipeLeft (event)
 {
-  if (typeof navigateNextVerse != 'undefined') {
+  if (is_outside_workspace()) {
     navigateNextVerse (event);
   } else if (parent.window.navigateNextVerse != 'undefined') {
     parent.window.navigateNextVerse (event);
@@ -77,7 +77,7 @@ function userResourceSwipeLeft (event)
 
 function userResourceSwipeRight (event)
 {
-  if (typeof navigatePreviousVerse != 'undefined') {
+  if (is_outside_workspace()) {
     navigatePreviousVerse (event);
   } else if (parent.window.navigatePreviousVerse != 'undefined') {
     parent.window.navigatePreviousVerse (event);

@@ -110,6 +110,16 @@ translate("Several Bibledit users offer free assistance in setting up inexpensiv
 translate("If you would like this assistance, post a message to:")
 <a href="https://groups.google.com/forum/#!forum/bibledit-general" ##external##>groups.google.com/forum/#!forum/bibledit-general</a>.
 </p>
+<p>
+translate("Bibledit can also be embedded as an external website in NextCloud.")
+translate("To enable login in Bibledit, embed it via the secure https protocol, not via http.")
+</p>
+<p>
+</p>
+<p>
+</p>
+<p>
+</p>
 
 <h2>translate("Security")</h2>
 <p>

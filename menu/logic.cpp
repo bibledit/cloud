@@ -54,7 +54,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <personalize/index.h>
 #include <resource/index.h>
 #include <resource/manage.h>
-#include <resource/print.h>
 #include <resource/sword.h>
 #include <resource/cache.h>
 #include <resource/user9edit.h>
@@ -531,7 +530,6 @@ std::string menu_logic_tools_category (Webserver_Request& webserver_request, std
   // The labels that may end up in the menu.
   const std::string checks = translate ("Checks");
   const std::string consistency = translate ("Consistency");
-  const std::string print = translate ("Print");
   const std::string changes = menu_logic_changes_text ();
   const std::string planning = translate ("Planning");
   const std::string send_receive = translate ("Send/receive");
@@ -541,7 +539,6 @@ std::string menu_logic_tools_category (Webserver_Request& webserver_request, std
   std::vector <std::string> labels = {
     checks,
     consistency,
-    print,
     changes,
     planning,
     send_receive,
@@ -573,15 +570,6 @@ std::string menu_logic_tools_category (Webserver_Request& webserver_request, std
       }
     }
 
-    if (label == print) {
-#ifndef HAVE_CLIENT
-      if (resource_print_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (resource_print_url (), label, true, "", ""));
-        tiplabels.push_back (label);
-      }
-#endif
-    }
-    
     if (label == changes) {
       // Downloading revisions only on server, not on client.
 #ifndef HAVE_CLIENT

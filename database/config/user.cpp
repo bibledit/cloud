@@ -849,63 +849,6 @@ void Database_Config_User::set_recently_applied_styles (const std::string& value
 }
 
 
-constexpr const auto print_resources_key {"print-resources"};
-std::vector <std::string> Database_Config_User::get_print_resources () const
-{
-  return get_list (print_resources_key);
-}
-std::vector <std::string> Database_Config_User::get_print_resources_for_user (const std::string& user) const
-{
-  return get_list_for_user (user, print_resources_key);
-}
-void Database_Config_User::set_print_resources (std::vector <std::string> values) const
-{
-  set_list (print_resources_key, values);
-}
-
-
-static Passage database_config_user_fixPassage (const std::string& value, const char * fallback)
-{
-  std::vector <std::string> values = filter::strings::explode (value, '.');
-  if (values.size () != 3)
-    values = filter::strings::explode (fallback, '.');
-  const Passage passage = Passage ("", filter::strings::convert_to_int (values[0]), filter::strings::convert_to_int (values[1]), values[2]);
-  return passage;
-}
-
-
-constexpr const auto printPassage_from_key {"print-passage-from"};
-Passage Database_Config_User::get_print_passage_from () const
-{
-  return database_config_user_fixPassage (get_value (printPassage_from_key, ""), "1.1.1");
-}
-Passage Database_Config_User::get_print_passage_from_for_user (const std::string& user) const
-{
-  return database_config_user_fixPassage (get_value_for_user (user, printPassage_from_key, ""), "1.1.1");
-}
-void Database_Config_User::set_print_passage_from (Passage value) const
-{
-  const std::string s = std::to_string (value.m_book) + "." + std::to_string (value.m_chapter) + "." + value.m_verse;
-  set_value (printPassage_from_key, s);
-}
-
-
-constexpr const auto printPassage_to_key {"print-passage-to"};
-Passage Database_Config_User::get_print_passage_to () const
-{
-  return database_config_user_fixPassage (get_value (printPassage_to_key, ""), "1.1.31");
-}
-Passage Database_Config_User::get_print_passage_to_for_user (const std::string& user) const
-{
-  return database_config_user_fixPassage (get_value_for_user (user, printPassage_to_key, ""), "1.1.31");
-}
-void Database_Config_User::set_print_passage_to (const Passage& value) const
-{
-  const std::string s = std::to_string (value.m_book) + "." + std::to_string (value.m_chapter) + "." + value.m_verse;
-  set_value (printPassage_to_key, s);
-}
-
-
 constexpr const auto focused_book_key {"focused-book"};
 int Database_Config_User::get_focused_book () const
 {

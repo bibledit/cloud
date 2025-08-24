@@ -132,15 +132,6 @@ public:
   void set_postpone_new_notes_mails (bool value) const;
   std::string get_recently_applied_styles () const;
   void set_recently_applied_styles (const std::string& values) const;
-  std::vector <std::string> get_print_resources () const;
-  std::vector <std::string> get_print_resources_for_user (const std::string& user) const;
-  void set_print_resources (std::vector <std::string> values) const;
-  Passage get_print_passage_from () const;
-  Passage get_print_passage_from_for_user (const std::string& user) const;
-  void set_print_passage_from (Passage value) const;
-  Passage get_print_passage_to () const;
-  Passage get_print_passage_to_for_user (const std::string& user) const;
-  void set_print_passage_to (const Passage& value) const;
   int get_focused_book () const;
   void set_focused_book (int book) const;
   int get_focused_chapter () const;

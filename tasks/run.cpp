@@ -43,7 +43,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <demo/logic.h>
 #include <resource/convert2resource.h>
 #include <resource/convert2bible.h>
-#include <resource/print.h>
 #include <resource/download.h>
 #include <statistics/statistics.h>
 #include <changes/modifications.h>
@@ -189,9 +188,6 @@ void tasks_run_one (const std::string& filename)
   }
   else if (command == task::convert_resource_to_bible) {
     convert_resource_to_bible (parameter1);
-  }
-  else if (command == task::print_resources) {
-    resource_print_job (parameter1, parameter2, parameter3);
   }
   else if (command == task::notes_statistics) {
     statistics_statistics ();

@@ -45,7 +45,6 @@ constexpr const auto sync_resources {"syncresources"};
 constexpr const auto clean_demo {"cleandemo"};
 constexpr const auto convert_bible_to_resource {"convertbible2resource"};
 constexpr const auto convert_resource_to_bible {"convertresource2bible"};
-constexpr const auto print_resources {"printresources"};
 constexpr const auto notes_statistics {"notesstatistics"};
 constexpr const auto generate_changes {"generatechanges"};
 constexpr const auto sprint_burndown {"sprintburndown"};

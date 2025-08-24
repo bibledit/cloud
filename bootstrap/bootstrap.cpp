@@ -113,7 +113,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/get.h>
 #include <resource/bb2resource.h>
 #include <resource/manage.h>
-#include <resource/print.h>
 #include <resource/download.h>
 #include <resource/select.h>
 #include <resource/sword.h>
@@ -541,11 +540,6 @@ void bootstrap_index (Webserver_Request& webserver_request)
   
   if ((url == resource_organize_url ()) && browser_request_security_okay (webserver_request) && resource_organize_acl (webserver_request)) {
     webserver_request.reply = resource_organize (webserver_request);
-    return;
-  }
-  
-  if ((url == resource_print_url ()) && browser_request_security_okay (webserver_request) && resource_print_acl (webserver_request)) {
-    webserver_request.reply = resource_print (webserver_request);
     return;
   }
   

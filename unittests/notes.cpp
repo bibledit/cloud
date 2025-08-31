@@ -1249,29 +1249,43 @@ void test_database_notes ()
     int identifier1 = database_notes.store_new_note ("bible1", 1, 2, 3, "summary1", "contents1", false);
     int identifier2 = database_notes.store_new_note ("bible2", 1, 2, 3, "summary2", "contents2", false);
     int identifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
+    database_notes.set_status(identifier1, "status1");
+    database_notes.set_status(identifier2, "status2");
+    database_notes.set_status(identifier3, "status3");
+
+    // Select notes while varying Bible selection.
+    std::vector<int> standard{};
+    std::vector<int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, {}, "bible1", "", false, -1, 0, "", -1);
+    standard = {identifier1};
+    EXPECT_EQ (standard, identifiers);
     
-    // Select notes while varying Bible selection. Todo test this well. Be sure to test status selectors.
-    std::vector <int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", {}, "bible1", "", false, -1, 0, "", -1);
-    EXPECT_EQ (std::vector <int>{identifier1}, identifiers);
+    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, {}, "bible2", "", false, -1, 0, "", -1);
+    standard = {identifier2};
+    EXPECT_EQ (standard, identifiers);
     
-    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", {}, "bible2", "", false, -1, 0, "", -1);
-    EXPECT_EQ (std::vector <int>{identifier2}, identifiers);
+    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, {}, "", "", false, -1, 0, "", -1);
+    standard = {identifier1, identifier2};
+    EXPECT_EQ (standard, identifiers);
     
-    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", {}, "", "", false, -1, 0, "", -1);
-    std::vector <int> standard_identifiers {identifier1, identifier2};
-    EXPECT_EQ (standard_identifiers, identifiers);
+    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, {}, "bible", "", false, -1, 0, "", -1);
+    standard = {};
+    EXPECT_EQ (standard, identifiers);
     
-    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", {}, "bible", "", false, -1, 0, "", -1);
-    EXPECT_EQ (std::vector <int>{}, identifiers);
+    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, {}, "", "", true, -1, 0, "", -1);
+    standard = {};
+    EXPECT_EQ (standard, identifiers);
     
-    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", {}, "", "", true, -1, 0, "", -1);
-    EXPECT_EQ (std::vector <int>{}, identifiers);
+    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, {}, "bible3", "", false, -1, 0, "", -1);
+    standard = {identifier3};
+    EXPECT_EQ (standard, identifiers);
     
-    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", {}, "bible3", "", false, -1, 0, "", -1);
-    EXPECT_EQ (std::vector <int>{identifier3}, identifiers);
+    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, {}, "bible3", "", false, -1, 0, "", -1);
+    standard = {identifier3};
+    EXPECT_EQ (standard, identifiers);
     
-    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", {}, "bible3", "", false, -1, 0, "", -1);
-    EXPECT_EQ (std::vector <int>{identifier3}, identifiers);
+    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, {"status1", "status2"}, "", "", false, -1, 0, "", -1);
+    standard = {identifier1, identifier2};
+    EXPECT_EQ (standard, identifiers);
   }
 
   // Test the resilience of the notes.
@@ -1469,7 +1483,7 @@ void test_database_notes ()
     
     // Get some search results for later reference.
     std::vector <int> search_results;
-    search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", {}, "bible1", "", false, -1, 0, "", -1);
+    search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, {}, "bible1", "", false, -1, 0, "", -1);
     
     // Get the notes in bulk in a database.
     std::string json = database_notes.get_bulk (v_identifier);
@@ -1503,7 +1517,7 @@ void test_database_notes ()
     
     // There should be no search results anymore.
     std::vector <int> no_search_results;
-    no_search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", {}, "bible1", "", false, -1, 0, "", -1);
+    no_search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, {}, "bible1", "", false, -1, 0, "", -1);
     EXPECT_EQ (std::vector <int>{}, no_search_results);
     
     // Copy the notes from the database back to the filesystem.
@@ -1541,7 +1555,7 @@ void test_database_notes ()
     
     // The search results should be back too.
     std::vector <int> restored_search;
-    restored_search = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", {}, "bible1", "", false, -1, 0, "", -1);
+    restored_search = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, {}, "bible1", "", false, -1, 0, "", -1);
     EXPECT_EQ (search_results, restored_search);
   }
 
@@ -1573,7 +1587,6 @@ void test_database_notes ()
                                                3, // Select any passage.
                                                0, // Select any time edited.
                                                0, // Select any time not edited.
-                                               "", // Don't consider the status.
                                                {}, // Don't consider the statuses.
                                                "", // Don't consider a Bible.
                                                "", // Don't consider assignment.
@@ -1594,7 +1607,6 @@ void test_database_notes ()
                                                3, // Select any passage.
                                                0, // Select any time edited.
                                                0, // Select any time not edited.
-                                               "", // Don't consider the status.
                                                {}, // Don't consider the statuses.
                                                "", // Don't consider a Bible.
                                                "", // Don't consider assignment.
@@ -1615,7 +1627,6 @@ void test_database_notes ()
                                                3, // Select any passage.
                                                0, // Select any time edited.
                                                0, // Select any time not edited.
-                                               "", // Don't consider the status.
                                                {}, // Don't consider the statuses.
                                                "", // Don't consider a Bible.
                                                "", // Don't consider assignment.
@@ -1634,7 +1645,6 @@ void test_database_notes ()
                                                0, // Select current verse.
                                                0, // Select any time edited.
                                                0, // Select any time not edited.
-                                               "", // Don't consider the status.
                                                {}, // Don't consider the statuses.
                                                "", // Don't consider a Bible.
                                                "", // Don't consider assignment.
@@ -1655,7 +1665,6 @@ void test_database_notes ()
                                                0, // Select current verse.
                                                0, // Select any time edited.
                                                0, // Select any time not edited.
-                                               "", // Don't consider the status.
                                                {}, // Don't consider the statuses.
                                                "", // Don't consider a Bible.
                                                "", // Don't consider assignment.
@@ -1674,7 +1683,6 @@ void test_database_notes ()
                                                0, // Select current verse.
                                                0, // Select any time edited.
                                                0, // Select any time not edited.
-                                               "", // Don't consider the status.
                                                {}, // Don't consider the statuses.
                                                "", // Don't consider a Bible.
                                                "", // Don't consider assignment.

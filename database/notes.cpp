@@ -609,7 +609,7 @@ int Database_Notes::store_new_note (const std::string& bible, int book, int chap
 // text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
 // search_text: Works with text_selector, contains the text to search for.
 // limit: If >= 0, it indicates the starting limit for the selection.
-std::vector <int> Database_Notes::select_notes (std::vector <std::string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::string& status_selector, const std::vector<std::string>& status_selectors, std::string bible_selector, std::string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit)
+std::vector <int> Database_Notes::select_notes (std::vector <std::string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::vector<std::string>& status_selectors, std::string bible_selector, std::string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit)
 {
   const std::string& username = m_webserver_request.session_logic ()->get_username ();
   std::vector <int> identifiers;
@@ -711,14 +711,7 @@ std::vector <int> Database_Notes::select_notes (std::vector <std::string> bibles
     query.append (std::to_string (nonedit));
     query.append (" ");
   }
-  // Consider status constraint.
-  if (!status_selector.empty()) {
-    query.append (" AND status = '");
-    query.append (database::sqlite::no_sql_injection (status_selector));
-    query.append ("' ");
-  }
-
-  // Consider multiple status selectors.
+  // Consider the status selectors.
   if (!status_selectors.empty()) {
     query.append (" AND (status = '' ");
     for (const auto& status : status_selectors) {

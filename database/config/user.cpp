@@ -429,18 +429,6 @@ void Database_Config_User::set_consultation_notes_non_edit_selector (int value) 
 }
 
 
-constexpr const auto consultation_notes_status_selector_key {"consultation-notes-status-selector"}; // Todo out.
-// The status is a string. It can be empty as well.
-std::string Database_Config_User::get_consultation_notes_status_selector () const
-{
-  return get_value (consultation_notes_status_selector_key, "");
-}
-void Database_Config_User::set_consultation_notes_status_selector (const std::string& value) const
-{
-  set_value (consultation_notes_status_selector_key, value);
-}
-
-
 constexpr const auto consultation_notes_status_selectors_key {"consultation-notes-status-selectors"};
 std::vector<std::string> Database_Config_User::get_consultation_notes_status_selectors () const
 {

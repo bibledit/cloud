@@ -75,7 +75,6 @@ void statistics_statistics ()
                                                            3,      // Passage selector.
                                                            0,      // Edit selector.
                                                            0,      // Non-edit selector.
-                                                           "",     // Status selector.
                                                            {},     // Status selectors.
                                                            "",     // Bible selector.
                                                            user,   // Assignment selector.
@@ -103,7 +102,6 @@ void statistics_statistics ()
                                                            3,      // Passage selector.
                                                            0,      // Edit selector.
                                                            0,      // Non-edit selector.
-                                                           "",     // Status selector.
                                                            {},     // Status selectors.
                                                            "",     // Bible selector.
                                                            "",     // Assignment selector.
@@ -121,7 +119,6 @@ void statistics_statistics ()
                                          3,      // Passage selector.
                                          0,      // Edit selector.
                                          1,      // Non-edit selector.
-                                         "",     // Status selector.
                                          {},     // Status selectors.
                                          "",     // Bible selector.
                                          "",     // Assignment selector.
@@ -138,7 +135,6 @@ void statistics_statistics ()
                                          3,      // Passage selector.
                                          0,      // Edit selector.
                                          3,      // Non-edit selector.
-                                         "",     // Status selector.
                                          {},     // Status selectors.
                                          "",     // Bible selector.
                                          "",     // Assignment selector.

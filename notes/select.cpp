@@ -145,31 +145,6 @@ std::string notes_select (Webserver_Request& webserver_request)
   
   
   {
-    constexpr const char* identification {"statusselector"};
-    std::string selected = webserver_request.database_config_user()->get_consultation_notes_status_selector();
-    if (webserver_request.post.count (identification)) {
-      selected = webserver_request.post.at(identification);
-      webserver_request.database_config_user()->set_consultation_notes_status_selector(selected);
-    }
-    std::vector<std::string> values {""};
-    std::vector<std::string> displayed {translate("Any")};
-    const std::vector<Database_Notes_Text> possible_statuses = database_notes.get_possible_statuses();
-    for (const Database_Notes_Text& status : possible_statuses) {
-      values.push_back(status.raw);
-      displayed.push_back(status.localized);
-    }
-    dialog::select::Settings settings {
-      .identification = identification,
-      .values = std::move(values),
-      .displayed = std::move(displayed),
-      .selected = selected,
-    };
-    dialog::select::Form form { .auto_submit = true };
-    view.set_variable(identification, dialog::select::form(settings, form));
-  }
-  
-  
-  {
     const std::list<std::pair<std::string,std::string>> possible_statuses {
       {"statusnew",        "New"        },
       {"statuspending",    "Pending"    },
@@ -361,7 +336,6 @@ std::string notes_select (Webserver_Request& webserver_request)
   const int passage_selector = webserver_request.database_config_user()->get_consultation_notes_passage_selector();
   const int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
   const int non_edit_selector = webserver_request.database_config_user()->get_consultation_notes_non_edit_selector();
-  const std::string status_selector = webserver_request.database_config_user()->get_consultation_notes_status_selector();
   const std::vector<std::string> status_selectors = webserver_request.database_config_user()->get_consultation_notes_status_selectors();
   const std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
   const std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
@@ -382,7 +356,7 @@ std::string notes_select (Webserver_Request& webserver_request)
   const int verse = Ipc_Focus::getVerse (webserver_request);
   const std::vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse,
                                                                      passage_selector, edit_selector, non_edit_selector,
-                                                                     status_selector, status_selectors,
+                                                                     status_selectors,
                                                                      bible_selector, assignment_selector,
                                                                      subscription_selector, severity_selector, text_selector,
                                                                      search_text, -1);

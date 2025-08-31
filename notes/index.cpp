@@ -62,7 +62,7 @@ std::string notes_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user()->set_consultation_notes_passage_selector (3);
     webserver_request.database_config_user()->set_consultation_notes_edit_selector (0);
     webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (0);
-    webserver_request.database_config_user()->set_consultation_notes_status_selector ("");
+    webserver_request.database_config_user()->set_consultation_notes_status_selectors ({});
     webserver_request.database_config_user()->set_consultation_notes_bible_selector ("");
     webserver_request.database_config_user()->set_consultation_notes_assignment_selector ("");
     webserver_request.database_config_user()->set_consultation_notes_subscription_selector (0);

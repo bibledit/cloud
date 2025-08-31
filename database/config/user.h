@@ -56,8 +56,6 @@ public:
   void set_consultation_notes_edit_selector (int value) const;
   int get_consultation_notes_non_edit_selector () const;
   void set_consultation_notes_non_edit_selector (int value) const;
-  std::string get_consultation_notes_status_selector () const;
-  void set_consultation_notes_status_selector (const std::string& value) const;
   std::vector <std::string> get_consultation_notes_status_selectors () const;
   void set_consultation_notes_status_selectors (std::vector <std::string> values) const;
   std::string get_consultation_notes_bible_selector () const;

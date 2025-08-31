@@ -127,7 +127,6 @@ std::string changes_change (Webserver_Request& webserver_request)
                                                         0,  // Passage selector.
                                                         0,  // Edit selector.
                                                         0,  // Non-edit selector.
-                                                        "", // Status selector.
                                                         {}, // Status selectors.
                                                         "", // Bible selector.
                                                         "", // Assignment selector.

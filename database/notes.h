@@ -70,7 +70,7 @@ private:
   int get_new_unique_identifier ();
   
 public:
-  std::vector <int> select_notes (std::vector <std::string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::string& status_selector, const std::vector<std::string>& status_selectors, std::string bible_selector, std::string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit);
+  std::vector <int> select_notes (std::vector <std::string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::vector<std::string>& status_selectors, std::string bible_selector, std::string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit);
 private:
   std::string notes_select_identifier ();
   std::string notes_optional_fulltext_search_relevance_statement (std::string search);

@@ -1070,7 +1070,7 @@ input#cancel,
   flex: 1;
   overflow: auto;
 }
-#workspacewrapper > p {
+#workspacewrapper > p, div {
   font-family: "Montserrat Regular", sans-serif;
 }
 #workspacewrapper > * {

@@ -12,10 +12,28 @@
   translate("Select notes that have not been edited for:")
   ##noneditselector##
 </div>
+
+
 <div>
   translate("Select notes that have a certain status:")
   ##statusselector##
 </div>
+
+<form action="" method="post">
+  <label>translate("Select notes that have a certain status:")</label>
+  <input type="checkbox" name="statusnew" ##statusnew##/>
+  <label for="statusnew">translate("New")</label>
+  <input type="checkbox" name="statuspending" ##statuspending##/>
+  <label for="statuspending">translate("Pending")</label>
+  <input type="checkbox" name="statusinprogress" ##statusinprogress##/>
+  <label for="statusinprogress">translate("In progress")</label>
+  <input type="checkbox" name="statusdone" ##statusdone##/>
+  <label for="statusdone">translate("Done")</label>
+  <input type="checkbox" name="statusreopened" ##statusreopened##/>
+  <label for="statusreopened">translate("Reopened")</label>
+  <input type="submit" name="statussubmit" value="Submit"/>
+</form>
+
 <div>
   translate("Select notes that belong to:")
   ##bibleselector##

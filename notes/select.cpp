@@ -169,6 +169,32 @@ std::string notes_select (Webserver_Request& webserver_request)
   }
   
   
+  {
+    const std::list<std::pair<std::string,std::string>> possible_statuses {
+      {"statusnew",        "New"        },
+      {"statuspending",    "Pending"    },
+      {"statusinprogress", "In progress"},
+      {"statusdone",       "Done"       },
+      {"statusreopened",   "Reopened"   },
+    };
+    if (webserver_request.post.count ("statussubmit"))
+    {
+      std::vector<std::string> checked_statuses{};
+      for (const auto& [post, status] : possible_statuses) {
+        if (webserver_request.post.count(post))
+          checked_statuses.push_back(status);
+      }
+      webserver_request.database_config_user()->set_consultation_notes_status_selectors(checked_statuses);
+    }
+    const std::vector<std::string> statuses {webserver_request.database_config_user()->get_consultation_notes_status_selectors()};
+    for (const auto& [post, status] : possible_statuses) {
+      if (in_array(status, statuses)) {
+        view.set_variable(post, "checked");
+      }
+    }
+  }
+
+  
   // The information about available Bibles could be gathered from the notes database.
   // But since multiple teams can be hosted, the information about available Bibles
   // is gathered from the Bibles the user has access to.
@@ -330,45 +356,25 @@ std::string notes_select (Webserver_Request& webserver_request)
     }
     view.set_variable (identification, filter::strings::get_checkbox_status (webserver_request.database_config_user()->get_consultation_notes_text_inclusion_selector()));
   }
-
-  
-  
-  
-  
-  std::string active_class = R"(class="active")";
   
   
   const int passage_selector = webserver_request.database_config_user()->get_consultation_notes_passage_selector();
-  
-  
   const int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
-  
-  
   const int non_edit_selector = webserver_request.database_config_user()->get_consultation_notes_non_edit_selector();
-  
-  
-  std::string status_selector = webserver_request.database_config_user()->get_consultation_notes_status_selector();
-  
-  
-  std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
-  
-  
-  std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
-  
-  
-  bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
-  
-  
-  int severity_selector = webserver_request.database_config_user()->get_consultation_notes_severity_selector ();
-  
-  
-  int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
-  std::string search_text = webserver_request.database_config_user()->get_consultation_notes_search_text();
+  const std::string status_selector = webserver_request.database_config_user()->get_consultation_notes_status_selector();
+  const std::vector<std::string> status_selectors = webserver_request.database_config_user()->get_consultation_notes_status_selectors();
+  const std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
+  const std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
+  const bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
+  const int severity_selector = webserver_request.database_config_user()->get_consultation_notes_severity_selector ();
+  const int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
+  const std::string search_text = webserver_request.database_config_user()->get_consultation_notes_search_text();
   view.set_variable ("searchtext", search_text);
   
   
   // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-  if (webserver_request.session_logic ()->get_level () == roles::admin) bibles.clear ();
+  if (webserver_request.session_logic()->get_level() == roles::admin)
+    bibles.clear ();
   
   
   const int book = Ipc_Focus::getBook (webserver_request);
@@ -376,7 +382,8 @@ std::string notes_select (Webserver_Request& webserver_request)
   const int verse = Ipc_Focus::getVerse (webserver_request);
   const std::vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse,
                                                                      passage_selector, edit_selector, non_edit_selector,
-                                                                     status_selector, bible_selector, assignment_selector,
+                                                                     status_selector, status_selectors,
+                                                                     bible_selector, assignment_selector,
                                                                      subscription_selector, severity_selector, text_selector,
                                                                      search_text, -1);
   view.set_variable ("count", std::to_string (identifiers.size()));

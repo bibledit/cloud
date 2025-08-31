@@ -1250,27 +1250,27 @@ void test_database_notes ()
     int identifier2 = database_notes.store_new_note ("bible2", 1, 2, 3, "summary2", "contents2", false);
     int identifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
     
-    // Select notes while varying Bible selection.
-    std::vector <int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    // Select notes while varying Bible selection. Todo test this well. Be sure to test status selectors.
+    std::vector <int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", {}, "bible1", "", false, -1, 0, "", -1);
     EXPECT_EQ (std::vector <int>{identifier1}, identifiers);
     
-    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", {}, "bible2", "", false, -1, 0, "", -1);
     EXPECT_EQ (std::vector <int>{identifier2}, identifiers);
     
-    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", {}, "", "", false, -1, 0, "", -1);
     std::vector <int> standard_identifiers {identifier1, identifier2};
     EXPECT_EQ (standard_identifiers, identifiers);
     
-    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", {}, "bible", "", false, -1, 0, "", -1);
     EXPECT_EQ (std::vector <int>{}, identifiers);
     
-    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "", "", true, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", {}, "", "", true, -1, 0, "", -1);
     EXPECT_EQ (std::vector <int>{}, identifiers);
     
-    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", {}, "bible3", "", false, -1, 0, "", -1);
     EXPECT_EQ (std::vector <int>{identifier3}, identifiers);
     
-    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", {}, "bible3", "", false, -1, 0, "", -1);
     EXPECT_EQ (std::vector <int>{identifier3}, identifiers);
   }
 
@@ -1469,7 +1469,7 @@ void test_database_notes ()
     
     // Get some search results for later reference.
     std::vector <int> search_results;
-    search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", {}, "bible1", "", false, -1, 0, "", -1);
     
     // Get the notes in bulk in a database.
     std::string json = database_notes.get_bulk (v_identifier);
@@ -1503,7 +1503,7 @@ void test_database_notes ()
     
     // There should be no search results anymore.
     std::vector <int> no_search_results;
-    no_search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    no_search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", {}, "bible1", "", false, -1, 0, "", -1);
     EXPECT_EQ (std::vector <int>{}, no_search_results);
     
     // Copy the notes from the database back to the filesystem.
@@ -1541,7 +1541,7 @@ void test_database_notes ()
     
     // The search results should be back too.
     std::vector <int> restored_search;
-    restored_search = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    restored_search = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", {}, "bible1", "", false, -1, 0, "", -1);
     EXPECT_EQ (search_results, restored_search);
   }
 
@@ -1567,116 +1567,122 @@ void test_database_notes ()
     
     // Search on the content of the current note.
     identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   0, // No book given.
-                                                   0, // No chapter given.
-                                                   0, // No verse given.
-                                                   3, // Select any passage.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   1, // Do search on the text following.
-                                                   "", // Search on any contents.
-                                                   0); // Don't limit the search results.
+                                               0, // No book given.
+                                               0, // No chapter given.
+                                               0, // No verse given.
+                                               3, // Select any passage.
+                                               0, // Select any time edited.
+                                               0, // Select any time not edited.
+                                               "", // Don't consider the status.
+                                               {}, // Don't consider the statuses.
+                                               "", // Don't consider a Bible.
+                                               "", // Don't consider assignment.
+                                               false, // Don't consider subscriptions.
+                                               -1, // Don't consider the severity.
+                                               1, // Do search on the text following.
+                                               "", // Search on any contents.
+                                               0); // Don't limit the search results.
     // Search result should be there.
     EXPECT_EQ (std::vector <int>{identifier}, identifiers);
     // Do a raw update of the note. The search database is not updated.
     database_notes.set_raw_contents (identifier, contents);
     // Doing a search now does not give results.
     identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   0, // No book given.
-                                                   0, // No chapter given.
-                                                   0, // No verse given.
-                                                   3, // Select any passage.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   1, // Do search on the text following.
-                                                   contents, // Search on certain content.
-                                                   0); // Don't limit the search results.
+                                               0, // No book given.
+                                               0, // No chapter given.
+                                               0, // No verse given.
+                                               3, // Select any passage.
+                                               0, // Select any time edited.
+                                               0, // Select any time not edited.
+                                               "", // Don't consider the status.
+                                               {}, // Don't consider the statuses.
+                                               "", // Don't consider a Bible.
+                                               "", // Don't consider assignment.
+                                               false, // Don't consider subscriptions.
+                                               -1, // Don't consider the severity.
+                                               1, // Do search on the text following.
+                                               contents, // Search on certain content.
+                                               0); // Don't limit the search results.
     EXPECT_EQ (std::vector <int>{}, identifiers);
     // Update the search index.
     // Search results should be back to normal.
     database_notes.update_database (identifier);
     database_notes.update_search_fields (identifier);
     identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   0, // No book given.
-                                                   0, // No chapter given.
-                                                   0, // No verse given.
-                                                   3, // Select any passage.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   1, // Do search on the text following.
-                                                   contents, // Search on any contents.
-                                                   0); // Don't limit the search results.
+                                               0, // No book given.
+                                               0, // No chapter given.
+                                               0, // No verse given.
+                                               3, // Select any passage.
+                                               0, // Select any time edited.
+                                               0, // Select any time not edited.
+                                               "", // Don't consider the status.
+                                               {}, // Don't consider the statuses.
+                                               "", // Don't consider a Bible.
+                                               "", // Don't consider assignment.
+                                               false, // Don't consider subscriptions.
+                                               -1, // Don't consider the severity.
+                                               1, // Do search on the text following.
+                                               contents, // Search on any contents.
+                                               0); // Don't limit the search results.
     EXPECT_EQ (std::vector <int>{identifier}, identifiers);
     
     // Search on the note's passage.
     identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   0, // Book given.
-                                                   0, // Chapter given.
-                                                   0, // Verse given.
-                                                   0, // Select current verse.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   0, // Do not search on any text.
-                                                   "", // No text given as being irrelevant.
-                                                   0); // Don't limit the search results.
+                                               0, // Book given.
+                                               0, // Chapter given.
+                                               0, // Verse given.
+                                               0, // Select current verse.
+                                               0, // Select any time edited.
+                                               0, // Select any time not edited.
+                                               "", // Don't consider the status.
+                                               {}, // Don't consider the statuses.
+                                               "", // Don't consider a Bible.
+                                               "", // Don't consider assignment.
+                                               false, // Don't consider subscriptions.
+                                               -1, // Don't consider the severity.
+                                               0, // Do not search on any text.
+                                               "", // No text given as being irrelevant.
+                                               0); // Don't limit the search results.
     // Search result should be there.
     EXPECT_EQ (std::vector <int>{identifier}, identifiers);
     // Update the passage of the note without updating the search index.
     database_notes.set_raw_passage (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
     identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   1, // Book given.
-                                                   2, // Chapter given.
-                                                   3, // Verse given.
-                                                   0, // Select current verse.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   0, // Do not search on any text.
-                                                   "", // No text given as being irrelevant.
-                                                   0); // Don't limit the search results.
+                                               1, // Book given.
+                                               2, // Chapter given.
+                                               3, // Verse given.
+                                               0, // Select current verse.
+                                               0, // Select any time edited.
+                                               0, // Select any time not edited.
+                                               "", // Don't consider the status.
+                                               {}, // Don't consider the statuses.
+                                               "", // Don't consider a Bible.
+                                               "", // Don't consider assignment.
+                                               false, // Don't consider subscriptions.
+                                               -1, // Don't consider the severity.
+                                               0, // Do not search on any text.
+                                               "", // No text given as being irrelevant.
+                                               0); // Don't limit the search results.
     EXPECT_EQ (std::vector <int>{}, identifiers);
     // Update the search index. There should be search results now.
     database_notes.update_database (identifier);
     identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   1, // Book given.
-                                                   2, // Chapter given.
-                                                   3, // Verse given.
-                                                   0, // Select current verse.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   0, // Do not search on any text.
-                                                   "", // No text given as being irrelevant.
-                                                   0); // Don't limit the search results.
+                                               1, // Book given.
+                                               2, // Chapter given.
+                                               3, // Verse given.
+                                               0, // Select current verse.
+                                               0, // Select any time edited.
+                                               0, // Select any time not edited.
+                                               "", // Don't consider the status.
+                                               {}, // Don't consider the statuses.
+                                               "", // Don't consider a Bible.
+                                               "", // Don't consider assignment.
+                                               false, // Don't consider subscriptions.
+                                               -1, // Don't consider the severity.
+                                               0, // Do not search on any text.
+                                               "", // No text given as being irrelevant.
+                                               0); // Don't limit the search results.
     EXPECT_EQ (std::vector <int>{identifier}, identifiers);
   }
 

@@ -165,7 +165,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
     };
     const auto add_text = [&p_node] (const std::string text) {
       pugi::xml_node span_node = p_node.append_child("span");
-      span_node.text().set(text);
+      span_node.text().set(text.c_str());
     };
     add_operation("?remove=" + workspace, translate("Delete workspace"), filter::strings::emoji_wastebasket());
     add_text(" | ");

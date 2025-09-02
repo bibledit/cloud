@@ -159,9 +159,9 @@ std::string workspace_organize (Webserver_Request& webserver_request)
     pugi::xml_node p_node = document.append_child ("p");
     const auto add_operation = [&p_node] (const std::string href, const std::string title, const std::string text) {
       pugi::xml_node a_node = p_node.append_child("a");
-      a_node.append_attribute("href") = href;
-      a_node.append_attribute("title") = title;
-      a_node.text().set(text);
+      a_node.append_attribute("href") = href.c_str();
+      a_node.append_attribute("title") = title.c_str();
+      a_node.text().set(text.c_str());
     };
     const auto add_text = [&p_node] (const std::string text) {
       pugi::xml_node span_node = p_node.append_child("span");

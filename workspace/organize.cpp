@@ -30,6 +30,17 @@
 #include <dialog/yes.h>
 #include <dialog/entry.h>
 #include <menu/logic.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#ifndef HAVE_PUGIXML
+#include <pugixml/pugixml.hpp>
+#endif
+#ifdef HAVE_PUGIXML
+#include <pugixml.hpp>
+#endif
+#pragma GCC diagnostic pop
 
 
 std::string workspace_organize_url ()
@@ -141,30 +152,41 @@ std::string workspace_organize (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  std::stringstream workspaceblock;
+  pugi::xml_document document{};
   const std::vector <std::string> workspaces = workspace_get_names (webserver_request, false);
-  for (size_t i = 0; i < workspaces.size (); i++) {
-    const std::string workspace = workspaces [i];
-    workspaceblock << "<p>" << std::endl;
-    workspaceblock << "<a href=" << std::quoted ("?remove=" + workspace) << " title=" << std::quoted (translate("Delete workspace")) << ">" << filter::strings::emoji_wastebasket () << "</a>" << std::endl;
-    workspaceblock << "|" << std::endl;
-    workspaceblock << "<a href=" << std::quoted ("?up=" + std::to_string (i)) << " title=" << std::quoted (translate("Move workspace up")) << "> " << filter::strings::unicode_black_up_pointing_triangle () << " </a>" << std::endl;
-    workspaceblock << "|" << std::endl;
-    workspaceblock << "<a href=" << std::quoted ("?down=" + std::to_string (i)) << " title=" << std::quoted (translate("Move workspace down")) << "> " << filter::strings::unicode_black_down_pointing_triangle () << " </a>" << std::endl;
-    workspaceblock << "|" << std::endl;
-    workspaceblock << "<a href=" << std::quoted ("settings?name=" + workspace) << " title=" << std::quoted (translate("Edit workspace")) << "> ✎ </a>" << std::endl;
-    workspaceblock << "|";
-    workspaceblock << "<a href=" << std::quoted ("?copy=" + workspace) << " title=" << std::quoted (translate("Copy workspace")) << "> ⎘ </a>" << std::endl;
+  for (size_t i {0}; i < workspaces.size(); i++) {
+    const std::string workspace = workspaces.at(i);
+    pugi::xml_node p_node = document.append_child ("p");
+    const auto add_operation = [&p_node] (const std::string href, const std::string title, const std::string text) {
+      pugi::xml_node a_node = p_node.append_child("a");
+      a_node.append_attribute("href") = href;
+      a_node.append_attribute("title") = title;
+      a_node.text().set(text);
+    };
+    const auto add_text = [&p_node] (const std::string text) {
+      pugi::xml_node span_node = p_node.append_child("span");
+      span_node.text().set(text);
+    };
+    add_operation("?remove=" + workspace, translate("Delete workspace"), filter::strings::emoji_wastebasket());
+    add_text(" | ");
+    add_operation("?up=" + std::to_string(i), translate("Move workspace up"), filter::strings::unicode_black_up_pointing_triangle());
+    add_text(" | ");
+    add_operation("?down=" + std::to_string(i), translate("Move workspace down"), filter::strings::unicode_black_down_pointing_triangle());
+    add_text(" | ");
+    add_operation("settings?name=" + workspace, translate("Edit workspace"), " ✎ ");
+    add_text(" | ");
+    add_operation("?copy=" + workspace, translate("Copy workspace"), " ⎘ ");
 #ifndef HAVE_CLIENT
     // In the Cloud, one can send the workspace configuration to other users.
     // On a client, sending a workspace to other users does not work.
-    workspaceblock << "|" << std::endl;
-    workspaceblock << "<a href=" << std::quoted ("?send=" + workspace) << " title=" << std::quoted (translate("Send workspace to all users")) << "> ✉ </a>" << std::endl;
+    add_text(" | ");
+    add_operation("?send=" + workspace, translate("Send workspace to all users"), " ✉ ");
 #endif
-    workspaceblock << "|" << std::endl;
-    workspaceblock << "<span>" << workspace << "</span>" << std::endl;
-    workspaceblock << "</p>" << std::endl;
+    add_text(" | ");
+    add_text(workspace);
   }
+  std::stringstream workspaceblock{};
+  document.print(workspaceblock, "", pugi::format_raw);
   view.set_variable ("workspaceblock", workspaceblock.str());
 
   

@@ -6,8 +6,8 @@
   <input type="submit" name="create" value=translate("Create") />
 </form>
 <br>
-<p>translate("Drag the list of workspaces into the desired order.")</p>
 <p>translate("Click 🗑 to remove the workspace.")</p>
+<p>translate("Click ▲ or ▼ to put the workspaces into the desired order.")</p>
 <p>translate("Click ✎ to edit the workspace.")</p>
 <p>translate("Click ⎘ to copy the workspace to a new one.")</p>
 <!-- #BEGINZONE cloud -->

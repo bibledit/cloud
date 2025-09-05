@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 static void http_parse_post_multipart_v2 (std::string content, Webserver_Request& webserver_request);
 static void http_parse_post_standard_v2 (std::string content, Webserver_Request& webserver_request);
 static std::vector<std::pair<std::string,std::string>> parse_application_x_www_form_urlencoded(const std::string& post);
+static std::vector<std::pair<std::string,std::string>> parse_text_plain(const std::string& post);
 
 
 // The http headers from a browser could look as follows:
@@ -496,6 +497,10 @@ static void http_parse_post_standard_v2 (std::string content, Webserver_Request&
       webserver_request.post_v2 = parse_application_x_www_form_urlencoded(content);
       return;
     }
+    if (webserver_request.content_type == text_plain) {
+      webserver_request.post_v2 = parse_text_plain(content);
+      return;
+    }
     // Use ParseWebData still for other content types. Todo phase this out.
     const bool urlencoded = webserver_request.content_type.find ("urlencoded") != std::string::npos;
     ParseWebData::WebDataMap data_map;
@@ -551,5 +556,35 @@ static std::vector<std::pair<std::string,std::string>> parse_application_x_www_f
       result.emplace_back(key_value.at(0), filter_url_urldecode(key_value.at(1)));
   }
 
+  return result;
+}
+
+
+static std::vector<std::pair<std::string,std::string>> parse_text_plain(const std::string& post)
+{
+  // Example input data:
+  //   key1=value1\r\n
+  //   key2=value2\r\n
+  
+  std::vector<std::pair<std::string,std::string>> result;
+  
+  // First explode the data on the carriage return and line feed ( \r\n ).
+  std::vector<std::string> keys_values = filter::strings::explode(post, "\r\n");
+  for (auto & key_value : keys_values) {
+    key_value = filter::strings::replace ("\r", "", std::move(key_value));
+    key_value = filter::strings::replace ("\n", "", std::move(key_value));
+  }
+  
+  // Next explode each fragment on the equal sign ( = ).
+  for (const auto& fragment : keys_values) {
+    std::vector<std::string> key_value = filter::strings::explode(fragment, '=');
+    // Handle situation that only the key is given.
+    if (key_value.size() == 1)
+      result.emplace_back(std::move(key_value.at(0)), std::string());
+    // Handle normal situation: Both key and value are given.
+    if (key_value.size() == 2)
+      result.emplace_back(std::move(key_value.at(0)), std::move(key_value.at(1)));
+  }
+  
   return result;
 }

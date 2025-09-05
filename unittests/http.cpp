@@ -58,6 +58,197 @@ TEST (http, parse_host) // Todo
 
 TEST (http, parse_post)
 {
+  using container = std::vector<std::pair<std::string,std::string>>;
+  
+  // Test POST data of type application/x-www-form-urlencoded.
+  {
+    Webserver_Request webserver_request{};
+    webserver_request.content_type = application_x_www_form_urlencoded;
+    {
+      const std::string posted {"key=value"};
+      container standard = {
+        {"key", "value"},
+      };
+      container post;
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
+      for (const auto& element : data_map) {
+        post.emplace_back(element.first, element.second.value);
+      }
+      EXPECT_EQ(standard, post);
+      http_parse_post_v2 (posted, webserver_request);
+      EXPECT_EQ(standard, webserver_request.post_v2);
+    }
+    {
+      const std::string posted {"key1=value1&key2=value2"};
+      container standard = {
+        {"key1", "value1"},
+        {"key2", "value2"},
+      };
+      container post;
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
+      for (const auto& element : data_map) {
+        post.emplace_back(element.first, element.second.value);
+      }
+      EXPECT_EQ(standard, post);
+      http_parse_post_v2 (posted, webserver_request);
+      EXPECT_EQ(standard, webserver_request.post_v2);
+    }
+    {
+      const std::string posted {"key1&key2"};
+      container standard = {
+        {"key1", ""},
+        {"key2", ""},
+      };
+      container post;
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
+      for (const auto& element : data_map) {
+        post.emplace_back(element.first, element.second.value);
+      }
+      EXPECT_EQ(standard, post);
+      http_parse_post_v2 (posted, webserver_request);
+      EXPECT_EQ(standard, webserver_request.post_v2);
+    }
+    {
+      const std::string posted {"key=Hello+World"};
+      container standard = {
+        {"key", "Hello World"},
+      };
+      container post;
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
+      for (const auto& element : data_map) {
+        post.emplace_back(element.first, filter_url_urldecode(element.second.value));
+      }
+      EXPECT_EQ(standard, post);
+      http_parse_post_v2 (posted, webserver_request);
+      EXPECT_EQ(standard, webserver_request.post_v2);
+    }
+    {
+      const std::string posted {"key=H%C3%ABllo+W%C3%B6rld"};
+      container standard = {
+        {"key", "Hëllo Wörld"},
+      };
+      container post;
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
+      for (const auto& element : data_map) {
+        post.emplace_back(element.first, filter_url_urldecode(element.second.value));
+      }
+      EXPECT_EQ(standard, post);
+      http_parse_post_v2 (posted, webserver_request);
+      EXPECT_EQ(standard, webserver_request.post_v2);
+    }
+  }
+  
+  // Test POSTed content type of text/plain.
+  {
+    Webserver_Request webserver_request{};
+    webserver_request.content_type = text_plain;
+    
+    {
+      const std::string posted {"key=value\r\n"};
+      container standard = {
+        {"key", "value"},
+      };
+      container post;
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (posted, text_plain, data_map);
+      for (const auto& element : data_map) {
+        post.emplace_back(element.first, element.second.value);
+      }
+      EXPECT_EQ(standard, post);
+      http_parse_post_v2 (posted, webserver_request);
+      EXPECT_EQ(standard, webserver_request.post_v2);
+    }
+    
+    {
+      const std::string posted {
+        "key1=value1\r\n"
+        "key2=value2\r\n"
+      };
+      container standard = {
+        {"key1", "value1"},
+        {"key2", "value2"},
+      };
+      container post;
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (posted, text_plain, data_map);
+      for (const auto& element : data_map) {
+        post.emplace_back(element.first, element.second.value);
+      }
+      EXPECT_EQ(standard, post);
+      http_parse_post_v2 (posted, webserver_request);
+      EXPECT_EQ(standard, webserver_request.post_v2);
+    }
+    
+    {
+      const std::string posted {
+        "key1\r\n"
+        "key2\r\n"
+      };
+      container standard = {
+        {"key1", ""},
+        {"key2", ""},
+      };
+      container post;
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (posted, text_plain, data_map);
+      for (const auto& element : data_map) {
+        post.emplace_back(element.first, element.second.value);
+      }
+      EXPECT_EQ(standard, post);
+      http_parse_post_v2 (posted, webserver_request);
+      EXPECT_EQ(standard, webserver_request.post_v2);
+    }
+    
+    {
+      const std::string posted {
+        "key=Hello World\r\n"
+      };
+      container standard = {
+        {"key", "Hello World"},
+      };
+      container post;
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (posted, text_plain, data_map);
+      for (const auto& element : data_map) {
+        post.emplace_back(element.first, element.second.value);
+      }
+      EXPECT_EQ(standard, post);
+      http_parse_post_v2 (posted, webserver_request);
+      EXPECT_EQ(standard, webserver_request.post_v2);
+    }
+    
+    {
+      const std::string posted {
+        "key=Hëllo Wörld\r\n"
+      };
+      container standard = {
+        {"key", "Hëllo Wörld"},
+      };
+      container post;
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (posted, text_plain, data_map);
+      for (const auto& element : data_map) {
+        post.emplace_back(element.first, element.second.value);
+      }
+      EXPECT_EQ(standard, post);
+      http_parse_post_v2 (posted, webserver_request);
+      EXPECT_EQ(standard, webserver_request.post_v2);
+    }
+  }
+}
+
+
+TEST (http, dev) // Todo
+{
+  using container = std::vector<std::pair<std::string,std::string>>;
+  Webserver_Request webserver_request{};
+  webserver_request.content_type = text_plain;
+
   const std::string test_path {"unittests/tests/"};
   {
     // Test a single-file upload.
@@ -74,15 +265,6 @@ TEST (http, parse_post)
       };
       EXPECT_EQ (webserver_request.post, standard);
       EXPECT_TRUE (webserver_request.post_multiple.empty());
-    }
-    {
-      Webserver_Request webserver_request{};
-      webserver_request.content_type = multipart_form_data;
-      http_parse_post_v2 (content, webserver_request);
-      for (const auto& [key, value] : webserver_request.post_v2) {
-        std::cout << key << std::endl; // Todo
-        std::cout << value << std::endl; // Todo
-      }
     }
   }
   {
@@ -111,92 +293,6 @@ TEST (http, parse_post)
       }
     };
     EXPECT_EQ (webserver_request.post_multiple, standard2);
-  }
-}
-
-
-TEST (http, dev) // Todo
-{
-  std::vector<std::pair<std::string,std::string>> post {};
-  std::vector<std::pair<std::string,std::string>> standard {};
-  Webserver_Request webserver_request{};
-  webserver_request.content_type = application_x_www_form_urlencoded;
-  {
-    const std::string posted {"key=value"};
-    standard = {
-      {"key", "value"},
-    };
-    post.clear();
-    ParseWebData::WebDataMap data_map;
-    ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
-    for (const auto& element : data_map) {
-      post.emplace_back(element.first, element.second.value);
-    }
-    EXPECT_EQ(standard, post);
-    http_parse_post_v2 (posted, webserver_request);
-    EXPECT_EQ(standard, webserver_request.post_v2);
-  }
-  {
-    const std::string posted {"key1=value1&key2=value2"};
-    standard = {
-      {"key1", "value1"},
-      {"key2", "value2"},
-    };
-    post.clear();
-    ParseWebData::WebDataMap data_map;
-    ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
-    for (const auto& element : data_map) {
-      post.emplace_back(element.first, element.second.value);
-    }
-    EXPECT_EQ(standard, post);
-    http_parse_post_v2 (posted, webserver_request);
-    EXPECT_EQ(standard, webserver_request.post_v2);
-  }
-  {
-    const std::string posted {"key1&key2"};
-    standard = {
-      {"key1", ""},
-      {"key2", ""},
-    };
-    post.clear();
-    ParseWebData::WebDataMap data_map;
-    ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
-    for (const auto& element : data_map) {
-      post.emplace_back(element.first, element.second.value);
-    }
-    EXPECT_EQ(standard, post);
-    http_parse_post_v2 (posted, webserver_request);
-    EXPECT_EQ(standard, webserver_request.post_v2);
-  }
-  {
-    const std::string posted {"key=Hello+World"};
-    standard = {
-      {"key", "Hello World"},
-    };
-    post.clear();
-    ParseWebData::WebDataMap data_map;
-    ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
-    for (const auto& element : data_map) {
-      post.emplace_back(element.first, filter_url_urldecode(element.second.value));
-    }
-    EXPECT_EQ(standard, post);
-    http_parse_post_v2 (posted, webserver_request);
-    EXPECT_EQ(standard, webserver_request.post_v2);
-  }
-  {
-    const std::string posted {"key=H%C3%ABllo+W%C3%B6rld"};
-    standard = {
-      {"key", "Hëllo Wörld"},
-    };
-    post.clear();
-    ParseWebData::WebDataMap data_map;
-    ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
-    for (const auto& element : data_map) {
-      post.emplace_back(element.first, filter_url_urldecode(element.second.value));
-    }
-    EXPECT_EQ(standard, post);
-    http_parse_post_v2 (posted, webserver_request);
-    EXPECT_EQ(standard, webserver_request.post_v2);
   }
 }
 

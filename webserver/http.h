@@ -23,8 +23,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 class Webserver_Request;
 
+constexpr const char* application_x_www_form_urlencoded {"application/x-www-form-urlencoded"};
+
 bool http_parse_header (std::string header, Webserver_Request& webserver_request);
 void http_parse_post (std::string content, Webserver_Request& webserver_request);
+void http_parse_post_v2 (std::string content, Webserver_Request& webserver_request);
 void http_assemble_response (Webserver_Request& webserver_request);
 void http_stream_file (Webserver_Request& webserver_request, bool enable_cache);
 std::string http_parse_host (const std::string & line);

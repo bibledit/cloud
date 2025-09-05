@@ -27,9 +27,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/http.h>
 #include <webserver/request.h>
 #include <filter/url.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
+#include <parsewebdata/ParseWebData.h>
+#pragma GCC diagnostic pop
 
 
-TEST (http, parse_host)
+TEST (http, parse_host) // Todo
 {
   std::string host;
   std::string line;
@@ -57,18 +61,29 @@ TEST (http, parse_post)
   const std::string test_path {"unittests/tests/"};
   {
     // Test a single-file upload.
-    Webserver_Request webserver_request{};
-    const std::string type_multipart = filter_url_file_get_contents(test_path + "http-post-type-1.txt");
+    const std::string multipart_form_data = filter_url_file_get_contents(test_path + "http-post-type-1.txt");
     const std::string content = filter_url_file_get_contents(test_path + "http-post-content-1.txt");
-    webserver_request.content_type = type_multipart;
-    http_parse_post (content, webserver_request);
-    const std::map <std::string, std::string> standard {
-      {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
-      {"filename", "00_test1.txt"},
-      {"upload", "Upload"}
-    };
-    EXPECT_EQ (webserver_request.post, standard);
-    EXPECT_TRUE (webserver_request.post_multiple.empty());
+    {
+      Webserver_Request webserver_request{};
+      webserver_request.content_type = multipart_form_data;
+      http_parse_post (content, webserver_request);
+      const std::map <std::string, std::string> standard {
+        {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
+        {"filename", "00_test1.txt"},
+        {"upload", "Upload"}
+      };
+      EXPECT_EQ (webserver_request.post, standard);
+      EXPECT_TRUE (webserver_request.post_multiple.empty());
+    }
+    {
+      Webserver_Request webserver_request{};
+      webserver_request.content_type = multipart_form_data;
+      http_parse_post_v2 (content, webserver_request);
+      for (const auto& [key, value] : webserver_request.post_v2) {
+        std::cout << key << std::endl; // Todo
+        std::cout << value << std::endl; // Todo
+      }
+    }
   }
   {
     // Test a multiple-file upload.
@@ -96,6 +111,92 @@ TEST (http, parse_post)
       }
     };
     EXPECT_EQ (webserver_request.post_multiple, standard2);
+  }
+}
+
+
+TEST (http, dev) // Todo
+{
+  std::vector<std::pair<std::string,std::string>> post {};
+  std::vector<std::pair<std::string,std::string>> standard {};
+  Webserver_Request webserver_request{};
+  webserver_request.content_type = application_x_www_form_urlencoded;
+  {
+    const std::string posted {"key=value"};
+    standard = {
+      {"key", "value"},
+    };
+    post.clear();
+    ParseWebData::WebDataMap data_map;
+    ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
+    for (const auto& element : data_map) {
+      post.emplace_back(element.first, element.second.value);
+    }
+    EXPECT_EQ(standard, post);
+    http_parse_post_v2 (posted, webserver_request);
+    EXPECT_EQ(standard, webserver_request.post_v2);
+  }
+  {
+    const std::string posted {"key1=value1&key2=value2"};
+    standard = {
+      {"key1", "value1"},
+      {"key2", "value2"},
+    };
+    post.clear();
+    ParseWebData::WebDataMap data_map;
+    ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
+    for (const auto& element : data_map) {
+      post.emplace_back(element.first, element.second.value);
+    }
+    EXPECT_EQ(standard, post);
+    http_parse_post_v2 (posted, webserver_request);
+    EXPECT_EQ(standard, webserver_request.post_v2);
+  }
+  {
+    const std::string posted {"key1&key2"};
+    standard = {
+      {"key1", ""},
+      {"key2", ""},
+    };
+    post.clear();
+    ParseWebData::WebDataMap data_map;
+    ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
+    for (const auto& element : data_map) {
+      post.emplace_back(element.first, element.second.value);
+    }
+    EXPECT_EQ(standard, post);
+    http_parse_post_v2 (posted, webserver_request);
+    EXPECT_EQ(standard, webserver_request.post_v2);
+  }
+  {
+    const std::string posted {"key=Hello+World"};
+    standard = {
+      {"key", "Hello World"},
+    };
+    post.clear();
+    ParseWebData::WebDataMap data_map;
+    ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
+    for (const auto& element : data_map) {
+      post.emplace_back(element.first, filter_url_urldecode(element.second.value));
+    }
+    EXPECT_EQ(standard, post);
+    http_parse_post_v2 (posted, webserver_request);
+    EXPECT_EQ(standard, webserver_request.post_v2);
+  }
+  {
+    const std::string posted {"key=H%C3%ABllo+W%C3%B6rld"};
+    standard = {
+      {"key", "Hëllo Wörld"},
+    };
+    post.clear();
+    ParseWebData::WebDataMap data_map;
+    ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
+    for (const auto& element : data_map) {
+      post.emplace_back(element.first, filter_url_urldecode(element.second.value));
+    }
+    EXPECT_EQ(standard, post);
+    http_parse_post_v2 (posted, webserver_request);
+    EXPECT_EQ(standard, webserver_request.post_v2);
   }
 }
 

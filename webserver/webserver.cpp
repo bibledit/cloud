@@ -221,7 +221,8 @@ static void webserver_process_request (const int connfd, const std::string& clie
         if (connection_healthy) {
           
           http_parse_post (postdata, request);
-          
+          http_parse_post_v2 (postdata, request);
+
           // Assemble response.
           bootstrap_index (request);
           http_assemble_response (request);
@@ -684,6 +685,7 @@ static void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls
         // Parse the POSTed data.
         if (connection_healthy) {
           http_parse_post (postdata, request);
+          http_parse_post_v2 (postdata, request);
         }
       }
       

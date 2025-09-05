@@ -63,6 +63,8 @@ public:
   // If the POSTed data contains multiple identical keys, store the extra keys here.
   // Ideally the above container, "post" should be redesigned to be able to contain multiple identical keys.
   std::map <std::string, std::vector<std::string>> post_multiple{};
+  // The raw POSTed data from the browser, version 2.
+  std::vector<std::pair<std::string,std::string>> post_v2 {};
    // Header as received from the browser.
   std::string if_none_match {};
    // Extra header to be sent back to the browser.

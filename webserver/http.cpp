@@ -28,6 +28,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
+static void http_parse_post_multipart_v2 (std::string content, Webserver_Request& webserver_request);
+static void http_parse_post_standard_v2 (std::string content, Webserver_Request& webserver_request);
+static std::vector<std::pair<std::string,std::string>> parse_application_x_www_form_urlencoded(const std::string& post);
+
+
 // The http headers from a browser could look as follows:
 //
 // GET /index/page HTTP/1.1
@@ -144,12 +149,18 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
 
 
 // Takes data POSTed from the browser, and parses it.
-static void http_parse_post_standard (std::string content, Webserver_Request& webserver_request)
+static void http_parse_post_standard (std::string content, Webserver_Request& webserver_request) // Todo out eventually
 {
   // Read and parse the POST data.
   try {
     // Standard parse.
     const bool urlencoded = webserver_request.content_type.find ("urlencoded") != std::string::npos;
+    { // Todo
+//      static int c {};
+//      const std::string file = "/Users/teus/Desktop/post" + std::to_string(++c) + ".txt";
+//      filter_url_file_put_contents (file, content);
+//      std::cout << webserver_request.content_type << std::endl; // Todo
+    }
     ParseWebData::WebDataMap data_map;
     ParseWebData::parse_post_data (content, webserver_request.content_type, data_map);
     for (auto& element : data_map) {
@@ -245,6 +256,23 @@ void http_parse_post (std::string content, Webserver_Request& webserver_request)
     http_parse_post_multipart (std::move(content), webserver_request);
   } else {
     http_parse_post_standard (std::move(content), webserver_request);
+  }
+}
+
+
+// Takes data POSTed from the browser, and parses it.
+void http_parse_post_v2 (std::string content, Webserver_Request& webserver_request)
+{
+  // If there's no content, there's nothing to parse: Done.
+  if (content.empty ())
+    return;
+  
+  // Parse multipart data in a special way, and other data in the standard way.
+  const bool multipart = webserver_request.content_type.find ("multipart") != std::string::npos;
+  if (multipart) {
+    http_parse_post_multipart_v2 (std::move(content), webserver_request);
+  } else {
+    http_parse_post_standard_v2 (std::move(content), webserver_request);
   }
 }
 
@@ -416,4 +444,112 @@ std::string http_parse_host (const std::string& line)
   }
 
   return host;
+}
+
+
+// Parser for POSTed multipart data. It splits the multiple parts up, and then runs the standard parser.
+static void http_parse_post_multipart_v2 (std::string content, Webserver_Request& webserver_request) // Todo
+{
+  // Get the boundary string from the content type.
+  // Example content type:
+  // multipart/form-data; boundary=----WebKitFormBoundarye9wsWKTf5zcLAGUn
+  // The boundary, as used in the posted body, starts with two extra hyphens.
+  const std::string content_type {webserver_request.content_type};
+  constexpr std::string_view boundary_is {"boundary="};
+  size_t pos = content_type.find(boundary_is);
+  if (pos == std::string::npos)
+    return;
+  const std::string boundary = "--" + content_type.substr(pos + boundary_is.size());
+  // Iterate over the posted body while it's longer than the boundary.
+  while (content.size() > boundary.size()) {
+    // The first boundary is expected to be located at position 0.
+    // If it's not there, stop parsing right away.
+    pos = content.find(boundary);
+    if (pos)
+      return;
+    // Remove the first boundary plus any following carriage return or line feed after that boundary.
+    content.erase(0, boundary.size());
+    for (int i{0}; i < 2; i++) {
+      if (content.empty())
+        continue;
+      if (content.find_first_of("\r\n") == 0)
+        content.erase(0, 1);
+    }
+    // Find the boundary following the posted data fragment.
+    pos = content.find(boundary);
+    if (pos == std::string::npos)
+      return;
+    // Parse this chunk of data and then remove it.
+    http_parse_post_standard_v2 (content.substr(0, pos), webserver_request);
+    content.erase(0, pos);
+  }
+}
+
+
+// Takes data POSTed from the browser, and parses it.
+static void http_parse_post_standard_v2 (std::string content, Webserver_Request& webserver_request) // Todo write it.
+{
+  // Read and parse the POST data.
+  try {
+    // Use home-grown parser for application/x-www-form-urlencoded.
+    if (webserver_request.content_type == application_x_www_form_urlencoded) {
+      webserver_request.post_v2 = parse_application_x_www_form_urlencoded(content);
+      return;
+    }
+    // Use ParseWebData still for other content types. Todo phase this out.
+    const bool urlencoded = webserver_request.content_type.find ("urlencoded") != std::string::npos;
+    ParseWebData::WebDataMap data_map;
+    ParseWebData::parse_post_data (content, webserver_request.content_type, data_map);
+    for (auto& element : data_map) {
+      const std::string key = std::move(element.first);
+      std::string value{std::move(element.second.value)};
+      if (urlencoded)
+        value = filter_url_urldecode (value);
+      webserver_request.post_v2.emplace_back(key, value);
+    }
+    // Special case: Extract the filename in case of a file upload.
+    if (content.length () > 1000) content.resize (1000);
+    constexpr std::string_view filename_is {"filename="};
+    constexpr const char* filename {"filename"};
+    if (content.find (filename_is) != std::string::npos) {
+      std::vector <std::string> lines = filter::strings::explode (content, '\n');
+      for (auto& line : lines) {
+        if (line.find ("Content-Disposition") == std::string::npos)
+          continue;
+        const size_t pos = line.find (filename_is);
+        if (pos == std::string::npos)
+          continue;
+        line = line.substr (pos + filename_is.size() + 1);
+        line = filter::strings::trim (line);
+        line.pop_back ();
+        webserver_request.post_v2.emplace_back(filename, line);
+      }
+    }
+  }
+  catch (const std::exception& exception) {
+  }
+}
+
+
+static std::vector<std::pair<std::string,std::string>> parse_application_x_www_form_urlencoded(const std::string& post)
+{
+  // Example input data: key1=value1&key2=value2
+  
+  std::vector<std::pair<std::string,std::string>> result;
+  
+  // First explode the data on the ampersand ( & ).
+  const std::vector<std::string> keys_values = filter::strings::explode(post, '&');
+
+  // Next explode each fragment on the equal sign ( = ).
+  for (const auto& fragment : keys_values) {
+    const std::vector<std::string> key_value = filter::strings::explode(fragment, '=');
+    // Handle situation that only the key is given.
+    if (key_value.size() == 1)
+      result.emplace_back(key_value.at(0), std::string());
+    // Handle normal situation: Both key and value are given.
+    if (key_value.size() == 2)
+      result.emplace_back(key_value.at(0), filter_url_urldecode(key_value.at(1)));
+  }
+
+  return result;
 }

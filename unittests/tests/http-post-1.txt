@@ -1,4 +1,4 @@
-------WebKitFormBoundarye9wsWKTf5zcLAGUn
+------WebKitFormBoundary1234abcd
 Content-Disposition: form-data; name="data"; filename="00_test1.txt"
 Content-Type: text/plain
 
@@ -7,8 +7,8 @@ Line one 1.
 Line two 1.
 Line three 1.
 
-------WebKitFormBoundarye9wsWKTf5zcLAGUn
+------WebKitFormBoundary1234abcd
 Content-Disposition: form-data; name="upload"
 
 Upload
-------WebKitFormBoundarye9wsWKTf5zcLAGUn--
+------WebKitFormBoundary1234abcd--

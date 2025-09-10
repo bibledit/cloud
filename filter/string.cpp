@@ -2268,4 +2268,47 @@ std::string convert_windows1252_to_utf8 (const std::string& input)
 }
 
 
+void hex_dump (const void* addr, const int len)
+{
+  constexpr const int per_line {16};
+
+  int i;
+  unsigned char buff[per_line+1];
+  const unsigned char* pc = (const unsigned char*)addr;
+  
+  // Process every byte in the data.
+  for (i = 0; i < len; i++) {
+    // Multiple of per_line means new or first line (with line offset).
+    
+    if ((i % per_line) == 0) {
+      // Only print previous-line ASCII buffer for lines beyond first.
+      if (i != 0)
+        std::cout << "  " << buff << std::endl;
+      
+      // Output the offset of current line.
+      printf("  %04x ", i);
+    }
+    
+    // Now the hex code for the specific character.
+    printf(" %02x", pc[i]);
+    
+    // And buffer a printable ASCII character for later.
+    if ((pc[i] < 0x20) || (pc[i] > 0x7e)) // isprint() may be better.
+      buff[i % per_line] = '.';
+    else
+      buff[i % per_line] = pc[i];
+    buff[(i % per_line) + 1] = '\0';
+  }
+  
+  // Pad out last line if not exactly per_line characters.
+  while ((i % per_line) != 0) {
+    printf ("   ");
+    i++;
+  }
+  
+  // And print the final ASCII buffer.
+  std::cout << "  " << buff << std::endl;
+}
+
+
 } // Namespace.

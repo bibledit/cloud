@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic pop
 
 
-TEST (http, parse_host) // Todo
+TEST (http, parse_host)
 {
   std::string host;
   std::string line;
@@ -240,60 +240,76 @@ TEST (http, parse_post)
       EXPECT_EQ(standard, webserver_request.post_v2);
     }
   }
-}
-
-
-TEST (http, dev) // Todo
-{
-  using container = std::vector<std::pair<std::string,std::string>>;
-  Webserver_Request webserver_request{};
-  webserver_request.content_type = text_plain;
-
-  const std::string test_path {"unittests/tests/"};
+  
+  // Test POSTed content of type multipart/form-data.
   {
-    // Test a single-file upload.
-    const std::string multipart_form_data = filter_url_file_get_contents(test_path + "http-post-type-1.txt");
-    const std::string content = filter_url_file_get_contents(test_path + "http-post-content-1.txt");
+    const std::string test_path {"unittests/tests/"};
+    const std::string boundary {"----WebKitFormBoundary1234abcd"};
+    const std::string content_type = std::string(multipart_form_data) + "; boundary=" + boundary;
     {
+      // Test a single-file upload.
+      {
+        const std::string content = filter_url_file_get_contents(test_path + "http-post-1.txt");
+        Webserver_Request webserver_request{};
+        webserver_request.content_type = content_type;
+        http_parse_post (content, webserver_request);
+        const std::map <std::string, std::string> standard_old {
+          {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
+          {"filename", "00_test1.txt"},
+          {"upload", "Upload"}
+        };
+        EXPECT_EQ (webserver_request.post, standard_old);
+        EXPECT_TRUE (webserver_request.post_multiple.empty());
+        http_parse_post_v2 (content, webserver_request);
+        const container standard_new {
+          {"filename", "00_test1.txt"},
+          {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
+          {"upload", "Upload"}
+        };
+        EXPECT_EQ (webserver_request.post_v2, standard_new);
+      }
+    }
+    {
+      // Test a multiple-file upload.
+      const std::string content = filter_url_file_get_contents(test_path + "http-post-2.txt");
       Webserver_Request webserver_request{};
-      webserver_request.content_type = multipart_form_data;
+      webserver_request.content_type = content_type;
       http_parse_post (content, webserver_request);
-      const std::map <std::string, std::string> standard {
+      const std::map <std::string, std::string> standard1 {
         {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
         {"filename", "00_test1.txt"},
         {"upload", "Upload"}
       };
-      EXPECT_EQ (webserver_request.post, standard);
-      EXPECT_TRUE (webserver_request.post_multiple.empty());
+      EXPECT_EQ (webserver_request.post, standard1);
+      std::map <std::string, std::vector<std::string>> standard2 {
+        {"data",
+          { "Contents for test2.\nLine one 2.\nLine two 2.\nLine three 2.\n",
+            "Contents for test3.\nLine one 3.\nLine two 3.\nLine three 3.\n"
+          }
+        },
+        {"filename",
+          { "00_test2.txt", "00_test3.txt" }
+        }
+      };
+      EXPECT_EQ (webserver_request.post_multiple, standard2);
+      http_parse_post_v2 (content, webserver_request);
+      const container standard_new {
+        {"filename", "00_test1.txt"},
+        {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
+        {"filename", "00_test2.txt"},
+        {"data", "Contents for test2.\nLine one 2.\nLine two 2.\nLine three 2.\n"},
+        {"filename", "00_test3.txt"},
+        {"data", "Contents for test3.\nLine one 3.\nLine two 3.\nLine three 3.\n"},
+        {"upload", "Upload"}
+      };
+      EXPECT_EQ (webserver_request.post_v2, standard_new);
     }
   }
-  {
-    // Test a multiple-file upload.
-    // Standard upload data goes into the "post" container.
-    // Extra keys, duplicate keys, go into the "post_multiple" container.
-    Webserver_Request webserver_request{};
-    const std::string type_multipart = filter_url_file_get_contents(test_path + "http-post-type-2.txt");
-    const std::string content = filter_url_file_get_contents(test_path + "http-post-content-2.txt");
-    webserver_request.content_type = type_multipart;
-    http_parse_post (content, webserver_request);
-    const std::map <std::string, std::string> standard1 {
-      {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
-      {"filename", "00_test1.txt"},
-      {"upload", "Upload"}
-    };
-    EXPECT_EQ (webserver_request.post, standard1);
-    std::map <std::string, std::vector<std::string>> standard2 {
-      {"data",
-        { "Contents for test2.\nLine one 2.\nLine two 2.\nLine three 2.\n",
-          "Contents for test3.\nLine one 3.\nLine two 3.\nLine three 3.\n"
-        }
-      },
-      {"filename",
-        { "00_test2.txt", "00_test3.txt" }
-      }
-    };
-    EXPECT_EQ (webserver_request.post_multiple, standard2);
-  }
+}
+
+
+TEST (http, dev)
+{
 }
 
 

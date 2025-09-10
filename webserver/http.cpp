@@ -26,12 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <parsewebdata/ParseWebData.h>
 #pragma GCC diagnostic pop
 #include <webserver/request.h>
+#include <database/logs.h>
 
 
 static void http_parse_post_multipart_v2 (std::string content, Webserver_Request& webserver_request);
 static void http_parse_post_standard_v2 (std::string content, Webserver_Request& webserver_request);
 static std::vector<std::pair<std::string,std::string>> parse_application_x_www_form_urlencoded(const std::string& post);
 static std::vector<std::pair<std::string,std::string>> parse_text_plain(const std::string& post);
+static void parse_multipart_form_data(std::string post, std::vector<std::pair<std::string,std::string>>& result);
+static void remove_cr_lf_at_start(std::string& post);
+static void remove_cr_lf_at_end(std::string& post);
 
 
 // The http headers from a browser could look as follows:
@@ -156,12 +160,6 @@ static void http_parse_post_standard (std::string content, Webserver_Request& we
   try {
     // Standard parse.
     const bool urlencoded = webserver_request.content_type.find ("urlencoded") != std::string::npos;
-    { // Todo
-//      static int c {};
-//      const std::string file = "/Users/teus/Desktop/post" + std::to_string(++c) + ".txt";
-//      filter_url_file_put_contents (file, content);
-//      std::cout << webserver_request.content_type << std::endl; // Todo
-    }
     ParseWebData::WebDataMap data_map;
     ParseWebData::parse_post_data (content, webserver_request.content_type, data_map);
     for (auto& element : data_map) {
@@ -223,14 +221,7 @@ static void http_parse_post_multipart (std::string content, Webserver_Request& w
       return;
     // Remove the first boundary plus any following carriage return or new line after that boundary.
     content.erase(0, boundary.size());
-    const auto remove_cr_or_nl = [&content]() {
-      if (content.empty())
-        return;
-      if (content.find_first_of("\r\n") == 0)
-        content.erase(0, 1);
-    };
-    remove_cr_or_nl();
-    remove_cr_or_nl();
+    remove_cr_lf_at_start(content);
     // Find the boundary following the posted data fragment.
     // The last boundary in the posted body ends with two extra hyphens appended.
     // The code does not check on that.
@@ -449,7 +440,7 @@ std::string http_parse_host (const std::string& line)
 
 
 // Parser for POSTed multipart data. It splits the multiple parts up, and then runs the standard parser.
-static void http_parse_post_multipart_v2 (std::string content, Webserver_Request& webserver_request) // Todo
+static void http_parse_post_multipart_v2 (std::string content, Webserver_Request& webserver_request)
 {
   // Get the boundary string from the content type.
   // Example content type:
@@ -470,12 +461,7 @@ static void http_parse_post_multipart_v2 (std::string content, Webserver_Request
       return;
     // Remove the first boundary plus any following carriage return or line feed after that boundary.
     content.erase(0, boundary.size());
-    for (int i{0}; i < 2; i++) {
-      if (content.empty())
-        continue;
-      if (content.find_first_of("\r\n") == 0)
-        content.erase(0, 1);
-    }
+    remove_cr_lf_at_start(content);
     // Find the boundary following the posted data fragment.
     pos = content.find(boundary);
     if (pos == std::string::npos)
@@ -488,11 +474,10 @@ static void http_parse_post_multipart_v2 (std::string content, Webserver_Request
 
 
 // Takes data POSTed from the browser, and parses it.
-static void http_parse_post_standard_v2 (std::string content, Webserver_Request& webserver_request) // Todo write it.
+static void http_parse_post_standard_v2 (std::string content, Webserver_Request& webserver_request)
 {
   // Read and parse the POST data.
   try {
-    // Use home-grown parser for application/x-www-form-urlencoded.
     if (webserver_request.content_type == application_x_www_form_urlencoded) {
       webserver_request.post_v2 = parse_application_x_www_form_urlencoded(content);
       return;
@@ -501,37 +486,14 @@ static void http_parse_post_standard_v2 (std::string content, Webserver_Request&
       webserver_request.post_v2 = parse_text_plain(content);
       return;
     }
-    // Use ParseWebData still for other content types. Todo phase this out.
-    const bool urlencoded = webserver_request.content_type.find ("urlencoded") != std::string::npos;
-    ParseWebData::WebDataMap data_map;
-    ParseWebData::parse_post_data (content, webserver_request.content_type, data_map);
-    for (auto& element : data_map) {
-      const std::string key = std::move(element.first);
-      std::string value{std::move(element.second.value)};
-      if (urlencoded)
-        value = filter_url_urldecode (value);
-      webserver_request.post_v2.emplace_back(key, value);
+    if (webserver_request.content_type.find(multipart_form_data) != std::string::npos) {
+      parse_multipart_form_data(content, webserver_request.post_v2);
+      return;
     }
-    // Special case: Extract the filename in case of a file upload.
-    if (content.length () > 1000) content.resize (1000);
-    constexpr std::string_view filename_is {"filename="};
-    constexpr const char* filename {"filename"};
-    if (content.find (filename_is) != std::string::npos) {
-      std::vector <std::string> lines = filter::strings::explode (content, '\n');
-      for (auto& line : lines) {
-        if (line.find ("Content-Disposition") == std::string::npos)
-          continue;
-        const size_t pos = line.find (filename_is);
-        if (pos == std::string::npos)
-          continue;
-        line = line.substr (pos + filename_is.size() + 1);
-        line = filter::strings::trim (line);
-        line.pop_back ();
-        webserver_request.post_v2.emplace_back(filename, line);
-      }
-    }
+    throw std::runtime_error("Cannot parse content type " + webserver_request.content_type);
   }
   catch (const std::exception& exception) {
+    Database_Logs::log("POST parsing error: " + std::string(exception.what()));
   }
 }
 
@@ -587,4 +549,100 @@ static std::vector<std::pair<std::string,std::string>> parse_text_plain(const st
   }
   
   return result;
+}
+
+
+void parse_multipart_form_data(std::string post, std::vector<std::pair<std::string,std::string>>& result)
+{
+  //const bool urlencoded = content_type.find ("urlencoded") != std::string::npos;
+
+  // The first line looks similar to this:
+  // Content-Disposition: form-data; name="data"; filename="file.txt"
+  // Remove it from the input data.
+  std::string content_disposition_line;
+  {
+    constexpr const std::string_view content_disposition {"Content-Disposition:"};
+    if (post.find(content_disposition) != 0)
+      throw std::runtime_error (std::string(content_disposition) + " not found right at the start of the POSTed data");
+    const size_t pos = post.find_first_of("\r\n");
+    content_disposition_line = post.substr(0, pos);
+    post.erase(0, pos);
+    remove_cr_lf_at_start(post);
+  }
+
+  // Special case: Extract the filename in case of a file upload.
+  {
+    constexpr const std::string_view filename_is {"filename="};
+    std::string line {content_disposition_line};
+    if (line.find (filename_is) != std::string::npos) {
+      const size_t pos = line.find (filename_is);
+      if (pos != std::string::npos) {
+        line = line.substr (pos + filename_is.size() + 1);
+        line = filter::strings::trim (line);
+        line.pop_back ();
+        result.emplace_back("filename", line);
+      }
+    }
+  }
+
+  // Standard case: Extract the name, that is the "key" of the posted data.
+  std::string name {content_disposition_line};
+  constexpr const std::string_view name_is {"name="};
+  if (const size_t pos1 = name.find (name_is); pos1 != std::string::npos) {
+    name.erase(0, pos1 + name_is.size());
+    if (const size_t pos2 = name.find(R"(")"); pos2 != std::string::npos) {
+      name.erase(0, pos2 + 1);
+      if (const size_t pos3 = name.find(R"(")"); pos3 != std::string::npos) {
+        name.erase(pos3);
+      }
+    }
+  }
+  
+  // The next, now first, line looks similar to this:
+  // Content-Type: text/plain
+  // It may be there, it also may be omitted.
+  // Remove it from the input data if it's there.
+  std::string content_type_line;
+  {
+    constexpr const std::string_view content_type {"Content-Type:"};
+    if (post.find(content_type) == 0) {
+      if (const size_t pos1 = post.find_first_of("\r\n"); pos1 != std::string::npos) {
+        content_type_line = post.substr(0, pos1);
+        post.erase(0, pos1);
+        remove_cr_lf_at_start(post);
+      }
+    }
+  }
+
+  // Having removed the initial headers,
+  // now remove the cr and lf that is between those headers and the posted payload.
+  remove_cr_lf_at_start(post);
+
+  // The posted data ends with cr lf. Remove those two.
+  remove_cr_lf_at_end(post);
+
+  // Store the data.
+  result.emplace_back(name, post);
+}
+
+
+static void remove_cr_lf_at_start(std::string& post)
+{
+  for (int i{0}; i < 2; i++) {
+    if (post.empty())
+      continue;
+    if (post.find_first_of("\r\n") == 0)
+      post.erase(0, 1);
+  }
+}
+
+
+static void remove_cr_lf_at_end(std::string& post)
+{
+  for (int i{0}; i < 2; i++) {
+    if (post.empty())
+      continue;
+    if (const size_t pos = post.find_last_of("\r\n"); pos == post.size()-1)
+      post.erase(pos, 1);
+  }
 }

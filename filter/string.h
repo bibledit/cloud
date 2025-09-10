@@ -127,5 +127,6 @@ std::string fix_invalid_html_gumbo (std::string html);
 std::string fix_invalid_html_tidy (std::string html);
 std::string collapse_whitespace (std::string s);
 std::string convert_windows1252_to_utf8 (const std::string& input);
+void hex_dump (const void* addr, const int len);
 
 }

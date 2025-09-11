@@ -67,8 +67,8 @@ std::string checks_settingspairs (Webserver_Request& webserver_request)
   view.set_variable ("bible", bible);
   
   
-  if (webserver_request.post.count ("pairs")) {
-    const std::string fragment = webserver_request.post["pairs"];
+  if (webserver_request.post_count ("pairs")) {
+    const std::string fragment = webserver_request.post_get("pairs");
     std::vector <std::string> errors {};
     std::vector <std::string> pairs = filter::strings::explode (fragment, ' ');
     bool okay {true};

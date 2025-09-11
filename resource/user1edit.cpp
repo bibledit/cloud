@@ -63,7 +63,7 @@ std::string resource_user1edit (Webserver_Request& webserver_request)
   view.set_variable ("name", name);
   
 
-  if (webserver_request.post.count ("submit")) {
+  if (webserver_request.post_count("submit")) {
     std::string data = webserver_request.post["data"];
     std::vector <std::string> lines = filter::strings::explode (data, '\n');
     int count = 0;

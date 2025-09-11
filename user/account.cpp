@@ -61,7 +61,7 @@ std::string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
   std::vector <std::string> success_messages;
 
   // Form submission handler.
-  if (webserver_request.post.count ("submit")) {
+  if (webserver_request.post_count("submit")) {
     bool form_is_valid = true;
     std::string currentpassword = webserver_request.post ["currentpassword"];
     std::string newpassword     = webserver_request.post ["newpassword"];

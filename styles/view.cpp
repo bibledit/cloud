@@ -132,7 +132,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     page += dialog_entry.run ();
     return page;
   }
-  if (webserver_request.post.count ("name")) {
+  if (webserver_request.post_count("name")) {
     marker_data.name = webserver_request.post["entry"];
     style_is_edited = true;
   }
@@ -147,7 +147,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     page += dialog_entry.run ();
     return page;
   }
-  if (webserver_request.post.count("info")) {
+  if (webserver_request.post_count("info")) {
     marker_data.info = webserver_request.post["entry"];
     style_is_edited = true;
   }
@@ -181,8 +181,8 @@ std::string styles_view (Webserver_Request& webserver_request)
     // Handle paragraph italics.
     {
       constexpr const char* identification {"italic"};
-      if (webserver_request.post.count (identification)) {
-        marker_data.paragraph.value().italic = stylesv2::twostate_value_to_enum(webserver_request.post.at(identification));
+      if (webserver_request.post_count(identification)) {
+        marker_data.paragraph.value().italic = stylesv2::twostate_value_to_enum(webserver_request.post_get(identification));
         style_is_edited = true;
       }
       std::vector<std::string> states;
@@ -202,8 +202,8 @@ std::string styles_view (Webserver_Request& webserver_request)
     // Handle paragraph bold.
     {
       constexpr const char* identification {"bold"};
-      if (webserver_request.post.count (identification)) {
-        marker_data.paragraph.value().bold = stylesv2::twostate_value_to_enum(webserver_request.post.at(identification));
+      if (webserver_request.post_count(identification)) {
+        marker_data.paragraph.value().bold = stylesv2::twostate_value_to_enum(webserver_request.post_get(identification));
         style_is_edited = true;
       }
       std::vector<std::string> states;
@@ -223,8 +223,8 @@ std::string styles_view (Webserver_Request& webserver_request)
     // Handle paragraph underline.
     {
       constexpr const char* identification {"underline"};
-      if (webserver_request.post.count (identification)) {
-        marker_data.paragraph.value().underline = stylesv2::twostate_value_to_enum(webserver_request.post.at(identification));
+      if (webserver_request.post_count(identification)) {
+        marker_data.paragraph.value().underline = stylesv2::twostate_value_to_enum(webserver_request.post_get(identification));
         style_is_edited = true;
       }
       std::vector<std::string> states;
@@ -244,8 +244,8 @@ std::string styles_view (Webserver_Request& webserver_request)
     // Handle paragraph small caps.
     {
       constexpr const char* identification {"smallcaps"};
-      if (webserver_request.post.count (identification)) {
-        marker_data.paragraph.value().smallcaps = stylesv2::twostate_value_to_enum(webserver_request.post.at(identification));
+      if (webserver_request.post_count(identification)) {
+        marker_data.paragraph.value().smallcaps = stylesv2::twostate_value_to_enum(webserver_request.post_get(identification));
         style_is_edited = true;
       }
       std::vector<std::string> states;
@@ -265,8 +265,8 @@ std::string styles_view (Webserver_Request& webserver_request)
     // Handle text alignment.
     {
       constexpr const char* identification {"textalignment"};
-      if (webserver_request.post.count (identification)) {
-        marker_data.paragraph.value().text_alignment = stylesv2::textalignment_value_to_enum(webserver_request.post.at(identification));
+      if (webserver_request.post_count(identification)) {
+        marker_data.paragraph.value().text_alignment = stylesv2::textalignment_value_to_enum(webserver_request.post_get(identification));
         style_is_edited = true;
       }
       std::vector<std::string> alignments;
@@ -339,8 +339,8 @@ std::string styles_view (Webserver_Request& webserver_request)
     // Handle character italics.
     {
       constexpr const char* identification {"italic"};
-      if (webserver_request.post.count (identification)) {
-        marker_data.character.value().italic = stylesv2::fourstate_value_to_enum(webserver_request.post.at(identification));
+      if (webserver_request.post_count(identification)) {
+        marker_data.character.value().italic = stylesv2::fourstate_value_to_enum(webserver_request.post_get(identification));
         style_is_edited = true;
       }
       std::vector<std::string> states;
@@ -360,8 +360,8 @@ std::string styles_view (Webserver_Request& webserver_request)
     // Handle character bold.
     {
       constexpr const char* identification {"bold"};
-      if (webserver_request.post.count (identification)) {
-        marker_data.character.value().bold = stylesv2::fourstate_value_to_enum(webserver_request.post.at(identification));
+      if (webserver_request.post_count(identification)) {
+        marker_data.character.value().bold = stylesv2::fourstate_value_to_enum(webserver_request.post_get(identification));
         style_is_edited = true;
       }
       std::vector<std::string> states;
@@ -381,8 +381,8 @@ std::string styles_view (Webserver_Request& webserver_request)
     // Handle character underline.
     {
       constexpr const char* identification {"underline"};
-      if (webserver_request.post.count (identification)) {
-        marker_data.character.value().underline = stylesv2::fourstate_value_to_enum(webserver_request.post.at(identification));
+      if (webserver_request.post_count(identification)) {
+        marker_data.character.value().underline = stylesv2::fourstate_value_to_enum(webserver_request.post_get(identification));
         style_is_edited = true;
       }
       std::vector<std::string> states;
@@ -402,8 +402,8 @@ std::string styles_view (Webserver_Request& webserver_request)
     // Handle character small caps.
     {
       constexpr const char* identification {"smallcaps"};
-      if (webserver_request.post.count (identification)) {
-        marker_data.character.value().smallcaps = stylesv2::fourstate_value_to_enum(webserver_request.post.at(identification));
+      if (webserver_request.post_count(identification)) {
+        marker_data.character.value().smallcaps = stylesv2::fourstate_value_to_enum(webserver_request.post_get(identification));
         style_is_edited = true;
       }
       std::vector<std::string> states;
@@ -423,8 +423,8 @@ std::string styles_view (Webserver_Request& webserver_request)
     // Handle character superscript.
     {
       constexpr const char* identification {"superscript"};
-      if (webserver_request.post.count (identification)) {
-        marker_data.character.value().superscript = stylesv2::twostate_value_to_enum(webserver_request.post.at(identification));
+      if (webserver_request.post_count(identification)) {
+        marker_data.character.value().superscript = stylesv2::twostate_value_to_enum(webserver_request.post_get(identification));
         style_is_edited = true;
       }
       std::vector<std::string> states;
@@ -482,7 +482,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   // Handle note numbering sequence.
   {
     const std::string note_numbering_sequence {stylesv2::property_enum_to_value (stylesv2::Property::note_numbering_sequence)};
-    if (webserver_request.post.count(note_numbering_sequence)) {
+    if (webserver_request.post_count(note_numbering_sequence)) {
       marker_data.properties[stylesv2::Property::note_numbering_sequence] = webserver_request.post[note_numbering_sequence];
       style_is_edited = true;
     }
@@ -503,8 +503,8 @@ std::string styles_view (Webserver_Request& webserver_request)
   // Handle footnote numbering restart.
   {
     constexpr const char* identification {"noterestart"};
-    if (webserver_request.post.count (identification)) {
-      marker_data.properties[stylesv2::Property::note_numbering_restart] = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      marker_data.properties[stylesv2::Property::note_numbering_restart] = webserver_request.post_get(identification);
       style_is_edited = true;
     }
     const std::vector<std::string> values {
@@ -526,7 +526,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   // Handle endnotes dump location.
   {
     const std::string notes_dump {stylesv2::property_enum_to_value (stylesv2::Property::notes_dump)};
-    if (webserver_request.post.count(notes_dump)) {
+    if (webserver_request.post_count(notes_dump)) {
       marker_data.properties[stylesv2::Property::notes_dump] = stylesv2::validate_notes_dump(webserver_request.post[notes_dump]);
       style_is_edited = true;
     }

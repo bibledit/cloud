@@ -66,8 +66,8 @@ std::string notes_select (Webserver_Request& webserver_request)
   {
     constexpr const char* identification {"passageselector"};
     int selected = webserver_request.database_config_user()->get_consultation_notes_passage_selector();
-    if (webserver_request.post.count (identification)) {
-      selected = filter::strings::convert_to_int(webserver_request.post.at(identification));
+    if (webserver_request.post_count(identification)) {
+      selected = filter::strings::convert_to_int(webserver_request.post_get(identification));
       if ((selected < 0) or (selected > 3)) selected = 0;
       webserver_request.database_config_user()->set_consultation_notes_passage_selector(selected);
     }
@@ -92,8 +92,8 @@ std::string notes_select (Webserver_Request& webserver_request)
   {
     constexpr const char* identification {"editselector"};
     int selected = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
-    if (webserver_request.post.count (identification)) {
-      selected = filter::strings::convert_to_int(webserver_request.post.at(identification));
+    if (webserver_request.post_count(identification)) {
+      selected = filter::strings::convert_to_int(webserver_request.post_get(identification));
       if ((selected < 0) or (selected > 4)) selected = 0;
       webserver_request.database_config_user()->set_consultation_notes_edit_selector(selected);
     }
@@ -119,8 +119,8 @@ std::string notes_select (Webserver_Request& webserver_request)
   {
     constexpr const char* identification {"noneditselector"};
     int selected = webserver_request.database_config_user()->get_consultation_notes_non_edit_selector();
-    if (webserver_request.post.count (identification)) {
-      selected = filter::strings::convert_to_int(webserver_request.post.at(identification));
+    if (webserver_request.post_count(identification)) {
+      selected = filter::strings::convert_to_int(webserver_request.post_get(identification));
       if ((selected < 0) or (selected > 5)) selected = 0;
       webserver_request.database_config_user()->set_consultation_notes_non_edit_selector(selected);
     }
@@ -152,11 +152,11 @@ std::string notes_select (Webserver_Request& webserver_request)
       {"statusdone",       "Done"       },
       {"statusreopened",   "Reopened"   },
     };
-    if (webserver_request.post.count ("statussubmit"))
+    if (webserver_request.post_count("statussubmit"))
     {
       std::vector<std::string> checked_statuses{};
       for (const auto& [post, status] : possible_statuses) {
-        if (webserver_request.post.count(post))
+        if (webserver_request.post_count(post))
           checked_statuses.push_back(status);
       }
       webserver_request.database_config_user()->set_consultation_notes_status_selectors(checked_statuses);
@@ -185,8 +185,8 @@ std::string notes_select (Webserver_Request& webserver_request)
   {
     constexpr const char* identification {"bibleselector"};
     std::string selected = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
-    if (webserver_request.post.count (identification)) {
-      selected = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      selected = webserver_request.post_get(identification);
       webserver_request.database_config_user()->set_consultation_notes_bible_selector(selected);
       // Also set the active Bible for the user.
       if (!selected.empty()) {
@@ -213,8 +213,8 @@ std::string notes_select (Webserver_Request& webserver_request)
   {
     constexpr const char* identification {"assignmentselector"};
     std::string selected = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
-    if (webserver_request.post.count (identification)) {
-      selected = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      selected = webserver_request.post_get(identification);
       webserver_request.database_config_user()->set_consultation_notes_assignment_selector(selected);
     }
     std::vector<std::string> values {""};
@@ -244,8 +244,8 @@ std::string notes_select (Webserver_Request& webserver_request)
   {
     constexpr const char* identification {"subscriptionselector"};
     int selected = webserver_request.database_config_user()->get_consultation_notes_subscription_selector() ? 1 : 0;
-    if (webserver_request.post.count (identification)) {
-      selected = filter::strings::convert_to_bool(webserver_request.post.at(identification));
+    if (webserver_request.post_count(identification)) {
+      selected = filter::strings::convert_to_bool(webserver_request.post_get(identification));
       webserver_request.database_config_user()->set_consultation_notes_subscription_selector(selected);
     }
     dialog::select::Settings settings {
@@ -265,8 +265,8 @@ std::string notes_select (Webserver_Request& webserver_request)
   {
     constexpr const char* identification {"severityselector"};
     int selected = webserver_request.database_config_user()->get_consultation_notes_severity_selector();
-    if (webserver_request.post.count (identification)) {
-      selected = filter::strings::convert_to_int(webserver_request.post.at(identification));
+    if (webserver_request.post_count(identification)) {
+      selected = filter::strings::convert_to_int(webserver_request.post_get(identification));
       webserver_request.database_config_user()->set_consultation_notes_severity_selector(selected);
     }
     std::vector<std::string> values {"-1"};
@@ -290,8 +290,8 @@ std::string notes_select (Webserver_Request& webserver_request)
   {
     constexpr const char* identification {"textselector"};
     int selected = webserver_request.database_config_user()->get_consultation_notes_text_selector();
-    if (webserver_request.post.count (identification)) {
-      selected = filter::strings::convert_to_int(webserver_request.post.at(identification));
+    if (webserver_request.post_count(identification)) {
+      selected = filter::strings::convert_to_int(webserver_request.post_get(identification));
       webserver_request.database_config_user()->set_consultation_notes_text_selector(selected);
     }
     if (selected == 1) view.enable_zone ("textselection");
@@ -304,7 +304,7 @@ std::string notes_select (Webserver_Request& webserver_request)
     dialog::select::Form form { .auto_submit = true };
     view.set_variable(identification, dialog::select::form(settings, form));
   }
-  if (webserver_request.post.count ("text")) {
+  if (webserver_request.post_count("text")) {
     const std::string search_text = webserver_request.post["text"];
     webserver_request.database_config_user()->set_consultation_notes_search_text (search_text);
     success = translate("Search text saved");

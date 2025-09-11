@@ -61,7 +61,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
   std::string error;
 
   
-  if (webserver_request.post.count ("add")) {
+  if (webserver_request.post_count("add")) {
     const std::string add = webserver_request.post["add"];
     webserver_request.database_config_user()->set_active_workspace (add);
     workspace_set_urls (webserver_request, workspace_get_default_urls (0));

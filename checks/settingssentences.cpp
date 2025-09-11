@@ -66,44 +66,44 @@ std::string checks_settingssentences (Webserver_Request& webserver_request)
   const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   
   
-  if (webserver_request.post.count ("capitals")) {
-    database::config::bible::set_sentence_structure_capitals (bible, webserver_request.post["capitals"]);
+  if (webserver_request.post_count("capitals")) {
+    database::config::bible::set_sentence_structure_capitals (bible, webserver_request.post_get("capitals"));
     view.set_variable ("success", translate("The capitals were stored"));
   }
   
   
-  if (webserver_request.post.count ("smallletters")) {
-    database::config::bible::set_sentence_structure_small_letters (bible, webserver_request.post["smallletters"]);
+  if (webserver_request.post_count("smallletters")) {
+    database::config::bible::set_sentence_structure_small_letters (bible, webserver_request.post_get("smallletters"));
     view.set_variable ("success", translate("The small letters were stored"));
   }
   
   
-  if (webserver_request.post.count ("endpunctuationmarks")) {
-    database::config::bible::set_sentence_structure_end_punctuation (bible, webserver_request.post["endpunctuationmarks"]);
+  if (webserver_request.post_count("endpunctuationmarks")) {
+    database::config::bible::set_sentence_structure_end_punctuation (bible, webserver_request.post_get("endpunctuationmarks"));
     view.set_variable ("success", translate("The punctuation marks at the ends of sentences were stored"));
   }
   
   
-  if (webserver_request.post.count ("middlepunctuationmarks")) {
-    database::config::bible::set_sentence_structure_middle_punctuation (bible, webserver_request.post["middlepunctuationmarks"]);
+  if (webserver_request.post_count ("middlepunctuationmarks")) {
+    database::config::bible::set_sentence_structure_middle_punctuation (bible, webserver_request.post_get("middlepunctuationmarks"));
     view.set_variable ("success", translate("The punctuation marks within the sentences were stored"));
   }
   
   
-  if (webserver_request.post.count ("disregards")) {
-    database::config::bible::set_sentence_structure_disregards (bible, webserver_request.post["disregards"]);
+  if (webserver_request.post_count ("disregards")) {
+    database::config::bible::set_sentence_structure_disregards (bible, webserver_request.post_get("disregards"));
     view.set_variable ("success", translate("The characters that should be disregarded within the sentences were stored"));
   }
   
   
-  if (webserver_request.post.count ("names")) {
-    database::config::bible::set_sentence_structure_names (bible, webserver_request.post["names"]);
+  if (webserver_request.post_count("names")) {
+    database::config::bible::set_sentence_structure_names (bible, webserver_request.post_get("names"));
     view.set_variable ("success", translate("The names that may occur after mid-sentence punctuation were stored"));
   }
 
   
-  if (webserver_request.post.count ("within_sentence_paragraph_markers")) {
-    database::config::bible::set_sentence_structure_within_sentence_markers (bible, webserver_request.post["within_sentence_paragraph_markers"]);
+  if (webserver_request.post_count("within_sentence_paragraph_markers")) {
+    database::config::bible::set_sentence_structure_within_sentence_markers (bible, webserver_request.post_get("within_sentence_paragraph_markers"));
     view.set_variable ("success", translate("The markers that start a new line but not necessarily a new sentence were saved"));
   }
 

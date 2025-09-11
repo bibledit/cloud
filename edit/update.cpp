@@ -72,15 +72,15 @@ std::string edit_update (Webserver_Request& webserver_request)
   // Check the relevant bits of information.
   if (good2go) {
     bool parameters_ok {true};
-    if (!webserver_request.post.count ("bible"))
+    if (!webserver_request.post_count("bible"))
       parameters_ok = false;
-    if (!webserver_request.post.count ("book"))
+    if (!webserver_request.post_count("book"))
       parameters_ok = false;
-    if (!webserver_request.post.count ("chapter"))
+    if (!webserver_request.post_count("chapter"))
       parameters_ok = false;
-    if (!webserver_request.post.count ("loaded"))
+    if (!webserver_request.post_count("loaded"))
       parameters_ok = false;
-    if (!webserver_request.post.count ("edited"))
+    if (!webserver_request.post_count("edited"))
       parameters_ok = false;
     if (!parameters_ok) {
       messages.push_back (translate("Don't know what to update"));

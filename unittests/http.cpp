@@ -259,7 +259,6 @@ TEST (http, parse_post)
           {"upload", "Upload"}
         };
         EXPECT_EQ (webserver_request.post, standard_old);
-        EXPECT_TRUE (webserver_request.post_multiple.empty());
         http_parse_post_v2 (content, webserver_request);
         const container standard_new {
           {"filename", "00_test1.txt"},
@@ -291,7 +290,6 @@ TEST (http, parse_post)
           { "00_test2.txt", "00_test3.txt" }
         }
       };
-      EXPECT_EQ (webserver_request.post_multiple, standard2);
       http_parse_post_v2 (content, webserver_request);
       const container standard_new {
         {"filename", "00_test1.txt"},

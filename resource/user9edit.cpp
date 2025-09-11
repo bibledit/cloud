@@ -62,7 +62,7 @@ std::string resource_user9edit (Webserver_Request& webserver_request)
     page += dialog_entry.run ();
     return page;
   }
-  if (webserver_request.post.count ("new")) {
+  if (webserver_request.post_count("new")) {
     std::string resource = webserver_request.post ["entry"];
     std::vector <std::string> resources = Database_UserResources::names ();
     if (in_array (resource, resources)) {

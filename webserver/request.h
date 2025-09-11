@@ -60,11 +60,11 @@ public:
   int content_length {0};
    // The raw POST data from the browser, item by item.
   std::map <std::string, std::string> post {};
-  // If the POSTed data contains multiple identical keys, store the extra keys here.
-  // Ideally the above container, "post" should be redesigned to be able to contain multiple identical keys.
-  std::map <std::string, std::vector<std::string>> post_multiple{};
   // The raw POSTed data from the browser, version 2.
   std::vector<std::pair<std::string,std::string>> post_v2 {};
+  // Convenience functions on post_v2.
+  int post_count(const std::string& key) const;
+  std::string post_get(const std::string& key) const;
    // Header as received from the browser.
   std::string if_none_match {};
    // Extra header to be sent back to the browser.

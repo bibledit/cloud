@@ -62,8 +62,8 @@ std::string collaboration_index (Webserver_Request& webserver_request)
   std::string object = webserver_request.query ["object"];
   {
     constexpr const char* identification {"selectbible"};
-    if (webserver_request.post.count (identification)) {
-      object = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      object = webserver_request.post_get(identification);
     }
     dialog::select::Settings settings {
       .identification = identification,

@@ -69,7 +69,7 @@ std::string notes_edit (Webserver_Request& webserver_request)
   if (identifier) view.set_variable (identifier_label, std::to_string (identifier));
   
   
-  if (webserver_request.post.count ("data")) {
+  if (webserver_request.post_count("data")) {
     // Save note.
     std::string noteData = webserver_request.post["data"];
     if (database_notes.identifier_exists (identifier)) {

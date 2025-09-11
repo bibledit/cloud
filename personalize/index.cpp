@@ -68,13 +68,13 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
 
   // Accept values for allowed relative changes for the four Bible text editors.
-  if (webserver_request.post.count ("chapterpercentage")) {
+  if (webserver_request.post_count("chapterpercentage")) {
     int chapterpercentage = filter::strings::convert_to_int (webserver_request.post ["chapterpercentage"]);
     chapterpercentage = clip (chapterpercentage, 10, 100);
     webserver_request.database_config_user ()->set_editing_allowed_difference_chapter (chapterpercentage);
     return std::string();
   }
-  if (webserver_request.post.count ("versepercentage")) {
+  if (webserver_request.post_count("versepercentage")) {
     int versepercentage = filter::strings::convert_to_int (webserver_request.post ["versepercentage"]);
     versepercentage = clip (versepercentage, 10, 100);
     webserver_request.database_config_user ()->set_editing_allowed_difference_verse (versepercentage);
@@ -86,8 +86,8 @@ std::string personalize_index (Webserver_Request& webserver_request)
   {
     constexpr const char* identification {"theme"};
     int theme = webserver_request.database_config_user ()->get_current_theme();
-    if (webserver_request.post.count (identification)) {
-      theme = filter::strings::convert_to_int(webserver_request.post.at(identification));
+    if (webserver_request.post_count(identification)) {
+      theme = filter::strings::convert_to_int(webserver_request.post_get(identification));
       if (config::logic::default_bibledit_configuration ()) {
         webserver_request.database_config_user ()->set_current_theme (theme);
       }
@@ -112,7 +112,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   // Store new font sizes before displaying the header,
   // so that the page displays the new font sizes immediately.
-  if (webserver_request.post.count ("fontsizegeneral")) {
+  if (webserver_request.post_count("fontsizegeneral")) {
     int fontsizegeneral = filter::strings::convert_to_int (webserver_request.post["fontsizegeneral"]);
     fontsizegeneral = clip (fontsizegeneral, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
@@ -120,7 +120,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
     }
     return std::string();
   }
-  if (webserver_request.post.count ("fontsizemenu")) {
+  if (webserver_request.post_count("fontsizemenu")) {
     int fontsizemenu = filter::strings::convert_to_int (webserver_request.post["fontsizemenu"]);
     fontsizemenu = clip (fontsizemenu, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
@@ -148,7 +148,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   
   // Font size for the Bible editors.
-  if (webserver_request.post.count ("fontsizeeditors")) {
+  if (webserver_request.post_count("fontsizeeditors")) {
     int fontsizeeditors = filter::strings::convert_to_int (webserver_request.post["fontsizeeditors"]);
     fontsizeeditors = clip (fontsizeeditors, 50, 300);
     webserver_request.database_config_user ()->set_bible_editors_font_size (fontsizeeditors);
@@ -159,7 +159,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   
   // Font size for the resources.
-  if (webserver_request.post.count ("fontsizeresources")) {
+  if (webserver_request.post_count("fontsizeresources")) {
     int fontsizeresources = filter::strings::convert_to_int (webserver_request.post["fontsizeresources"]);
     fontsizeresources = clip (fontsizeresources, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
@@ -171,7 +171,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   
   // Font size for Hebrew resources.
-  if (webserver_request.post.count ("fontsizehebrew")) {
+  if (webserver_request.post_count("fontsizehebrew")) {
     int fontsizehebrew = filter::strings::convert_to_int (webserver_request.post["fontsizehebrew"]);
     fontsizehebrew = clip (fontsizehebrew, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
@@ -183,7 +183,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   
   // Font size for Greek resources.
-  if (webserver_request.post.count ("fontsizegreek")) {
+  if (webserver_request.post_count("fontsizegreek")) {
     int fontsizegreek = filter::strings::convert_to_int (webserver_request.post["fontsizegreek"]);
     fontsizegreek = clip (fontsizegreek, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
@@ -195,7 +195,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   
   // Vertical caret position in chapter editors.
-  if (webserver_request.post.count ("caretposition")) {
+  if (webserver_request.post_count("caretposition")) {
     int caretposition = filter::strings::convert_to_int (webserver_request.post["caretposition"]);
     caretposition = clip (caretposition, 20, 80);
     webserver_request.database_config_user ()->set_vertical_caret_position (caretposition);
@@ -213,7 +213,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   
   // Workspace menu fade-out delay.
-  if (webserver_request.post.count ("workspacefadeoutdelay")) {
+  if (webserver_request.post_count("workspacefadeoutdelay")) {
     int workspacefadeoutdelay = filter::strings::convert_to_int (webserver_request.post["workspacefadeoutdelay"]);
     workspacefadeoutdelay = clip (workspacefadeoutdelay, 0, 100);
     webserver_request.database_config_user ()->set_workspace_menu_fadeout_delay (workspacefadeoutdelay);
@@ -254,8 +254,8 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // Visual editors in the fast Bible editor switcher.
   {
     constexpr const char* identification {"fastswitchvisualeditors"};
-    if (webserver_request.post.count (identification)) {
-      const auto value = filter::strings::convert_to_int (webserver_request.post.at(identification));
+    if (webserver_request.post_count(identification)) {
+      const auto value = filter::strings::convert_to_int (webserver_request.post_get(identification));
       webserver_request.database_config_user ()->set_fast_switch_visual_editors (value);
       return std::string();
     }
@@ -279,8 +279,8 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // USFM editors fast Bible editor switcher.
   {
     constexpr const char* identification {"fastswitchusfmeditors"};
-    if (webserver_request.post.count (identification)) {
-      const int value = filter::strings::convert_to_int(webserver_request.post.at(identification));
+    if (webserver_request.post_count(identification)) {
+      const int value = filter::strings::convert_to_int(webserver_request.post_get(identification));
       webserver_request.database_config_user ()->set_fast_switch_usfm_editors (value);
       return std::string();
     }
@@ -308,8 +308,8 @@ std::string personalize_index (Webserver_Request& webserver_request)
   view.set_variable ("bible", bible);
   {
     constexpr const char* identification {"bible"};
-    if (webserver_request.post.count (identification)) {
-      bible = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      bible = webserver_request.post_get(identification);
       webserver_request.database_config_user()->set_bible (bible);
       // Going to another Bible, ensure that the focused book exists there.
       int book = Ipc_Focus::getBook (webserver_request);
@@ -416,8 +416,8 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // Setting for the verse separator during notes entry.
   {
     constexpr const char* identification {"verseseparator"};
-    if (webserver_request.post.count (identification)) {
-      const std::string value {webserver_request.post.at(identification)};
+    if (webserver_request.post_count(identification)) {
+      const std::string value {webserver_request.post_get(identification)};
       database::config::general::set_notes_verse_separator(value);
       return std::string();
     }
@@ -449,8 +449,8 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // The date format to be used in the Consultation Notes.
   {
     constexpr const char* identification {"dateformat"};
-    if (webserver_request.post.count (identification)) {
-      const std::string value {webserver_request.post.at(identification)};
+    if (webserver_request.post_count(identification)) {
+      const std::string value {webserver_request.post_get(identification)};
       webserver_request.database_config_user ()->set_notes_date_format(filter::strings::convert_to_int(value));
       return std::string();
     }

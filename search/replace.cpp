@@ -101,8 +101,8 @@ std::string search_replace (Webserver_Request& webserver_request)
 
   {
     constexpr const char* identification {"bibleselect"};
-    if (webserver_request.post.count (identification)) {
-      bible = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      bible = webserver_request.post_get(identification);
       webserver_request.database_config_user ()->set_bible (bible);
     }
     dialog::select::Settings settings {

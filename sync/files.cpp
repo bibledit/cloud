@@ -53,8 +53,11 @@ std::string sync_files (Webserver_Request& webserver_request)
     std::this_thread::sleep_for (std::chrono::seconds (5));
   }
   
-  if (webserver_request.post.empty ()) {
-    webserver_request.post = webserver_request.query;
+  if (webserver_request.post_v2.empty ()) {
+    for (auto& [key, value] : webserver_request.query) {
+      // Todo is this still needed?
+      webserver_request.post_v2.emplace_back(key, value);
+    }
   }
   const std::string user = filter::strings::hex2bin (webserver_request.post ["u"]);
   const int action = filter::strings::convert_to_int (webserver_request.post ["a"]);

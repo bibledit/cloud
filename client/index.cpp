@@ -111,7 +111,7 @@ std::string client_index (Webserver_Request& webserver_request)
     database::config::general::set_just_connected_to_cloud (false);
   }
   
-  bool connect = webserver_request.post.count ("connect");
+  bool connect = webserver_request.post_count("connect");
   bool demo = webserver_request.query.count ("demo");
   if (connect || demo) {
 

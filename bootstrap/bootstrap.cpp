@@ -244,7 +244,7 @@ void bootstrap_index (Webserver_Request& webserver_request)
   // Record the POST request made to the web server.
   // This can be used for debugging.
   /*
-  if (!webserver_request.post.empty () && config_logic_demo_enabled ()) {
+  if (!webserver_request.post_v2.empty () && config_logic_demo_enabled ()) {
     std::string contents;
     int seconds = filter::date::seconds_since_epoch ();
     std::string rfc822time = filter::date::rfc822 (seconds);
@@ -255,7 +255,7 @@ void bootstrap_index (Webserver_Request& webserver_request)
       query.append (element.first + "=" + element.second + " and ");
     }
     std::string post;
-    for (auto element : webserver_request.post) {
+    for (auto element : webserver_request.post_v2) {
       post.append (element.first + "=" + element.second + " and ");
     }
     contents.append ("query: " + query + "\n");

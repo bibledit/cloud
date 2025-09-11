@@ -59,7 +59,7 @@ std::string collaboration_settings (Webserver_Request& webserver_request)
   view.set_variable ("object", object);
 
   
-  if (webserver_request.post.count ("url")) {
+  if (webserver_request.post_count("url")) {
     if (!object.empty ()) {
       std::string url = webserver_request.post["url"];
       database::config::bible::set_remote_repository_url (object, url);

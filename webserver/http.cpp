@@ -167,10 +167,7 @@ static void http_parse_post_standard (std::string content, Webserver_Request& we
       std::string value{std::move(element.second.value)};
       if (urlencoded)
         value = filter_url_urldecode (value);
-      if (webserver_request.post.count(key))
-        webserver_request.post_multiple[key].push_back(std::move(value));
-      else
-        webserver_request.post[key] = std::move(value);
+      webserver_request.post[key] = std::move(value);
     }
     // Special case: Extract the filename in case of a file upload.
     if (content.length () > 1000) content.resize (1000);
@@ -187,10 +184,7 @@ static void http_parse_post_standard (std::string content, Webserver_Request& we
         line = line.substr (pos + filename_is.size() + 1);
         line = filter::strings::trim (line);
         line.pop_back ();
-        if (webserver_request.post.count(filename))
-          webserver_request.post_multiple[filename].push_back(line);
-        else
-          webserver_request.post [filename] = line;
+        webserver_request.post [filename] = line;
       }
     }
   }

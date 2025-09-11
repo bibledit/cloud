@@ -73,7 +73,7 @@ std::string styles_new (Webserver_Request& webserver_request)
   constexpr const std::string_view allowed {"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789-"};
   
   // Handle new style submission.
-  if (webserver_request.post.count ("style")) {
+  if (webserver_request.post_count("style")) {
     const std::string new_style = webserver_request.post["style"];
     const std::string base_style = webserver_request.post["base"];
     const std::vector<std::string> markers = database::styles::get_markers(name);

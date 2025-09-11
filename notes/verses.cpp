@@ -63,7 +63,7 @@ std::string notes_verses (Webserver_Request& webserver_request)
   view.set_variable ("id", std::to_string (id));
 
 
-  if (webserver_request.post.count ("submit")) {
+  if (webserver_request.post_count("submit")) {
     std::vector <std::string> verses = filter::strings::explode (webserver_request.post["verses"], '\n');
     std::vector <Passage> passages;
     Passage previousPassage = Passage ("", 1, 1, "1");

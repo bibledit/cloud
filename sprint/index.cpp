@@ -97,7 +97,7 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   int year = webserver_request.database_config_user()->get_sprint_year ();
   
 
-  if (webserver_request.post.count ("id")) {
+  if (webserver_request.post_count("id")) {
     std::string id = webserver_request.post ["id"];
     std::string checked = webserver_request.post ["checked"];
     if (id.length () >= 9) {
@@ -127,7 +127,7 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   }
   
   
-  if (webserver_request.post.count ("add")) {
+  if (webserver_request.post_count("add")) {
     std::string title = webserver_request.post ["add"];
     database_sprint.storeTask (bible, year, month, title);
     view.set_variable ("success", translate("New task added"));
@@ -147,8 +147,8 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   {
     constexpr const char* identification {"bible"};
-    if (webserver_request.post.count (identification)) {
-      bible = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      bible = webserver_request.post_get(identification);
       webserver_request.database_config_user()->set_bible (bible);
     }
     dialog::select::Settings settings {
@@ -188,7 +188,7 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   }
 
   
-  if (webserver_request.post.count ("categories")) {
+  if (webserver_request.post_count("categories")) {
     std::string categories = webserver_request.post ["categories"];
     std::vector <std::string> categories2;
     categories = filter::strings::trim (categories);

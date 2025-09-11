@@ -46,6 +46,26 @@ Webserver_Request::~Webserver_Request ()
 }
 
 
+int Webserver_Request::post_count(const std::string& key) const
+{
+  int count {0};
+  for (const auto& element : post_v2) {
+    if (element.first == key)
+      count++;
+  }
+  return count;
+}
+
+
+std::string Webserver_Request::post_get(const std::string& key) const
+{
+  for (const auto& element : post_v2)
+    if (element.first == key)
+      return element.second;
+  return std::string();
+}
+
+
 // Returns a pointer to a live Session_Logic object.
 Session_Logic * Webserver_Request::session_logic ()
 {

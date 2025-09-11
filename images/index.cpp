@@ -58,7 +58,7 @@ std::string images_index (Webserver_Request& webserver_request)
 
   
   // File upload.
-  if (webserver_request.post.count ("upload")) {
+  if (webserver_request.post_count("upload")) {
     const std::string& folder = filter_url_tempfile ();
     filter_url_mkdir (folder);
     const std::string& file = filter_url_create_path ({folder, webserver_request.post ["filename"]});

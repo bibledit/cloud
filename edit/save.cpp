@@ -59,7 +59,7 @@ bool edit_save_acl (Webserver_Request& webserver_request)
 
 std::string edit_save (Webserver_Request& webserver_request)
 {
-  bool post_complete = (webserver_request.post.count ("bible") && webserver_request.post.count ("book") && webserver_request.post.count ("chapter") && webserver_request.post.count ("html") && webserver_request.post.count ("checksum"));
+  bool post_complete = (webserver_request.post_count("bible") && webserver_request.post_count("book") && webserver_request.post_count("chapter") && webserver_request.post_count("html") && webserver_request.post_count("checksum"));
   if (!post_complete) {
     return translate("Insufficient information");
   }

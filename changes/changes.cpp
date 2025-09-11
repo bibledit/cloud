@@ -87,8 +87,8 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   
   // Handle AJAX call to remove a change notification.
-  if (webserver_request.post.count ("remove")) {
-    const int remove = filter::strings::convert_to_int (webserver_request.post["remove"]);
+  if (webserver_request.post_count("remove")) {
+    const int remove = filter::strings::convert_to_int (webserver_request.post_get("remove"));
     trash_change_notification (webserver_request, remove);
     database::modifications::deleteNotification (remove);
 #ifdef HAVE_CLIENT
@@ -100,8 +100,8 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   
   // Handle AJAX call to navigate to the passage belonging to the change notification.
-  if (webserver_request.post.count ("navigate")) {
-    const std::string navigate = webserver_request.post["navigate"];
+  if (webserver_request.post_count("navigate")) {
+    const std::string navigate = webserver_request.post_get("navigate");
     const int id = filter::strings::convert_to_int (navigate);
     const Passage passage = database::modifications::getNotificationPassage (id);
     if (passage.m_book) {

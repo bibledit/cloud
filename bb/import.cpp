@@ -76,9 +76,9 @@ std::string bible_import (Webserver_Request& webserver_request)
   }
 
   // USFM data submission.
-  if (webserver_request.post.count ("submit")) {
+  if (webserver_request.post_count("submit")) {
     // Submission may take long if there's a lot of data or the network is slow.
-    std::string data = webserver_request.post ["data"];
+    std::string data = webserver_request.post_get("data");
     data = filter_url_tag_to_plus (data);
     data = filter::strings::trim (data);
     if (!data.empty()) {
@@ -99,19 +99,26 @@ std::string bible_import (Webserver_Request& webserver_request)
   }
 
   // Handle (multiple) file upload.
-  if (webserver_request.post.count ("upload")) {
+  if (webserver_request.post_count("upload")) {
     bool success {false};
-    const auto upload = [&success, &bible, &book, &chapter](const std::string data) {
-      if (!data.empty ()) {
-        const std::string datafile = filter_url_tempfile ();
-        filter_url_file_put_contents (datafile, data);
-        tasks_logic_queue (task::import_bible, { datafile, bible, std::to_string (book), std::to_string (chapter) });
-        success = true;
-      }
+    std::string filename{};
+    std::string data{};
+    const auto upload = [&success, &bible, &book, &chapter, &filename, &data]() {
+      const std::string datafile = filter_url_tempfile() + filename;
+      filter_url_file_put_contents (datafile, data);
+      tasks_logic_queue (task::import_bible, { datafile, bible, std::to_string (book), std::to_string (chapter) });
+      success = true;
     };
-    upload(std::move(webserver_request.post["data"]));
-    for (std::string data : webserver_request.post_multiple["data"]) {
-      upload(std::move(data));
+    for (const auto& [key, value] : webserver_request.post_v2) {
+      if (key == "data")
+        data = value;
+      if (key == "filename")
+        filename = value;
+      if (!filename.empty() and !data.empty()) {
+        upload();
+        filename.clear();
+        data.clear();
+      }
     }
     if (success) {
       success_message = translate("Import has started.");

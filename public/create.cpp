@@ -80,7 +80,7 @@ std::string public_create (Webserver_Request& webserver_request)
   view.set_variable ("versetext", versetext);
 
  
-  if (webserver_request.post.count ("submit")) {
+  if (webserver_request.post_count("submit")) {
     std::string summary = filter::strings::trim (webserver_request.post["summary"]);
     if (summary.empty ()) summary = translate ("Feedback");
     const std::string contents = "<p>" + versetext + "</p>" + filter::strings::trim (webserver_request.post["contents"]);
@@ -98,7 +98,7 @@ std::string public_create (Webserver_Request& webserver_request)
   }
 
   
-  if (webserver_request.post.count ("cancel")) {
+  if (webserver_request.post_count("cancel")) {
     if (config::logic::default_bibledit_configuration ()) {
       redirect_browser (webserver_request, public_index_url ());
     }

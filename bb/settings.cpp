@@ -115,8 +115,8 @@ std::string bible_settings (Webserver_Request& webserver_request)
     constexpr const char* versification {"versification"};
     Database_Versifications database_versifications;
     const std::vector <std::string> systems = database_versifications.getSystems ();
-    if (webserver_request.post.count (versification)) {
-      const std::string system {webserver_request.post.at(versification)};
+    if (webserver_request.post_count (versification)) {
+      const std::string system {webserver_request.post_get(versification)};
       if (write_access)
         database::config::bible::set_versification_system (bible, system);
     }
@@ -172,8 +172,8 @@ std::string bible_settings (Webserver_Request& webserver_request)
   // Importing text from a resource.
   {
     constexpr const char* selector {"resource"};
-    if (webserver_request.post.count (selector)) {
-      const std::string resource {webserver_request.post.at(selector)};
+    if (webserver_request.post_count (selector)) {
+      const std::string resource {webserver_request.post_get(selector)};
       if (!resource.empty ()) {
         const auto bibles = database::bibles::get_books (bible);
         if (bibles.empty()) {
@@ -264,8 +264,8 @@ std::string bible_settings (Webserver_Request& webserver_request)
   // Stylesheet for editing.
   {
     constexpr const char* identification {"stylesheetediting"};
-    if (webserver_request.post.count (identification)) {
-      const std::string value {webserver_request.post.at(identification)};
+    if (webserver_request.post_count(identification)) {
+      const std::string value {webserver_request.post_get(identification)};
       database::config::bible::set_editor_stylesheet (bible, value);
       return std::string();
     }
@@ -283,8 +283,8 @@ std::string bible_settings (Webserver_Request& webserver_request)
   // Stylesheet for export.
   {
     constexpr const char* identification {"stylesheetexport"};
-    if (webserver_request.post.count (identification)) {
-      const std::string value {webserver_request.post.at(identification)};
+    if (webserver_request.post_count (identification)) {
+      const std::string value {webserver_request.post_get(identification)};
       database::config::bible::set_export_stylesheet (bible, value);
       return std::string();
     }

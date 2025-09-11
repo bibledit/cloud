@@ -75,17 +75,17 @@ std::string notes_create (Webserver_Request& webserver_request)
   
   
   int book;
-  if (webserver_request.post.count ("book")) book = filter::strings::convert_to_int (webserver_request.post ["book"]);
+  if (webserver_request.post_count("book")) book = filter::strings::convert_to_int (webserver_request.post ["book"]);
   else book = Ipc_Focus::getBook (webserver_request);
   int chapter;
-  if (webserver_request.post.count ("chapter")) chapter = filter::strings::convert_to_int (webserver_request.post ["chapter"]);
+  if (webserver_request.post_count("chapter")) chapter = filter::strings::convert_to_int (webserver_request.post ["chapter"]);
   else chapter = Ipc_Focus::getChapter (webserver_request);
   int verse;
-  if (webserver_request.post.count ("verse")) verse = filter::strings::convert_to_int (webserver_request.post ["verse"]);
+  if (webserver_request.post_count("verse")) verse = filter::strings::convert_to_int (webserver_request.post ["verse"]);
   else verse = Ipc_Focus::getVerse (webserver_request);
 
   
-  if (webserver_request.post.count ("summary")) {
+  if (webserver_request.post_count("summary")) {
     std::string summary = filter::strings::trim (webserver_request.post["summary"]);
     summary = filter_url_tag_to_plus (summary);
     std::string body = filter::strings::trim (webserver_request.post["body"]);
@@ -95,7 +95,7 @@ std::string notes_create (Webserver_Request& webserver_request)
   }
 
   
-  if (webserver_request.post.count ("cancel")) {
+  if (webserver_request.post_count("cancel")) {
     redirect_browser (webserver_request, notes_index_url ());
     return std::string();
   }

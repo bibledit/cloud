@@ -199,7 +199,7 @@ void redirect_browser (Webserver_Request& webserver_request, std::string path)
 
   // If the page contains the topbar suppressing query,
   // the same query will be appended to the URL of the redirected page.
-  if (webserver_request.query.count ("topbar") || webserver_request.post.count ("topbar")) {
+  if (webserver_request.query.count ("topbar") || webserver_request.post_count("topbar")) {
     location = filter_url_build_http_query(location, {{"topbar", "0"}});
   }
 

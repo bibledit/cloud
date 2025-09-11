@@ -82,8 +82,8 @@ std::string manage_users (Webserver_Request& webserver_request)
   // The default new user role.
   {
     constexpr const char* identification {"defaultacl"};
-    if (webserver_request.post.count (identification)) {
-      const std::string value {webserver_request.post.at(identification)};
+    if (webserver_request.post_count(identification)) {
+      const std::string value {webserver_request.post_get(identification)};
       const int defaultacl = filter::strings::convert_to_int (value);
       database::config::general::set_default_new_user_access_level(defaultacl);
       return std::string();
@@ -104,7 +104,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     page += dialog_entry.run ();
     return page;
   }
-  if (webserver_request.post.count ("new")) {
+  if (webserver_request.post_count("new")) {
     std::string user = webserver_request.post["entry"];
     if (webserver_request.database_users ()->usernameExists (user)) {
       page += assets_page::error (translate("User already exists"));
@@ -175,8 +175,8 @@ std::string manage_users (Webserver_Request& webserver_request)
     const std::vector <std::string> users = access_user::assignees (webserver_request);
     for (unsigned int u {0}; u < users.size(); u++) {
       const std::string identification = level_identification + std::to_string(u);
-      if (webserver_request.post.count (identification)) {
-        const std::string value = webserver_request.post.at(identification);
+      if (webserver_request.post_count(identification)) {
+        const std::string value = webserver_request.post_get(identification);
         webserver_request.database_users ()->set_level (object_username, filter::strings::convert_to_int (value));
       }
     }
@@ -195,7 +195,7 @@ std::string manage_users (Webserver_Request& webserver_request)
       return page;
     }
   }
-  if (webserver_request.post.count ("email")) {
+  if (webserver_request.post_count("email")) {
     std::string email = webserver_request.post["entry"];
     if (filter_url_email_is_valid (email)) {
       page += assets_page::success (translate("Email address was updated"));

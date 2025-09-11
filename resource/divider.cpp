@@ -86,7 +86,7 @@ std::string resource_divider (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("background")) clean_divider = false;
   if (webserver_request.query.count ("foreground2")) clean_divider = false;
   if (webserver_request.query.count ("background2")) clean_divider = false;
-  if (webserver_request.post.count ("entry")) clean_divider = false;
+  if (webserver_request.post_count("entry")) clean_divider = false;
   if (webserver_request.query.count ("add")) clean_divider = false;
   if (clean_divider) database::temporal::set_value (userid, key, resource_logic_rich_divider());
  
@@ -115,7 +115,7 @@ std::string resource_divider (Webserver_Request& webserver_request)
     page += dialog_entry.run ();
     return page;
   }
-  if (webserver_request.post.count ("title")) {
+  if (webserver_request.post_count("title")) {
     title = webserver_request.post["entry"];
     divider_edited = true;
   }
@@ -128,7 +128,7 @@ std::string resource_divider (Webserver_Request& webserver_request)
     page += dialog_entry.run ();
     return page;
   }
-  if (webserver_request.post.count ("link")) {
+  if (webserver_request.post_count("link")) {
     link = webserver_request.post["entry"];
     divider_edited = true;
   }

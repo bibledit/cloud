@@ -72,7 +72,7 @@ std::string read_index (Webserver_Request& webserver_request)
   }
 
   // Set the user chosen Bible as the current Bible.
-  if (webserver_request.post.count ("bibleselect")) {
+  if (webserver_request.post_count("bibleselect")) {
     std::string bibleselect = webserver_request.post ["bibleselect"];
     webserver_request.database_config_user ()->set_bible (bibleselect);
     return std::string();
@@ -96,8 +96,8 @@ std::string read_index (Webserver_Request& webserver_request)
   std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   {
     constexpr const char* identification {"bible"};
-    if (webserver_request.post.count (identification)) {
-      bible = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      bible = webserver_request.post_get(identification);
     }
     dialog::select::Settings settings {
       .identification = identification,

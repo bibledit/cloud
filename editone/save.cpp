@@ -59,7 +59,7 @@ bool editone_save_acl (Webserver_Request& webserver_request)
 std::string editone_save (Webserver_Request& webserver_request)
 {
   // Check on information about where to save the verse.
-  const bool save = (webserver_request.post.count ("bible") && webserver_request.post.count ("book") && webserver_request.post.count ("chapter") && webserver_request.post.count ("verse") && webserver_request.post.count ("html"));
+  const bool save = (webserver_request.post_count("bible") && webserver_request.post_count("book") && webserver_request.post_count("chapter") && webserver_request.post_count("verse") && webserver_request.post_count("html"));
   if (!save) {
     return translate("Don't know where to save");
   }

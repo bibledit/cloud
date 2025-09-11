@@ -77,8 +77,8 @@ std::string manage_write (Webserver_Request& webserver_request)
   auto [ bible_read_access, bible_write_access ] = DatabasePrivileges::get_bible (user, bible);
 
   // Toggle write access to Bible book.
-  if (!webserver_request.post.empty ()) {
-    std::string checkbox = webserver_request.post["checkbox"];
+  if (!webserver_request.post_v2.empty ()) {
+    std::string checkbox = webserver_request.post_get("checkbox");
     std::string s_book (checkbox);
     s_book.erase (0, 4);
     int book = filter::strings::convert_to_int (s_book);

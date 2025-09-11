@@ -63,7 +63,7 @@ std::string styles_indexm (Webserver_Request& webserver_request)
   const std::string& username {webserver_request.session_logic ()->get_username ()};
   int userlevel {webserver_request.session_logic ()->get_level ()};
   
-  if (webserver_request.post.count ("new")) {
+  if (webserver_request.post_count("new")) {
     std::string name {webserver_request.post["entry"]};
     // Remove spaces at the ends of the name for the new stylesheet.
     // Because predictive keyboards can add a space to the name,

@@ -88,8 +88,8 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
   // The comparative resource's base resource.
   {
     constexpr const char* identification {"base"};
-    if (webserver_request.post.count (identification)) {
-      base = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      base = webserver_request.post_get(identification);
       resource_edited = true;
     }
     dialog::select::Settings settings {
@@ -105,8 +105,8 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
   // The comparative resource's updated resource.
   {
     constexpr const char* identification {"update"};
-    if (webserver_request.post.count (identification)) {
-      update = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      update = webserver_request.post_get(identification);
       resource_edited = true;
     }
     dialog::select::Settings settings {
@@ -127,7 +127,7 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
     page += dialog_entry.run ();
     return page;
   }
-  if (webserver_request.post.count ("remove")) {
+  if (webserver_request.post_count("remove")) {
     remove = webserver_request.post ["entry"];
     resource_edited = true;
   }
@@ -140,7 +140,7 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
     page += dialog_entry.run ();
     return page;
   }
-  if (webserver_request.post.count ("replace")) {
+  if (webserver_request.post_count("replace")) {
     replace = webserver_request.post ["entry"];
     resource_edited = true;
   }

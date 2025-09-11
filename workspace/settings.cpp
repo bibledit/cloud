@@ -58,7 +58,7 @@ std::string workspace_settings (Webserver_Request& webserver_request)
     workspace_set_heights (webserver_request, workspace_get_default_heights (preset));
   }
   
-  if (webserver_request.post.count ("save")) {
+  if (webserver_request.post_count("save")) {
     std::map <int, std::string> urls;
     std::map <int, std::string> widths;
     std::map <int, std::string> row_heights;

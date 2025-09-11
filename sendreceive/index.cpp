@@ -88,8 +88,8 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
   std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   {
     constexpr const char* identification {"bible"};
-    if (webserver_request.post.count (identification)) {
-      bible = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      bible = webserver_request.post_get(identification);
       webserver_request.database_config_user()->set_bible (bible);
     }
     dialog::select::Settings settings {

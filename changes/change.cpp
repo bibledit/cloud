@@ -67,8 +67,8 @@ std::string changes_change (Webserver_Request& webserver_request)
 
   
   // Note unsubscribe handler.
-  if (webserver_request.post.count ("unsubscribe")) {
-    std::string unsubscribe = webserver_request.post["unsubscribe"];
+  if (webserver_request.post_count ("unsubscribe")) {
+    std::string unsubscribe = webserver_request.post_get("unsubscribe");
     unsubscribe.erase (0, 11);
     notes_logic.unsubscribe (filter::strings::convert_to_int (unsubscribe));
     return std::string();
@@ -76,8 +76,8 @@ std::string changes_change (Webserver_Request& webserver_request)
   
   
   // Note unassign handler.
-  if (webserver_request.post.count ("unassign")) {
-    std::string unassign = webserver_request.post["unassign"];
+  if (webserver_request.post_count ("unassign")) {
+    std::string unassign = webserver_request.post_get("unassign");
     unassign.erase (0, 8);
     notes_logic.unassignUser (filter::strings::convert_to_int (unassign), webserver_request.session_logic ()->get_username ());
     return std::string();
@@ -85,8 +85,8 @@ std::string changes_change (Webserver_Request& webserver_request)
   
   
   // Note mark for deletion handler.
-  if (webserver_request.post.count("delete")) {
-    std::string erase = webserver_request.post["delete"];
+  if (webserver_request.post_count("delete")) {
+    std::string erase = webserver_request.post_get("delete");
     erase.erase (0, 6);
     const int identifier {filter::strings::convert_to_int (erase)};
     notes_logic.markForDeletion (identifier);

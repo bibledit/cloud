@@ -72,8 +72,8 @@ std::string manage_bibles (Webserver_Request& webserver_request)
   
   // Add a Bible to the user.
   constexpr const char* add {"add"};
-  if (webserver_request.post.count (add)) {
-    const auto added = webserver_request.post.at(add);
+  if (webserver_request.post_count(add)) {
+    const auto added = webserver_request.post_get(add);
     // Write access depends on whether it's a translator role or higher.
     const bool write = (level >= roles::translator);
     DatabasePrivileges::set_bible (user, added, write);

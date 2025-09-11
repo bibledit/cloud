@@ -68,8 +68,8 @@ std::string paratext_index (Webserver_Request& webserver_request)
   
   {
     constexpr const char* identification {"selectbible"};
-    if (webserver_request.post.count (identification)) {
-      bible = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      bible = webserver_request.post_get(identification);
     }
     // The selector contains an empty value plus all Bibles.
     std::vector<std::string> values {std::string()};
@@ -101,7 +101,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
     page += dialog_entry.run ();
     return page;
   }
-  if (webserver_request.post.count ("paratextfolder")) {
+  if (webserver_request.post_count("paratextfolder")) {
     std::string folder = webserver_request.post ["entry"];
     if (file_or_dir_exists (folder)) {
       paratext_folder = folder;
@@ -128,8 +128,8 @@ std::string paratext_index (Webserver_Request& webserver_request)
     paratext_project.clear ();
   {
     constexpr const char* identification {"paratextproject"};
-    if (webserver_request.post.count (identification)) {
-      paratext_project = webserver_request.post.at(identification);
+    if (webserver_request.post_count(identification)) {
+      paratext_project = webserver_request.post_get(identification);
     }
     std::vector<std::string> values {std::string()};
     for (const auto & value : Paratext_Logic::searchProjects (paratext_folder)) {
@@ -152,9 +152,9 @@ std::string paratext_index (Webserver_Request& webserver_request)
   // Authoritative copy: Take from either Bibledit or else from Paratext.
   {
     constexpr const char* identification {"master"};
-    if (webserver_request.post.count (identification)) {
+    if (webserver_request.post_count(identification)) {
       // Set collaboration up.
-      const std::string master = webserver_request.post.at(identification);
+      const std::string master = webserver_request.post_get(identification);
       tasks_logic_queue (task::setup_paratext, { bible, master });
       success = translate ("The collaboration will be set up");
       if (database::config::general::get_repeat_send_receive () == 0) {
@@ -164,7 +164,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
       view.enable_zone ("setuprunning");
       redirect_browser (webserver_request, journal_index_url ());
       return std::string();
-      paratext_project = webserver_request.post.at(identification);
+      paratext_project = webserver_request.post_get(identification);
     }
     dialog::select::Settings settings {
       .identification = identification,

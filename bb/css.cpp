@@ -62,9 +62,9 @@ std::string bible_css (Webserver_Request& webserver_request)
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   
   // Data submission.
-  if (webserver_request.post.count ("submit")) {
+  if (webserver_request.post_count("submit")) {
     
-    std::string font = webserver_request.post ["font"];
+    std::string font = webserver_request.post_get("font");
     font = filter::strings::trim (font);
 #ifdef HAVE_CLIENT
     // Bibledit client storage.
@@ -74,20 +74,20 @@ std::string bible_css (Webserver_Request& webserver_request)
     database::config::bible::set_text_font (bible, font);
 #endif
     
-    const std::string s_direction = webserver_request.post ["direction"];
+    const std::string s_direction = webserver_request.post_get("direction");
     const int i_direction = Filter_Css::directionValue (s_direction);
     
-    const std::string s_mode = webserver_request.post ["mode"];
+    const std::string s_mode = webserver_request.post_get("mode");
     const int i_mode = Filter_Css::writingModeValue (s_mode);
     
     database::config::bible::set_text_direction (bible, i_mode * 10 + i_direction);
     
-    int lineheight = filter::strings::convert_to_int (webserver_request.post["lineheight"]);
+    int lineheight = filter::strings::convert_to_int (webserver_request.post_get("lineheight"));
     if (lineheight < 50) lineheight = 50;
     if (lineheight > 300) lineheight = 300;
     database::config::bible::set_line_height (bible, lineheight);
 
-    float letterspacing = filter::strings::convert_to_float (webserver_request.post["letterspacing"]);
+    float letterspacing = filter::strings::convert_to_float (webserver_request.post_get("letterspacing"));
     if (letterspacing < -3) letterspacing = -3;
     if (letterspacing > 3) letterspacing = 3;
     database::config::bible::set_letter_spacing (bible, static_cast<int>(10 * letterspacing));

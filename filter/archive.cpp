@@ -321,7 +321,7 @@ std::string filter_archive_untar_gzip (std::string file)
 // Returns the path to the folder it created.
 std::string filter_archive_uncompress (std::string file)
 {
-  int type = filter_archive_is_archive (file);
+  const int type = filter_archive_is_archive(file);
   if (type == 1) {
     return filter_archive_untar_gzip (file);
   }

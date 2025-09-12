@@ -61,9 +61,12 @@ TEST (http, parse_post)
   using container = std::vector<std::pair<std::string,std::string>>;
   
   // Test POST data of type application/x-www-form-urlencoded.
-  {
+  for (const std::string content_type : {
+    std::string(application_x_www_form_urlencoded),
+    std::string(application_x_www_form_urlencoded) + "; charset=UTF-8",
+  }) {
     Webserver_Request webserver_request{};
-    webserver_request.content_type = application_x_www_form_urlencoded;
+    webserver_request.content_type = content_type;
     {
       const std::string posted {"key=value"};
       container standard = {
@@ -273,25 +276,8 @@ TEST (http, parse_post)
       const std::string content = filter_url_file_get_contents(test_path + "http-post-2.txt");
       Webserver_Request webserver_request{};
       webserver_request.content_type = content_type;
-      http_parse_post (content, webserver_request);
-      const std::map <std::string, std::string> standard1 {
-        {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
-        {"filename", "00_test1.txt"},
-        {"upload", "Upload"}
-      };
-      EXPECT_EQ (webserver_request.post, standard1);
-      std::map <std::string, std::vector<std::string>> standard2 {
-        {"data",
-          { "Contents for test2.\nLine one 2.\nLine two 2.\nLine three 2.\n",
-            "Contents for test3.\nLine one 3.\nLine two 3.\nLine three 3.\n"
-          }
-        },
-        {"filename",
-          { "00_test2.txt", "00_test3.txt" }
-        }
-      };
       http_parse_post_v2 (content, webserver_request);
-      const container standard_new {
+      const container standard {
         {"filename", "00_test1.txt"},
         {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
         {"filename", "00_test2.txt"},
@@ -300,7 +286,7 @@ TEST (http, parse_post)
         {"data", "Contents for test3.\nLine one 3.\nLine two 3.\nLine three 3.\n"},
         {"upload", "Upload"}
       };
-      EXPECT_EQ (webserver_request.post_v2, standard_new);
+      EXPECT_EQ (webserver_request.post_v2, standard);
     }
   }
 }

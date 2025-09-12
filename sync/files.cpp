@@ -55,7 +55,6 @@ std::string sync_files (Webserver_Request& webserver_request)
   
   if (webserver_request.post_v2.empty ()) {
     for (auto& [key, value] : webserver_request.query) {
-      // Todo is this still needed?
       webserver_request.post_v2.emplace_back(key, value);
     }
   }

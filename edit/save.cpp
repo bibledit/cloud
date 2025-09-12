@@ -64,12 +64,12 @@ std::string edit_save (Webserver_Request& webserver_request)
     return translate("Insufficient information");
   }
 
-  const std::string bible = webserver_request.post["bible"];
-  const int book = filter::strings::convert_to_int (webserver_request.post["book"]);
-  const int chapter = filter::strings::convert_to_int (webserver_request.post["chapter"]);
-  std::string html = webserver_request.post["html"];
-  const std::string checksum = webserver_request.post["checksum"];
-  const std::string unique_id = webserver_request.post ["id"];
+  const std::string bible = webserver_request.post_get("bible");
+  const int book = filter::strings::convert_to_int (webserver_request.post_get("book"));
+  const int chapter = filter::strings::convert_to_int (webserver_request.post_get("chapter"));
+  std::string html = webserver_request.post_get("html");
+  const std::string checksum = webserver_request.post_get("checksum");
+  const std::string unique_id = webserver_request.post_get("id");
 
   if (checksum_logic::get (html) != checksum) {
     webserver_request.response_code = 409;

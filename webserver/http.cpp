@@ -472,7 +472,7 @@ static void http_parse_post_standard_v2 (std::string content, Webserver_Request&
 {
   // Read and parse the POST data.
   try {
-    if (webserver_request.content_type == application_x_www_form_urlencoded) {
+    if (webserver_request.content_type.find(application_x_www_form_urlencoded) != std::string::npos) {
       webserver_request.post_v2 = parse_application_x_www_form_urlencoded(content);
       return;
     }

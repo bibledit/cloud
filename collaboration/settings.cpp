@@ -61,10 +61,10 @@ std::string collaboration_settings (Webserver_Request& webserver_request)
   
   if (webserver_request.post_count("url")) {
     if (!object.empty ()) {
-      std::string url = webserver_request.post["url"];
+      std::string url = webserver_request.post_get("url");
       database::config::bible::set_remote_repository_url (object, url);
-      std::string source = webserver_request.post["source"];
-      std::string readwrite = webserver_request.post["readwrite"];
+      std::string source = webserver_request.post_get("source");
+      std::string readwrite = webserver_request.post_get("readwrite");
       database::config::bible::set_read_from_git (object, readwrite == "sendreceive");
       Database_Jobs database_jobs = Database_Jobs ();
       int jobId = database_jobs.get_new_id ();

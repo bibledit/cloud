@@ -255,13 +255,6 @@ TEST (http, parse_post)
         const std::string content = filter_url_file_get_contents(test_path + "http-post-1.txt");
         Webserver_Request webserver_request{};
         webserver_request.content_type = content_type;
-        http_parse_post (content, webserver_request);
-        const std::map <std::string, std::string> standard_old {
-          {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
-          {"filename", "00_test1.txt"},
-          {"upload", "Upload"}
-        };
-        EXPECT_EQ (webserver_request.post, standard_old);
         http_parse_post_v2 (content, webserver_request);
         const container standard_new {
           {"filename", "00_test1.txt"},

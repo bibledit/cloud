@@ -220,7 +220,6 @@ static void webserver_process_request (const int connfd, const std::string& clie
         
         if (connection_healthy) {
           
-          http_parse_post (postdata, request);
           http_parse_post_v2 (postdata, request);
 
           // Assemble response.
@@ -684,7 +683,6 @@ static void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls
         if (total_bytes_read < request.content_length) connection_healthy = false;
         // Parse the POSTed data.
         if (connection_healthy) {
-          http_parse_post (postdata, request);
           http_parse_post_v2 (postdata, request);
         }
       }

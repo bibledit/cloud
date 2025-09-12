@@ -58,8 +58,6 @@ public:
   std::string content_type {};
    // The content length of the browser request.
   int content_length {0};
-   // The raw POST data from the browser, item by item.
-  std::map <std::string, std::string> post {};
   // The raw POSTed data from the browser, version 2.
   std::vector<std::pair<std::string,std::string>> post_v2 {};
   // Convenience functions on post_v2.

@@ -116,7 +116,7 @@ std::string resource_divider (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("title")) {
-    title = webserver_request.post["entry"];
+    title = webserver_request.post_get("entry");
     divider_edited = true;
   }
 
@@ -129,7 +129,7 @@ std::string resource_divider (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("link")) {
-    link = webserver_request.post["entry"];
+    link = webserver_request.post_get("entry");
     divider_edited = true;
   }
  

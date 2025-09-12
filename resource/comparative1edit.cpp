@@ -63,12 +63,12 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
   
   
   std::string name = webserver_request.query ["name"];
-  if (name.empty()) name = webserver_request.post ["val1"];
+  if (name.empty()) name = webserver_request.post_get("val1");
   view.set_variable ("name", name);
 
   
-  std::string checkbox = webserver_request.post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  std::string checkbox = webserver_request.post_get("checkbox");
+  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
 
   
   bool resource_edited = false;
@@ -128,7 +128,7 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("remove")) {
-    remove = webserver_request.post ["entry"];
+    remove = webserver_request.post_get("entry");
     resource_edited = true;
   }
 
@@ -141,7 +141,7 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("replace")) {
-    replace = webserver_request.post ["entry"];
+    replace = webserver_request.post_get("entry");
     resource_edited = true;
   }
 

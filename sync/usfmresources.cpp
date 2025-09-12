@@ -56,10 +56,10 @@ std::string sync_usfmresources (Webserver_Request& webserver_request)
     return std::string();
   }
 
-  int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
-  std::string resource = webserver_request.post ["r"];
-  int book = filter::strings::convert_to_int (webserver_request.post ["b"]);
-  int chapter = filter::strings::convert_to_int (webserver_request.post ["c"]);
+  int action = filter::strings::convert_to_int (webserver_request.post_get("a"));
+  std::string resource = webserver_request.post_get("r");
+  int book = filter::strings::convert_to_int (webserver_request.post_get("b"));
+  int chapter = filter::strings::convert_to_int (webserver_request.post_get("c"));
   
   if (action == Sync_Logic::usfmresources_get_total_checksum) {
     return Sync_Logic::usfm_resources_checksum ();

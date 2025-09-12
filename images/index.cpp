@@ -61,8 +61,8 @@ std::string images_index (Webserver_Request& webserver_request)
   if (webserver_request.post_count("upload")) {
     const std::string& folder = filter_url_tempfile ();
     filter_url_mkdir (folder);
-    const std::string& file = filter_url_create_path ({folder, webserver_request.post ["filename"]});
-    const std::string& data = webserver_request.post ["data"];
+    const std::string file = filter_url_create_path ({folder, webserver_request.post_get("filename")});
+    const std::string data = webserver_request.post_get("data");
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);
       const bool background_import = filter_archive_is_archive (file);

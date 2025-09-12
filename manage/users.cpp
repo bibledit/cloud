@@ -105,7 +105,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("new")) {
-    std::string user = webserver_request.post["entry"];
+    std::string user = webserver_request.post_get("entry");
     if (webserver_request.database_users ()->usernameExists (user)) {
       page += assets_page::error (translate("User already exists"));
     } else {
@@ -196,7 +196,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     }
   }
   if (webserver_request.post_count("email")) {
-    std::string email = webserver_request.post["entry"];
+    std::string email = webserver_request.post_get("entry");
     if (filter_url_email_is_valid (email)) {
       page += assets_page::success (translate("Email address was updated"));
       webserver_request.database_users ()->updateUserEmail (object_username, email);

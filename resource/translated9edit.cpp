@@ -78,7 +78,7 @@ std::string resource_translated9edit (Webserver_Request& webserver_request)
     // The title for the new resource as entered by the user.
     // Clean the title up and ensure it always starts with "Translated ".
     // This word flags the translated resource as being one of that category.
-    std::string new_resource = webserver_request.post ["entry"];
+    std::string new_resource = webserver_request.post_get("entry");
     size_t pos = new_resource.find (resource_logic_translated_resource ());
     if (pos != std::string::npos) {
       new_resource.erase (pos, resource_logic_translated_resource ().length());

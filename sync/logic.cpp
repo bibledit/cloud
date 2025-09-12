@@ -71,9 +71,9 @@ bool Sync_Logic::credentials_okay ()
   }
   
   // Get the credentials the client POSTed to the us, the server.
-  std::string username = filter::strings::hex2bin (m_webserver_request.post ["u"]);
-  std::string password = m_webserver_request.post ["p"];
-  int level = filter::strings::convert_to_int (m_webserver_request.post ["l"]);
+  std::string username = filter::strings::hex2bin (m_webserver_request.post_get("u"));
+  std::string password = m_webserver_request.post_get("p");
+  int level = filter::strings::convert_to_int (m_webserver_request.post_get("l"));
   
   // Check all credentials.
   bool user_ok = m_webserver_request.database_users ()->usernameExists (username);

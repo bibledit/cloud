@@ -55,10 +55,10 @@ std::string sync_settings (Webserver_Request& webserver_request)
   sync_logic.prioritized_ip_address_record ();
 
   // Get the relevant parameters the client POSTed to us, the server.
-  int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
-  std::string value = webserver_request.post ["v"];
+  int action = filter::strings::convert_to_int (webserver_request.post_get("a"));
+  std::string value = webserver_request.post_get("v");
   // The value can be all Bibles, or one Bible.
-  std::string bible_s = webserver_request.post ["b"];
+  std::string bible_s = webserver_request.post_get("b");
 
   switch (action) {
     case Sync_Logic::settings_get_total_checksum:

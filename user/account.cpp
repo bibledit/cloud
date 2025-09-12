@@ -63,10 +63,10 @@ std::string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
   // Form submission handler.
   if (webserver_request.post_count("submit")) {
     bool form_is_valid = true;
-    std::string currentpassword = webserver_request.post ["currentpassword"];
-    std::string newpassword     = webserver_request.post ["newpassword"];
-    std::string newpassword2    = webserver_request.post ["newpassword2"];
-    std::string newemail        = webserver_request.post ["newemail"];
+    std::string currentpassword = webserver_request.post_get("currentpassword");
+    std::string newpassword     = webserver_request.post_get("newpassword");
+    std::string newpassword2    = webserver_request.post_get("newpassword2");
+    std::string newemail        = webserver_request.post_get("newemail");
   
     if ((newpassword != "") || (newpassword2 != "")) {
       if (newpassword.length () < 4) {

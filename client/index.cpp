@@ -118,7 +118,7 @@ std::string client_index (Webserver_Request& webserver_request)
     bool proceed {true};
     
     std::string address {};
-    if (proceed) address = webserver_request.post ["address"];
+    if (proceed) address = webserver_request.post_get("address");
     if (demo) address = demo_address ();
     // If there's not something like "http" in the server address, then add it.
     if (address.find ("http") == std::string::npos)
@@ -144,7 +144,7 @@ std::string client_index (Webserver_Request& webserver_request)
     database::config::general::set_server_address (address);
     
     int port = filter::strings::convert_to_int (config::logic::http_network_port ());
-    if (proceed) port = filter::strings::convert_to_int (webserver_request.post ["port"]);
+    if (proceed) port = filter::strings::convert_to_int (webserver_request.post_get("port"));
     if (demo) port = demo_port ();
     if (proceed) if (port == 0) {
       view.set_variable ("error", translate ("Supply a port number"));
@@ -153,7 +153,7 @@ std::string client_index (Webserver_Request& webserver_request)
     database::config::general::set_server_port (port);
     
     std::string user {};
-    if (proceed) user = webserver_request.post ["user"];
+    if (proceed) user = webserver_request.post_get("user");
     if (demo) user = session_admin_credentials ();
     if (proceed) if (user.empty()) {
       view.set_variable ("error", translate ("Supply a username"));
@@ -161,7 +161,7 @@ std::string client_index (Webserver_Request& webserver_request)
     }
     
     std::string pass {};
-    if (proceed) pass = webserver_request.post ["pass"];
+    if (proceed) pass = webserver_request.post_get("pass");
     if (demo) pass = session_admin_credentials ();
     if (proceed) if (pass.empty()) {
       view.set_variable ("error", translate ("Supply a password"));

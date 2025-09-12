@@ -64,7 +64,7 @@ std::string styles_indexm (Webserver_Request& webserver_request)
   int userlevel {webserver_request.session_logic ()->get_level ()};
   
   if (webserver_request.post_count("new")) {
-    std::string name {webserver_request.post["entry"]};
+    std::string name {webserver_request.post_get("entry")};
     // Remove spaces at the ends of the name for the new stylesheet.
     // Because predictive keyboards can add a space to the name,
     // and the stylesheet system is not built for whitespace at the start / end of the name of the stylesheet.

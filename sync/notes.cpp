@@ -76,7 +76,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
 
   
   // What action does the client request from us?
-  int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
+  int action = filter::strings::convert_to_int (webserver_request.post_get("a"));
 
   
   // Check on the credentials when the clients sends data to the server to be stored there.
@@ -86,7 +86,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
 
 
   // Check on username only, without password or level.
-  std::string user = filter::strings::hex2bin (webserver_request.post ["u"]);
+  std::string user = filter::strings::hex2bin (webserver_request.post_get("u"));
   if ((action == Sync_Logic::notes_get_total) || (action == Sync_Logic::notes_get_identifiers)) {
     if (!webserver_request.database_users ()->usernameExists (user)) {
       Database_Logs::log ("A client passes a non-existing user " + user, roles::manager);
@@ -97,12 +97,12 @@ std::string sync_notes (Webserver_Request& webserver_request)
   
   
   // Note lower and upper limits.
-  int lowId = filter::strings::convert_to_int (webserver_request.post ["l"]);
-  int highId = filter::strings::convert_to_int (webserver_request.post ["h"]);
+  int lowId = filter::strings::convert_to_int (webserver_request.post_get("l"));
+  int highId = filter::strings::convert_to_int (webserver_request.post_get("h"));
 
   
-  int identifier = filter::strings::convert_to_int (webserver_request.post ["i"]);
-  std::string content = webserver_request.post ["c"];
+  int identifier = filter::strings::convert_to_int (webserver_request.post_get("i"));
+  std::string content = webserver_request.post_get("c");
   
   switch (action) {
     case Sync_Logic::notes_get_total:
@@ -336,7 +336,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
     case Sync_Logic::notes_get_bulk:
     {
       // Get the note identifiers the client requests.
-      std::vector <std::string> notes = filter::strings::explode (webserver_request.post ["b"], '\n');
+      std::vector <std::string> notes = filter::strings::explode (webserver_request.post_get("b"), '\n');
       std::vector <int> identifiers;
       for (auto note : notes) identifiers.push_back (filter::strings::convert_to_int (note));
       // Return the JSON that contains all the requested notes.

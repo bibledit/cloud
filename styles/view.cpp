@@ -133,7 +133,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("name")) {
-    marker_data.name = webserver_request.post["entry"];
+    marker_data.name = webserver_request.post_get("entry");
     style_is_edited = true;
   }
   view.set_variable ("name", empty_to_dashes(filter::strings::escape_special_xml_characters (translate (marker_data.name))));
@@ -148,18 +148,18 @@ std::string styles_view (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("info")) {
-    marker_data.info = webserver_request.post["entry"];
+    marker_data.info = webserver_request.post_get("entry");
     style_is_edited = true;
   }
   view.set_variable ("info", empty_to_dashes(filter::strings::escape_special_xml_characters (translate (marker_data.info))));
 
   
   // Handle toggle of checkbox.
-  const std::string checkbox = webserver_request.post ["checkbox"];
+  const std::string checkbox = webserver_request.post_get("checkbox");
   if (!checkbox.empty()) {
-    const bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
-    sheet = webserver_request.post ["val1"];
-    style = webserver_request.post ["val2"];
+    const bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+    sheet = webserver_request.post_get("val1");
+    style = webserver_request.post_get("val2");
     marker_data = *(database::styles::get_marker_data (sheet, style));
     const stylesv2::Property property = stylesv2::property_value_to_enum (checkbox);
     marker_data.properties[property] = checked;
@@ -172,7 +172,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     view.enable_zone("paragraph");
     
     // Handle paragraph font size in points.
-    if (const std::string fontsize = webserver_request.post ["fontsize"]; !fontsize.empty()) {
+    if (const std::string fontsize = webserver_request.post_get("fontsize"); !fontsize.empty()) {
       marker_data.paragraph.value().font_size = std::clamp(filter::strings::convert_to_int(fontsize), 5, 50);
       style_is_edited = true;
     }
@@ -284,7 +284,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     }
 
     // Handle space before in millimeters.
-    if (const std::string space_before = webserver_request.post ["spacebefore"]; !space_before.empty()) {
+    if (const std::string space_before = webserver_request.post_get("spacebefore"); !space_before.empty()) {
       marker_data.paragraph.value().space_before = std::clamp(filter::strings::convert_to_float(space_before), 0.0f, 100.0f);
       style_is_edited = true;
     }
@@ -292,7 +292,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     view.set_variable("spacebefore", filter::strings::convert_to_string(marker_data.paragraph.value().space_before, 1));
 
     // Handle space after in millimeters.
-    if (const std::string space_after = webserver_request.post ["spaceafter"]; !space_after.empty()) {
+    if (const std::string space_after = webserver_request.post_get("spaceafter"); !space_after.empty()) {
       marker_data.paragraph.value().space_after = std::clamp(filter::strings::convert_to_float(space_after), 0.0f, 100.0f);
       style_is_edited = true;
     }
@@ -300,7 +300,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     view.set_variable("spaceafter", filter::strings::convert_to_string(marker_data.paragraph.value().space_after, 1));
 
     // Handle left margin in millimeters.
-    if (const std::string left_margin = webserver_request.post ["leftmargin"]; !left_margin.empty()) {
+    if (const std::string left_margin = webserver_request.post_get("leftmargin"); !left_margin.empty()) {
       marker_data.paragraph.value().left_margin = std::clamp(filter::strings::convert_to_float(left_margin), 0.0f, 100.0f);
       style_is_edited = true;
     }
@@ -308,7 +308,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     view.set_variable("leftmargin", filter::strings::convert_to_string(marker_data.paragraph.value().left_margin, 1));
 
     // Handle right margin in millimeters.
-    if (const std::string right_margin = webserver_request.post ["rightmargin"]; !right_margin.empty()) {
+    if (const std::string right_margin = webserver_request.post_get("rightmargin"); !right_margin.empty()) {
       marker_data.paragraph.value().right_margin = std::clamp(filter::strings::convert_to_float(right_margin), -100.0f, 100.0f);
       style_is_edited = true;
     }
@@ -316,7 +316,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     view.set_variable("rightmargin", filter::strings::convert_to_string(marker_data.paragraph.value().right_margin, 1));
 
     // Handle first line indent in millimeters.
-    if (const std::string first_line_indent = webserver_request.post ["firstlineindent"]; !first_line_indent.empty()) {
+    if (const std::string first_line_indent = webserver_request.post_get("firstlineindent"); !first_line_indent.empty()) {
       marker_data.paragraph.value().first_line_indent = std::clamp(filter::strings::convert_to_float(first_line_indent), -100.0f, 100.0f);
       style_is_edited = true;
     }
@@ -483,7 +483,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   {
     const std::string note_numbering_sequence {stylesv2::property_enum_to_value (stylesv2::Property::note_numbering_sequence)};
     if (webserver_request.post_count(note_numbering_sequence)) {
-      marker_data.properties[stylesv2::Property::note_numbering_sequence] = webserver_request.post[note_numbering_sequence];
+      marker_data.properties[stylesv2::Property::note_numbering_sequence] = webserver_request.post_get(note_numbering_sequence);
       style_is_edited = true;
     }
     if (webserver_request.query.count("numerical")) {
@@ -527,7 +527,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   {
     const std::string notes_dump {stylesv2::property_enum_to_value (stylesv2::Property::notes_dump)};
     if (webserver_request.post_count(notes_dump)) {
-      marker_data.properties[stylesv2::Property::notes_dump] = stylesv2::validate_notes_dump(webserver_request.post[notes_dump]);
+      marker_data.properties[stylesv2::Property::notes_dump] = stylesv2::validate_notes_dump(webserver_request.post_get(notes_dump));
       style_is_edited = true;
     }
     if (webserver_request.query.count("afterbook")) {

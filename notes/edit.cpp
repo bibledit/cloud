@@ -65,13 +65,13 @@ std::string notes_edit (Webserver_Request& webserver_request)
   int identifier;
   const char * identifier_label = "identifier";
   if (webserver_request.query.count (identifier_label)) identifier = filter::strings::convert_to_int (webserver_request.query [identifier_label]);
-  else identifier = filter::strings::convert_to_int (webserver_request.post [identifier_label]);
+  else identifier = filter::strings::convert_to_int (webserver_request.post_get(identifier_label));
   if (identifier) view.set_variable (identifier_label, std::to_string (identifier));
   
   
   if (webserver_request.post_count("data")) {
     // Save note.
-    std::string noteData = webserver_request.post["data"];
+    std::string noteData = webserver_request.post_get("data");
     if (database_notes.identifier_exists (identifier)) {
       std::vector <std::string> lines = filter::strings::explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {

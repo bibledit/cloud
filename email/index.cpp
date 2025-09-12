@@ -55,10 +55,10 @@ std::string email_index (Webserver_Request& webserver_request)
   Assets_View view;
 
   // Site name and email.
-  if (webserver_request.post ["email"] != "") {
+  if (webserver_request.post_get("email") != "") {
     bool form_is_valid = true;
-    std::string sitename = webserver_request.post ["sitename"];
-    std::string sitemail = webserver_request.post ["sitemail"];
+    std::string sitename = webserver_request.post_get("sitename");
+    std::string sitemail = webserver_request.post_get("sitemail");
     if (sitemail.length () > 0) {
       if (!filter_url_email_is_valid (sitemail)) {
         form_is_valid = false;
@@ -75,12 +75,12 @@ std::string email_index (Webserver_Request& webserver_request)
   view.set_variable ("sitemail", database::config::general::get_site_mail_address ());
 
   // Email retrieval.
-  if (webserver_request.post ["retrieve"] != "") {
-    std::string storagehost = webserver_request.post ["storagehost"];
-    std::string storageusername = webserver_request.post ["storageusername"];
-    std::string storagepassword = webserver_request.post ["storagepassword"];
-    std::string storagesecurity = webserver_request.post ["storagesecurity"];
-    std::string storageport = webserver_request.post ["storageport"];
+  if (webserver_request.post_get("retrieve") != "") {
+    std::string storagehost = webserver_request.post_get("storagehost");
+    std::string storageusername = webserver_request.post_get("storageusername");
+    std::string storagepassword = webserver_request.post_get("storagepassword");
+    std::string storagesecurity = webserver_request.post_get("storagesecurity");
+    std::string storageport = webserver_request.post_get("storageport");
     database::config::general::set_mail_storage_host (storagehost);
     database::config::general::set_mail_storage_username (storageusername);
     database::config::general::set_mail_storage_password (storagepassword);
@@ -108,13 +108,13 @@ std::string email_index (Webserver_Request& webserver_request)
   view.set_variable ("storageport", database::config::general::get_mail_storage_port ());
   
   // Sending email.
-  if (webserver_request.post ["send"] != "") {
-    std::string sendhost = webserver_request.post ["sendhost"];
-    std::string sendauthentication = webserver_request.post ["sendauthentication"];
-    std::string sendusername = webserver_request.post ["sendusername"];
-    std::string sendpassword = webserver_request.post ["sendpassword"];
-    std::string sendsecurity = webserver_request.post ["sendsecurity"];
-    std::string sendport  = webserver_request.post ["sendport"];
+  if (webserver_request.post_get("send") != "") {
+    std::string sendhost = webserver_request.post_get("sendhost");
+    std::string sendauthentication = webserver_request.post_get("sendauthentication");
+    std::string sendusername = webserver_request.post_get("sendusername");
+    std::string sendpassword = webserver_request.post_get("sendpassword");
+    std::string sendsecurity = webserver_request.post_get("sendsecurity");
+    std::string sendport  = webserver_request.post_get("sendport");
     database::config::general::set_mail_send_host (sendhost);
     database::config::general::set_mail_send_username (sendusername);
     database::config::general::set_mail_send_password (sendpassword);

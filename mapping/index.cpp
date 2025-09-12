@@ -63,7 +63,7 @@ std::string mapping_index (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("new")) {
-    std::string name = webserver_request.post ["entry"];
+    std::string name = webserver_request.post_get("entry");
     std::vector <std::string> mappings = database_mappings.names ();
     if (find (mappings.begin(), mappings.end(), name) != mappings.end ()) {
       error = translate("This verse mapping already exists");

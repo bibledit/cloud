@@ -31,9 +31,9 @@ std::string assets_external_url ()
 std::string assets_external (Webserver_Request& webserver_request)
 {
   // Whether a URL was POSTed, that is, whether it was clicked by the user.
-  std::string href = webserver_request.post ["href"];
+  std::string href = webserver_request.post_get("href");
   if (!href.empty ()) {
-    config_globals_external_url = webserver_request.post ["href"];
+    config_globals_external_url = webserver_request.post_get("href");
     return std::string();
   }
 

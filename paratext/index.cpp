@@ -102,7 +102,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("paratextfolder")) {
-    std::string folder = webserver_request.post ["entry"];
+    std::string folder = webserver_request.post_get("entry");
     if (file_or_dir_exists (folder)) {
       paratext_folder = folder;
       success = translate ("Paratext projects folder was set.");

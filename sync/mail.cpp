@@ -54,9 +54,9 @@ std::string sync_mail (Webserver_Request& webserver_request)
   }
   
   // Get the relevant parameters the client may have POSTed to us, the server.
-  std::string name = filter::strings::hex2bin (webserver_request.post ["n"]);
-  std::string subject = webserver_request.post ["s"];
-  std::string body = webserver_request.post ["b"];
+  std::string name = filter::strings::hex2bin (webserver_request.post_get("n"));
+  std::string subject = webserver_request.post_get("s");
+  std::string body = webserver_request.post_get("b");
   
   // Mail will only be sent if all three fields are filled.
   if (!name.empty ()) {

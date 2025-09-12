@@ -110,10 +110,10 @@ std::string setup_index (Webserver_Request& webserver_request)
 
   // Admins do not yet exist: Allow to enter an admin.
   if (admins.empty ()) {
-    if (!webserver_request.post ["Submit"].empty ()) {
-      const std::string admin_username = webserver_request.post ["admin_username"];
-      const std::string admin_password = webserver_request.post ["admin_password"];
-      const std::string admin_email = webserver_request.post ["admin_email"];
+    if (!webserver_request.post_get("Submit").empty ()) {
+      const std::string admin_username = webserver_request.post_get("admin_username");
+      const std::string admin_password = webserver_request.post_get("admin_password");
+      const std::string admin_email = webserver_request.post_get("admin_email");
       std::vector <std::string> errors{};
       if (admin_username.length() < 5) errors.push_back ("Choose a longer username.");
       if (admin_password.length() < 7) errors.push_back ("Choose a longer password.");

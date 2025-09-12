@@ -52,9 +52,9 @@ std::string session_password (Webserver_Request& webserver_request)
   Assets_View view{};
 
   // Form submission handler.
-  if (!webserver_request.post["submit"].empty()) {
+  if (!webserver_request.post_get("submit").empty()) {
     bool form_is_valid = true;
-    const std::string user = webserver_request.post["user"];
+    const std::string user = webserver_request.post_get("user");
     if (user.length () < 4) {
       view.set_variable ("error_message", translate("Username or email address is too short"));
       form_is_valid = false;

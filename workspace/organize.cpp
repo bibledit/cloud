@@ -62,7 +62,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
 
   
   if (webserver_request.post_count("add")) {
-    const std::string add = webserver_request.post["add"];
+    const std::string add = webserver_request.post_get("add");
     webserver_request.database_config_user()->set_active_workspace (add);
     workspace_set_urls (webserver_request, workspace_get_default_urls (0));
     workspace_set_widths (webserver_request, workspace_get_default_widths (0));
@@ -129,7 +129,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
   }
   if (webserver_request.query.count ("source")) {
     const std::string source = webserver_request.query ["source"];
-    const std::string destination = webserver_request.post ["entry"];
+    const std::string destination = webserver_request.post_get("entry");
     workspace_copy (webserver_request, source, destination);
     success = translate ("The workspace was copied");
   }

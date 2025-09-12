@@ -53,13 +53,13 @@ bool resource_organize_acl (Webserver_Request& webserver_request)
 
 std::string resource_organize (Webserver_Request& webserver_request)
 {
-  const std::string checkbox = webserver_request.post ["checkbox"];
-  const bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  const std::string checkbox = webserver_request.post_get("checkbox");
+  const bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
 
 
   // For administrator level default resource management purposes.
   const int level = webserver_request.session_logic()->get_level ();
-  const bool is_def = (webserver_request.query["type"] == "def" || webserver_request.post["type"] == "def");
+  const bool is_def = (webserver_request.query["type"] == "def" || webserver_request.post_get("type") == "def");
   const std::vector <std::string> default_active_resources = database::config::general::get_default_active_resources ();
 
   
@@ -131,9 +131,9 @@ std::string resource_organize (Webserver_Request& webserver_request)
   }
 
   
-  std::string movefrom = webserver_request.post ["movefrom"];
+  std::string movefrom = webserver_request.post_get("movefrom");
   if (!movefrom.empty ()) {
-    std::string moveto =  webserver_request.post ["moveto"];
+    std::string moveto =  webserver_request.post_get("moveto");
     if (!moveto.empty ()) {
       size_t from = static_cast<size_t> (filter::strings::convert_to_int (movefrom));
       size_t to = static_cast<size_t>(filter::strings::convert_to_int (moveto));
@@ -208,7 +208,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("before")) {
-    int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
+    int value = filter::strings::convert_to_int (webserver_request.post_get("entry"));
     if ((value >= 0) && (value <= 100)) {
       webserver_request.database_config_user ()->set_resource_verses_before (value);
     }
@@ -223,7 +223,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("after")) {
-    int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
+    int value = filter::strings::convert_to_int (webserver_request.post_get("entry"));
     if ((value >= 0) && (value <= 100)) {
       webserver_request.database_config_user ()->set_resource_verses_after (value);
     }

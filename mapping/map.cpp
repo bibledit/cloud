@@ -62,7 +62,7 @@ std::string mapping_map (Webserver_Request& webserver_request)
   view.set_variable ("name", name);
 
   if (webserver_request.post_count("submit")) {
-    std::string data = webserver_request.post["data"];
+    std::string data = webserver_request.post_get("data");
     database_mappings.import (name, data);
     success = translate("The verse mapping was saved");
   }

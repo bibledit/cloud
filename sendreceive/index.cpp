@@ -116,8 +116,8 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
   }
   
   
-  std::string checkbox = webserver_request.post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  std::string checkbox = webserver_request.post_get("checkbox");
+  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
   if (checkbox == "repeatbible") {
     database::config::bible::set_repeat_send_receive (bible, checked);
     return std::string();

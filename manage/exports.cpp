@@ -91,8 +91,8 @@ std::string manage_exports (Webserver_Request& webserver_request)
   const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   
   
-  std::string checkbox = webserver_request.post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  std::string checkbox = webserver_request.post_get("checkbox");
+  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
   
   
   if (webserver_request.query.count ("remove")) {
@@ -119,7 +119,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
   
   
   if (webserver_request.post_count("emailsubmit")) {
-    std::string email = webserver_request.post["emailentry"];
+    std::string email = webserver_request.post_get("emailentry");
     bool save = false;
     if (email.empty ()) {
       save = true;
@@ -214,7 +214,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("pagewidth")) {
-    int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
+    int value = filter::strings::convert_to_int (webserver_request.post_get("entry"));
     if ((value >= 30) && (value <= 500)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
       database::config::bible::set_page_width (bible, std::to_string (value));
@@ -229,7 +229,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("pageheight")) {
-    int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
+    int value = filter::strings::convert_to_int (webserver_request.post_get("entry"));
     if ((value >= 40) && (value <= 600)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
       database::config::bible::set_page_height (bible, std::to_string (value));
@@ -244,7 +244,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("innermargin")) {
-    int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
+    int value = filter::strings::convert_to_int (webserver_request.post_get("entry"));
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
       database::config::bible::set_inner_margin (bible, std::to_string (value));
@@ -259,7 +259,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("outermargin")) {
-    int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
+    int value = filter::strings::convert_to_int (webserver_request.post_get("entry"));
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
       database::config::bible::set_outer_margin (bible, std::to_string (value));
@@ -274,7 +274,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("topmargin")) {
-    int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
+    int value = filter::strings::convert_to_int (webserver_request.post_get("entry"));
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
       database::config::bible::set_top_margin (bible, std::to_string (value));
@@ -289,7 +289,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("bottommargin")) {
-    int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
+    int value = filter::strings::convert_to_int (webserver_request.post_get("entry"));
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
       database::config::bible::set_bottom_margin (bible, std::to_string (value));
@@ -353,7 +353,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
 
   
   if (webserver_request.post_count("fontsubmit")) {
-    std::string font = webserver_request.post["fontentry"];
+    std::string font = webserver_request.post_get("fontentry");
     Database_State::setExport (bible, 0, export_logic::export_needed);
     database::config::bible::set_export_font (bible, font);
     view.set_variable ("success", translate("The font for the exports was saved."));
@@ -408,7 +408,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
   
                      
   if (webserver_request.post_count("passwordsubmit")) {
-    std::string password = webserver_request.post["passwordentry"];
+    std::string password = webserver_request.post_get("passwordentry");
     Database_State::setExport (bible, 0, export_logic::export_needed);
     database::config::bible::set_export_password (bible, password);
     view.set_variable ("success", translate("The password for securing exports was saved."));

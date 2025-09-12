@@ -62,7 +62,7 @@ std::string notes_summary (Webserver_Request& webserver_request)
   
   
   if (webserver_request.post_count("submit")) {
-    std::string summary = webserver_request.post["entry"];
+    std::string summary = webserver_request.post_get("entry");
     notes_logic.set_summary (id, summary);
     redirect_browser (webserver_request, notes_note_url () + "?id=" + std::to_string (id));
     return std::string();

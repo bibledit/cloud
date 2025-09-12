@@ -52,9 +52,9 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, s
 {
   // Convert the tags to plus signs, which the client had converted to tags,
   // for safekeeping the + signs during transit.
-  std::string oldusfm = filter_url_tag_to_plus (webserver_request.post ["o"]);
-  std::string newusfm = filter_url_tag_to_plus (webserver_request.post ["n"]);
-  std::string checksum = webserver_request.post ["s"];
+  std::string oldusfm = filter_url_tag_to_plus (webserver_request.post_get("o"));
+  std::string newusfm = filter_url_tag_to_plus (webserver_request.post_get("n"));
+  std::string checksum = webserver_request.post_get("s");
 
   
   const std::string& username = webserver_request.session_logic ()->get_username ();
@@ -161,10 +161,10 @@ std::string sync_bibles (Webserver_Request& webserver_request)
   sync_logic.prioritized_ip_address_record ();
   
   // Get the relevant parameters the client may have POSTed to us, the server.
-  int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
-  std::string bible = webserver_request.post ["b"];
-  int book = filter::strings::convert_to_int (webserver_request.post ["bk"]);
-  int chapter = filter::strings::convert_to_int (webserver_request.post ["c"]);
+  int action = filter::strings::convert_to_int (webserver_request.post_get("a"));
+  std::string bible = webserver_request.post_get("b");
+  int book = filter::strings::convert_to_int (webserver_request.post_get("bk"));
+  int chapter = filter::strings::convert_to_int (webserver_request.post_get("c"));
   
   switch (action) {
     case Sync_Logic::bibles_get_total_checksum:

@@ -72,8 +72,8 @@ std::string user_notifications (Webserver_Request& webserver_request)
   
   Assets_View view;
 
-  std::string checkbox = webserver_request.post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  std::string checkbox = webserver_request.post_get("checkbox");
+  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
 
   if (checkbox == "editednotessubscription") {
     database_config_user.set_subscribe_to_consultation_notes_edited_by_me (checked);

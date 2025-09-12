@@ -305,14 +305,14 @@ std::string notes_select (Webserver_Request& webserver_request)
     view.set_variable(identification, dialog::select::form(settings, form));
   }
   if (webserver_request.post_count("text")) {
-    const std::string search_text = webserver_request.post["text"];
+    const std::string search_text = webserver_request.post_get("text");
     webserver_request.database_config_user()->set_consultation_notes_search_text (search_text);
     success = translate("Search text saved");
   }
   
 
-  const std::string checkbox = webserver_request.post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  const std::string checkbox = webserver_request.post_get("checkbox");
+  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
 
   
   {

@@ -67,17 +67,17 @@ std::string session_login (Webserver_Request& webserver_request)
   Assets_View view{};
 
   // Form submission handler.
-  if (webserver_request.post["submit"] != "") {
+  if (webserver_request.post_get("submit") != "") {
     bool form_is_valid = true;
-    const std::string user = webserver_request.post["user"];
-    const std::string pass = webserver_request.post["pass"];
+    const std::string user = webserver_request.post_get("user");
+    const std::string pass = webserver_request.post_get("pass");
     // During login it determines whether the device is a touch enabled device.
     // Research shows that most desktop users move with their mouse over the screen before they click,
     // so we can detect those mouse movements through javascript,
     // and store that information with the user and device.
     // There is also wurfl.io that detects a mobile device in javascript,
     // but this library is of no immediate use at the server side.
-    const bool touch_enabled = filter::strings::convert_to_bool (webserver_request.post["touch"]);
+    const bool touch_enabled = filter::strings::convert_to_bool (webserver_request.post_get("touch"));
     if (user.length () < 2) {
       form_is_valid = false;
       view.set_variable ("username_invalid", translate ("Username should be at least two characters long"));

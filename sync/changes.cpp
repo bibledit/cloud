@@ -63,9 +63,9 @@ std::string sync_changes (Webserver_Request& webserver_request)
   sync_logic.prioritized_ip_address_record ();
 
   // Get the relevant parameters the client may have POSTed to us, the server.
-  std::string user = filter::strings::hex2bin (webserver_request.post ["u"]);
-  int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
-  int id = filter::strings::convert_to_int (webserver_request.post ["i"]);
+  std::string user = filter::strings::hex2bin (webserver_request.post_get("u"));
+  int action = filter::strings::convert_to_int (webserver_request.post_get("a"));
+  int id = filter::strings::convert_to_int (webserver_request.post_get("i"));
 
   switch (action) {
     case Sync_Logic::changes_delete_modification:

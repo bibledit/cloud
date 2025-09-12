@@ -88,8 +88,8 @@ std::string checks_settings (Webserver_Request& webserver_request)
   }
   
   
-  const std::string checkbox = webserver_request.post ["checkbox"];
-  const bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  const std::string checkbox = webserver_request.post_get("checkbox");
+  const bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
   
                         
   if (checkbox == "doublespacesusfm") {

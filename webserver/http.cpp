@@ -154,7 +154,7 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
 
 
 // Takes data POSTed from the browser, and parses it.
-static void http_parse_post_standard (std::string content, Webserver_Request& webserver_request) // Todo out eventually
+static void http_parse_post_standard (std::string content, Webserver_Request& webserver_request)
 {
   // Read and parse the POST data.
   try {
@@ -184,7 +184,7 @@ static void http_parse_post_standard (std::string content, Webserver_Request& we
         line = line.substr (pos + filename_is.size() + 1);
         line = filter::strings::trim (line);
         line.pop_back ();
-        webserver_request.post [filename] = line;
+        webserver_request.post[filename] = line;
       }
     }
   }

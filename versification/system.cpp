@@ -62,7 +62,7 @@ std::string versification_system (Webserver_Request& webserver_request)
   view.set_variable ("name", filter::strings::escape_special_xml_characters (name));
 
   if (webserver_request.post_count("submit")) {
-    std::string data = webserver_request.post["data"];
+    std::string data = webserver_request.post_get("data");
     if (data != "") {
       database_versifications.input (data, name);
     }

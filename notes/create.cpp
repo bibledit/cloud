@@ -68,27 +68,27 @@ std::string notes_create (Webserver_Request& webserver_request)
   // Is is possible to pass a Bible to this script.
   // The note will then be created for this Bible.
   // If no Bible is passed, it takes the user's active Bible.
-  std::string bible = webserver_request.post ["bible"];
+  std::string bible = webserver_request.post_get("bible");
   if (bible.empty ()) {
     bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   }
   
   
   int book;
-  if (webserver_request.post_count("book")) book = filter::strings::convert_to_int (webserver_request.post ["book"]);
+  if (webserver_request.post_count("book")) book = filter::strings::convert_to_int (webserver_request.post_get("book"));
   else book = Ipc_Focus::getBook (webserver_request);
   int chapter;
-  if (webserver_request.post_count("chapter")) chapter = filter::strings::convert_to_int (webserver_request.post ["chapter"]);
+  if (webserver_request.post_count("chapter")) chapter = filter::strings::convert_to_int (webserver_request.post_get("chapter"));
   else chapter = Ipc_Focus::getChapter (webserver_request);
   int verse;
-  if (webserver_request.post_count("verse")) verse = filter::strings::convert_to_int (webserver_request.post ["verse"]);
+  if (webserver_request.post_count("verse")) verse = filter::strings::convert_to_int (webserver_request.post_get("verse"));
   else verse = Ipc_Focus::getVerse (webserver_request);
 
   
   if (webserver_request.post_count("summary")) {
-    std::string summary = filter::strings::trim (webserver_request.post["summary"]);
+    std::string summary = filter::strings::trim (webserver_request.post_get("summary"));
     summary = filter_url_tag_to_plus (summary);
-    std::string body = filter::strings::trim (webserver_request.post["body"]);
+    std::string body = filter::strings::trim (webserver_request.post_get("body"));
     body = filter_url_tag_to_plus (body);
     notes_logic.createNote (bible, book, chapter, verse, summary, body, false);
     return std::string();

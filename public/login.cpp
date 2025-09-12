@@ -56,17 +56,17 @@ std::string public_login (Webserver_Request& webserver_request)
 
   
   // Form submission handler.
-  if (!webserver_request.post["submit"].empty ()) {
+  if (!webserver_request.post_get("submit").empty ()) {
 
     bool form_is_valid = true;
-    std::string name = webserver_request.post["name"];
-    const std::string email = webserver_request.post["email"];
+    std::string name = webserver_request.post_get("name");
+    const std::string email = webserver_request.post_get("email");
     
     // During login it determines whether the device is a touch enabled device.
     // Research shows that most desktop users move with their mouse over the screen before they click,
     // so we can detect those mouse movements through javascript,
     // and store that information with the user and device.
-    const bool touch_enabled = filter::strings::convert_to_bool (webserver_request.post["touch"]);
+    const bool touch_enabled = filter::strings::convert_to_bool (webserver_request.post_get("touch"));
     
     if (name.length () < 2) {
       form_is_valid = false;

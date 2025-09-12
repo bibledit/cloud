@@ -109,13 +109,13 @@ std::string system_index (Webserver_Request& webserver_request)
 
 
   // Get values for setting checkboxes.
-  const std::string checkbox = webserver_request.post ["checkbox"];
-  [[maybe_unused]] const bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  const std::string checkbox = webserver_request.post_get("checkbox");
+  [[maybe_unused]] const bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
 
 
   // Entry of time zone offset in hours.
   if (webserver_request.post_count("timezone")) {
-    std::string input = webserver_request.post ["timezone"];
+    std::string input = webserver_request.post_get("timezone");
     input = filter::strings::replace ("UTC", std::string(), input);
     int input_timezone = filter::strings::convert_to_int (input);
     input_timezone = clip (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
@@ -184,8 +184,8 @@ std::string system_index (Webserver_Request& webserver_request)
   const std::string importbibles = "importbibles";
   if (webserver_request.query.count (importbibles)) {
     if (webserver_request.post_count("upload")) {
-      const std::string datafile = filter_url_tempfile () + webserver_request.post ["filename"];
-      const std::string data = webserver_request.post ["data"];
+      const std::string datafile = filter_url_tempfile () + webserver_request.post_get("filename"];
+      const std::string data = webserver_request.post_get("data"];
       if (!data.empty ()) {
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
@@ -208,8 +208,8 @@ std::string system_index (Webserver_Request& webserver_request)
   const std::string importnotes = "importnotes";
   if (webserver_request.query.count (importnotes)) {
     if (webserver_request.post_count("upload")) {
-      const std::string datafile = filter_url_tempfile () + webserver_request.post ["filename"];
-      const std::string data = webserver_request.post ["data"];
+      const std::string datafile = filter_url_tempfile () + webserver_request.post_get("filename"];
+      const std::string data = webserver_request.post_get("data"];
       if (!data.empty ()) {
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
@@ -232,8 +232,8 @@ std::string system_index (Webserver_Request& webserver_request)
   const std::string importresources = "importresources";
   if (webserver_request.query.count (importresources)) {
     if (webserver_request.post_count("upload")) {
-      const std::string datafile = filter_url_tempfile () + webserver_request.post ["filename"];
-      const std::string data = webserver_request.post ["data"];
+      const std::string datafile = filter_url_tempfile () + webserver_request.post_get("filename"];
+      const std::string data = webserver_request.post_get("data"];
       if (!data.empty ()) {
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
@@ -290,9 +290,9 @@ std::string system_index (Webserver_Request& webserver_request)
   
   // Upload a font.
   if (webserver_request.post_count("uploadfont")) {
-    const std::string filename = webserver_request.post ["filename"];
+    const std::string filename = webserver_request.post_get("filename");
     const std::string path = filter_url_create_root_path ({"fonts", filename});
-    const std::string fontdata = webserver_request.post ["fontdata"];
+    const std::string fontdata = webserver_request.post_get("fontdata");
     filter_url_file_put_contents (path, fontdata);
     success = translate("The font has been uploaded.");
   }

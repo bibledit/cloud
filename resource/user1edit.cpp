@@ -64,7 +64,7 @@ std::string resource_user1edit (Webserver_Request& webserver_request)
   
 
   if (webserver_request.post_count("submit")) {
-    std::string data = webserver_request.post["data"];
+    std::string data = webserver_request.post_get("data");
     std::vector <std::string> lines = filter::strings::explode (data, '\n');
     int count = 0;
     int bookcount = 0;

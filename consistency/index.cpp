@@ -57,7 +57,7 @@ std::string consistency_index (Webserver_Request& webserver_request)
   Assets_View view;
 
   
-  std::string add = webserver_request.post ["add"];
+  std::string add = webserver_request.post_get("add");
   if (!add.empty ()) {
     std::vector <std::string> resources = webserver_request.database_config_user()->get_consistency_resources ();
     resources.push_back (add);

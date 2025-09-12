@@ -73,7 +73,7 @@ std::string read_index (Webserver_Request& webserver_request)
 
   // Set the user chosen Bible as the current Bible.
   if (webserver_request.post_count("bibleselect")) {
-    std::string bibleselect = webserver_request.post ["bibleselect"];
+    std::string bibleselect = webserver_request.post_get("bibleselect");
     webserver_request.database_config_user ()->set_bible (bibleselect);
     return std::string();
   }

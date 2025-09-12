@@ -67,12 +67,12 @@ std::string workspace_settings (Webserver_Request& webserver_request)
     for (int row = 1; row <= 3; row++) {
       for (int column = 1; column <= 5; column++) {
         std::string key = std::to_string (row) + std::to_string (column);
-        urls [to14] = webserver_request.post ["url" + key];
-        widths [to14] = webserver_request.post ["width" + key];
+        urls [to14] = webserver_request.post_get("url" + key);
+        widths [to14] = webserver_request.post_get("width" + key);
         to14++;
       }
       std::string key = std::to_string (row);
-      row_heights [to2] = webserver_request.post ["height" + key];
+      row_heights [to2] = webserver_request.post_get("height" + key);
       to2++;
     }
     workspace_set_urls (webserver_request, urls);
@@ -80,7 +80,7 @@ std::string workspace_settings (Webserver_Request& webserver_request)
     workspace_set_heights (webserver_request, row_heights);
     // If no "px" or "%" is given, then default to "%".
     // https://github.com/bibledit/cloud/issues/643
-    std::string workspacewidth = filter::strings::trim(webserver_request.post ["workspacewidth"]);\
+    std::string workspacewidth = filter::strings::trim(webserver_request.post_get("workspacewidth"));
     if (!workspacewidth.empty()) {
       size_t pos_px = workspacewidth.find ("px");
       size_t pos_pct = workspacewidth.find ("%");

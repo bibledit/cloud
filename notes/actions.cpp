@@ -69,11 +69,11 @@ std::string notes_actions (Webserver_Request& webserver_request)
 
   
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
-  if (!id) id = filter::strings::convert_to_int (webserver_request.post ["val1"]);
+  if (!id) id = filter::strings::convert_to_int (webserver_request.post_get("val1"));
 
   
-  std::string checkbox = webserver_request.post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  std::string checkbox = webserver_request.post_get("checkbox");
+  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
 
 
   if (webserver_request.query.count ("unsubscribe")) {

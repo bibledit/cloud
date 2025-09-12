@@ -58,11 +58,11 @@ std::string sync_files (Webserver_Request& webserver_request)
       webserver_request.post_v2.emplace_back(key, value);
     }
   }
-  const std::string user = filter::strings::hex2bin (webserver_request.post ["u"]);
-  const int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
-  const int version = filter::strings::convert_to_int (webserver_request.post ["v"]);
-  const size_t d = static_cast<size_t>(filter::strings::convert_to_int (webserver_request.post ["d"]));
-  const std::string file = webserver_request.post ["f"];
+  const std::string user = filter::strings::hex2bin (webserver_request.post_get("u"));
+  const int action = filter::strings::convert_to_int (webserver_request.post_get("a"));
+  const int version = filter::strings::convert_to_int (webserver_request.post_get("v"));
+  const size_t d = static_cast<size_t>(filter::strings::convert_to_int (webserver_request.post_get("d")));
+  const std::string file = webserver_request.post_get("f");
 
   // For security reasons a client does not specify the directory of the file to be downloaded.
   // Rather it specifies the offset within the list of allowed directories for the version.

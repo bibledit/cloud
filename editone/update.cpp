@@ -100,15 +100,15 @@ std::string editone_update (Webserver_Request& webserver_request)
   std::string checksum2;
   std::string unique_id;
   if (good2go) {
-    bible = webserver_request.post["bible"];
-    book = filter::strings::convert_to_int (webserver_request.post["book"]);
-    chapter = filter::strings::convert_to_int (webserver_request.post["chapter"]);
-    verse = filter::strings::convert_to_int (webserver_request.post["verse"]);
-    loaded_html = webserver_request.post["loaded"];
-    edited_html = webserver_request.post["edited"];
-    checksum1 = webserver_request.post["checksum1"];
-    checksum2 = webserver_request.post["checksum2"];
-    unique_id = webserver_request.post ["id"];
+    bible = webserver_request.post_get("bible");
+    book = filter::strings::convert_to_int (webserver_request.post_get("book"));
+    chapter = filter::strings::convert_to_int (webserver_request.post_get("chapter"));
+    verse = filter::strings::convert_to_int (webserver_request.post_get("verse"));
+    loaded_html = webserver_request.post_get("loaded");
+    edited_html = webserver_request.post_get("edited");
+    checksum1 = webserver_request.post_get("checksum1");
+    checksum2 = webserver_request.post_get("checksum2");
+    unique_id = webserver_request.post_get("id");
   }
 
   // Checksums of the loaded and edited html.

@@ -88,7 +88,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   
   // The Bible.
   std::string bible = webserver_request.query["bible"];
-  if (bible.empty()) bible = webserver_request.post ["val1"];
+  if (bible.empty()) bible = webserver_request.post_get("val1");
   bible = access_bible::clamp (webserver_request, bible);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   view.set_variable ("urlbible", filter_url_urlencode(filter::strings::escape_special_xml_characters (bible)));
@@ -106,8 +106,8 @@ std::string bible_settings (Webserver_Request& webserver_request)
 
   
   // The state of the checkbox.
-  const std::string checkbox = webserver_request.post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  const std::string checkbox = webserver_request.post_get("checkbox");
+  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
 
   
   // Versification

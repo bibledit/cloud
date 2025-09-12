@@ -84,7 +84,7 @@ std::string manage_write (Webserver_Request& webserver_request)
     int book = filter::strings::convert_to_int (s_book);
     if (book) {
       if (bible_read_access) {
-        bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+        bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
         DatabasePrivileges::set_bible_book (user, bible, book, checked);
         database_privileges_client_create (user, true);
       }

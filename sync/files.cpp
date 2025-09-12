@@ -53,9 +53,9 @@ std::string sync_files (Webserver_Request& webserver_request)
     std::this_thread::sleep_for (std::chrono::seconds (5));
   }
   
-  if (webserver_request.post_v2.empty ()) {
+  if (webserver_request.post.empty ()) {
     for (auto& [key, value] : webserver_request.query) {
-      webserver_request.post_v2.emplace_back(key, value);
+      webserver_request.post.emplace_back(key, value);
     }
   }
   const std::string user = filter::strings::hex2bin (webserver_request.post_get("u"));

@@ -80,7 +80,7 @@ TEST (http, parse_post)
       }
       EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
-      EXPECT_EQ(standard, webserver_request.post_v2);
+      EXPECT_EQ(standard, webserver_request.post);
     }
     {
       const std::string posted {"key1=value1&key2=value2"};
@@ -96,7 +96,7 @@ TEST (http, parse_post)
       }
       EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
-      EXPECT_EQ(standard, webserver_request.post_v2);
+      EXPECT_EQ(standard, webserver_request.post);
     }
     {
       const std::string posted {"key1&key2"};
@@ -112,7 +112,7 @@ TEST (http, parse_post)
       }
       EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
-      EXPECT_EQ(standard, webserver_request.post_v2);
+      EXPECT_EQ(standard, webserver_request.post);
     }
     {
       const std::string posted {"key=Hello+World"};
@@ -127,7 +127,7 @@ TEST (http, parse_post)
       }
       EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
-      EXPECT_EQ(standard, webserver_request.post_v2);
+      EXPECT_EQ(standard, webserver_request.post);
     }
     {
       const std::string posted {"key=H%C3%ABllo+W%C3%B6rld"};
@@ -142,7 +142,7 @@ TEST (http, parse_post)
       }
       EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
-      EXPECT_EQ(standard, webserver_request.post_v2);
+      EXPECT_EQ(standard, webserver_request.post);
     }
   }
   
@@ -164,7 +164,7 @@ TEST (http, parse_post)
       }
       EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
-      EXPECT_EQ(standard, webserver_request.post_v2);
+      EXPECT_EQ(standard, webserver_request.post);
     }
     
     {
@@ -184,7 +184,7 @@ TEST (http, parse_post)
       }
       EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
-      EXPECT_EQ(standard, webserver_request.post_v2);
+      EXPECT_EQ(standard, webserver_request.post);
     }
     
     {
@@ -204,7 +204,7 @@ TEST (http, parse_post)
       }
       EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
-      EXPECT_EQ(standard, webserver_request.post_v2);
+      EXPECT_EQ(standard, webserver_request.post);
     }
     
     {
@@ -222,7 +222,7 @@ TEST (http, parse_post)
       }
       EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
-      EXPECT_EQ(standard, webserver_request.post_v2);
+      EXPECT_EQ(standard, webserver_request.post);
     }
     
     {
@@ -240,7 +240,7 @@ TEST (http, parse_post)
       }
       EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
-      EXPECT_EQ(standard, webserver_request.post_v2);
+      EXPECT_EQ(standard, webserver_request.post);
     }
   }
   
@@ -261,7 +261,7 @@ TEST (http, parse_post)
           {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
           {"upload", "Upload"}
         };
-        EXPECT_EQ (webserver_request.post_v2, standard_new);
+        EXPECT_EQ (webserver_request.post, standard_new);
       }
     }
     {
@@ -279,7 +279,7 @@ TEST (http, parse_post)
         {"data", "Contents for test3.\nLine one 3.\nLine two 3.\nLine three 3.\n"},
         {"upload", "Upload"}
       };
-      EXPECT_EQ (webserver_request.post_v2, standard);
+      EXPECT_EQ (webserver_request.post, standard);
     }
   }
 }

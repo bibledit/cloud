@@ -109,7 +109,7 @@ std::string bible_import (Webserver_Request& webserver_request)
       tasks_logic_queue (task::import_bible, { datafile, bible, std::to_string (book), std::to_string (chapter) });
       success = true;
     };
-    for (const auto& [key, value] : webserver_request.post_v2) {
+    for (const auto& [key, value] : webserver_request.post) {
       if (key == "data")
         data = value;
       if (key == "filename")

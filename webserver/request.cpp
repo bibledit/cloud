@@ -49,7 +49,7 @@ Webserver_Request::~Webserver_Request ()
 int Webserver_Request::post_count(const std::string& key) const
 {
   int count {0};
-  for (const auto& element : post_v2) {
+  for (const auto& element : post) {
     if (element.first == key)
       count++;
   }
@@ -59,7 +59,7 @@ int Webserver_Request::post_count(const std::string& key) const
 
 std::string Webserver_Request::post_get(const std::string& key) const
 {
-  for (const auto& element : post_v2)
+  for (const auto& element : post)
     if (element.first == key)
       return element.second;
   return std::string();

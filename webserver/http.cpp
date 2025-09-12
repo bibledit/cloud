@@ -380,15 +380,15 @@ static void http_parse_post_standard_v2 (std::string content, Webserver_Request&
   // Read and parse the POST data.
   try {
     if (webserver_request.content_type.find(application_x_www_form_urlencoded) != std::string::npos) {
-      webserver_request.post_v2 = parse_application_x_www_form_urlencoded(content);
+      webserver_request.post = parse_application_x_www_form_urlencoded(content);
       return;
     }
     if (webserver_request.content_type == text_plain) {
-      webserver_request.post_v2 = parse_text_plain(content);
+      webserver_request.post = parse_text_plain(content);
       return;
     }
     if (webserver_request.content_type.find(multipart_form_data) != std::string::npos) {
-      parse_multipart_form_data(content, webserver_request.post_v2);
+      parse_multipart_form_data(content, webserver_request.post);
       return;
     }
     throw std::runtime_error("Cannot parse content type " + webserver_request.content_type);

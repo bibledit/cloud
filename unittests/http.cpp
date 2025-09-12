@@ -61,7 +61,7 @@ TEST (http, parse_post)
   using container = std::vector<std::pair<std::string,std::string>>;
   
   // Test POST data of type application/x-www-form-urlencoded.
-  for (const std::string content_type : {
+  for (const std::string& content_type : {
     std::string(application_x_www_form_urlencoded),
     std::string(application_x_www_form_urlencoded) + "; charset=UTF-8",
   }) {

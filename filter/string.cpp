@@ -2274,7 +2274,7 @@ void hex_dump (const void* addr, const int len)
 
   int i;
   unsigned char buff[per_line+1];
-  const unsigned char* pc = (const unsigned char*)addr;
+  const unsigned char* pc = static_cast<const unsigned char*>(addr);
   
   // Process every byte in the data.
   for (i = 0; i < len; i++) {

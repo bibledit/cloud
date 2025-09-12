@@ -184,8 +184,8 @@ std::string system_index (Webserver_Request& webserver_request)
   const std::string importbibles = "importbibles";
   if (webserver_request.query.count (importbibles)) {
     if (webserver_request.post_count("upload")) {
-      const std::string datafile = filter_url_tempfile () + webserver_request.post_get("filename"];
-      const std::string data = webserver_request.post_get("data"];
+      const std::string datafile = filter_url_tempfile () + webserver_request.post_get("filename");
+      const std::string data = webserver_request.post_get("data");
       if (!data.empty ()) {
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
@@ -208,8 +208,8 @@ std::string system_index (Webserver_Request& webserver_request)
   const std::string importnotes = "importnotes";
   if (webserver_request.query.count (importnotes)) {
     if (webserver_request.post_count("upload")) {
-      const std::string datafile = filter_url_tempfile () + webserver_request.post_get("filename"];
-      const std::string data = webserver_request.post_get("data"];
+      const std::string datafile = filter_url_tempfile () + webserver_request.post_get("filename");
+      const std::string data = webserver_request.post_get("data");
       if (!data.empty ()) {
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
@@ -232,8 +232,8 @@ std::string system_index (Webserver_Request& webserver_request)
   const std::string importresources = "importresources";
   if (webserver_request.query.count (importresources)) {
     if (webserver_request.post_count("upload")) {
-      const std::string datafile = filter_url_tempfile () + webserver_request.post_get("filename"];
-      const std::string data = webserver_request.post_get("data"];
+      const std::string datafile = filter_url_tempfile () + webserver_request.post_get("filename");
+      const std::string data = webserver_request.post_get("data");
       if (!data.empty ()) {
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");

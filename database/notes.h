@@ -91,10 +91,20 @@ public:
     a_month = 4,
     a_year = 5,
   };
+  enum class severity_selector : int8_t {
+    any = -1,
+    wish = 0,
+    minor = 1,
+    normal = 2,
+    important = 3,
+    major = 4,
+    critical = 5,
+  };
   struct selector {
     // Container of Bible names that is going to be searched.
     // Can contains all Bibles the user has read access to.
     // Or can contain one Bible to be searched.
+    // If it contains no Bibles, no constraints will be applied.
     std::vector<std::string> bibles{};
     // Four related selectors that can limit the selection.
     // By default there's no constraint set for the passage.
@@ -107,13 +117,13 @@ public:
     edit_selector edit_selector{edit_selector::at_any_time};
     non_edit_selector non_edit_selector{non_edit_selector::any_time};
     // Optionally constrains selection based on list of note statuses.
-    std::vector<std::string> status_selectors; // Todo enums?
+    std::vector<std::string> status_selectors;
     // Optionally constrains the selection based on a note being assigned to somebody.
     std::string assignment_selector{};
     // Optionally limits the selection based on a note's subscription.
     bool subscription_selector{false};
     // Optionally limits the selection, based on a note's severity.
-    int severity_selector{}; // Todo default and enum?
+    severity_selector severity_selector{severity_selector::any};
     // Optionally limits the selection to notes that contains certain text. Used for searching notes.
     int text_selector{}; // Todo default and enum.
     // Works with text_selector, contains the text to search for.

@@ -133,7 +133,7 @@ std::string changes_change (Webserver_Request& webserver_request)
     .status_selectors = {},
     .assignment_selector = "",
     .subscription_selector = 0,
-    .severity_selector = -1,
+    .severity_selector = Database_Notes::severity_selector::any,
     .text_selector = 0,
     .search_text = "",
     .limit = -1

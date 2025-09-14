@@ -80,7 +80,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   const std::vector<std::string> status_selectors = webserver_request.database_config_user()->get_consultation_notes_status_selectors();
   std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
   bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
-  int severity_selector = webserver_request.database_config_user()->get_consultation_notes_severity_selector();
+  auto severity_selector = static_cast<Database_Notes::severity_selector>(webserver_request.database_config_user()->get_consultation_notes_severity_selector());
   int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
   std::string search_text = webserver_request.database_config_user()->get_consultation_notes_search_text();
   

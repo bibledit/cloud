@@ -726,7 +726,7 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
     query.append (" ) ");
   }
   // Consider note assignment constraints.
-  if (selector.assignment_selector != "") {
+  if (!selector.assignment_selector.empty()) {
     std::string assignment_selector {selector.assignment_selector};
     assignment_selector = database::sqlite::no_sql_injection (assignment_selector);
     query.append (" AND assigned LIKE '% ");
@@ -740,9 +740,9 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
     query.append (" %' ");
   }
   // Consider the note severity.
-  if (selector.severity_selector != -1) {
+  if (selector.severity_selector != Database_Notes::severity_selector::any) {
     query.append (" AND severity = ");
-    query.append (std::to_string (selector.severity_selector));
+    query.append (std::to_string (static_cast<int>(selector.severity_selector)));
     query.append (" ");
   }
   // Consider text contained in notes.

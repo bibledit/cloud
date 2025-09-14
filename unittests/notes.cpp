@@ -1269,7 +1269,7 @@ void test_database_notes ()
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1291,7 +1291,7 @@ void test_database_notes ()
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1313,7 +1313,7 @@ void test_database_notes ()
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1335,7 +1335,7 @@ void test_database_notes ()
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1357,7 +1357,7 @@ void test_database_notes ()
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = true,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1379,7 +1379,7 @@ void test_database_notes ()
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1401,7 +1401,7 @@ void test_database_notes ()
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1423,7 +1423,7 @@ void test_database_notes ()
         .status_selectors = {"status1", "status2"},
         .assignment_selector = "",
         .subscription_selector = false,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1641,7 +1641,7 @@ void test_database_notes ()
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1693,7 +1693,7 @@ void test_database_notes ()
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1749,7 +1749,7 @@ void test_database_notes ()
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
-        .severity_selector = -1,
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0,
         .search_text = "",
         .limit = -1
@@ -1792,7 +1792,7 @@ void test_database_notes ()
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = -1, // Don't consider the severity.
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 1, // Do search on the text following.
         .search_text = "", // Search on any contents.
         .limit = 0 // Don't limit the search results.
@@ -1816,7 +1816,7 @@ void test_database_notes ()
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = -1, // Don't consider the severity.
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 1, // Do search on the text following.
         .search_text = contents, // Search on certain content.
         .limit = 0 // Don't limit the search results.
@@ -1840,7 +1840,7 @@ void test_database_notes ()
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector =  -1, // Don't consider the severity.
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 1, // Do search on the text following.
         .search_text = contents, // Search on any contents.
         .limit = -1 // Don't limit the search results.
@@ -1862,7 +1862,7 @@ void test_database_notes ()
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = -1, // Don't consider the severity.
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0, // Do not search on any text.
         .search_text = "", // No text given as being irrelevant.
         .limit = 0 // Don't limit the search results.
@@ -1886,7 +1886,7 @@ void test_database_notes ()
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = -1, // Don't consider the severity.
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0, // Do not search on any text.
         .search_text = "", // No text given as being irrelevant.
         .limit = -1 // Don't limit the search results.
@@ -1908,7 +1908,7 @@ void test_database_notes ()
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = -1, // Don't consider the severity.
+        .severity_selector = Database_Notes::severity_selector::any,
         .text_selector = 0, // Do not search on any text.
         .search_text = "", // No text given as being irrelevant.
         .limit = -1 // Don't limit the search results.

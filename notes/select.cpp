@@ -340,7 +340,7 @@ std::string notes_select (Webserver_Request& webserver_request)
   const std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
   const std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
   const bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
-  const int severity_selector = webserver_request.database_config_user()->get_consultation_notes_severity_selector ();
+  const auto severity_selector = static_cast<Database_Notes::severity_selector>(webserver_request.database_config_user()->get_consultation_notes_severity_selector());
   const int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
   const std::string search_text = webserver_request.database_config_user()->get_consultation_notes_search_text();
   view.set_variable ("searchtext", search_text);

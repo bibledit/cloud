@@ -70,18 +70,33 @@ private:
   int get_new_unique_identifier ();
   
 public:
+  enum class passage_selector : uint8_t {
+    current_verse = 0,
+    current_chapter = 1,
+    current_book = 2,
+    any_passage = 3
+  };
+  enum class edit_selector : uint8_t {
+    at_any_time = 0,
+    during_last_30_days = 1,
+    during_last_7_days = 2,
+    since_yesterday = 3,
+    today = 4,
+  };
   struct selector {
     // Container of Bible names that is going to be searched.
     // Can contains all Bibles the user has read access to.
     // Or can contain one Bible to be searched.
     std::vector<std::string> bibles{};
     // Four related selectors that can limit the selection.
+    // By default there's no constraint set for the passage.
     int book{};
     int chapter{};
     int verse{};
-    int passage_selector{}; // Todo default? Enum?
+    passage_selector passage_selector{passage_selector::any_passage};
     // Optionally constrains selection based on modification time.
-    int edit_selector{}; // Todo default and enum?
+    // By default there's no constraint on modification time.
+    edit_selector edit_selector{edit_selector::at_any_time};
     int non_edit_selector{}; // Todo default and enum?
     // Optionally constrains selection based on list of note statuses.
     std::vector<std::string> status_selectors; // Todo enums?

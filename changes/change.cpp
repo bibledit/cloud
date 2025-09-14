@@ -127,8 +127,8 @@ std::string changes_change (Webserver_Request& webserver_request)
     .book = passage.m_book, \
     .chapter = passage.m_chapter,
     .verse = filter::strings::convert_to_int (passage.m_verse),
-    .passage_selector = 0,
-    .edit_selector = 0,
+    .passage_selector = Database_Notes::passage_selector::current_verse,
+    .edit_selector = Database_Notes::edit_selector::at_any_time,
     .non_edit_selector = 0,
     .status_selectors = {},
     .assignment_selector = "",

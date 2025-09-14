@@ -611,53 +611,56 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
   // Consider passage selector.
   std::string passage;
   switch (selector.passage_selector) {
-    case 0:
+    case passage_selector::current_verse:
       // Select notes that refer to the current verse.
       // It means that the book, the chapter, and the verse, should match.
       passage = encode_passage (selector.book, selector.chapter, selector.verse);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
-    case 1:
+    case passage_selector::current_chapter:
       // Select notes that refer to the current chapter.
       // It means that the book and the chapter should match.
       passage = encode_passage (selector.book, selector.chapter, -1);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
-    case 2:
+    case passage_selector::current_book:
       // Select notes that refer to the current book.
       // It means that the book should match.
       passage = encode_passage (selector.book, -1, -1);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
-    case 3:
+    case passage_selector::any_passage:
+    default:
       // Select notes that refer to any passage: No constraint to apply here.
       break;
-    default: break;
   }
   // Consider edit selector.
   int time { 0 };
   switch (selector.edit_selector) {
-    case 0:
+    case edit_selector::at_any_time:
       // Select notes that have been edited at any time. Apply no constraint.
       time = 0;
       break;
-    case 1:
+    case edit_selector::during_last_30_days:
       // Select notes that have been edited during the last 30 days.
       time = filter::date::seconds_since_epoch () - 30 * 24 * 3600;
       break;
-    case 2:
+    case edit_selector::during_last_7_days:
       // Select notes that have been edited during the last 7 days.
       time = filter::date::seconds_since_epoch () - 7 * 24 * 3600;
       break;
-    case 3:
+    case edit_selector::since_yesterday:
       // Select notes that have been edited since yesterday.
       time = filter::date::seconds_since_epoch () - 1 * 24 * 3600 - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
       break;
-    case 4:
+    case edit_selector::today:
       // Select notes that have been edited today.
       time = filter::date::seconds_since_epoch () - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
       break;
-    default: break;
+    default:
+      // No constraint.
+      time = 0;
+      break;
   }
   if (time != 0) {
     query.append (" AND modified >= ");

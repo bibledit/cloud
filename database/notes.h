@@ -124,12 +124,11 @@ public:
     bool subscription_selector{false};
     // Optionally limits the selection, based on a note's severity.
     severity_selector severity_selector{severity_selector::any};
-    // Optionally limits the selection to notes that contains certain text. Used for searching notes.
-    int text_selector{}; // Todo default and enum.
-    // Works with text_selector, contains the text to search for.
+    // Optionally limits the selection to notes that contains certain text.
+    // If the "search_text" is empty, it is not considered.
     std::string search_text{};
-    // If >= 0, it indicates the starting limit for the selection.
-    int limit{0};
+    // If given, it indicates the starting limit for the selection.
+    std::optional<int> limit{};
   };
   std::vector<int> select_notes (const selector& selector);
 private:

@@ -81,8 +81,8 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
   bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
   auto severity_selector = static_cast<Database_Notes::severity_selector>(webserver_request.database_config_user()->get_consultation_notes_severity_selector());
-  int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
-  std::string search_text = webserver_request.database_config_user()->get_consultation_notes_search_text();
+  const int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
+  const std::string search_text = text_selector ? webserver_request.database_config_user()->get_consultation_notes_search_text() : "";
   
   
   int userid = filter::strings::user_identifier (webserver_request);
@@ -123,9 +123,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
       .assignment_selector = assignment_selector,
       .subscription_selector = subscription_selector,
       .severity_selector = severity_selector,
-      .text_selector = text_selector,
       .search_text = search_text,
-      .limit = -1
     };
     std::vector <int> identifiers = database_notes.select_notes (selector);
     std::vector <std::string> sids;

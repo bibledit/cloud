@@ -603,7 +603,7 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
   // SQL SELECT statement.
   std::string query = notes_select_identifier ();
   // SQL optional fulltext search statement sorted on relevance.
-  if (selector.text_selector == 1) {
+  if (!selector.search_text.empty()) {
     query.append (notes_optional_fulltext_search_relevance_statement (selector.search_text));
   }
   // SQL FROM ... WHERE statement.
@@ -746,10 +746,10 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
     query.append (" ");
   }
   // Consider text contained in notes.
-  if (selector.text_selector == 1) {
+  if (!selector.search_text.empty()) {
     query.append (notes_optional_fulltext_search_statement(selector.search_text));
   }
-  if (selector.text_selector == 1) {
+  if (!selector.search_text.empty()) {
     // If searching in fulltext mode, notes get ordered on relevance of search hits.
     query.append (notes_order_by_relevance_statement());
   } else {
@@ -757,9 +757,9 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
     query.append (" ORDER BY ABS (passage) ");
   }
   // Limit the selection if a limit is given.
-  if (selector.limit >= 0) {
+  if (selector.limit) {
     query.append (" LIMIT ");
-    query.append (std::to_string (selector.limit));
+    query.append (std::to_string (selector.limit.value()));
     query.append (", 50 ");
   }
   query.append (";");

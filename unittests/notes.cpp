@@ -1270,9 +1270,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = false,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier1};
@@ -1292,9 +1290,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = false,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier2};
@@ -1314,9 +1310,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = false,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier1, identifier2};
@@ -1336,9 +1330,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = false,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       identifiers = database_notes.select_notes(selector);
       standard = {};
@@ -1358,9 +1350,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = true,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       identifiers = database_notes.select_notes(selector);
       standard = {};
@@ -1380,9 +1370,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = false,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier3};
@@ -1402,9 +1390,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = false,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier3};
@@ -1424,9 +1410,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = false,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier1, identifier2};
@@ -1642,9 +1626,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = false,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       search_results = database_notes.select_notes(selector);
     }
@@ -1694,9 +1676,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = false,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       no_search_results = database_notes.select_notes(selector);
     }
@@ -1750,9 +1730,7 @@ void test_database_notes ()
         .assignment_selector = "",
         .subscription_selector = false,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       restored_search = database_notes.select_notes(selector);
     }
@@ -1793,9 +1771,7 @@ void test_database_notes ()
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 1, // Do search on the text following.
         .search_text = "", // Search on any contents.
-        .limit = 0 // Don't limit the search results.
       };
       identifiers = database_notes.select_notes(selector);
     }
@@ -1817,9 +1793,7 @@ void test_database_notes ()
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 1, // Do search on the text following.
         .search_text = contents, // Search on certain content.
-        .limit = 0 // Don't limit the search results.
       };
       identifiers = database_notes.select_notes(selector);
     }
@@ -1841,9 +1815,7 @@ void test_database_notes ()
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 1, // Do search on the text following.
         .search_text = contents, // Search on any contents.
-        .limit = -1 // Don't limit the search results.
       };
       identifiers = database_notes.select_notes(selector);
     }
@@ -1863,9 +1835,7 @@ void test_database_notes ()
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0, // Do not search on any text.
         .search_text = "", // No text given as being irrelevant.
-        .limit = 0 // Don't limit the search results.
       };
       identifiers = database_notes.select_notes(selector);
     }
@@ -1887,9 +1857,7 @@ void test_database_notes ()
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0, // Do not search on any text.
         .search_text = "", // No text given as being irrelevant.
-        .limit = -1 // Don't limit the search results.
       };
       identifiers = database_notes.select_notes(selector);
     }
@@ -1909,9 +1877,7 @@ void test_database_notes ()
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0, // Do not search on any text.
         .search_text = "", // No text given as being irrelevant.
-        .limit = -1 // Don't limit the search results.
       };
       identifiers = database_notes.select_notes(selector);
     }

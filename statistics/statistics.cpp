@@ -79,9 +79,7 @@ void statistics_statistics ()
         .assignment_selector = user,
         .subscription_selector = 0,
         .severity_selector = Database_Notes::severity_selector::any,
-        .text_selector = 0,
         .search_text = "",
-        .limit = -1
       };
       const std::vector<int> ids = database_notes.select_notes(selector);
 
@@ -110,9 +108,7 @@ void statistics_statistics ()
           .assignment_selector = "",
           .subscription_selector = 1,
           .severity_selector = Database_Notes::severity_selector::any,
-          .text_selector = 0,
           .search_text = "",
-          .limit = -1
         };
         ids = database_notes.select_notes(selector);
       }
@@ -131,9 +127,7 @@ void statistics_statistics ()
           .assignment_selector = "",
           .subscription_selector = 1,
           .severity_selector = Database_Notes::severity_selector::any,
-          .text_selector = 0,
           .search_text = "",
-          .limit = -1
         };
         ids = database_notes.select_notes(selector);
       }
@@ -151,9 +145,7 @@ void statistics_statistics ()
           .assignment_selector = "",
           .subscription_selector = 1,
           .severity_selector = Database_Notes::severity_selector::any,
-          .text_selector = 0,
           .search_text = "",
-          .limit = -1
         };
         ids = database_notes.select_notes(selector);
       }

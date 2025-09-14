@@ -63,9 +63,7 @@ std::string public_notes (Webserver_Request& webserver_request)
     .assignment_selector = "",
     .subscription_selector = false,
     .severity_selector = Database_Notes::severity_selector::any,
-    .text_selector = 0,
     .search_text = "",
-    .limit = -1
   };
   const std::vector<int> identifiers = database_notes.select_notes(selector);
 

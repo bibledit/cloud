@@ -1258,19 +1258,8 @@ void test_database_notes ()
     std::vector<int> identifiers{};
 
     {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = {"bible1"},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
-        .assignment_selector = "",
-        .subscription_selector = false,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier1};
@@ -1278,19 +1267,8 @@ void test_database_notes ()
     }
 
     {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = {"bible2"},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
-        .assignment_selector = "",
-        .subscription_selector = false,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier2};
@@ -1298,19 +1276,8 @@ void test_database_notes ()
     }
     
     {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = {"bible1", "bible2"},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
-        .assignment_selector = "",
-        .subscription_selector = false,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier1, identifier2};
@@ -1318,19 +1285,8 @@ void test_database_notes ()
     }
 
     {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = {"bible"},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
-        .assignment_selector = "",
-        .subscription_selector = false,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       identifiers = database_notes.select_notes(selector);
       standard = {};
@@ -1338,19 +1294,9 @@ void test_database_notes ()
     }
 
     {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = {},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
-        .assignment_selector = "",
         .subscription_selector = true,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       identifiers = database_notes.select_notes(selector);
       standard = {};
@@ -1358,19 +1304,8 @@ void test_database_notes ()
     }
 
     {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = {"bible3"},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
-        .assignment_selector = "",
-        .subscription_selector = false,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier3};
@@ -1378,19 +1313,8 @@ void test_database_notes ()
     }
     
     {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = {"bible3"},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
-        .assignment_selector = "",
-        .subscription_selector = false,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier3};
@@ -1398,19 +1322,8 @@ void test_database_notes ()
     }
 
     {
-      Database_Notes::selector selector {
-        .bibles = {},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
+      Database_Notes::Selector selector {
         .status_selectors = {"status1", "status2"},
-        .assignment_selector = "",
-        .subscription_selector = false,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       identifiers = database_notes.select_notes(selector);
       standard = {identifier1, identifier2};
@@ -1614,19 +1527,8 @@ void test_database_notes ()
     // Get some search results for later reference.
     std::vector <int> search_results;
     {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = {"bible1"},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
-        .assignment_selector = "",
-        .subscription_selector = false,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       search_results = database_notes.select_notes(selector);
     }
@@ -1664,19 +1566,8 @@ void test_database_notes ()
     // There should be no search results anymore.
     std::vector <int> no_search_results;
     {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = {"bible1"},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
-        .assignment_selector = "",
-        .subscription_selector = false,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       no_search_results = database_notes.select_notes(selector);
     }
@@ -1718,19 +1609,8 @@ void test_database_notes ()
     // The search results should be back too.
     std::vector <int> restored_search;
     {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = {"bible1"},
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
-        .assignment_selector = "",
-        .subscription_selector = false,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       restored_search = database_notes.select_notes(selector);
     }
@@ -1759,20 +1639,7 @@ void test_database_notes ()
     
     // Search on the content of the current note.
     {
-      Database_Notes::selector selector {
-        .bibles = {}, // No Bibles given.
-        .book = 0, // No book given.
-        .chapter = 0, // No chapter given.
-        .verse = 0, // No verse given.
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {}, // Don't consider the statuses.
-        .assignment_selector = "", // Don't consider assignment.
-        .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "", // Search on any contents.
-      };
+      Database_Notes::Selector selector {};
       identifiers = database_notes.select_notes(selector);
     }
     // Search result should be there.
@@ -1781,18 +1648,7 @@ void test_database_notes ()
     database_notes.set_raw_contents (identifier, contents);
     // Doing a search now does not give results.
     {
-      Database_Notes::selector selector {
-        .bibles = {}, // No Bibles given.
-        .book = 0, // No book given.
-        .chapter = 0, // No chapter given.
-        .verse = 0, // No verse given.
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {}, // Don't consider the statuses.
-        .assignment_selector = "", // Don't consider assignment.
-        .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = Database_Notes::severity_selector::any,
+      Database_Notes::Selector selector {
         .search_text = contents, // Search on certain content.
       };
       identifiers = database_notes.select_notes(selector);
@@ -1803,18 +1659,7 @@ void test_database_notes ()
     database_notes.update_database (identifier);
     database_notes.update_search_fields (identifier);
     {
-      Database_Notes::selector selector {
-        .bibles = {}, // No Bibles given.
-        .book = 0, // No book given.
-        .chapter = 0, // No chapter given.
-        .verse = 0, // No verse given.
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {}, // Don't consider the statuses.
-        .assignment_selector = "", // Don't consider assignment.
-        .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = Database_Notes::severity_selector::any,
+      Database_Notes::Selector selector {
         .search_text = contents, // Search on any contents.
       };
       identifiers = database_notes.select_notes(selector);
@@ -1823,20 +1668,7 @@ void test_database_notes ()
     
     // Search on the note's passage.
     {
-      Database_Notes::selector selector {
-        .bibles = {}, // No Bibles given.
-        .book = 0, // Book given.
-        .chapter = 0, // Chapter given.
-        .verse = 0, // Verse given.
-        .passage_selector = Database_Notes::passage_selector::current_verse,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {}, // Don't consider the statuses.
-        .assignment_selector = "", // Don't consider assignment.
-        .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "", // No text given as being irrelevant.
-      };
+      Database_Notes::Selector selector {};
       identifiers = database_notes.select_notes(selector);
     }
     // Search result should be there.
@@ -1845,19 +1677,11 @@ void test_database_notes ()
     database_notes.set_raw_passage (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
     {
-      Database_Notes::selector selector {
-        .bibles = {}, // No Bibles given.
+      Database_Notes::Selector selector {
         .book = 1, // Book given.
         .chapter = 2, // Chapter given.
         .verse = 3, // Verse given.
-        .passage_selector = Database_Notes::passage_selector::current_verse,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {}, // Don't consider the statuses.
-        .assignment_selector = "", // Don't consider assignment.
-        .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "", // No text given as being irrelevant.
+        .passage_selector = Database_Notes::PassageSelector::current_verse,
       };
       identifiers = database_notes.select_notes(selector);
     }
@@ -1865,19 +1689,11 @@ void test_database_notes ()
     // Update the search index. There should be search results now.
     database_notes.update_database (identifier);
     {
-      Database_Notes::selector selector {
-        .bibles = {}, // No Bibles given.
+      Database_Notes::Selector selector {
         .book = 1, // Book given.
         .chapter = 2, // Chapter given.
         .verse = 3, // Verse given.
-        .passage_selector = Database_Notes::passage_selector::current_verse,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {}, // Don't consider the statuses.
-        .assignment_selector = "", // Don't consider assignment.
-        .subscription_selector = false, // Don't consider subscriptions.
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "", // No text given as being irrelevant.
+        .passage_selector = Database_Notes::PassageSelector::current_verse,
       };
       identifiers = database_notes.select_notes(selector);
     }

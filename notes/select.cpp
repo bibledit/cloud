@@ -333,14 +333,14 @@ std::string notes_select (Webserver_Request& webserver_request)
   }
   
   
-  const Database_Notes::passage_selector passage_selector = static_cast<Database_Notes::passage_selector>(webserver_request.database_config_user()->get_consultation_notes_passage_selector());
+  const Database_Notes::PassageSelector passage_selector = static_cast<Database_Notes::PassageSelector>(webserver_request.database_config_user()->get_consultation_notes_passage_selector());
   const int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
-  const auto non_edit_selector = static_cast<Database_Notes::non_edit_selector>(webserver_request.database_config_user()->get_consultation_notes_non_edit_selector());
+  const auto non_edit_selector = static_cast<Database_Notes::NonEditSelector>(webserver_request.database_config_user()->get_consultation_notes_non_edit_selector());
   const std::vector<std::string> status_selectors = webserver_request.database_config_user()->get_consultation_notes_status_selectors();
   const std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
   const std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
   const bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
-  const auto severity_selector = static_cast<Database_Notes::severity_selector>(webserver_request.database_config_user()->get_consultation_notes_severity_selector());
+  const auto severity_selector = static_cast<Database_Notes::SeveritySelector>(webserver_request.database_config_user()->get_consultation_notes_severity_selector());
   
   const int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
   const std::string search_text = text_selector ? webserver_request.database_config_user()->get_consultation_notes_search_text() : "";
@@ -362,13 +362,13 @@ std::string notes_select (Webserver_Request& webserver_request)
   const int book = Ipc_Focus::getBook (webserver_request);
   const int chapter = Ipc_Focus::getChapter (webserver_request);
   const int verse = Ipc_Focus::getVerse (webserver_request);
-  Database_Notes::selector selector {
+  Database_Notes::Selector selector {
     .bibles = bibles,
     .book = book,
     .chapter = chapter,
     .verse = verse,
     .passage_selector = passage_selector,
-    .edit_selector = static_cast<Database_Notes::edit_selector>(edit_selector),
+    .edit_selector = static_cast<Database_Notes::EditSelector>(edit_selector),
     .non_edit_selector = non_edit_selector,
     .status_selectors = status_selectors,
     .assignment_selector = assignment_selector,

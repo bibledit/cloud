@@ -51,19 +51,11 @@ std::string public_notes (Webserver_Request& webserver_request)
   const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
   
   
-  Database_Notes::selector selector {
+  Database_Notes::Selector selector {
     .bibles = {bible},
     .book = book,
     .chapter = chapter,
-    .verse = 0,
-    .passage_selector = Database_Notes::passage_selector::current_chapter,
-    .edit_selector = Database_Notes::edit_selector::at_any_time,
-    .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-    .status_selectors = {},
-    .assignment_selector = "",
-    .subscription_selector = false,
-    .severity_selector = Database_Notes::severity_selector::any,
-    .search_text = "",
+    .passage_selector = Database_Notes::PassageSelector::current_chapter,
   };
   const std::vector<int> identifiers = database_notes.select_notes(selector);
 

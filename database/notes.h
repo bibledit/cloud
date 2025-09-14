@@ -70,20 +70,20 @@ private:
   int get_new_unique_identifier ();
   
 public:
-  enum class passage_selector : uint8_t {
+  enum class PassageSelector : uint8_t {
     current_verse = 0,
     current_chapter = 1,
     current_book = 2,
     any_passage = 3
   };
-  enum class edit_selector : uint8_t {
+  enum class EditSelector : uint8_t {
     at_any_time = 0,
     during_last_30_days = 1,
     during_last_7_days = 2,
     since_yesterday = 3,
     today = 4,
   };
-  enum class non_edit_selector : uint8_t {
+  enum class NonEditSelector : uint8_t {
     any_time = 0,
     a_day = 1,
     two_days = 2,
@@ -91,7 +91,7 @@ public:
     a_month = 4,
     a_year = 5,
   };
-  enum class severity_selector : int8_t {
+  enum class SeveritySelector : int8_t {
     any = -1,
     wish = 0,
     minor = 1,
@@ -100,7 +100,7 @@ public:
     major = 4,
     critical = 5,
   };
-  struct selector {
+  struct Selector {
     // Container of Bible names that is going to be searched.
     // Can contains all Bibles the user has read access to.
     // Or can contain one Bible to be searched.
@@ -111,11 +111,11 @@ public:
     int book{};
     int chapter{};
     int verse{};
-    passage_selector passage_selector{passage_selector::any_passage};
+    PassageSelector passage_selector{PassageSelector::any_passage};
     // Optionally constrains selection based on modification time.
     // By default there's no constraint on modification time.
-    edit_selector edit_selector{edit_selector::at_any_time};
-    non_edit_selector non_edit_selector{non_edit_selector::any_time};
+    EditSelector edit_selector{EditSelector::at_any_time};
+    NonEditSelector non_edit_selector{NonEditSelector::any_time};
     // Optionally constrains selection based on list of note statuses.
     std::vector<std::string> status_selectors;
     // Optionally constrains the selection based on a note being assigned to somebody.
@@ -123,14 +123,14 @@ public:
     // Optionally limits the selection based on a note's subscription.
     bool subscription_selector{false};
     // Optionally limits the selection, based on a note's severity.
-    severity_selector severity_selector{severity_selector::any};
+    SeveritySelector severity_selector{SeveritySelector::any};
     // Optionally limits the selection to notes that contains certain text.
     // If the "search_text" is empty, it is not considered.
     std::string search_text{};
     // If given, it indicates the starting limit for the selection.
     std::optional<int> limit{};
   };
-  std::vector<int> select_notes (const selector& selector);
+  std::vector<int> select_notes (const Selector& selector);
 private:
   std::string notes_select_identifier ();
   std::string notes_optional_fulltext_search_relevance_statement (std::string search);

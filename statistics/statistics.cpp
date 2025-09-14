@@ -67,19 +67,9 @@ void statistics_statistics ()
 
     size_t assigned_notes_count = 0;
     if (webserver_request.database_config_user()->get_user_assigned_notes_statistics_notification (user)) {
-      Database_Notes::selector selector {
+      Database_Notes::Selector selector {
         .bibles = bibles,
-        .book = 0,
-        .chapter = 0,
-        .verse = 0,
-        .passage_selector = Database_Notes::passage_selector::any_passage,
-        .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-        .status_selectors = {},
         .assignment_selector = user,
-        .subscription_selector = 0,
-        .severity_selector = Database_Notes::severity_selector::any,
-        .search_text = "",
       };
       const std::vector<int> ids = database_notes.select_notes(selector);
 
@@ -96,56 +86,28 @@ void statistics_statistics ()
       
       std::vector<int> ids;
       {
-        Database_Notes::selector selector {
+        Database_Notes::Selector selector {
           .bibles = bibles,
-          .book = 0,
-          .chapter = 0,
-          .verse = 0,
-          .passage_selector = Database_Notes::passage_selector::any_passage,
-          .edit_selector = Database_Notes::edit_selector::at_any_time,
-          .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-          .status_selectors = {},
-          .assignment_selector = "",
-          .subscription_selector = 1,
-          .severity_selector = Database_Notes::severity_selector::any,
-          .search_text = "",
+          .subscription_selector = true,
         };
         ids = database_notes.select_notes(selector);
       }
       subscribed_notes_count = ids.size();
       body << "<li><a href=" << std::quoted (siteUrl + notes_index_url () + "?presetselection=subscribed") << ">" << translate("Total") << "</a>: " << ids.size () << "</li>" << std::endl;
       {
-        Database_Notes::selector selector {
+        Database_Notes::Selector selector {
           .bibles = bibles,
-          .book = 0,
-          .chapter = 0,
-          .verse = 0,
-          .passage_selector = Database_Notes::passage_selector::any_passage,
-          .edit_selector = Database_Notes::edit_selector::at_any_time,
-          .non_edit_selector = Database_Notes::non_edit_selector::a_day,
-          .status_selectors = {},
-          .assignment_selector = "",
-          .subscription_selector = 1,
-          .severity_selector = Database_Notes::severity_selector::any,
-          .search_text = "",
+          .non_edit_selector = Database_Notes::NonEditSelector::a_day,
+          .subscription_selector = true,
         };
         ids = database_notes.select_notes(selector);
       }
       body << "<li><a href=" << std::quoted (siteUrl + notes_index_url () + "?presetselection=subscribeddayidle") << ">" << translate("Inactive for a day") << "</a>: " << ids.size() << "</li>" << std::endl;
       {
-        Database_Notes::selector selector {
+        Database_Notes::Selector selector {
           .bibles = bibles,
-          .book = 0,
-          .chapter = 0,
-          .verse = 0,
-          .passage_selector = Database_Notes::passage_selector::any_passage,
-          .edit_selector = Database_Notes::edit_selector::at_any_time,
-          .non_edit_selector = Database_Notes::non_edit_selector::a_week,
-          .status_selectors = {},
-          .assignment_selector = "",
-          .subscription_selector = 1,
-          .severity_selector = Database_Notes::severity_selector::any,
-          .search_text = "",
+          .non_edit_selector = Database_Notes::NonEditSelector::a_week,
+          .subscription_selector = true,
         };
         ids = database_notes.select_notes(selector);
       }

@@ -596,7 +596,7 @@ int Database_Notes::store_new_note (const std::string& bible, int book, int chap
 }
 
 
-std::vector<int> Database_Notes::select_notes(const selector& selector)
+std::vector<int> Database_Notes::select_notes(const Selector& selector)
 {
   const std::string& username = m_webserver_request.session_logic ()->get_username ();
   std::vector <int> identifiers;
@@ -611,25 +611,25 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
   // Consider passage selector.
   std::string passage;
   switch (selector.passage_selector) {
-    case passage_selector::current_verse:
+    case PassageSelector::current_verse:
       // Select notes that refer to the current verse.
       // It means that the book, the chapter, and the verse, should match.
       passage = encode_passage (selector.book, selector.chapter, selector.verse);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
-    case passage_selector::current_chapter:
+    case PassageSelector::current_chapter:
       // Select notes that refer to the current chapter.
       // It means that the book and the chapter should match.
       passage = encode_passage (selector.book, selector.chapter, -1);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
-    case passage_selector::current_book:
+    case PassageSelector::current_book:
       // Select notes that refer to the current book.
       // It means that the book should match.
       passage = encode_passage (selector.book, -1, -1);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
-    case passage_selector::any_passage:
+    case PassageSelector::any_passage:
     default:
       // Select notes that refer to any passage: No constraint to apply here.
       break;
@@ -637,24 +637,24 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
   // Consider edit selector.
   int time { 0 };
   switch (selector.edit_selector) {
-    case edit_selector::at_any_time:
+    case EditSelector::at_any_time:
     default:
       // Select notes that have been edited at any time. Apply no constraint.
       time = 0;
       break;
-    case edit_selector::during_last_30_days:
+    case EditSelector::during_last_30_days:
       // Select notes that have been edited during the last 30 days.
       time = filter::date::seconds_since_epoch () - 30 * 24 * 3600;
       break;
-    case edit_selector::during_last_7_days:
+    case EditSelector::during_last_7_days:
       // Select notes that have been edited during the last 7 days.
       time = filter::date::seconds_since_epoch () - 7 * 24 * 3600;
       break;
-    case edit_selector::since_yesterday:
+    case EditSelector::since_yesterday:
       // Select notes that have been edited since yesterday.
       time = filter::date::seconds_since_epoch () - 1 * 24 * 3600 - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
       break;
-    case edit_selector::today:
+    case EditSelector::today:
       // Select notes that have been edited today.
       time = filter::date::seconds_since_epoch () - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
       break;
@@ -667,28 +667,28 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
   // Consider non-edit selector.
   int nonedit { 0 };
   switch (selector.non_edit_selector) {
-    case Database_Notes::non_edit_selector::any_time:
+    case Database_Notes::NonEditSelector::any_time:
     default:
       // Select notes that have not been edited at any time. Apply no constraint.
       nonedit = 0;
       break;
-    case Database_Notes::non_edit_selector::a_day:
+    case Database_Notes::NonEditSelector::a_day:
       // Select notes that have not been edited for a day.
       nonedit = filter::date::seconds_since_epoch () - 1 * 24 * 3600;
       break;
-    case Database_Notes::non_edit_selector::two_days:
+    case Database_Notes::NonEditSelector::two_days:
       // Select notes that have not been edited for two days.
       nonedit = filter::date::seconds_since_epoch () - 2 * 24 * 3600;
       break;
-    case Database_Notes::non_edit_selector::a_week:
+    case Database_Notes::NonEditSelector::a_week:
       // Select notes that have not been edited for a week.
       nonedit = filter::date::seconds_since_epoch () - 7 * 24 * 3600;
       break;
-    case Database_Notes::non_edit_selector::a_month:
+    case Database_Notes::NonEditSelector::a_month:
       // Select notes that have not been edited for a month.
       nonedit = filter::date::seconds_since_epoch () - 30 * 24 * 3600;
       break;
-    case Database_Notes::non_edit_selector::a_year:
+    case Database_Notes::NonEditSelector::a_year:
       // Select notes that have not been edited for a year.
       nonedit = filter::date::seconds_since_epoch () - 365 * 24 * 3600;
       break;
@@ -740,7 +740,7 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
     query.append (" %' ");
   }
   // Consider the note severity.
-  if (selector.severity_selector != Database_Notes::severity_selector::any) {
+  if (selector.severity_selector != Database_Notes::SeveritySelector::any) {
     query.append (" AND severity = ");
     query.append (std::to_string (static_cast<int>(selector.severity_selector)));
     query.append (" ");

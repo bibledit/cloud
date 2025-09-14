@@ -122,19 +122,12 @@ std::string changes_change (Webserver_Request& webserver_request)
   
   
   // Get notes for the passage.
-  Database_Notes::selector selector {
+  Database_Notes::Selector selector {
     .bibles = bibles,
-    .book = passage.m_book, \
+    .book = passage.m_book,
     .chapter = passage.m_chapter,
     .verse = filter::strings::convert_to_int (passage.m_verse),
-    .passage_selector = Database_Notes::passage_selector::current_verse,
-    .edit_selector = Database_Notes::edit_selector::at_any_time,
-    .non_edit_selector = Database_Notes::non_edit_selector::any_time,
-    .status_selectors = {},
-    .assignment_selector = "",
-    .subscription_selector = 0,
-    .severity_selector = Database_Notes::severity_selector::any,
-    .search_text = "",
+    .passage_selector = Database_Notes::PassageSelector::current_verse,
   };
   std::vector<int> notes = database_notes.select_notes(selector);
   

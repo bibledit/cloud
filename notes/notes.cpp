@@ -58,7 +58,7 @@ std::string notes_notes (Webserver_Request& webserver_request)
   
   Database_Notes::passage_selector passage_selector = static_cast<Database_Notes::passage_selector>(webserver_request.database_config_user()->get_consultation_notes_passage_selector());
   int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
-  int non_edit_selector = webserver_request.database_config_user()->get_consultation_notes_non_edit_selector();
+  auto non_edit_selector = static_cast<Database_Notes::non_edit_selector>(webserver_request.database_config_user()->get_consultation_notes_non_edit_selector());
   const std::vector<std::string> status_selectors = webserver_request.database_config_user()->get_consultation_notes_status_selectors();
   std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
   bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();

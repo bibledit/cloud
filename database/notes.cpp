@@ -638,6 +638,7 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
   int time { 0 };
   switch (selector.edit_selector) {
     case edit_selector::at_any_time:
+    default:
       // Select notes that have been edited at any time. Apply no constraint.
       time = 0;
       break;
@@ -657,10 +658,6 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
       // Select notes that have been edited today.
       time = filter::date::seconds_since_epoch () - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
       break;
-    default:
-      // No constraint.
-      time = 0;
-      break;
   }
   if (time != 0) {
     query.append (" AND modified >= ");
@@ -670,31 +667,31 @@ std::vector<int> Database_Notes::select_notes(const selector& selector)
   // Consider non-edit selector.
   int nonedit { 0 };
   switch (selector.non_edit_selector) {
-    case 0:
+    case Database_Notes::non_edit_selector::any_time:
+    default:
       // Select notes that have not been edited at any time. Apply no constraint.
       nonedit = 0;
       break;
-    case 1:
+    case Database_Notes::non_edit_selector::a_day:
       // Select notes that have not been edited for a day.
       nonedit = filter::date::seconds_since_epoch () - 1 * 24 * 3600;
       break;
-    case 2:
+    case Database_Notes::non_edit_selector::two_days:
       // Select notes that have not been edited for two days.
       nonedit = filter::date::seconds_since_epoch () - 2 * 24 * 3600;
       break;
-    case 3:
+    case Database_Notes::non_edit_selector::a_week:
       // Select notes that have not been edited for a week.
       nonedit = filter::date::seconds_since_epoch () - 7 * 24 * 3600;
       break;
-    case 4:
+    case Database_Notes::non_edit_selector::a_month:
       // Select notes that have not been edited for a month.
       nonedit = filter::date::seconds_since_epoch () - 30 * 24 * 3600;
       break;
-    case 5:
+    case Database_Notes::non_edit_selector::a_year:
       // Select notes that have not been edited for a year.
       nonedit = filter::date::seconds_since_epoch () - 365 * 24 * 3600;
       break;
-    default: break;
   }
   if (nonedit != 0) {
     query.append (" AND modified <= ");

@@ -58,7 +58,7 @@ std::string public_notes (Webserver_Request& webserver_request)
     .verse = 0,
     .passage_selector = Database_Notes::passage_selector::current_chapter,
     .edit_selector = Database_Notes::edit_selector::at_any_time,
-    .non_edit_selector = 0,
+    .non_edit_selector = Database_Notes::non_edit_selector::any_time,
     .status_selectors = {},
     .assignment_selector = "",
     .subscription_selector = false,

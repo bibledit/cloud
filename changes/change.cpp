@@ -129,7 +129,7 @@ std::string changes_change (Webserver_Request& webserver_request)
     .verse = filter::strings::convert_to_int (passage.m_verse),
     .passage_selector = Database_Notes::passage_selector::current_verse,
     .edit_selector = Database_Notes::edit_selector::at_any_time,
-    .non_edit_selector = 0,
+    .non_edit_selector = Database_Notes::non_edit_selector::any_time,
     .status_selectors = {},
     .assignment_selector = "",
     .subscription_selector = 0,

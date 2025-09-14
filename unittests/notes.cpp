@@ -1265,7 +1265,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
@@ -1287,7 +1287,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
@@ -1309,7 +1309,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
@@ -1331,7 +1331,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
@@ -1353,7 +1353,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = true,
@@ -1375,7 +1375,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
@@ -1397,7 +1397,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
@@ -1419,7 +1419,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {"status1", "status2"},
         .assignment_selector = "",
         .subscription_selector = false,
@@ -1637,7 +1637,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
@@ -1689,7 +1689,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
@@ -1745,7 +1745,7 @@ void test_database_notes ()
         .verse = 0,
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0,
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {},
         .assignment_selector = "",
         .subscription_selector = false,
@@ -1788,7 +1788,7 @@ void test_database_notes ()
         .verse = 0, // No verse given.
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0, // Select any time not edited.
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
@@ -1812,7 +1812,7 @@ void test_database_notes ()
         .verse = 0, // No verse given.
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0, // Select any time not edited.
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
@@ -1836,7 +1836,7 @@ void test_database_notes ()
         .verse = 0, // No verse given.
         .passage_selector = Database_Notes::passage_selector::any_passage,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0, // Select any time not edited.
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
@@ -1858,7 +1858,7 @@ void test_database_notes ()
         .verse = 0, // Verse given.
         .passage_selector = Database_Notes::passage_selector::current_verse,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0, // Select any time not edited.
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
@@ -1882,7 +1882,7 @@ void test_database_notes ()
         .verse = 3, // Verse given.
         .passage_selector = Database_Notes::passage_selector::current_verse,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0, // Select any time not edited.
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.
@@ -1904,7 +1904,7 @@ void test_database_notes ()
         .verse = 3, // Verse given.
         .passage_selector = Database_Notes::passage_selector::current_verse,
         .edit_selector = Database_Notes::edit_selector::at_any_time,
-        .non_edit_selector = 0, // Select any time not edited.
+        .non_edit_selector = Database_Notes::non_edit_selector::any_time,
         .status_selectors = {}, // Don't consider the statuses.
         .assignment_selector = "", // Don't consider assignment.
         .subscription_selector = false, // Don't consider subscriptions.

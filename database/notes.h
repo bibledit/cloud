@@ -83,6 +83,14 @@ public:
     since_yesterday = 3,
     today = 4,
   };
+  enum class non_edit_selector : uint8_t {
+    any_time = 0,
+    a_day = 1,
+    two_days = 2,
+    a_week = 3,
+    a_month = 4,
+    a_year = 5,
+  };
   struct selector {
     // Container of Bible names that is going to be searched.
     // Can contains all Bibles the user has read access to.
@@ -97,7 +105,7 @@ public:
     // Optionally constrains selection based on modification time.
     // By default there's no constraint on modification time.
     edit_selector edit_selector{edit_selector::at_any_time};
-    int non_edit_selector{}; // Todo default and enum?
+    non_edit_selector non_edit_selector{non_edit_selector::any_time};
     // Optionally constrains selection based on list of note statuses.
     std::vector<std::string> status_selectors; // Todo enums?
     // Optionally constrains the selection based on a note being assigned to somebody.

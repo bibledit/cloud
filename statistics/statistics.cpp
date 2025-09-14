@@ -67,22 +67,24 @@ void statistics_statistics ()
 
     size_t assigned_notes_count = 0;
     if (webserver_request.database_config_user()->get_user_assigned_notes_statistics_notification (user)) {
-      std::vector <int> ids = database_notes.select_notes (
-                                                           bibles, // Bibles.
-                                                           0,      // Book
-                                                           0,      // Chapter
-                                                           0,      // Verse
-                                                           3,      // Passage selector.
-                                                           0,      // Edit selector.
-                                                           0,      // Non-edit selector.
-                                                           {},     // Status selectors.
-                                                           "",     // Bible selector.
-                                                           user,   // Assignment selector.
-                                                           0,      // Subscription selector.
-                                                           -1,     // Severity selector.
-                                                           0,      // Text selector.
-                                                           "",     // Search text.
-                                                           -1);    // Limit.
+      Database_Notes::selector selector {
+        .bibles = bibles,
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = user,
+        .subscription_selector = 0,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      const std::vector<int> ids = database_notes.select_notes(selector);
+
       assigned_notes_count = ids.size();
       body << "<p><a href=" << std::quoted (siteUrl + notes_index_url () + "?presetselection=assigned") << ">" << translate("Number of consultation notes assigned to you awaiting your response") << "</a>: " << ids.size() << "</p>" << std::endl;
     }
@@ -94,55 +96,67 @@ void statistics_statistics ()
       body << "<ul>" << std::endl;
       webserver_request.session_logic ()->set_username (user);
       
-      std::vector <int> ids = database_notes.select_notes (
-                                                           bibles, // Bible.
-                                                           0,      // Book
-                                                           0,      // Chapter
-                                                           0,      // Verse
-                                                           3,      // Passage selector.
-                                                           0,      // Edit selector.
-                                                           0,      // Non-edit selector.
-                                                           {},     // Status selectors.
-                                                           "",     // Bible selector.
-                                                           "",     // Assignment selector.
-                                                           1,      // Subscription selector.
-                                                           -1,     // Severity selector.
-                                                           0,      // Text selector.
-                                                           "",     // Search text.
-                                                           -1);    // Limit.
+      std::vector<int> ids;
+      {
+        Database_Notes::selector selector {
+          .bibles = bibles,
+          .book = 0,
+          .chapter = 0,
+          .verse = 0,
+          .passage_selector = 3,
+          .edit_selector = 0,
+          .non_edit_selector = 0,
+          .status_selectors = {},
+          .assignment_selector = "",
+          .subscription_selector = 1,
+          .severity_selector = -1,
+          .text_selector = 0,
+          .search_text = "",
+          .limit = -1
+        };
+        ids = database_notes.select_notes(selector);
+      }
       subscribed_notes_count = ids.size();
       body << "<li><a href=" << std::quoted (siteUrl + notes_index_url () + "?presetselection=subscribed") << ">" << translate("Total") << "</a>: " << ids.size () << "</li>" << std::endl;
-      ids = database_notes.select_notes (bibles, // Bible.
-                                         0,      // Book
-                                         0,      // Chapter
-                                         0,      // Verse
-                                         3,      // Passage selector.
-                                         0,      // Edit selector.
-                                         1,      // Non-edit selector.
-                                         {},     // Status selectors.
-                                         "",     // Bible selector.
-                                         "",     // Assignment selector.
-                                         1,      // Subscription selector.
-                                         -1,     // Severity selector.
-                                         0,      // Text selector.
-                                         "",     // Search text.
-                                         -1);    // Limit.
+      {
+        Database_Notes::selector selector {
+          .bibles = bibles,
+          .book = 0,
+          .chapter = 0,
+          .verse = 0,
+          .passage_selector = 3,
+          .edit_selector = 0,
+          .non_edit_selector = 1,
+          .status_selectors = {},
+          .assignment_selector = "",
+          .subscription_selector = 1,
+          .severity_selector = -1,
+          .text_selector = 0,
+          .search_text = "",
+          .limit = -1
+        };
+        ids = database_notes.select_notes(selector);
+      }
       body << "<li><a href=" << std::quoted (siteUrl + notes_index_url () + "?presetselection=subscribeddayidle") << ">" << translate("Inactive for a day") << "</a>: " << ids.size() << "</li>" << std::endl;
-      ids = database_notes.select_notes (bibles, // Bible.
-                                         0,      // Book
-                                         0,      // Chapter
-                                         0,      // Verse
-                                         3,      // Passage selector.
-                                         0,      // Edit selector.
-                                         3,      // Non-edit selector.
-                                         {},     // Status selectors.
-                                         "",     // Bible selector.
-                                         "",     // Assignment selector.
-                                         1,      // Subscription selector.
-                                         -1,     // Severity selector.
-                                         0,      // Text selector.
-                                         "",     // Search text.
-                                         -1);    // Limit.
+      {
+        Database_Notes::selector selector {
+          .bibles = bibles,
+          .book = 0,
+          .chapter = 0,
+          .verse = 0,
+          .passage_selector = 3,
+          .edit_selector = 0,
+          .non_edit_selector = 3,
+          .status_selectors = {},
+          .assignment_selector = "",
+          .subscription_selector = 1,
+          .severity_selector = -1,
+          .text_selector = 0,
+          .search_text = "",
+          .limit = -1
+        };
+        ids = database_notes.select_notes(selector);
+      }
       body << "<li><a href=" << std::quoted (siteUrl + notes_index_url () + "?presetselection=subscribedweekidle") << ">" << translate("Inactive for a week") << "</a>: " << ids.size() << "</li>" << std::endl;
       body << "</ul>" << std::endl;
       webserver_request.session_logic ()->set_username ("");

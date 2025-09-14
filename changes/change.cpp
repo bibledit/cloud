@@ -122,19 +122,23 @@ std::string changes_change (Webserver_Request& webserver_request)
   
   
   // Get notes for the passage.
-  std::vector<int> notes = database_notes.select_notes (bibles, // Bibles.
-                                                        passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse),
-                                                        0,  // Passage selector.
-                                                        0,  // Edit selector.
-                                                        0,  // Non-edit selector.
-                                                        {}, // Status selectors.
-                                                        "", // Bible selector.
-                                                        "", // Assignment selector.
-                                                        0,  // Subscription selector.
-                                                        -1, // Severity selector.
-                                                        0,  // Text selector.
-                                                        "", // Search text.
-                                                        -1); // Limit.
+  Database_Notes::selector selector {
+    .bibles = bibles,
+    .book = passage.m_book, \
+    .chapter = passage.m_chapter,
+    .verse = filter::strings::convert_to_int (passage.m_verse),
+    .passage_selector = 0,
+    .edit_selector = 0,
+    .non_edit_selector = 0,
+    .status_selectors = {},
+    .assignment_selector = "",
+    .subscription_selector = 0,
+    .severity_selector = -1,
+    .text_selector = 0,
+    .search_text = "",
+    .limit = -1
+  };
+  std::vector<int> notes = database_notes.select_notes(selector);
   
   // Remove the ones marked for deletion.
   {
@@ -144,7 +148,7 @@ std::string changes_change (Webserver_Request& webserver_request)
         notes2.push_back (note);
       }
     }
-    notes = notes2;
+    notes = std::move(notes2);
   }
   
   // Sort them, most recent notes first.
@@ -154,7 +158,7 @@ std::string changes_change (Webserver_Request& webserver_request)
     timestamps.push_back (timestap);
   }
   filter::strings::quick_sort (timestamps, notes, 0, static_cast <unsigned int> (notes.size ()));
-  reverse (notes.begin(), notes.end());
+  std::reverse (notes.begin(), notes.end());
   
   
   // Whether there"s a live notes editor available.

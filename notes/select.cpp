@@ -346,20 +346,38 @@ std::string notes_select (Webserver_Request& webserver_request)
   view.set_variable ("searchtext", search_text);
   
   
-  // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
+  // The admin disables notes selection on Bibles, so the admin sees all notes,
+  // even notes referring to non-existing Bibles.
   if (webserver_request.session_logic()->get_level() == roles::admin)
     bibles.clear ();
-  
+
+  // If filtering on one Bible, put that Bible on the container.
+  // Note that this overrides the previous code, that is,
+  // if filtering on one Bible, even the admin does not get to see the other ones.
+  if (!bible_selector.empty())
+    bibles = {bible_selector};
+
   
   const int book = Ipc_Focus::getBook (webserver_request);
   const int chapter = Ipc_Focus::getChapter (webserver_request);
   const int verse = Ipc_Focus::getVerse (webserver_request);
-  const std::vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse,
-                                                                     passage_selector, edit_selector, non_edit_selector,
-                                                                     status_selectors,
-                                                                     bible_selector, assignment_selector,
-                                                                     subscription_selector, severity_selector, text_selector,
-                                                                     search_text, -1);
+  Database_Notes::selector selector {
+    .bibles = bibles,
+    .book = book,
+    .chapter = chapter,
+    .verse = verse,
+    .passage_selector = passage_selector,
+    .edit_selector = edit_selector,
+    .non_edit_selector = non_edit_selector,
+    .status_selectors = status_selectors,
+    .assignment_selector = assignment_selector,
+    .subscription_selector = subscription_selector,
+    .severity_selector = severity_selector,
+    .text_selector = text_selector,
+    .search_text = search_text,
+    .limit = -1
+  };
+  const std::vector <int> identifiers = database_notes.select_notes (selector);
   view.set_variable ("count", std::to_string (identifiers.size()));
   
   

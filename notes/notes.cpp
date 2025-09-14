@@ -60,7 +60,6 @@ std::string notes_notes (Webserver_Request& webserver_request)
   int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
   int non_edit_selector = webserver_request.database_config_user()->get_consultation_notes_non_edit_selector();
   const std::vector<std::string> status_selectors = webserver_request.database_config_user()->get_consultation_notes_status_selectors();
-  std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
   std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
   bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
   int severity_selector = webserver_request.database_config_user()->get_consultation_notes_severity_selector();
@@ -70,8 +69,11 @@ std::string notes_notes (Webserver_Request& webserver_request)
   int text_inclusion_selector = webserver_request.database_config_user()->get_consultation_notes_text_inclusion_selector();
 
   
-  // The Bibles the current user has access to.
-  std::vector <std::string> bibles = access_bible::bibles (webserver_request, webserver_request.session_logic ()->get_username ());
+  // The Bibles the current user has access to or else the Bible selector.
+  std::vector <std::string> bibles = {webserver_request.database_config_user()->get_consultation_notes_bible_selector()};
+  if (bibles.empty())
+    bibles = access_bible::bibles (webserver_request, webserver_request.session_logic ()->get_username ());
+  
   
   
   // The admin disables notes selection on Bibles,
@@ -79,7 +81,23 @@ std::string notes_notes (Webserver_Request& webserver_request)
   if (webserver_request.session_logic ()->get_level () == roles::admin) bibles.clear ();
   
   
-  std::vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse, passage_selector, edit_selector, non_edit_selector, status_selectors, bible_selector, assignment_selector, subscription_selector, severity_selector, text_selector, search_text, -1);
+  Database_Notes::selector selector {
+    .bibles = bibles,
+    .book = book,
+    .chapter = chapter,
+    .verse = verse,
+    .passage_selector = passage_selector,
+    .edit_selector = edit_selector,
+    .non_edit_selector = non_edit_selector,
+    .status_selectors = status_selectors,
+    .assignment_selector = assignment_selector,
+    .subscription_selector = subscription_selector,
+    .severity_selector = severity_selector,
+    .text_selector = text_selector,
+    .search_text = search_text,
+    .limit = -1
+  };
+  std::vector <int> identifiers = database_notes.select_notes (selector);
   
   
   // In case there aren't too many notes, there's enough time to sort them in passage order.
@@ -93,7 +111,7 @@ std::string notes_notes (Webserver_Request& webserver_request)
         numeric_passages.push_back (filter_passage_to_integer (passage));
       }
       if (!numeric_passages.empty ()) {
-        double average = static_cast<double>(accumulate (numeric_passages.begin (), numeric_passages.end (), 0)) / static_cast<double>(numeric_passages.size ());
+        double average = static_cast<double>(accumulate (numeric_passages.begin(), numeric_passages.end(), 0)) / static_cast<double>(numeric_passages.size());
         passage_sort_key = static_cast<int> (round(average));
       }
       passage_sort_keys.push_back (passage_sort_key);

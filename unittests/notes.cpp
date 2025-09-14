@@ -1255,37 +1255,183 @@ void test_database_notes ()
 
     // Select notes while varying Bible selection.
     std::vector<int> standard{};
-    std::vector<int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, {}, "bible1", "", false, -1, 0, "", -1);
-    standard = {identifier1};
-    EXPECT_EQ (standard, identifiers);
+    std::vector<int> identifiers{};
+
+    {
+      Database_Notes::selector selector {
+        .bibles = {"bible1"},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = "",
+        .subscription_selector = false,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      identifiers = database_notes.select_notes(selector);
+      standard = {identifier1};
+      EXPECT_EQ (standard, identifiers);
+    }
+
+    {
+      Database_Notes::selector selector {
+        .bibles = {"bible2"},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = "",
+        .subscription_selector = false,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      identifiers = database_notes.select_notes(selector);
+      standard = {identifier2};
+      EXPECT_EQ (standard, identifiers);
+    }
     
-    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, {}, "bible2", "", false, -1, 0, "", -1);
-    standard = {identifier2};
-    EXPECT_EQ (standard, identifiers);
+    {
+      Database_Notes::selector selector {
+        .bibles = {"bible1", "bible2"},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = "",
+        .subscription_selector = false,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      identifiers = database_notes.select_notes(selector);
+      standard = {identifier1, identifier2};
+      EXPECT_EQ (standard, identifiers);
+    }
+
+    {
+      Database_Notes::selector selector {
+        .bibles = {"bible"},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = "",
+        .subscription_selector = false,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      identifiers = database_notes.select_notes(selector);
+      standard = {};
+      EXPECT_EQ (standard, identifiers);
+    }
+
+    {
+      Database_Notes::selector selector {
+        .bibles = {},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = "",
+        .subscription_selector = true,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      identifiers = database_notes.select_notes(selector);
+      standard = {};
+      EXPECT_EQ (standard, identifiers);
+    }
+
+    {
+      Database_Notes::selector selector {
+        .bibles = {"bible3"},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = "",
+        .subscription_selector = false,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      identifiers = database_notes.select_notes(selector);
+      standard = {identifier3};
+      EXPECT_EQ (standard, identifiers);
+    }
     
-    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, {}, "", "", false, -1, 0, "", -1);
-    standard = {identifier1, identifier2};
-    EXPECT_EQ (standard, identifiers);
-    
-    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, {}, "bible", "", false, -1, 0, "", -1);
-    standard = {};
-    EXPECT_EQ (standard, identifiers);
-    
-    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, {}, "", "", true, -1, 0, "", -1);
-    standard = {};
-    EXPECT_EQ (standard, identifiers);
-    
-    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, {}, "bible3", "", false, -1, 0, "", -1);
-    standard = {identifier3};
-    EXPECT_EQ (standard, identifiers);
-    
-    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, {}, "bible3", "", false, -1, 0, "", -1);
-    standard = {identifier3};
-    EXPECT_EQ (standard, identifiers);
-    
-    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, {"status1", "status2"}, "", "", false, -1, 0, "", -1);
-    standard = {identifier1, identifier2};
-    EXPECT_EQ (standard, identifiers);
+    {
+      Database_Notes::selector selector {
+        .bibles = {"bible3"},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = "",
+        .subscription_selector = false,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      identifiers = database_notes.select_notes(selector);
+      standard = {identifier3};
+      EXPECT_EQ (standard, identifiers);
+    }
+
+    {
+      Database_Notes::selector selector {
+        .bibles = {},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {"status1", "status2"},
+        .assignment_selector = "",
+        .subscription_selector = false,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      identifiers = database_notes.select_notes(selector);
+      standard = {identifier1, identifier2};
+      EXPECT_EQ (standard, identifiers);
+    }
   }
 
   // Test the resilience of the notes.
@@ -1483,7 +1629,25 @@ void test_database_notes ()
     
     // Get some search results for later reference.
     std::vector <int> search_results;
-    search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, {}, "bible1", "", false, -1, 0, "", -1);
+    {
+      Database_Notes::selector selector {
+        .bibles = {"bible1"},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = "",
+        .subscription_selector = false,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      search_results = database_notes.select_notes(selector);
+    }
     
     // Get the notes in bulk in a database.
     std::string json = database_notes.get_bulk (v_identifier);
@@ -1517,7 +1681,25 @@ void test_database_notes ()
     
     // There should be no search results anymore.
     std::vector <int> no_search_results;
-    no_search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, {}, "bible1", "", false, -1, 0, "", -1);
+    {
+      Database_Notes::selector selector {
+        .bibles = {"bible1"},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = "",
+        .subscription_selector = false,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      no_search_results = database_notes.select_notes(selector);
+    }
     EXPECT_EQ (std::vector <int>{}, no_search_results);
     
     // Copy the notes from the database back to the filesystem.
@@ -1555,7 +1737,25 @@ void test_database_notes ()
     
     // The search results should be back too.
     std::vector <int> restored_search;
-    restored_search = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, {}, "bible1", "", false, -1, 0, "", -1);
+    {
+      Database_Notes::selector selector {
+        .bibles = {"bible1"},
+        .book = 0,
+        .chapter = 0,
+        .verse = 0,
+        .passage_selector = 3,
+        .edit_selector = 0,
+        .non_edit_selector = 0,
+        .status_selectors = {},
+        .assignment_selector = "",
+        .subscription_selector = false,
+        .severity_selector = -1,
+        .text_selector = 0,
+        .search_text = "",
+        .limit = -1
+      };
+      restored_search = database_notes.select_notes(selector);
+    }
     EXPECT_EQ (search_results, restored_search);
   }
 
@@ -1580,117 +1780,141 @@ void test_database_notes ()
     std::vector <int> identifiers;
     
     // Search on the content of the current note.
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                               0, // No book given.
-                                               0, // No chapter given.
-                                               0, // No verse given.
-                                               3, // Select any passage.
-                                               0, // Select any time edited.
-                                               0, // Select any time not edited.
-                                               {}, // Don't consider the statuses.
-                                               "", // Don't consider a Bible.
-                                               "", // Don't consider assignment.
-                                               false, // Don't consider subscriptions.
-                                               -1, // Don't consider the severity.
-                                               1, // Do search on the text following.
-                                               "", // Search on any contents.
-                                               0); // Don't limit the search results.
+    {
+      Database_Notes::selector selector {
+        .bibles = {}, // No Bibles given.
+        .book = 0, // No book given.
+        .chapter = 0, // No chapter given.
+        .verse = 0, // No verse given.
+        .passage_selector = 3, // Select any passage.
+        .edit_selector = 0, // Select any time edited.
+        .non_edit_selector = 0, // Select any time not edited.
+        .status_selectors = {}, // Don't consider the statuses.
+        .assignment_selector = "", // Don't consider assignment.
+        .subscription_selector = false, // Don't consider subscriptions.
+        .severity_selector = -1, // Don't consider the severity.
+        .text_selector = 1, // Do search on the text following.
+        .search_text = "", // Search on any contents.
+        .limit = 0 // Don't limit the search results.
+      };
+      identifiers = database_notes.select_notes(selector);
+    }
     // Search result should be there.
     EXPECT_EQ (std::vector <int>{identifier}, identifiers);
     // Do a raw update of the note. The search database is not updated.
     database_notes.set_raw_contents (identifier, contents);
     // Doing a search now does not give results.
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                               0, // No book given.
-                                               0, // No chapter given.
-                                               0, // No verse given.
-                                               3, // Select any passage.
-                                               0, // Select any time edited.
-                                               0, // Select any time not edited.
-                                               {}, // Don't consider the statuses.
-                                               "", // Don't consider a Bible.
-                                               "", // Don't consider assignment.
-                                               false, // Don't consider subscriptions.
-                                               -1, // Don't consider the severity.
-                                               1, // Do search on the text following.
-                                               contents, // Search on certain content.
-                                               0); // Don't limit the search results.
+    {
+      Database_Notes::selector selector {
+        .bibles = {}, // No Bibles given.
+        .book = 0, // No book given.
+        .chapter = 0, // No chapter given.
+        .verse = 0, // No verse given.
+        .passage_selector = 3, // Select any passage.
+        .edit_selector = 0, // Select any time edited.
+        .non_edit_selector = 0, // Select any time not edited.
+        .status_selectors = {}, // Don't consider the statuses.
+        .assignment_selector = "", // Don't consider assignment.
+        .subscription_selector = false, // Don't consider subscriptions.
+        .severity_selector = -1, // Don't consider the severity.
+        .text_selector = 1, // Do search on the text following.
+        .search_text = contents, // Search on certain content.
+        .limit = 0 // Don't limit the search results.
+      };
+      identifiers = database_notes.select_notes(selector);
+    }
     EXPECT_EQ (std::vector <int>{}, identifiers);
     // Update the search index.
     // Search results should be back to normal.
     database_notes.update_database (identifier);
     database_notes.update_search_fields (identifier);
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                               0, // No book given.
-                                               0, // No chapter given.
-                                               0, // No verse given.
-                                               3, // Select any passage.
-                                               0, // Select any time edited.
-                                               0, // Select any time not edited.
-                                               {}, // Don't consider the statuses.
-                                               "", // Don't consider a Bible.
-                                               "", // Don't consider assignment.
-                                               false, // Don't consider subscriptions.
-                                               -1, // Don't consider the severity.
-                                               1, // Do search on the text following.
-                                               contents, // Search on any contents.
-                                               0); // Don't limit the search results.
+    {
+      Database_Notes::selector selector {
+        .bibles = {}, // No Bibles given.
+        .book = 0, // No book given.
+        .chapter = 0, // No chapter given.
+        .verse = 0, // No verse given.
+        .passage_selector = 3, // Select any passage.
+        .edit_selector = 0, // Select any time edited.
+        .non_edit_selector = 0, // Select any time not edited.
+        .status_selectors = {}, // Don't consider the statuses.
+        .assignment_selector = "", // Don't consider assignment.
+        .subscription_selector = false, // Don't consider subscriptions.
+        .severity_selector =  -1, // Don't consider the severity.
+        .text_selector = 1, // Do search on the text following.
+        .search_text = contents, // Search on any contents.
+        .limit = -1 // Don't limit the search results.
+      };
+      identifiers = database_notes.select_notes(selector);
+    }
     EXPECT_EQ (std::vector <int>{identifier}, identifiers);
     
     // Search on the note's passage.
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                               0, // Book given.
-                                               0, // Chapter given.
-                                               0, // Verse given.
-                                               0, // Select current verse.
-                                               0, // Select any time edited.
-                                               0, // Select any time not edited.
-                                               {}, // Don't consider the statuses.
-                                               "", // Don't consider a Bible.
-                                               "", // Don't consider assignment.
-                                               false, // Don't consider subscriptions.
-                                               -1, // Don't consider the severity.
-                                               0, // Do not search on any text.
-                                               "", // No text given as being irrelevant.
-                                               0); // Don't limit the search results.
+    {
+      Database_Notes::selector selector {
+        .bibles = {}, // No Bibles given.
+        .book = 0, // Book given.
+        .chapter = 0, // Chapter given.
+        .verse = 0, // Verse given.
+        .passage_selector = 0, // Select current verse.
+        .edit_selector = 0, // Select any time edited.
+        .non_edit_selector = 0, // Select any time not edited.
+        .status_selectors = {}, // Don't consider the statuses.
+        .assignment_selector = "", // Don't consider assignment.
+        .subscription_selector = false, // Don't consider subscriptions.
+        .severity_selector = -1, // Don't consider the severity.
+        .text_selector = 0, // Do not search on any text.
+        .search_text = "", // No text given as being irrelevant.
+        .limit = 0 // Don't limit the search results.
+      };
+      identifiers = database_notes.select_notes(selector);
+    }
     // Search result should be there.
     EXPECT_EQ (std::vector <int>{identifier}, identifiers);
     // Update the passage of the note without updating the search index.
     database_notes.set_raw_passage (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                               1, // Book given.
-                                               2, // Chapter given.
-                                               3, // Verse given.
-                                               0, // Select current verse.
-                                               0, // Select any time edited.
-                                               0, // Select any time not edited.
-                                               {}, // Don't consider the statuses.
-                                               "", // Don't consider a Bible.
-                                               "", // Don't consider assignment.
-                                               false, // Don't consider subscriptions.
-                                               -1, // Don't consider the severity.
-                                               0, // Do not search on any text.
-                                               "", // No text given as being irrelevant.
-                                               0); // Don't limit the search results.
+    {
+      Database_Notes::selector selector {
+        .bibles = {}, // No Bibles given.
+        .book = 1, // Book given.
+        .chapter = 2, // Chapter given.
+        .verse = 3, // Verse given.
+        .passage_selector = 0, // Select current verse.
+        .edit_selector = 0, // Select any time edited.
+        .non_edit_selector = 0, // Select any time not edited.
+        .status_selectors = {}, // Don't consider the statuses.
+        .assignment_selector = "", // Don't consider assignment.
+        .subscription_selector = false, // Don't consider subscriptions.
+        .severity_selector = -1, // Don't consider the severity.
+        .text_selector = 0, // Do not search on any text.
+        .search_text = "", // No text given as being irrelevant.
+        .limit = -1 // Don't limit the search results.
+      };
+      identifiers = database_notes.select_notes(selector);
+    }
     EXPECT_EQ (std::vector <int>{}, identifiers);
     // Update the search index. There should be search results now.
     database_notes.update_database (identifier);
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                               1, // Book given.
-                                               2, // Chapter given.
-                                               3, // Verse given.
-                                               0, // Select current verse.
-                                               0, // Select any time edited.
-                                               0, // Select any time not edited.
-                                               {}, // Don't consider the statuses.
-                                               "", // Don't consider a Bible.
-                                               "", // Don't consider assignment.
-                                               false, // Don't consider subscriptions.
-                                               -1, // Don't consider the severity.
-                                               0, // Do not search on any text.
-                                               "", // No text given as being irrelevant.
-                                               0); // Don't limit the search results.
+    {
+      Database_Notes::selector selector {
+        .bibles = {}, // No Bibles given.
+        .book = 1, // Book given.
+        .chapter = 2, // Chapter given.
+        .verse = 3, // Verse given.
+        .passage_selector = 0, // Select current verse.
+        .edit_selector = 0, // Select any time edited.
+        .non_edit_selector = 0, // Select any time not edited.
+        .status_selectors = {}, // Don't consider the statuses.
+        .assignment_selector = "", // Don't consider assignment.
+        .subscription_selector = false, // Don't consider subscriptions.
+        .severity_selector = -1, // Don't consider the severity.
+        .text_selector = 0, // Do not search on any text.
+        .search_text = "", // No text given as being irrelevant.
+        .limit = -1 // Don't limit the search results.
+      };
+      identifiers = database_notes.select_notes(selector);
+    }
     EXPECT_EQ (std::vector <int>{identifier}, identifiers);
   }
 

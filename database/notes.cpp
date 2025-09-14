@@ -596,190 +596,7 @@ int Database_Notes::store_new_note (const std::string& bible, int book, int chap
 }
 
 
-// Returns an array of note identifiers selected.
-std::vector <int> Database_Notes::select_notes (std::vector <std::string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::vector<std::string>& status_selectors, std::string bible_selector, std::string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit)// Todo phase out.
-{
-  const std::string& username = m_webserver_request.session_logic ()->get_username ();
-  std::vector <int> identifiers;
-  // SQL SELECT statement.
-  std::string query = notes_select_identifier ();
-  // SQL optional fulltext search statement sorted on relevance.
-  if (text_selector == 1) {
-    query.append (notes_optional_fulltext_search_relevance_statement (search_text));
-  }
-  // SQL FROM ... WHERE statement.
-  query.append (notes_from_where_statement ());
-  // Consider passage selector.
-  std::string passage;
-  switch (passage_selector) {
-    case 0:
-      // Select notes that refer to the current verse.
-      // It means that the book, the chapter, and the verse, should match.
-      passage = encode_passage (book, chapter, verse);
-      query.append (" AND passage LIKE '%" + passage + "%' ");
-      break;
-    case 1:
-      // Select notes that refer to the current chapter.
-      // It means that the book and the chapter should match.
-      passage = encode_passage (book, chapter, -1);
-      query.append (" AND passage LIKE '%" + passage + "%' ");
-      break;
-    case 2:
-      // Select notes that refer to the current book.
-      // It means that the book should match.
-      passage = encode_passage (book, -1, -1);
-      query.append (" AND passage LIKE '%" + passage + "%' ");
-      break;
-    case 3:
-      // Select notes that refer to any passage: No constraint to apply here.
-      break;
-    default: break;
-  }
-  // Consider edit selector.
-  int time { 0 };
-  switch (edit_selector) {
-    case 0:
-      // Select notes that have been edited at any time. Apply no constraint.
-      time = 0;
-      break;
-    case 1:
-      // Select notes that have been edited during the last 30 days.
-      time = filter::date::seconds_since_epoch () - 30 * 24 * 3600;
-      break;
-    case 2:
-      // Select notes that have been edited during the last 7 days.
-      time = filter::date::seconds_since_epoch () - 7 * 24 * 3600;
-      break;
-    case 3:
-      // Select notes that have been edited since yesterday.
-      time = filter::date::seconds_since_epoch () - 1 * 24 * 3600 - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
-      break;
-    case 4:
-      // Select notes that have been edited today.
-      time = filter::date::seconds_since_epoch () - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
-      break;
-    default: break;
-  }
-  if (time != 0) {
-    query.append (" AND modified >= ");
-    query.append (std::to_string (time));
-    query.append (" ");
-  }
-  // Consider non-edit selector.
-  int nonedit { 0 };
-  switch (non_edit_selector) {
-    case 0:
-      // Select notes that have not been edited at any time. Apply no constraint.
-      nonedit = 0;
-      break;
-    case 1:
-      // Select notes that have not been edited for a day.
-      nonedit = filter::date::seconds_since_epoch () - 1 * 24 * 3600;
-      break;
-    case 2:
-      // Select notes that have not been edited for two days.
-      nonedit = filter::date::seconds_since_epoch () - 2 * 24 * 3600;
-      break;
-    case 3:
-      // Select notes that have not been edited for a week.
-      nonedit = filter::date::seconds_since_epoch () - 7 * 24 * 3600;
-      break;
-    case 4:
-      // Select notes that have not been edited for a month.
-      nonedit = filter::date::seconds_since_epoch () - 30 * 24 * 3600;
-      break;
-    case 5:
-      // Select notes that have not been edited for a year.
-      nonedit = filter::date::seconds_since_epoch () - 365 * 24 * 3600;
-      break;
-    default: break;
-  }
-  if (nonedit != 0) {
-    query.append (" AND modified <= ");
-    query.append (std::to_string (nonedit));
-    query.append (" ");
-  }
-  // Consider the status selectors.
-  if (!status_selectors.empty()) {
-    query.append (" AND (status = '' ");
-    for (const auto& status : status_selectors) {
-      query.append (" OR status = '");
-      query.append (status);
-      query.append ("' ");
-    }
-    query.append (" ) ");
-  }
-  
-  // Consider two different Bible constraints:
-  // 1. The vector of bibles: "bibles".
-  //    This contains all the Bibles a user has access to, so only notes that refer to any Bible in this lot are going to be selected.
-  // 2. The string "bible_selector".
-  //    If this is left empty, then it selects notes that refer to Bibles in the vector above.
-  //    If this contains a Bible, then it selects notes that refer to this Bible.
-  // In addition to the above two selectors, it always selects note that refer to any Bible.
-  if (!bible_selector.empty()) {
-    bibles.clear ();
-    bibles.push_back (bible_selector);
-  }
-  if (!bibles.empty ()) {
-    query.append (" AND (bible = '' ");
-    for (auto bible : bibles) {
-      bible = database::sqlite::no_sql_injection (bible);
-      query.append (" OR bible = '");
-      query.append (bible);
-      query.append ("' ");
-    }
-    query.append (" ) ");
-  }
-  // Consider note assignment constraints.
-  if (assignment_selector != "") {
-    assignment_selector = database::sqlite::no_sql_injection (assignment_selector);
-    query.append (" AND assigned LIKE '% ");
-    query.append (assignment_selector);
-    query.append (" %' ");
-  }
-  // Consider note subscription constraints.
-  if (subscription_selector) {
-    query.append (" AND subscriptions LIKE '% ");
-    query.append (username);
-    query.append (" %' ");
-  }
-  // Consider the note severity.
-  if (severity_selector != -1) {
-    query.append (" AND severity = ");
-    query.append (std::to_string (severity_selector));
-    query.append (" ");
-  }
-  // Consider text contained in notes.
-  if (text_selector == 1) {
-    query.append (notes_optional_fulltext_search_statement (search_text));
-  }
-  if (text_selector == 1) {
-    // If searching in fulltext mode, notes get ordered on relevance of search hits.
-    query.append (notes_order_by_relevance_statement ());
-  } else {
-    // Notes get ordered by the passage they refer to. It is a rough method and better ordering is needed.
-    query.append (" ORDER BY ABS (passage) ");
-  }
-  // Limit the selection if a limit is given.
-  if (limit >= 0) {
-    query.append (" LIMIT ");
-    query.append (std::to_string (limit));
-    query.append (", 50 ");
-  }
-  query.append (";");
-
-  SqliteDatabase sql (database_notes);
-  sql.set_sql (query);
-  const std::vector <std::string> result = sql.query () ["identifier"];
-  for (const auto& id : result) {
-    identifiers.push_back (filter::strings::convert_to_int (id));
-  }
-  return identifiers;
-}
-
-
-std::vector <int> Database_Notes::select_notes (const selector& selector)
+std::vector<int> Database_Notes::select_notes(const selector& selector)
 {
   const std::string& username = m_webserver_request.session_logic ()->get_username ();
   std::vector <int> identifiers;
@@ -892,21 +709,15 @@ std::vector <int> Database_Notes::select_notes (const selector& selector)
     query.append (" ) ");
   }
   
-  // Consider two different Bible constraints:
+  // Consider the Bible constraints:
   // 1. The vector of bibles: "bibles".
-  //    This contains all the Bibles a user has access to, so only notes that refer to any Bible in this lot are going to be selected.
-  // 2. The string "bible_selector".
-  //    If this is left empty, then it selects notes that refer to Bibles in the vector above.
-  //    If this contains a Bible, then it selects notes that refer to this Bible.
-  // In addition to the above two selectors, it always selects note that refer to any Bible.
-  std::vector<std::string> bibles {selector.bibles};
-  if (!selector.bible_selector.empty()) {
-    bibles.clear ();
-    bibles.push_back (selector.bible_selector);
-  }
-  if (!bibles.empty ()) {
+  //    This contains all the Bibles a user has access to,
+  //    so only notes that refer to any Bible in this lot are going to be selected.
+  //    Or it contains the Bible to be searched for notes.
+  // In addition to the above s electors, it always selects notes that refer to any Bible.
+  if (!selector.bibles.empty ()) {
     query.append (" AND (bible = '' ");
-    for (auto bible : bibles) {
+    for (auto bible : selector.bibles) {
       bible = database::sqlite::no_sql_injection (bible);
       query.append (" OR bible = '");
       query.append (bible);

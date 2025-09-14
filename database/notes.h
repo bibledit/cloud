@@ -71,7 +71,9 @@ private:
   
 public:
   struct selector {
-    // Contaiiner of Bible names the user has read access to.
+    // Container of Bible names that is going to be searched.
+    // Can contains all Bibles the user has read access to.
+    // Or can contain one Bible to be searched.
     std::vector<std::string> bibles{};
     // Four related selectors that can limit the selection.
     int book{};
@@ -81,10 +83,8 @@ public:
     // Optionally constrains selection based on modification time.
     int edit_selector{}; // Todo default and enum?
     int non_edit_selector{}; // Todo default and enum?
-    // Optionally constrains selection based on note status.
+    // Optionally constrains selection based on list of note statuses.
     std::vector<std::string> status_selectors; // Todo enums?
-    // Optionally constrains the selection, based on the note's Bible.
-    std::string bible_selector{};
     // Optionally constrains the selection based on a note being assigned to somebody.
     std::string assignment_selector{};
     // Optionally limits the selection based on a note's subscription.
@@ -98,7 +98,6 @@ public:
     // If >= 0, it indicates the starting limit for the selection.
     int limit{0};
   };
-  std::vector <int> select_notes (std::vector <std::string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::vector<std::string>& status_selectors, std::string bible_selector, std::string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit);
   std::vector<int> select_notes (const selector& selector);
 private:
   std::string notes_select_identifier ();

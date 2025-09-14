@@ -69,7 +69,8 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   std::string success, error;
 
   
-  std::vector <std::string> bibles = access_bible::bibles (webserver_request);
+  std::vector <std::string> bibles = {webserver_request.database_config_user()->get_consultation_notes_bible_selector()};
+  if (bibles.empty()) bibles = access_bible::bibles (webserver_request);
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
   int verse = Ipc_Focus::getVerse (webserver_request);
@@ -77,7 +78,6 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
   int non_edit_selector = webserver_request.database_config_user()->get_consultation_notes_non_edit_selector();
   const std::vector<std::string> status_selectors = webserver_request.database_config_user()->get_consultation_notes_status_selectors();
-  std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
   std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
   bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
   int severity_selector = webserver_request.database_config_user()->get_consultation_notes_severity_selector();
@@ -111,21 +111,23 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   // This is done to remember them as long as this page is active.
   // Thus erroneous bulk operations on notes can be rectified somewhat easier.
   if (!subscribe && !unsubscribe && !assign && !unassign && !status && !severity && !bible && !erase) {
-    std::vector <int> identifiers = database_notes.select_notes (bibles,
-                                                                 book,
-                                                                 chapter,
-                                                                 verse,
-                                                                 passage_selector,
-                                                                 edit_selector,
-                                                                 non_edit_selector,
-                                                                 status_selectors,
-                                                                 bible_selector,
-                                                                 assignment_selector,
-                                                                 subscription_selector,
-                                                                 severity_selector,
-                                                                 text_selector,
-                                                                 search_text,
-                                                                 -1);
+    Database_Notes::selector selector {
+      .bibles = bibles,
+      .book = book,
+      .chapter = chapter,
+      .verse = verse,
+      .passage_selector = passage_selector,
+      .edit_selector = edit_selector,
+      .non_edit_selector = non_edit_selector,
+      .status_selectors = status_selectors,
+      .assignment_selector = assignment_selector,
+      .subscription_selector = subscription_selector,
+      .severity_selector = severity_selector,
+      .text_selector = text_selector,
+      .search_text = search_text,
+      .limit = -1
+    };
+    std::vector <int> identifiers = database_notes.select_notes (selector);
     std::vector <std::string> sids;
     for (auto id : identifiers) sids.push_back (std::to_string (id));
     database::temporal::set_value (userid, "identifiers", filter::strings::implode (sids, " "));

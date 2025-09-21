@@ -89,8 +89,6 @@ libbibledit_a_SOURCES = \
 	session/password.cpp \
 	session/signup.cpp \
 	session/switch.cpp \
-	parsewebdata/ParseMultipartFormData.cpp \
-	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp \
 	setup/logic.cpp \
 	journal/index.cpp \

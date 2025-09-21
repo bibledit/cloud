@@ -1110,11 +1110,6 @@
 		CADE3F2824F17473003165BB /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CADE3F2924F17473003165BB /* sample.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = sample.txt; sourceTree = "<group>"; };
 		CADE3F2B24F17487003165BB /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
-		CADE3F2D24F17487003165BB /* ParseWebData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseWebData.h; sourceTree = "<group>"; };
-		CADE3F2F24F17487003165BB /* ParseWebData_local.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseWebData_local.h; sourceTree = "<group>"; };
-		CADE3F3024F17487003165BB /* ParseMultipartFormData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseMultipartFormData.h; sourceTree = "<group>"; };
-		CADE3F3124F17487003165BB /* ParseMultipartFormData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParseMultipartFormData.cpp; sourceTree = "<group>"; };
-		CADE3F3424F17487003165BB /* ParseWebData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParseWebData.cpp; sourceTree = "<group>"; };
 		CADE3F3C24F17487003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE3F3E24F17487003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CADE3F3F24F17487003165BB /* chapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chapter.h; sourceTree = "<group>"; };
@@ -1964,7 +1959,6 @@
 				CADE3D0524F17470003165BB /* odf */,
 				CADE3E7C24F17472003165BB /* olb */,
 				CADE3F6F24F17487003165BB /* paratext */,
-				CADE3F2C24F17487003165BB /* parsewebdata */,
 				CADE3FB424F17488003165BB /* personalize */,
 				CADE3F9F24F17488003165BB /* pix */,
 				CADE3F6B24F17487003165BB /* pkgdata */,
@@ -3740,18 +3734,6 @@
 				CADE3F2B24F17487003165BB /* gitflag */,
 			);
 			path = processes;
-			sourceTree = "<group>";
-		};
-		CADE3F2C24F17487003165BB /* parsewebdata */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3F3124F17487003165BB /* ParseMultipartFormData.cpp */,
-				CADE3F3024F17487003165BB /* ParseMultipartFormData.h */,
-				CADE3F2F24F17487003165BB /* ParseWebData_local.h */,
-				CADE3F3424F17487003165BB /* ParseWebData.cpp */,
-				CADE3F2D24F17487003165BB /* ParseWebData.h */,
-			);
-			path = parsewebdata;
 			sourceTree = "<group>";
 		};
 		CADE3F3B24F17487003165BB /* public */ = {

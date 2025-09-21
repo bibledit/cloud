@@ -172,9 +172,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/sample.$(OBJEXT) session/logic.$(OBJEXT) \
 	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
 	session/password.$(OBJEXT) session/signup.$(OBJEXT) \
-	session/switch.$(OBJEXT) \
-	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
-	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
+	session/switch.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
 	journal/logic.$(OBJEXT) styles/logic.$(OBJEXT) \
 	styles/indexm.$(OBJEXT) styles/new.$(OBJEXT) \
@@ -728,8 +726,6 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	notes/$(DEPDIR)/unassign-n.Po notes/$(DEPDIR)/verses.Po \
 	odf/$(DEPDIR)/text.Po olb/$(DEPDIR)/text.Po \
 	paratext/$(DEPDIR)/index.Po paratext/$(DEPDIR)/logic.Po \
-	parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po \
-	parsewebdata/$(DEPDIR)/ParseWebData.Po \
 	personalize/$(DEPDIR)/index.Po public/$(DEPDIR)/chapter.Po \
 	public/$(DEPDIR)/comment.Po public/$(DEPDIR)/create.Po \
 	public/$(DEPDIR)/index.Po public/$(DEPDIR)/logic.Po \
@@ -1185,8 +1181,6 @@ libbibledit_a_SOURCES = \
 	session/password.cpp \
 	session/signup.cpp \
 	session/switch.cpp \
-	parsewebdata/ParseMultipartFormData.cpp \
-	parsewebdata/ParseWebData.cpp \
 	setup/index.cpp \
 	setup/logic.cpp \
 	journal/index.cpp \
@@ -2106,17 +2100,6 @@ session/signup.$(OBJEXT): session/$(am__dirstamp) \
 	session/$(DEPDIR)/$(am__dirstamp)
 session/switch.$(OBJEXT): session/$(am__dirstamp) \
 	session/$(DEPDIR)/$(am__dirstamp)
-parsewebdata/$(am__dirstamp):
-	@$(MKDIR_P) parsewebdata
-	@: >>parsewebdata/$(am__dirstamp)
-parsewebdata/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) parsewebdata/$(DEPDIR)
-	@: >>parsewebdata/$(DEPDIR)/$(am__dirstamp)
-parsewebdata/ParseMultipartFormData.$(OBJEXT):  \
-	parsewebdata/$(am__dirstamp) \
-	parsewebdata/$(DEPDIR)/$(am__dirstamp)
-parsewebdata/ParseWebData.$(OBJEXT): parsewebdata/$(am__dirstamp) \
-	parsewebdata/$(DEPDIR)/$(am__dirstamp)
 setup/$(am__dirstamp):
 	@$(MKDIR_P) setup
 	@: >>setup/$(am__dirstamp)
@@ -3732,7 +3715,6 @@ mostlyclean-compile:
 	-rm -f odf/*.$(OBJEXT)
 	-rm -f olb/*.$(OBJEXT)
 	-rm -f paratext/*.$(OBJEXT)
-	-rm -f parsewebdata/*.$(OBJEXT)
 	-rm -f personalize/*.$(OBJEXT)
 	-rm -f public/*.$(OBJEXT)
 	-rm -f pugixml/*.$(OBJEXT)
@@ -4163,8 +4145,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@olb/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@paratext/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@paratext/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@parsewebdata/$(DEPDIR)/ParseWebData.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@personalize/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/chapter.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/comment.Po@am__quote@ # am--include-marker
@@ -4888,8 +4868,6 @@ distclean-generic:
 	-$(am__rm_f) olb/$(am__dirstamp)
 	-$(am__rm_f) paratext/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) paratext/$(am__dirstamp)
-	-$(am__rm_f) parsewebdata/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) parsewebdata/$(am__dirstamp)
 	-$(am__rm_f) personalize/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) personalize/$(am__dirstamp)
 	-$(am__rm_f) public/$(DEPDIR)/$(am__dirstamp)
@@ -5359,8 +5337,6 @@ distclean: distclean-am
 	-rm -f olb/$(DEPDIR)/text.Po
 	-rm -f paratext/$(DEPDIR)/index.Po
 	-rm -f paratext/$(DEPDIR)/logic.Po
-	-rm -f parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po
-	-rm -f parsewebdata/$(DEPDIR)/ParseWebData.Po
 	-rm -f personalize/$(DEPDIR)/index.Po
 	-rm -f public/$(DEPDIR)/chapter.Po
 	-rm -f public/$(DEPDIR)/comment.Po
@@ -6038,8 +6014,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f olb/$(DEPDIR)/text.Po
 	-rm -f paratext/$(DEPDIR)/index.Po
 	-rm -f paratext/$(DEPDIR)/logic.Po
-	-rm -f parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po
-	-rm -f parsewebdata/$(DEPDIR)/ParseWebData.Po
 	-rm -f personalize/$(DEPDIR)/index.Po
 	-rm -f public/$(DEPDIR)/chapter.Po
 	-rm -f public/$(DEPDIR)/comment.Po

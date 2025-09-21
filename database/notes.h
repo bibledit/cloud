@@ -65,7 +65,21 @@ public:
 
 public:
   std::vector <int> get_identifiers ();
-  int store_new_note (const std::string& bible, int book, int chapter, int verse, std::string summary, std::string contents, bool raw);
+  struct NewNote {
+    // The notes's Bible.
+    const std::string bible{};
+    // The note's passage.
+    const int book{0};
+    const int chapter{0};
+    const int verse{0};
+    // The note's summary.
+    const std::string summary{};
+    // The note's contents.
+    const std::string contents{};
+    // Import contents as it is.
+    const bool raw {false};
+  };
+  int store_new_note (const NewNote& new_note);
 private:
   int get_new_unique_identifier ();
   

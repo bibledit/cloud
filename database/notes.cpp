@@ -523,33 +523,30 @@ std::string Database_Notes::assemble_contents (int identifier, std::string conte
 
 
 // Store a new consultation note into the database and in JSON.
-// bible: The notes's Bible.
-// book, chapter, verse: The note's passage.
-// summary: The note's summary.
-// contents: The note's contents.
-// raw: Import contents as it is.
 // It returns the identifier of this new note.
-int Database_Notes::store_new_note (const std::string& bible, int book, int chapter, int verse, std::string summary, std::string contents, bool raw)
+int Database_Notes::store_new_note (const NewNote& new_note)
 {
   // Create a new identifier.
-  int identifier = get_new_unique_identifier ();
+  const int identifier = get_new_unique_identifier ();
   
   // Passage.
-  std::string passage = encode_passage (book, chapter, verse);
+  const std::string passage = encode_passage (new_note.book, new_note.chapter, new_note.verse);
   
-  std::string status = "New";
-  int severity = 2;
+  const std::string status = "New";
+  constexpr int severity = static_cast<int>(SeveritySelector::normal);
   
   // If the summary is not given, take the first line of the contents as the summary.
-  if (summary == "") {
-    // The notes editor does not put new lines at each line, but instead <div>s. Handle these also.
-    summary = filter::strings::replace ("<", "\n", contents);
-    std::vector <std::string> bits = filter::strings::explode (summary, '\n');
-    if (!bits.empty ()) summary = bits [0];
+  std::string summary {new_note.summary};
+  if (summary.empty()) {
+    // The notes editor does not put new lines at each line, but instead puts <div> elements. Handle these also.
+    summary = filter::strings::replace ("<", "\n", new_note.contents);
+    const std::vector<std::string> bits = filter::strings::explode (summary, '\n');
+    if (!bits.empty ()) summary = bits.at(0);
   }
   
   // Assemble contents.
-  if (!raw) contents = assemble_contents (identifier, contents);
+  std::string contents {new_note.contents};
+  if (!new_note.raw) contents = assemble_contents (identifier, contents);
   if ((contents.empty()) && (summary.empty())) return 0;
   
   // Store the JSON representation of the note in the file system.
@@ -557,7 +554,7 @@ int Database_Notes::store_new_note (const std::string& bible, int book, int chap
   std::string folder = filter_url_dirname (path);
   filter_url_mkdir (folder);
   jsonxx::Object note;
-  note << bible_key () << bible;
+  note << bible_key () << new_note.bible;
   note << passage_key () << passage;
   note << status_key () << status;
   note << severity_key () << std::to_string (severity);
@@ -572,7 +569,7 @@ int Database_Notes::store_new_note (const std::string& bible, int book, int chap
     sql.add ("INSERT INTO notes (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents) VALUES (");
     sql.add (identifier);
     sql.add (", 0, '', '',");
-    sql.add (bible);
+    sql.add (new_note.bible);
     sql.add (",");
     sql.add (passage);
     sql.add (",");
@@ -765,7 +762,7 @@ std::vector<int> Database_Notes::select_notes(const Selector& selector)
   query.append (";");
   
   SqliteDatabase sql (database_notes);
-  sql.set_sql (query); // Todo can this be used to build the string?
+  sql.set_sql (query);
   const std::vector <std::string> result = sql.query () ["identifier"];
   for (const auto& id : result) {
     identifiers.push_back (filter::strings::convert_to_int (id));

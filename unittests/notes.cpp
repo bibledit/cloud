@@ -140,7 +140,7 @@ TEST (notes, database_noteactions)
 
 void test_database_notes ()
 {
-  // Database path.
+  // Test the database path.
   {
     refresh_sandbox (true);
     Webserver_Request webserver_request;
@@ -159,7 +159,7 @@ void test_database_notes ()
     EXPECT_EQ (filter_url_create_root_path ({"consultations", "123", "456789.json"}), file);
   }
 
-  // Trim and optimize note.
+  // Test trimming and optimizing note.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -170,7 +170,8 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
     database_notes.optimize ();
-    int identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
+    Database_Notes::NewNote new_note {};
+    const int identifier = database_notes.store_new_note (new_note);
     database_notes.erase (identifier);
     database_notes.trim ();
     database_notes.trim_server ();
@@ -178,7 +179,7 @@ void test_database_notes ()
     refresh_sandbox (true, {"Deleting empty notes folder"});
   }
 
-  // Identifier.
+  // Test note identifier.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -189,28 +190,34 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    int identifier = Notes_Logic::lowNoteIdentifier;
-    EXPECT_EQ (100'000'000, identifier);
+    EXPECT_EQ (100'000'000, Notes_Logic::lowNoteIdentifier);
     
-    identifier = Notes_Logic::highNoteIdentifier;
-    EXPECT_EQ (999'999'999, identifier);
-    
-    identifier = database_notes.get_new_unique_identifier ();
-    if ((identifier < 100'000'000) || (identifier > 999'999'999)) EXPECT_EQ ("Out of bounds", std::to_string (identifier));
-    EXPECT_EQ (false, database_notes.identifier_exists (identifier));
-    
-    identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
-    EXPECT_EQ (true, database_notes.identifier_exists (identifier));
-    database_notes.erase (identifier);
-    EXPECT_EQ (false, database_notes.identifier_exists (identifier));
+    EXPECT_EQ (999'999'999, Notes_Logic::highNoteIdentifier);
 
-    identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
-    EXPECT_EQ (true, database_notes.identifier_exists (identifier));
-    database_notes.erase (identifier);
-    EXPECT_EQ (false, database_notes.identifier_exists (identifier));
+    {
+      const int identifier = database_notes.get_new_unique_identifier ();
+      if ((identifier < 100'000'000) || (identifier > 999'999'999)) FAIL() << "Identifier " << identifier << "out of range";
+      EXPECT_EQ (false, database_notes.identifier_exists(identifier));
+    }
+    
+    {
+      Database_Notes::NewNote new_note {};
+      const int identifier = database_notes.store_new_note (new_note);
+      EXPECT_EQ (true, database_notes.identifier_exists(identifier));
+      database_notes.erase (identifier);
+      EXPECT_EQ (false, database_notes.identifier_exists(identifier));
+    }
+
+    {
+      Database_Notes::NewNote new_note {};
+      const int identifier = database_notes.store_new_note (new_note);
+      EXPECT_EQ (true, database_notes.identifier_exists (identifier));
+      database_notes.erase (identifier);
+      EXPECT_EQ (false, database_notes.identifier_exists (identifier));
+    }
   }
 
-  // Summary and contents.
+  // Test note summary and contents.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -221,63 +228,69 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
 
-    std::string value;
-    std::vector <std::string> values;
-    size_t length = 0;
-    size_t pos = 0;
-
+    int newidentifier{};
+    
     // Test inserting data for both summary and contents.
-    std::string summary = "Summary";
-    std::string contents = "Contents";
-    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, summary, contents, false);
-    value = database_notes.get_summary (newidentifier);
-    EXPECT_EQ (summary, value);
-    value = database_notes.get_contents (newidentifier);
-    values = filter::strings::explode (value, '\n');
-    if (values.size () > 1) value = values[1];
-    EXPECT_EQ ("<p>Contents</p>", value);
+    {
+      Database_Notes::NewNote new_note {
+        .summary = "Summary",
+        .contents = "Contents",
+      };
+      newidentifier = database_notes.store_new_note (new_note);
+      std::string value = database_notes.get_summary (newidentifier);
+      EXPECT_EQ (new_note.summary, value);
+      value = database_notes.get_contents (newidentifier);
+      const auto values = filter::strings::explode (value, '\n');
+      if (values.size () > 1) value = values.at(1);
+      EXPECT_EQ ("<p>Contents</p>", value);
+    }
     
     // Test that if the summary is not given, it is going to be the first line of the contents.
-    contents = "This is a note.\nLine two.";
-    newidentifier = database_notes.store_new_note ("", 0, 0, 0, "", contents, false);
-    value = database_notes.get_summary (newidentifier);
-    EXPECT_EQ ("This is a note.", value);
-    value = database_notes.get_contents (newidentifier);
-    values = filter::strings::explode (value, '\n');
-    if (values.size () > 2) value = values[2];
-    EXPECT_EQ ("<p>Line two.</p>", value);
+    {
+      Database_Notes::NewNote new_note {
+        .contents = "This is a note.\nLine two.",
+      };
+      newidentifier = database_notes.store_new_note (new_note);
+      std::string value = database_notes.get_summary (newidentifier);
+      EXPECT_EQ ("This is a note.", value);
+      value = database_notes.get_contents (newidentifier);
+      const auto values = filter::strings::explode (value, '\n');
+      if (values.size() > 2) value = values.at(2);
+      EXPECT_EQ ("<p>Line two.</p>", value);
+    }
     
     // Test setting the summary.
     database_notes.set_summary (newidentifier, "summary2");
-    value = database_notes.get_summary (newidentifier);
-    EXPECT_EQ ("summary2", value);
+    EXPECT_EQ ("summary2", database_notes.get_summary (newidentifier));
     
     // Test setting the note contents.
     database_notes.set_contents (newidentifier, "contents2");
-    value = database_notes.get_contents (newidentifier);
-    EXPECT_EQ ("contents2", value);
+    EXPECT_EQ ("contents2", database_notes.get_contents (newidentifier));
+    
+    size_t length;
     
     // Test adding comment.
-    value = database_notes.get_contents (newidentifier);
-    length = value.length ();
-    database_notes.add_comment (newidentifier, "comment2");
-    value = database_notes.get_contents (newidentifier);
-    if (value.length () < (length + 30)) {
-      EXPECT_EQ ("Should be larger than length + 30", std::to_string (value.length()));
+    {
+      std::string value = database_notes.get_contents (newidentifier);
+      length = value.length ();
+      database_notes.add_comment (newidentifier, "comment2");
+      value = database_notes.get_contents (newidentifier);
+      if (value.length() < (length + 30)) {
+        FAIL() << "Length " << value.length() << " should be larger than length + 30";
+      }
+      EXPECT_NE (value.find ("comment2"), std::string::npos);
     }
-    pos = value.find ("comment2");
-    if (pos == std::string::npos) {
-      EXPECT_EQ ("Should contain 'comment2'", value);
-    }
+
     // Universal method to add comment.
-    database_notes.add_comment (newidentifier, "comment5");
-    value = database_notes.get_contents (newidentifier);
-    if (value.length () < (length + 30)) {
-      EXPECT_EQ ("Should be larger than length + 30", std::to_string (value.length()));
-    }
-    pos = value.find ("comment5");
-    if (pos == std::string::npos) {
-      EXPECT_EQ ("Should contain 'comment5'", value);
+    {
+      database_notes.add_comment (newidentifier, "comment5");
+      std::string value = database_notes.get_contents (newidentifier);
+      if (value.length () < (length + 30)) {
+        FAIL() << "Length " << value.length() << " should be larger than " << length + 30;
+      }
+      if (value.find ("comment5") == std::string::npos) {
+        FAIL() << value << " should contain 'comment5'";
+      }
     }
   }
 
@@ -297,16 +310,34 @@ void test_database_notes ()
     
     // Normally creating a new note would subscribe the current user to the note.
     // But since this unit test runs without sessions, it would have subscribed an empty user.
-    webserver_request.session_logic()->set_username ("");
-    int identifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
-    std::vector <std::string> subscribers = database_notes.get_subscribers (identifier);
-    EXPECT_EQ (std::vector <std::string>{}, subscribers);
+    {
+      webserver_request.session_logic()->set_username (std::string());
+      Database_Notes::NewNote new_note {
+        .summary = "Summary",
+        .contents = "Contents"
+      };
+      const int identifier = database_notes.store_new_note (new_note);
+      const std::vector <std::string> subscribers = database_notes.get_subscribers (identifier);
+      EXPECT_EQ (std::vector <std::string>{}, subscribers);
+    }
+    
+    int identifier{};
+    std::vector <std::string> subscribers;
     
     // Create a note again, but this time set the session variable to a certain user.
     database_users.add_user ("unittest", "", 5, "");
     webserver_request.session_logic()->set_username ("unittest");
     webserver_request.database_config_user()->set_subscribe_to_consultation_notes_edited_by_me (true);
-    identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
+    {
+      Database_Notes::NewNote new_note {
+        .book = 1,
+        .chapter = 1,
+        .verse = 1,
+        .summary = "Summary",
+        .contents = "Contents",
+      };
+      identifier = database_notes.store_new_note (new_note);
+    }
     notes_logic.handlerNewNote (identifier);
     subscribers = database_notes.get_subscribers (identifier);
     EXPECT_EQ (std::vector <std::string>{"unittest"}, subscribers);
@@ -321,9 +352,19 @@ void test_database_notes ()
     database_notes.unsubscribe_user (identifier, "unittest_unittest_unittest");
     EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest_unittest_unittest"));
     
-    // With the username still set, test the plan subscribe and unsubscribe mechanisms.
+    // With the username still set, test the subscribe and unsubscribe mechanisms.
     webserver_request.database_config_user()->set_subscribe_to_consultation_notes_edited_by_me (false);
-    identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
+    {
+      Database_Notes::NewNote new_note {
+        .bible = "",
+        .book = 1,
+        .chapter = 1,
+        .verse = 1,
+        .summary = "Summary",
+        .contents = "Contents",
+      };
+      identifier = database_notes.store_new_note(new_note);
+    }
     EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest"));
     database_notes.subscribe (identifier);
     EXPECT_EQ (true, database_notes.is_subscribed (identifier, "unittest"));
@@ -365,10 +406,18 @@ void test_database_notes ()
     webserver_request.session_logic()->set_username ("unittest2");
     
     // Create a note and check that it was not assigned to anybody.
-    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
+    Database_Notes::NewNote old_note {
+        .summary = "Summary",
+        .contents =  "Contents",
+    };
+    int oldidentifier = database_notes.store_new_note (old_note);
     std::vector <std::string> assignees = database_notes.get_assignees (oldidentifier);
     EXPECT_EQ (std::vector <std::string>{}, assignees);
-    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary2", "Contents2", false);
+    Database_Notes::NewNote new_note {
+      .summary = "Summary2",
+      .contents =  "Contents2",
+    };
+    int newidentifier = database_notes.store_new_note (new_note);
     assignees = database_notes.get_assignees (newidentifier);
     EXPECT_EQ (std::vector <std::string>{}, assignees);
 
@@ -438,18 +487,28 @@ void test_database_notes ()
     database_notes.create ();
     
     webserver_request.session_logic()->set_username ("unittest");
-    int oldidentifier = database_notes.store_new_note ("unittest", 0, 0, 0, "Summary", "Contents", false);
+    Database_Notes::NewNote old_note {
+      .bible = "unittest",
+        .summary = "Summary",
+        .contents = "Contents",
+    };
+    int oldidentifier = database_notes.store_new_note (old_note);
     std::string bible = database_notes.get_bible (oldidentifier);
     EXPECT_EQ ("unittest", bible);
-    int newidentifier = database_notes.store_new_note ("unittest2", 0, 0, 0, "Summary", "Contents", false);
+    Database_Notes::NewNote new_note {
+      .bible = "unittest2",
+      .summary = "Summary",
+      .contents = "Contents",
+    };
+    int newidentifier = database_notes.store_new_note (new_note);
     bible = database_notes.get_bible (newidentifier);
     EXPECT_EQ ("unittest2", bible);
-    database_notes.set_bible (oldidentifier, "PHPUnit2");
+    database_notes.set_bible (oldidentifier, "unittest3");
     bible = database_notes.get_bible (oldidentifier);
-    EXPECT_EQ ("PHPUnit2", bible);
-    database_notes.set_bible (newidentifier, "PHPUnit3");
+    EXPECT_EQ ("unittest3", bible);
+    database_notes.set_bible (newidentifier, "unittest4");
     bible = database_notes.get_bible (newidentifier);
-    EXPECT_EQ ("PHPUnit3", bible);
+    EXPECT_EQ ("unittest4", bible);
     database_notes.set_bible (oldidentifier, "");
     bible = database_notes.get_bible (oldidentifier);
     EXPECT_EQ ("", bible);
@@ -472,30 +531,44 @@ void test_database_notes ()
     webserver_request.session_logic()->set_username ("unittest");
     
     // Create notes for certain passages.
-    int oldidentifier = database_notes.store_new_note ("", 10, 9, 8, "Summary", "Contents", false);
-    int newidentifier = database_notes.store_new_note ("", 5, 4, 3, "Summary", "Contents", false);
+    Database_Notes::NewNote old_note {
+      .book = 10,
+      .chapter = 9,
+      .verse = 8,
+      .summary = "Summary",
+      .contents = "Contents",
+    };
+    int oldidentifier = database_notes.store_new_note (old_note);
+    Database_Notes::NewNote new_note {
+      .book = 5,
+      .chapter = 4,
+      .verse = 3,
+      .summary = "Summary",
+      .contents = "Contents",
+    };
+    int newidentifier = database_notes.store_new_note (new_note);
     
     // Test getting passage.
     std::vector <Passage> passages = database_notes.get_passages (oldidentifier);
     Passage standard = Passage ("", 10, 9, "8");
     EXPECT_EQ (1, static_cast<int> (passages.size()));
-    EXPECT_EQ (true, standard.equal (passages [0]));
+    EXPECT_EQ (true, standard.equal (passages.at(0)));
     passages = database_notes.get_passages (newidentifier);
     standard = Passage ("", 5, 4, "3");
     EXPECT_EQ (1, static_cast<int>(passages.size()));
-    EXPECT_EQ (true, standard.equal (passages [0]));
+    EXPECT_EQ (true, standard.equal (passages.at(0)));
     
     // Test setting the passage.
     standard = Passage ("", 5, 6, "7");
     database_notes.set_passages (oldidentifier, {standard});
     passages = database_notes.get_passages (oldidentifier);
     EXPECT_EQ (1, static_cast<int>(passages.size()));
-    EXPECT_EQ (true, standard.equal (passages [0]));
+    EXPECT_EQ (true, standard.equal (passages.at(0)));
     standard = Passage ("", 12, 13, "14");
     database_notes.set_passages (newidentifier, {standard});
     passages = database_notes.get_passages (newidentifier);
     EXPECT_EQ (1, static_cast<int>(passages.size()));
-    EXPECT_EQ (true, standard.equal (passages [0]));
+    EXPECT_EQ (true, standard.equal (passages.at(0)));
   }
 
   // Test getting and setting the note status.
@@ -512,8 +585,12 @@ void test_database_notes ()
     webserver_request.session_logic()->set_username ("unittest");
     
     // Create notes.
-    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
-    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
+    Database_Notes::NewNote note {
+        .summary = "Summary",
+        .contents = "Contents",
+    };
+    int oldidentifier = database_notes.store_new_note (note);
+    int newidentifier = database_notes.store_new_note (note);
     
     // Test default status = New.
     std::string status = database_notes.get_status (oldidentifier);
@@ -552,9 +629,13 @@ void test_database_notes ()
     
     webserver_request.session_logic()->set_username ("unittest");
     
-    // Create note.
-    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
-    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
+    // Create notes.
+    Database_Notes::NewNote note {
+      .summary = "Summary",
+      .contents = "Contents",
+    };
+    int oldidentifier = database_notes.store_new_note (note);
+    int newidentifier = database_notes.store_new_note (note);
     
     // Test default severity = Normal.
     std::string severity = database_notes.get_severity (oldidentifier);
@@ -563,16 +644,16 @@ void test_database_notes ()
     EXPECT_EQ ("Normal", severity);
     
     // Test setting the severity.
-    database_notes.set_raw_severity (oldidentifier, 0);
+    database_notes.set_raw_severity (oldidentifier, static_cast<int>(Database_Notes::SeveritySelector::wish));
     severity = database_notes.get_severity (oldidentifier);
     EXPECT_EQ ("Wish", severity);
-    database_notes.set_raw_severity (newidentifier, 0);
+    database_notes.set_raw_severity (newidentifier, static_cast<int>(Database_Notes::SeveritySelector::wish));
     severity = database_notes.get_severity (newidentifier);
     EXPECT_EQ ("Wish", severity);
-    database_notes.set_raw_severity (oldidentifier, 4);
+    database_notes.set_raw_severity (oldidentifier, static_cast<int>(Database_Notes::SeveritySelector::major));
     severity = database_notes.get_severity (oldidentifier);
     EXPECT_EQ ("Major", severity);
-    database_notes.set_raw_severity (newidentifier, 4);
+    database_notes.set_raw_severity (newidentifier, static_cast<int>(Database_Notes::SeveritySelector::major));
     severity = database_notes.get_severity (newidentifier);
     EXPECT_EQ ("Major", severity);
     
@@ -604,9 +685,13 @@ void test_database_notes ()
     webserver_request.session_logic()->set_username ("unittest");
     int time = filter::date::seconds_since_epoch ();
     
-    // Create note.
-    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
-    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
+    // Create note2.
+    Database_Notes::NewNote note {
+      .summary = "Summary",
+      .contents = "Contents",
+    };
+    int oldidentifier = database_notes.store_new_note (note);
+    int newidentifier = database_notes.store_new_note (note);
     
     // Test getter.
     int value = database_notes.get_modified (oldidentifier);
@@ -640,7 +725,11 @@ void test_database_notes ()
     // Create a few notes.
     std::vector <int> standardids;
     for (unsigned int i = 0; i < 3; i++) {
-      int identifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+      Database_Notes::NewNote note {
+        .summary = "summary",
+        .contents = "contents",
+      };
+      int identifier = database_notes.store_new_note (note);
       standardids.push_back (identifier);
     }
     
@@ -664,8 +753,12 @@ void test_database_notes ()
     
     // Create note.
     webserver_request.session_logic()->set_username ("unittest");
-    int identifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int identifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    Database_Notes::NewNote new_note {
+      .summary = "summary",
+      .contents = "contents",
+    };
+    int identifier1 = database_notes.store_new_note (new_note);
+    int identifier2 = database_notes.store_new_note (new_note);
     
     // Contents of the note.
     std::string original_contents1 = database_notes.get_contents (identifier1);
@@ -723,8 +816,12 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    Database_Notes::NewNote new_note {
+      .summary = "summary",
+      .contents = "contents",
+    };
+    int oldidentifier = database_notes.store_new_note (new_note);
+    int newidentifier = database_notes.store_new_note (new_note);
     
     database_notes.mark_for_deletion (oldidentifier);
     database_notes.mark_for_deletion (newidentifier);
@@ -761,7 +858,7 @@ void test_database_notes ()
 
   // Test unmarking a note for deletion.
   {
-    // It tests whethe a note marked for deletion,
+    // It tests whether a note marked for deletion,
     // touched 6 times, then unmarked, touched again,
     // will not be due for deletion.
     refresh_sandbox (true);
@@ -773,8 +870,12 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    Database_Notes::NewNote new_note {
+      .summary = "summary",
+      .contents = "contents",
+    };
+    int oldidentifier = database_notes.store_new_note (new_note);
+    int newidentifier = database_notes.store_new_note (new_note);
 
     database_notes.mark_for_deletion (oldidentifier);
     database_notes.mark_for_deletion (newidentifier);
@@ -812,12 +913,16 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    int oldidentifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int oldidentifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int oldidentifier3 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier3 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    Database_Notes::NewNote new_note {
+      .summary = "summary",
+      .contents = "contents",
+    };
+    int oldidentifier1 = database_notes.store_new_note (new_note);
+    int oldidentifier2 = database_notes.store_new_note (new_note);
+    int oldidentifier3 = database_notes.store_new_note (new_note);
+    int newidentifier1 = database_notes.store_new_note (new_note);
+    int newidentifier2 = database_notes.store_new_note (new_note);
+    int newidentifier3 = database_notes.store_new_note (new_note);
 
     database_notes.mark_for_deletion (oldidentifier1);
     database_notes.mark_for_deletion (newidentifier1);
@@ -874,12 +979,16 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    int oldidentifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int oldidentifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int oldidentifier3 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier3 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    Database_Notes::NewNote new_note {
+      .summary = "summary",
+      .contents = "contents",
+    };
+    int oldidentifier1 = database_notes.store_new_note (new_note);
+    int oldidentifier2 = database_notes.store_new_note (new_note);
+    int oldidentifier3 = database_notes.store_new_note (new_note);
+    int newidentifier1 = database_notes.store_new_note (new_note);
+    int newidentifier2 = database_notes.store_new_note (new_note);
+    int newidentifier3 = database_notes.store_new_note (new_note);
 
     database_notes.mark_for_deletion (oldidentifier1);
     EXPECT_EQ (true, database_notes.is_marked_for_deletion (oldidentifier1));
@@ -937,9 +1046,17 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    // Create note to work with.
-    int oldidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
-    int newidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
+    // Create notes to work with.
+    Database_Notes::NewNote note {
+      .bible = "bible",
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary",
+      .contents = "contents",
+    };
+    int oldidentifier = database_notes.store_new_note (note);
+    int newidentifier = database_notes.store_new_note (note);
     
     // Checksum of new note should be calculated.
     std::string good_checksum_old = database_notes.get_checksum (oldidentifier);
@@ -1084,13 +1201,29 @@ void test_database_notes ()
     
     // Create notes to work with.
     std::vector <int> oldidentifiers;
-    oldidentifiers.push_back (database_notes.store_new_note ("bible1", 1, 2, 3, "summary1", "contents1", false));
-    oldidentifiers.push_back (database_notes.store_new_note ("bible2", 2, 3, 4, "summary2", "contents2", false));
-    oldidentifiers.push_back (database_notes.store_new_note ("bible3", 3, 4, 5, "summary3", "contents3", false));
+    for (int i {1}; i <= 3; i++) {
+      Database_Notes::NewNote new_note {
+        .bible = "bible" + std::to_string(i),
+        .book = i,
+        .chapter = i + 1,
+        .verse = i + 2,
+        .summary = "summary" + std::to_string(i),
+        .contents = "contents" + std::to_string(i),
+      };
+      oldidentifiers.push_back (database_notes.store_new_note (new_note));
+    }
     std::vector <int> newidentifiers;
-    newidentifiers.push_back (database_notes.store_new_note ("bible4", 4, 5, 6, "summary4", "contents4", false));
-    newidentifiers.push_back (database_notes.store_new_note ("bible5", 5, 6, 7, "summary5", "contents5", false));
-    newidentifiers.push_back (database_notes.store_new_note ("bible6", 6, 7, 8, "summary6", "contents6", false));
+    for (int i {4}; i <= 6; i++) {
+      Database_Notes::NewNote new_note {
+        .bible = "bible" + std::to_string(i),
+        .book = i,
+        .chapter = i + 1,
+        .verse = i + 2,
+        .summary = "summary" + std::to_string(i),
+        .contents = "contents" + std::to_string(i),
+      };
+      newidentifiers.push_back (database_notes.store_new_note (new_note));
+    }
     
     // Checksum calculation: slow and fast methods should be the same.
     Sync_Logic sync_logic (webserver_request);
@@ -1116,13 +1249,21 @@ void test_database_notes ()
     database_notes.create ();
     
     // Create notes to work with.
-    int oldidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
-    int newidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
+    Database_Notes::NewNote new_note {
+      .bible = "bible",
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary",
+      .contents = "contents",
+    };
+    const int oldidentifier = database_notes.store_new_note (new_note);
+    const int newidentifier = database_notes.store_new_note (new_note);
 
     // Check checksum.
-    std::string oldchecksum = database_notes.get_checksum (oldidentifier);
+    const std::string oldchecksum = database_notes.get_checksum (oldidentifier);
     EXPECT_EQ (32, oldchecksum.length ());
-    std::string newchecksum = database_notes.get_checksum (newidentifier);
+    const std::string newchecksum = database_notes.get_checksum (newidentifier);
     EXPECT_EQ (oldchecksum, newchecksum);
     
     // Clear it and set the checksum again.
@@ -1152,33 +1293,56 @@ void test_database_notes ()
     database_notes.create ();
     
     // Create a couple of notes to work with.
-    int identifier = database_notes.store_new_note ("bible1", 1, 2, 3, "summary", "contents", false);
-    int identifier1 = 100'000'000;
-    database_notes.set_identifier (identifier, identifier1);
+    const Database_Notes::NewNote new_note1 {
+      .bible = "bible1",
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary",
+      .contents = "contents",
+    };
+    int identifier = database_notes.store_new_note (new_note1);
+    constexpr const int id100 {100'000'000};
+    database_notes.set_identifier (identifier, id100);
     
-    identifier = database_notes.store_new_note ("bible2", 1, 2, 3, "summary", "contents", false);
-    int identifier2 = 500'000'000;
-    database_notes.set_identifier (identifier, identifier2);
+    const Database_Notes::NewNote new_note2 {
+      .bible = "bible2",
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary",
+      .contents = "contents",
+    };
+    identifier = database_notes.store_new_note (new_note2);
+    constexpr const int id500 {500'000'000};
+    database_notes.set_identifier (identifier, id500);
     
-    identifier = database_notes.store_new_note ("", 1, 2, 3, "summary", "contents", false);
-    int identifier3 = 999'999'999;
-    database_notes.set_identifier (identifier, identifier3);
+    const Database_Notes::NewNote new_note3 {
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary",
+      .contents = "contents",
+    };
+    identifier = database_notes.store_new_note (new_note3);
+    constexpr const int id999 {999'999'999};
+    database_notes.set_identifier (identifier, id999);
     
     // Test selection mechanism for certain Bibles.
-    std::vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {"bible1", "bible2"}, false);
-    std::vector <int> standard_identifiers {100'000'000, 50'0000'000, 99'9999'999};
+    std::vector<int> identifiers = database_notes.get_notes_in_range_for_bibles (id100, id999, {"bible1", "bible2"}, false);
+    std::vector<int> standard_identifiers {id100, id500, id999};
     EXPECT_EQ (standard_identifiers, identifiers);
     
-    identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {"bible1", "bible3"}, false);
-    standard_identifiers = {100'000'000, 999'999'999};
+    identifiers = database_notes.get_notes_in_range_for_bibles (id100, id999, {"bible1", "bible3"}, false);
+    standard_identifiers = {id100, id999};
     EXPECT_EQ (standard_identifiers, identifiers);
     
-    identifiers = database_notes.get_notes_in_range_for_bibles (10'0000'000, 999'999'999, {}, false);
-    EXPECT_EQ (std::vector<int>{99'9999'999}, identifiers);
+    identifiers = database_notes.get_notes_in_range_for_bibles (id100, id999, {}, false);
+    EXPECT_EQ (std::vector<int>{id999}, identifiers);
     
     // Test selection mechanism for any Bible.
-    identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {}, true);
-    standard_identifiers = {100'000'000, 500'000'000, 999'999'999};
+    identifiers = database_notes.get_notes_in_range_for_bibles (id100, id999, {}, true);
+    standard_identifiers = {id100, id500, id999};
     EXPECT_EQ (standard_identifiers, identifiers);
   }
 
@@ -1187,7 +1351,7 @@ void test_database_notes ()
     Webserver_Request webserver_request;
     Sync_Logic sync_logic (webserver_request);
     
-    std::vector <Sync_Logic_Range> ranges = sync_logic.create_range (100'000'000, 999'999'999);
+    std::vector<Sync_Logic_Range> ranges = sync_logic.create_range (100'000'000, 999'999'999);
     EXPECT_EQ (10, static_cast<int>(ranges.size()));
     EXPECT_EQ (100'000'000, ranges[0].low);
     EXPECT_EQ (189'999'998, ranges[0].high);
@@ -1246,9 +1410,33 @@ void test_database_notes ()
     database_notes.create ();
     
     // Create a couple of notes to work with.
-    int identifier1 = database_notes.store_new_note ("bible1", 1, 2, 3, "summary1", "contents1", false);
-    int identifier2 = database_notes.store_new_note ("bible2", 1, 2, 3, "summary2", "contents2", false);
-    int identifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
+    const Database_Notes::NewNote note1 {
+      .bible = "bible1",
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary1",
+      .contents = "contents1",
+    };
+    int identifier1 = database_notes.store_new_note (note1);
+    const Database_Notes::NewNote note2 {
+      .bible = "bible2",
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary2",
+      .contents = "contents2",
+    };
+    int identifier2 = database_notes.store_new_note (note2);
+    const Database_Notes::NewNote note3 {
+      .bible = "bible3",
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary3",
+      .contents = "contents3",
+    };
+    int identifier3 = database_notes.store_new_note (note3);
     database_notes.set_status(identifier1, "status1");
     database_notes.set_status(identifier2, "status2");
     database_notes.set_status(identifier3, "status3");
@@ -1415,12 +1603,36 @@ void test_database_notes ()
     database_notes.create ();
     
     // Create a couple of notes to work with.
-    int oldidentifier1 = database_notes.store_new_note ("bible1", 1, 2, 3, "summary1", "contents1", false);
-    int oldidentifier2 = database_notes.store_new_note ("bible2", 1, 2, 3, "summary2", "contents2", false);
-    int oldidentifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
-    int newidentifier1 = database_notes.store_new_note ("bible1", 1, 2, 3, "summary1", "contents1", false);
-    int newidentifier2 = database_notes.store_new_note ("bible2", 1, 2, 3, "summary2", "contents2", false);
-    int newidentifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
+    const Database_Notes::NewNote note1 {
+      .bible = "bible1",
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary1",
+      .contents = "contents1",
+    };
+    const Database_Notes::NewNote note2 {
+      .bible = "bible2",
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary2",
+      .contents = "contents2",
+    };
+    const Database_Notes::NewNote note3 {
+      .bible = "bible3",
+      .book = 1,
+      .chapter = 2,
+      .verse = 3,
+      .summary = "summary3",
+      .contents = "contents3",
+    };
+    int oldidentifier1 = database_notes.store_new_note (note1);
+    int oldidentifier2 = database_notes.store_new_note (note2);
+    int oldidentifier3 = database_notes.store_new_note (note3);
+    int newidentifier1 = database_notes.store_new_note (note1);
+    int newidentifier2 = database_notes.store_new_note (note2);
+    int newidentifier3 = database_notes.store_new_note (note3);
     
     // None of them, or others, are public notes.
     EXPECT_EQ (false, database_notes.get_public (oldidentifier1));
@@ -1465,29 +1677,31 @@ void test_database_notes ()
     database_notes.create ();
     
     // Keep the stored values for the notes.
-    std::vector <std::string> v_assigned;
-    std::vector <std::string> v_bible;
-    std::vector <std::string> v_contents;
-    std::vector <int> v_identifier;
-    std::vector <int> v_modified;
-    std::vector <std::string> v_passage;
-    std::vector <int> v_severity;
-    std::vector <std::string> v_status;
-    std::vector <std::string> v_subscriptions;
-    std::vector <std::string> v_summary;
+    std::vector<std::string> v_assigned;
+    std::vector<std::string> v_bible;
+    std::vector<std::string> v_contents;
+    std::vector<int> v_identifier;
+    std::vector<int> v_modified;
+    std::vector<std::string> v_passage;
+    std::vector<int> v_severity;
+    std::vector<std::string> v_status;
+    std::vector<std::string> v_subscriptions;
+    std::vector<std::string> v_summary;
     
     // Create several notes.
     for (int i = 0; i < 5; i++) {
       // Basic fields for the note.
-      std::string offset = std::to_string (i);
-      std::string bible = "bible" + offset;
-      int book = i;
-      int chapter = i + 1;
-      int verse = i + 2;
-      std::string summary = "summary" + offset;
-      std::string contents = "contents" + offset;
-      int identifier = database_notes.store_new_note (bible, book, chapter, verse, summary, contents, false);
-      database_notes.set_contents (identifier, contents);
+      const std::string offset = std::to_string (i);
+      const Database_Notes::NewNote new_note {
+        .bible = "bible" + offset,
+        .book = i,
+        .chapter = i + 1,
+        .verse = i + 2,
+        .summary = "summary" + offset,
+        .contents = "contents" + offset,
+      };
+      const int identifier = database_notes.store_new_note (new_note);
+      database_notes.set_contents (identifier, new_note.contents);
       // Additional fields for the note.
       std::string assigned = "assigned" + offset;
       database_notes.set_raw_assigned (identifier, assigned);
@@ -1504,28 +1718,28 @@ void test_database_notes ()
       database_notes.set_modified (identifier, modified);
       // Store all fields for the round-trip check.
       v_assigned.push_back (assigned);
-      v_bible.push_back (bible);
-      v_contents.push_back (contents);
+      v_bible.push_back (new_note.bible);
+      v_contents.push_back (new_note.contents);
       v_identifier.push_back (identifier);
       v_modified.push_back (modified);
       v_passage.push_back (passage);
       v_severity.push_back (severity);
       v_status.push_back (status);
       v_subscriptions.push_back (subscriptions);
-      v_summary.push_back (summary);
+      v_summary.push_back (new_note.summary);
     }
     
     // Get the checksums for later reference.
-    std::vector <std::string> checksums;
-    for (size_t i = 0; i < 5; i++) {
-      int identifier = v_identifier [i];
+    std::vector<std::string> checksums;
+    for (size_t i {0}; i < 5; i++) {
+      const int identifier = v_identifier[i];
       database_notes.update_checksum (identifier);
-      std::string checksum = database_notes.get_checksum (identifier);
+      const std::string checksum = database_notes.get_checksum (identifier);
       checksums.push_back (checksum);
     }
     
     // Get some search results for later reference.
-    std::vector <int> search_results;
+    std::vector<int> search_results;
     {
       Database_Notes::Selector selector {
         .bibles = {"bible1"},
@@ -1629,13 +1843,14 @@ void test_database_notes ()
     database_notes.create ();
     
     // Test values for the note.
-    std::string contents ("contents");
+    const std::string contents ("contents");
     
     // Create note.
-    int identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
+    Database_Notes::NewNote new_note { };
+    int identifier = database_notes.store_new_note (new_note);
     // Creating the note updates the search database.
     // Basic search should work now.
-    std::vector <int> identifiers;
+    std::vector<int> identifiers;
     
     // Search on the content of the current note.
     {
@@ -1660,7 +1875,7 @@ void test_database_notes ()
     database_notes.update_search_fields (identifier);
     {
       Database_Notes::Selector selector {
-        .search_text = contents, // Search on any contents.
+        .search_text = contents, // Search on text contents.
       };
       identifiers = database_notes.select_notes(selector);
     }
@@ -1717,9 +1932,25 @@ void test_database_notes ()
     Passage passage2 = Passage ("", 4, 5, "6");
     
     // Create notes.
-    int oldidentifier1 = database_notes.store_new_note (bible1, passage1.m_book, passage1.m_chapter, filter::strings::convert_to_int (passage1.m_verse), "v1", "v1", false);
+    Database_Notes::NewNote note1 {
+      .bible = bible1,
+      .book = passage1.m_book,
+      .chapter = passage1.m_chapter,
+      .verse = filter::strings::convert_to_int (passage1.m_verse),
+      .summary = "v1",
+      .contents = "v1",
+    };
+    Database_Notes::NewNote note2 {
+      .bible = bible2,
+      .book = passage2.m_book,
+      .chapter = passage2.m_chapter,
+      .verse = filter::strings::convert_to_int (passage2.m_verse),
+      .summary = "v2",
+      .contents = "v2",
+    };
+    int oldidentifier1 = database_notes.store_new_note (note1);
     int identifier1 = oldidentifier1 + 2;
-    int oldidentifier2 = database_notes.store_new_note (bible2, passage2.m_book, passage2.m_chapter, filter::strings::convert_to_int (passage2.m_verse), "v2", "v2", false);
+    int oldidentifier2 = database_notes.store_new_note (note2);
     int identifier2 = oldidentifier2 + 4;
     
     // Call the method to set a new identifier.
@@ -1878,7 +2109,8 @@ void test_indexing_fixes_damaged_note ()
   Database_Notes database_notes (webserver_request);
   database_notes.create ();
   
-  const int identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
+  Database_Notes::NewNote new_note {};
+  const int identifier = database_notes.store_new_note(new_note);
   const auto path = database_notes.note_file (identifier);
   
   // The note produced above looks like this:

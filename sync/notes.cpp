@@ -181,7 +181,15 @@ std::string sync_notes (Webserver_Request& webserver_request)
     case Sync_Logic::notes_put_create_initiate:
     {
       // Create the note on the server.
-      int server_id = database_notes.store_new_note ("", 1, 1, 1, "<empty>", "<empty>", false);
+      Database_Notes::NewNote new_note {
+        .bible = "",
+        .book = 1,
+        .chapter = 1,
+        .verse = 1,
+        .summary = "<empty>",
+        .contents = "<empty>",
+      };
+      int server_id = database_notes.store_new_note (new_note);
       // Update the note identifier on the server to be same as on the client.
       database_notes.set_identifier (server_id, identifier);
       // Update search field.

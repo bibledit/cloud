@@ -59,36 +59,36 @@ std::string notes_index (Webserver_Request& webserver_request)
   // Presets for notes selectors.
   // This is for the daily statistics and the workspace.
   if (webserver_request.query.count ("presetselection")) {
-    webserver_request.database_config_user()->set_consultation_notes_passage_selector (3);
-    webserver_request.database_config_user()->set_consultation_notes_edit_selector (0);
-    webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (0);
+    webserver_request.database_config_user()->set_consultation_notes_passage_selector (static_cast<int>(Database_Notes::PassageSelector::any_passage));
+    webserver_request.database_config_user()->set_consultation_notes_edit_selector (static_cast<int>(Database_Notes::EditSelector::at_any_time));
+    webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (static_cast<int>(Database_Notes::NonEditSelector::any_time));
     webserver_request.database_config_user()->set_consultation_notes_status_selectors ({});
-    webserver_request.database_config_user()->set_consultation_notes_bible_selector ("");
-    webserver_request.database_config_user()->set_consultation_notes_assignment_selector ("");
-    webserver_request.database_config_user()->set_consultation_notes_subscription_selector (0);
-    webserver_request.database_config_user()->set_consultation_notes_severity_selector (-1);
-    webserver_request.database_config_user()->set_consultation_notes_text_selector (0);
+    webserver_request.database_config_user()->set_consultation_notes_bible_selector (std::string());
+    webserver_request.database_config_user()->set_consultation_notes_assignment_selector (std::string());
+    webserver_request.database_config_user()->set_consultation_notes_subscription_selector (false);
+    webserver_request.database_config_user()->set_consultation_notes_severity_selector (static_cast<int>(Database_Notes::SeveritySelector::any));
+    webserver_request.database_config_user()->set_consultation_notes_text_selector (false);
     std::string preset_selector = webserver_request.query ["presetselection"];
     if (preset_selector == "assigned") {
       webserver_request.database_config_user()->set_consultation_notes_assignment_selector (webserver_request.session_logic ()->get_username ());
     }
     if (preset_selector == "subscribed") {
-      webserver_request.database_config_user()->set_consultation_notes_subscription_selector (1);
+      webserver_request.database_config_user()->set_consultation_notes_subscription_selector (true);
     }
     if (preset_selector == "subscribeddayidle") {
-      webserver_request.database_config_user()->set_consultation_notes_subscription_selector (1);
-      webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (1);
+      webserver_request.database_config_user()->set_consultation_notes_subscription_selector (true);
+      webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (static_cast<int>(Database_Notes::NonEditSelector::a_day));
     }
     if (preset_selector == "subscribedweekidle") {
-      webserver_request.database_config_user()->set_consultation_notes_subscription_selector (1);
-      webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (3);
+      webserver_request.database_config_user()->set_consultation_notes_subscription_selector (true);
+      webserver_request.database_config_user()->set_consultation_notes_non_edit_selector (static_cast<int>(Database_Notes::NonEditSelector::a_week));
     }
     if (preset_selector == "forverse") {
-      webserver_request.database_config_user()->set_consultation_notes_passage_selector (0);
+      webserver_request.database_config_user()->set_consultation_notes_passage_selector (static_cast<int>(Database_Notes::PassageSelector::current_verse));
     }
   }
 
-  int level = webserver_request.session_logic ()->get_level ();
+  const int level = webserver_request.session_logic ()->get_level ();
   // Manager roles and higher can do mass updates on the notes.
   if (level >= roles::manager) {
     // No mass updates in basic mode.

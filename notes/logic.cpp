@@ -54,7 +54,16 @@ int Notes_Logic::createNote (std::string bible, int book, int chapter, int verse
 {
   summary = filter::strings::replace ("\n", "", summary);
   Database_Notes database_notes (m_webserver_request);
-  int note_id = database_notes.store_new_note (bible, book, chapter, verse, summary, contents, raw);
+  Database_Notes::NewNote new_note {
+    .bible = bible,
+    .book = book,
+    .chapter = chapter,
+    .verse = verse,
+    .summary = summary,
+    .contents = contents,
+    .raw = raw
+  };
+  const int note_id = database_notes.store_new_note (new_note);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     Database_NoteActions database_noteactions;
@@ -656,7 +665,15 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
   m_webserver_request.session_logic()->set_username (username);
   Database_Notes database_notes (m_webserver_request);
   std::string bible = m_webserver_request.database_config_user()->get_bible ();
-  int identifier = database_notes.store_new_note (bible, static_cast<int>(book), chapter, verse, summary, body, false);
+  Database_Notes::NewNote new_note {
+    .bible = bible,
+    .book = static_cast<int>(book),
+    .chapter = chapter,
+    .verse = verse,
+    .summary = summary,
+    .contents = body,
+  };
+  const int identifier = database_notes.store_new_note (new_note);
   handlerNewNote (identifier);
   m_webserver_request.session_logic()->set_username (sessionuser);
   // Mail confirmation to the username.

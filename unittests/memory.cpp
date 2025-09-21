@@ -90,7 +90,16 @@ TEST (DISABLED_memory, basic)
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
     for (int i = 0; i < 100; i++) {
-      database_notes.store_new_note ("bible", i, i, i, "summary", "contents", true);
+      Database_Notes::NewNote new_note {
+        .bible = "bible",
+        .book = i,
+        .chapter = i,
+        .verse = i,
+        .summary = "summary",
+        .contents = "contents",
+        .raw = true
+      };
+      database_notes.store_new_note(new_note);
     }
     std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();

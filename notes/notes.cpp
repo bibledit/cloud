@@ -50,30 +50,32 @@ std::string notes_notes (Webserver_Request& webserver_request)
   Database_Notes database_notes (webserver_request);
 
   
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible());
-  int book = Ipc_Focus::getBook (webserver_request);
-  int chapter = Ipc_Focus::getChapter (webserver_request);
-  int verse = Ipc_Focus::getVerse (webserver_request);
+  const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible());
+  const int book = Ipc_Focus::getBook (webserver_request);
+  const int chapter = Ipc_Focus::getChapter (webserver_request);
+  const int verse = Ipc_Focus::getVerse (webserver_request);
 
   
-  Database_Notes::PassageSelector passage_selector = static_cast<Database_Notes::PassageSelector>(webserver_request.database_config_user()->get_consultation_notes_passage_selector());
-  int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
-  auto non_edit_selector = static_cast<Database_Notes::NonEditSelector>(webserver_request.database_config_user()->get_consultation_notes_non_edit_selector());
+  const auto passage_selector = static_cast<Database_Notes::PassageSelector>(webserver_request.database_config_user()->get_consultation_notes_passage_selector());
+  const int edit_selector = webserver_request.database_config_user()->get_consultation_notes_edit_selector();
+  const auto non_edit_selector = static_cast<Database_Notes::NonEditSelector>(webserver_request.database_config_user()->get_consultation_notes_non_edit_selector());
   const std::vector<std::string> status_selectors = webserver_request.database_config_user()->get_consultation_notes_status_selectors();
-  std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
-  bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
-  auto severity_selector = static_cast<Database_Notes::SeveritySelector>(webserver_request.database_config_user()->get_consultation_notes_severity_selector());
-  const int text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
+  const std::string bible_selector = webserver_request.database_config_user()->get_consultation_notes_bible_selector();
+  const std::string assignment_selector = webserver_request.database_config_user()->get_consultation_notes_assignment_selector();
+  const bool subscription_selector = webserver_request.database_config_user()->get_consultation_notes_subscription_selector();
+  const auto severity_selector = static_cast<Database_Notes::SeveritySelector>(webserver_request.database_config_user()->get_consultation_notes_severity_selector());
+  const bool text_selector = webserver_request.database_config_user()->get_consultation_notes_text_selector();
   const std::string search_text = text_selector ? webserver_request.database_config_user()->get_consultation_notes_search_text() : "";
-  int passage_inclusion_selector = webserver_request.database_config_user()->get_consultation_notes_passage_inclusion_selector();
-  int text_inclusion_selector = webserver_request.database_config_user()->get_consultation_notes_text_inclusion_selector();
+  const bool passage_inclusion_selector = webserver_request.database_config_user()->get_consultation_notes_passage_inclusion_selector();
+  const bool text_inclusion_selector = webserver_request.database_config_user()->get_consultation_notes_text_inclusion_selector();
 
   
   // The Bibles the current user has access to or else the Bible selector.
-  std::vector <std::string> bibles = {webserver_request.database_config_user()->get_consultation_notes_bible_selector()};
-  if (bibles.empty())
+  std::vector<std::string> bibles{};
+  if (bible_selector.empty())
     bibles = access_bible::bibles (webserver_request, webserver_request.session_logic ()->get_username ());
-  
+  else
+    bibles = {webserver_request.database_config_user()->get_consultation_notes_bible_selector()};
   
   
   // The admin disables notes selection on Bibles,

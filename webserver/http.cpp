@@ -29,8 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 
 
-static void http_parse_post_multipart_v2 (std::string content, Webserver_Request& webserver_request);
-static void http_parse_post_standard_v2 (std::string content, Webserver_Request& webserver_request);
+static void http_parse_post_multipart (std::string content, Webserver_Request& webserver_request);
+static void http_parse_post_standard (std::string content, Webserver_Request& webserver_request);
 static std::vector<std::pair<std::string,std::string>> parse_application_x_www_form_urlencoded(const std::string& post);
 static std::vector<std::pair<std::string,std::string>> parse_text_plain(const std::string& post);
 static void parse_multipart_form_data(std::string post, std::vector<std::pair<std::string,std::string>>& result);
@@ -47,13 +47,13 @@ static void remove_cr_lf_at_end(std::string& post);
 // Accept-Language: sn,en-US;q=0.8,en;q=0.6
 // Cookie: Session=abcdefghijklmnopqrstuvwxyz; foo=bar; extra=clutter
 //
-// The function extracts the relevant information from the headers.
+// The function extracts the relevant information one line of the headers.
 //
 // It returns true if a header was (or could have been) parsed.
 bool http_parse_header (std::string header, Webserver_Request& webserver_request)
 {
   // Clean the header line.
-  header = filter::strings::trim (header);
+  header = filter::strings::trim(std::move(header));
 
   // Deal with a header like this: GET /css/stylesheet.css?1.0.1 HTTP/1.1
   // Or like this: POST /session/login?request= HTTP/1.1
@@ -65,13 +65,13 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
   }
   if (is_get_request) {
     std::string query_data{};
-    const std::vector <std::string> get = filter::strings::explode (header, ' ');
-    if (get.size () >= 2) {
-      webserver_request.get = get [1];
+    const std::vector<std::string> get = filter::strings::explode(header, ' ');
+    if (get.size() >= 2) {
+      webserver_request.get = get.at(1);
       // The GET or POST value may be, for example: stylesheet.css?1.0.1.
       // Split it up into two parts: The part before the ?, and the part after the ?.
       std::istringstream issquery (webserver_request.get);
-      int counter = 0;
+      int counter {0};
       std::string s{};
       while (getline (issquery, s, '?')) {
         if (counter == 0) webserver_request.get = s;
@@ -82,10 +82,17 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
     // Read and parse the GET data.
     try {
       if (!query_data.empty ()) {
-        ParseWebData::WebDataMap dataMap;
-        ParseWebData::parse_get_data (query_data, dataMap);
-        for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
-          webserver_request.query [(*iter).first] = filter_url_urldecode ((*iter).second.value);
+        // Example input data: key1=value1&key2=value2
+        // Explode the data on the ampersand ( & ) and then on the equal sign ( = ).
+        std::vector<std::string> keys_values = filter::strings::explode(std::move(query_data), '&');
+        for (const auto& fragment : keys_values) {
+          std::vector<std::string> key_value = filter::strings::explode(fragment, '=');
+          // Handle situation that only the key is given.
+          if (key_value.size() == 1)
+            webserver_request.query[key_value.at(0)] = std::string();
+          // Handle normal situation: Both key and value are given.
+          if (key_value.size() == 2)
+            webserver_request.query[key_value.at(0)] = filter_url_urldecode(key_value.at(1));
         }
       }
     } catch (...) {
@@ -163,9 +170,9 @@ void http_parse_post_v2 (std::string content, Webserver_Request& webserver_reque
   // Parse multipart data in a special way, and other data in the standard way.
   const bool multipart = webserver_request.content_type.find ("multipart") != std::string::npos;
   if (multipart) {
-    http_parse_post_multipart_v2 (std::move(content), webserver_request);
+    http_parse_post_multipart (std::move(content), webserver_request);
   } else {
-    http_parse_post_standard_v2 (std::move(content), webserver_request);
+    http_parse_post_standard (std::move(content), webserver_request);
   }
 }
 
@@ -341,7 +348,7 @@ std::string http_parse_host (const std::string& line)
 
 
 // Parser for POSTed multipart data. It splits the multiple parts up, and then runs the standard parser.
-static void http_parse_post_multipart_v2 (std::string content, Webserver_Request& webserver_request)
+static void http_parse_post_multipart (std::string content, Webserver_Request& webserver_request)
 {
   // Get the boundary string from the content type.
   // Example content type:
@@ -368,14 +375,14 @@ static void http_parse_post_multipart_v2 (std::string content, Webserver_Request
     if (pos == std::string::npos)
       return;
     // Parse this chunk of data and then remove it.
-    http_parse_post_standard_v2 (content.substr(0, pos), webserver_request);
+    http_parse_post_standard (content.substr(0, pos), webserver_request);
     content.erase(0, pos);
   }
 }
 
 
 // Takes data POSTed from the browser, and parses it.
-static void http_parse_post_standard_v2 (std::string content, Webserver_Request& webserver_request)
+static void http_parse_post_standard (std::string content, Webserver_Request& webserver_request)
 {
   // Read and parse the POST data.
   try {

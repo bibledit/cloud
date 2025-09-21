@@ -72,13 +72,6 @@ TEST (http, parse_post)
       container standard = {
         {"key", "value"},
       };
-      container post;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
-      for (const auto& element : data_map) {
-        post.emplace_back(element.first, element.second.value);
-      }
-      EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
@@ -88,13 +81,6 @@ TEST (http, parse_post)
         {"key1", "value1"},
         {"key2", "value2"},
       };
-      container post;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
-      for (const auto& element : data_map) {
-        post.emplace_back(element.first, element.second.value);
-      }
-      EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
@@ -104,13 +90,6 @@ TEST (http, parse_post)
         {"key1", ""},
         {"key2", ""},
       };
-      container post;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
-      for (const auto& element : data_map) {
-        post.emplace_back(element.first, element.second.value);
-      }
-      EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
@@ -119,13 +98,6 @@ TEST (http, parse_post)
       container standard = {
         {"key", "Hello World"},
       };
-      container post;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
-      for (const auto& element : data_map) {
-        post.emplace_back(element.first, filter_url_urldecode(element.second.value));
-      }
-      EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
@@ -134,13 +106,6 @@ TEST (http, parse_post)
       container standard = {
         {"key", "Hëllo Wörld"},
       };
-      container post;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (posted, application_x_www_form_urlencoded, data_map);
-      for (const auto& element : data_map) {
-        post.emplace_back(element.first, filter_url_urldecode(element.second.value));
-      }
-      EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
@@ -156,13 +121,6 @@ TEST (http, parse_post)
       container standard = {
         {"key", "value"},
       };
-      container post;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (posted, text_plain, data_map);
-      for (const auto& element : data_map) {
-        post.emplace_back(element.first, element.second.value);
-      }
-      EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
@@ -176,13 +134,6 @@ TEST (http, parse_post)
         {"key1", "value1"},
         {"key2", "value2"},
       };
-      container post;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (posted, text_plain, data_map);
-      for (const auto& element : data_map) {
-        post.emplace_back(element.first, element.second.value);
-      }
-      EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
@@ -196,13 +147,6 @@ TEST (http, parse_post)
         {"key1", ""},
         {"key2", ""},
       };
-      container post;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (posted, text_plain, data_map);
-      for (const auto& element : data_map) {
-        post.emplace_back(element.first, element.second.value);
-      }
-      EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
@@ -214,13 +158,6 @@ TEST (http, parse_post)
       container standard = {
         {"key", "Hello World"},
       };
-      container post;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (posted, text_plain, data_map);
-      for (const auto& element : data_map) {
-        post.emplace_back(element.first, element.second.value);
-      }
-      EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
@@ -232,13 +169,6 @@ TEST (http, parse_post)
       container standard = {
         {"key", "Hëllo Wörld"},
       };
-      container post;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (posted, text_plain, data_map);
-      for (const auto& element : data_map) {
-        post.emplace_back(element.first, element.second.value);
-      }
-      EXPECT_EQ(standard, post);
       http_parse_post_v2 (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
@@ -281,6 +211,128 @@ TEST (http, parse_post)
       };
       EXPECT_EQ (webserver_request.post, standard);
     }
+  }
+}
+
+
+TEST (http, parse_header) // Todo
+{
+  // Test pstandard GET request.
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("GET page HTTP/1.1", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.get, ("page"));
+    EXPECT_TRUE(request.query.empty());
+  }
+  // Test that a non GET/POST request gives a default value for the URL.
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("XXX page HTTP/1.1", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.get, ("/index"));
+    EXPECT_TRUE(request.query.empty());
+  }
+  // Test an incorrect URL (page&get instead of page?get).
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("GET page&get HTTP/1.1", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.get, ("page&get"));
+    EXPECT_TRUE(request.query.empty());
+  }
+  // Test basic GET request with URL.
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("GET page?get HTTP/1.1", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.get, ("page"));
+    EXPECT_EQ(request.query.at("get"), "");
+  }
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("GET page?key1=value1 HTTP/1.1", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.get, ("page"));
+    EXPECT_EQ(request.query.at("key1"), "value1");
+  }
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("GET page?key1=value1&key2 HTTP/1.1", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.query.at("key1"), "value1");
+    EXPECT_EQ(request.query.at("key2"), "");
+  }
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("GET page?key1=value1&key2=value2 HTTP/1.1", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.query.at("key1"), "value1");
+    EXPECT_EQ(request.query.at("key2"), "value2");
+  }
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("GET page?key1=value1&key2=value2&key3=value3 HTTP/1.1", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.query.at("key1"), "value1");
+    EXPECT_EQ(request.query.at("key2"), "value2");
+    EXPECT_EQ(request.query.at("key3"), "value3");
+  }
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("GET page?key1=Hello%20World HTTP/1.1", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.query.at("key1"), "Hello World");
+  }
+  // Test a few more header lines.
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("Host: host", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.host, "host");
+  }
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("User-Agent: agent", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.user_agent, "agent");
+  }
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("Accept-Language: language", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.accept_language, "language");
+  }
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("Content-Type: content-type", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.content_type, "content-type");
+  }
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("Content-Length: 123", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.content_length, 123);
+  }
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("If-None-Match: etag", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.if_none_match, "etag");
+  }
+  // Test cookie session.
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("Cookie: Session=session; foo=bar; extra=clutter", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.session_identifier, "session");
+  }
+  // Test empty line as end of header.
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("", request);
+    EXPECT_FALSE(parsed);
   }
 }
 

@@ -1114,9 +1114,7 @@
 		CADE3F2F24F17487003165BB /* ParseWebData_local.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseWebData_local.h; sourceTree = "<group>"; };
 		CADE3F3024F17487003165BB /* ParseMultipartFormData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseMultipartFormData.h; sourceTree = "<group>"; };
 		CADE3F3124F17487003165BB /* ParseMultipartFormData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParseMultipartFormData.cpp; sourceTree = "<group>"; };
-		CADE3F3324F17487003165BB /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		CADE3F3424F17487003165BB /* ParseWebData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParseWebData.cpp; sourceTree = "<group>"; };
-		CADE3F3924F17487003165BB /* exampleProgram.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exampleProgram.cpp; sourceTree = "<group>"; };
 		CADE3F3C24F17487003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE3F3E24F17487003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CADE3F3F24F17487003165BB /* chapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chapter.h; sourceTree = "<group>"; };
@@ -3747,8 +3745,6 @@
 		CADE3F2C24F17487003165BB /* parsewebdata */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3F3324F17487003165BB /* COPYING */,
-				CADE3F3924F17487003165BB /* exampleProgram.cpp */,
 				CADE3F3124F17487003165BB /* ParseMultipartFormData.cpp */,
 				CADE3F3024F17487003165BB /* ParseMultipartFormData.h */,
 				CADE3F2F24F17487003165BB /* ParseWebData_local.h */,
@@ -4910,7 +4906,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 2600;
 				ORGANIZATIONNAME = Bibledit;
 				TargetAttributes = {
 					CAA877B22A63DC440059B211 = {
@@ -4999,6 +4995,7 @@
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				WARNING_CFLAGS = "";
 			};
 			name = Debug;
@@ -5058,6 +5055,7 @@
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				WARNING_CFLAGS = "";
 			};
 			name = Release;

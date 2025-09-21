@@ -490,7 +490,6 @@
 /olb
 /paratext
 /paratext/index.html
-/parsewebdata
 /personalize
 /personalize/index.html
 /personalize/index.js

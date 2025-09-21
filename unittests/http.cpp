@@ -27,10 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/http.h>
 #include <webserver/request.h>
 #include <filter/url.h>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#include <parsewebdata/ParseWebData.h>
-#pragma GCC diagnostic pop
 
 
 TEST (http, parse_host)
@@ -215,7 +211,7 @@ TEST (http, parse_post)
 }
 
 
-TEST (http, parse_header) // Todo
+TEST (http, parse_header)
 {
   // Test pstandard GET request.
   {

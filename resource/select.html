@@ -1,27 +1,79 @@
-<h3>translate("Resource categories")</h3>
-<div>translate("Bibles within Bibledit") ##bible##</div>
-<div>translate("USFM resources") ##usfm##</div>
+<h3>translate("Add a Resource")</h3>
+<p>translate("Look for the desired Resource below, and click on it to add it.")</p>
+
+<h4>translate("Bibles within Bibledit")</h4>
+<!-- #BEGINITERATION bible -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION bible -->
+
+<h4>translate("USFM resources")</h4>
+<!-- #BEGINITERATION usfm -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION usfm -->
+
 <!-- #BEGINZONE sensitive_bible_resource -->
-<div>translate("Web resources"): translate ("Original language texts") ##web_orig##</div>
-<div>translate("Web resources"): translate ("Bibles and notes") ##web_bibles##</div>
+<h4>translate("Web resources"): translate ("Original language texts")</h4>
+<!-- #BEGINITERATION web_orig -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION web_orig -->
 <!-- #ENDZONE sensitive_bible_resource -->
+
 <!-- #BEGINZONE sensitive_bible_resource -->
-<div>translate("Lexicons") ##lexicon##</div>
-<div>translate("SWORD modules") ##sword##</div>
+<h4>translate("Web resources"): translate ("Bibles and notes")</h4>
+<!-- #BEGINITERATION web_bibles -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION web_bibles -->
 <!-- #ENDZONE sensitive_bible_resource -->
-<div>translate("Dividers") ##divider##</div>
+
 <!-- #BEGINZONE sensitive_bible_resource -->
-<div>translate("BibleGateway resources") ##biblegateway##</div>
-<div>translate("StudyLight resources") ##studylight##</div>
+<h4>translate("Lexicons")</h4>
+<!-- #BEGINITERATION lexicon -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION lexicon -->
 <!-- #ENDZONE sensitive_bible_resource -->
-<div>translate("Comparative resources") ##comparative##</div>
-<div>
-translate("Translated resources") ##translated##
+
+<!-- #BEGINZONE sensitive_bible_resource -->
+<h4>translate("SWORD modules")</h4>
+<!-- #BEGINITERATION sword -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION sword -->
+<!-- #ENDZONE sensitive_bible_resource -->
+
+<h4>translate("Dividers")</h4>
+<!-- #BEGINITERATION divider -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION divider -->
+
+<!-- #BEGINZONE sensitive_bible_resource -->
+<h4>translate("BibleGateway resources")</h4>
+<!-- #BEGINITERATION biblegateway -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION biblegateway -->
+<!-- #ENDZONE sensitive_bible_resource -->
+
+<!-- #BEGINZONE sensitive_bible_resource -->
+<h4>translate("StudyLight resources")</h4>
+<!-- #BEGINITERATION studylight -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION studylight -->
+<!-- #ENDZONE sensitive_bible_resource -->
+
+<h4>translate("Comparative resources")</h4>
+<!-- #BEGINITERATION comparative -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION comparative -->
+
+<h4>translate("Translated resources")</h4>
 <!-- #BEGINZONE setup_translated -->
+<p>
 <span class="error">
 translate ("Google Translate has not yet been set up.")
 <a href="../system/googletranslate">translate("Ask the administrator to set it up here.")</a>
 </span>
+</p>
 <!-- #ENDZONE setup_translated -->
-</div>
+<!-- #BEGINITERATION translated -->
+<p><a href="##caller##?add=##name##">##name##</a></p>
+<!-- #ENDITERATION translated -->
+
 <h3><a href="##caller##">translate("Cancel")</a></h3>

@@ -65,30 +65,8 @@ std::string resource_organize (Webserver_Request& webserver_request)
   
   // Deal with adding new resources.
   const auto get_added_resource = [&webserver_request] () -> std::string {
-    if (webserver_request.post_count("bible"))
-      return webserver_request.post_get("bible");
-    if (webserver_request.post_count("usfm"))
-      return webserver_request.post_get("usfm");
-    if (webserver_request.post_count("web_orig"))
-      return webserver_request.post_get("web_orig");
-    if (webserver_request.post_count("web_bibles"))
-      return webserver_request.post_get("web_bibles");
-    if (webserver_request.post_count("image"))
-      return webserver_request.post_get("image");
-    if (webserver_request.post_count("lexicon"))
-      return webserver_request.post_get("lexicon");
-    if (webserver_request.post_count("sword"))
-      return webserver_request.post_get("sword");
-    if (webserver_request.post_count("divider"))
-      return webserver_request.post_get("divider");
-    if (webserver_request.post_count("biblegateway"))
-      return webserver_request.post_get("biblegateway");
-    if (webserver_request.post_count("studylight"))
-      return webserver_request.post_get("studylight");
-    if (webserver_request.post_count("comparative"))
-      return webserver_request.post_get("comparative");
-    if (webserver_request.post_count("translated"))
-      return webserver_request.post_get("translated");
+    if (webserver_request.query.count("add"))
+      return webserver_request.query.at("add");
     return std::string();
   };
   const std::string add {get_added_resource()};

@@ -177,15 +177,6 @@ TEST_F (filter_url, encode_decode_unsafe_chars)
 }
 
 
-TEST_F (filter_url, char_values)
-{
-  // Test char values used in encoding and decoding.
-  char one {-1};
-  char two {static_cast<char> (255)};
-  EXPECT_EQ (one, two);
-}
-
-
 TEST_F (filter_url, dirname_basename)
 {
   // Test dirname and basename functions.

@@ -67,7 +67,7 @@ std::string session_login (Webserver_Request& webserver_request)
   Assets_View view{};
 
   // Form submission handler.
-  if (webserver_request.post_get("submit") != "") {
+  if (webserver_request.post_count("submit")) {
     bool form_is_valid = true;
     const std::string user = webserver_request.post_get("user");
     const std::string pass = webserver_request.post_get("pass");

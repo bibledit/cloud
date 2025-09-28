@@ -166,7 +166,7 @@ bool Session_Logic::attempt_login (std::string user_or_email, const std::string&
     open ();
     set_username (user_or_email);
     m_logged_in = true;
-    std::string cookie = m_webserver_request.session_identifier;
+    const std::string cookie = m_webserver_request.session_identifier;
     Database_Login::setTokens (user_or_email, "", "", "", cookie, touch_enabled_in);
     get_level (true);
     return true;

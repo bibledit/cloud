@@ -243,7 +243,14 @@ void http_assemble_response (Webserver_Request& webserver_request)
     // The Secure attribute is set.
     // It is meant to keep cookie communication limited to encrypted transmission,
     // directing browsers to use cookies only via secure/encrypted connections.
-    // For maximum security, cookies with the Secure attribute should only be set over a secure connection.
+    // Cookies with the Secure attribute should only be set over a secure connection.
+    // If the Secure attribute is set and the connection is over http,
+    // then the browser indicates:
+    // This attempt to set a cookie via a Set-Cookie header was blocked
+    // because it had the "Secure" attribute but was not received over a secure connection.
+    // The result of this is that a user cannot login to Bibledit Cloud over a plain connection.
+    // The localhost binding works because most browsers have special-case code
+    // to treat connections to that host name as "secure", even if they don't use HTTPS.
 
     // The HttpOnly attribute means that the cookie can be accessed by the HTTP API only,
     // and not by for example Javascript running in the browser.
@@ -251,11 +258,18 @@ void http_assemble_response (Webserver_Request& webserver_request)
     
     // The setting "SameSite" is set to "None" to enable cookies while embedded in e.g. NextCloud,
     // which works via an iframe on a different origin.
+    // If set to "None", this only works on a secure connection.
+    // On a plain connection, the browser says:
+    // This attempt to set a cookie via a Set-Cookie header was blocked
+    // because it had the "SameSite=None" attribute but did not have the "Secure" attribute,
+    // which is required in order to use "SameSite=None".
 
     std::string identifier = webserver_request.session_identifier;
     if (identifier.empty ())
       identifier = filter::strings::get_new_random_string ();
-    const std::string cookie = "Session=" + identifier + "; Path=/; Max-Age=2678400; HttpOnly; SameSite=None; Secure";
+    std::string cookie = "Session=" + identifier + "; Path=/; Max-Age=2678400; HttpOnly";
+    if (webserver_request.secure)
+      cookie.append("; SameSite=None; Secure");
     response.push_back ("Set-Cookie: " + cookie);
   }
   if (!webserver_request.header.empty ()) 

@@ -319,10 +319,24 @@ TEST (http, parse_header)
   }
   // Test cookie session.
   {
-    Webserver_Request request{};
-    const bool parsed = http_parse_header ("Cookie: Session=session; foo=bar; extra=clutter", request);
-    EXPECT_TRUE(parsed);
-    EXPECT_EQ(request.session_identifier, "session");
+    {
+      Webserver_Request request{};
+      const bool parsed = http_parse_header ("Cookie: Session=session; foo=bar; extra=clutter", request);
+      EXPECT_TRUE(parsed);
+      EXPECT_EQ(request.session_identifier, "session");
+    }
+    {
+      Webserver_Request request{};
+      const bool parsed = http_parse_header ("Cookie: Session=1d15e82d0cf17d8b2b675ee9a7b8bb2f", request);
+      EXPECT_TRUE(parsed);
+      EXPECT_EQ(request.session_identifier, "1d15e82d0cf17d8b2b675ee9a7b8bb2f");
+    }
+    {
+      Webserver_Request request{};
+      const bool parsed = http_parse_header ("Cookie: Session=a809d7bdf691e86a409db85c9cfe69f2; Path=/; Max-Age=2678400; HttpOnly; SameSite=None; Secure", request);
+      EXPECT_TRUE(parsed);
+      EXPECT_EQ(request.session_identifier, "a809d7bdf691e86a409db85c9cfe69f2");
+    }
   }
   // Test empty line as end of header.
   {

@@ -647,7 +647,9 @@ generate_LDADD = libbibledit.a
 AM_CFLAGS = -g
 AM_CFLAGS += $(OPENSSL_CFLAGS)
 
-AM_CXXFLAGS = -fno-var-tracking -g
+# Compiling on some systems may treat warnings as errors.
+# Pass a flag to the compiler to treat a warning not as an error
+AM_CXXFLAGS = -fno-var-tracking -g -Wno-error
 if COMPILERWARNINGS
 AM_CFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wno-pragmas
 AM_CXXFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra-semi -Wfloat-equal -Wformat=2 -Wmissing-include-dirs -Wmissing-noreturn -Wnull-dereference -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wsign-promo -Wsuggest-override -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunused-but-set-parameter -Wunused-macros -Wunused-parameter -Wvla -Wzero-as-null-pointer-constant -Wmismatched-tags

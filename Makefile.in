@@ -1731,9 +1731,12 @@ generate_SOURCES = \
 
 generate_LDADD = libbibledit.a
 AM_CFLAGS = -g $(OPENSSL_CFLAGS) $(am__append_1) $(am__append_5)
+
+# Compiling on some systems may treat warnings as errors.
+# Pass a flag to the compiler to treat a warning not as an error
 # AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
-AM_CXXFLAGS = -fno-var-tracking -g $(am__append_2) $(am__append_3) \
-	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
+AM_CXXFLAGS = -fno-var-tracking -g -Wno-error $(am__append_2) \
+	$(am__append_3) $(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
 	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS) $(XML2_CFLAGS) \
 	$(UTF8PROC_CFLAGS) $(PUGIXML_CFLAGS) $(GTEST_CFLAGS) \
 	$(am__append_4)

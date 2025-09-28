@@ -264,6 +264,13 @@ void http_assemble_response (Webserver_Request& webserver_request)
     // because it had the "SameSite=None" attribute but did not have the "Secure" attribute,
     // which is required in order to use "SameSite=None".
 
+    // If a user het logged into Bibledit via https,
+    // and then next logs in via http, a plain connection,
+    // then login fails.
+    // The browser says this:
+    // This attempt to set a cookie via a Set-Cookie header was blocked
+    // because it was not sent over a secure connection
+    // and would have overwritten a cookie with the Secure attribute.
     std::string identifier = webserver_request.session_identifier;
     if (identifier.empty ())
       identifier = filter::strings::get_new_random_string ();

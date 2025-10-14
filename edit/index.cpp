@@ -89,7 +89,7 @@ std::string edit_index (Webserver_Request& webserver_request)
     constexpr const char* identification {"bibleselect"};
     if (webserver_request.post_count(identification)) {
       bible = webserver_request.post_get(identification);
-      webserver_request.database_config_user ()->set_bible (bible);
+      webserver_request.database_config_user()->set_bible (bible);
       // Going to another Bible, ensure that the focused book exists there.
       int book = Ipc_Focus::getBook (webserver_request);
       const std::vector <int> books = database::bibles::get_books (bible);
@@ -98,6 +98,8 @@ std::string edit_index (Webserver_Request& webserver_request)
         else book = 0;
         Ipc_Focus::set (webserver_request, book, 1, 1);
       }
+      // Ensure it gets loaded.
+      redirect_browser (webserver_request, edit_index_url());
       return std::string();
     }
     dialog::select::Settings settings {

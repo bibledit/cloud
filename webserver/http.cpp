@@ -43,7 +43,7 @@ static void remove_cr_lf_at_end(std::string& post);
 // Accept-Language: sn,en-US;q=0.8,en;q=0.6
 // Cookie: Session=abcdefghijklmnopqrstuvwxyz; foo=bar; extra=clutter
 //
-// The function extracts the relevant information one line of the headers.
+// The function extracts the relevant information from one line of the headers.
 //
 // It returns true if a header was (or could have been) parsed.
 bool http_parse_header (std::string header, Webserver_Request& webserver_request)
@@ -78,8 +78,12 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
     // Read and parse the GET data.
     try {
       if (!query_data.empty ()) {
-        // Example input data: key1=value1&key2=value2
+        // Example input data: key1=value1&key2=value2#fragment
+        // Remove the optional fragment.
         // Explode the data on the ampersand ( & ) and then on the equal sign ( = ).
+        if (const size_t pos = query_data.find("#"); pos != std::string::npos) {
+          query_data.erase(pos);
+        }
         std::vector<std::string> keys_values = filter::strings::explode(std::move(query_data), '&');
         for (const auto& fragment : keys_values) {
           std::vector<std::string> key_value = filter::strings::explode(fragment, '=');

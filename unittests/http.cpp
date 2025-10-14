@@ -213,7 +213,7 @@ TEST (http, parse_post)
 
 TEST (http, parse_header)
 {
-  // Test pstandard GET request.
+  // Test a standard GET request.
   {
     Webserver_Request request{};
     const bool parsed = http_parse_header ("GET page HTTP/1.1", request);
@@ -279,6 +279,14 @@ TEST (http, parse_header)
     const bool parsed = http_parse_header ("GET page?key1=Hello%20World HTTP/1.1", request);
     EXPECT_TRUE(parsed);
     EXPECT_EQ(request.query.at("key1"), "Hello World");
+  }
+  // Test a URL with a fragment in it.
+  {
+    Webserver_Request request{};
+    const bool parsed = http_parse_header ("GET page?key=value#fragment HTTP/1.1", request);
+    EXPECT_TRUE(parsed);
+    EXPECT_EQ(request.query.at("key"), "value");
+    EXPECT_EQ(request.query.size(), 1);
   }
   // Test a few more header lines.
   {

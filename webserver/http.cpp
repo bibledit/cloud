@@ -157,7 +157,7 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
 
 
 // Takes data POSTed from the browser, and parses it.
-void http_parse_post_v2 (std::string content, Webserver_Request& webserver_request)
+void http_parse_post (std::string content, Webserver_Request& webserver_request)
 {
   // If there's no content, there's nothing to parse: Done.
   if (content.empty ())

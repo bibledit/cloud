@@ -68,7 +68,7 @@ TEST (http, parse_post)
       container standard = {
         {"key", "value"},
       };
-      http_parse_post_v2 (posted, webserver_request);
+      http_parse_post (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
     {
@@ -77,7 +77,7 @@ TEST (http, parse_post)
         {"key1", "value1"},
         {"key2", "value2"},
       };
-      http_parse_post_v2 (posted, webserver_request);
+      http_parse_post (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
     {
@@ -86,7 +86,7 @@ TEST (http, parse_post)
         {"key1", ""},
         {"key2", ""},
       };
-      http_parse_post_v2 (posted, webserver_request);
+      http_parse_post (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
     {
@@ -94,7 +94,7 @@ TEST (http, parse_post)
       container standard = {
         {"key", "Hello World"},
       };
-      http_parse_post_v2 (posted, webserver_request);
+      http_parse_post (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
     {
@@ -102,7 +102,7 @@ TEST (http, parse_post)
       container standard = {
         {"key", "Hëllo Wörld"},
       };
-      http_parse_post_v2 (posted, webserver_request);
+      http_parse_post (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
   }
@@ -117,7 +117,7 @@ TEST (http, parse_post)
       container standard = {
         {"key", "value"},
       };
-      http_parse_post_v2 (posted, webserver_request);
+      http_parse_post (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
     
@@ -130,7 +130,7 @@ TEST (http, parse_post)
         {"key1", "value1"},
         {"key2", "value2"},
       };
-      http_parse_post_v2 (posted, webserver_request);
+      http_parse_post (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
     
@@ -143,7 +143,7 @@ TEST (http, parse_post)
         {"key1", ""},
         {"key2", ""},
       };
-      http_parse_post_v2 (posted, webserver_request);
+      http_parse_post (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
     
@@ -154,7 +154,7 @@ TEST (http, parse_post)
       container standard = {
         {"key", "Hello World"},
       };
-      http_parse_post_v2 (posted, webserver_request);
+      http_parse_post (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
     
@@ -165,7 +165,7 @@ TEST (http, parse_post)
       container standard = {
         {"key", "Hëllo Wörld"},
       };
-      http_parse_post_v2 (posted, webserver_request);
+      http_parse_post (posted, webserver_request);
       EXPECT_EQ(standard, webserver_request.post);
     }
   }
@@ -181,7 +181,7 @@ TEST (http, parse_post)
         const std::string content = filter_url_file_get_contents(test_path + "http-post-1.txt");
         Webserver_Request webserver_request{};
         webserver_request.content_type = content_type;
-        http_parse_post_v2 (content, webserver_request);
+        http_parse_post (content, webserver_request);
         const container standard_new {
           {"filename", "00_test1.txt"},
           {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
@@ -195,7 +195,7 @@ TEST (http, parse_post)
       const std::string content = filter_url_file_get_contents(test_path + "http-post-2.txt");
       Webserver_Request webserver_request{};
       webserver_request.content_type = content_type;
-      http_parse_post_v2 (content, webserver_request);
+      http_parse_post (content, webserver_request);
       const container standard {
         {"filename", "00_test1.txt"},
         {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},

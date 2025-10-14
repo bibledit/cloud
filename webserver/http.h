@@ -28,7 +28,7 @@ constexpr const char* text_plain {"text/plain"};
 constexpr const char* multipart_form_data {"multipart/form-data"};
 
 bool http_parse_header (std::string header, Webserver_Request& webserver_request);
-void http_parse_post_v2 (std::string content, Webserver_Request& webserver_request);
+void http_parse_post (std::string content, Webserver_Request& webserver_request);
 void http_assemble_response (Webserver_Request& webserver_request);
 void http_stream_file (Webserver_Request& webserver_request, bool enable_cache);
 std::string http_parse_host (const std::string & line);

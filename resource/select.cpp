@@ -41,6 +41,17 @@
 #include <sword/logic.h>
 #include <access/logic.h>
 #include <config/globals.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#ifndef HAVE_PUGIXML
+#include <pugixml/pugixml.hpp>
+#endif
+#ifdef HAVE_PUGIXML
+#include <pugixml.hpp>
+#endif
+#pragma GCC diagnostic pop
 
 
 std::string resource_select_url ()
@@ -84,9 +95,26 @@ std::string resource_select (Webserver_Request& webserver_request)
   // the <select> makes it hard to look for a resources.
   // See issue https://github.com/bibledit/cloud/issues/1050 for more details.
   // Rather it now uses one web page listing all resources.
+  // The page initially was built through Flate iterations.
+  // But Flate had limits on the number of rendering steps.
+  // As a result the first part of the page was rendered, and the latter part was not done well.
+  // So now the page is rendered section by section, not through Flate, but in the XML code below.
 
-  for (const std::string& name : access_bible::bibles (webserver_request)) {
-    view.add_iteration ("bible", {std::pair("name", name)});
+  const auto href = [&caller] (const std::string name) {
+    return caller + "?add=" + name;
+  };
+  
+  {
+    pugi::xml_document document {};
+    for (const std::string& name : access_bible::bibles (webserver_request)) {
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
+    }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("bibles", block.str());
   }
 
   {
@@ -99,25 +127,68 @@ std::string resource_select (Webserver_Request& webserver_request)
     Database_UsfmResources database_usfmresources;
     usfm_resources = database_usfmresources.getResources ();
 #endif
+    pugi::xml_document document {};
     for (const std::string& name : usfm_resources) {
-      view.add_iteration ("usfm", {std::pair("name", name)});
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
     }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("usfm", block.str());
   }
 
-  for (const std::string& name : resource_external_get_original_language_resources()) {
-    view.add_iteration ("web_orig", {std::pair("name", name)});
+  {
+    pugi::xml_document document {};
+    for (const std::string& name : resource_external_get_original_language_resources()) {
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
+    }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("web_orig", block.str());
   }
 
-  for (const std::string& name : resource_external_get_bibles()) {
-    view.add_iteration ("web_bibles", {std::pair("name", name)});
+  {
+    pugi::xml_document document {};
+    for (const std::string& name : resource_external_get_bibles()) {
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
+    }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("web_bibles", block.str());
   }
 
-  for (const std::string& name : lexicon_logic_resource_names()) {
-    view.add_iteration ("lexicon", {std::pair("name", name)});
+  {
+    pugi::xml_document document {};
+    for (const std::string& name : lexicon_logic_resource_names()) {
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
+    }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("lexicon", block.str());
   }
-  
-  for (const std::string& name : sword_logic_get_available()) {
-    view.add_iteration ("sword", {std::pair("name", name)});
+
+  {
+    pugi::xml_document document {};
+    for (const std::string& name : sword_logic_get_available()) {
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
+    }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("sword", block.str());
   }
 
   {
@@ -130,17 +201,42 @@ std::string resource_select (Webserver_Request& webserver_request)
       resource_logic_orange_divider (),
       resource_logic_rich_divider(),
     };
+    pugi::xml_document document {};
     for (const std::string& name : resources) {
-      view.add_iteration ("divider", {std::pair("name", name)});
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
     }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("divider", block.str());
   }
 
-  for (const std::string& name : resource_logic_bible_gateway_module_list_get()) {
-    view.add_iteration ("biblegateway", {std::pair("name", name)});
+  {
+    pugi::xml_document document {};
+    for (const std::string& name : resource_logic_bible_gateway_module_list_get()) {
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
+    }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("biblegateway", block.str());
   }
-
-  for (const std::string& name : resource_logic_study_light_module_list_get()) {
-    view.add_iteration ("studylight", {std::pair("name", name)});
+  
+  {
+    pugi::xml_document document {};
+    for (const std::string& name : resource_logic_study_light_module_list_get()) {
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
+    }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("studylight", block.str());
   }
   
   // The comparative resources are stored as one resource per line.
@@ -161,9 +257,16 @@ std::string resource_select (Webserver_Request& webserver_request)
         resources.push_back(title);
       }
     }
+    pugi::xml_document document {};
     for (const std::string& name : resources) {
-      view.add_iteration ("comparative", {std::pair("name", name)});
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
     }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("comparative", block.str());
   }
  
   // The translated resources are stored as one resource per line.
@@ -184,9 +287,16 @@ std::string resource_select (Webserver_Request& webserver_request)
         resources.push_back(title);
       }
     }
+    pugi::xml_document document {};
     for (const std::string& name : resources) {
-      view.add_iteration ("translated", {std::pair("name", name)});
+      pugi::xml_node p = document.append_child("p");
+      pugi::xml_node a = p.append_child("a");
+      a.append_attribute("href") = href(name).c_str();
+      a.text().set(name.c_str());
     }
+    std::stringstream block {};
+    document.print (block, "", pugi::format_raw);
+    view.set_variable ("translated", block.str());
   }
 
   // Whether to show or to hide sensitive Bible resources.

@@ -84,7 +84,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   view.set_variable ("bible", bible);
 
 
-  // Set the user chosen Bible as the current Bible.
+  // Set the user chosen Bible as the current Bible. Todo
   {
     constexpr const char* identification {"bibleselect"};
     if (webserver_request.post_count(identification)) {
@@ -107,7 +107,9 @@ std::string edit_index (Webserver_Request& webserver_request)
       .values = access_bible::bibles (webserver_request),
       .selected = bible,
     };
-    view.set_variable(identification, dialog::select::ajax(settings));
+    dialog::select::Form form { .auto_submit = true };
+    //view.set_variable(identification, dialog::select::ajax(settings));
+    view.set_variable(identification, dialog::select::form(settings, form));
   }
 
 

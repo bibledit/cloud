@@ -173,8 +173,10 @@ std::string editone_update (Webserver_Request& webserver_request)
   // This needs the loaded USFM as the ancestor,
   // the edited USFM as a change-set,
   // and the existing USFM as a prioritized change-set.
+  // Transpose double spaces following an opening marker, see issue https://github.com/bibledit/cloud/issues/1051.
   std::string loaded_verse_usfm = editone_logic_html_to_usfm (stylesheet, loaded_html);
   std::string edited_verse_usfm = editone_logic_html_to_usfm (stylesheet, edited_html);
+  edited_verse_usfm = filter::usfm::transpose_opening_marker_and_space_sequence(std::move(edited_verse_usfm));
   std::string existing_verse_usfm = filter::usfm::get_verse_text_quill (chapter, verse, old_chapter_usfm);
   existing_verse_usfm = filter::strings::trim (existing_verse_usfm);
 

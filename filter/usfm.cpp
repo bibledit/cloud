@@ -1172,7 +1172,7 @@ std::string remove_milestone (std::vector <std::string>& container, unsigned int
 std::string transpose_opening_marker_and_space_sequence(std::string usfm)
 {
   constexpr const char* backslash = R"(\)";
-  int iterations {50}; // Run no risk on an infinite loop.
+  int iterations {500}; // Run no risk on an infinite loop.
   size_t backslash_position = usfm.find(backslash);
   while ((backslash_position != std::string::npos) and iterations--) {
     // Look for first double space after the backslash.

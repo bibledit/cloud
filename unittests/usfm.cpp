@@ -1646,7 +1646,7 @@ TEST (usfm, transpose_opener_space)
   {
     std::string input{};
     std::string output{};
-    for (int i {0}; i < 50; i++) {
+    for (int i {0}; i < 500; i++) {
       input.append(wrong_usfm);
       output.append(right_usfm);
     }

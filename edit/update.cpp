@@ -192,6 +192,10 @@ std::string edit_update (Webserver_Request& webserver_request)
   }
   const std::string existing_chapter_usfm = filter::strings::trim (old_chapter_usfm);
 
+  
+  // Transpose double spaces following an opening marker, see issue https://github.com/bibledit/cloud/issues/1051.
+  edited_chapter_usfm = filter::usfm::transpose_opening_marker_and_space_sequence(std::move(edited_chapter_usfm));
+
 
   // Check that the edited USFM contains no more than, and exactly the same as,
   // the book and chapter that was loaded in the editor.

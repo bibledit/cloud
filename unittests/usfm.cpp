@@ -1627,4 +1627,39 @@ TEST (usfm, one_string)
 }
 
 
+// Test the function that transposes an opening marker and space sequence.
+TEST (usfm, transpose_opener_space)
+{
+  constexpr const char* wrong_usfm {R"(\marker  text)"};
+  constexpr const char* right_usfm {R"( \marker text)"};
+  // Test issue https://github.com/bibledit/cloud/issues/1051
+  // which is a solution for inserting a footnote in italics text.
+  {
+    EXPECT_EQ (filter::usfm::transpose_opening_marker_and_space_sequence(wrong_usfm), right_usfm);
+  }
+  {
+    const std::string input = R"(\v 1 Normal text \add and italic\add*\f + \fr 1:1 \fk |keyword \ft |text.\f*\add  text\add*.)";
+    const std::string output = R"(\v 1 Normal text \add and italic\add*\f + \fr 1:1 \fk |keyword \ft |text.\f* \add text\add*.)";
+    EXPECT_EQ (filter::usfm::transpose_opening_marker_and_space_sequence(input), output);
+  }
+  // Test that it does multiple transpositions but not more than a given maximum amount.
+  {
+    std::string input{};
+    std::string output{};
+    for (int i {0}; i < 50; i++) {
+      input.append(wrong_usfm);
+      output.append(right_usfm);
+    }
+    EXPECT_EQ (filter::usfm::transpose_opening_marker_and_space_sequence(input), output);
+    input.append(wrong_usfm);
+    output.append(wrong_usfm); // Not transposed.
+    EXPECT_EQ (filter::usfm::transpose_opening_marker_and_space_sequence(input), output);
+  }
+  // Test it does not transpose good USFM.
+  {
+    EXPECT_EQ (filter::usfm::transpose_opening_marker_and_space_sequence(right_usfm), right_usfm);
+  }
+}
+
+
 #endif

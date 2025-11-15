@@ -73,6 +73,7 @@ void remove_word_level_attributes (const std::string& marker,
 std::string extract_fig (std::string usfm, std::string & caption, std::string & alt, std::string& src, std::string& size, std::string& loc, std::string& copy, std::string& ref);
 bool is_standard_q_poetry (const std::string & marker);
 std::string remove_milestone (std::vector <std::string>& container, unsigned int& pointer);
+std::string transpose_opening_marker_and_space_sequence(std::string usfm);
 
 }
 

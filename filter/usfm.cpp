@@ -1163,4 +1163,41 @@ std::string remove_milestone (std::vector <std::string>& container, unsigned int
 }
 
 
+// This function looks for an opening marker followed by a space.
+// Such a sequence results in two spaces in sequence.
+// Code elsewhere replaces two spaces with one.
+// In the above situation that results in invalid USFM, lacking one space.
+// Example: The original "\add  text\add*" would result in "\add text\add*".
+// After transpose, it would result in " \add text\add*".
+std::string transpose_opening_marker_and_space_sequence(std::string usfm)
+{
+  constexpr const char* backslash = R"(\)";
+  int iterations {50}; // Run no risk on an infinite loop.
+  size_t backslash_position = usfm.find(backslash);
+  while ((backslash_position != std::string::npos) and iterations--) {
+    // Look for first double space after the backslash.
+    const size_t double_space_position = usfm.find("  ", backslash_position);
+    // If there's no double space found, stop any further processing.
+    if (double_space_position == std::string::npos)
+      break;
+    // Double space found: Check that the characters in-between are alphanumeric only.
+    const std::string inner_characters = usfm.substr(backslash_position + 1,
+                                                     double_space_position - backslash_position - 1);
+    const auto is_alphanumeric = [] (const char ch) {
+      return std::isalpha(static_cast<unsigned char>(ch)) or std::isdigit(static_cast<unsigned char>(ch));
+    };
+    if (std::all_of (inner_characters.cbegin(), inner_characters.cend(), is_alphanumeric)) {
+      // If so, transpose the spaces.
+      usfm.erase (double_space_position, 1);
+      usfm.insert(backslash_position, " ");
+      // Adjust the backslash position accordingly for next iteration.
+      backslash_position++;
+    }
+    // Look for any next backslash.
+    backslash_position = usfm.find(backslash, backslash_position + 1);
+  }
+  return usfm;
+}
+
+
 } // End of namespace.

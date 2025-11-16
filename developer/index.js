@@ -29,14 +29,14 @@ function showAlertWithTimeout ()
 {
   notifySuccess ("The keyboard is blocked for a short while")
   debugLog("disable text input");
-  $("#textinput").prop ("readonly", true);
+  document.getElementById('textinput').setAttribute('readonly', true);
   setTimeout (enableTextInput, 2000);
 }
 
 
 function enableTextInput ()
 {
-  $("#textinput").prop ("readonly", false);
+  document.getElementById('textinput').removeAttribute('readonly');
   debugLog("enable text input again");
 }
 

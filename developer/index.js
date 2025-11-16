@@ -19,26 +19,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 function debugLog (message)
 {
-  $.ajax ({
-    url: "/developer/index",
-    type: "GET",
-    data: { log: message },
-    cache: false,
-    async: false
-  });
+  var url = new URL("/developer/index", document.location);
+  url.searchParams.append("log", message)
+  fetch(url, {cache: "no-cache"});
 }
 
 
 function showAlertWithTimeout ()
 {
   notifyItSuccess ("The keyboard is blocked for a short while")
+  debugLog("disable text input");
   $("#textinput").prop ("readonly", true);
-  setTimeout (enableTextInput, 1000);
+  setTimeout (enableTextInput, 2000);
 }
 
 
 function enableTextInput ()
 {
   $("#textinput").prop ("readonly", false);
+  debugLog("enable text input again");
 }
 

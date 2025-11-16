@@ -61,6 +61,8 @@ std::string developer_index (Webserver_Request& webserver_request)
   std::string page {};
 
   Assets_Header header = Assets_Header ("Development", webserver_request);
+  // Todo redo notify it in plain javascript
+  // header.jquery_off();
   header.notify_it_on ();
   page = header.run ();
 

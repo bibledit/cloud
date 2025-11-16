@@ -77,7 +77,7 @@ std::string editone_index (Webserver_Request& webserver_request)
   header.set_editor_stylesheet ();
   if (touch) 
     header.jquery_touch_on ();
-  header.notify_it_on ();
+  header.notify_on ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   

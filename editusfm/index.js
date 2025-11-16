@@ -243,7 +243,7 @@ function usfmEditorSelectiveNotification (message)
   if (message == usfmEditorChapterSaving) return;
   if (message == usfmEditorChapterSaved) return;
   if (message == "") return;
-  notifyItError (message);
+  notifyError (message);
 }
 
 
@@ -559,7 +559,7 @@ function usfmEditorReloadAlert (message)
   // Take action only if the editor has focus and the user can type in it.
   var editor = $ ("#usfmeditor");
   if (editor.is (":focus")) {
-    notifyItSuccess (message)
+    notifySuccess (message)
     editor.attr('contenteditable', false);
     setTimeout (usfmEditorReloadAlertTimeout, 3000);
   }

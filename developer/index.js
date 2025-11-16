@@ -27,7 +27,7 @@ function debugLog (message)
 
 function showAlertWithTimeout ()
 {
-  notifyItSuccess ("The keyboard is blocked for a short while")
+  notifySuccess ("The keyboard is blocked for a short while")
   debugLog("disable text input");
   $("#textinput").prop ("readonly", true);
   setTimeout (enableTextInput, 2000);

@@ -596,7 +596,7 @@ function editorSelectiveNotification (message)
   if (message == editorChapterSaving) return;
   if (message == editorChapterSaved) return;
   if (message == "") return;
-  notifyItError (message);
+  notifyError (message);
 }
 
 
@@ -1135,7 +1135,7 @@ function editorReloadAlert (message)
 {
   // Take action only if the editor has focus and the user can type in it.
   if (quill.hasFocus ()) {
-    notifyItSuccess (message)
+    notifySuccess (message)
     quill.enable (false);
     setTimeout (editorReloadAlertTimeout, 3000);
   }

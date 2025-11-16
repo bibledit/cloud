@@ -452,7 +452,7 @@ function oneverseEditorSelectiveNotification (message)
   if (message == oneverseEditorVerseSaved) return;
   if (message == oneverseEditorVerseUpdating) return;
   if (message == oneverseEditorVerseUpdated) return;
-  notifyItError (message);
+  notifyError (message);
 }
 
 
@@ -975,7 +975,7 @@ function oneverseReloadAlert (message)
   // Take action only if the editor has focus and the user can type in it.
   if (!verseEditorHasFocus ()) return;
   // Do the notification stuff.
-  notifyItSuccess (message)
+  notifySuccess (message)
   quill.enable (false);
   setTimeout (oneverseReloadAlertTimeout, 3000);
 }

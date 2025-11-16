@@ -65,9 +65,9 @@ void Assets_Header::touch_css_on ()
 }
 
 
-void Assets_Header::notify_it_on ()
+void Assets_Header::notify_on ()
 {
-  m_notify_it_on = true;
+  m_notify_on = true;
 }
 
 
@@ -162,8 +162,8 @@ std::string Assets_Header::run ()
     m_view->enable_zone ("include_mouse_css");
   }
   
-  if (m_notify_it_on) {
-    m_view->enable_zone ("include_notif_it");
+  if (m_notify_on) {
+    m_view->enable_zone ("include_notify_js");
   }
   
   std::string headlines {};

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXFileReference section */
@@ -984,13 +984,6 @@
 		CADE3D0824F17470003165BB /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		CADE3D0924F17470003165BB /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		CADE3D0A24F17470003165BB /* template.odt */ = {isa = PBXFileReference; lastKnownFileType = file; path = template.odt; sourceTree = "<group>"; };
-		CADE3D1024F17470003165BB /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		CADE3D1124F17470003165BB /* notifit.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = notifit.css; sourceTree = "<group>"; };
-		CADE3D1224F17470003165BB /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CADE3D1324F17470003165BB /* notifit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = notifit.js; sourceTree = "<group>"; };
-		CADE3D1424F17470003165BB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		CADE3D1524F17470003165BB /* tests.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = tests.html; sourceTree = "<group>"; };
-		CADE3D1624F17470003165BB /* notifit.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = notifit.min.js; sourceTree = "<group>"; };
 		CADE3D1824F17470003165BB /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CADE3D1924F17470003165BB /* microtar.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = microtar.c; sourceTree = "<group>"; };
 		CADE3D1A24F17470003165BB /* source.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = source.txt; sourceTree = "<group>"; };
@@ -1876,6 +1869,10 @@
 		CAFA33C329269F1100474A52 /* libpugixml.1.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpugixml.1.12.dylib; path = ../../../../opt/local/lib/libpugixml.1.12.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CA56B79C2ECA5AC30058134F /* notifyjs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = notifyjs; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXGroup section */
 		CA18ADB624F169DA00FF603C = {
 			isa = PBXGroup;
@@ -1954,7 +1951,7 @@
 				CADE3CF224F17470003165BB /* navigation */,
 				CADE3E7624F17472003165BB /* nicedit */,
 				CADE3E8424F17472003165BB /* notes */,
-				CADE3D0F24F17470003165BB /* notifit */,
+				CA56B79C2ECA5AC30058134F /* notifyjs */,
 				CADE3F2524F17473003165BB /* obfuscate */,
 				CADE3D0524F17470003165BB /* odf */,
 				CADE3E7C24F17472003165BB /* olb */,
@@ -3518,20 +3515,6 @@
 				CADE3D0824F17470003165BB /* text.h */,
 			);
 			path = odf;
-			sourceTree = "<group>";
-		};
-		CADE3D0F24F17470003165BB /* notifit */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3D1024F17470003165BB /* LICENSE */,
-				CADE3D1124F17470003165BB /* notifit.css */,
-				CADE3D1224F17470003165BB /* index.js */,
-				CADE3D1324F17470003165BB /* notifit.js */,
-				CADE3D1424F17470003165BB /* README.md */,
-				CADE3D1524F17470003165BB /* tests.html */,
-				CADE3D1624F17470003165BB /* notifit.min.js */,
-			);
-			path = notifit;
 			sourceTree = "<group>";
 		};
 		CADE3D1724F17470003165BB /* microtar */ = {

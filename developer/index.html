@@ -5,7 +5,7 @@
 <p><a href="?debug=parsemorphgnt">Parse MorphGNT Greek New Testament morphology into the morphgnt database and block till ready</a></p>
 <p><a href="?debug=parsehebrewlexicon">Parse Open Scriptures Hebrew Lexicon into a database and block till ready</a></p>
 <p><a href="?debug=crash">Cause a crash</a></p>
-<p><a href="javascript:;" onclick="notifyItSuccess ('This is a notification');">Show notification</a></p>
+<p><a href="javascript:;" onclick="notifySuccess ('This is a notification');">Show notification</a></p>
 <p><a href="?debug=sendreceive">Send en receive email now</a></p>
 <p><a href="?debug=ipv6">Connect to http://ipv6.google.com</a></p>
 <p><a href="?debug=ipv6s">Connect to https://ipv6.google.com</a></p>

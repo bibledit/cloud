@@ -72,6 +72,7 @@ std::string resource_sword (Webserver_Request& webserver_request)
   
   std::string page;
   Assets_Header header = Assets_Header (translate("Resources"), webserver_request);
+  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;

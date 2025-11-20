@@ -187,6 +187,7 @@ std::string search_originals (Webserver_Request& webserver_request)
   std::string page;
   
   Assets_Header header = Assets_Header (translate("Search"), webserver_request);
+  header.jquery_on();
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();

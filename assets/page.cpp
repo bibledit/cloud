@@ -31,6 +31,7 @@ namespace assets_page {
 std::string header (const std::string& title, Webserver_Request& webserver_request)
 {
   Assets_Header header = Assets_Header (title, webserver_request);
+  header.jquery_on();
   return header.run ();
 }
 

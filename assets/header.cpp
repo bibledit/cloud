@@ -47,9 +47,9 @@ Assets_Header::~Assets_Header ()
 }
 
 
-void Assets_Header::jquery_off()
+void Assets_Header::jquery_on()
 {
-  m_jquery_on = false;
+  m_jquery_on = true;
 }
 
 

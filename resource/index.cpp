@@ -54,6 +54,7 @@ std::string resource_index (Webserver_Request& webserver_request)
   
   std::string page;
   Assets_Header header = Assets_Header (translate("Resources"), webserver_request);
+  header.jquery_on();
   header.set_navigator ();
   header.set_stylesheet ();
   if (touch) header.jquery_touch_on ();

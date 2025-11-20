@@ -61,6 +61,7 @@ std::string developer_index (Webserver_Request& webserver_request)
   std::string page {};
 
   Assets_Header header = Assets_Header ("Development", webserver_request);
+  header.jquery_on();
   header.notify_on ();
   page = header.run ();
 

@@ -50,6 +50,7 @@ std::string manage_bibles (Webserver_Request& webserver_request)
 {
   std::string page {};
   Assets_Header header = Assets_Header (translate("Read/write"), webserver_request);
+  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (manage_users_url (), menu_logic_manage_users_text ());
   page = header.run ();

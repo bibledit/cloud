@@ -96,6 +96,7 @@ std::string workspace_index (Webserver_Request& webserver_request)
   
   std::string page{};
   Assets_Header header = Assets_Header (translate("Workspace"), webserver_request);
+  header.jquery_on();
   header.set_navigator ();
   header.set_fading_menu (menu_logic_workspace_category (webserver_request));
   page = header.run ();

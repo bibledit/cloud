@@ -57,6 +57,7 @@ bool help_index_acl (Webserver_Request& webserver_request)
 std::string help_index (Webserver_Request& webserver_request, const std::string& url)
 {
   Assets_Header header = Assets_Header (translate("Help"), webserver_request);
+  header.jquery_on();
   std::string page = header.run ();
 
   Assets_View view {};

@@ -53,6 +53,7 @@ std::string notes_summary (Webserver_Request& webserver_request)
   
   std::string page;
   Assets_Header header = Assets_Header (translate("Note summary"), webserver_request);
+  header.jquery_on();
   page += header.run ();
   Assets_View view;
 

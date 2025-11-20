@@ -45,6 +45,7 @@ std::string session_switch (Webserver_Request& webserver_request)
   std::string page{};
   
   Assets_Header header = Assets_Header (translate ("Switch user"), webserver_request);
+  header.jquery_on();
   page += header.run ();
   
   Assets_View view{};

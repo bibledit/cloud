@@ -50,6 +50,7 @@ std::string public_login (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate ("Public login"), webserver_request);
+  header.jquery_on();
   header.touch_css_on ();
   page = header.run ();
   Assets_View view;

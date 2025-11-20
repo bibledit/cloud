@@ -56,6 +56,7 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Comparative resource"), webserver_request);
+  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;

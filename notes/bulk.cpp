@@ -61,6 +61,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   std::string page;
   
   Assets_Header header = Assets_Header (translate("Bulk update"), webserver_request);
+  header.jquery_on();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   header.add_bread_crumb (notes_index_url (), menu_logic_consultation_notes_text ());
   page = header.run();

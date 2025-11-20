@@ -46,6 +46,7 @@ std::string session_password (Webserver_Request& webserver_request)
   std::string page{};
 
   Assets_Header header = Assets_Header (translate ("Password"), webserver_request);
+  header.jquery_on();
   header.touch_css_on ();
   page += header.run ();
 

@@ -117,6 +117,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   
   
   Assets_Header header = Assets_Header (translate("Edit"), webserver_request);
+  header.jquery_on();
   header.set_navigator ();
   header.set_editor_stylesheet ();
   if (touch) header.jquery_touch_on ();

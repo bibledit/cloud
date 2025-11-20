@@ -50,6 +50,7 @@ std::string mapping_map (Webserver_Request& webserver_request)
   std::string page;
   
   Assets_Header header = Assets_Header (translate("Verse mappings"), webserver_request);
+  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (mapping_index_url (), menu_logic_mapping_index_text ());
 

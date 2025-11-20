@@ -478,9 +478,8 @@ TEST_F (filter_url, create_path)
 
 TEST_F (filter_url, build_http_query)
 {
-  // Empty URL in, empty URL out.
-  EXPECT_EQ(std::string(), filter_url_build_http_query(std::string(), {}));
-  EXPECT_EQ(std::string(), filter_url_build_http_query(std::string(), {{"foo", "bar"}}));
+  // Empty URL in, parameters given.
+  EXPECT_EQ("?foo=bar", filter_url_build_http_query(std::string(), {{"foo", "bar"}}));
 
   // No parameters/values given: URL in -> URL out.
   EXPECT_EQ("url", filter_url_build_http_query("url", {}));

@@ -76,10 +76,6 @@ std::string ajax(const Settings& settings)
   std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/selectajax.js"}));
   javascript = remove_comment_from_code (std::move(javascript));
   javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
-
-  // Update the Javascript with the parameters to append to the POST request.
-  const std::string url = filter_url_build_http_query(settings.url, settings.parameters);
-  javascript = filter::strings::replace("URL", url, std::move(javascript));
   
   pugi::xml_node script_node = document.append_child("script");
   script_node.text().set(javascript.c_str());
@@ -87,7 +83,13 @@ std::string ajax(const Settings& settings)
   // Convert it to html including Javascript.
   std::stringstream html_ss {};
   document.print (html_ss, "", pugi::format_raw);
-  return html_ss.str();
+  
+  // Update the html with the parameters to append to the POST request.
+  std::string html = html_ss.str();
+  const std::string url = filter_url_build_http_query(settings.url, settings.parameters);
+  html = filter::strings::replace("URL", url, std::move(html));
+
+  return html;
 }
 
 

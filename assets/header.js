@@ -61,7 +61,7 @@ function is_outside_workspace()
 }
 
 
-$ (document).ready (function () {
+document.addEventListener("DOMContentLoaded", function(e) {
   if (is_outside_workspace()) {
     // On main page: Enable menu on touch screen.
     $ ('.toggle').click (function () {

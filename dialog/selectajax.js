@@ -16,7 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-$("#identification").on( "change", function() {
+document.querySelector("#identification").addEventListener("change",function(){
   $.ajax({
     url: 'URL?' + $.param({ parameters }),
     type: "POST",

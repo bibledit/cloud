@@ -63,10 +63,13 @@ function is_outside_workspace()
 
 document.addEventListener("DOMContentLoaded", function(e) {
   if (is_outside_workspace()) {
-    // Deal with the optional html back button.
-    $ ('#backbutton').click (function () {
-      window.history.back();
-    });
+    // Deal with the optional back button.
+    var backbutton = document.querySelector('#backbutton');
+    if (backbutton) {
+      backbutton.addEventListener('click', function (event) {
+        window.history.back();
+      });
+    }
   } else {
     // In workspace iframe: Remove possible top bar.
     // The topbar is removed by the server via the Workspace.
@@ -91,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     $ (".fadeout").delay (parseInt (fadingMenuDelay)).hide (2000);
   };
 
-  // These for loops is for coloring the span element on the top bar
+  // These for loops are for coloring the span element on the top bar
   // for the Red Blue Light/Black theme styling.
   // The total of all span is divided by three and used for indexing.
   // The middle spans will be extra light red, half of the rest

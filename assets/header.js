@@ -88,10 +88,18 @@ document.addEventListener("DOMContentLoaded", function(e) {
     document.querySelectorAll('form').forEach((element) => {
       element.action = topbarRemovalQueryAddition (element.action);
     })
-    $ ('#topbar').empty ();
+    var topbar = document.querySelector ('#topbar');
+    if (topbar) {
+      topbar.innerHTML = "";
+    }
   };
   if (typeof (fadingMenuDelay) != 'undefined' && fadingMenuDelay != 0 && fadingMenuDelay !== 'false') {
-    $ (".fadeout").delay (parseInt (fadingMenuDelay)).hide (2000);
+    setTimeout(() => {
+      var fadeout = document.querySelector ('.fadeout');
+      if (fadeout) {
+        fadeout.remove();
+      }
+    }, parseInt (fadingMenuDelay));
   };
 
   // These for loops are for coloring the span element on the top bar

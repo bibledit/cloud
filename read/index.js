@@ -22,8 +22,7 @@ var Delta = Quill.import ("delta");
 var verseReaderUniqueID = Math.floor (Math.random() * 100000000);
 
 
-$ (document).ready (function ()
-{
+document.addEventListener("DOMContentLoaded", function(e) {
   // Make the editor's menu to never scroll out of view.
   var bar = $ ("#editorheader").remove ();
   $ ("#workspacemenu").append (bar);

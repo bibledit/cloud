@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 var touchCounter = 1;
 
-$(document).ready (function () {
+document.addEventListener("DOMContentLoaded", function(e) {
   window.addEventListener('mousemove', function mouseMoveDetector() {
     touchCounter++;
     // Just touching the Login button already gives a few mouse movements.

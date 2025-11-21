@@ -19,7 +19,7 @@
     data = data.replace (/\n/g, "<br>");
     document.execCommand ("insertHTML", false, data);
   });
-  $(document).ready (function () {
+  document.addEventListener("DOMContentLoaded", function(e) {
     $ (".nicEdit-main").focus ();
   });
 </script>

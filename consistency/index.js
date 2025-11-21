@@ -24,7 +24,7 @@ var previousPassages;
 var previousTranslations;
 
 
-$(document).ready (function () {
+document.addEventListener("DOMContentLoaded", function(e) {
   $ ("#status").hide ();
   $ ("#passages").focus ();
   $ ("textarea").on ("paste cut keydown", function (event) {

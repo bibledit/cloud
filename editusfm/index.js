@@ -20,8 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 var usfmEditorUniqueID = Math.floor (Math.random() * 100000000);
 
 
-$(document).ready (function ()
-{
+document.addEventListener("DOMContentLoaded", function(e) {
   // Make the editor's menu to never scroll out of view.
   var bar = $ ("#editorheader").remove ();
   $ ("#workspacemenu").append (bar);

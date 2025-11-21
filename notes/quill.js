@@ -24,7 +24,7 @@ var quill = null;
 var arrayOfAdditionalAddresses = ["", ""];
 
 
-$(document).ready (function () {
+document.addEventListener("DOMContentLoaded", function(e) {
   noteLoadQuill();
   if ($ ("#create").length) $ ("#create").on ("click", noteCreate);
   if ($ ("#cancel").length) $ ("#cancel").on ("click", noteCancel);

@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Reconciles the inter-dependent checkboxes.
-$ (document).ready (function () {
+document.addEventListener("DOMContentLoaded", function(e) {
   $ (":checkbox").change (function () {
     var box = $ (this);
     var name = box.attr ("id");

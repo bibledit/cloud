@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-$(document).ready (function () {
+document.addEventListener("DOMContentLoaded", function(e) {
   $( "#form" ).submit (function (event) {
     var text = $("#data").val();
     text = filter_url_plus_to_tag (text);

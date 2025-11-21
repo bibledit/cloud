@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     // and is to be removed here within the iframe.
     // (1) By adding the query to each anchor element's href
     // attribute and form element's action attribute.
-    // The function is declared outside $ (document).ready
+    // The function is declared outside the DOMContentLoaded function
     // so that it can be called from other JavaScript files.
     // (2) By emptying the actual topbar.
     document.querySelectorAll('a').forEach((element) => {

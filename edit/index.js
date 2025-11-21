@@ -22,8 +22,7 @@ var Delta = Quill.import ("delta");
 var chapterEditorUniqueID = Math.floor (Math.random() * 100000000);
 
 
-$ (document).ready (function ()
-{
+document.addEventListener("DOMContentLoaded", function(e) {
   // Reposition the editor's menu so it never scrolls out of view.
   var bar = $ ("#editorheader").remove ();
   $ ("#workspacemenu").append (bar);

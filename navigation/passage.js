@@ -27,7 +27,7 @@ var navigatorContainer;
 var navigatorTimeout;
 
 
-$(document).ready (function () {
+document.addEventListener("DOMContentLoaded", function(e) {
   navigatorContainer = $ ("#versepickerwrapper");
   buildMouseNavigator ();
   navigationPollPassage ();

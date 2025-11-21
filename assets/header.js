@@ -200,11 +200,15 @@ document.addEventListener("DOMContentLoaded", function(e) {
   }
 
   // If there are more than 9 tabs, a wrapping property in CSS will be activated.
-  if ($ ('#topbar > span').length > 9) {
-    $ ('#topbar').addClass('wrap-active');
-  } else {
-    $ ('#topbar').removeClass('wrap-active');
-  };
+  var topbarSpan = document.querySelectorAll('#topbar > span');
+  if (topbarSpan) {
+    var topbar = document.querySelector('#topbar');
+    if (topbarSpan.length > 9) {
+      topbar.classList.add('wrap-active');
+    } else {
+      topbar.classList.remove('wrap-active');
+    }
+  }
 
   // If it's notes/actions.html, add padding for all the p tag
   if (/notes\/actions/.test(window.location.href)) {

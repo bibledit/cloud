@@ -16,7 +16,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 document.addEventListener("DOMContentLoaded", function(e) {
-  $("body").on ("keydown", function (event) {
+  var body = document.body;
+  body.addEventListener("keydown", (event) => {
     if (typeof (navigationHandleKeyDown) == 'function') {
       navigationHandleKeyDown (event);
     } else {

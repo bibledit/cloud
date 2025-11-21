@@ -63,14 +63,6 @@ function is_outside_workspace()
 
 document.addEventListener("DOMContentLoaded", function(e) {
   if (is_outside_workspace()) {
-    // On main page: Enable menu on touch screen.
-    $ ('.toggle').click (function () {
-      var hovered = $ (this).hasClass ('hover');
-      $ ('.hover').removeClass('hover');
-      if (!hovered) {
-        $ (this).addClass ('hover');
-      }
-    });
     // Deal with the optional html back button.
     $ ('#backbutton').click (function () {
       window.history.back();

@@ -58,15 +58,8 @@ std::string assets_external_logic_link_addon ()
 {
   // Open an external link in an external browser on most clients.
   // Open an external link in a new tab in some situations.
-  bool newtab {false};
 #ifdef HAVE_CLOUD
-  newtab = true;
+  return R"(target="_blank")";
 #endif
-  std::string addon {};
-  if (newtab)
-    addon = R"(target="_blank")";
-  else
-    addon = R"(class="external")";
-  // Done.
-  return addon;
+  return R"(class="external")";
 }

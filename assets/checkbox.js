@@ -26,20 +26,24 @@ function checkbox_v2 (input, val1, val2, val3 ) {
   url = window.location.href.split("?")[0];
   url = url.split('/').reverse()[0];
   // Post the checkbox state.
-  $.ajax ({
-    url: url,
-    type: "POST",
-    data: { checkbox: input.name, checked: input.checked, val1: val1, val2: val2, val3: val3 },
-    error: function (jqXHR, textStatus, errorThrown) {
-      // Could not save: Revert the checkbox for consistency.
-      checkbox_last_input.checked = !checkbox_last_input.checked;
-    },
-    success: function (response) {
-      if (response == "reload") {
-        location.reload();
-      }
-    },
-    complete: function (xhr, status) {
+  fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([["checkbox", input.name], ["checked", input.checked], ["val1", val1], ["val2", val2], ["val3", val3]]).toString(),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((text) => {
+    if (text == "reload") {
+      location.reload();
+    }
+  })
+  .catch((error) => {
+    // Could not save: Revert the checkbox for consistency.
+    checkbox_last_input.checked = !checkbox_last_input.checked;
   });
 }

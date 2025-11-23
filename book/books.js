@@ -23,6 +23,5 @@ var noVerseBooks = [67, 68, 69, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]
 
 function isNoVerseBook (book)
 {
-  var key = $.inArray (parseInt (book), noVerseBooks);
-  return (key != -1);
+  return noVerseBooks.includes(parseInt(book));
 }

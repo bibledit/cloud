@@ -26,7 +26,7 @@ translate("Or a compressed archive of such files.")
 <!-- #BEGINZONE disable_upload -->
 <p>translate("This can be done in Bibledit Cloud.")</p>
 <!-- #ENDZONE disable_upload -->
-<script type="text/javascript" src="import.js?##VERSION##"></script>
+<script type="text/javascript" src="/bb/import.js?##VERSION##"></script>
 <script type="text/javascript" src="/filter/url.js?##VERSION##"></script>
 <h3>translate("Help")</h3>
 <p>

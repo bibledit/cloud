@@ -16,11 +16,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-
 document.addEventListener("DOMContentLoaded", function(e) {
-  $( "#form" ).submit (function (event) {
-    var text = $("#data").val();
+  // When submitting a "+", the server changes that to a space.
+  // The code below encodes the "+" and the server decodes it again.
+  document.querySelector("#form").addEventListener("submit", function() {
+    var textarea = document.querySelector("#data");
+    var text = textarea.value;
     text = filter_url_plus_to_tag (text);
-    $("#data").val (text);
+    textarea.value = text;
   });
 });

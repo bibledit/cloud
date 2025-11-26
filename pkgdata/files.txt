@@ -1,4 +1,3 @@
-/0readme.txt
 /access
 /assets
 /assets/browserconfig.xml

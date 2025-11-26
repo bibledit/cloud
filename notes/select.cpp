@@ -295,7 +295,8 @@ std::string notes_select (Webserver_Request& webserver_request)
       selected = filter::strings::convert_to_int(webserver_request.post_get(identification));
       webserver_request.database_config_user()->set_consultation_notes_text_selector(selected);
     }
-    if (selected == 1) view.enable_zone ("textselection");
+    if (selected == 1)
+      view.enable_zone ("textselection");
     dialog::select::Settings settings {
       .identification = identification,
       .values =    { "0",              "1" },
@@ -348,12 +349,12 @@ std::string notes_select (Webserver_Request& webserver_request)
   view.set_variable ("searchtext", search_text);
   
   
-  // The admin disables notes selection on Bibles, so the admin sees all notes,
+  // Being an admin disables notes selection on Bibles, so the admin sees all notes,
   // even notes referring to non-existing Bibles.
   if (webserver_request.session_logic()->get_level() == roles::admin)
     bibles.clear ();
 
-  // If filtering on one Bible, put that Bible on the container.
+  // If filtering on one Bible, put that Bible in the container.
   // Note that this overrides the previous code, that is,
   // if filtering on one Bible, even the admin does not get to see the other ones.
   if (!bible_selector.empty())

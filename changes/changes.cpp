@@ -135,7 +135,6 @@ std::string changes_changes (Webserver_Request& webserver_request)
   header.jquery_on();
   header.set_stylesheet ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
-  if (touch) header.jquery_touch_on ();
   page += header.run ();
   Assets_View view {};
   

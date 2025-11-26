@@ -25,38 +25,25 @@ document.addEventListener("DOMContentLoaded", function(e) {
   document.body.addEventListener("keydown", keyDown);
   document.querySelector("#ids").addEventListener("click", handleClick);
 
-  if (swipe_operations) { // Todo working here.
-//    var entries = $ ("#ids");
-//    entries.swipe ( {
-//      swipeLeft:function (event, direction, distance, duration, fingerCount, fingerData) {
-//        handleSwipeAway (event);
-//      },
-//      swipeRight:function (event, direction, distance, duration, fingerCount, fingerData) {
-//        handleSwipeExpand (event);
-//      }
-//    });
+  if (swipe_operations) {
     // The minimum distance to swipe is 10% of the screen width.
     // This is to eliminate small unintended swipes.
     let minSwipeDistance = parseInt(window.screen.width / 10);
 
     // Operate on the main container that has all change notification entries.
-    var entries2 = document.querySelector("#ids");
+    var entries = document.querySelector("#ids");
 
-    entries2.addEventListener('touchstart', event => {
+    entries.addEventListener('touchstart', event => {
       touchStartX = event.changedTouches[0].screenX;
     });
 
-    entries2.addEventListener('touchend', event => {
+    entries.addEventListener('touchend', event => {
       let touchEndX = event.changedTouches[0].screenX
       if (touchEndX < touchStartX - minSwipeDistance) {
-        console.log(event);
-      console.log(event.changedTouches[0].target);
-      console.log(event.changedTouches[0].target.id);
-        console.log("swipe left v2");
+        handleSwipeAway (event);
       }
       if (touchEndX > touchStartX + minSwipeDistance) {
-        console.log(event);
-        console.log("swipe right v2");
+        handleSwipeExpand (event);
       }
     })
   }
@@ -109,7 +96,7 @@ function initiallySelectFirstNotification ()
 {
   let entries = document.querySelectorAll(notificationEntriesSelector);
   if (entries.length > 0) {
-    selectEntry2 (entries[0]);
+    selectEntry (entries[0]);
   }
 }
 
@@ -118,18 +105,18 @@ function keyDown (event) {
   // Down arrow: Go to next entry.
   if (event.keyCode == 40) {
     event.preventDefault ();
-    selectEntry2 (getNextEntry ());
+    selectEntry (getNextEntry ());
   }
   // Up arrow: Go to previous entry.
   if (event.keyCode == 38) {
     event.preventDefault ();
-    selectEntry2 (getPreviousEntry ());
+    selectEntry (getPreviousEntry ());
   }
-  // Delete the entry. // Todo working here.
+  // Delete the entry.
   if (event.keyCode == 46) {
-    var newEntry = getEntryAfterDelete2 ();
+    var newEntry = getEntryAfterDelete ();
     removeEntry ();
-    selectEntry2 (newEntry);
+    selectEntry (newEntry);
   }
   // Right arrow: Expand entry.
   if (event.keyCode == 39) {
@@ -144,23 +131,22 @@ function keyDown (event) {
 }
 
 
-function handleClick (event) { // Todo working here.
+function handleClick (event) {
 
-  var entry = event.target.closest (notificationEntriesSelector);
-  selectEntry2 (entry);
+  const entry = event.target.closest (notificationEntriesSelector);
+  selectEntry (entry);
 
-  var href = $(event.target).attr ("href");
+  const href = event.target.getAttribute('href');
   if (!href) {
     return;
   }
 
   var identifier = entry.id.substring (5, 100);
-  console.log (identifier);
 
   if (href == "remove") {
-    var newEntry = getEntryAfterDelete2 ();
+    var newEntry = getEntryAfterDelete ();
     removeEntry ();
-    selectEntry2 (newEntry);
+    selectEntry (newEntry);
     event.preventDefault ();
     return;
   }
@@ -172,22 +158,34 @@ function handleClick (event) { // Todo working here.
   }
   
   if (href.substring (0, 11) == ("unsubscribe")) {
-    $.post ("change", { unsubscribe:href });
-    $ (event.target).fadeOut ();
+    fetch("change", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams([["unsubscribe", href]]).toString(),
+    })
+    event.target.remove();
     event.preventDefault ();
     return;
   }
   
   if (href.substring (0, 8) == ("unassign")) {
-    $.post ("change", { unassign:href });
-    $ (event.target).fadeOut ();
+    fetch("change", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams([["unassign", href]]).toString(),
+    })
+    event.target.remove();
     event.preventDefault ();
     return;
   }
   
   if (href.substring (0, 6) == ("delete")) {
-    $.post ("change", { delete:href });
-    $ (event.target).parent ().parent ().fadeOut ();
+    fetch("change", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams([["delete", href]]).toString(),
+    })
+    event.target.parentElement.parentElement.remove()
     event.preventDefault ();
     return;
   }
@@ -213,54 +211,17 @@ function getPreviousEntry () {
 
 
 function getEntryAfterDelete () {
-  var current = $(".selected");
-  if (!current) return undefined;
-  var entry = current.next ("div");
-  if (entry.length) return entry;
-  entry = current.prev ("div");
-  if (entry.length) return entry;
-  return undefined;  
-}
-
-
-function getEntryAfterDelete2 () { // Todo writing this.
   var current = document.querySelector(".selected");
-//  var current = $(".selected");
   if (!current) return undefined;
   var next = current.nextElementSibling;
   if (next) return next;
-
   var previous = current.previousElementSibling;
   if (previous) return previous;
-
-
-
-//  var entry = current.next ("div");
-//  if (entry.length) return entry;
-//  entry = current.prev ("div");
-//  if (entry.length) return entry;
   return undefined;
 }
 
 
 function selectEntry (entry)
-{
-  if (entry) {
-    $(".selected").removeClass("selected");
-    entry.addClass("selected");
-    var entryOffset = entry.offset();
-    if (entryOffset) {
-      var elementOffset = entryOffset.top;
-      var currentScrollTop = $("#workspacewrapper").scrollTop();
-      var workspaceHeight = $("#workspacewrapper").height();
-      $("#workspacewrapper").scrollTop(elementOffset + (entry.height() / 2) - (workspaceHeight / 2) + currentScrollTop);
-      changesFocusTimerStart();
-    }
-  }
-}
-
-
-function selectEntry2 (entry)
 {
   if (entry) {
     var selected = document.querySelector(".selected");
@@ -281,59 +242,77 @@ function selectEntry2 (entry)
 function removeEntry () {
   var identifier = getSelectedIdentifier ();
   if (identifier == 0) return;
-  $.post ("changes", { remove:identifier });
-  $(".selected").remove ();
+  fetch("changes", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([["remove", identifier]]).toString(),
+  })
+  document.querySelector(".selected").remove();
   updateIdCount ();
 }
 
 
 function updateIdCount () {
-  var idCount = $(notificationEntriesSelector).length;
-  $("#count").html (idCount);
+  var idCount = document.querySelectorAll(notificationEntriesSelector).length
+  document.querySelector("#count").innerHTML = idCount
 }
 
 
 function expandEntry () {
   // Bail out if nothing has been selected.
-  var current = $(".selected");
+  var current = document.querySelector(".selected");
   if (!current) return;
   // Bail out if the entry is already expanded.
-  if ($(".selected > div").length > 0) return;
+  if (document.querySelectorAll(".selected > div").length > 0) return;
   // Get the selected identifier.
   var identifier = getSelectedIdentifier ();
   // Get extra information through AJAX calls.
-  $(".selected").append ($ ("<div>" + loading + "</div>"));
-  $.ajax ({
-    url: "change",
-    type: "GET",
-    data: { get: identifier },
-    cache: false,
-    success: function (response) {
-      $(".selected > div").remove ();
-      var extraInfo = $ ("<div>" + response + "</div>");
-      $(".selected").append (extraInfo);
-      noteClickSetup ();
-      var scrollTop = $("#workspacewrapper").scrollTop();
-      var elementTop = $(".selected").offset().top;
-      var workspaceTop = $("#workspacewrapper").offset().top;
-      var location = scrollTop + elementTop - workspaceTop;
-      $("#workspacewrapper").animate({ scrollTop: location }, 500);
-    },
+  document.querySelector(".selected").insertAdjacentHTML('beforeend', "<div>" + loading + "</div>");
+  const url = "change?get=" + identifier;
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((text) => {
+    document.querySelector(".selected > div").remove ();
+    var extraInfo = "<div>" + text + "</div>";
+    let selected = document.querySelector(".selected");
+    selected.insertAdjacentHTML('beforeend', extraInfo);
+    noteClickSetup ();
+    selected.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center'
+    });
+  })
+  .catch((error) => {
+  })
+  .finally(() => {
   });
 }
 
 
 function collapseEntry () {
-  $(".selected > div").remove ();
-  selectEntry ($(".selected"));
+  selected = document.querySelector(".selected > div");
+  if (selected)
+    selected.remove ();
+  selectEntry (document.querySelector(".selected"));
 }
 
 
 function toggleEntry () {
-  if ($(".selected > div").length > 0) {
-    collapseEntry ();
-  } else {
-    expandEntry ();
+  var selectedDiv = document.querySelectorAll(".selected > div");
+  if (selectedDiv) {
+    if (selectedDiv.length > 0)
+      collapseEntry ();
+    else
+      expandEntry ();
   }
 }
 
@@ -364,23 +343,31 @@ function changesFocusTimeout ()
 {
   // Navigate to the passage of the entry.
   var identifier = getSelectedIdentifier ();
-  $.post ("changes", { navigate: identifier });
+  fetch("changes", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([["navigate", identifier]]).toString(),
+  })
 }
 
 
 function handleSwipeAway (event)
 {
-  var entry = $(event.target).closest (notificationEntriesSelector);
-  selectEntry (entry);
-  var newEntry = getEntryAfterDelete2 ();
-  removeEntry ();
-  selectEntry2 (newEntry);
+  var entry = event.target.closest (notificationEntriesSelector);
+  if (entry) {
+    selectEntry (entry);
+    var newEntry = getEntryAfterDelete ();
+    removeEntry ();
+    selectEntry (newEntry);
+  }
 }
 
 
 function handleSwipeExpand (event)
 {
-  var entry = $(event.target).closest (notificationEntriesSelector);
-  selectEntry (entry);
-  toggleEntry ();
+  var entry = event.target.closest (notificationEntriesSelector);
+  if (entry) {
+    selectEntry (entry);
+    toggleEntry ();
+  }
 }

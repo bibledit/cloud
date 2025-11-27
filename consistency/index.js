@@ -25,36 +25,59 @@ var previousTranslations;
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  $ ("#status").hide ();
-  $ ("#passages").focus ();
-  $ ("textarea").on ("paste cut keydown", function (event) {
-    if (changedTimeout) clearTimeout (changedTimeout);
-    changedTimeout = setTimeout (changed, 500);
+  document.querySelector("#status").hidden = true;
+  document.querySelector("#passages").focus ();
+  var textareas = document.querySelectorAll("textarea");
+  textareas.forEach((textarea) => {
+    textarea.addEventListener("paste", (event) => {
+      delayChanged();
+    });
+    textarea.addEventListener("cut", (event) => {
+      delayChanged();
+    });
+    textarea.addEventListener("keydown", (event) => {
+      delayChanged();
+    });
   });
 });
 
 
+function delayChanged() {
+  if (changedTimeout) clearTimeout (changedTimeout);
+  changedTimeout = setTimeout (changed, 500);
+}
+
 function changed ()
 {
-  var passages = $('#passages').val();
-  var translations = $('#translations').val();
+  var passages = document.querySelector('#passages').value
+  var translations = document.querySelector('#translations').value;
   if ((passages == previousPassages) && (translations == previousTranslations)) return;
   identifier = Math.floor ((Math.random () * 1000000) + 1000000);
-  $ ("#status").show ();
-  $.ajax ({
-    url: "input",
-    type: "POST",
-    data: { id: identifier, passages: passages, translations: translations },
-    success: function (response) {
-      $ ("#texts").empty ();
-      $ ("#texts").append (response);
-      $ ("#status").hide ();
-      navigationSetup ();
-      passageConnectToAll ();
-    },
-    complete: function (xhr, status) {
-      delayedPoll ();
+  document.querySelector("#status").hidden = false;
+  fetch("input", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([["id", identifier], ["passages", passages], ["translations", translations]]).toString(),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((text) => {
+    var texts= document.querySelector("#texts");
+    texts.innerHTML = "";
+    texts.insertAdjacentHTML('beforeend', text);
+    document.querySelector("#status").hidden = true;
+    navigationSetup ();
+    passageConnectToAll ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    delayedPoll ();
   });
 }
 
@@ -70,20 +93,28 @@ function delayedPoll ()
 
 function poll ()
 {
-  $.ajax ({
-    url: "poll",
-    type: "GET",
-    data: { id: identifier },
-    success: function (response) {
-      if (response != "") {
-        $ ("#texts").empty ();
-        $ ("#texts").append (response);
-        passageConnectToAll ();
-      }
-    },
-    complete: function (xhr, status) {
-      delayedPoll ();
+  const url = "poll?id=" + identifier;
+  fetch(url, { 
+    method: "GET"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((text) => {
+    if (text != "") {
+      var texts= document.querySelector("#texts");
+      texts.innerHTML = "";
+      texts.insertAdjacentHTML('beforeend', text);
+      passageConnectToAll ();
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    delayedPoll ();
   });
 }
-

@@ -23,13 +23,13 @@ var embedded_classnames = [];
 // Creates CSS for embedded character styles.
 function css4embeddedstyles ()
 {
-  var spans = $ (".ql-editor span");
-  spans.each (function () {
-    var classname = $ (this).attr ("class");
+  var spans = document.querySelectorAll (".ql-editor span");
+  spans.forEach((element) => {
+    var classname = element.className;
     if (classname) {
       var index = classname.indexOf ("0");
       if (index > 0) {
-        if ($.inArray (classname, embedded_classnames) < 0) {
+        if (!embedded_classnames.includes(classname)) {
           embedded_classnames.push (classname);
           var name = classname.substring (2);
           var bits = name.split ("0");
@@ -65,14 +65,18 @@ function css4embeddedstyles ()
             value = properties.getPropertyValue ("background-color");
             if (value != "rgba(0, 0, 0, 0)") background_color = value;
           }
-          if (font_style) $.stylesheet ("." + classname, "font-style", font_style);
-          if (font_weight) $.stylesheet ("." + classname, "font-weight", font_weight);
-          if (font_variant) $.stylesheet ("." + classname, "font-variant", font_variant);
-          //if (font_size) $.stylesheet ("." + classname, "font-size", font_size);
-          if (text_decoration) $.stylesheet ("." + classname, "text-decoration", text_decoration);
-          if (vertical_align) $.stylesheet ("." + classname, "vertical-align", vertical_align);
-          if (color) $.stylesheet ("." + classname, "color", color);
-          if (background_color) $.stylesheet ("." + classname, "background-color", background_color);
+          var stylesheet = document.styleSheets[0];
+          var rule = "." + classname + " { ";
+          if (font_style) rule += "font-style: " + font_style + " ; ";
+          if (font_weight) rule += "font-weight: " + font_weight + " ; ";
+          if (font_variant) rule += "font-variant: " + font_variant + " ; ";
+          //if (font_size) rule += "font-size: " + font_size + " ; ";
+          if (text_decoration) rule += "text-decoration: " + text_decoration + " ; ";
+          if (vertical_align) rule += "vertical-align: " + vertical_align + " ; ";
+          if (color) rule += "color: " + color + " ; ";
+          if (background_color) rule += "background-color: " + background_color + " ; ";
+          rule += " }";
+          stylesheet.insertRule(rule);
         }
       }
     }

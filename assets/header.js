@@ -203,10 +203,12 @@ document.addEventListener("DOMContentLoaded", function(e) {
   var topbarSpan = document.querySelectorAll('#topbar > span');
   if (topbarSpan) {
     var topbar = document.querySelector('#topbar');
-    if (topbarSpan.length > 9) {
-      topbar.classList.add('wrap-active');
-    } else {
-      topbar.classList.remove('wrap-active');
+    if (topbar) {
+      if (topbarSpan.length > 9) {
+        topbar.classList.add('wrap-active');
+      } else {
+        topbar.classList.remove('wrap-active');
+      }
     }
   }
 

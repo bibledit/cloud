@@ -19,8 +19,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 document.addEventListener("DOMContentLoaded", function(e) {
   // Make the menu to never scroll out of view.
-  var bar = $ ("#editorheader").remove ();
-  $ ("#workspacemenu").append (bar);
+  var bar = document.querySelector ("#editorheader");
+  if (bar) {
+    document.querySelector ("#workspacemenu").insertAdjacentHTML('beforeend', bar.outerHTML);
+    bar.remove()
+  }
   
   previewIdPollerTimeoutStart ();
 });
@@ -67,10 +70,6 @@ function previewLoadChapter ()
   previewChapterIdOnServer = 0;
   if (previewChapterInitialized) location.reload ();
   else previewChapterInitialized = true;
-  
-  
-
-  
 }
 
 
@@ -87,50 +86,50 @@ function previewIdPollerTimeoutStart ()
 
 function editorEditorPollId ()
 {
-  $.ajax ({
-    url: "../editor/id",
-    type: "GET",
-    data: { bible: previewLoadedBible, book: previewLoadedBook, chapter: previewLoadedChapter },
-    success: function (response) {
-      if (previewChapterIdOnServer != 0) {
-        if (response != previewChapterIdOnServer) {
-          previewLoadChapter ();
-          previewChapterIdOnServer = 0;
-        }
-      }
-      previewChapterIdOnServer = response;
-    },
-    complete: function (xhr, status) {
-      previewIdPollerTimeoutStart ();
+  const url = "../editor/id?" + new URLSearchParams([ ["bible", previewLoadedBible], ["book", previewLoadedBook], ["chapter", previewLoadedChapter] ]).toString()
+  fetch(url, {
+    method: "GET",
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    if (previewChapterIdOnServer != 0) {
+      if (response != previewChapterIdOnServer) {
+        previewLoadChapter ();
+        previewChapterIdOnServer = 0;
+      }
+    }
+    previewChapterIdOnServer = response;
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    previewIdPollerTimeoutStart ();
   });
 }
 
 
 function previewScrollVerseIntoView ()
 {
-  $ ("#workspacewrapper").stop ();
   var verses = [0];
   var navigated = false;
-  $ (".i-v").each (function (index) {
-    var element = $(this);
-    verses = usfm_get_verse_numbers (element[0].textContent);
+  var ivs = document.querySelectorAll(".i-v");
+  ivs.forEach((element) => {
+    verses = element.innerText;
     if (verses.indexOf (parseInt (previewNavigationVerse)) >= 0) {
       if (navigated == false) {
-        var verseTop = element.offset().top;
-        var workspaceHeight = $("#workspacewrapper").height();
-        var currentScrollTop = $("#workspacewrapper").scrollTop();
-        var scrollTo = verseTop - (workspaceHeight / 2) + currentScrollTop;
-        var lowerBoundary = currentScrollTop - (workspaceHeight / 10);
-        var upperBoundary = currentScrollTop + (workspaceHeight / 10);
-        if ((scrollTo < lowerBoundary) || (scrollTo > upperBoundary)) {
-          $("#workspacewrapper").animate({ scrollTop: scrollTo }, 500);
-        }
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center'
+        });
         navigated = true;
       }
     }
   });
-  if (previewNavigationVerse == 0) {
-    $ ("#workspacewrapper").animate ({ scrollTop: 0 }, 500);
-  }
 }

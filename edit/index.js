@@ -20,40 +20,64 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 var quill = undefined;
 var Delta = Quill.import ("delta");
 var chapterEditorUniqueID = Math.floor (Math.random() * 100000000);
+var touchStartX = 0
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
+
   // Reposition the editor's menu so it never scrolls out of view.
-  var bar = $ ("#editorheader").remove ();
-  $ ("#workspacemenu").append (bar);
+  var bar = document.querySelector ("#editorheader");
+  document.querySelector ("#workspacemenu").insertAdjacentHTML('beforeend', bar.outerHTML);
+  bar.remove()
 
   editorInitializeOnce ();
   editorInitialize ();
 
   navigationNewPassage ();
   
-  $ (window).on ("unload", edit2SaveChapter);
+  window.addEventListener("unload", function(event) {
+    edit2SaveChapter();
+  });
 
   editorBindUnselectable ();
-  $ ("#stylebutton").on ("click", editorStylesButtonHandler);
-  $ (window).on ("keydown", editorWindowKeyHandler);
+  
+  document.querySelector("#stylebutton").addEventListener("click", function(event) {
+    editorStylesButtonHandler();
+  });
+  
+  window.addEventListener("keydown", function(event) {
+    editorWindowKeyHandler(event);
+  });
   
   edit2PositionCaretViaAjaxStart ();
 
   if (swipe_operations) {
-    $ ("body").swipe ( {
-      swipeLeft:function (event, direction, distance, duration, fingerCount, fingerData) {
+    // The minimum distance to swipe is 10% of the screen width.
+    // This is to eliminate small unintended swipes.
+    let minSwipeDistance = parseInt(window.screen.width / 10);
+    
+    document.body.addEventListener('touchstart', event => {
+      touchStartX = event.changedTouches[0].screenX;
+    });
+    
+    document.body.addEventListener('touchend', event => {
+      let touchEndX = event.changedTouches[0].screenX
+      if (touchEndX < touchStartX - minSwipeDistance) {
         editorSwipeLeft (event);
-      },
-      swipeRight:function (event, direction, distance, duration, fingerCount, fingerData) {
+      }
+      if (touchEndX > touchStartX + minSwipeDistance) {
         editorSwipeRight (event);
       }
-    });
+    })
   }
 
-  $ ("#editor").on ("click", editorNoteCitationClicked);
+  document.querySelector("#editor").addEventListener("click", function(event) {
+    editorNoteCitationClicked(event);
+  });
   
-  $ ("#editor").bind ("paste", editorClipboardPasteHandler);
+  document.querySelector ("#editor").addEventListener("paste", function(event) {
+    editorClipboardPasteHandler(event);
+  });
 
   setTimeout (edit2CoordinatingTimeout, 500);
 
@@ -81,17 +105,16 @@ function editorInitialize ()
   // Work around https://github.com/quilljs/quill/issues/1116
   // It sets the margins to 0 by adding an overriding class.
   // The Quill editor will remove that class again.
-  $ ("#editor > p").each (function (index) {
-    var element = $(this);
-    element.addClass ("nomargins");
-  });
+  document.querySelectorAll("#editor > p").forEach((element) => {
+    element.classList.add ("nomargins");
+  })
   
   // Instantiate editor.
   quill = new Quill ('#editor', { });
 
   // Cause it to paste plain text only.
   quill.clipboard.addMatcher (Node.ELEMENT_NODE, function (node, delta) {
-    var plaintext = $ (node).text ();
+    var plaintext = node.innerText;
     return new Delta().insert (plaintext);
   });
 
@@ -113,8 +136,11 @@ function editorInitialize ()
 // https://github.com/bibledit/cloud/issues/428
 function editorClipboardPasteHandler (event)
 {
-  var currentScrollTop = $("#workspacewrapper").scrollTop();
-  $("#workspacewrapper").animate({ scrollTop: currentScrollTop }, 100);
+  var workspaceWrapper = document.querySelector("#workspacewrapper")
+  if (workspaceWrapper) {
+    const currentScrollTop = workspaceWrapper.scrollTop;
+    workspaceWrapper.scrollTop = currentScrollTop;
+  }
 }
 
 
@@ -188,55 +214,64 @@ function editorLoadChapter ()
   editorChapterIdOnServer = 0;
   edit2CaretPosition = getCaretPosition ();
   edit2CaretInitialized = false;
-  $.ajax ({
-    url: "load",
-    type: "GET",
-    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, id: chapterEditorUniqueID },
-    success: function (response) {
-      // Set the editor read-write or read-only.
-      editorWriteAccess = checksum_readwrite (response);
-      // If this is the second or third or higher editor in the workspace,
-      // make the editor read-only.
-      if (window.frameElement) {
-        iframe = $(window.frameElement);
-        var data_editor_number = iframe.attr("data-editor-no");
-        if (data_editor_number > 1) {
-          editorWriteAccess = false;
-        }
+  var url = "load?" + new URLSearchParams([["bible", editorLoadedBible], ["book", editorLoadedBook], ["chapter", editorLoadedChapter], ["id", chapterEditorUniqueID]]).toString();
+  fetch(url, {
+    method: "GET",
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((text) => {
+    // Set the editor read-write or read-only.
+    editorWriteAccess = checksum_readwrite (text);
+    // If this is the second or third or higher editor in the workspace,
+    // make the editor read-only.
+    if (window.frameElement) {
+      var iframe = window.frameElement;
+      var data_editor_number = iframe.getAttribute("data-editor-no");
+      if (data_editor_number > 1) {
+        editorWriteAccess = false;
       }
-      // Checksumming.
-      response = checksum_receive (response);
-      if (response !== false) {
-        // Only load new text when it is different.
-        // Extract the plain text from the html and compare that.
-        // https://github.com/bibledit/cloud/issues/449
-        var responseText = $(response).text();
-        var editorText = $(editorGetHtml ()).text();
-        if (responseText != editorText) {
-          // Destroy existing editor.
-          if (quill) delete quill;
-          // Load the html in the DOM.
-          $ ("#editor").empty ();
-          $ ("#editor").append (response);
-          // Create the editor based on the DOM's content.
-          editorInitialize ();
-          quill.enable (editorWriteAccess);
-          // CSS for embedded styles.
-          css4embeddedstyles ();
-          // Feedback.
-          editorStatus (editorChapterLoaded);
-        }
-        // Reference for comparison at save or update time.
-        editorReferenceText = editorGetHtml ();
-        // Position caret.
-        editorScheduleCaretPositioning ();
-      } else {
-        // Checksum error: Reload.
-        editorLoadChapter ();
+    }
+    // Checksumming.
+    text = checksum_receive (text);
+    if (text !== false) {
+      // Only load new text when it is different.
+      // Extract the plain text from the html and compare that.
+      // https://github.com/bibledit/cloud/issues/449
+      var responseText = text.replace(/<[^>]*>/g, '');
+      var editorText = editorGetHtml().replace(/<[^>]*>/g, '');
+      if (responseText != editorText) {
+        // Destroy existing editor.
+        if (quill) delete quill;
+        // Load the html in the DOM.
+        var editor = document.querySelector("#editor");
+        editor.innerHTML = "";
+        editor.insertAdjacentHTML('beforeend', text);
+        // Create the editor based on the DOM's content.
+        editorInitialize ();
+        quill.enable (editorWriteAccess);
+        // CSS for embedded styles.
+        css4embeddedstyles ();
+        // Feedback.
+        editorStatus (editorChapterLoaded);
       }
-      edit2CaretInitialized = false;
-    },
-  });
+      // Reference for comparison at save or update time.
+      editorReferenceText = editorGetHtml ();
+      // Position caret.
+      editorScheduleCaretPositioning ();
+    } else {
+      // Checksum error: Reload.
+      editorLoadChapter ();
+    }
+    edit2CaretInitialized = false;
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
@@ -259,30 +294,35 @@ function edit2SaveChapter ()
   var encodedHtml = filter_url_plus_to_tag (html);
   var checksum = checksum_get (encodedHtml);
   editorSaving = true;
-  $.ajax ({
-    url: "save",
-    type: "POST",
-    async: false,
-    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, html: encodedHtml, checksum: checksum, id: chapterEditorUniqueID },
-    success: function (response) {
-      editorStatus (response);
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      editorStatus (editorChapterRetrying);
-      editorReferenceText = "";
-      edit2ContentChanged ();
-      edit2SaveChapter ();
-    },
-    complete: function (xhr, status) {
-      editorSaving = false;
-    },
+  fetch("save", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([["bible", editorLoadedBible], ["book", editorLoadedBook], ["chapter", editorLoadedChapter], ["html", encodedHtml], ["checksum", checksum], ["id", chapterEditorUniqueID]]).toString(),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((text) => {
+    editorStatus (text);
+  })
+  .catch((error) => {
+    editorStatus (editorChapterRetrying);
+    editorReferenceText = "";
+    edit2ContentChanged ();
+    edit2SaveChapter ();
+  })
+  .finally(() => {
+    editorSaving = false;
   });
 }
 
 
 function editorGetHtml ()
 {
-  var html = $ ("#editor > .ql-editor").html ();
+  var html = document.querySelector("#editor > .ql-editor").innerHTML;
   // Remove verse focus class name, if it is:
   // * the only class name.
   html = html.split (' class="versebeam"').join ('');
@@ -393,24 +433,32 @@ var editorChapterIdOnServer = 0;
 function edit2EditorPollId ()
 {
   edit2AjaxActive = true;
-  $.ajax ({
-    url: "../editor/id",
-    type: "GET",
-    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter },
-    success: function (response) {
-      if (editorChapterIdOnServer != 0) {
-        if (response != editorChapterIdOnServer) {
-          // The chapter identifier changed.
-          // That means that likely there's updated text on the server.
-          // Start the routine to load any possible updates into the editor.
-          edit2UpdateTrigger = true;
-        }
-      }
-      editorChapterIdOnServer = response;
-    },
-    complete: function (xhr, status) {
-      edit2AjaxActive = false;
+  const url = "../editor/id?" + new URLSearchParams([["bible", editorLoadedBible], ["book", editorLoadedBook], ["chapter", editorLoadedChapter]]).toString()
+  fetch(url, {
+    method: "GET",
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((text) => {
+    if (editorChapterIdOnServer != 0) {
+      if (text != editorChapterIdOnServer) {
+        // The chapter identifier changed.
+        // That means that likely there's updated text on the server.
+        // Start the routine to load any possible updates into the editor.
+        edit2UpdateTrigger = true;
+      }
+    }
+    editorChapterIdOnServer = text;
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    edit2AjaxActive = false;
   });
 }
 
@@ -473,32 +521,37 @@ function edit2HandleCaretMoved ()
   if (quill.hasFocus ()) {
     // Initiate a new ajax request.
     edit2AjaxActive = true;
-    $.ajax ({
-      url: "navigate",
-      type: "GET",
-      data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, offset: getCaretPosition () },
-      success: function (response) {
-        if (response != "") {
-          // Set the focused verse immediately,
-          // rather than waiting on the Navigator signal that likely will come later.
-          // This fixes a clicking / scrolling problem.
-          editorNavigationVerse = response;
-          editorScheduleWindowScrolling ();
-          editorHighlightVerseNumber ();
-        }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        // On (network) failure, reschedule the update.
-        edit2CaretMovedTimeoutStart ();
-      },
-      complete: function (xhr, status) {
-        edit2AjaxActive = false;
+    const url = "navigate?" + new URLSearchParams([ ["bible", editorLoadedBible], ["book", editorLoadedBook], ["chapter", editorLoadedChapter], ["offset", getCaretPosition()] ]).toString()
+    fetch(url, {
+      method: "GET",
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
       }
+      return response.text();
+    })
+    .then((text) => {
+      if (text != "") {
+        // Set the focused verse immediately,
+        // rather than waiting on the Navigator signal that likely will come later.
+        // This fixes a clicking / scrolling problem.
+        editorNavigationVerse = text;
+        editorScheduleWindowScrolling ();
+        editorHighlightVerseNumber ();
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+      // On (network) failure, reschedule the update.
+      edit2CaretMovedTimeoutStart ();
+    })
+    .finally(() => {
+      edit2AjaxActive = false;
     });
   } else {
     edit2CaretMovedTimeoutStart ();
   }
-
   editorActiveStylesFeedback ();
 }
 
@@ -560,8 +613,7 @@ Section for user interface updates and feedback.
 
 function editorStatus (text)
 {
-  $ ("#editorstatus").empty ();
-  $ ("#editorstatus").append (text);
+  document.querySelector("#editorstatus").innerHTML = text;
   editorSelectiveNotification (text);
 }
 
@@ -581,8 +633,7 @@ function editorActiveStylesFeedback ()
   character = character.split ("0").join (" ");
   var styles = paragraph + " " + character;
   styles = styles.replace ("versebeam", "");
-  var element = $ ("#activestyles");
-  element.text (styles);
+  document.querySelector("#activestyles").innerHTML = styles;
 }
 
 
@@ -669,27 +720,35 @@ function edit2PositionCaretViaAjaxStart ()
 function edit2PositionCaretViaAjaxStartExecute ()
 {
   if (isNoVerseBook (editorLoadedBook)) return;
-  $.ajax ({
-    url: "position",
-    type: "GET",
-    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter },
-    success: function (response) {
-      if (response != "") {
-        response = response.split ("\n");
-        var start = response [0];
-        var end = response [1];
-        var offset = getCaretPosition ();
-        if ((offset < start) || (offset > end)) {
-          positionCaret (start);
-        }
-        edit2CaretInitialized = true;
-      }
-      editorScheduleWindowScrolling ();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      // Network error: Reschedule.
-      editorScheduleCaretPositioning ();
+  const url = "position?" + new URLSearchParams([ ["bible", editorLoadedBible], ["book", editorLoadedBook], ["chapter", editorLoadedChapter] ]).toString();
+  fetch(url, {
+    method: "GET"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((text) => {
+    if (text != "") {
+      text = text.split ("\n");
+      var start = text [0];
+      var end = text [1];
+      var offset = getCaretPosition ();
+      if ((offset < start) || (offset > end)) {
+        positionCaret (start);
+      }
+      edit2CaretInitialized = true;
+    }
+    editorScheduleWindowScrolling ();
+  })
+  .catch((error) => {
+    console.log(error);
+    // Network error: Reschedule.
+    editorScheduleCaretPositioning ();
+  })
+  .finally(() => {
   });
 }
 
@@ -713,13 +772,13 @@ function editorHighlightVerseNumber ()
 
 function editorHighlightVerseNumberExecute ()
 {
-  $ (".i-v").each (function (index) {
-    var element = $(this);
-    var verseNumber = element.text ();
+  const ivs = document.querySelectorAll(".i-v");
+  ivs.forEach((iv) => {
+    var verseNumber = iv.innerText;
     if (verseNumber == editorNavigationVerse) {
-      element.addClass ("versebeam");
+      iv.classList.add ("versebeam");
     } else {
-      element.removeClass ("versebeam");
+      iv.classList.remove ("versebeam");
     }
   });
 }
@@ -738,14 +797,18 @@ function editorScrollVerseIntoView ()
   var position = getCaretPosition ();
   if (position == undefined) return;
   var bounds = quill.getBounds (position);
-  var workspaceHeight = $("#workspacewrapper").height();
-  var currentScrollTop = $("#workspacewrapper").scrollTop();
+  var workspacewrapper = document.querySelector("#workspacewrapper");
+  var workspaceHeight = workspacewrapper.clientHeight;
+  var currentScrollTop = workspacewrapper.scrollTop;
   var scrollTo = bounds.top - (workspaceHeight * verticalCaretPosition / 100);
   scrollTo = parseInt (scrollTo);
   var lowerBoundary = currentScrollTop - (workspaceHeight / 10);
   var upperBoundary = currentScrollTop + (workspaceHeight / 10);
   if ((scrollTo < lowerBoundary) || (scrollTo > upperBoundary)) {
-    $("#workspacewrapper").animate({ scrollTop: scrollTo }, 500);
+    workspacewrapper.scroll({
+      top: scrollTo,
+      behavior: "smooth",
+    });
   }
 }
 
@@ -760,120 +823,152 @@ Section for the styles handling.
 function editorStylesButtonHandler ()
 {
   if (!editorWriteAccess) return;
-  $.ajax ({
-    url: "../editor/style",
-    type: "GET",
-    cache: false,
-    success: function (response) {
-      editorShowResponse (response);
-      editorBindUnselectable ();
-      dynamicClickHandlers ();
-    },
+  fetch("../editor/style", {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((text) => {
+    editorShowResponse (text);
+    editorBindUnselectable ();
+    dynamicClickHandlers ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
   });
-  return false;
 }
 
 
 function editorBindUnselectable ()
 {
-  var elements = $ (".unselectable");
-  elements.off ("mousedown");
-  elements.on ("mousedown", function (event) {
-    event.preventDefault();
+  var elements = document.querySelectorAll(".unselectable");
+  elements.forEach((element) => {
+    element.removeEventListener("mousedown", unselectablePreventDefault, false);
+    element.addEventListener("mousedown", unselectablePreventDefault);
   });
+}
+
+
+function unselectablePreventDefault (event) {
+  event.preventDefault();
 }
 
 
 function editorShowResponse (response)
 {
   if (!editorWriteAccess) return;
-  $ ("#stylebutton").hide ();
-  $ ("#nostyles").hide ();
-  var area = $ ("#stylesarea");
-  area.empty ();
-  area.addClass ('style-of-stylesarea');
-  area.append (response);
+  document.querySelector ("#stylebutton").hidden = true;
+  document.querySelector ("#nostyles").hidden = true;
+  var area = document.querySelector ("#stylesarea");
+  area.innerHTML = "";
+  area.classList.add ('style-of-stylesarea');
+  area.insertAdjacentHTML ('beforeend', response);
+
 }
 
 
 function editorClearStyles ()
 {
-  var area = $ ("#stylesarea");
-  area.removeClass ('style-of-stylesarea');
-  area.empty ();
-  $ ("#stylebutton").show ();
-  $ ("#nostyles").show ();
+  var area = document.querySelector ("#stylesarea");
+  area.classList.remove ('style-of-stylesarea');
+  area.innerHTML = "";
+  document.querySelector ("#stylebutton").hidden = false;
+  document.querySelector ("#nostyles").hidden = false;
 }
 
 
 function dynamicClickHandlers ()
 {
-  var elements = $ ("#stylesarea > a");
-  elements.on ("click", function (event) {
-    event.preventDefault();
-    editorClearStyles ();
-    //$ ("#editor").focus ();
-    var href = event.currentTarget.href;
-    href = href.substring (href.lastIndexOf ('/') + 1);
-    if (href == "cancel") return;
-    if (href == "all") {
-      displayAllStyles ();
-    } else {
-      requestStyle (href);
-    }
+  var elements = document.querySelectorAll ("#stylesarea > a");
+  elements.forEach((element) => {
+    element.addEventListener("click", function(event) {
+      event.preventDefault();
+      editorClearStyles ();
+      var href = event.currentTarget.href;
+      href = href.substring (href.lastIndexOf ('/') + 1);
+      if (href == "cancel") return;
+      if (href == "all") {
+        displayAllStyles ();
+      } else {
+        requestStyle (href);
+      }
+    });
   });
-
-  $ ("#styleslist").on ("change", function (event) {
-    var selection = $ ("#styleslist option:selected").text ();
-    var style = selection.substring (0, selection.indexOf (" "));
-    event.preventDefault();
-    editorClearStyles ();
-    //$ ("#editor").focus ();
-    requestStyle (style);
-  });
+  var styleslist = document.querySelector("#styleslist");
+  if (styleslist) {
+    styleslist.addEventListener("change", function (event) {
+      var selection = document.querySelector ("#styleslist").value;
+      var style = selection.substring (0, selection.indexOf (" "));
+      event.preventDefault();
+      editorClearStyles ();
+      requestStyle (style);
+    });
+  }
 }
 
 
 function requestStyle (style)
 {
-  $.ajax ({
-    url: "../editor/style",
-    type: "GET",
-    data: { style: style },
-    cache: false,
-    success: function (response) {
-      response = response.split ("\n");
-      var style = response [0];
-      var action = response [1];
-      if (action == "p") {
-        applyParagraphStyle (style);
-      } else if (action == 'c') {
-        applyCharacterStyle (style);
-      } else if (action == 'n') {
-        applyNotesStyle (style);
-        edit2ContentChanged ();
-      } else if (action == "m") {
-        applyMonoStyle (style);
-        edit2ContentChanged ();
-      }
-    },
-  });
+  const url ="../editor/style?style=" + style;
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((text) => {
+    text = text.split ("\n");
+    var style = text [0];
+    var action = text [1];
+    if (action == "p") {
+      applyParagraphStyle (style);
+    } else if (action == 'c') {
+      applyCharacterStyle (style);
+    } else if (action == 'n') {
+      applyNotesStyle (style);
+      edit2ContentChanged ();
+    } else if (action == "m") {
+      applyMonoStyle (style);
+      edit2ContentChanged ();
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function displayAllStyles ()
 {
-  $.ajax ({
-    url: "../editor/style",
-    type: "GET",
-    data: { all: "" },
-    cache: false,
-    success: function (response) {
-      editorShowResponse (response);
-      editorBindUnselectable ();
-      dynamicClickHandlers ();
-    },
-  });
+  fetch("../editor/style?all=", {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((text) => {
+    editorShowResponse (text);
+    editorBindUnselectable ();
+    dynamicClickHandlers ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
@@ -968,8 +1063,8 @@ function applyNotesStyle (style)
   quill.focus ();
 
   // Check for and optionally append the gap between text body and notes.
-  var notes = $ (".b-notes");
-  if (notes.length == 0) {
+  var notes = document.querySelector (".b-notes");
+  if (!notes) {
     var length = quill.getLength ();
     quill.insertText (length, "\n", "paragraph", "notes", "user")
   }
@@ -996,8 +1091,7 @@ function applyNotesStyle (style)
 
 function editorNoteCitationClicked (event)
 {
-  var target = $(event.target);
-  var cls = target.attr ("class");
+  var cls = event.target.className;
   if (cls.substr (0, 6) != "i-note") return;
   cls = cls.substr (2);
   var length = quill.getLength ();
@@ -1257,128 +1351,139 @@ function edit2UpdateExecute ()
 
   edit2AjaxActive = true;
 
-  $.ajax ({
-    url: "update",
-    type: "POST",
-    async: true,
-    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, loaded: encodedLoadedHtml, edited: encodedEditedHtml, checksum1: checksum1, checksum2: checksum2, id: chapterEditorUniqueID },
-    error: function (jqXHR, textStatus, errorThrown) {
-      editorStatus (editorChapterRetrying);
-      edit2ContentChanged ();
-    },
-    success: function (response) {
+  
+  fetch("update", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([ ["bible", editorLoadedBible], ["book", editorLoadedBook], ["chapter", editorLoadedChapter], ["loaded", encodedLoadedHtml], ["edited", encodedEditedHtml], ["checksum1", checksum1], ["checksum2", checksum2], ["id", chapterEditorUniqueID] ]).toString(),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    
+    // Flag for editor read-write or read-only.
+    // Do not set the read-only status of the editor here.
+    // This is already set at text-load.
+    // It is also dependent on the frame number the editor is in.
+    // To not make it more complex than needed, leave read-only out.
+    var readwrite = checksum_readwrite (response);
 
-      // Flag for editor read-write or read-only.
-      // Do not set the read-only status of the editor here.
-      // This is already set at text-load.
-      // It is also dependent on the frame number the editor is in.
-      // To not make it more complex than needed, leave read-only out.
-      var readwrite = checksum_readwrite (response);
+    // Checksumming.
+    response = checksum_receive (response);
+    if (response !== false) {
+      
+      // Use a shadow copy of the Quill editor in case the user made edits
+      // between the moment the update routine was initiated,
+      // and the moment the updates from the server/device are being applied.
+      // This shadow copy will be updated with the uncorrected changes from the server/device.
+      // The html from this editor will then server as the "loaded text".
+      useShadowQuill = (edit2EditorChangeOffsets.length > 0);
+      if (useShadowQuill) startShadowQuill (editorHtmlAtStartOfUpdate);
+      
+      // Split the response into the separate bits.
+      var bits = [];
+      bits = response.split ("#_be_#");
 
-      // Checksumming.
-      response = checksum_receive (response);
-      if (response !== false) {
-        
-        // Use a shadow copy of the Quill editor in case the user made edits
-        // between the moment the update routine was initiated,
-        // and the moment the updates from the server/device are being applied.
-        // This shadow copy will be updated with the uncorrected changes from the server/device.
-        // The html from this editor will then server as the "loaded text".
-        useShadowQuill = (edit2EditorChangeOffsets.length > 0);
-        if (useShadowQuill) startShadowQuill (editorHtmlAtStartOfUpdate);
+      // The first bit is the feedback message to the user.
+      editorStatus (bits.shift());
 
-        // Split the response into the separate bits.
-        var bits = [];
-        bits = response.split ("#_be_#");
+      // The next bit is the new chapter identifier.
+      oneverseChapterId = bits.shift();
 
-        // The first bit is the feedback message to the user.
-        editorStatus (bits.shift());
-
-        // The next bit is the new chapter identifier.
-        oneverseChapterId = bits.shift();
-
-        // Apply the remaining data, the differences, to the editor.
-        while (bits.length > 0) {
-          var position = parseInt (bits.shift ());
-          var operator = bits.shift();
-          // Position 0 in the incoming changes always refers to the initial new line in the editor.
-          // Do not insert or delete that new line, but just apply any formatting there.
-          if (position == 0) {
-            if (operator == "p") {
-              var style = bits.shift ();
-              quill.formatLine (0, 0, {"paragraph": style}, "silent");
-              if (useShadowQuill) quill2.formatLine (0, 0, {"paragraph": style}, "silent");
-            }
-          } else {
-            // The initial new line is not counted in Quill.
-            position--;
-            // The position for the shadow copy of Quill, if it's there.
-            var position2 = position;
+      // Apply the remaining data, the differences, to the editor.
+      while (bits.length > 0) {
+        var position = parseInt (bits.shift ());
+        var operator = bits.shift();
+        // Position 0 in the incoming changes always refers to the initial new line in the editor.
+        // Do not insert or delete that new line, but just apply any formatting there.
+        if (position == 0) {
+          if (operator == "p") {
+            var style = bits.shift ();
+            quill.formatLine (0, 0, {"paragraph": style}, "silent");
+            if (useShadowQuill) quill2.formatLine (0, 0, {"paragraph": style}, "silent");
+          }
+        } else {
+          // The initial new line is not counted in Quill.
+          position--;
+          // The position for the shadow copy of Quill, if it's there.
+          var position2 = position;
+          // Handle the insert operation.
+          if (operator == "i") {
+            // Get the information.
+            var text = bits.shift ();
+            var style = bits.shift ();
+            var size = parseInt (bits.shift());
+            // Correct the position
+            // and the positions stored during the update procedure's network latency.
+            position = oneverseUpdateIntermediateEdits (position, size, true, false);
             // Handle the insert operation.
-            if (operator == "i") {
-              // Get the information.
-              var text = bits.shift ();
-              var style = bits.shift ();
-              var size = parseInt (bits.shift());
-              // Correct the position
-              // and the positions stored during the update procedure's network latency.
-              position = oneverseUpdateIntermediateEdits (position, size, true, false);
-              // Handle the insert operation.
-              if (text == "\n") {
-                // New line.
-                quill.insertText (position, text, {}, "silent");
-                if (useShadowQuill) quill2.insertText (position2, text, {}, "silent");
-                quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
-                if (useShadowQuill) quill2.formatLine (position2 + 1, 1, {"paragraph": style}, "silent");
-              } else {
-                // Ordinary character: Insert formatted text.
-                quill.insertText (position, text, {"character": style}, "silent");
-                if (useShadowQuill) quill2.insertText (position2, text, {"character": style}, "silent");
-              }
-            }
-            // Handle delete operator.
-            else if (operator == "d") {
-              // Get the bits of information.
-              var size = parseInt (bits.shift());
-              // Correct the position and the positions
-              // stored during the update procedure's network latency.
-              position = oneverseUpdateIntermediateEdits (position, size, false, true);
-              // Do the delete operation.
-              quill.deleteText (position, size, "silent");
-              if (useShadowQuill) quill2.deleteText (position2, size, "silent");
-            }
-            // Handle format paragraph operator.
-            else if (operator == "p") {
-              var style = bits.shift ();
+            if (text == "\n") {
+              // New line.
+              quill.insertText (position, text, {}, "silent");
+              if (useShadowQuill) quill2.insertText (position2, text, {}, "silent");
               quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
               if (useShadowQuill) quill2.formatLine (position2 + 1, 1, {"paragraph": style}, "silent");
-            }
-            // Handle format character operator.
-            else if (operator == "c") {
-              var style = bits.shift ();
+            } else {
+              // Ordinary character: Insert formatted text.
+              quill.insertText (position, text, {"character": style}, "silent");
+              if (useShadowQuill) quill2.insertText (position2, text, {"character": style}, "silent");
             }
           }
+          // Handle delete operator.
+          else if (operator == "d") {
+            // Get the bits of information.
+            var size = parseInt (bits.shift());
+            // Correct the position and the positions
+            // stored during the update procedure's network latency.
+            position = oneverseUpdateIntermediateEdits (position, size, false, true);
+            // Do the delete operation.
+            quill.deleteText (position, size, "silent");
+            if (useShadowQuill) quill2.deleteText (position2, size, "silent");
+          }
+          // Handle format paragraph operator.
+          else if (operator == "p") {
+            var style = bits.shift ();
+            quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
+            if (useShadowQuill) quill2.formatLine (position2 + 1, 1, {"paragraph": style}, "silent");
+          }
+          // Handle format character operator.
+          else if (operator == "c") {
+            var style = bits.shift ();
+          }
         }
-        
-      } else {
-        // If the checksum is not valid, the response will become false.
-        // Checksum error.
-        editorStatus (editorChapterRetrying);
       }
-
-      // The browser may reformat the loaded html, so take the possible reformatted data for reference.
-      editorReferenceText = editorGetHtml ();
-      if (useShadowQuill) editorReferenceText = $ ("#edittemp > .ql-editor").html ();
-      $ ("#edittemp").empty ();
       
-      // Create CSS for embedded styles.
-      css4embeddedstyles ();
-    },
-    complete: function (xhr, status) {
-      edit2AjaxActive = false;
+    } else {
+      // If the checksum is not valid, the response will become false.
+      // Checksum error.
+      editorStatus (editorChapterRetrying);
     }
-  });
 
+    // The browser may reformat the loaded html, so take the possible reformatted data for reference.
+    editorReferenceText = editorGetHtml ();
+    if (useShadowQuill) {
+      editorReferenceText = document.querySelector("#edittemp > .ql-editor").innerHTML;
+    }
+    var edittemp = document.querySelector("#edittemp");
+    if (edittemp)
+      edittemp.innerHTML = "";
+    
+    // Create CSS for embedded styles.
+    css4embeddedstyles ();
+    
+  })
+  .catch((error) => {
+    console.log(error);
+    editorStatus (editorChapterRetrying);
+    edit2ContentChanged ();
+  })
+  .finally(() => {
+    edit2AjaxActive = false;
+  });
 }
 
                                           
@@ -1388,8 +1493,9 @@ var quill2 = undefined;
 function startShadowQuill (html)
 {
   if (quill2) delete quill2;
-  $ ("#edittemp").empty ();
-  $ ("#edittemp").append (html);
+  var edittemp = document.querySelector("#edittemp");
+  edittemp.innerHTML = "";
+  edittemp.insertAdjacentHTML('beforeend', html);
   quill2 = new Quill ('#edittemp', { });
 }
 

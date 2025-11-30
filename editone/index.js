@@ -24,15 +24,22 @@ var verseEditorUniqueID = Math.floor (Math.random() * 100000000);
 
 document.addEventListener("DOMContentLoaded", function(e) {
   // Make the editor's menu to never scroll out of view.
-  var bar = $ ("#editorheader").remove ();
-  $ ("#workspacemenu").append (bar);
+  var bar = document.querySelector ("#editorheader");
+  if (bar) {
+    document.querySelector ("#workspacemenu").insertAdjacentHTML('beforeend', bar.outerHTML);
+    bar.remove()
+  }
 
   visualVerseEditorInitializeOnce ();
   visualVerseEditorInitializeLoad ();
 
   navigationNewPassage ();
   
-  $ (window).on ("unload", oneverseEditorForceSaveVerse);
+  //$ (window).on ("unload", oneverseEditorForceSaveVerse);
+  window.addEventListener("unload", function (event) {
+    oneverseEditorForceSaveVerse();
+  });
+
   
   oneverseBindUnselectable ();
   
@@ -260,31 +267,39 @@ function oneverseEditorForceSaveVerse ()
   if (!oneverseBible) return;
   if (!oneverseBook) return;
   if (!oneverseVerseLoaded) return;
-  var html = $ ("#oneeditor > .ql-editor").html ();
+  var html = document.querySelector("#oneeditor > .ql-editor").innerHTML;
   if (html == oneverseLoadedText) return;
   // Set the status as feedback to the user.
   oneverseEditorStatus (oneverseEditorVerseSaving);
   // This force-save cancels a normal save/update that might have been triggered.
   clearTimeout (oneverseEditorChangedTimeout);
-
+  // Prepare the data to save.
   oneverseLoadedText = html;
   var encodedHtml = filter_url_plus_to_tag (html);
   var checksum = checksum_get (encodedHtml);
-  $.ajax ({
-    url: "save",
-    type: "POST",
-    async: false,
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, html: encodedHtml, checksum: checksum, id: verseEditorUniqueID },
-    error: function (jqXHR, textStatus, errorThrown) {
-      oneverseEditorStatus (oneverseEditorVerseRetrying);
-      oneverseLoadedText = "";
-      oneverseEditorForceSaveVerse ();
-    },
-    success: function (response) {
-      oneverseEditorStatus (response);
-    },
-    complete: function (xhr, status) {
+  // Do the actual save.
+  fetch("save", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([ ["bible", oneverseBible], ["book", oneverseBook], ["chapter", oneverseChapter], ["verse", oneverseVerseLoaded], ["html", encodedHtml], ["checksum", checksum], ["id:", verseEditorUniqueID] ]).toString(),
+    keepalive: true, // Make call synchronous.
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    oneverseEditorStatus (response);
+  })
+  .catch((error) => {
+    console.log(error);
+    oneverseEditorStatus (oneverseEditorVerseRetrying);
+    oneverseLoadedText = "";
+    oneverseEditorForceSaveVerse ();
+  })
+  .finally(() => {
   });
 }
 

@@ -24,8 +24,11 @@ var verseReaderUniqueID = Math.floor (Math.random() * 100000000);
 
 document.addEventListener("DOMContentLoaded", function(e) {
   // Make the editor's menu to never scroll out of view.
-  var bar = $ ("#editorheader").remove ();
-  $ ("#workspacemenu").append (bar);
+  var bar = document.querySelector ("#editorheader");
+  if (bar) {
+    document.querySelector ("#workspacemenu").insertAdjacentHTML('beforeend', bar.outerHTML);
+    bar.remove()
+  }
 
   visualVerseReaderInitializeOnce ();
   visualVerseReaderInitializeLoad ();

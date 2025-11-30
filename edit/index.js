@@ -27,8 +27,10 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
   // Reposition the editor's menu so it never scrolls out of view.
   var bar = document.querySelector ("#editorheader");
-  document.querySelector ("#workspacemenu").insertAdjacentHTML('beforeend', bar.outerHTML);
-  bar.remove()
+  if (bar) {
+    document.querySelector ("#workspacemenu").insertAdjacentHTML('beforeend', bar.outerHTML);
+    bar.remove()
+  }
 
   editorInitializeOnce ();
   editorInitialize ();

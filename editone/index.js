@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 var quill = undefined;
 var Delta = Quill.import ("delta");
 var verseEditorUniqueID = Math.floor (Math.random() * 100000000);
+var touchStartX = 0
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
@@ -35,35 +36,42 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
   navigationNewPassage ();
   
-  //$ (window).on ("unload", oneverseEditorForceSaveVerse);
   window.addEventListener("unload", function (event) {
     oneverseEditorForceSaveVerse();
   });
 
-  
   oneverseBindUnselectable ();
   
-  $ ("#stylebutton").on ("click", oneverseStylesButtonHandler);
+  var stylebutton = document.querySelector ("#stylebutton");
+  stylebutton.addEventListener("click", oneverseStylesButtonHandler);
   
-  $ (window).on ("keydown", oneverseWindowKeyHandler);
+  window.addEventListener ("keydown", oneverseWindowKeyHandler);
 
   if (swipe_operations) {
-    $ ("body").swipe ( {
-      swipeLeft:function (event, direction, distance, duration, fingerCount, fingerData) {
+    // The minimum distance to swipe is 10% of the screen width.
+    // This is to eliminate small unintended swipes.
+    let minSwipeDistance = parseInt(window.screen.width / 10);
+    
+    document.body.addEventListener('touchstart', event => {
+      touchStartX = event.changedTouches[0].screenX;
+    });
+    
+    document.body.addEventListener('touchend', event => {
+      let touchEndX = event.changedTouches[0].screenX
+      if (touchEndX < touchStartX - minSwipeDistance) {
         oneverseSwipeLeft (event);
-      },
-      swipeRight:function (event, direction, distance, duration, fingerCount, fingerData) {
+      }
+      if (touchEndX > touchStartX + minSwipeDistance) {
         oneverseSwipeRight (event);
       }
-    });
+    })
   }
   
-  $ ("#oneeditor").on ("click", oneEditorNoteCitationClicked);
+  document.querySelector ("#oneeditor").addEventListener ("click", oneEditorNoteCitationClicked);
   
   setTimeout (oneverseCoordinatingTimeout, 500);
 
   document.body.addEventListener('paste', HandlePaste);
-
 });
 
 
@@ -86,17 +94,16 @@ function visualVerseEditorInitializeLoad ()
   // Work around https://github.com/quilljs/quill/issues/1116
   // It sets the margins to 0 by adding an overriding class.
   // The Quill editor will remove that class again.
-  $ ("#oneeditor > p").each (function (index) {
-    var element = $(this);
-    element.addClass ("nomargins");
-  });
-  
+  document.querySelectorAll("#oneeditor > p").forEach((element) => {
+    element.classList.add ("nomargins");
+  })
+
   // Instantiate editor.
   quill = new Quill ('#oneeditor', { });
 
   // Cause it to paste plain text only.
   quill.clipboard.addMatcher (Node.ELEMENT_NODE, function (node, delta) {
-    var plaintext = $ (node).text ();
+    var plaintext = node.innerText;
     return new Delta().insert (plaintext);
   });
 
@@ -123,7 +130,7 @@ var oneverseChapterId = 0;
 var oneverseReloadCozChanged = false;
 var oneverseReloadCozError = false;
 var oneverseReloadPosition = undefined;
-var oneverseLoadAjaxRequest;
+var abortController = new AbortController();
 var oneverseEditorWriteAccess = true;
 
 
@@ -176,85 +183,98 @@ function oneverseEditorLoadVerse ()
     } else {
       oneverseReloadPosition = undefined;
     }
-    if (oneverseLoadAjaxRequest && oneverseLoadAjaxRequest.readystate != 4) {
-      oneverseLoadAjaxRequest.abort();
-    }
-    oneverseLoadAjaxRequest = $.ajax ({
-      url: "load",
-      type: "GET",
-      data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoading, id: verseEditorUniqueID },
-      success: function (response) {
-        // Flag for editor read-write or read-only.
-        oneverseEditorWriteAccess = checksum_readwrite (response);
-        // If this is the second or third or higher editor in the workspace,
-        // make the editor read-only.
-        if (window.frameElement) {
-          iframe = $(window.frameElement);
-          var data_editor_number = iframe.attr("data-editor-no");
-          if (data_editor_number > 1) {
-            oneverseEditorWriteAccess = false;
+    abortController.abort();
+    abortController = new AbortController();
+    const url = "load?" + new URLSearchParams([ ["bible", oneverseBible], ["book", oneverseBook], ["chapter", oneverseChapter], ["verse", oneverseVerseLoading], ["id", verseEditorUniqueID] ]).toString()
+    fetch(url, {
+      method: "GET",
+      signal: abortController.signal
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.text();
+    })
+    .then((response) => {
+      // Flag for editor read-write or read-only.
+      oneverseEditorWriteAccess = checksum_readwrite (response);
+      // If this is the second or third or higher editor in the workspace,
+      // make the editor read-only.
+      if (window.frameElement) {
+        var iframe = window.frameElement;
+        var data_editor_number = iframe.getAttribute("data-editor-no");
+        if (data_editor_number > 1) {
+          oneverseEditorWriteAccess = false;
+        }
+      }
+      // Checksumming.
+      response = checksum_receive (response);
+      // Splitting.
+      var bits;
+      if (response !== false) {
+        bits = response.split ("#_be_#");
+        if (bits.length != 3) response == false;
+      }
+      if (response !== false) {
+        var oneprefix = document.querySelector("#oneprefix");
+        oneprefix.innerHTML = "";
+        oneprefix.insertAdjacentHTML('beforeend', bits [0]);
+        oneprefix.removeEventListener("click", oneVerseHtmlClicked, false);
+        oneprefix.addEventListener("click", oneVerseHtmlClicked);
+      }
+      if (response !== false) {
+        // Destroy existing editor.
+        if (quill) delete quill;
+        // Load the html in the DOM.
+        var oneeditor = document.querySelector("#oneeditor");
+        oneeditor.innerHTML = "";
+        oneeditor.insertAdjacentHTML('beforeend', bits [1]);
+        oneverseVerseLoaded = oneverseVerseLoading;
+        oneverseEditorStatus (oneverseEditorVerseLoaded);
+        // Create the editor based on the DOM's content.
+        visualVerseEditorInitializeLoad ();
+        quill.enable (oneverseEditorWriteAccess);
+        // The browser may reformat the loaded html, so take the possible reformatted data for reference.
+        oneverseLoadedText = document.querySelector ("#oneeditor > .ql-editor").innerHTML;
+        oneverseCaretMovedTimeoutStart ();
+        // Create CSS for embedded styles.
+        css4embeddedstyles ();
+      }
+      if (response !== false) {
+        oneverseEditorChangeOffsets = []
+        oneverseEditorChangeInserts = []
+        oneverseEditorChangeDeletes = []
+      }
+      if (response !== false) {
+        var onesuffix = document.querySelector("#onesuffix");
+        onesuffix.innerHTML = "";
+        onesuffix.insertAdjacentHTML('beforeend', bits [2]);
+        onesuffix.removeEventListener("click", oneVerseHtmlClicked, false);
+        onesuffix.addEventListener("click", oneVerseHtmlClicked);
+      }
+      if (response !== false) {
+        oneverseScrollVerseIntoView ();
+        oneversePositionCaret ();
+        // In case of network error, don't keep showing the notification.
+        if (!oneverseReloadCozError) {
+          if (oneverseReloadCozChanged) {
+            if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded);
           }
         }
-        // Checksumming.
-        response = checksum_receive (response);
-        // Splitting.
-        var bits;
-        if (response !== false) {
-          bits = response.split ("#_be_#");
-          if (bits.length != 3) response == false;
-        }
-        if (response !== false) {
-          $ ("#oneprefix").empty ();
-          $ ("#oneprefix").append (bits [0]);
-          $ ("#oneprefix").off ("click");
-          $ ("#oneprefix").on ("click", oneVerseHtmlClicked);
-        }
-        if (response !== false) {
-          // Destroy existing editor.
-          if (quill) delete quill;
-          // Load the html in the DOM.
-          $ ("#oneeditor").empty ();
-          $ ("#oneeditor").append (bits [1]);
-          oneverseVerseLoaded = oneverseVerseLoading;
-          oneverseEditorStatus (oneverseEditorVerseLoaded);
-          // Create the editor based on the DOM's content.
-          visualVerseEditorInitializeLoad ();
-          quill.enable (oneverseEditorWriteAccess);
-          // The browser may reformat the loaded html, so take the possible reformatted data for reference.
-          oneverseLoadedText = $ ("#oneeditor > .ql-editor").html ();
-          oneverseCaretMovedTimeoutStart ();
-          // Create CSS for embedded styles.
-          css4embeddedstyles ();
-        }
-        if (response !== false) {
-          oneverseEditorChangeOffsets = []
-          oneverseEditorChangeInserts = []
-          oneverseEditorChangeDeletes = []
-        }
-        if (response !== false) {
-          $ ("#onesuffix").empty ();
-          $ ("#onesuffix").append (bits [2]);
-          $ ("#onesuffix").off ("click");
-          $ ("#onesuffix").on ("click", oneVerseHtmlClicked);
-        }
-        if (response !== false) {
-          oneverseScrollVerseIntoView ();
-          oneversePositionCaret ();
-          // In case of network error, don't keep showing the notification.
-          if (!oneverseReloadCozError) {
-            if (oneverseReloadCozChanged)  {
-              if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded);
-            }
-          }
-          oneverseReloadCozChanged = false;
-          oneverseReloadCozError = false;
-        }
-        if (response === false) {
-          // Checksum or other error: Reload.
-          oneverseReloadCozError = true;
-          oneverseEditorLoadVerse ();
-        }
-      },
+        oneverseReloadCozChanged = false;
+        oneverseReloadCozError = false;
+      }
+      if (response === false) {
+        // Checksum or other error: Reload.
+        oneverseReloadCozError = true;
+        oneverseEditorLoadVerse ();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
     });
   }
 }
@@ -307,33 +327,43 @@ function oneverseEditorForceSaveVerse ()
 function oneverseEditorLoadNonEditable ()
 {
   oneverseAjaxActive = true;
-  $.ajax ({
-    url: "load",
-    type: "GET",
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoading, id: verseEditorUniqueID },
-    success: function (response) {
-      // Remove the flag for editor read-write or read-only.
-      checksum_readwrite (response);
-      // Checksumming.
-      response = checksum_receive (response);
-      // Splitting.
-      if (response !== false) {
-        var bits;
-        bits = response.split ("#_be_#");
-        if (bits.length != 3) response == false;
-        $ ("#oneprefix").empty ();
-        $ ("#oneprefix").append (bits [0]);
-        $ ("#oneprefix").off ("click");
-        $ ("#oneprefix").on ("click", oneVerseHtmlClicked);
-        $ ("#onesuffix").empty ();
-        $ ("#onesuffix").append (bits [2]);
-        $ ("#onesuffix").off ("click");
-        $ ("#onesuffix").on ("click", oneVerseHtmlClicked);
-      }
-    },
-    complete: function (xhr, status) {
-      oneverseAjaxActive = false;
+  const url = "load?" + new URLSearchParams([ ["bible", oneverseBible], ["book", oneverseBook], ["chapter", oneverseChapter], ["verse", oneverseVerseLoading], ["id", verseEditorUniqueID] ]).toString()
+  fetch(url, {
+    method: "GET",
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    // Remove the flag for editor read-write or read-only.
+    checksum_readwrite (response);
+    // Checksumming.
+    response = checksum_receive (response);
+    // Splitting.
+    if (response !== false) {
+      var bits;
+      bits = response.split ("#_be_#");
+      if (bits.length != 3) response == false;
+      var prefix = document.querySelector("#oneprefix");
+      prefix.innerHTML = "";
+      prefix.insertAdjacentHTML('beforeend', bits [0]);
+      prefix.removeEventListener("click", oneVerseHtmlClicked, false);
+      prefix.addEventListener("click", oneVerseHtmlClicked);
+      var suffix = document.querySelector("#onesuffix");
+      suffix.innerHTML = "";
+      suffix.insertAdjacentHTML('beforeend', bits [2]);
+      suffix.removeEventListener("click", oneVerseHtmlClicked, false);
+      suffix.addEventListener("click", oneVerseHtmlClicked);
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    oneverseAjaxActive = false;
   });
 }
 
@@ -435,8 +465,9 @@ function oneverseEditorTriggerSave ()
 
 function oneverseEditorStatus (text)
 {
-  $ ("#onestatus").empty ();
-  $ ("#onestatus").append (text);
+  var status = document.querySelector("#onestatus");
+  if (status)
+    status.innerHTML = text;
   oneverseEditorSelectiveNotification (text);
 }
 
@@ -453,8 +484,8 @@ function oneverseActiveStylesFeedback ()
   if (pos >= 0) character = character.substring(0, pos);
   character = character.split ("0").join (" ");
   var styles = paragraph + " " + character;
-  var element = $ ("#oneverseactivestyles");
-  element.text (styles);
+  var element = document.querySelector ("#oneverseactivestyles");
+  element.innerHTML = styles;
 }
 
 
@@ -477,34 +508,37 @@ function oneverseEditorSelectiveNotification (message)
 //
 
 
-var oneverseIdAjaxRequest;
-
-
 function oneverseEditorPollId ()
 {
   oneverseAjaxActive = true;
-  oneverseIdAjaxRequest = $.ajax ({
-    url: "../editor/id",
-    type: "GET",
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter },
-    cache: false,
-    success: function (response) {
-      if (oneverseChapterId != 0) {
-        if (response != oneverseChapterId) {
-          // The chapter identifier changed.
-          // That means that likely there's updated text on the server.
-          // Start the routine to load any possible updates into the editor.
-          oneverseUpdateTrigger = true;
-          oneverseReloadNonEditableFlag = true;
-        }
-      }
-      oneverseChapterId = response;
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-    },
-    complete: function (xhr, status) {
-      oneverseAjaxActive = false;
+  const url = "../editor/id?" + new URLSearchParams([ ["bible", oneverseBible], ["book", oneverseBook], ["chapter", oneverseChapter] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    if (oneverseChapterId != 0) {
+      if (response != oneverseChapterId) {
+        // The chapter identifier changed.
+        // That means that likely there's updated text on the server.
+        // Start the routine to load any possible updates into the editor.
+        oneverseUpdateTrigger = true;
+        oneverseReloadNonEditableFlag = true;
+      }
+    }
+    oneverseChapterId = response;
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    oneverseAjaxActive = false;
   });
 }
 
@@ -553,16 +587,12 @@ function oneversePositionCaretTimeout ()
 
 function oneverseScrollVerseIntoView ()
 {
-  $("#workspacewrapper").stop();
-  var verseTop = $("#oneeditor").offset().top;
-  var workspaceHeight = $("#workspacewrapper").height();
-  var currentScrollTop = $("#workspacewrapper").scrollTop();
-  var scrollTo = verseTop - (workspaceHeight * verticalCaretPosition / 100) + currentScrollTop;
-  var lowerBoundary = currentScrollTop - (workspaceHeight / 10);
-  var upperBoundary = currentScrollTop + (workspaceHeight / 10);
-  if ((scrollTo < lowerBoundary) || (scrollTo > upperBoundary)) {
-    $("#workspacewrapper").animate({ scrollTop: scrollTo }, 500);
-  }
+  var oneeditor = document.querySelector("#oneeditor");
+  oneeditor.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center',
+    inline: 'center'
+  });
 }
 
 
@@ -576,116 +606,149 @@ function oneverseScrollVerseIntoView ()
 function oneverseStylesButtonHandler ()
 {
   if (!oneverseEditorWriteAccess) return;
-  $.ajax ({
-    url: "../editor/style",
-    type: "GET",
-    cache: false,
-    success: function (response) {
-      oneverseShowResponse (response);
-      oneverseBindUnselectable ();
-      oneverseDynamicClickHandlers ();
-    },
-  });
-  return false;
+  fetch("../editor/style", {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    oneverseShowResponse (response);
+    oneverseBindUnselectable ();
+    oneverseDynamicClickHandlers ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function oneverseBindUnselectable ()
 {
-  var elements = $ (".unselectable");
-  elements.off ("mousedown");
-  elements.on ("mousedown", function (event) {
-    event.preventDefault();
+  var elements = document.querySelectorAll(".unselectable");
+  elements.forEach((element) => {
+    element.removeEventListener("mousedown", oneverseUnselectablePreventDefault, false);
+    element.addEventListener("mousedown", oneverseUnselectablePreventDefault);
   });
+}
+
+
+function oneverseUnselectablePreventDefault(event)
+{
+  event.preventDefault();
 }
 
 
 function oneverseShowResponse (response)
 {
   if (!oneverseEditorWriteAccess) return;
-  $ ("#stylebutton").hide ();
-  $ ("#nostyles").hide ();
-  var area = $ ("#stylesarea");
-  area.empty ();
-  area.addClass ('style-of-stylesarea');
-  area.append (response);
+  document.querySelector ("#stylebutton").hidden = true;
+  document.querySelector ("#nostyles").hidden = true;
+  var area = document.querySelector ("#stylesarea");
+  area.innerHTML = "";
+  area.classList.add ('style-of-stylesarea');
+  area.insertAdjacentHTML('beforeend', response);
 }
 
 
 function oneverseClearStyles ()
 {
-  var area = $ ("#stylesarea");
-  area.removeClass ('style-of-stylesarea');
-  area.empty ();
-  $ ("#stylebutton").show ();
-  $ ("#nostyles").show ();
+  var area = document.querySelector ("#stylesarea");
+  area.classList.remove ('style-of-stylesarea');
+  area.innerHTML = "";
+  document.querySelector ("#stylebutton").hidden = false;
+  document.querySelector ("#nostyles").hidden = false;
 }
 
 
 function oneverseDynamicClickHandlers ()
 {
-  var elements = $ ("#stylesarea > a");
-  elements.on ("click", function (event) {
-    event.preventDefault();
-    oneverseClearStyles ();
-    var href = event.currentTarget.href;
-    href = href.substring (href.lastIndexOf ('/') + 1);
-    if (href == "cancel") return;
-    if (href == "all") {
-      oneverseDisplayAllStyles ();
-    } else {
-      oneverseRequestStyle (href);
-    }
+  var elements = document.querySelectorAll ("#stylesarea > a");
+  elements.forEach((element) => {
+    element.addEventListener("click", function(event) {
+      event.preventDefault();
+      oneverseClearStyles ();
+      var href = event.currentTarget.href;
+      href = href.substring (href.lastIndexOf ('/') + 1);
+      if (href == "cancel") return;
+      if (href == "all") {
+        oneverseDisplayAllStyles ();
+      } else {
+        oneverseRequestStyle (href);
+      }
+    });
   });
-  
-  $ ("#styleslist").on ("change", function (event) {
-    var selection = $ ("#styleslist option:selected").text ();
-    var style = selection.substring (0, selection.indexOf (" "));
-    event.preventDefault();
-    oneverseClearStyles ();
-    oneverseRequestStyle (style);
-  });
+  var styleslist = document.querySelector("#styleslist");
+  if (styleslist) {
+    styleslist.addEventListener("change", function (event) {
+      var selection = document.querySelector ("#styleslist").value;
+      var style = selection.substring (0, selection.indexOf (" "));
+      event.preventDefault();
+      oneverseClearStyles ();
+      oneverseRequestStyle (style);
+    });
+  }
 }
 
 
 function oneverseRequestStyle (style)
 {
-  $.ajax ({
-    url: "../editor/style",
-    type: "GET",
-    data: { style: style },
-    cache: false,
-    success: function (response) {
-      response = response.split ("\n");
-      var style = response [0];
-      var action = response [1];
-      if (action == "p") {
-        oneverseApplyParagraphStyle (style);
-      } else if (action == 'c') {
-        oneverseApplyCharacterStyle (style);
-      } else if (action == 'n') {
-        oneverseApplyNotesStyle (style);
-      } else if (action == "m") {
-        oneverseApplyMonoStyle (style);
-      }
-    },
-  });
+  const url = "../editor/style?style=" + style;
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    response = response.split ("\n");
+    var style = response [0];
+    var action = response [1];
+    if (action == "p") {
+      oneverseApplyParagraphStyle (style);
+    } else if (action == 'c') {
+      oneverseApplyCharacterStyle (style);
+    } else if (action == 'n') {
+      oneverseApplyNotesStyle (style);
+    } else if (action == "m") {
+      oneverseApplyMonoStyle (style);
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function oneverseDisplayAllStyles ()
 {
-  $.ajax ({
-    url: "../editor/style",
-    type: "GET",
-    data: { all: "" },
-    cache: false,
-    success: function (response) {
-      oneverseShowResponse (response);
-      oneverseBindUnselectable ();
-      oneverseDynamicClickHandlers ();
-    },
-  });
+  const url = "../editor/style?all=";
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+    })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    oneverseShowResponse (response);
+    oneverseBindUnselectable ();
+    oneverseDynamicClickHandlers ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
@@ -836,8 +899,8 @@ function oneverseApplyNotesStyle (style)
   quill.focus ();
 
   // Check for and optionally append the gap between text body and notes.
-  var notes = $ (".b-notes");
-  if (notes.length == 0) {
+  var notes = document.querySelector (".b-notes");
+  if (!notes) {
     var length = quill.getLength ();
     quill.insertText (length, "\n", "paragraph", "notes", "user")
   }
@@ -865,8 +928,7 @@ function oneverseApplyNotesStyle (style)
 
 function oneEditorNoteCitationClicked (event)
 {
-  var target = $(event.target);
-  var cls = target.attr ("class");
+  var cls = event.target.className;
   if (cls.substr (0, 6) != "i-note") return;
   cls = cls.substr (2);
   var length = quill.getLength ();
@@ -906,7 +968,7 @@ function oneEditorNoteCitationClicked (event)
 
 function oneVerseHtmlClicked (event)
 {
-  // If the user selects text, do nothing.
+  // If the user has selected text, do nothing.
   var text = "";
   if (window.getSelection) {
     text = window.getSelection().toString();
@@ -918,35 +980,39 @@ function oneVerseHtmlClicked (event)
   var verse = "";
   
   var iterations = 0;
-  var target = $(event.target);
-  var tagName = target.prop("tagName");
-  if (tagName == "P") target = $ (target.children ().last ());
-  while ((iterations < 10) && (!target.hasClass ("i-v"))) {
-    var previous = $(target.prev ());
-    if (previous.length == 0) {
-      target = $ (target.parent ().prev ());
-      target = $ (target.children ().last ());
-    } else {
+  var target = event.target;
+  var tagName = target.tagName;
+  if (tagName == "P") target = target.lastChild;
+  while ((iterations < 10) && (!target.classList.contains ("i-v"))) {
+    var previous = target.previousSibling;
+    if (previous) {
       target = previous;
+    } else {
+      target = target.parentElement.previousSibling;
+      if (target) target = target.lastChild;
     }
     iterations++;
+    if (!target) break;
   }
                                           
   // Too many iterations: Undefined location.
   if (iterations >= 10) return
   
-  if (target.length == 0) verse = "0";
-  
-  if (target.hasClass ("i-v")) {
-    verse = target[0].innerText;
+  if (target) {
+    if (target.classList.contains ("i-v")) {
+      verse = target.innerText;
+    }
+  } else {
+    verse = "0";
   }
-
-  $.ajax ({
-    url: "verse",
-    type: "GET",
-    data: { verse: verse },
-    cache: false
-  });
+  const url = "verse?verse=" + verse;
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
@@ -1094,7 +1160,8 @@ function oneverseUpdateExecute ()
   var encodedLoadedHtml = filter_url_plus_to_tag (oneverseLoadedText);
 
   // A snapshot of the current editor text at this point of time.
-  editorHtmlAtStartOfUpdate = $ ("#oneeditor > .ql-editor").html ();
+  editorHtmlAtStartOfUpdate = document.querySelector ("#oneeditor > .ql-editor").innerHTML;
+
   var encodedEditedHtml = filter_url_plus_to_tag (editorHtmlAtStartOfUpdate);
   
   // The editor "saves..." if there's changes, and "updates..." if there's no changes.
@@ -1108,129 +1175,135 @@ function oneverseUpdateExecute ()
   var checksum2 = checksum_get (encodedEditedHtml);
 
   oneverseAjaxActive = true;
-  
-  oneverseIdAjaxRequest = $.ajax ({
-    url: "update",
-    type: "POST",
-    async: true,
-  data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, loaded: encodedLoadedHtml, edited: encodedEditedHtml, checksum1: checksum1, checksum2: checksum2, id: verseEditorUniqueID },
-    error: function (jqXHR, textStatus, errorThrown) {
-      oneverseEditorStatus (oneverseEditorVerseRetrying);
-      oneverseEditorChanged (false);
-    },
-    success: function (response) {
 
-      // Flag for editor read-write or read-only.
-      // Do not set the read-only status of the editor here.
-      // This is already set at text-load.
-      // It is also dependent on the frame number the editor is in.
-      // To not make it more complex than needed, leave read-only out.
-      var readwrite = checksum_readwrite (response);
+  fetch("update", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([ ["bible", oneverseBible], ["book", oneverseBook], ["chapter", oneverseChapter], ["verse", oneverseVerseLoaded], ["loaded", encodedLoadedHtml], ["edited", encodedEditedHtml], ["checksum1", checksum1], ["checksum2", checksum2], ["id", verseEditorUniqueID] ]).toString(),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
 
-      // Checksumming.
-      response = checksum_receive (response);
-      if (response !== false) {
-        
-        // Use a shadow copy of the Quill editor in case the user made edits
-        // between the moment the update routine was initiated,
-        // and the moment the updates from the server/device are being applied.
-        // This shadow copy will be updated with the uncorrected changes from the server/device.
-        // The html from this editor will then server as the "loaded text".
-        useShadowQuill = (oneverseEditorChangeOffsets.length > 0);
-        if (useShadowQuill) startShadowQuill (editorHtmlAtStartOfUpdate);
+    // Flag for editor read-write or read-only.
+    // Do not set the read-only status of the editor here.
+    // This is already set at text-load.
+    // It is also dependent on the frame number the editor is in.
+    // To not make it more complex than needed, leave read-only out.
+    var readwrite = checksum_readwrite (response);
 
-        // Split the response into the separate bits.
-        var bits = [];
-        bits = response.split ("#_be_#");
+    // Checksumming.
+    response = checksum_receive (response);
+    if (response !== false) {
 
-        // The first bit is the feedback message to the user.
-        oneverseEditorStatus (bits.shift());
+      // Use a shadow copy of the Quill editor in case the user made edits
+      // between the moment the update routine was initiated,
+      // and the moment the updates from the server/device are being applied.
+      // This shadow copy will be updated with the uncorrected changes from the server/device.
+      // The html from this editor will then server as the "loaded text".
+      useShadowQuill = (oneverseEditorChangeOffsets.length > 0);
+      if (useShadowQuill) startShadowQuill (editorHtmlAtStartOfUpdate);
 
-        // The next bit is the new chapter identifier.
-        oneverseChapterId = bits.shift();
+      // Split the response into the separate bits.
+      var bits = [];
+      bits = response.split ("#_be_#");
 
-        // Apply the remaining data, the differences, to the editor.
-        while (bits.length > 0) {
-          var position = parseInt (bits.shift ());
-          var operator = bits.shift();
-          // Position 0 in the incoming changes always refers to the initial new line in the editor.
-          // Do not insert or delete that new line, but just apply any formatting there.
-          if (position == 0) {
-            if (operator == "p") {
-              var style = bits.shift ();
-              quill.formatLine (0, 0, {"paragraph": style}, "silent");
-              if (useShadowQuill) quill2.formatLine (0, 0, {"paragraph": style}, "silent");
-            }
-          } else {
-            // The initial new line is not counted in Quill.
-            position--;
-            // The position for the shadow copy of Quill, if it's there.
-            var position2 = position;
+      // The first bit is the feedback message to the user.
+      oneverseEditorStatus (bits.shift());
+
+      // The next bit is the new chapter identifier.
+      oneverseChapterId = bits.shift();
+
+      // Apply the remaining data, the differences, to the editor.
+      while (bits.length > 0) {
+        var position = parseInt (bits.shift ());
+        var operator = bits.shift();
+        // Position 0 in the incoming changes always refers to the initial new line in the editor.
+        // Do not insert or delete that new line, but just apply any formatting there.
+        if (position == 0) {
+          if (operator == "p") {
+            var style = bits.shift ();
+            quill.formatLine (0, 0, {"paragraph": style}, "silent");
+            if (useShadowQuill) quill2.formatLine (0, 0, {"paragraph": style}, "silent");
+          }
+        } else {
+          // The initial new line is not counted in Quill.
+          position--;
+          // The position for the shadow copy of Quill, if it's there.
+          var position2 = position;
+          // Handle the insert operation.
+          if (operator == "i") {
+            // Get the information.
+            var text = bits.shift ();
+            var style = bits.shift ();
+            var size = parseInt (bits.shift());
+            // Correct the position
+            // and the positions stored during the update procedure's network latency.
+            position = oneverseUpdateIntermediateEdits (position, size, true, false);
             // Handle the insert operation.
-            if (operator == "i") {
-              // Get the information.
-              var text = bits.shift ();
-              var style = bits.shift ();
-              var size = parseInt (bits.shift());
-              // Correct the position
-              // and the positions stored during the update procedure's network latency.
-              position = oneverseUpdateIntermediateEdits (position, size, true, false);
-              // Handle the insert operation.
-              if (text == "\n") {
-                // New line.
-                quill.insertText (position, text, {}, "silent");
-                if (useShadowQuill) quill2.insertText (position2, text, {}, "silent");
-                quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
-                if (useShadowQuill) quill2.formatLine (position2 + 1, 1, {"paragraph": style}, "silent");
-              } else {
-                // Ordinary character: Insert formatted text.
-                quill.insertText (position, text, {"character": style}, "silent");
-                if (useShadowQuill) quill2.insertText (position2, text, {"character": style}, "silent");
-              }
-            }
-            // Handle delete operator.
-            else if (operator == "d") {
-              // Get the bits of information.
-              var size = parseInt (bits.shift());
-              // Correct the position and the positions
-              // stored during the update procedure's network latency.
-              position = oneverseUpdateIntermediateEdits (position, size, false, true);
-              // Do the delete operation.
-              quill.deleteText (position, size, "silent");
-              if (useShadowQuill) quill2.deleteText (position2, size, "silent");
-            }
-            // Handle format paragraph operator.
-            else if (operator == "p") {
-              var style = bits.shift ();
+            if (text == "\n") {
+              // New line.
+              quill.insertText (position, text, {}, "silent");
+              if (useShadowQuill) quill2.insertText (position2, text, {}, "silent");
               quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
               if (useShadowQuill) quill2.formatLine (position2 + 1, 1, {"paragraph": style}, "silent");
-            }
-            // Handle format character operator.
-            else if (operator == "c") {
-              var style = bits.shift ();
+            } else {
+              // Ordinary character: Insert formatted text.
+              quill.insertText (position, text, {"character": style}, "silent");
+              if (useShadowQuill) quill2.insertText (position2, text, {"character": style}, "silent");
             }
           }
+          // Handle delete operator.
+          else if (operator == "d") {
+            // Get the bits of information.
+            var size = parseInt (bits.shift());
+            // Correct the position and the positions
+            // stored during the update procedure's network latency.
+            position = oneverseUpdateIntermediateEdits (position, size, false, true);
+            // Do the delete operation.
+            quill.deleteText (position, size, "silent");
+            if (useShadowQuill) quill2.deleteText (position2, size, "silent");
+          }
+          // Handle format paragraph operator.
+          else if (operator == "p") {
+            var style = bits.shift ();
+            quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
+            if (useShadowQuill) quill2.formatLine (position2 + 1, 1, {"paragraph": style}, "silent");
+          }
+          // Handle format character operator.
+          else if (operator == "c") {
+            var style = bits.shift ();
+          }
         }
-        
-      } else {
-        // If the checksum is not valid, the response will become false.
-        // Checksum error.
-        oneverseEditorStatus (oneverseEditorVerseRetrying);
       }
 
-      // The browser may reformat the loaded html, so take the possible reformatted data for reference.
-      oneverseLoadedText = $ ("#oneeditor > .ql-editor").html ();
-      if (useShadowQuill) oneverseLoadedText = $ ("#onetemp > .ql-editor").html ();
-      $ ("#onetemp").empty ();
-      
-      // Create CSS for embedded styles.
-      css4embeddedstyles ();
-    },
-    complete: function (xhr, status) {
-      oneverseAjaxActive = false;
+    } else {
+      // If the checksum is not valid, the response will become false.
+      // Checksum error.
+      oneverseEditorStatus (oneverseEditorVerseRetrying);
     }
-  });
 
+    // The browser may reformat the loaded html, so take the possible reformatted data for reference.
+    oneverseLoadedText = document.querySelector ("#oneeditor > .ql-editor").innerHTML;
+    if (useShadowQuill) oneverseLoadedText = document.querySelector ("#onetemp > .ql-editor").innerHTML;
+    document.querySelector ("#onetemp").innerHTML = "";
+
+    // Create CSS for embedded styles.
+    css4embeddedstyles ();
+
+  })
+  .catch((error) => {
+    console.log(error);
+    oneverseEditorStatus (oneverseEditorVerseRetrying);
+    oneverseEditorChanged (false);
+  })
+  .finally(() => {
+    oneverseAjaxActive = false;
+  });
 }
 
                                           
@@ -1240,8 +1313,9 @@ var quill2 = undefined;
 function startShadowQuill (html)
 {
   if (quill2) delete quill2;
-  $ ("#onetemp").empty ();
-  $ ("#onetemp").append (html);
+  var onetemp = document.querySelector ("#onetemp");
+  onetemp.innerHTML = "";
+  onetemp.insertAdjacentHTML('beforeend', html);
   quill2 = new Quill ('#onetemp', { });
 }
 
@@ -1285,8 +1359,8 @@ function oneverseUpdateIntermediateEdits (position, size, ins_op, del_op)
 
 function verseEditorHasFocus ()
 {
-  var focus = $(getActiveElement());
-  var focused = (focus.attr('class') == "ql-editor");
+  var focus = getActiveElement();
+  var focused = (focus.className == "ql-editor");
   if (focused) focused = quill.hasFocus ();
   return focused;
 }

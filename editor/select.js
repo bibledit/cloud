@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  $ (window).on ("keydown", editSwitchKeyHandler);
+  window.addEventListener("keydown", editSwitchKeyHandler);
 });
 
 

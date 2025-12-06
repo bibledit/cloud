@@ -17,51 +17,76 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-$(window).on ('load', function () {
-  $ ("#logbook").on ("click", journal_clicked);
-  $ ("#workspacewrapper").animate ({ scrollTop: $("#workspacewrapper").prop("scrollHeight") }, 3000);
+window.addEventListener ('load', function (event) {
+  document.querySelector ("#logbook").addEventListener ("click", journalClicked);
+  scrollToEnd();
 });
 
 
 function getMore ()
 {
-  $.ajax ({
-    url: "index",
-    type: "GET",
-    data: { filename: filename },
-    cache: false,
-    success: function (response) {
-      if (response == "") {
-        setTimeout (getMore, 2000);
-      } else {
-        var response = response.split ("\n");
-        filename = response [0];
-        for (var i = 1; i < response.length; i++) {
-          $ ("#logbook").append ($ (response [i]));
-        }
-        $("#workspacewrapper").animate ({ scrollTop: $("#workspacewrapper").prop("scrollHeight") }, 100);
-        setTimeout (getMore, 100);
+  const url = "index?filename=" + filename;
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    if (response == "") {
+      setTimeout (getMore, 2000);
+    } else {
+      var response = response.split ("\n");
+      filename = response [0];
+      for (var i = 1; i < response.length; i++) {
+        document.querySelector ("#logbook").insertAdjacentHTML('beforeend', response [i]);
       }
-    },
-  });
+      scrollToEnd();
+      setTimeout (getMore, 100);
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 setTimeout (getMore, 3000);
 
 
-function journal_clicked (event)
+function journalClicked (event)
 {
   event.preventDefault ();
   if (typeof event.target.href === "undefined") return;
-  var target = $ (event.target);
-  $.ajax ({
-    url: "index",
-    type: "GET",
-    data: { expansion: event.target.href },
-    cache: false,
-    success: function (response) {
-      target.replaceWith (response);
-    },
+  var target = event.target;
+  const url = "index?expansion=" + target.href;
+  fetch(url, {
+    method: "GET",
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    target.replaceWith(response);
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+}
+
+
+function scrollToEnd()
+{
+  document.querySelector ("#clear").scrollIntoView({
+    behavior: 'smooth',
+    block: 'center',
+    inline: 'center'
   });
 }

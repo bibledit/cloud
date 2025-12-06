@@ -2,7 +2,7 @@
 <div id="logbook">
 ##lines##
 </div>
-<p><a href="?clear=1">translate("Clear the entire journal")</a></p>
+<p><a id="clear" href="?clear=1">translate("Clear the entire journal")</a></p>
 <script>
 ##script##
 </script>

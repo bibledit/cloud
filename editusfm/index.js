@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 var usfmEditorUniqueID = Math.floor (Math.random() * 100000000);
+var touchStartX = 0;
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
@@ -29,27 +30,52 @@ document.addEventListener("DOMContentLoaded", function(e) {
   }
 
   navigationNewPassage ();
-  $ ("#usfmeditor").on ("paste cut keydown", usfmEditorChanged);
-  $ (window).on ("unload", usfmEditorUnload);
-  $ ("#usfmeditor").on ("paste", function (e) {
-    var data = e.originalEvent.clipboardData.getData ('Text');
-    e.preventDefault();
-    document.execCommand ("insertHTML", false, data);
+  var usfmeditor = document.querySelector ("#usfmeditor");
+  usfmeditor.addEventListener("paste", function (event) {
+    usfmEditorChanged(event);
+    var clipboardData = event.clipboardData || window.clipboardData;
+    var pastedText = clipboardData.getData('Text');
+    event.preventDefault();
+    event.stopPropagation();
+    document.execCommand ("insertHTML", false, pastedText);
+    usfmCaretChanged();
   });
+  usfmeditor.addEventListener("cut", function (event) {
+    usfmEditorChanged(event);
+    usfmCaretChanged();
+  });
+  usfmeditor.addEventListener("keydown", function (event) {
+    usfmEditorChanged(event);
+  });
+  usfmeditor.addEventListener("click", function (event) {
+    usfmCaretChanged();
+  });
+  usfmeditor.addEventListener("keydown", function (event) {
+    usfmHandleKeyDown(event);
+  });
+  window.addEventListener("unload", usfmEditorUnload);
   usfmIdPollerOn ();
-  $ ("#usfmeditor").on ("paste cut click", usfmCaretChanged);
-  $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown);
-  if (usfmEditorWriteAccess) $ ("#usfmeditor").focus ();
-  $ (window).on ("focus", usfmWindowFocused);
+  if (usfmEditorWriteAccess) usfmeditor.focus ();
+  window.addEventListener("focus", usfmWindowFocused);
+  
   if (swipe_operations) {
-    $ ("body").swipe ( {
-      swipeLeft:function (event, direction, distance, duration, fingerCount, fingerData) {
+    // The minimum distance to swipe is 10% of the screen width.
+    // This is to eliminate small unintended swipes.
+    let minSwipeDistance = parseInt(window.screen.width / 10);
+    
+    document.body.addEventListener('touchstart', event => {
+      touchStartX = event.changedTouches[0].screenX;
+    });
+    
+    document.body.addEventListener('touchend', event => {
+      let touchEndX = event.changedTouches[0].screenX
+      if (touchEndX < touchStartX - minSwipeDistance) {
         editusfmSwipeLeft (event);
-      },
-      swipeRight:function (event, direction, distance, duration, fingerCount, fingerData) {
+      }
+      if (touchEndX > touchStartX + minSwipeDistance) {
         editusfmSwipeRight (event);
       }
-    });
+    })
   }
 });
 
@@ -109,57 +135,69 @@ function usfmEditorLoadChapter ()
     usfmBook = usfmNavigationBook;
     usfmChapter = usfmNavigationChapter;
     usfmIdChapter = 0;
-    if (usfmEditorWriteAccess) $ ("#usfmeditor").focus ();
+    if (usfmEditorWriteAccess) document.querySelector ("#usfmeditor").focus ();
     usfmCaretPosition = usfmGetCaretPosition ();
-    $.ajax ({
-      url: "load",
-      type: "GET",
-      data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, id: usfmEditorUniqueID },
-      success: function (response) {
-        usfmEditorWriteAccess = checksum_readwrite (response);
-        // If this is the second or third or higher editor in the workspace,
-        // make the editor read-only.
-        if (window.frameElement) {
-          iframe = $(window.frameElement);
-          var data_editor_number = iframe.attr("data-editor-no");
-          if (data_editor_number > 1) {
-            usfmEditorWriteAccess = false;
-          }
+    const url = "load?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter], ["id", usfmEditorUniqueID] ]).toString()
+    fetch(url, {
+      method: "GET",
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.text();
+    })
+    .then((response) => {
+      usfmEditorWriteAccess = checksum_readwrite (response);
+      // If this is the second or third or higher editor in the workspace,
+      // make the editor read-only.
+      if (window.frameElement) {
+        var iframe = window.frameElement;
+        var data_editor_number = iframe.getAttribute("data-editor-no");
+        if (data_editor_number > 1) {
+          editorWriteAccess = false;
         }
-        var contenteditable = ($ ("#usfmeditor").attr('contenteditable') === 'true');
-        if (usfmEditorWriteAccess != contenteditable) $ ("#usfmeditor").attr('contenteditable', usfmEditorWriteAccess);
-        // Checksumming.
-        response = checksum_receive (response, usfmEditorReloadCount);
-        if (response !== false) {
-          $ ("#usfmeditor").empty ();
-          $ ("#usfmeditor").append (response);
-          usfmEditorStatus (usfmEditorChapterLoaded);
-          usfmLoadedText = response;
-          if (usfmEditorWriteAccess) {
-            if (usfmReload) {
-              usfmPositionCaret (usfmCaretPosition);
-            } else {
-              usfmPositionCaretViaAjax ();
-            }
-          }
-          // Alert on reload.
+      }
+      var usfmeditor = document.querySelector("#usfmeditor");
+      var contenteditable = (usfmeditor.getAttribute("contenteditable") === "true");
+      if (usfmEditorWriteAccess != contenteditable)
+        usfmeditor.setAttribute("contenteditable", usfmEditorWriteAccess);
+      // Checksumming.
+      response = checksum_receive (response, usfmEditorReloadCount);
+      if (response !== false) {
+        usfmeditor.innerHTML = "";
+        usfmeditor.insertAdjacentHTML('beforeend', response);
+        usfmEditorStatus (usfmEditorChapterLoaded);
+        usfmLoadedText = response;
+        if (usfmEditorWriteAccess) {
           if (usfmReload) {
-            if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded);
+            usfmPositionCaret (usfmCaretPosition);
+          } else {
+            usfmPositionCaretViaAjax ();
           }
-          usfmReload = false;
-          usfmEditorReloadCount = 0;
-        } else {
-          // Checksum error: Reload.
-          usfmReload = true;
-          // Increase the counter, so that eventually it will disable checksumming,
-          // so it can then load corrupted text in the USFM editor.
-          // https://github.com/bibledit/cloud/issues/482
-          usfmEditorReloadCount++
-          // Try loading the chapter again after a short timeoout.
-          setTimeout (usfmEditorLoadChapter, 100);
         }
-        if (!usfmEditorWriteAccess) usfmPositionFocusedVerseViaAjax ();
-      },
+        // Alert on reload.
+        if (usfmReload) {
+          if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded);
+        }
+        usfmReload = false;
+        usfmEditorReloadCount = 0;
+      } else {
+        // Checksum error: Reload.
+        usfmReload = true;
+        // Increase the counter, so that eventually it will disable checksumming,
+        // so it can then load corrupted text in the USFM editor.
+        // https://github.com/bibledit/cloud/issues/482
+        usfmEditorReloadCount++
+        // Try loading the chapter again after a short timeoout.
+        setTimeout (usfmEditorLoadChapter, 100);
+      }
+      if (!usfmEditorWriteAccess) usfmPositionFocusedVerseViaAjax ();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
     });
   }
 }
@@ -184,7 +222,7 @@ function usfmEditorSaveChapter (sync)
   usfmEditorTextChanged = false;
   if (!usfmBible) return;
   if (!usfmBook) return;
-  var usfm = $ ("#usfmeditor").text ();
+  var usfm = document.querySelector("#usfmeditor").innerText;
   if (usfm == usfmLoadedText) return;
   if (!usfm) return;
   usfmEditorStatus (usfmEditorChapterSaving);
@@ -195,24 +233,32 @@ function usfmEditorSaveChapter (sync)
   var encodedUsfm = filter_url_plus_to_tag (usfm);
   var checksum = checksum_get (encodedUsfm);
   usfmSaving = true;
-  $.ajax ({
-    url: "save",
-    type: "POST",
-    async: usfmSaveAsync,
-    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, usfm: encodedUsfm, checksum: checksum, id: usfmEditorUniqueID },
-    error: function (jqXHR, textStatus, errorThrown) {
-      usfmEditorStatus (usfmEditorChapterRetrying);
-      usfmLoadedText = "";
-      usfmEditorChanged ();
-      if (!usfmSaveAsync) usfmEditorSaveChapter (true);
-    },
-    success: function (response) {
-      usfmEditorStatus (response);
-    },
-    complete: function (xhr, status) {
-      usfmSaveAsync = true;
-      usfmSaving = false;
+  
+  fetch("save", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter], ["usfm", encodedUsfm], ["checksum", checksum], ["id", usfmEditorUniqueID] ]).toString(),
+    keepalive: !usfmSaveAsync,
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    usfmEditorStatus (response);
+  })
+  .catch((error) => {
+    console.log(error);
+    usfmEditorStatus (usfmEditorChapterRetrying);
+    usfmLoadedText = "";
+    usfmEditorChanged ();
+    if (!usfmSaveAsync) usfmEditorSaveChapter (true);
+  })
+  .finally(() => {
+    usfmSaveAsync = true;
+    usfmSaving = false;
   });
 }
 
@@ -232,8 +278,9 @@ function usfmEditorChanged (event)
 
 function usfmEditorStatus (text)
 {
-  $ ("#usfmstatus").empty ();
-  $ ("#usfmstatus").append (text);
+  var usfmstatus = document.querySelector("#usfmstatus");
+  usfmstatus.innerHTML = "";
+  usfmstatus.insertAdjacentHTML('beforeend', text);
   usfmEditorSelectiveNotification (text);
 }
 
@@ -274,28 +321,36 @@ function usfmIdPollerOn ()
 function usfmEditorPollId ()
 {
   usfmIdPollerOff ();
-  $.ajax ({
-    url: "../edit/id",
-    type: "GET",
-    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
-    cache: false,
-    success: function (response) {
-      if (!usfmSaving) {
-        if (usfmIdChapter != 0) {
-          if (response != usfmIdChapter) {
-            usfmReload = true;
-            usfmEditorLoadChapter ();
-            usfmIdChapter = 0;
-          }
-        }
-        usfmIdChapter = response;
-      }
-    },
-    complete: function (xhr, status) {
-      if (status != "abort") {
-        usfmIdPollerOn ();
-      }
+  
+  const url = "../edit/id?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter]  ]).toString();
+  
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    if (!usfmSaving) {
+      if (usfmIdChapter != 0) {
+        if (response != usfmIdChapter) {
+          usfmReload = true;
+          usfmEditorLoadChapter ();
+          usfmIdChapter = 0;
+        }
+      }
+      usfmIdChapter = response;
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    usfmIdPollerOn ();
   });
 }
 
@@ -327,19 +382,25 @@ function usfmHandleCaret ()
     usfmCaretChanged ();
     return;
   }
-  if ($ ("#usfmeditor").is (":focus")) {
+  if (document.querySelector("#usfmeditor") == document.activeElement) {
     var offset = usfmGetCaretPosition ();
-    $.ajax ({
-      url: "offset",
-      type: "GET",
-      data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, offset: offset },
-      success: function (response) {
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        // On (network) failure, reschedule the update.
-        usfmCaretChanged ();
+    const url = "offset?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter], ["offset", offset] ]).toString()
+    fetch(url, {
+      method: "GET",
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
       }
-    });
+      return response.text();
+    })
+    .then((response) => {
+    })
+    .catch((error) => {
+      console.log(error);
+      // On (network) failure, reschedule the update.
+      usfmCaretChanged ();
+    })
   }
 }
 
@@ -349,24 +410,34 @@ function usfmPositionCaretViaAjax ()
   // Due to, most likely, network latency,
   // setting the caret at times causes the caret to jump to undesired places.
   // Therefore the caret is to be set only on chapter load.
-  if (usfmEditorWriteAccess) $ ("#usfmeditor").focus ();
-  $.ajax ({
-    url: "focus",
-    type: "GET",
-    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
-    success: function (response) {
-      response = response.split (" ");
-      var start = parseInt (response [0], 10);
-      var end = parseInt (response [1], 10);
-      var offset = usfmGetCaretPosition ();
-      if ((offset < start) || (offset > end)) {
-        // Position caret right after the verse number.
-        // That cares for empty verse text too.
-        var position = start + 3 + usfmNavigationVerse.toString().length;
-        usfmPositionCaret (position);
-      }
-      restartCaretClarifier ();
+  if (usfmEditorWriteAccess) document.querySelector ("#usfmeditor").focus ();
+  const url = "focus?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter] ]).toString()
+  fetch(url, {
+    method: "GET",
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    response = response.split (" ");
+    var start = parseInt (response [0], 10);
+    var end = parseInt (response [1], 10);
+    var offset = usfmGetCaretPosition ();
+    if ((offset < start) || (offset > end)) {
+      // Position caret right after the verse number.
+      // That cares for empty verse text too.
+      var position = start + 3 + usfmNavigationVerse.toString().length;
+      usfmPositionCaret (position);
+    }
+    restartCaretClarifier ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
   });
 }
 
@@ -374,10 +445,9 @@ function usfmPositionCaretViaAjax ()
 function usfmGetCaretPosition ()
 {
   var position = undefined;
-  var editor = $ ("#usfmeditor");
-  if (editor.is (":focus")) {
-    var element = editor.get (0);
-    position = usfmGetCaretCharacterOffsetWithin (element);
+  var editor = document.querySelector("#usfmeditor");
+  if (editor == document.activeElement) {
+    position = usfmGetCaretCharacterOffsetWithin (editor);
   }
   return position;
 }
@@ -416,7 +486,7 @@ function usfmGetCaretCharacterOffsetWithin (element)
 function usfmPositionCaret (position)
 {
   if (!usfmEditorWriteAccess) return;
-  $ ("#usfmeditor").focus ();
+  document.querySelector ("#usfmeditor").focus ();
   var currentPosition = usfmGetCaretPosition ();
   if (currentPosition == undefined) return;
   if (position == undefined) return;
@@ -475,14 +545,13 @@ function getSelectionCoordinates()
 
 function clarifyCaret ()
 {
-  var scrolltop = $ ("#workspacewrapper").scrollTop ();
+  var scrolltop = document.querySelector ("#workspacewrapper").scrollTop;
   var coordinates = getSelectionCoordinates ();
   var caretTop = coordinates.y + scrolltop;
   if (caretTop == usfmPreviousCaretTop) return;
   usfmPreviousCaretTop = caretTop;
-  var viewportHeight = $(window).height ();
-  $ ("#workspacewrapper").stop (true);
-  $ ("#workspacewrapper").animate ({ scrollTop: caretTop - (viewportHeight * verticalCaretPosition / 100) }, 500);
+  var viewportHeight = window.innerHeight;
+  document.querySelector ("#workspacewrapper").scrollTo ({top: caretTop - (viewportHeight * verticalCaretPosition / 100), behaviour: "smooth"});
 }
 
 
@@ -523,29 +592,44 @@ Section for positioning focused verse in non-editable USFM editor.
 
 function usfmPositionFocusedVerseViaAjax ()
 {
-  $.ajax ({
-    url: "focus",
-    type: "GET",
-    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
-    success: function (response) {
-      response = response.split (" ");
-      var start = parseInt (response [0], 10);
-      var end = parseInt (response [1], 10);
-      var offset = parseInt ((start + end) / 2);
-      var cache = $ ("#usfmeditor").html();
-      $ ("#usfmeditor").html(function (index, html) {
-        return html.slice (0, offset) + '<span id="usfmfocus">' + html.slice(offset, offset + 1) + '</span>' + html.slice(offset + 1);
-      });
-      var verseTop = $("#usfmfocus").offset().top;
-      $ ("#usfmeditor").html(cache);
-      var workspaceHeight = $("#workspacewrapper").height();
-      var viewportHeight = $(window).height ();
-      var scrolltop = $ ("#workspacewrapper").scrollTop ();
-      var scrollTo = verseTop - parseInt (workspaceHeight * verticalCaretPosition / 100) + scrolltop;
-      $ ("#workspacewrapper").stop (true);
-      $ ("#workspacewrapper").animate ({ scrollTop: scrollTo }, 500);
+  const url = "focus?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter] ]).toString();
+  fetch(url, {
+    method: "GET",
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
-  });
+    return response.text();
+  })
+  .then((response) => {
+    response = response.split (" ");
+    var start = parseInt (response [0], 10);
+    var end = parseInt (response [1], 10);
+    var offset = parseInt ((start + end) / 2);
+    var usfmeditor = document.querySelector("#usfmeditor");
+    var cache = usfmeditor.innerHTML;
+    var html = cache;
+    html = html.slice (0, offset) + '<span id="usfmfocus">' + html.slice(offset, offset + 1) + '</span>' + html.slice(offset + 1);
+    usfmeditor.innerHTML = "";
+    usfmeditor.insertAdjacentHTML('beforeend', html);
+    var usfmfocus = document.querySelector("#usfmfocus");
+    var verseTop = usfmfocus.getBoundingClientRect().top;
+    usfmeditor.innerHTML = "";
+    usfmeditor.insertAdjacentHTML('beforeend', cache);
+    var workspacewrapper = document.querySelector("#workspacewrapper")
+    var workspaceHeight = workspacewrapper.clientHeight;
+    var viewportHeight = window.innerHeight;
+    var scrolltop = workspacewrapper.scrollTop;
+    var scrollTo = verseTop - parseInt (workspaceHeight * verticalCaretPosition / 100) + scrolltop;
+    workspacewrapper.scroll({
+      top: scrollTo,
+      behavior: "smooth",
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
                              
@@ -559,10 +643,10 @@ Section for reload notifications.
 function usfmEditorReloadAlert (message)
 {
   // Take action only if the editor has focus and the user can type in it.
-  var editor = $ ("#usfmeditor");
-  if (editor.is (":focus")) {
+  var editor = document.querySelector ("#usfmeditor");
+  if (editor === document.activeElement) {
     notifySuccess (message)
-    editor.attr('contenteditable', false);
+    editor.setAttribute("contenteditable", false);
     setTimeout (usfmEditorReloadAlertTimeout, 3000);
   }
 }
@@ -570,8 +654,8 @@ function usfmEditorReloadAlert (message)
 
 function usfmEditorReloadAlertTimeout ()
 {
-  var editor = $ ("#usfmeditor");
-  editor.attr('contenteditable', usfmEditorWriteAccess);
+  var editor = document.querySelector ("#usfmeditor");
+  editor.setAttribute("contenteditable", usfmEditorWriteAccess);
   editor.focus ();
 }
 

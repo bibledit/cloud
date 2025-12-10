@@ -109,6 +109,7 @@
 		CA47750C260FC71F001F50DD /* accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accounts.h; sourceTree = "<group>"; };
 		CA47750D260FC720001F50DD /* accounts.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = accounts.html; sourceTree = "<group>"; };
 		CA47750E260FC720001F50DD /* accounts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = accounts.cpp; sourceTree = "<group>"; };
+		CA47880B2EEA0AFF003097A7 /* nav.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nav.js; sourceTree = "<group>"; };
 		CA47B2C925E8D957001370A4 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CA4AB3E32CB05EFC00071E3E /* scraper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scraper.cpp; sourceTree = "<group>"; };
 		CA4CA5432946111900939907 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../opt/local/lib/libiconv.2.dylib; sourceTree = "<group>"; };
@@ -3488,16 +3489,17 @@
 		CADE3CF224F17470003165BB /* navigation */ = {
 			isa = PBXGroup;
 			children = (
-				CAAA5DB9256555E5003249CA /* paratext.cpp */,
+				CA47880B2EEA0AFF003097A7 /* nav.js */,
 				CAAA5DB8256555E4003249CA /* paratext.h */,
-				CADE3CF324F17470003165BB /* passage.cpp */,
+				CAAA5DB9256555E5003249CA /* paratext.cpp */,
 				CADE3CF424F17470003165BB /* passage.h */,
+				CADE3CF324F17470003165BB /* passage.cpp */,
 				CADE3CF824F17470003165BB /* passage.js */,
-				CADE3CF624F17470003165BB /* poll.cpp */,
 				CADE3CFA24F17470003165BB /* poll.h */,
+				CADE3CF624F17470003165BB /* poll.cpp */,
 				CADE3CF724F17470003165BB /* shortcuts.js */,
-				CADE3CFB24F17470003165BB /* update.cpp */,
 				CADE3D0324F17470003165BB /* update.h */,
+				CADE3CFB24F17470003165BB /* update.cpp */,
 			);
 			path = navigation;
 			sourceTree = "<group>";

@@ -28,119 +28,193 @@ var navigatorTimeout;
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  navigatorContainer = $ ("#versepickerwrapper");
+  navigatorContainer = document.querySelector ("#versepickerwrapper");
   buildMouseNavigator ();
   navigationPollPassage ();
-  $ ("body").on('keydown', "#keyboard", keyboardNavigatorEnter);
 });
 
 
 function buildKeyboardNavigator () {
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, keyboard: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer = $ ("#versepickerwrapper");
-      if (navigatorContainer.length == 0) {
-        navigatorContainer = $(parent.document).find ("#versepickerwrapper");
-      }
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      var keyboard = $ ("#keyboard");
-      if (keyboard.length == 0) keyboard = $(parent.document).find ("#keyboard");
-      keyboard.focus ();
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["keyboard", ""] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer = document.querySelector ("#versepickerwrapper");
+    if (!navigatorContainer) {
+      navigatorContainer = parent.document.document.querySelector ("#versepickerwrapper");
+    }
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    var keyboard = document.querySelector ("#keyboard");
+    if (!keyboard)
+      keyboard = parent.document.querySelector ("#keyboard");
+    keyboard.focus ();
+    keyboard.addEventListener('keydown', keyboardNavigatorEnter);
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function keyboardNavigatorEnter (event) {
   if (event.keyCode == 13) {
-    passage = $ ("#keyboard").val();
-    $.ajax ({
-      url: "/navigation/update",
-      type: "GET",
-      data: { bible: navigationBible, passage: passage },
-      cache: false,
-      success: function (response) {
-        navigatorContainer.empty ();
-        navigatorContainer.append (response);
-        bindClickHandlers ();
-        navigationPollPassage ();
-      },
-    });
+    passage = document.querySelector("#keyboard").value;
+    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["passage", passage] ]).toString()
+    fetch(url, {
+      method: "GET",
+      cache: "no-cache"
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.text();
+    })
+    .then((response) => {
+      navigatorContainer.innerHTML = "";
+      navigatorContainer.insertAdjacentHTML('beforeend', response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
     return false;
   }
 }
 
 
 function buildMouseNavigator () {
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      bindClickHandlers ();
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    bindClickHandlers ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+}
+
+
+var navigateBackTimer;
+function startNavigateBackLongPress(event) {
+  navigateBackTimer = setTimeout(function(event) {
+    historyBack (event);
+  },1000);
+}
+function stopNavigateBackLongPress(event) {
+  clearTimeout(navigateBackTimer);
+}
+
+
+var navigateForwardTimer;
+function startNavigateForwardLongPress(event) {
+  navigateForwardTimer = setTimeout(function(event) {
+    historyForward (event);
+  },1000);
+}
+function stopNavigateForwardLongPress(event) {
+  clearTimeout(navigateForwardTimer);
 }
 
 
 function bindClickHandlers () {
-  $("#navigateback").on ("click", function (event) {
-    navigateBack (event);
-  });
-  $("#navigateback").longpress (function (event) {
-    historyBack (event);
-  });
-  $("#navigateback").on ("contextmenu", function (event) {
-    event.preventDefault();
-  });
-  $("#navigateforward").on ("click", function (event) {
-    navigateForward (event);
-  });
-  $("#navigateforward").longpress (function (event) {
-    historyForward (event);
-  });
-  $("#navigateforward").on ("contextmenu", function (event) {
-    event.preventDefault();
-  });
-  $("#previousbook").on ("click", function (event) {
-    navigatePreviousBook (event);
-  });
-  $("#selectbook").on ("click", function (event) {
-    $ (".fadeout").hide ();
-    $ ('#topbar').addClass('wrap-active');
-    displayBooks (event);
-  });
-  $("#nextbook").on ("click", function (event) {
-    navigateNextBook (event);
-  });
-  $("#previouschapter").on ("click", function (event) {
-    navigatePreviousChapter (event);
-  });
-  $("#selectchapter").on ("click", function (event) {
-    $ (".fadeout").hide ();
-    displayChapters (event);
-  });
-  $("#nextchapter").on ("click", function (event) {
-    navigateNextChapter (event);
-  });
-  $("#previousverse").on ("click", function (event) {
-    navigatePreviousVerse (event);
-  });
-  $("#selectverse").on ("click", function (event) {
-    $ (".fadeout").hide ();
-    displayVerses (event);
-  });
-  $("#nextverse").on ("click", function (event) {
-    navigateNextVerse (event);
-  });
+  var navigateback = document.querySelector("#navigateback");
+  if (navigateback) {
+    navigateback.addEventListener ("click", navigateBack);
+    navigateback.addEventListener ("mousedown", startNavigateBackLongPress);
+    navigateback.addEventListener ("mouseup", stopNavigateBackLongPress);
+    navigateback.addEventListener ("touchstart", startNavigateBackLongPress);
+    navigateback.addEventListener ("touchend", stopNavigateBackLongPress);
+    navigateback.addEventListener ("contextmenu", function(event) {
+      event.preventDefault();
+    });
+  }
+  var navigateforward = document.querySelector("#navigateforward");
+  if (navigateforward) {
+    navigateforward.addEventListener ("click", navigateForward);
+    navigateforward.addEventListener ("mousedown", startNavigateForwardLongPress);
+    navigateforward.addEventListener ("mouseup", stopNavigateForwardLongPress);
+    navigateforward.addEventListener ("touchstart", startNavigateForwardLongPress);
+    navigateforward.addEventListener ("touchend", stopNavigateForwardLongPress);
+    navigateforward.addEventListener ("contextmenu", function(event) {
+      event.preventDefault();
+    });
+  }
+  var previousbook = document.querySelector("#previousbook");
+  if (previousbook) {
+    previousbook.addEventListener ("click", navigatePreviousBook);
+  }
+  var selectbook = document.querySelector("#selectbook");
+  if (selectbook) {
+    selectbook.addEventListener ("click", function (event) {
+      var fadeout = document.querySelector(".fadeout");
+      if (fadeout)
+        fadeout.hidden = true;
+      var topbar = document.querySelector('#topbar');
+      if (topbar)
+        topbar.classList.add('wrap-active');
+      displayBooks (event);
+    });
+  }
+  var nextbook = document.querySelector("#nextbook");
+  if (nextbook) {
+    nextbook.addEventListener ("click", navigateNextBook);
+  }
+  var previouschapter = document.querySelector("#previouschapter");
+  if (previouschapter) {
+    previouschapter.addEventListener ("click", navigatePreviousChapter);
+  }
+  var selectchapter = document.querySelector("#selectchapter");
+  if (selectchapter) {
+    selectchapter.addEventListener ("click", function (event) {
+      var fadeout = document.querySelector(".fadeout");
+      if (fadeout)
+        fadeout.hidden = true;
+      displayChapters (event);
+    });
+  }
+  var nextchapter = document.querySelector("#nextchapter");
+  if (nextchapter) {
+    nextchapter.addEventListener ("click", navigateNextChapter);
+  }
+  var previousverse = document.querySelector("#previousverse");
+  if (previousverse) {
+    previousverse.addEventListener ("click", navigatePreviousVerse);
+  }
+  var selectverse = document.querySelector("#selectverse");
+  if (selectverse) {
+    selectverse.addEventListener ("click", function (event) {
+      var fadeout = document.querySelector(".fadeout");
+      if (fadeout)
+        fadeout.hidden = true;
+      displayVerses (event);
+    });
+  }
+  var nextverse = document.querySelector("#nextverse");
+  if (nextverse) {
+    nextverse.addEventListener ("click", navigateNextVerse);
+  }
 }
 
 
@@ -158,8 +232,8 @@ function navigateBack (event) {
     data: { bible: navigationBible, goback: "" },
     cache: false,
     success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
+      navigatorContainer.innerHTML = "";
+      navigatorContainer.insertAdjacentHTML('beforeend', response);
       bindClickHandlers ();
       navigationPollPassage ();
     },
@@ -174,232 +248,336 @@ function navigateForward (event) {
     navigateForwardSkip = false;
     return;
   }
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, goforward: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      bindClickHandlers ();
-      navigationPollPassage ();
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["goforward", ""] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    bindClickHandlers ();
+    navigationPollPassage ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function displayBooks (event) {
   event.preventDefault ();
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, getbooks: true },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      $("#applybook").on ("click", function (event) {
-        $ ('#topbar').removeClass('wrap-active');
-        applyBook (event);
-      });
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["getbooks", true] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    $("#applybook").on ("click", function (event) {
+      $ ('#topbar').removeClass('wrap-active');
+      applyBook (event);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function applyBook (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    $.ajax ({
-      url: "/navigation/update",
-      type: "GET",
-      data: { bible: navigationBible, applybook: event.target.id },
-      cache: false,
-      success: function (response) {
-        navigatorContainer.empty ();
-        navigatorContainer.append (response);
-        bindClickHandlers ();
-        navigationPollPassage ();
-      },
-    });
+    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applybook", event.target.id] ]).toString()
+    fetch(url, {
+      method: "GET",
+      cache: "no-cache"
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.text();
+    })
+    .then((response) => {
+      navigatorContainer.innerHTML = "";
+      navigatorContainer.insertAdjacentHTML('beforeend', response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 }
 
 
 function displayChapters (event) {
   event.preventDefault ();
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, book: navigationBook, getchapters: true, chapter: navigationChapter },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      $("#applychapter").on ("click", function (event) {
-        applyChapter (event);
-      });
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["book", navigationBook], ["getchapters", true], ["chapter", navigationChapter] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    document.querySelectorAll("#applychapter").forEach((element) => {
+      element.addEventListener("click", applyChapter);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function applyChapter (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    $.ajax ({
-      url: "/navigation/update",
-      type: "GET",
-      data: { bible: navigationBible, applychapter: event.target.id },
-      cache: false,
-      success: function (response) {
-        navigatorContainer.empty ();
-        navigatorContainer.append (response);
-        bindClickHandlers ();
-        navigationPollPassage ();
-      },
-    });
+    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applychapter", event.target.id] ]).toString()
+    fetch(url, {
+      method: "GET",
+      cache: "no-cache"
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.text();
+    })
+    .then((response) => {
+      navigatorContainer.innerHTML = "";
+      navigatorContainer.insertAdjacentHTML('beforeend', response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 }
 
 
 function displayVerses (event) {
   event.preventDefault ();
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, book: navigationBook, chapter: navigationChapter, verse: navigationVerse, getverses: true },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      $("#applyverse").on ("click", function (event) {
-        applyVerse (event);
-      });
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["book", navigationBook], ["chapter", navigationChapter], ["verse", navigationVerse], ["getverses", true] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+    })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    document.querySelectorAll("#applyverse").forEach((element) => {
+      element.addEventListener("click", applyVerse);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function applyVerse (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    $.ajax ({
-      url: "/navigation/update",
-      type: "GET",
-      data: { bible: navigationBible, applyverse: event.target.id },
-      cache: false,
-      success: function (response) {
-        navigatorContainer.empty ();
-        navigatorContainer.append (response);
-        bindClickHandlers ();
-        navigationPollPassage ();
-      },
-    });
+    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applyverse", event.target.id] ]).toString()
+    fetch(url, {
+      method: "GET",
+      cache: "no-cache"
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.text();
+    })
+    .then((response) => {
+      navigatorContainer.innerHTML = "";
+      navigatorContainer.insertAdjacentHTML('beforeend', response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 }
 
 
 function navigatePreviousVerse (event) {
   event.preventDefault ();
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, previousverse: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      bindClickHandlers ();
-      navigationPollPassage ();
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["previousverse", ""] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    bindClickHandlers ();
+    navigationPollPassage ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function navigateNextVerse (event) {
   event.preventDefault ();
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, nextverse: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      bindClickHandlers ();
-      navigationPollPassage ();
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["nextverse", ""] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    bindClickHandlers ();
+    navigationPollPassage ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function navigatePreviousChapter (event) {
   event.preventDefault ();
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, previouschapter: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      bindClickHandlers ();
-      navigationPollPassage ();
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["previouschapter", ""] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    bindClickHandlers ();
+    navigationPollPassage ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function navigateNextChapter (event) {
   event.preventDefault ();
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, nextchapter: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      bindClickHandlers ();
-      navigationPollPassage ();
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["nextchapter", ""] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    bindClickHandlers ();
+    navigationPollPassage ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function navigatePreviousBook (event) {
   event.preventDefault ();
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, previousbook: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      bindClickHandlers ();
-      navigationPollPassage ();
-    },
-    });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["previousbook", ""] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    bindClickHandlers ();
+    navigationPollPassage ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function navigateNextBook (event) {
   event.preventDefault ();
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, nextbook: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      bindClickHandlers ();
-      navigationPollPassage ();
-    },
-    });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["nextbook", ""] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    bindClickHandlers ();
+    navigationPollPassage ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
@@ -408,26 +586,34 @@ function navigationPollPassage ()
   if (navigatorTimeout) {
     clearTimeout (navigatorTimeout);
   }
-  $.ajax ({
-    url: "/navigation/poll",
-    type: "GET",
-    cache: false,
-    success: function (response) {
-      var ref = response.split ("\n");
-      var book = ref [0];
-      var chapter = ref [1];
-      var verse = ref [2];
-      if ((book != navigationBook) || (chapter != navigationChapter) || (verse != navigationVerse)) {
-        navigationBook = book;
-        navigationChapter = chapter;
-        navigationVerse = verse;
-        navigationCallNewPassage ();
-        buildMouseNavigator ();
-      }
-    },
-    complete: function (xhr, status) {
-      navigatorTimeout = setTimeout (navigationPollPassage, 1000);
+  fetch("/navigation/poll", {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    var ref = response.split ("\n");
+    var book = ref [0];
+    var chapter = ref [1];
+    var verse = ref [2];
+    if ((book != navigationBook) || (chapter != navigationChapter) || (verse != navigationVerse)) {
+      navigationBook = book;
+      navigationChapter = chapter;
+      navigationVerse = verse;
+      navigationCallNewPassage ();
+      buildMouseNavigator ();
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    navigatorTimeout = setTimeout (navigationPollPassage, 1000);
   });
 }
 
@@ -473,13 +659,13 @@ function navigationCallNewPassage () {
   }
   catch (err) {
   }
-  $ ("iframe").each (function (index) {
+  document.querySelectorAll("iframe").forEach((element) => {
     try {
-      $ (this)[0].contentWindow.navigationNewPassage ();
+      element.contentWindow.navigationNewPassage ();
     }
     catch (err) {
     }
-  });
+  })
 }
 
 
@@ -487,19 +673,27 @@ function historyForward (event) {
   // After the long press event, if releasing the mouse, it will fire a click event.
   // Set a flag to not handle the click event.
   navigateForwardSkip = true;
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, historyforward: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      $("#applyhistory").on ("click", function (event) {
-        applyHistory (event);
-      });
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["historyforward", ""] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    document.querySelectorAll("#applyhistory").forEach((element) => {
+      element.addEventListener ("click", applyHistory);
+    })
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
@@ -507,37 +701,53 @@ function historyBack (event) {
   // After the long press event, if releasing the mouse, it will fire a click event.
   // Set a flag to not handle the click event.
   navigateBackSkip = true;
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, historyback: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.empty ();
-      navigatorContainer.append (response);
-      $("#applyhistory").on ("click", function (event) {
-        applyHistory (event);
-      });
-    },
-  });
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["historyback", ""] ]).toString()
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    document.querySelectorAll("#applyhistory").forEach((element) => {
+      element.addEventListener ("click", applyHistory);
+      })
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function applyHistory (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    $.ajax ({
-      url: "/navigation/update",
-      type: "GET",
-      data: { bible: navigationBible, applyhistory: event.target.id },
-      cache: false,
-      success: function (response) {
-        navigatorContainer.empty ();
-        navigatorContainer.append (response);
-        bindClickHandlers ();
-        navigationPollPassage ();
-      },
-    });
+    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applyhistory", event.target.id] ]).toString()
+    fetch(url, {
+      method: "GET",
+      cache: "no-cache"
+      })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.text();
+    })
+    .then((response) => {
+      navigatorContainer.innerHTML = "";
+      navigatorContainer.insertAdjacentHTML('beforeend', response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 }
 

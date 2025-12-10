@@ -439,6 +439,7 @@
 /miniz/readme.txt
 /missing
 /navigation
+/navigation/nav.js
 /navigation/passage.js
 /navigation/shortcuts.js
 /nicedit

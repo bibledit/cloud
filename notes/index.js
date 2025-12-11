@@ -24,19 +24,27 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
 function navigationNewPassage ()
 {
-  $.ajax ({
-    url: "notes",
-    type: "GET",
-    cache: false,
-    success: function (response) {
-      var container = $ ("#noteslist");
-      container.empty ();
-      container.append (response);
-      if (window.self !== window.top) {
-        document.querySelectorAll('a').forEach((element) => {
-          element.href = topbarRemovalQueryAddition (element.href);
-        })
-      }
-    },
-  });
+  fetch("notes", {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    var container = document.querySelector ("#noteslist");
+    container.innerHTML = "";
+    container.insertAdjacentHTML('beforeend', response);
+    if (window.self !== window.top) {
+      document.querySelectorAll('a').forEach((element) => {
+        element.href = topbarRemovalQueryAddition (element.href);
+      })
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }

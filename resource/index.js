@@ -103,7 +103,7 @@ function resourceGetOne ()
           $ ("#content" + this.resourceDoing).html (response);
         }
       }
-      // Todo navigationSetup ();
+      navigationSetup ();
       resourcePosition ();
     },
     error: function (jqXHR, textStatus, errorThrown) {

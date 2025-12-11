@@ -17,36 +17,55 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 document.addEventListener("DOMContentLoaded", function(e) {
   notesPoll ();
-  $ (window).on ("unload", notesUnload);
+  window.addEventListener("unload", notesUnload);
 });
 
 
 function notesPoll ()
 {
-  $.ajax ({
-    url: "poll",
-    type: "GET",
-    data: { action: "alive" },
-    success: function (response) {
-      if (response != "") {
-        if (response != location.href) {
-          location.href = response;
-        }
-      }
-    },
-    complete: function (xhr, status) {
-      setTimeout (notesPoll, 1000);
+  const url = "poll?action=alive";
+  fetch(url, {
+    method: "GET",
+    keepalive: true,
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    if (response != "") {
+      if (response != location.href) {
+        location.href = response;
+      }
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    setTimeout (notesPoll, 1000);
   });
 }
 
 
 function notesUnload ()
 {
-  $.ajax ({
-    url: "poll",
-    type: "GET",
-    data: { action: "unload" },
-    async: false,
-  });
+  const url = "poll?action=unload";
+  fetch(url, {
+    method: "GET",
+    keepalive: true,
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }

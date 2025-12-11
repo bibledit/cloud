@@ -17,24 +17,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 function noteClickSetup ()
 {
-  $("a.opennote").off ("click");
-  $("a.newnote").off ("click");
-  $("a.opennote").on ("click", function (event) {
-    event.preventDefault ();
-    $.ajax ({
-      url: "/notes/click",
-      type: "GET",
-      data: { open: event.target.href },
-      cache: false,
-    });
+  document.querySelectorAll("a.opennote").forEach((element) => {
+    element.removeEventListener("click", aOpenNoteClick, false);
+    element.addEventListener("click", aOpenNoteClick);
   });
-  $("a.newnote").on ("click", function (event) {
-    event.preventDefault ();
-    $.ajax ({
-      url: "/notes/click",
-      type: "GET",
-      data: { new: event.target.href },
-      cache: false,
-    });
+  document.querySelectorAll("a.newnote").forEach((element) => {
+    element.removeEventListener("click", aNewNoteClick, false);
+    element.addEventListener("click", aNewNoteClick);
   });
+}
+
+function aOpenNoteClick (event) {
+  event.preventDefault ();
+  const url = "/notes/click?open=" + event.target.href;
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+}
+
+function aNewNoteClick (event) {
+  event.preventDefault ();
+  const url = "/notes/click?new=" + event.target.href;
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }

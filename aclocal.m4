@@ -32,8 +32,8 @@ To do so, use the procedure documented by the package, typically 'autoreconf'.])
 #
 #   Check for baseline language coverage in the compiler for the specified
 #   version of the C++ standard.  If necessary, add switches to CXX and
-#   CXXCPP to enable support.  VERSION may be '11', '14', '17', or '20' for
-#   the respective C++ standard version.
+#   CXXCPP to enable support.  VERSION may be '11', '14', '17', '20', or
+#   '23' for the respective C++ standard version.
 #
 #   The second argument, if specified, indicates whether you insist on an
 #   extended mode (e.g. -std=gnu++11) or a strict conformance mode (e.g.
@@ -59,13 +59,14 @@ To do so, use the procedure documented by the package, typically 'autoreconf'.])
 #   Copyright (c) 2019 Enji Cooper <yaneurabeya@gmail.com>
 #   Copyright (c) 2020 Jason Merrill <jason@redhat.com>
 #   Copyright (c) 2021 Jörn Heusipp <osmanx@problemloesungsmaschine.de>
+#   Copyright (c) 2015, 2022, 2023, 2024 Olly Betts
 #
 #   Copying and distribution of this file, with or without modification, are
 #   permitted in any medium without royalty provided the copyright notice
 #   and this notice are preserved.  This file is offered as-is, without any
 #   warranty.
 
-#serial 18
+#serial 23
 
 dnl  This macro is based on the code from the AX_CXX_COMPILE_STDCXX_11 macro
 dnl  (serial version number 13).
@@ -75,6 +76,7 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
         [$1], [14], [ax_cxx_compile_alternatives="14 1y"],
         [$1], [17], [ax_cxx_compile_alternatives="17 1z"],
         [$1], [20], [ax_cxx_compile_alternatives="20"],
+        [$1], [23], [ax_cxx_compile_alternatives="23"],
         [m4_fatal([invalid first argument `$1' to AX_CXX_COMPILE_STDCXX])])dnl
   m4_if([$2], [], [],
         [$2], [ext], [],
@@ -97,7 +99,7 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
       ac_success=yes
     fi])
 
-  m4_if([$2], [noext], [], [dnl
+  m4_if([$2], [noext], [dnl
   if test x$ac_success = xno; then
     for alternative in ${ax_cxx_compile_alternatives}; do
       switch="-std=gnu++${alternative}"
@@ -121,7 +123,7 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
     done
   fi])
 
-  m4_if([$2], [ext], [], [dnl
+  m4_if([$2], [ext], [dnl
   if test x$ac_success = xno; then
     dnl HP's aCC needs +std=c++11 according to:
     dnl http://h21007.www2.hp.com/portal/download/files/unprot/aCxx/PDF_Release_Notes/769149-001.pdf
@@ -181,31 +183,41 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
 dnl  Test body for checking C++11 support
 
 m4_define([_AX_CXX_COMPILE_STDCXX_testbody_11],
-  _AX_CXX_COMPILE_STDCXX_testbody_new_in_11
+  [_AX_CXX_COMPILE_STDCXX_testbody_new_in_11]
 )
 
 dnl  Test body for checking C++14 support
 
 m4_define([_AX_CXX_COMPILE_STDCXX_testbody_14],
-  _AX_CXX_COMPILE_STDCXX_testbody_new_in_11
-  _AX_CXX_COMPILE_STDCXX_testbody_new_in_14
+  [_AX_CXX_COMPILE_STDCXX_testbody_new_in_11
+   _AX_CXX_COMPILE_STDCXX_testbody_new_in_14]
 )
 
 dnl  Test body for checking C++17 support
 
 m4_define([_AX_CXX_COMPILE_STDCXX_testbody_17],
-  _AX_CXX_COMPILE_STDCXX_testbody_new_in_11
-  _AX_CXX_COMPILE_STDCXX_testbody_new_in_14
-  _AX_CXX_COMPILE_STDCXX_testbody_new_in_17
+  [_AX_CXX_COMPILE_STDCXX_testbody_new_in_11
+   _AX_CXX_COMPILE_STDCXX_testbody_new_in_14
+   _AX_CXX_COMPILE_STDCXX_testbody_new_in_17]
 )
 
 dnl  Test body for checking C++20 support
 
 m4_define([_AX_CXX_COMPILE_STDCXX_testbody_20],
+  [_AX_CXX_COMPILE_STDCXX_testbody_new_in_11
+   _AX_CXX_COMPILE_STDCXX_testbody_new_in_14
+   _AX_CXX_COMPILE_STDCXX_testbody_new_in_17
+   _AX_CXX_COMPILE_STDCXX_testbody_new_in_20]
+)
+
+dnl  Test body for checking C++23 support
+
+m4_define([_AX_CXX_COMPILE_STDCXX_testbody_23],
   _AX_CXX_COMPILE_STDCXX_testbody_new_in_11
   _AX_CXX_COMPILE_STDCXX_testbody_new_in_14
   _AX_CXX_COMPILE_STDCXX_testbody_new_in_17
   _AX_CXX_COMPILE_STDCXX_testbody_new_in_20
+  _AX_CXX_COMPILE_STDCXX_testbody_new_in_23
 )
 
 
@@ -223,7 +235,17 @@ m4_define([_AX_CXX_COMPILE_STDCXX_testbody_new_in_11], [[
 // MSVC always sets __cplusplus to 199711L in older versions; newer versions
 // only set it correctly if /Zc:__cplusplus is specified as well as a
 // /std:c++NN switch:
+//
 // https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
+//
+// The value __cplusplus ought to have is available in _MSVC_LANG since
+// Visual Studio 2015 Update 3:
+//
+// https://learn.microsoft.com/en-us/cpp/preprocessor/predefined-macros
+//
+// This was also the first MSVC version to support C++14 so we can't use the
+// value of either __cplusplus or _MSVC_LANG to quickly rule out MSVC having
+// C++11 or C++14 support, but we can check _MSVC_LANG for C++17 and later.
 #elif __cplusplus < 201103L && !defined _MSC_VER
 
 #error "This is not a C++11 compiler"
@@ -639,7 +661,7 @@ m4_define([_AX_CXX_COMPILE_STDCXX_testbody_new_in_17], [[
 
 #error "This is not a C++ compiler"
 
-#elif __cplusplus < 201703L && !defined _MSC_VER
+#elif (defined _MSVC_LANG ? _MSVC_LANG : __cplusplus) < 201703L
 
 #error "This is not a C++17 compiler"
 
@@ -1005,7 +1027,7 @@ namespace cxx17
 
 }  // namespace cxx17
 
-#endif  // __cplusplus < 201703L && !defined _MSC_VER
+#endif  // (defined _MSVC_LANG ? _MSVC_LANG : __cplusplus) < 201703L
 
 ]])
 
@@ -1018,7 +1040,7 @@ m4_define([_AX_CXX_COMPILE_STDCXX_testbody_new_in_20], [[
 
 #error "This is not a C++ compiler"
 
-#elif __cplusplus < 202002L && !defined _MSC_VER
+#elif (defined _MSVC_LANG ? _MSVC_LANG : __cplusplus) < 202002L
 
 #error "This is not a C++20 compiler"
 
@@ -1035,7 +1057,37 @@ namespace cxx20
 
 }  // namespace cxx20
 
-#endif  // __cplusplus < 202002L && !defined _MSC_VER
+#endif  // (defined _MSVC_LANG ? _MSVC_LANG : __cplusplus) < 202002L
+
+]])
+
+
+dnl  Tests for new features in C++23
+
+m4_define([_AX_CXX_COMPILE_STDCXX_testbody_new_in_23], [[
+
+#ifndef __cplusplus
+
+#error "This is not a C++ compiler"
+
+#elif (defined _MSVC_LANG ? _MSVC_LANG : __cplusplus) < 202302L
+
+#error "This is not a C++23 compiler"
+
+#else
+
+#include <version>
+
+namespace cxx23
+{
+
+// As C++23 supports feature test macros in the standard, there is no
+// immediate need to actually test for feature availability on the
+// Autoconf side.
+
+}  // namespace cxx23
+
+#endif  // (defined _MSVC_LANG ? _MSVC_LANG : __cplusplus) < 202302L
 
 ]])
 

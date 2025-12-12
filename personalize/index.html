@@ -332,7 +332,5 @@ translate("Show arrows in the passage navigator for previous and next book and c
 </p>
 <!-- #ENDZONE advancedmode -->
 
-
 <br>
-<script type="text/javascript" src="index.js?##VERSION##"></script>
 <script type="text/javascript" src="../assets/checkbox.js?##VERSION##"></script>

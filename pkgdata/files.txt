@@ -489,7 +489,6 @@
 /paratext/index.html
 /personalize
 /personalize/index.html
-/personalize/index.js
 /pix
 /pix/android-chrome-192x192.png
 /pix/android-chrome-512x512.png

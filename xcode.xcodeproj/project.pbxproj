@@ -1158,7 +1158,6 @@
 		CADE3FA424F17488003165BB /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = splash.jpg; sourceTree = "<group>"; };
 		CADE3FB524F17488003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE3FB724F17488003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		CADE3FB824F17488003165BB /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CADE3FBD24F17488003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE3FBF24F17495003165BB /* select.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = select.html; sourceTree = "<group>"; };
 		CADE3FC124F17495003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
@@ -3821,7 +3820,6 @@
 				CADE3FBD24F17488003165BB /* index.cpp */,
 				CADE3FB524F17488003165BB /* index.h */,
 				CADE3FB724F17488003165BB /* index.html */,
-				CADE3FB824F17488003165BB /* index.js */,
 			);
 			path = personalize;
 			sourceTree = "<group>";

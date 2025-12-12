@@ -26,19 +26,34 @@ var arrayOfAdditionalAddresses = ["", ""];
 
 document.addEventListener("DOMContentLoaded", function(e) {
   noteLoadQuill();
-  if ($ ("#create").length) $ ("#create").on ("click", noteCreate);
-  if ($ ("#cancel").length) $ ("#cancel").on ("click", noteCancel);
-  if ($ ("#create2").length) $ ("#create2").on ("click", noteCreate2);
-  if ($ ("#cancel2").length) $ ("#cancel2").on ("click", noteCancel2);
-  // The following if condition will add a query to supress the topbar
+  var create = document.querySelector("#create");
+  if (create) {
+    create.addEventListener("click", noteCreate);
+  }
+  var cancel = document.querySelector("#cancel");
+  if (cancel) {
+    cancel.addEventListener("click", noteCancel);
+  }
+  var create2 = document.querySelector("#create2");
+  if (create2) {
+    create2.addEventListener("click", noteCreate2);
+  }
+  var cancel2 = document.querySelector("#cancel2");
+  if (cancel2) {
+    cancel2.addEventListener("click", noteCancel2);
+  }
+  // The following if condition will add a query to suppress the topbar
   // when this page is loaded as a workspace item.
   if (window.self !== window.top) {
     arrayOfAdditionalAddresses = ['?topbar=0','&topbar=0'];
   }
   // Upon creating a note, focus the summary line.
-  if ($("#summary").length) $("#summary").focus();
   // Upon adding a comment to a note, focus the text area.
-  else $(".ql-editor").focus();
+  var summary = document.querySelector("#summary");
+  if (summary)
+    summary.focus();
+  else
+    document.querySelector(".ql-editor").focus();
   document.body.addEventListener('paste', NoteHandlePaste);
 });
 
@@ -55,32 +70,38 @@ function noteLoadQuill ()
     placeholder: 'Write a note...',
     theme: 'snow'
   });
-
-//  quill.clipboard.addMatcher (Node.ELEMENT_NODE, function (node, delta) {
-//    var plaintext = $ (node).text ();
-//    return new Delta().insert (plaintext);
-//  });
 }
 
 
 function noteCreate ()
 {
-  var bible = $("#bible").val();
-  var book = $("#book").val();
-  var chapter = $("#chapter").val();
-  var verse = $("#verse").val();
-  var summary = $("#summary").val();
-  var body = $ ("#body > .ql-editor").html ();
+  var bible = document.querySelector("#bible").value;
+  var book = document.querySelector("#book").value;
+  var chapter = document.querySelector("#chapter").value;
+  var verse = document.querySelector("#verse").value;
+  var summary = document.querySelector("#summary").value;
+  var body = document.querySelector("#body > .ql-editor").innerHTML;
   summary = filter_url_plus_to_tag (summary);
   body = filter_url_plus_to_tag (body);
-  $.ajax ({
-    url: "create",
-    type: "POST",
-    async: false,
-    data: { bible: bible, book: book, chapter: chapter, verse: verse, summary: summary, body: body },
-    complete: function (xhr, status) {
-      window.location.assign ("index" + arrayOfAdditionalAddresses[0]);
+  fetch("create", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([ ["bible", bible], ["book", book], ["chapter", chapter], ["verse", verse], ["summary", summary], ["body", body] ]).toString(),
+    keepalive: true,
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    window.location.assign ("index" + arrayOfAdditionalAddresses[0]);
   });
 }
 
@@ -93,16 +114,27 @@ function noteCancel ()
 
 function noteCreate2 ()
 {
-  var body = $ ("#body > .ql-editor").html ();
+  var body = document.querySelector ("#body > .ql-editor").innerHTML;
   body = filter_url_plus_to_tag (body);
-  $.ajax ({
-    url: "comment",
-    type: "POST",
-    async: false,
-    data: { id: noteId, body: body },
-    complete: function (xhr, status) {
-      window.location.assign ("note?id=" + noteId + "&temporal=" + arrayOfAdditionalAddresses[1]);
+  fetch("comment", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([ ["id", noteId], ["body", body] ]).toString(),
+    keepalive: true,
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    window.location.assign ("note?id=" + noteId + "&temporal=" + arrayOfAdditionalAddresses[1]);
   });
 }
 

@@ -50,13 +50,21 @@ function navigationNewPassage ()
 
 function publicFeedbackLoadVerse ()
 {
-  $.ajax ({
-    url: "new",
-    type: "GET",
-    data: { bible: publicFeedbackNavigationBible, book: publicFeedbackNavigationBook, chapter: publicFeedbackNavigationChapter, verse: publicFeedbackNavigationVerse },
-    success: function (response) {
-      $ ("#versetext").empty ();
-      $ ("#versetext").append (response);
-    },
-  });
+  const url = "new?" + new URLSearchParams([ ["bible", publicFeedbackNavigationBible], ["book", publicFeedbackNavigationBook], ["chapter", publicFeedbackNavigationChapter], ["verse", publicFeedbackNavigationVerse]  ]).toString();
+  fetch(url, {
+    method: "GET",
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    document.querySelector ("#versetext").innerHTML = response;
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+
 }

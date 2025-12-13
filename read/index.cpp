@@ -114,14 +114,14 @@ std::string read_index (Webserver_Request& webserver_request)
   
   // Create a script for Javascript. Quote string to get legal Javascript.
   std::stringstream script_stream {};
-  script_stream << "var readchooseEditorVerseLoaded = " << std::quoted(locale_logic_text_loaded ()) << ";\n";
-  script_stream << "var readchooseEditorVerseUpdating = " << std::quoted(locale_logic_text_updating ()) << ";\n";
-  script_stream << "var readchooseEditorVerseUpdated = " << std::quoted(locale_logic_text_updated ()) << ";\n";
-  script_stream << "var readchooseEditorWillSave = " << std::quoted(locale_logic_text_will_save ()) << ";\n";
-  script_stream << "var readchooseEditorVerseSaving = " << std::quoted(locale_logic_text_saving ()) << ";\n";
-  script_stream << "var readchooseEditorVerseSaved = " << std::quoted(locale_logic_text_saved ()) << ";\n";
-  script_stream << "var readchooseEditorVerseRetrying = " << std::quoted(locale_logic_text_retrying ()) << ";\n";
-  script_stream << "var readchooseEditorVerseUpdatedLoaded = " << std::quoted(locale_logic_text_reload ()) << ";\n";
+  script_stream << "var readEditorVerseLoaded = " << std::quoted(locale_logic_text_loaded ()) << ";\n";
+  script_stream << "var readEditorVerseUpdating = " << std::quoted(locale_logic_text_updating ()) << ";\n";
+  script_stream << "var readEditorVerseUpdated = " << std::quoted(locale_logic_text_updated ()) << ";\n";
+  script_stream << "var readEditorWillSave = " << std::quoted(locale_logic_text_will_save ()) << ";\n";
+  script_stream << "var readEditorVerseSaving = " << std::quoted(locale_logic_text_saving ()) << ";\n";
+  script_stream << "var readEditorVerseSaved = " << std::quoted(locale_logic_text_saved ()) << ";\n";
+  script_stream << "var readEditorVerseRetrying = " << std::quoted(locale_logic_text_retrying ()) << ";\n";
+  script_stream << "var readEditorVerseUpdatedLoaded = " << std::quoted(locale_logic_text_reload ()) << ";\n";
   int verticalCaretPosition = webserver_request.database_config_user ()->get_vertical_caret_position ();
   script_stream << "var verticalCaretPosition = " << verticalCaretPosition << ";\n";
   script_stream << "var verseSeparator = " << std::quoted(database::config::general::get_notes_verse_separator ()) << ";\n";

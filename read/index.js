@@ -51,15 +51,15 @@ document.addEventListener("DOMContentLoaded", function(e) {
     body.addEventListener('touchend', event => {
       let touchEndX = event.changedTouches[0].screenX
       if (touchEndX < touchStartX - minSwipeDistance) {
-        readchooseSwipeLeft (event);
+        readSwipeLeft (event);
       }
       if (touchEndX > touchStartX + minSwipeDistance) {
-        readchooseSwipeRight (event);
+        readSwipeRight (event);
       }
     })
   }
 
-  setTimeout (readchooseEditorPollId, 1000);
+  setTimeout (readEditorPollId, 1000);
 });
 
 
@@ -91,46 +91,46 @@ function visualVerseReaderInitializeLoad ()
 }
 
 
-var readchooseBible;
-var readchooseBook;
-var readchooseNavigationBook;
-var readchooseChapter;
-var readchooseNavigationChapter;
-var readchooseVerse;
-var readchooseNavigationVerse;
-var readchooseChapterId = 0;
-var readchooseChapterChanged = false;
+var readBible;
+var readBook;
+var readNavigationBook;
+var readChapter;
+var readNavigationChapter;
+var readVerse;
+var readNavigationVerse;
+var readChapterId = 0;
+var readChapterChanged = false;
 
 
 function navigationNewPassage ()
 {
   if (is_outside_workspace()) {
-    readchooseNavigationBook = navigationBook;
-    readchooseNavigationChapter = navigationChapter;
-    readchooseNavigationVerse = navigationVerse;
+    readNavigationBook = navigationBook;
+    readNavigationChapter = navigationChapter;
+    readNavigationVerse = navigationVerse;
   } else if (parent.window.navigationBook != 'undefined') {
-    readchooseNavigationBook = parent.window.navigationBook;
-    readchooseNavigationChapter = parent.window.navigationChapter;
-    readchooseNavigationVerse = parent.window.navigationVerse;
+    readNavigationBook = parent.window.navigationBook;
+    readNavigationChapter = parent.window.navigationChapter;
+    readNavigationVerse = parent.window.navigationVerse;
   } else {
     return;
   }
-  readchooseEditorLoadChapter ();
+  readEditorLoadChapter ();
 }
 
 
-function readchooseEditorLoadChapter ()
+function readEditorLoadChapter ()
 {
-  if ((readchooseNavigationBook != readchooseBook) || (readchooseNavigationChapter != readchooseChapter) || (readchooseNavigationVerse != readchooseVerse) || readchooseChapterChanged ) {
-    readchooseBible = navigationBible;
-    readchooseBook = readchooseNavigationBook;
-    readchooseChapter = readchooseNavigationChapter;
-    readchooseVerse = readchooseNavigationVerse;
-    readchooseChapterId = 0;
-    readchooseChapterChanged = false;
+  if ((readNavigationBook != readBook) || (readNavigationChapter != readChapter) || (readNavigationVerse != readVerse) || readChapterChanged ) {
+    readBible = navigationBible;
+    readBook = readNavigationBook;
+    readChapter = readNavigationChapter;
+    readVerse = readNavigationVerse;
+    readChapterId = 0;
+    readChapterChanged = false;
     abortController.abort();
     abortController = new AbortController();
-    const url = "load?" + new URLSearchParams([ ["bible", readchooseBible], ["book", readchooseBook], ["chapter", readchooseChapter], ["verse", readchooseVerse], ["id", verseReaderUniqueID] ]).toString();
+    const url = "load?" + new URLSearchParams([ ["bible", readBible], ["book", readBook], ["chapter", readChapter], ["verse", readVerse], ["id", verseReaderUniqueID] ]).toString();
     fetch(url, {
       method: "GET",
       signal: abortController.signal
@@ -155,15 +155,15 @@ function readchooseEditorLoadChapter ()
       if (response !== false) {
         var oneprefix = document.querySelector("#oneprefix");
         oneprefix.innerHTML = bits [0];
-        oneprefix.removeEventListener("click", readchooseHtmlClicked, false);
-        oneprefix.addEventListener("click", readchooseHtmlClicked);
+        oneprefix.removeEventListener("click", readHtmlClicked, false);
+        oneprefix.addEventListener("click", readHtmlClicked);
       }
       if (response !== false) {
         // Destroy existing editor.
         if (quill) delete quill;
         // Load the html in the DOM.
         document.querySelector("#oneeditor").innerHTML = bits [1];
-        readchooseEditorStatus (readchooseEditorVerseLoaded);
+        readEditorStatus (readEditorVerseLoaded);
         // Create the editor based on the DOM's content.
         visualVerseReaderInitializeLoad ();
         quill.enable (false);
@@ -173,15 +173,15 @@ function readchooseEditorLoadChapter ()
       if (response !== false) {
         var onesuffix = document.querySelector("#onesuffix");
         onesuffix.innerHTML = bits [2];
-        onesuffix.removeEventListener("click", readchooseHtmlClicked, false);
-        onesuffix.addEventListener("click", readchooseHtmlClicked);
+        onesuffix.removeEventListener("click", readHtmlClicked, false);
+        onesuffix.addEventListener("click", readHtmlClicked);
       }
       if (response !== false) {
-        readchooseScrollVerseIntoView ();
+        readScrollVerseIntoView ();
       }
       if (response === false) {
         // Checksum or other error: Reload.
-        readchooseEditorLoadChapter ();
+        readEditorLoadChapter ();
       }
     })
     .catch((error) => {
@@ -193,7 +193,7 @@ function readchooseEditorLoadChapter ()
 }
 
 
-function readchooseEditorStatus (text)
+function readEditorStatus (text)
 {
   if (document.body.contains(document.getElementById("onestatus"))) {
     document.querySelector ("#onestatus").innerHTML = text;
@@ -201,9 +201,9 @@ function readchooseEditorStatus (text)
 }
 
 
-function readchooseEditorPollId ()
+function readEditorPollId ()
 {
-  const url ="../editor/id?" + new URLSearchParams([ ["bible", readchooseBible], ["book", readchooseBook], ["chapter", readchooseChapter] ]).toString();
+  const url ="../editor/id?" + new URLSearchParams([ ["bible", readBible], ["book", readBook], ["chapter", readChapter] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -215,27 +215,27 @@ function readchooseEditorPollId ()
     return response.text();
   })
   .then((response) => {
-    if (readchooseChapterId != 0) {
-      if (response != readchooseChapterId) {
+    if (readChapterId != 0) {
+      if (response != readChapterId) {
         // The chapter identifier changed.
         // That means that likely there's updated text on the server.
         // Reload the chapter.
-        readchooseChapterChanged = true;
-        readchooseEditorLoadChapter();
+        readChapterChanged = true;
+        readEditorLoadChapter();
       }
     }
-    readchooseChapterId = response;
+    readChapterId = response;
   })
   .catch((error) => {
     console.log(error);
   })
   .finally(() => {
-    setTimeout (readchooseEditorPollId, 1000);
+    setTimeout (readEditorPollId, 1000);
   });
 }
 
 
-function readchooseScrollVerseIntoView ()
+function readScrollVerseIntoView ()
 {
   var workspacewrapper = document.querySelector("#workspacewrapper");
   var oneeditor = document.querySelector("#oneeditor");
@@ -254,7 +254,7 @@ function readchooseScrollVerseIntoView ()
 }
 
 
-function readchooseHtmlClicked (event)
+function readHtmlClicked (event)
 {
   // If the user selects text, do nothing.
   var text = "";
@@ -310,7 +310,7 @@ function readchooseHtmlClicked (event)
 }
 
 
-function readchooseSwipeLeft (event)
+function readSwipeLeft (event)
 {
   if (is_outside_workspace()) {
     navigateNextVerse (event);
@@ -320,7 +320,7 @@ function readchooseSwipeLeft (event)
 }
 
 
-function readchooseSwipeRight (event)
+function readSwipeRight (event)
 {
   if (is_outside_workspace()) {
     navigatePreviousVerse (event);

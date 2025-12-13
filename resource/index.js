@@ -16,27 +16,39 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+var touchStartX = 0;
+var resourceAbortController = new AbortController();
 
-document.addEventListener("DOMContentLoaded", function(e) {
+document.addEventListener("DOMContentLoaded", function(event) {
   navigationNewPassage ();
+  
   if (swipe_operations) {
-    $ ("body").swipe ( {
-      swipeLeft:function (event, direction, distance, duration, fingerCount, fingerData) {
+    // The minimum distance to swipe is 10% of the screen width.
+    // This is to eliminate small unintended swipes.
+    let minSwipeDistance = parseInt(window.screen.width / 10);
+    
+    document.body.addEventListener('touchstart', event => {
+      touchStartX = event.changedTouches[0].screenX;
+    });
+    
+    document.body.addEventListener('touchend', event => {
+      let touchEndX = event.changedTouches[0].screenX
+      if (touchEndX < touchStartX - minSwipeDistance) {
         resourceSwipeLeft (event);
-      },
-      swipeRight:function (event, direction, distance, duration, fingerCount, fingerData) {
+      }
+      if (touchEndX > touchStartX + minSwipeDistance) {
         resourceSwipeRight (event);
       }
-    });
+    })
   }
-  $ (window).on ("unload", resourceUnload);
+  
+  window.addEventListener ("unload", resourceUnload);
 });
 
 
 var resourceBook;
 var resourceChapter;
 var resourceVerse;
-var resourceAjaxRequests = [];
 var resourceDoing;
 var resourceAborting = false;
 
@@ -56,17 +68,10 @@ function navigationNewPassage ()
   }
   if (resourceBook == undefined) return;
   resourceAborting = true;
-  for (var i = 0; i < resourceAjaxRequests.length; ++i) {
-    try {
-      if (resourceAjaxRequests[i].readystate != 4) {
-        resourceAjaxRequests[i].abort();
-      }
-    } catch (err) {
-    }
-  }
-  resourceAborting = false;
-  resourceAjaxRequests = [];
+  resourceAbortController.abort();
+  resourceAbortController = new AbortController();
   resourceDoing = 0;
+  resourceAborting = false;
   resourceGetOne ();
 }
 
@@ -81,39 +86,48 @@ function resourceGetOne ()
     // Done.
     return;
   }
-  var ajaxRequest = $.ajax ({
-    url: "get",
-    type: "GET",
-    data: { resource: resourceDoing, book: resourceBook, chapter: resourceChapter, verse: resourceVerse },
+  const url = "get?" + new URLSearchParams([ ["resource", resourceDoing], ["book", resourceBook], ["chapter", resourceChapter], ["verse", resourceVerse] ]).toString()
+  fetch(url, {
+    method: "GET",
     resourceDoing: resourceDoing,
-    success: function (response) {
-      if (response == "") {
-        $ ("#line" + this.resourceDoing).hide ();
-        $ ("#name" + this.resourceDoing).hide ();
-      } else {
-        $ ("#line" + this.resourceDoing).show ();
-        $ ("#name" + this.resourceDoing).show ();
-        if (response.charAt (0) == "$") {
-          $ ("#name" + this.resourceDoing).hide ();
-          response = response.substring (1);
-        }
-        var current_content = String ($ ("#content" + this.resourceDoing).html ());
-        $ ("#reload").html (response);
-        if (current_content != String ($ ("#reload").html ())) {
-          $ ("#content" + this.resourceDoing).html (response);
-        }
-      }
-      navigationSetup ();
-      resourcePosition ();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      if (!resourceAborting) resourceDoing--;
-    },
-    complete: function (jqXHR) {
-      if (!resourceAborting) setTimeout (resourceGetOne, 10);
+    signal: resourceAbortController.signal
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    var line = document.querySelector("#line" + this.resourceDoing);
+    var name = document.querySelector("#name" + this.resourceDoing);
+    if (response == "") {
+      line.hidden = true;
+      name.hidden = true;
+    } else {
+      line.hidden = false;
+      name.hidden = false;
+      if (response.charAt (0) == "$") {
+        name.hidden = true;
+        response = response.substring (1);
+      }
+      var content = document.querySelector("#content" + this.resourceDoing);
+      var reload = document.querySelector("#reload");
+      reload.innerHTML = response;
+      if (content.innerHTML != reload.innerHTML) {
+        content.innerHTML = response;
+      }
+    }
+    navigationSetup ();
+    resourcePosition ();
+  })
+  .catch((error) => {
+    console.log(error);
+    if (!resourceAborting) resourceDoing--;
+  })
+  .finally(() => {
+    if (!resourceAborting) setTimeout (resourceGetOne, 10);
   });
-  resourceAjaxRequests.push (ajaxRequest);
 }
 
 
@@ -139,13 +153,13 @@ function resourceSwipeRight (event)
 
 function resourceUnload ()
 {
-  var position = $("#workspacewrapper").scrollTop();
-  $.ajax ({
-    url: "unload",
-    type: "POST",
-    async: false,
-    data: { position: position },
-  });
+  var position = document.querySelector("#workspacewrapper").scrollTop;
+  fetch("unload", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams([["position", position]]).toString(),
+    keepalive: true, // Synchronous call.
+  })
 }
 
 
@@ -154,13 +168,4 @@ function resourceUnload ()
 // The reason is explained in https://github.com/bibledit/cloud/issues/660.
 function resourcePosition ()
 {
-  return;
-  if (resourceWindowPosition != 0) {
-    var position = $("#workspacewrapper").scrollTop();
-    if (position != resourceWindowPosition) {
-      $("#workspacewrapper").scrollTop (resourceWindowPosition);
-    } else {
-      resourceWindowPosition = 0;
-    }
-  }
 }

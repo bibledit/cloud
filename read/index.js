@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 var quill = undefined;
 var Delta = Quill.import ("delta");
 var verseReaderUniqueID = Math.floor (Math.random() * 100000000);
+var touchStartX = 0;
+var abortController = new AbortController();
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
@@ -36,18 +38,28 @@ document.addEventListener("DOMContentLoaded", function(e) {
   navigationNewPassage ();
   
   if (swipe_operations) {
-    $ ("body").swipe ( {
-      swipeLeft:function (event, direction, distance, duration, fingerCount, fingerData) {
+    // The minimum distance to swipe is 10% of the screen width.
+    // This is to eliminate small unintended swipes.
+    let minSwipeDistance = parseInt(window.screen.width / 10);
+    
+    let body = document.querySelector("body");
+    
+    body.addEventListener('touchstart', event => {
+      touchStartX = event.changedTouches[0].screenX;
+      });
+    
+    body.addEventListener('touchend', event => {
+      let touchEndX = event.changedTouches[0].screenX
+      if (touchEndX < touchStartX - minSwipeDistance) {
         readchooseSwipeLeft (event);
-      },
-      swipeRight:function (event, direction, distance, duration, fingerCount, fingerData) {
+      }
+      if (touchEndX > touchStartX + minSwipeDistance) {
         readchooseSwipeRight (event);
       }
-    });
+    })
   }
-  
-  setTimeout (readverseCoordinatingTimeout, 500);
 
+  setTimeout (readchooseEditorPollId, 1000);
 });
 
 
@@ -70,11 +82,10 @@ function visualVerseReaderInitializeLoad ()
   // Work around https://github.com/quilljs/quill/issues/1116
   // It sets the margins to 0 by adding an overriding class.
   // The Quill editor will remove that class again.
-  $ ("#oneeditor > p").each (function (index) {
-    var element = $(this);
-    element.addClass ("nomargins");
+  document.querySelectorAll("#oneeditor > p").forEach((element) => {
+    element.classList.add("nomargins");
   });
-  
+
   // Instantiate editor.
   quill = new Quill ('#oneeditor', { });
 }
@@ -87,17 +98,8 @@ var readchooseChapter;
 var readchooseNavigationChapter;
 var readchooseVerse;
 var readchooseNavigationVerse;
-var readchooseVerseLoading;
-var readchooseVerseLoaded;
 var readchooseChapterId = 0;
-var readchooseLoadAjaxRequest;
-
-
-//
-//
-// Section for the new Passage event from the Navigator.
-//
-//
+var readchooseChapterChanged = false;
 
 
 function navigationNewPassage ()
@@ -113,199 +115,143 @@ function navigationNewPassage ()
   } else {
     return;
   }
-  readchooseEditorLoadVerse ();
+  readchooseEditorLoadChapter ();
 }
 
 
-//
-//
-// Section for editor load and save.
-//
-//
-
-
-function readchooseEditorLoadVerse ()
+function readchooseEditorLoadChapter ()
 {
-  if ((readchooseNavigationBook != readchooseBook) || (readchooseNavigationChapter != readchooseChapter) || (readchooseNavigationVerse != readchooseVerse) ) {
-    publicFeedbackLoadNotesInRead ();
+  if ((readchooseNavigationBook != readchooseBook) || (readchooseNavigationChapter != readchooseChapter) || (readchooseNavigationVerse != readchooseVerse) || readchooseChapterChanged ) {
     readchooseBible = navigationBible;
     readchooseBook = readchooseNavigationBook;
     readchooseChapter = readchooseNavigationChapter;
     readchooseVerse = readchooseNavigationVerse;
-    readchooseVerseLoading = readchooseNavigationVerse;
     readchooseChapterId = 0;
-    if (readchooseLoadAjaxRequest && readchooseLoadAjaxRequest.readystate != 4) {
-      readchooseLoadAjaxRequest.abort();
-    }
-    readchooseLoadAjaxRequest = $.ajax ({
-      url: "load",
-      type: "GET",
-      data: { bible: readchooseBible, book: readchooseBook, chapter: readchooseChapter, verse: readchooseVerseLoading, id: verseReaderUniqueID },
-      success: function (response) {
-        checksum_readwrite (response);
-        // Checksumming.
-        response = checksum_receive (response);
-        // Splitting.
-        var bits;
-        if (response !== false) {
-          bits = response.split ("#_be_#");
-          if (bits.length != 3) response == false;
-        }
-        if (response !== false) {
-          $ ("#oneprefix").empty ();
-          $ ("#oneprefix").append (bits [0]);
-          $ ("#oneprefix").off ("click");
-          $ ("#oneprefix").on ("click", readchooseHtmlClicked);
-        }
-        if (response !== false) {
-          // Destroy existing editor.
-          if (quill) delete quill;
-          // Load the html in the DOM.
-          $ ("#oneeditor").empty ();
-          $ ("#oneeditor").append (bits [1]);
-          readchooseVerseLoaded = readchooseVerseLoading;
-          readchooseEditorStatus (readchooseEditorVerseLoaded);
-          // Create the editor based on the DOM's content.
-          visualVerseReaderInitializeLoad ();
-          quill.enable (false);
-          // Create CSS for embedded styles.
-          css4embeddedstyles ();
-        }
-        if (response !== false) {
-          $ ("#onesuffix").empty ();
-          $ ("#onesuffix").append (bits [2]);
-          $ ("#onesuffix").off ("click");
-          $ ("#onesuffix").on ("click", readchooseHtmlClicked);
-        }
-        if (response !== false) {
-          readchooseScrollVerseIntoView ();
-        }
-        if (response === false) {
-          // Checksum or other error: Reload.
-          readchooseEditorLoadVerse ();
-        }
-      },
-    });
-  }
-}
-
-
-function readchooseEditorLoadNonEditable ()
-{
-  readchooseAjaxActive = true;
-  $.ajax ({
-    url: "load",
-    type: "GET",
-    data: { bible: readchooseBible, book: readchooseBook, chapter: readchooseChapter, verse: readchooseVerseLoading, id: verseReaderUniqueID },
-    success: function (response) {
+    readchooseChapterChanged = false;
+    abortController.abort();
+    abortController = new AbortController();
+    const url = "load?" + new URLSearchParams([ ["bible", readchooseBible], ["book", readchooseBook], ["chapter", readchooseChapter], ["verse", readchooseVerse], ["id", verseReaderUniqueID] ]).toString();
+    fetch(url, {
+      method: "GET",
+      signal: abortController.signal
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.text();
+    })
+    .then((response) => {
       // Remove the flag for editor read-write or read-only.
       checksum_readwrite (response);
       // Checksumming.
       response = checksum_receive (response);
       // Splitting.
+      var bits;
       if (response !== false) {
-        var bits;
         bits = response.split ("#_be_#");
         if (bits.length != 3) response == false;
-        $ ("#oneprefix").empty ();
-        $ ("#oneprefix").append (bits [0]);
-        $ ("#oneprefix").off ("click");
-        $ ("#oneprefix").on ("click", readchooseHtmlClicked);
-        $ ("#onesuffix").empty ();
-        $ ("#onesuffix").append (bits [2]);
-        $ ("#onesuffix").off ("click");
-        $ ("#onesuffix").on ("click", readchooseHtmlClicked);
       }
-    },
-    complete: function (xhr, status) {
-      readchooseAjaxActive = false;
-    }
-  });
+      if (response !== false) {
+        var oneprefix = document.querySelector("#oneprefix");
+        oneprefix.innerHTML = bits [0];
+        oneprefix.removeEventListener("click", readchooseHtmlClicked, false);
+        oneprefix.addEventListener("click", readchooseHtmlClicked);
+      }
+      if (response !== false) {
+        // Destroy existing editor.
+        if (quill) delete quill;
+        // Load the html in the DOM.
+        document.querySelector("#oneeditor").innerHTML = bits [1];
+        readchooseEditorStatus (readchooseEditorVerseLoaded);
+        // Create the editor based on the DOM's content.
+        visualVerseReaderInitializeLoad ();
+        quill.enable (false);
+        // Create CSS for embedded styles.
+        css4embeddedstyles ();
+      }
+      if (response !== false) {
+        var onesuffix = document.querySelector("#onesuffix");
+        onesuffix.innerHTML = bits [2];
+        onesuffix.removeEventListener("click", readchooseHtmlClicked, false);
+        onesuffix.addEventListener("click", readchooseHtmlClicked);
+      }
+      if (response !== false) {
+        readchooseScrollVerseIntoView ();
+      }
+      if (response === false) {
+        // Checksum or other error: Reload.
+        readchooseEditorLoadChapter ();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+    });
+  }
 }
-
-
-//
-//
-// Section for user interface updates and feedback.
-//
-//
 
 
 function readchooseEditorStatus (text)
 {
   if (document.body.contains(document.getElementById("onestatus"))) {
-    $ ("#onestatus").empty ();
-    $ ("#onestatus").append (text);
+    document.querySelector ("#onestatus").innerHTML = text;
   }
 }
-
-
-//
-//
-// Section for polling the server for updates on the loaded chapter.
-//
-//
-
-
-var readchooseIdAjaxRequest;
 
 
 function readchooseEditorPollId ()
 {
-  readchooseAjaxActive = true;
-  readchooseIdAjaxRequest = $.ajax ({
-    url: "../editor/id",
-    type: "GET",
-    data: { bible: readchooseBible, book: readchooseBook, chapter: readchooseChapter },
-    cache: false,
-    success: function (response) {
-      if (readchooseChapterId != 0) {
-        if (response != readchooseChapterId) {
-          // The chapter identifier changed.
-          // That means that likely there's updated text on the server.
-          // Start the routine to load any possible updates into the editor.
-          readchooseUpdateTrigger = true;
-          readchooseReloadNonEditableFlag = true;
-          
-        }
-      }
-      readchooseChapterId = response;
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-    },
-    complete: function (xhr, status) {
-      readchooseAjaxActive = false;
+  const url ="../editor/id?" + new URLSearchParams([ ["bible", readchooseBible], ["book", readchooseBook], ["chapter", readchooseChapter] ]).toString();
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    if (readchooseChapterId != 0) {
+      if (response != readchooseChapterId) {
+        // The chapter identifier changed.
+        // That means that likely there's updated text on the server.
+        // Reload the chapter.
+        readchooseChapterChanged = true;
+        readchooseEditorLoadChapter();
+      }
+    }
+    readchooseChapterId = response;
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    setTimeout (readchooseEditorPollId, 1000);
   });
 }
-
-//
-//
-// Section for scrolling the editable portion into the center.
-//
-//
 
 
 function readchooseScrollVerseIntoView ()
 {
-  $("#workspacewrapper").stop();
-  var verseTop = $("#oneeditor").offset().top;
-  var workspaceHeight = $("#workspacewrapper").height();
-  var currentScrollTop = $("#workspacewrapper").scrollTop();
+  var workspacewrapper = document.querySelector("#workspacewrapper");
+  var oneeditor = document.querySelector("#oneeditor");
+  var verseTop = oneeditor.getBoundingClientRect().top;
+  var workspaceHeight = workspacewrapper.clientHeight;
+  var currentScrollTop = workspacewrapper.scrollTop;
   var scrollTo = verseTop - (workspaceHeight * verticalCaretPosition / 100) + currentScrollTop;
   var lowerBoundary = currentScrollTop - (workspaceHeight / 10);
   var upperBoundary = currentScrollTop + (workspaceHeight / 10);
   if ((scrollTo < lowerBoundary) || (scrollTo > upperBoundary)) {
-    $("#workspacewrapper").animate({ scrollTop: scrollTo }, 500);
+    workspacewrapper.scroll({
+      top: scrollTo,
+      behavior: "smooth",
+    });
   }
 }
-
-
-//
-//
-// Section for navigating to another passage.
-//
-//
 
 
 function readchooseHtmlClicked (event)
@@ -322,14 +268,16 @@ function readchooseHtmlClicked (event)
   var verse = "";
   
   var iterations = 0;
-  var target = $(event.target);
-  var tagName = target.prop("tagName");
-  if (tagName == "P") target = $ (target.children ().last ());
-  while ((iterations < 10) && (!target.hasClass ("i-v"))) {
-    var previous = $(target.prev ());
-    if (previous.length == 0) {
-      target = $ (target.parent ().prev ());
-      target = $ (target.children ().last ());
+  var target = event.target;
+  var tagName = target.tagName;
+  if (tagName == "P") {
+    target = target.lastChild;
+  }
+  while ((iterations < 10) && (!target.classList.contains ("i-v"))) {
+    var previous = target.previousSibling;
+    if (!previous) {
+      target = target.parentElement.previousSibling;
+      target = target.lastChild;
     } else {
       target = previous;
     }
@@ -339,36 +287,27 @@ function readchooseHtmlClicked (event)
   // Too many iterations: Undefined location.
   if (iterations >= 10) return
   
-  if (target.length == 0) verse = "0";
+  if (!target) verse = "0";
   
-  if (target.hasClass ("i-v")) {
-    verse = target[0].innerText;
+  if (target.classList.contains ("i-v")) {
+    verse = target.innerText;
   }
 
-  $.ajax ({
-    url: "verse",
-    type: "GET",
-    data: { verse: verse },
-    cache: false
-  });
-
-  // It used to go to the Resources, but it was disabled later.
-  // https://github.com/bibledit/cloud/issues/508
-  // setTimeout (readChooseGotoResources, 1000);
+  const url = "verse?verse=" + verse;
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
-
-
-function readChooseGotoResources ()
-{
-  window.location.href = '../resource/index';
-}
-
-
-//
-//
-// Section for swipe navigation.
-//
-//
 
 
 function readchooseSwipeLeft (event)
@@ -388,86 +327,4 @@ function readchooseSwipeRight (event)
   } else if (parent.window.navigatePreviousVerse != 'undefined') {
     parent.window.navigatePreviousVerse (event);
   }
-}
-
-
-/*
-
-Section for the coordinating timer.
-This deals with the various events.
-It monitors the ongoing AJAX actions for loading and updating and saving.
-It decides which action to take.
-It ensures that no two actions overlap or interfere with one another.
-It also handles network latency,
-by ensuring that the next call to the server
-only occurs after the first call has been completed.
-https://github.com/bibledit/cloud/issues/424
-
-*/
-
-
-var readchooseAjaxActive = false;
-var readchoosePollSelector = 0;
-var readchoosePollDate = new Date();
-var readchooseUpdateTrigger = false;
-var readchooseReloadNonEditableFlag = false;
-
-
-function readverseCoordinatingTimeout ()
-{
-  // Handle situation that an AJAX call is ongoing.
-  if (readchooseAjaxActive) {
-    
-  }
-  else if (readchooseUpdateTrigger) {
-    readchooseUpdateTrigger = false;
-    readchooseUpdateExecute ();
-  }
-  else if (readchooseReloadNonEditableFlag) {
-    readchooseReloadNonEditableFlag = false;
-    readchooseEditorLoadNonEditable ();
-  }
-  // Handle situation that no process is ongoing.
-  // Now the regular pollers can run again.
-  else {
-    // There are two regular pollers.
-    // Wait 500 ms, then start one of the pollers.
-    // So each poller runs once a second.
-    var difference = new Date () - readchoosePollDate;
-    if (difference > 500) {
-      readchoosePollSelector++;
-      if (readchoosePollSelector > 1) readchoosePollSelector = 0;
-      if (readchoosePollSelector == 0) {
-        readchooseEditorPollId ();
-      }
-      if (readchoosePollSelector == 1) {
-
-      }
-      readchoosePollDate = new Date();
-    }
-  }
-  setTimeout (readverseCoordinatingTimeout, 100);
-}
-
-
-//
-//
-// Indonesian Cloud Free
-// Section for handling public feedbacks.
-//
-//
-
-
-function publicFeedbackLoadNotesInRead ()
-{
-  $.ajax ({
-    url: "/public/notes",
-    type: "GET",
-    data: { bible: readchooseBible, book: readchooseBook, chapter: readchooseChapter },
-    success: function (response) {
-      console.log(response);
-      $ ("#publicnotesinread").empty ();
-      $ ("#publicnotesinread").append (response);
-    },
-  });
 }

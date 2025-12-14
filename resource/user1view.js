@@ -16,18 +16,29 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+var touchStartX = 0;
 
 document.addEventListener("DOMContentLoaded", function(e) {
   navigationNewPassage ();
+
   if (swipe_operations) {
-    $ ("body").swipe ( {
-      swipeLeft:function (event, direction, distance, duration, fingerCount, fingerData) {
+    // The minimum distance to swipe is 10% of the screen width.
+    // This is to eliminate small unintended swipes.
+    let minSwipeDistance = parseInt(window.screen.width / 10);
+    
+    document.body.addEventListener('touchstart', event => {
+      touchStartX = event.changedTouches[0].screenX;
+    });
+    
+    document.body.addEventListener('touchend', event => {
+      let touchEndX = event.changedTouches[0].screenX
+      if (touchEndX < touchStartX - minSwipeDistance) {
         userResourceSwipeLeft (event);
-      },
-      swipeRight:function (event, direction, distance, duration, fingerCount, fingerData) {
+      }
+      if (touchEndX > touchStartX + minSwipeDistance) {
         userResourceSwipeRight (event);
       }
-    });
+    })
   }
 });
 
@@ -61,7 +72,10 @@ function userResourceSetUrl ()
   url = url.replace ("[book]", userResourceBooks [userResourceBook]);
   url = url.replace ("[chapter]", userResourceChapter);
   url = url.replace ("[verse]", userResourceVerse);
-  $ ("iframe").attr ("src", url);
+  var iframe = document.querySelector("iframe");
+  if (iframe) {
+    iframe.setAttribute("src", url);
+  }
 }
 
 

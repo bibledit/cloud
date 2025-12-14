@@ -18,15 +18,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  $ ("#searchloading").hide ();
-  $ ("progress").hide ();
-  $ ("#searchentry").focus ();
-  $ ("#searchentry").on ("keypress", function (event) {
+  var searchloading = document.querySelector("#searchloading");
+  searchloading.hidden = true;
+  var progress = document.querySelector("progress");
+  progress.hidden = true;
+  var searchentry = document.querySelector("#searchentry");
+  searchentry.focus ();
+  searchentry.addEventListener("keypress", function (event) {
     if (event.keyCode == 13) {
       startSearch ();
     }
   });
-  $ ("#searchbutton").on ("click", function (event) {
+  document.querySelector("#searchbutton").addEventListener("click", function (event) {
     startSearch ();
   });
 });
@@ -36,66 +39,90 @@ var query;
 var hits = [];
 var hitCounter;
 var ajaxRequest;
+var abortController = new AbortController();
 
 
 function startSearch ()
 {
-  try {
-    ajaxRequest.abort ();
-  } catch (err) {
-  }
-  query = $ ("#searchentry").val ();
+  abortController.abort();
+  abortController = new AbortController();
+  var searchentry = document.querySelector("#searchentry");
+  query = searchentry.value;
   if (query == "") return;
-  $ ("#searchloading").show ();
-  $ ("progress").attr ("value", 0);
-  $ ("progress").show ();
-  $ ("#searchresults").empty ();
-  $ ("#hitcount").empty ();
-  $ ("#help").hide ();
+  var searchloading = document.querySelector("#searchloading");
+  searchloading.hidden = false;
+  var progress = document.querySelector("progress");
+  progress.setAttribute("value", 0);
+  progress.hidden = false;
+  document.querySelector("#searchresults").innerHTML = "";
+  document.querySelector("#hitcount").innerHTML = "";
+  document.querySelector("#help").hidden = true;
   hits.length = 0;
-  ajaxRequest = $.ajax ({
-    url: "index",
-    type: "GET",
-    data: { q: query, b: searchBible },
-    success: function (response) {
-      var ids = response.split ("\n");
-      for (var i = 0; i < ids.length; i++) {
-        var id = ids [i];
-        if (id != "") {
-          hits.push (id);
-        }
-      }
-    },
-    complete: function (xhr, status) {
-      $ ("#searchloading").hide ();
-      $ ("#hitcount").text (hits.length);
-      $ ("progress").attr ("max", hits.length);
-      hitCounter = 0;
-      fetchSearchHits ();
+  const url = "index?" + new URLSearchParams([ ["q", query], ["b", searchBible] ]).toString();
+  fetch(url, {
+    method: "GET",
+    signal: abortController.signal,
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    var ids = response.split ("\n");
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids [i];
+      if (id != "") {
+        hits.push (id);
+      }
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    var searchloading = document.querySelector("#searchloading");
+    if (searchloading) {
+      searchloading.hidden = true;
+    }
+    document.querySelector("#hitcount").innerHTML = hits.length;
+    document.querySelector("progress").setAttribute ("max", hits.length);
+    hitCounter = 0;
+    fetchSearchHits ();
   });
 }
 
 
 function fetchSearchHits ()
 {
-  $ ("progress").attr ("value", hitCounter);
+  var progress = document.querySelector("progress");
+  progress.setAttribute("value", hitCounter);
   if (hitCounter >= hits.length) {
-    $ ("progress").hide (1000);
+    if (progress) {
+      progress.hidden = true;
+    }
     return;
   }
-  ajaxRequest = $.ajax ({
-    url: "index",
-    type: "GET",
-    data: { id: hits[hitCounter], q: query, b: searchBible },
-    success: function (response) {
-      $ ("#searchresults").append (response);
-      passageConnectToLast ();
-      hitCounter++;
-      fetchSearchHits ();
-    },
-    complete: function (xhr, status) {
+  const url = "index?" + new URLSearchParams([ ["id", hits[hitCounter]], ["q", query], ["b", searchBible] ]).toString();
+  fetch(url, {
+    method: "GET",
+    signal: abortController.signal,
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
-  });
+    return response.text();
+  })
+  .then((response) => {
+    document.querySelector("#searchresults").insertAdjacentHTML('beforeend', response);
+    passageConnectToLast ();
+    hitCounter++;
+    fetchSearchHits ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 

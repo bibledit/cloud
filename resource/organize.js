@@ -43,15 +43,20 @@ document.addEventListener("DOMContentLoaded", function(e) {
     list.addEventListener(
       "slip:reorder",
       function (e) {
-        $.ajax({
-          url: "organize",
-          type: "POST",
-          data: {
-            movefrom: e.detail.originalIndex,
-            moveto: e.detail.spliceIndex,
-            type: e.target.parentNode.id == "list-def" ? "def" : "no",
-          },
-        });
+        fetch("organize", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams([ ["movefrom", e.detail.originalIndex], ["moveto", e.detail.spliceIndex], ["type", (e.target.parentNode.id == "list-def" ? "def" : "no")] ]).toString(),
+        })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(response.status);
+          }
+          return response.text();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
         e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
         return false;
       },

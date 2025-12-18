@@ -18,31 +18,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  $ ("#searchloading").hide ();
-  $ ("progress").hide ();
-  $ ("#applybutton").hide ();
-  $ ("#searchentry").focus ();
-  $ ("#searchentry").on ("keypress", function (event) {
+  document.querySelector ("#searchloading").hidden = true;
+  document.querySelector ("progress").hidden = true;
+  document.querySelector ("#applybutton").hidden = true;
+  document.querySelector ("#searchentry").focus ();
+  document.querySelector ("#searchentry").addEventListener ("keypress", function (event) {
     if (event.keyCode == 13) {
       fetchIdentifiers ();
     }
   });
-  $ ("#replaceentry").on ("keypress", function (event) {
+  document.querySelector ("#replaceentry").addEventListener ("keypress", function (event) {
     if (event.keyCode == 13) {
       fetchIdentifiers ();
     }
   });
-  $ ("#previewbutton").on ("click", function (event) {
-    fetchIdentifiers ();
-  });
-  $ ("#applybutton").on ("click", function (event) {
+  document.querySelector ("#previewbutton").addEventListener ("click", fetchIdentifiers);
+  document.querySelector ("#applybutton").addEventListener ("click", function (event) {
     replacingAll = true;
     replaceCounter = 0;
-    $ ("progress").show ();
-    $ ("#applybutton").hide ();
+    document.querySelector ("progress").hidden = false;
+    document.querySelector ("#applybutton").hidden = false;
     replaceAll ();
   });
-  $ ("#searchresults").on ("click", function (event) {
+  document.querySelector ("#searchresults").addEventListener ("click", function (event) {
     handleClick (event);
   });
 });
@@ -54,132 +52,153 @@ var casesensitive;
 var hits = [];
 var hitCount = 0;
 var hitCounter;
-var ajaxRequest;
+var abortController = new AbortController();
 var replacingAll = false;
 var replaceCounter = 0;
 
 
 function fetchIdentifiers ()
 {
-  try {
-    ajaxRequest.abort ();
-  } catch (err) {
-  }
-  searchfor = $ ("#searchentry").val ();
-  replacewith = $ ("#replaceentry").val ();
-  casesensitive = $ ("#casesensitive").prop ("checked");
+  abortController.abort();
+  abortController = new AbortController();
+  searchfor = document.querySelector ("#searchentry").value;
+  replacewith = document.querySelector ("#replaceentry").value;
+  casesensitive = document.querySelector ("#casesensitive").checked;
   if (searchfor == "") return;
-  $ ("#searchloading").show ();
-  $ ("progress").attr ("value", 0);
-  $ ("progress").show ();
-  $ ("#searchresults").empty ();
-  $ ("#hitcount").empty ();
-  $ ("#applybutton").hide ();
-  $ ("#help").hide ();
+  document.querySelector ("#searchloading").hidden = false;
+  document.querySelector ("progress").setAttribute ("value", 0);
+  document.querySelector ("progress").hidden = false;
+  document.querySelector ("#searchresults").innerHTML = "";
+  document.querySelector ("#hitcount").innerHTML = "";
+  document.querySelector ("#applybutton").hidden = true;
+  document.querySelector ("#help").hidden = true;
   hits.length = 0;
   replacingAll = false;
-  ajaxRequest = $.ajax ({
-    url: "getids",
-    type: "GET",
-    data: { b: searchBible, q: searchfor, c: casesensitive },
-    success: function (response) {
-      var ids = response.split ("\n");
-      for (var i = 0; i < ids.length; i++) {
-        var id = ids [i];
-        if (id != "") {
-          hits.push (id);
-        }
-      }
-    },
-    complete: function (xhr, status) {
-      $ ("#searchloading").hide ();
-      $ ("#hitcount").text (hits.length);
-      $ ("progress").attr ("max", hits.length);
-      hitCounter = 0;
-      fetchPreviews ();
+  const url = "getids?" + new URLSearchParams([ ["b", searchBible], ["q", searchfor], ["c", casesensitive] ]).toString();
+  fetch(url, {
+    method: "GET",
+    signal: abortController.signal
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    var ids = response.split ("\n");
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids [i];
+      if (id != "") {
+        hits.push (id);
+      }
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    document.querySelector ("#searchloading").hidden = true;
+    document.querySelector ("#hitcount").innerHTML = hits.length;
+    document.querySelector ("progress").setAttribute ("max", hits.length);
+    hitCounter = 0;
+    fetchPreviews ();
   });
 }
 
 
 function fetchPreviews ()
 {
-  $ ("progress").attr ("value", hitCounter);
+  document.querySelector ("progress").setAttribute ("value", hitCounter);
   if (hitCounter >= hits.length) {
-    $ ("progress").hide (1000);
+    document.querySelector ("progress").hidden = true;
     hitCount = hits.length;
     hits.length = 0;
     if (hitCount > 0) {
-      $ ("#applybutton").show (1000);
+      document.querySelector ("#applybutton").hidden = false;
     }
     return;
   }
-  ajaxRequest = $.ajax ({
-    url: "replacepre",
-    type: "GET",
-    data: { q: searchfor, c: casesensitive, r: replacewith, id: hits[hitCounter] },
-    success: function (response) {
-      $ ("#searchresults").append (response);
-      passageConnectToLast ();
-      hitCounter++;
-      fetchPreviews ();
-    },
-    complete: function (xhr, status) {
+  const url = "replacepre?" + new URLSearchParams([ ["q", searchfor], ["c", casesensitive], ["r", replacewith], ["id", hits[hitCounter]] ]).toString();
+  fetch(url, {
+    method: "GET",
+    signal: abortController.signal
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
-  });
+    return response.text();
+  })
+  .then((response) => {
+    document.querySelector ("#searchresults").insertAdjacentHTML('beforeend', response);
+    passageConnectToLast ();
+    hitCounter++;
+    fetchPreviews ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function handleClick (event)
 {
-  var target = $ (event.target);
-  var href = target.attr ("href");
-  var parent = target.parent ();
-  var divparent = parent.parent ();
+  var href = event.target.getAttribute ("href");
+  var parent = event.target.parentElement;
+  var divparent = parent.parentElement;
   if (href == "replace") {
     event.preventDefault ();
-    var id = divparent.attr ("id");
+    var id = divparent.getAttribute ("id");
     doReplace (id);
   }
   if (href == "delete") {
     event.preventDefault ();
     divparent.remove ();
     hitCount--;
-    $ ("#hitcount").text (hitCount);
+    document.querySelector ("#hitcount").innerHTML = hitCount;
   }
 }
 
 
+var replaceIdentifier = 0;
+
 function doReplace (identifier)
 {
-  ajaxRequest = $.ajax ({
-    url: "replacego",
-    type: "GET",
-    context: identifier,
-    data: { id: identifier, q: searchfor, c: casesensitive, r: replacewith  },
-    success: function (response) {
-      var element = $ ("#" + this);
-      element.replaceWith (response);
-      passageConnectToAll ();
-      if (replacingAll) replaceAll ();
-    },
-    complete: function (xhr, status) {
+  replaceIdentifier = identifier;
+  const url = "replacego?" + new URLSearchParams([ ["id", identifier], ["q", searchfor], ["c", casesensitive], ["r", replacewith] ]).toString();
+  fetch(url, {
+    method: "GET",
+    signal: abortController.signal,
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
-  });
+    return response.text();
+  })
+  .then((response) => {
+    var element = document.getElementById (String(replaceIdentifier));
+    element.outerHTML = response;
+    passageConnectToAll ();
+    if (replacingAll) replaceAll ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function replaceAll ()
 {
   replaceCounter++;
-  $ ("progress").attr ("value", replaceCounter);
-  var id = $ ("#searchresults > div").first ().attr ("id");
-  if (id != undefined) {
+  document.querySelector ("progress").setAttribute ("value", replaceCounter);
+  var ids = document.querySelectorAll ("#searchresults > div");
+  if (ids.length) {
+    var id = ids[0].getAttribute("id");
     doReplace (id);
   } else {
     replacingAll = false;
-    $ ("progress").hide (1000);
+    document.querySelector ("progress").hidden = true;
   }
 }
-
-

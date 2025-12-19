@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
 var query;
 var hits = [];
 var hitCounter;
-var ajaxRequest;
 var abortController = new AbortController();
 
 

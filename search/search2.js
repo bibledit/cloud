@@ -18,15 +18,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  $ ("#searchloading").hide ();
-  $ ("progress").hide ();
-  $ ("#searchentry").focus ();
-  $ ("#searchentry").on ("keypress", function (event) {
+  document.querySelector ("#searchloading").hidden = true;
+  document.querySelector ("progress").hidden = true;
+  document.querySelector ("#searchentry").focus ();
+  document.querySelector ("#searchentry").addEventListener ("keypress", function (event) {
     if (event.keyCode == 13) {
       startSearch ();
     }
   });
-  $ ("#searchbutton").on ("click", function (event) {
+  document.querySelector ("#searchbutton").addEventListener ("click", function (event) {
     startSearch ();
   });
   identifier = Math.floor ((Math.random () * 1000000) + 1000000);
@@ -36,75 +36,90 @@ document.addEventListener("DOMContentLoaded", function(e) {
 var identifier;
 var hits = [];
 var hitCounter;
-var ajaxRequest;
+var abortController = new AbortController();
 
 
 function startSearch ()
 {
-  try { ajaxRequest.abort (); }
-  catch (err) { }
-  var query = $ ("#searchentry").val ();
+  abortController.abort();
+  abortController = new AbortController();
+  var query = document.querySelector ("#searchentry").value;
   if (query == "") return;
-  var casesensitive = $ ("#casesensitive").prop ("checked");
-  var searchplain = $ ("#searchplain").prop ("checked");
-  var currentbook = $ ("#currentbook").prop ("checked");
+  var casesensitive = document.querySelector ("#casesensitive").checked;
+  var searchplain = document.querySelector ("#searchplain").checked;
+  var currentbook = document.querySelector ("#currentbook").checked;
   var books = "allbooks";
-  if ($ ("#currentbook").prop ("checked")) books = "currentbook";
-  if ($ ("#otbooks").prop ("checked")) books = "otbooks";
-  if ($ ("#ntbooks").prop ("checked")) books = "ntbooks";
+  if (document.querySelector ("#currentbook").checked) books = "currentbook";
+  if (document.querySelector ("#otbooks").checked) books = "otbooks";
+  if (document.querySelector ("#ntbooks").checked) books = "ntbooks";
   var sharing = "load";
-  if ($ ("#add").prop ("checked")) sharing = "add";
-  if ($ ("#remove").prop ("checked")) sharing = "remove";
-  if ($ ("#intersect").prop ("checked")) sharing = "intersect";
-  $ ("#searchloading").show ();
-  $ ("progress").attr ("value", 0);
-  $ ("progress").show ();
-  $ ("#searchresults").empty ();
-  $ ("#hitcount").empty ();
+  if (document.querySelector ("#add").checked) sharing = "add";
+  if (document.querySelector ("#remove").checked) sharing = "remove";
+  if (document.querySelector ("#intersect").checked) sharing = "intersect";
+  document.querySelector ("#searchloading").hidden = false;
+  document.querySelector ("progress").setAttribute ("value", 0);
+  document.querySelector ("progress").hidden = false;
+  document.querySelector ("#searchresults").innerHTML = "";
+  document.querySelector ("#hitcount").innerHTML = "";
   hits.length = 0;
-  ajaxRequest = $.ajax ({
-    url: "search2",
-    type: "GET",
-    data: { bible: searchBible, i: identifier, q: query, c: casesensitive, p: searchplain, b: books, s: sharing },
-    success: function (response) {
-      var ids = response.split ("\n");
-      for (var i = 0; i < ids.length; i++) {
-        var id = ids [i];
-        if (id != "") {
-          hits.push (id);
-        }
-      }
-    },
-    complete: function (xhr, status) {
-      $ ("#searchloading").hide ();
-      $ ("#hitcount").text (hits.length);
-      $ ("progress").attr ("max", hits.length);
-      hitCounter = 0;
-      fetchSearchHits ();
+  const url = "search2?" + new URLSearchParams([ ["bible", searchBible], ["i", identifier], ["q", query], ["c", casesensitive], ["p", searchplain], ["b", books], ["s", sharing] ]).toString();
+  fetch(url, {
+    method: "GET",
+    signal: abortController.signal
+    })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    var ids = response.split ("\n");
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids [i];
+      if (id != "") {
+        hits.push (id);
+      }
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    document.querySelector ("#searchloading").hidden = true;
+    document.querySelector ("#hitcount").innerHTML = hits.length;
+    document.querySelector ("progress").setAttribute ("max", hits.length);
+    hitCounter = 0;
+    fetchSearchHits ();
   });
 }
 
 
 function fetchSearchHits ()
 {
-  $ ("progress").attr ("value", hitCounter);
+  document.querySelector ("progress").setAttribute ("value", hitCounter);
   if (hitCounter >= hits.length) {
-    $ ("progress").hide (1000);
+    document.querySelector ("progress").hidden = true;
     return;
   }
-  ajaxRequest = $.ajax ({
-    url: "search2",
-    type: "GET",
-    data: { i: identifier, h: hits[hitCounter] },
-    success: function (response) {
-      $ ("#searchresults").append (response);
-      passageConnectToLast ();
-      hitCounter++;
-      fetchSearchHits ();
-    },
-    complete: function (xhr, status) {
+  const url = "search2?" + new URLSearchParams([ ["i", identifier], ["h", hits[hitCounter]] ]).toString();
+  fetch(url, {
+    method: "GET",
+    signal: abortController.signal,
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
-  });
+    return response.text();
+  })
+  .then((response) => {
+    document.querySelector("#searchresults").insertAdjacentHTML('beforeend', response);
+    passageConnectToLast ();
+    hitCounter++;
+    fetchSearchHits ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
-

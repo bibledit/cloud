@@ -156,7 +156,7 @@ function fetchSearchHits ()
 
 function initPage ()
 {
-  abortController.abort();
+  abortController.abort("");
   abortController = new AbortController();
 
   document.querySelector ("#searchloading").hidden = true;

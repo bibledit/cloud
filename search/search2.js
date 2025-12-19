@@ -41,7 +41,7 @@ var abortController = new AbortController();
 
 function startSearch ()
 {
-  abortController.abort();
+  abortController.abort("");
   abortController = new AbortController();
   var query = document.querySelector ("#searchentry").value;
   if (query == "") return;

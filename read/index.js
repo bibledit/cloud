@@ -128,7 +128,7 @@ function readEditorLoadChapter ()
     readVerse = readNavigationVerse;
     readChapterId = 0;
     readChapterChanged = false;
-    abortController.abort();
+    abortController.abort("");
     abortController = new AbortController();
     const url = "load?" + new URLSearchParams([ ["bible", readBible], ["book", readBook], ["chapter", readChapter], ["verse", readVerse], ["id", verseReaderUniqueID] ]).toString();
     fetch(url, {

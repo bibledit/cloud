@@ -64,7 +64,7 @@ var replaceCounter = 0;
 
 function fetchIdentifiers ()
 {
-  abortController.abort();
+  abortController.abort("");
   abortController = new AbortController();
   searchfor = document.querySelector ("#searchentry").value;
   replacewith = document.querySelector ("#replaceentry").value;

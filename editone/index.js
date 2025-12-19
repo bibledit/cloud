@@ -183,7 +183,7 @@ function oneverseEditorLoadVerse ()
     } else {
       oneverseReloadPosition = undefined;
     }
-    abortController.abort();
+    abortController.abort("");
     abortController = new AbortController();
     const url = "load?" + new URLSearchParams([ ["bible", oneverseBible], ["book", oneverseBook], ["chapter", oneverseChapter], ["verse", oneverseVerseLoading], ["id", verseEditorUniqueID] ]).toString()
     fetch(url, {

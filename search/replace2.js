@@ -56,7 +56,6 @@ var searchplain;
 var hits = [];
 var hitCount = 0;
 var hitCounter;
-var ajaxRequest; // Todo
 var abortController = new AbortController();
 var replacingAll = false;
 var replaceCounter = 0;

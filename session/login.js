@@ -25,16 +25,17 @@ document.addEventListener("DOMContentLoaded", function(e) {
     // Skip the first few movements.
     if (touchCounter > 10) {
       window.removeEventListener('mousemove', mouseMoveDetector);
-      var touch = $ ("#touch");
-      touch.attr ("value", "0");
+      var touch = document.querySelector ("#touch");
+      touch.setAttribute ("value", "0");
     }
   });
+  // Whether to show the password.
   $("#show").change(function() {
-    var input = $("#pass");
-      if (input.attr("type") === "password") {
-        input.attr("type", "text");
+    var input = document.querySelector("#pass");
+      if (input.getAttribute("type") === "password") {
+        input.setAttribute("type", "text");
       } else {
-        input.attr("type", "password");
+        input.setAttribute("type", "password");
       }
   });
 });

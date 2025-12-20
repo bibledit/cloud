@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
 var hits = [];
 var hitCounter;
-var ajaxRequest; // Todo out.
 var abortController = new AbortController();
 
 

@@ -18,18 +18,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  $ ("#searchloading").hide ();
-  $ ("progress").hide ();
-  $ ("#loadbutton").focus ();
-  $ ("#loadbutton").on ("keypress", function (event) {
+  document.querySelector ("#searchloading").hidden = true;
+  document.querySelector ("progress").hidden = true;
+  document.querySelector ("#loadbutton").focus ();
+  document.querySelector ("#loadbutton").addEventListener ("keypress", function (event) {
     if (event.keyCode == 13) {
       startLoad ();
     }
   });
-  $ ("#loadbutton").on ("click", function (event) {
+  document.querySelector ("#loadbutton").addEventListener ("click", function (event) {
     startLoad ();
   });
-  $ ("#strongslinks").on ("click", function (event) {
+  document.querySelector ("#strongslinks").addEventListener ("click", function (event) {
     startSearch (event);
   });
 });
@@ -37,22 +37,31 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
 var hits = [];
 var hitCounter;
-var ajaxRequest;
+var abortController = new AbortController();
 
 
 function startLoad ()
 {
   initPage ();
 
-  ajaxRequest = $.ajax ({
-    url: "strong",
-    type: "GET",
-    data: { b: searchBible, load: true },
-    success: function (response) {
-      $ ("#strongslinks").append (response);
-      $ ("#searchbutton").removeAttr ("disabled");
-    },
-  });
+  const url = "strong?" + new URLSearchParams([ ["b", searchBible], ["load", true] ]).toString();
+  fetch(url, {
+    method: "GET",
+    signal: abortController.signal
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    document.querySelector ("#strongslinks").insertAdjacentHTML('beforeend', response);
+    document.querySelector ("#searchbutton").removeAttribute ("disabled");
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
@@ -62,77 +71,91 @@ function startSearch (event)
   event.preventDefault ();
   var strong = event.target.textContent;
 
-  $ ("#searchloading").show ();
-  $ ("progress").attr ("value", 0);
-  $ ("progress").show ();
+  document.querySelector ("#searchloading").hidden = false;
+  document.querySelector ("progress").setAttribute ("value", 0);
+  document.querySelector ("progress").hidden = false;
   
-  ajaxRequest = $.ajax ({
-    url: "strong",
-    type: "GET",
-    data: { b: searchBible, strong: strong },
-    success: function (response) {
-      var ids = response.split ("\n");
-      for (var i = 0; i < ids.length; i++) {
-        var id = ids [i];
-        if (id != "") {
-          hits.push (id);
-        }
-      }
-    },
-    complete: function (xhr, status) {
-      $ ("#searchloading").hide ();
-      $ ("#hitcount").text (hits.length);
-      $ ("progress").attr ("max", hits.length);
-      hitCounter = 0;
-      fetchSearchHits ();
+  const url = "strong?" + new URLSearchParams([ ["b", searchBible], ["strong", strong] ]).toString();
+  fetch(url, {
+    method: "GET",
+    signal: abortController.signal
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
+    return response.text();
+  })
+  .then((response) => {
+    var ids = response.split ("\n");
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids [i];
+      if (id != "") {
+        hits.push (id);
+      }
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    document.querySelector ("#searchloading").hidden = true;
+    document.querySelector ("#hitcount").innerHTML = hits.length;
+    document.querySelector ("progress").setAttribute ("max", hits.length);
+    hitCounter = 0;
+    fetchSearchHits ();
   });
 }
 
 
 function fetchSearchHits ()
 {
-  $ ("progress").attr ("value", hitCounter);
+  document.querySelector ("progress").setAttribute ("value", hitCounter);
   if (hitCounter >= hits.length) {
-    $ ("progress").hide (1000);
+    document.querySelector ("progress").hidden = true;
     return;
   }
-  ajaxRequest = $.ajax ({
-    url: "strong",
-    type: "GET",
-    data: { b: searchBible, id: hits[hitCounter] },
-    success: function (response) {
-      $ ("#searchresults").append (response);
-      passageConnectToLast ();
-      hitCounter++;
-      fetchSearchHits ();
-    },
-    complete: function (xhr, status) {
+  const url = "strong?" + new URLSearchParams([ ["b", searchBible], ["id", hits[hitCounter]] ]).toString();
+  fetch(url, {
+    method: "GET",
+    signal: abortController.signal
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
     }
-  });
+    return response.text();
+  })
+  .then((response) => {
+    document.querySelector ("#searchresults").insertAdjacentHTML('beforeend', response);
+    passageConnectToLast ();
+    hitCounter++;
+    fetchSearchHits ();
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 }
 
 
 function initPage ()
 {
-  try {
-    ajaxRequest.abort ();
-  } catch (err) {
-  }
+  abortController.abort("");
+  abortController = new AbortController();
 
-  $ ("#searchloading").hide ();
+  document.querySelector ("#searchloading").hidden = true;
 
-  $ ("progress").hide ();
+  document.querySelector ("progress").hidden = true;
 
-  $ ("#hitcount").empty ();
-  $ ("#hitcount").text ("0");
+  document.querySelector ("#hitcount").innerHTML = "0";
   hits.length = 0;
 
-  if ($ ("#searchoriginals").prop ("checked")) target = 1;
-  if ($ ("#searchtreasury").prop ("checked")) target = 2;
+  var searchoriginals = document.querySelector ("#searchoriginals");
+  if (searchoriginals) if (searchoriginals.checked) target = 1;
+  var searchtreasury = document.querySelector ("#searchtreasury");
+  if (searchtreasury) if (searchtreasury.checked) target = 2;
 
-  $ ("#strongslinks").empty ();
+  document.querySelector ("#strongslinks").innerHTML = "";
 
-  $ ("#searchresults").empty ();
+  document.querySelector ("#searchresults").innerHTML = "";
 }
-

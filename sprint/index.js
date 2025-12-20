@@ -18,26 +18,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  $ ("table :checkbox").change (function () {
-    var box = $ (this);
-    var id = box.attr ("id");
-    var checked = box.is (':checked')
-    $.post ("index", { id:id, checked:checked });
-    var identifier = sprint_get_identifier (id);
-    var box = sprint_get_box (id);
-    var fragment = "task" + identifier.toString () + "box";
-    var i;
-    if (checked) {
-      for (i = 0; i < box; i++) {
-        var id = fragment + i.toString ();
-        $ ("#" + id).prop ("checked", true);
+  document.querySelectorAll('input[type="checkbox"]').forEach((element) => {
+    element.addEventListener("change", function(event) {
+      var box = event.target;
+      var id = box.id;
+      var checked = box.checked;
+      fetch("index", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams([ ["id", id], ["checked", checked] ]).toString(),
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      var identifier = sprint_get_identifier (id);
+      var box = sprint_get_box (id);
+      var fragment = "task" + identifier.toString () + "box";
+      var i;
+      if (checked) {
+        for (i = 0; i < box; i++) {
+          const id = fragment + i.toString ();
+          document.querySelector ("#" + id).checked = true;
+        }
+      } else {
+        for (i = box + 1; i < 100; i++) {
+          const id = fragment + i.toString ();
+          const boxn = document.querySelector ("#" + id)
+          if (boxn) boxn.checked = false;
+        }
       }
-    } else {
-      for (i = box + 1; i < 100; i++) {
-        var id = fragment + i.toString ();
-        $ ("#" + id).prop ("checked", false);
-      }
-    }
+    });
   });
 });
 

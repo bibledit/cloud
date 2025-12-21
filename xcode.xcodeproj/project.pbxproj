@@ -931,16 +931,6 @@
 		CADE3B7A24F1742D003165BB /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CADE3B7B24F1742D003165BB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CADE3B7C24F1742D003165BB /* jsonxx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jsonxx.h; sourceTree = "<group>"; };
-		CADE3B8324F1742E003165BB /* jquery.LICENSE.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.LICENSE.js; sourceTree = "<group>"; };
-		CADE3B8424F1742E003165BB /* jquery.touchSwipe.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = jquery.touchSwipe.LICENSE; sourceTree = "<group>"; };
-		CADE3B8524F1742E003165BB /* jquery-3.5.1.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "jquery-3.5.1.js"; sourceTree = "<group>"; };
-		CADE3B8624F1742E003165BB /* jquery-3.5.1.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "jquery-3.5.1.min.js"; sourceTree = "<group>"; };
-		CADE3B8724F1742E003165BB /* jquery.touchSwipe.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.touchSwipe.min.js; sourceTree = "<group>"; };
-		CADE3B8824F1742E003165BB /* jquery.stylesheet.README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = jquery.stylesheet.README.md; sourceTree = "<group>"; };
-		CADE3B8924F1742E003165BB /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		CADE3B8A24F1742E003165BB /* jquery.stylesheet.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.stylesheet.js; sourceTree = "<group>"; };
-		CADE3B8B24F1742E003165BB /* jquery.touchSwipe.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.touchSwipe.js; sourceTree = "<group>"; };
-		CADE3B8C24F1742E003165BB /* jquery.touchSwipe.README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = jquery.touchSwipe.README.md; sourceTree = "<group>"; };
 		CADE3B8E24F1742E003165BB /* holder */ = {isa = PBXFileReference; lastKnownFileType = text; path = holder; sourceTree = "<group>"; };
 		CADE3B8F24F1742E003165BB /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notes.cpp; sourceTree = "<group>"; };
 		CADE3B9124F1742E003165BB /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
@@ -1861,7 +1851,6 @@
 		CAECA50825EFDE1E00650B41 /* divider.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = divider.cpp; sourceTree = "<group>"; };
 		CAECA50925EFDE1E00650B41 /* divider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = divider.h; sourceTree = "<group>"; };
 		CAECA50A25EFDE1E00650B41 /* divider.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = divider.html; sourceTree = "<group>"; };
-		CAF563462729364E0093614C /* jquery.longpress.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.longpress.js; sourceTree = "<group>"; };
 		CAFA33C329269F1100474A52 /* libpugixml.1.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpugixml.1.12.dylib; path = ../../../../opt/local/lib/libpugixml.1.12.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1927,7 +1916,6 @@
 				CADE3B8D24F1742E003165BB /* ipc */,
 				CADE3B6E24F1742D003165BB /* jobs */,
 				CADE3B6024F1742D003165BB /* journal */,
-				CADE3B8224F1742E003165BB /* jquery */,
 				CADE3B7724F1742D003165BB /* jsonxx */,
 				CADE3B5824F1742D003165BB /* ldap */,
 				CADE3B9A24F1742E003165BB /* lexicon */,
@@ -3384,24 +3372,6 @@
 				CADE3B7B24F1742D003165BB /* README.md */,
 			);
 			path = jsonxx;
-			sourceTree = "<group>";
-		};
-		CADE3B8224F1742E003165BB /* jquery */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3B8524F1742E003165BB /* jquery-3.5.1.js */,
-				CADE3B8624F1742E003165BB /* jquery-3.5.1.min.js */,
-				CADE3B8324F1742E003165BB /* jquery.LICENSE.js */,
-				CAF563462729364E0093614C /* jquery.longpress.js */,
-				CADE3B8A24F1742E003165BB /* jquery.stylesheet.js */,
-				CADE3B8824F1742E003165BB /* jquery.stylesheet.README.md */,
-				CADE3B8B24F1742E003165BB /* jquery.touchSwipe.js */,
-				CADE3B8424F1742E003165BB /* jquery.touchSwipe.LICENSE */,
-				CADE3B8724F1742E003165BB /* jquery.touchSwipe.min.js */,
-				CADE3B8C24F1742E003165BB /* jquery.touchSwipe.README.md */,
-				CADE3B8924F1742E003165BB /* readme.txt */,
-			);
-			path = jquery;
 			sourceTree = "<group>";
 		};
 		CADE3B8D24F1742E003165BB /* ipc */ = {

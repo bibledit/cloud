@@ -44,7 +44,6 @@ rm -rf autom4te.cache
 rm -rf developer
 rm -rf dtl
 rm -rf flate
-rm -rf jquery
 rm -rf jsonxx
 rm -rf man
 rm -rf mbedtls*

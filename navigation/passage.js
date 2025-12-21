@@ -226,17 +226,25 @@ function navigateBack (event) {
     navigateBackSkip = false;
     return;
   }
-  $.ajax ({
-    url: "/navigation/update",
-    type: "GET",
-    data: { bible: navigationBible, goback: "" },
-    cache: false,
-    success: function (response) {
-      navigatorContainer.innerHTML = "";
-      navigatorContainer.insertAdjacentHTML('beforeend', response);
-      bindClickHandlers ();
-      navigationPollPassage ();
-    },
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["goback", ""] ]).toString();
+  fetch(url, {
+    method: "GET",
+    cache: "no-cache"
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.text();
+  })
+  .then((response) => {
+    navigatorContainer.innerHTML = "";
+    navigatorContainer.insertAdjacentHTML('beforeend', response);
+    bindClickHandlers ();
+    navigationPollPassage ();
+  })
+  .catch((error) => {
+    console.log(error);
   });
 }
 

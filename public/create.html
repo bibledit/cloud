@@ -14,9 +14,9 @@
 <script src="/nicedit/nicedit.min.js?##VERSION##"></script>
 <script type="text/javascript">
 	bkLib.onDomLoaded (function () { nicEditors.allTextAreas () });
-  $ ("body").on ("paste", function (e) {
-    var data = e.originalEvent.clipboardData.getData ('Text');
-    e.preventDefault();
+  document.body.addEventListener("paste", function (event) {
+    var data = event.clipboardData.getData ('Text');
+    event.preventDefault();
     data = data.replace (/\n/g, "<br>");
     document.execCommand ("insertHTML", false, data);
   });

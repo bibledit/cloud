@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     }
   });
   // Whether to show the password.
-  $("#show").change(function() {
+  document.querySelector("#show").addEventListener("change", function() {
     var input = document.querySelector("#pass");
       if (input.getAttribute("type") === "password") {
         input.setAttribute("type", "text");

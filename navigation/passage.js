@@ -295,8 +295,8 @@ function displayBooks (event) {
   .then((response) => {
     navigatorContainer.innerHTML = "";
     navigatorContainer.insertAdjacentHTML('beforeend', response);
-    $("#applybook").on ("click", function (event) {
-      $ ('#topbar').removeClass('wrap-active');
+    document.querySelector("#applybook").addEventListener ("click", function (event) {
+      document.querySelector('#topbar').classList.remove('wrap-active');
       applyBook (event);
     });
   })

@@ -170,53 +170,46 @@ std::string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserve
 // The script to put into the html for a lexicon's defined $prefix.
 std::string lexicon_logic_get_script (std::string prefix)
 {
-  std::string defid = "lexicondef" + prefix;
-  std::string txtid = "lexicontxt" + prefix;
+  // Tags in the Javascript code below, to be replaced by tags specific for the resource.
+  const std::string defid = "lexicondef" + prefix;
+  const std::string txtid = "lexicontxt" + prefix;
 
   std::string script = R"(
 <div id="defid" style="clear:both"></div>
 <script>
 
   function get_defid (event) {
-    leave_defid (event);
     var href = event.target.href;
     href = href.substring (href.lastIndexOf ('/') + 1);
-    $.ajax ({
-      url: "/lexicon/definition",
-      type: "GET",
-      data: { id: href },
-      success: function (response) {
-        var element = $ ("#defid");
-        element.empty ();
-        element.append (response);
-        $("#defid a").hover (enter_defid, leave_defid);
+    const url = "/lexicon/definition?id=" + href;
+    fetch(url, {
+      method: "GET",
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.status);
       }
-    });
+      return response.text();
+    })
+    .then((response) => {
+      var element = document.querySelector ("#defid");
+      element.innerHTML = response;
+      document.querySelectorAll("#defid a").forEach((element) => {
+        element.addEventListener("click", click_defid);
+      })
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
-  
-  var timer_defid = null;
   
   function click_defid (event) {
     event.preventDefault ();
     get_defid (event);
   }
   
-  function enter_defid (event) {
-    leave_defid (event);
-    timer_defid = setTimeout (function () {
-      get_defid (event);
-    }, 500);
-  }
-
-  function leave_defid (event) {
-    if (timer_defid) {
-      clearTimeout (timer_defid);
-      timer_defid = null;
-    }
-  }
-
-  $("#txtid, #defid").on ("click", click_defid);
-  $("#txtid a").hover (enter_defid, leave_defid);
+  var txtid = document.querySelector("#txtid");
+  if (txtid) txtid.addEventListener("click", click_defid);
 
 </script>
   )";

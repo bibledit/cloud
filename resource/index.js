@@ -120,6 +120,7 @@ function resourceGetOne ()
     }
     navigationSetup ();
     resourcePosition ();
+    runScript(response);
   })
   .catch((error) => {
     console.log(error);
@@ -168,4 +169,17 @@ function resourceUnload ()
 // The reason is explained in https://github.com/bibledit/cloud/issues/660.
 function resourcePosition ()
 {
+}
+
+
+// If the response contains Javascript, extract it and evaluate (run) it.
+function runScript (response)
+{
+  const startTag = "<script>";
+  const scriptStartPos = response.indexOf(startTag);
+  if (scriptStartPos < 0) return;
+  const scriptEndPos = response.indexOf("</script>");
+  if (scriptEndPos < 0) return;
+  const script = response.substring(scriptStartPos + startTag.length, scriptEndPos);
+  eval(script);
 }

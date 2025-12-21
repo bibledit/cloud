@@ -64,7 +64,6 @@ std::string edit_preview (Webserver_Request& webserver_request)
   Assets_Header header = Assets_Header (translate("Preview"), webserver_request);
   header.set_navigator ();
   header.set_editor_stylesheet ();
-  if (touch) header.jquery_touch_on ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   if (timeout) header.refresh (5, "../" + caller + "/index");
   page = header.run ();

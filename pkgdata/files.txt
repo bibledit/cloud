@@ -72,9 +72,7 @@
 /consultations/gitflag
 /css
 /css/editor.css
-/css/mouse.css
 /css/stylesheet.css
-/css/touch.css
 /database
 /database/config
 /databases

@@ -56,7 +56,6 @@ std::string resource_index (Webserver_Request& webserver_request)
   Assets_Header header = Assets_Header (translate("Resources"), webserver_request);
   header.set_navigator ();
   header.set_stylesheet ();
-  if (touch) header.jquery_touch_on ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   Assets_View view;

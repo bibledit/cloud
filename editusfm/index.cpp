@@ -73,8 +73,6 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   Assets_Header header = Assets_Header (translate("Edit USFM"), webserver_request);
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
-  if (touch) 
-    header.jquery_touch_on ();
   header.notify_on ();
   page = header.run ();
   Assets_View view;

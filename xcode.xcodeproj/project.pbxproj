@@ -716,9 +716,7 @@
 		CADE39EB24F17423003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE39EC24F17423003165BB /* position.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = position.cpp; sourceTree = "<group>"; };
 		CADE39EE24F17423003165BB /* editor.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = editor.css; sourceTree = "<group>"; };
-		CADE39EF24F17423003165BB /* touch.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = touch.css; sourceTree = "<group>"; };
 		CADE39F024F17423003165BB /* stylesheet.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = stylesheet.css; sourceTree = "<group>"; };
-		CADE39F124F17423003165BB /* mouse.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = mouse.css; sourceTree = "<group>"; };
 		CADE39F324F17423003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE39F524F17423003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CADE39F624F17423003165BB /* listing.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listing.html; sourceTree = "<group>"; };
@@ -2852,9 +2850,7 @@
 			isa = PBXGroup;
 			children = (
 				CADE39EE24F17423003165BB /* editor.css */,
-				CADE39F124F17423003165BB /* mouse.css */,
 				CADE39F024F17423003165BB /* stylesheet.css */,
-				CADE39EF24F17423003165BB /* touch.css */,
 			);
 			path = css;
 			sourceTree = "<group>";

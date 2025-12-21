@@ -47,18 +47,6 @@ Assets_Header::~Assets_Header ()
 }
 
 
-void Assets_Header::jquery_touch_on ()
-{
-  m_jquery_touch_on = true;
-}
-
-
-void Assets_Header::touch_css_on ()
-{
-  m_touch_css_on = true;
-}
-
-
 void Assets_Header::notify_on ()
 {
   m_notify_on = true;
@@ -136,26 +124,6 @@ std::string Assets_Header::run ()
   // to refresh the browser's cache after a software upgrade.
   m_view->set_variable("VERSION", config::logic::version ());
 
-  if (m_jquery_on) {
-    m_view->enable_zone ("include_jquery");
-  }
-
-  if (m_jquery_touch_on) {
-    m_view->enable_zone ("include_jquery_touch");
-  }
-
-  if (m_webserver_request.session_logic ()->get_touch_enabled ()) {
-    touch_css_on();
-  }
-  if (!m_webserver_request.session_logic ()->get_logged_in ()) {
-    touch_css_on();
-  }
-  if (m_touch_css_on) {
-    m_view->enable_zone ("include_touch_css");
-  } else {
-    m_view->enable_zone ("include_mouse_css");
-  }
-  
   if (m_notify_on) {
     m_view->enable_zone ("include_notify_js");
   }

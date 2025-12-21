@@ -132,7 +132,6 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   std::string page {};
   Assets_Header header = Assets_Header (translate("Changes"), webserver_request);
-  header.jquery_on();
   header.set_stylesheet ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page += header.run ();

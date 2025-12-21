@@ -31,7 +31,6 @@ public:
   ~Assets_Header ();
   Assets_Header(const Assets_Header&) = delete;
   Assets_Header operator=(const Assets_Header&) = delete;
-  void jquery_on();
   void jquery_touch_on ();
   void touch_css_on ();
   void notify_on ();
@@ -45,8 +44,8 @@ public:
   std::string run ();
 private:
   Assets_View * m_view {nullptr};
-  bool m_jquery_on {false};
-  bool m_jquery_touch_on {false};
+  bool m_jquery_on {false}; // Todo out.
+  bool m_jquery_touch_on {false}; // Todo out.
   bool m_touch_css_on {false};
   bool m_notify_on {false};
   std::vector <std::string> m_head_lines {};

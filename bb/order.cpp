@@ -49,7 +49,6 @@ std::string bible_order (Webserver_Request& webserver_request)
   std::string page {};
 
   Assets_Header header = Assets_Header (translate("Order"), webserver_request);
-  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();

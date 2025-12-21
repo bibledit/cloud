@@ -34,7 +34,6 @@
 <script type="text/javascript" src="/filter/url.js?##VERSION##"></script>
 <script type="text/javascript" src="/editor/select.js?##VERSION##"></script>
 <script type="text/javascript" src="/quill/quill.min.js?##VERSION##"></script>
-<script type="text/javascript" src="/jquery/jquery.stylesheet.js?##VERSION##"></script>
 <script type="text/javascript" src="/edit/embed.js?##VERSION##"></script>
 <script type="text/javascript" src="/assets/editor.js?##VERSION##"></script>
 <script type="text/javascript" src="/filter/focus.js?##VERSION##"></script>

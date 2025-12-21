@@ -57,7 +57,6 @@ std::string resource_download (Webserver_Request& webserver_request)
   
   std::string page;
   Assets_Header header = Assets_Header (translate("Download resource"), webserver_request);
-  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (resource_cache_url (), menu_logic_resources_text ());
   page = header.run ();

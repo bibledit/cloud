@@ -98,7 +98,6 @@ std::string workspace_settings (Webserver_Request& webserver_request)
   std::string page;
   
   Assets_Header header = Assets_Header (translate("Edit workspace"), webserver_request);
-  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (workspace_organize_url (), menu_logic_workspace_organize_text ());
   page = header.run ();

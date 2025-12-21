@@ -63,7 +63,6 @@ bool checks_index_acl (Webserver_Request& webserver_request)
 std::string checks_index (Webserver_Request& webserver_request)
 {
   Assets_Header header = Assets_Header (translate("Checks"), webserver_request);
-  header.jquery_on();
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   std::string page = header.run ();
   Assets_View view {};

@@ -50,7 +50,6 @@ bool images_index_acl (Webserver_Request& webserver_request)
 std::string images_index (Webserver_Request& webserver_request)
 {
   Assets_Header header = Assets_Header (translate("Bible images"), webserver_request);
-  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (images_index_url (), menu_logic_images_index_text ());
   std::string page = header.run ();

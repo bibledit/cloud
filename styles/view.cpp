@@ -58,7 +58,6 @@ std::string styles_view (Webserver_Request& webserver_request)
   std::string page {};
   
   Assets_Header header = Assets_Header (translate("Style"), webserver_request);
-  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
   page = header.run ();

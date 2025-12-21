@@ -104,7 +104,6 @@ std::string system_index (Webserver_Request& webserver_request)
   
   // The header: The language has been set already.
   Assets_Header header = Assets_Header (translate("System"), webserver_request);
-  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
 

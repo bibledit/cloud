@@ -53,7 +53,6 @@ std::string bible_import (Webserver_Request& webserver_request)
   std::string page {};
   
   Assets_Header header = Assets_Header (translate("Import"), webserver_request);
-  header.jquery_on();
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());

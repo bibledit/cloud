@@ -68,7 +68,6 @@ std::string public_new (Webserver_Request& webserver_request)
   
   std::string page {};
   Assets_Header header = Assets_Header (translate ("New feedback"), webserver_request);
-  header.jquery_on();
   header.set_navigator ();
   header.set_stylesheet ();
   page = header.run ();

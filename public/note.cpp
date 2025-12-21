@@ -52,7 +52,6 @@ std::string public_note (Webserver_Request& webserver_request)
   
   std::string page {};
   Assets_Header header = Assets_Header (translate("Note"), webserver_request);
-  header.jquery_on();
 
   
   // After adding a comment to a note, when doing nothing for several seconds,

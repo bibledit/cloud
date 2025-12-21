@@ -65,7 +65,6 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   std::string page;
   Assets_Header header = Assets_Header (translate("Users"), webserver_request);
-  header.jquery_on();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
 

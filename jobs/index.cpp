@@ -48,7 +48,6 @@ std::string jobs_index (Webserver_Request& webserver_request)
   std::string page;
   
   Assets_Header header = Assets_Header (translate ("Job"), webserver_request);
-  header.jquery_on();
 
   Assets_View view;
 

@@ -66,7 +66,6 @@ std::string manage_exports (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate ("Export"), webserver_request);
-  header.jquery_on();
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
   Assets_View view;

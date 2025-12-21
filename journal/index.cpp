@@ -151,7 +151,6 @@ std::string journal_index (Webserver_Request& webserver_request)
   
   
   Assets_Header header = Assets_Header (translate ("Journal"), webserver_request);
-  header.jquery_on();
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   std::string page = header.run ();
 

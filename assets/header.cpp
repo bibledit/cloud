@@ -47,12 +47,6 @@ Assets_Header::~Assets_Header ()
 }
 
 
-void Assets_Header::jquery_on()
-{
-  m_jquery_on = true;
-}
-
-
 void Assets_Header::jquery_touch_on ()
 {
   m_jquery_touch_on = true;

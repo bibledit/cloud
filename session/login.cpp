@@ -154,7 +154,6 @@ std::string session_login_display_header (Webserver_Request& webserver_request)
      Therefore no output should be sent so the forward headers work.
   */
   Assets_Header header = Assets_Header (translate ("Login"), webserver_request);
-  header.jquery_on();
   header.touch_css_on ();
   return header.run ();
 }

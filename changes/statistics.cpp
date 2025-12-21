@@ -67,7 +67,6 @@ std::string changes_statistics ([[maybe_unused]] Webserver_Request& webserver_re
 
   std::string page {};
   Assets_Header header = Assets_Header (translate("Change statistics"), webserver_request);
-  header.jquery_on();
   page += header.run ();
   Assets_View view {};
   

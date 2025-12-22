@@ -13,41 +13,70 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function(e) {
-    document.querySelector("#debian").addEventListener("click", function(){
-      hide_all();
-      document.querySelector(".debian").hidden = false;
+    document.querySelectorAll("#debian").forEach((element) => {
+      element.addEventListener("click", function(){
+        hide_all();
+        show_os(".debian");
+      });
     });
-    document.querySelector("#ubuntu").addEventListener("click", function(){
-      hide_all();
-      document.querySelector(".ubuntu").hidden = false;
+    document.querySelectorAll("#ubuntu").forEach((element) => {
+      element.addEventListener("click", function(){
+        hide_all();
+        show_os(".ubuntu");
+      });
     });
-    document.querySelector("#centos").addEventListener("click", function(){
-      hide_all();
-      document.querySelector(".centos").hidden = false;
+    document.querySelectorAll("#centos").forEach((element) => {
+      element.addEventListener("click", function(){
+        hide_all();
+        show_os(".centos");
+      });
     });
-    document.querySelector("#redhat").addEventListener("click", function(){
-      hide_all();
-      document.querySelector(".redhat").hidden = false;
+    document.querySelectorAll("#redhat").forEach((element) => {
+      element.addEventListener("click", function(){
+        hide_all();
+        show_os(".redhat");
+      });
     });
-    document.querySelector("#alma").addEventListener("click", function(){
-      hide_all();
-      document.querySelector(".alma").hidden = false;
+    document.querySelectorAll("#alma").forEach((element) => {
+      element.addEventListener("click", function(){
+        hide_all();
+        show_os(".alma");
+      });
     });
-    document.querySelector("#opensuse").addEventListener("click", function(){
-      hide_all();
-      document.querySelector(".opensuse").hidden = false;
+    document.querySelectorAll("#opensuse").forEach((element) => {
+      element.addEventListener("click", function(){
+        hide_all();
+        show_os(".opensuse");
+      });
     });
     hide_all();
-    document.querySelector(".debian").hidden = false;
+    show_os(".debian");
   });
   function hide_all () {
-    document.querySelector(".debian").hidden = true;
-    document.querySelector(".ubuntu").hidden = true;
-    document.querySelector(".centos").hidden = true;
-    document.querySelector(".redhat").hidden = true;
-    document.querySelector(".alma").hidden = true;
-    document.querySelector(".opensuse").hidden = true;
+    document.querySelectorAll(".debian").forEach((element) => {
+      element.hidden = true;
+    });
+    document.querySelectorAll(".ubuntu").forEach((element) => {
+      element.hidden = true;
+    });
+    document.querySelectorAll(".centos").forEach((element) => {
+      element.hidden = true;
+    });
+    document.querySelectorAll(".redhat").forEach((element) => {
+      element.hidden = true;
+    });
+    document.querySelectorAll(".alma").forEach((element) => {
+      element.hidden = true;
+    });
+    document.querySelectorAll(".opensuse").forEach((element) => {
+      element.hidden = true;
+    });
   };
+  function show_os (selector) {
+    document.querySelectorAll(selector).forEach((element) => {
+      element.hidden = false;
+    });
+  }
 </script>
 
 <br>

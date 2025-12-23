@@ -77,7 +77,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   
   // Get the active Bible, and check whether the user has access to it.
   // And if the user has used a query to preset the active Bible, get that preset Bible.
-  // Set the chosen Bible on the option HTML tag.
+  // Store the active Bible in the HTML.
   std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
   if (webserver_request.query.count ("bible"))
     bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
@@ -108,7 +108,6 @@ std::string edit_index (Webserver_Request& webserver_request)
       .selected = bible,
     };
     dialog::select::Form form { .auto_submit = true };
-    //view.set_variable(identification, dialog::select::ajax(settings));
     view.set_variable(identification, dialog::select::form(settings, form));
   }
 

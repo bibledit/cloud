@@ -16,6 +16,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-document.querySelector("#identification").addEventListener("change",function(){
-  document.getElementById("identification").parentElement.submit();
+document.addEventListener("DOMContentLoaded", function() {
+  const identification = document.querySelector("#identification");
+  identification.addEventListener("change",function(event){
+    document.querySelector("#identification").parentElement.submit();
+  });
 });

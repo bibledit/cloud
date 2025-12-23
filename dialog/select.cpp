@@ -73,11 +73,13 @@ std::string ajax(const Settings& settings)
   create_select (document, settings);
 
   // The Javascript to POST the selected value if it changes.
+  // The script should be a module because that defers execution till the document has been loaded.
   std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/selectajax.js"}));
   javascript = remove_comment_from_code (std::move(javascript));
   javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
   
   pugi::xml_node script_node = document.append_child("script");
+  script_node.append_attribute("type") = "module";
   script_node.text().set(javascript.c_str());
   
   // Convert it to html including Javascript.
@@ -119,11 +121,13 @@ std::string form(const Settings& settings, const Form& form)
   }
   
   // If automatic submit, add a script that does the job.
+  // The script should be a module because that defers execution till the document has been loaded.
   if (form.auto_submit) {
     std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/selectform.js"}));
     javascript = remove_comment_from_code (std::move(javascript));
     javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
     pugi::xml_node script_node = document.append_child("script");
+    script_node.append_attribute("type") = "module";
     script_node.text().set(javascript.c_str());
   }
 

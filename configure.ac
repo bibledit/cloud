@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[5.1.035],[https://bibledit.org])
+AC_INIT([bibledit],[5.1.036],[https://bibledit.org])
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr

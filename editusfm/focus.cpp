@@ -50,7 +50,7 @@ std::string editusfm_focus (Webserver_Request& webserver_request)
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
   int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
   std::string usfm = database::bibles::get_chapter (bible, book, chapter);
-  int verse = Ipc_Focus::getVerse (webserver_request);
+  int verse = ipc_focus::get_verse (webserver_request);
   int startingOffset = filter::usfm::versenumber_to_offset (usfm, verse);
   int endingOffset = startingOffset;
   // The following deals with a combined verse.

@@ -51,9 +51,9 @@ std::string notes_notes (Webserver_Request& webserver_request)
 
   
   const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible());
-  const int book = Ipc_Focus::getBook (webserver_request);
-  const int chapter = Ipc_Focus::getChapter (webserver_request);
-  const int verse = Ipc_Focus::getVerse (webserver_request);
+  const int book = ipc_focus::get_book (webserver_request);
+  const int chapter = ipc_focus::get_chapter (webserver_request);
+  const int verse = ipc_focus::get_verse (webserver_request);
 
   
   const auto passage_selector = static_cast<Database_Notes::PassageSelector>(webserver_request.database_config_user()->get_consultation_notes_passage_selector());

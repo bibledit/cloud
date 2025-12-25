@@ -76,13 +76,13 @@ std::string notes_create (Webserver_Request& webserver_request)
   
   int book;
   if (webserver_request.post_count("book")) book = filter::strings::convert_to_int (webserver_request.post_get("book"));
-  else book = Ipc_Focus::getBook (webserver_request);
+  else book = ipc_focus::get_book (webserver_request);
   int chapter;
   if (webserver_request.post_count("chapter")) chapter = filter::strings::convert_to_int (webserver_request.post_get("chapter"));
-  else chapter = Ipc_Focus::getChapter (webserver_request);
+  else chapter = ipc_focus::get_chapter (webserver_request);
   int verse;
   if (webserver_request.post_count("verse")) verse = filter::strings::convert_to_int (webserver_request.post_get("verse"));
-  else verse = Ipc_Focus::getVerse (webserver_request);
+  else verse = ipc_focus::get_verse (webserver_request);
 
   
   if (webserver_request.post_count("summary")) {

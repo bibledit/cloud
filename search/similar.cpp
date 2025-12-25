@@ -61,9 +61,9 @@ std::string search_similar (Webserver_Request& webserver_request)
 
 
   if (webserver_request.query.count ("load")) {
-    const int book = Ipc_Focus::getBook (webserver_request);
-    const int chapter = Ipc_Focus::getChapter (webserver_request);
-    const int verse = Ipc_Focus::getVerse (webserver_request);
+    const int book = ipc_focus::get_book (webserver_request);
+    const int chapter = ipc_focus::get_chapter (webserver_request);
+    const int verse = ipc_focus::get_verse (webserver_request);
     // Text of the focused verse in the active Bible.
     // Remove all punctuation from it.
     std::string versetext = search_logic_get_bible_verse_text (bible, book, chapter, verse);

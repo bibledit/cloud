@@ -67,7 +67,7 @@ std::string read_index (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
     int switchbook = filter::strings::convert_to_int (webserver_request.query ["switchbook"]);
     int switchchapter = filter::strings::convert_to_int (webserver_request.query ["switchchapter"]);
-    Ipc_Focus::set (webserver_request, switchbook, switchchapter, 1);
+    ipc_focus::set_passage (webserver_request, switchbook, switchchapter, 1);
     navigation_passage::record_history (webserver_request, switchbook, switchchapter, 1);
   }
 

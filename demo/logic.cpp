@@ -179,7 +179,7 @@ void demo_clean_data ()
   
   // Set navigator to John 3:16.
   if (config::logic::default_bibledit_configuration ()) {
-    Ipc_Focus::set (webserver_request, 43, 3, 16);
+    ipc_focus::set_passage (webserver_request, 43, 3, 16);
   }
 
 

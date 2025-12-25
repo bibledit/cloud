@@ -63,7 +63,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
     const std::string switchchapter = webserver_request.query ["switchchapter"];
     const int book = filter::strings::convert_to_int (switchbook);
     const int chapter = filter::strings::convert_to_int (switchchapter);
-    Ipc_Focus::set (webserver_request, book, chapter, 1);
+    ipc_focus::set_passage (webserver_request, book, chapter, 1);
     navigation_passage::record_history (webserver_request, book, chapter, 1);
   }
 

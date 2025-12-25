@@ -58,7 +58,7 @@ std::string edit_position (Webserver_Request& webserver_request)
   
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
-  const int verse = Ipc_Focus::getVerse (webserver_request);
+  const int verse = ipc_focus::get_verse (webserver_request);
 
 
   Editor_Usfm2Html editor_usfm2html;

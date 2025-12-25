@@ -424,9 +424,9 @@ const char * bibledit_get_reference_for_accordance ()
   std::string bible = webserver_request.database_config_user ()->get_bible ();
   std::string versification = database::config::bible::get_versification_system (bible);
 
-  int book = Ipc_Focus::getBook (webserver_request);
-  int chapter = Ipc_Focus::getChapter (webserver_request);
-  int verse = Ipc_Focus::getVerse (webserver_request);
+  int book = ipc_focus::get_book (webserver_request);
+  int chapter = ipc_focus::get_chapter (webserver_request);
+  int verse = ipc_focus::get_verse (webserver_request);
 
   // Accordance expects a verse reference in the English versification system.
   std::vector <Passage> passages;
@@ -494,5 +494,5 @@ void bibledit_put_reference_from_accordance (const char * reference)
   book = passages[0].m_book;
   chapter = passages[0].m_chapter;
   std::string verse_s = passages[0].m_verse;
-  Ipc_Focus::set (webserver_request, book, chapter, verse);
+  ipc_focus::set_passage (webserver_request, book, chapter, verse);
 }

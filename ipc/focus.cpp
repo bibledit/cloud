@@ -23,13 +23,16 @@
 #include <filter/string.h>
 
 
-// Sets the focus.
-void Ipc_Focus::set (Webserver_Request& webserver_request, int book, int chapter, int verse)
+namespace ipc_focus {
+
+
+// Sets the focused passage.
+void set_passage (Webserver_Request& webserver_request, const int book, const int chapter, const int verse)
 {
   bool set = false;
-  if (book != getBook (webserver_request)) set = true;
-  if (chapter != getChapter (webserver_request)) set = true;
-  if (verse != getVerse (webserver_request)) set = true;
+  if (book != get_book (webserver_request)) set = true;
+  if (chapter != get_chapter (webserver_request)) set = true;
+  if (verse != get_verse (webserver_request)) set = true;
   if (set) {
     webserver_request.database_config_user()->set_focused_book (book);
     webserver_request.database_config_user()->set_focused_chapter (chapter);
@@ -39,24 +42,24 @@ void Ipc_Focus::set (Webserver_Request& webserver_request, int book, int chapter
 
 
 // Gets the focused book.
-int Ipc_Focus::getBook (Webserver_Request& webserver_request)
+int get_book (Webserver_Request& webserver_request)
 {
-  int book = webserver_request.database_config_user()->get_focused_book ();
-  return book;
+  return webserver_request.database_config_user()->get_focused_book ();
 }
 
 
 // Gets the focused chapter.
-int Ipc_Focus::getChapter (Webserver_Request& webserver_request)
+int get_chapter (Webserver_Request& webserver_request)
 {
-  int chapter = webserver_request.database_config_user()->get_focused_chapter ();
-  return chapter;
+  return webserver_request.database_config_user()->get_focused_chapter ();
 }
 
 
 // Gets the focused verse.
-int Ipc_Focus::getVerse (Webserver_Request& webserver_request)
+int get_verse (Webserver_Request& webserver_request)
 {
-  int verse = webserver_request.database_config_user()->get_focused_verse ();
-  return verse;
+  return webserver_request.database_config_user()->get_focused_verse ();
 }
+
+
+};

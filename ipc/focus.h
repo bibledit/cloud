@@ -23,12 +23,11 @@
 
 class Webserver_Request;
 
-class Ipc_Focus
-{
-public:
-  static void set (Webserver_Request& webserver_request, int book, int chapter, int verse);
-  static int getBook (Webserver_Request& webserver_request);
-  static int getChapter (Webserver_Request& webserver_request);
-  static int getVerse (Webserver_Request& webserver_request);
-private:
+namespace ipc_focus {
+
+void set_passage (Webserver_Request& webserver_request, const int book, const int chapter, const int verse);
+int get_book (Webserver_Request& webserver_request);
+int get_chapter (Webserver_Request& webserver_request);
+int get_verse (Webserver_Request& webserver_request);
+
 };

@@ -312,12 +312,12 @@ std::string personalize_index (Webserver_Request& webserver_request)
       bible = webserver_request.post_get(identification);
       webserver_request.database_config_user()->set_bible (bible);
       // Going to another Bible, ensure that the focused book exists there.
-      int book = Ipc_Focus::getBook (webserver_request);
+      int book = ipc_focus::get_book (webserver_request);
       std::vector <int> books = database::bibles::get_books (bible);
       if (find (books.begin(), books.end(), book) == books.end()) {
         if (!books.empty ()) book = books.at(0);
         else book = 0;
-        Ipc_Focus::set (webserver_request, book, 1, 1);
+        ipc_focus::set_passage (webserver_request, book, 1, 1);
       }
     }
     dialog::select::Settings settings {

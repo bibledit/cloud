@@ -67,7 +67,7 @@ std::string edit_index (Webserver_Request& webserver_request)
     int switchverse = 1;
     if (webserver_request.query.count ("switchverse")) 
       switchverse = filter::strings::convert_to_int (webserver_request.query ["switchverse"]);
-    Ipc_Focus::set (webserver_request, switchbook, switchchapter, switchverse);
+    ipc_focus::set_passage (webserver_request, switchbook, switchchapter, switchverse);
     navigation_passage::record_history (webserver_request, switchbook, switchchapter, switchverse);
   }
 
@@ -91,12 +91,12 @@ std::string edit_index (Webserver_Request& webserver_request)
       bible = webserver_request.post_get(identification);
       webserver_request.database_config_user()->set_bible (bible);
       // Going to another Bible, ensure that the focused book exists there.
-      int book = Ipc_Focus::getBook (webserver_request);
+      int book = ipc_focus::get_book (webserver_request);
       const std::vector <int> books = database::bibles::get_books (bible);
       if (std::find (books.begin(), books.end(), book) == books.end()) {
         if (!books.empty ()) book = books.front();
         else book = 0;
-        Ipc_Focus::set (webserver_request, book, 1, 1);
+        ipc_focus::set_passage (webserver_request, book, 1, 1);
       }
       // Ensure it gets loaded.
       redirect_browser (webserver_request, edit_index_url());

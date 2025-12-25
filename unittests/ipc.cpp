@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <webserver/request.h>
 #include <ipc/notes.h>
+#include <ipc/focus.h>
 #include <filter/string.h>
 
 
@@ -179,6 +180,37 @@ TEST (database, ipc)
     alive = database_ipc.getNotesAlive ();
     EXPECT_EQ (filter::strings::convert_to_bool (message), alive);
   }
+}
+
+
+TEST (ipc, focus)
+{
+  // Initialize.
+  refresh_sandbox (false);
+  Webserver_Request req;
+  req.session_logic()->set_username("gtest");
+  Webserver_Request other_req;
+  req.session_logic()->set_username("other");
+
+  // Verify the initial passage is Genesis 1.1.
+  EXPECT_EQ (ipc_focus::get_book(req), 1);
+  EXPECT_EQ (ipc_focus::get_chapter(req), 1);
+  EXPECT_EQ (ipc_focus::get_verse(req), 1);
+  EXPECT_EQ (ipc_focus::get_book(other_req), 1);
+  EXPECT_EQ (ipc_focus::get_chapter(other_req), 1);
+  EXPECT_EQ (ipc_focus::get_verse(other_req), 1);
+
+  // Set a passage and confirm it.
+  constexpr const int book {2};
+  constexpr const int chapter {3};
+  constexpr const int verse {4};
+  ipc_focus::set_passage(req, book, chapter, verse);
+  EXPECT_EQ (ipc_focus::get_book(req), book);
+  EXPECT_EQ (ipc_focus::get_chapter(req), chapter);
+  EXPECT_EQ (ipc_focus::get_verse(req), verse);
+  EXPECT_EQ (ipc_focus::get_book(other_req), 1);
+  EXPECT_EQ (ipc_focus::get_chapter(other_req), 1);
+  EXPECT_EQ (ipc_focus::get_verse(other_req), 1);
 }
 
 

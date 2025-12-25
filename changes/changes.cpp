@@ -105,7 +105,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
     const int id = filter::strings::convert_to_int (navigate);
     const Passage passage = database::modifications::getNotificationPassage (id);
     if (passage.m_book) {
-      Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+      ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
       navigation_passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
     }
     // Set the correct default Bible for the user.

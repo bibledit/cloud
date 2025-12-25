@@ -126,33 +126,6 @@ TEST (database, ipc)
     EXPECT_EQ (0, data.id);
   }
 
-  // Test get focus
-  {
-    refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
-    Webserver_Request webserver_request;
-    Database_Ipc database_ipc (webserver_request);
-    
-    std::string user = "phpunit";
-    webserver_request.session_logic ()->set_username (user);
-    std::string channel = "channel";
-    std::string command = "focus";
-    
-    std::string passage = database_ipc.getFocus ();
-    EXPECT_EQ ("1.1.1", passage);
-    
-    std::string message = "2.3.4";
-    database_ipc.storeMessage (user, channel, command, message);
-    passage = database_ipc.getFocus ();
-    EXPECT_EQ (message, passage);
-    
-    message = "5.6.7";
-    database_ipc.storeMessage (user, channel, command, message);
-    passage = database_ipc.getFocus ();
-    EXPECT_EQ (message, passage);
-  }
-
   // Test get note.
   {
     refresh_sandbox (true);

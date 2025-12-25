@@ -140,33 +140,6 @@ void Database_Ipc::deleteMessage (int id)
 }
 
 
-std::string Database_Ipc::getFocus ()
-{
-  const std::string& user = m_webserver_request.session_logic ()->get_username ();
-
-  int highestId = 0;
-  std::string hitMessage = "";
-  std::vector <Database_Ipc_Item> data = readData ();
-  for (auto & record : data) {
-    int recordid = record.rowid;
-    // Conditions: Command is "focus", and matching user.
-    if (record.command == "focus") {
-      if (record.user == user) {
-        if (recordid > highestId) {
-          highestId = recordid;
-          hitMessage = filter_url_file_get_contents (file (record.file));
-        }
-      }
-    }
-  }
-
-  if (highestId) return hitMessage;
-
-  // No focus found: Return Genesis 1:1.
-  return "1.1.1";
-}
-
-
 Database_Ipc_Message Database_Ipc::getNote ()
 {
   const std::string& user = m_webserver_request.session_logic ()->get_username ();

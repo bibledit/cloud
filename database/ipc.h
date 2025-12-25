@@ -53,7 +53,6 @@ public:
   void storeMessage (std::string user, std::string channel, std::string command, std::string message);
   Database_Ipc_Message retrieveMessage (int id, std::string user, std::string channel, std::string command);
   void deleteMessage (int id);
-  std::string getFocus ();
   Database_Ipc_Message getNote ();
   bool getNotesAlive ();
 private:

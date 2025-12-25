@@ -115,6 +115,12 @@ void Assets_Header::add_bread_crumb (const std::string& item, const std::string&
 }
 
 
+void Assets_Header::set_focus_group(const int focus_group)
+{
+  m_focus_group = focus_group;
+}
+
+
 // Runs the header.
 std::string Assets_Header::run ()
 {
@@ -288,6 +294,9 @@ std::string Assets_Header::run ()
     }
   }
 
+  const int focus_group = m_focus_group ? m_focus_group.value() : 0;
+  m_view->set_variable ("focus_group", std::to_string(focus_group));
+  
   page += m_view->render("assets", "xhtml_start");
   page += m_view->render("assets", "header");
   page += m_view->render("assets", "workspacewrapper_start");

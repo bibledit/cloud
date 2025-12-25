@@ -33,6 +33,7 @@
 #include <access/logic.h>
 #include <config/globals.h>
 #include <database/config/general.h>
+#include <ipc/focus.h>
 
 
 std::string resource_index_url ()
@@ -57,6 +58,7 @@ std::string resource_index (Webserver_Request& webserver_request)
   header.set_navigator ();
   header.set_stylesheet ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  header.set_focus_group(ipc_focus::get_focus_group(webserver_request));
   page = header.run ();
   Assets_View view;
   
@@ -65,8 +67,7 @@ std::string resource_index (Webserver_Request& webserver_request)
 
 
   // If no resources are displayed, set a default selection of them.
-  // If a default selection hasn't been set by an administrator, use the
-  // default set from demo.
+  // If a default selection hasn't been set by an administrator, use a default set taken from the demo.
   if (resources.empty ()) {
     std::vector <std::string> default_resources = database::config::general::get_default_active_resources ();
     if (default_resources.empty ()) resources = demo_logic_default_resources ();
@@ -94,9 +95,10 @@ std::string resource_index (Webserver_Request& webserver_request)
   
   size_t resource_count = resources.size ();
   const std::string& username = webserver_request.session_logic ()->get_username ();
-  int window_position = config_globals_resource_window_positions [username];
-  std::string script = "var resourceCount = " + std::to_string (resource_count) + ";\n"
-                  "var resourceWindowPosition = " + std::to_string (window_position) + ";";
+  const int window_position = config_globals_resource_window_positions [username];
+  std::string script =
+  "var resourceCount = " + std::to_string (resource_count) + ";\n"
+  "var resourceWindowPosition = " + std::to_string (window_position) + ";\n";
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

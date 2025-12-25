@@ -28,7 +28,7 @@ namespace ipc_focus {
 // Check whether the focusgroup was added to the query.
 // If so return the passed group number.
 // If not, return the default group number 0.
-static int get_focus_group(Webserver_Request& webserver_request)
+int get_focus_group(Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count(focusgroup))
     return filter::strings::convert_to_int(webserver_request.query.at(focusgroup));

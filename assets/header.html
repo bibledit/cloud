@@ -24,3 +24,4 @@
 <!-- #ENDZONE breadcrumbs -->
 </div>
 <!-- #ENDZONE display_topbar -->
+<script type="text/javascript">const focusGroup = ##focus_group##;</script>

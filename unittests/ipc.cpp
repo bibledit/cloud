@@ -190,7 +190,7 @@ TEST (ipc, focus)
   Webserver_Request req;
   req.session_logic()->set_username("gtest");
   Webserver_Request other_req;
-  req.session_logic()->set_username("other");
+  other_req.session_logic()->set_username("other");
 
   // Verify the initial passage is Genesis 1.1.
   EXPECT_EQ (ipc_focus::get_book(req), 1);
@@ -204,6 +204,23 @@ TEST (ipc, focus)
   constexpr const int book {2};
   constexpr const int chapter {3};
   constexpr const int verse {4};
+  ipc_focus::set_passage(req, book, chapter, verse);
+  EXPECT_EQ (ipc_focus::get_book(req), book);
+  EXPECT_EQ (ipc_focus::get_chapter(req), chapter);
+  EXPECT_EQ (ipc_focus::get_verse(req), verse);
+  EXPECT_EQ (ipc_focus::get_book(other_req), 1);
+  EXPECT_EQ (ipc_focus::get_chapter(other_req), 1);
+  EXPECT_EQ (ipc_focus::get_verse(other_req), 1);
+  
+  // Update the webserver request to now refer to another focus group.
+  req.query[ipc_focus::focusgroup] = "5";
+
+  // Verify the initial passage in the set focus group is Genesis 1.1.
+  EXPECT_EQ (ipc_focus::get_book(req), 1);
+  EXPECT_EQ (ipc_focus::get_chapter(req), 1);
+  EXPECT_EQ (ipc_focus::get_verse(req), 1);
+
+  // Set a passage in the focus group and confirm it.
   ipc_focus::set_passage(req, book, chapter, verse);
   EXPECT_EQ (ipc_focus::get_book(req), book);
   EXPECT_EQ (ipc_focus::get_chapter(req), chapter);

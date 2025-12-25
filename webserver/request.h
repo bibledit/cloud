@@ -60,7 +60,7 @@ public:
   int content_length {0};
   // The raw POSTed data from the browser.
   std::vector<std::pair<std::string,std::string>> post {};
-  // Convenience functions on post_v2.
+  // Convenience functions on post.
   int post_count(const std::string& key) const;
   std::string post_get(const std::string& key) const;
    // Header as received from the browser.

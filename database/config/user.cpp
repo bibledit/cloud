@@ -849,35 +849,35 @@ void Database_Config_User::set_recently_applied_styles (const std::string& value
 
 
 constexpr const auto focused_book_key {"focused-book"};
-int Database_Config_User::get_focused_book () const
+std::vector<int> Database_Config_User::get_focused_books () const
 {
-  return get_numeric_value (focused_book_key, 1);
+  return get_numeric_list (focused_book_key);
 }
-void Database_Config_User::set_focused_book (int book) const
+void Database_Config_User::set_focused_books (const std::vector<int>& books) const
 {
-  set_numeric_value (focused_book_key, book);
+  set_numeric_list (focused_book_key, books);
 }
 
 
 constexpr const auto focused_chapter_key {"focused-chapter"};
-int Database_Config_User::get_focused_chapter () const
+std::vector<int> Database_Config_User::get_focused_chapters () const
 {
-  return get_numeric_value (focused_chapter_key, 1);
+  return get_numeric_list (focused_chapter_key);
 }
-void Database_Config_User::set_focused_chapter (int chapter) const
+void Database_Config_User::set_focused_chapters (const std::vector<int>& chapters) const
 {
-  set_numeric_value (focused_chapter_key, chapter);
+  set_numeric_list (focused_chapter_key, chapters);
 }
 
 
 constexpr const auto focused_verse_key {"focused-verse"};
-int Database_Config_User::get_focused_verse () const
+std::vector<int> Database_Config_User::get_focused_verses () const
 {
-  return get_numeric_value (focused_verse_key, 1);
+  return get_numeric_list (focused_verse_key);
 }
-void Database_Config_User::set_focused_verse (int verse) const
+void Database_Config_User::set_focused_verses (const std::vector<int>& verses) const
 {
-  set_numeric_value (focused_verse_key, verse);
+  set_numeric_list (focused_verse_key, verses);
 }
 
 

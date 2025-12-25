@@ -132,12 +132,12 @@ public:
   void set_postpone_new_notes_mails (bool value) const;
   std::string get_recently_applied_styles () const;
   void set_recently_applied_styles (const std::string& values) const;
-  int get_focused_book () const;
-  void set_focused_book (int book) const;
-  int get_focused_chapter () const;
-  void set_focused_chapter (int chapter) const;
-  int get_focused_verse () const;
-  void set_focused_verse (int verse) const;
+  std::vector<int> get_focused_books () const;
+  void set_focused_books (const std::vector<int>& books) const;
+  std::vector<int> get_focused_chapters () const;
+  void set_focused_chapters (const std::vector<int>& chapters) const;
+  std::vector<int> get_focused_verses () const;
+  void set_focused_verses (const std::vector<int>& verses) const;
   std::vector <int> get_updated_settings () const;
   void set_updated_settings (const std::vector <int>& values) const;
   void add_updated_setting (int value) const;

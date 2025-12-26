@@ -29,7 +29,7 @@ namespace ipc_focus {
 // If so return the passed group number.
 // If the group number is out of bounds, return the default group 0.
 // If the group was not given, return the default group number 0.
-int get_focus_group(Webserver_Request& webserver_request)
+int get_focus_group(const Webserver_Request& webserver_request)
 {
   if (!webserver_request.query.count(focusgroup))
     return 0;

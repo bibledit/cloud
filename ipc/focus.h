@@ -28,7 +28,7 @@ namespace ipc_focus {
 // Add this to a URL to indicate the passage focus group number.
 constexpr const char* focusgroup {"focusgroup"};
 
-int get_focus_group(Webserver_Request&);
+int get_focus_group(const Webserver_Request&);
 
 void set_passage (Webserver_Request&, const int book, const int chapter, const int verse);
 

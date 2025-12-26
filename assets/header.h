@@ -51,6 +51,6 @@ private:
   Webserver_Request& m_webserver_request;
   std::string m_fading_menu {};
   std::vector <std::pair <std::string, std::string> > m_bread_crumbs {};
-  std::optional<int> m_focus_group {};
+  int m_focus_group {0};
 };
 

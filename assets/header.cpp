@@ -294,8 +294,7 @@ std::string Assets_Header::run ()
     }
   }
 
-  const int focus_group = m_focus_group ? m_focus_group.value() : 0;
-  m_view->set_variable ("focus_group", std::to_string(focus_group));
+  m_view->set_variable ("focus_group", std::to_string(m_focus_group));
   
   page += m_view->render("assets", "xhtml_start");
   page += m_view->render("assets", "header");

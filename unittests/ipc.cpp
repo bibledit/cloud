@@ -228,6 +228,21 @@ TEST (ipc, focus)
   EXPECT_EQ (ipc_focus::get_book(other_req), 1);
   EXPECT_EQ (ipc_focus::get_chapter(other_req), 1);
   EXPECT_EQ (ipc_focus::get_verse(other_req), 1);
+  
+  // Test the behaviour of the function to get the focus group from the webserver request.
+  // * Default focus group: 0.
+  // * If focus group out of bounds: 0.
+  // * Focus group within bounds: n.
+  req.query.erase(ipc_focus::focusgroup);
+  EXPECT_EQ(ipc_focus::get_focus_group(req), 0);
+  req.query[ipc_focus::focusgroup] = "-1";
+  EXPECT_EQ(ipc_focus::get_focus_group(req), 0);
+  req.query[ipc_focus::focusgroup] = "10";
+  EXPECT_EQ(ipc_focus::get_focus_group(req), 0);
+  req.query[ipc_focus::focusgroup] = "2";
+  EXPECT_EQ(ipc_focus::get_focus_group(req), 2);
+  req.query[ipc_focus::focusgroup] = "9";
+  EXPECT_EQ(ipc_focus::get_focus_group(req), 9);
 }
 
 

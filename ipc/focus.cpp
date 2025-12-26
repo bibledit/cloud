@@ -27,12 +27,16 @@ namespace ipc_focus {
 
 // Check whether the focusgroup was added to the query.
 // If so return the passed group number.
-// If not, return the default group number 0.
+// If the group number is out of bounds, return the default group 0.
+// If the group was not given, return the default group number 0.
 int get_focus_group(Webserver_Request& webserver_request)
 {
-  if (webserver_request.query.count(focusgroup))
-    return filter::strings::convert_to_int(webserver_request.query.at(focusgroup));
-  return 0;
+  if (!webserver_request.query.count(focusgroup))
+    return 0;
+  const int group = filter::strings::convert_to_int(webserver_request.query.at(focusgroup));
+  if ((group < 0) or (group > 9))
+    return 0;
+  return group;
 }
 
 // Set the book/chapter/verse for the focused group in the passed container.

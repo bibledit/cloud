@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
 
 function buildKeyboardNavigator () {
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["keyboard", ""] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["keyboard", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -68,7 +68,7 @@ function buildKeyboardNavigator () {
 function keyboardNavigatorEnter (event) {
   if (event.keyCode == 13) {
     passage = document.querySelector("#keyboard").value;
-    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["passage", passage] ]).toString()
+    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["passage", passage], ["focusgroup", focusGroup] ]).toString();
     fetch(url, {
       method: "GET",
       cache: "no-cache"
@@ -94,7 +94,7 @@ function keyboardNavigatorEnter (event) {
 
 
 function buildMouseNavigator () {
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -226,7 +226,7 @@ function navigateBack (event) {
     navigateBackSkip = false;
     return;
   }
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["goback", ""] ]).toString();
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["goback", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -256,7 +256,7 @@ function navigateForward (event) {
     navigateForwardSkip = false;
     return;
   }
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["goforward", ""] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["goforward", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -281,7 +281,7 @@ function navigateForward (event) {
 
 function displayBooks (event) {
   event.preventDefault ();
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["getbooks", true] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["getbooks", true], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -309,7 +309,7 @@ function displayBooks (event) {
 function applyBook (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applybook", event.target.id] ]).toString()
+    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applybook", event.target.id], ["focusgroup", focusGroup] ]).toString();
     fetch(url, {
       method: "GET",
       cache: "no-cache"
@@ -335,7 +335,7 @@ function applyBook (event) {
 
 function displayChapters (event) {
   event.preventDefault ();
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["book", navigationBook], ["getchapters", true], ["chapter", navigationChapter] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["book", navigationBook], ["getchapters", true], ["chapter", navigationChapter], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -362,7 +362,7 @@ function displayChapters (event) {
 function applyChapter (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applychapter", event.target.id] ]).toString()
+    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applychapter", event.target.id], ["focusgroup", focusGroup] ]).toString();
     fetch(url, {
       method: "GET",
       cache: "no-cache"
@@ -388,7 +388,7 @@ function applyChapter (event) {
 
 function displayVerses (event) {
   event.preventDefault ();
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["book", navigationBook], ["chapter", navigationChapter], ["verse", navigationVerse], ["getverses", true] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["book", navigationBook], ["chapter", navigationChapter], ["verse", navigationVerse], ["getverses", true], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -415,7 +415,7 @@ function displayVerses (event) {
 function applyVerse (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applyverse", event.target.id] ]).toString()
+    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applyverse", event.target.id], ["focusgroup", focusGroup] ]).toString();
     fetch(url, {
       method: "GET",
       cache: "no-cache"
@@ -441,7 +441,7 @@ function applyVerse (event) {
 
 function navigatePreviousVerse (event) {
   event.preventDefault ();
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["previousverse", ""] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["previousverse", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -466,7 +466,7 @@ function navigatePreviousVerse (event) {
 
 function navigateNextVerse (event) {
   event.preventDefault ();
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["nextverse", ""] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["nextverse", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -491,7 +491,7 @@ function navigateNextVerse (event) {
 
 function navigatePreviousChapter (event) {
   event.preventDefault ();
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["previouschapter", ""] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["previouschapter", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -516,7 +516,7 @@ function navigatePreviousChapter (event) {
 
 function navigateNextChapter (event) {
   event.preventDefault ();
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["nextchapter", ""] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["nextchapter", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -541,7 +541,7 @@ function navigateNextChapter (event) {
 
 function navigatePreviousBook (event) {
   event.preventDefault ();
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["previousbook", ""] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["previousbook", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -566,7 +566,7 @@ function navigatePreviousBook (event) {
 
 function navigateNextBook (event) {
   event.preventDefault ();
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["nextbook", ""] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["nextbook", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -681,7 +681,7 @@ function historyForward (event) {
   // After the long press event, if releasing the mouse, it will fire a click event.
   // Set a flag to not handle the click event.
   navigateForwardSkip = true;
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["historyforward", ""] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["historyforward", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -709,7 +709,7 @@ function historyBack (event) {
   // After the long press event, if releasing the mouse, it will fire a click event.
   // Set a flag to not handle the click event.
   navigateBackSkip = true;
-  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["historyback", ""] ]).toString()
+  const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["historyback", ""], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"
@@ -725,7 +725,7 @@ function historyBack (event) {
     navigatorContainer.insertAdjacentHTML('beforeend', response);
     document.querySelectorAll("#applyhistory").forEach((element) => {
       element.addEventListener ("click", applyHistory);
-      })
+    })
   })
   .catch((error) => {
     console.log(error);
@@ -736,7 +736,7 @@ function historyBack (event) {
 function applyHistory (event) {
   event.preventDefault ();
   if (event.target.localName == "a") {
-    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applyhistory", event.target.id] ]).toString()
+    const url = "/navigation/update?" + new URLSearchParams([ ["bible", navigationBible], ["applyhistory", event.target.id], ["focusgroup", focusGroup] ]).toString();
     fetch(url, {
       method: "GET",
       cache: "no-cache"

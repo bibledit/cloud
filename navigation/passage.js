@@ -594,7 +594,8 @@ function navigationPollPassage ()
   if (navigatorTimeout) {
     clearTimeout (navigatorTimeout);
   }
-  fetch("/navigation/poll", {
+  const url = "/navigation/poll?focusgroup=" + focusGroup;
+  fetch(url, {
     method: "GET",
     cache: "no-cache"
   })

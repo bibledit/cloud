@@ -384,7 +384,7 @@ function usfmHandleCaret ()
   }
   if (document.querySelector("#usfmeditor") == document.activeElement) {
     var offset = usfmGetCaretPosition ();
-    const url = "offset?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter], ["offset", offset] ]).toString()
+    const url = "offset?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter], ["offset", offset], ["focusgroup", focusGroup] ]).toString();
     fetch(url, {
       method: "GET",
     })
@@ -411,7 +411,7 @@ function usfmPositionCaretViaAjax ()
   // setting the caret at times causes the caret to jump to undesired places.
   // Therefore the caret is to be set only on chapter load.
   if (usfmEditorWriteAccess) document.querySelector ("#usfmeditor").focus ();
-  const url = "focus?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter] ]).toString()
+  const url = "focus?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
   })
@@ -592,7 +592,7 @@ Section for positioning focused verse in non-editable USFM editor.
 
 function usfmPositionFocusedVerseViaAjax ()
 {
-  const url = "focus?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter] ]).toString();
+  const url = "focus?" + new URLSearchParams([ ["bible", usfmBible], ["book", usfmBook], ["chapter", usfmChapter], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
   })

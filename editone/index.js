@@ -1005,7 +1005,7 @@ function oneVerseHtmlClicked (event)
   } else {
     verse = "0";
   }
-  const url = "verse?verse=" + verse;
+  const url = "verse?" + new URLSearchParams([ ["verse", verse], ["focusgroup", focusGroup] ]).toString();
   fetch(url, {
     method: "GET",
     cache: "no-cache"

@@ -434,23 +434,24 @@ std::string get_books_fragment (Webserver_Request& webserver_request, const std:
 
 std::string get_chapters_fragment (const std::string& bible, const int book, const int chapter)
 {
-  std::vector <int> chapters;
-  if (bible.empty ()) {
-    Database_Versifications database_versifications;
-    chapters = database_versifications.getChapters (filter::strings::english (), book, true);
-  } else {
-    chapters = database::bibles::get_chapters (bible, book);
-  }
+  const auto get_chapters = [&]() {
+    if (bible.empty ()) {
+      Database_Versifications database_versifications;
+      return database_versifications.getChapters (filter::strings::english (), book, true);
+    }
+    return database::bibles::get_chapters (bible, book);
+  };
+  const std::vector <int> chapters {get_chapters()};
   std::string html;
   html.append (" ");
   for (const auto ch : chapters) {
     const bool selected = (ch == chapter);
-    add_selector_link (html, std::to_string (ch), "applychapter", std::to_string (ch), selected, "");
+    add_selector_link (html, std::to_string(ch), "applychapter", std::to_string(ch), selected, "");
   }
-  add_selector_link (html, "cancel", "applychapter", "[" + translate ("cancel") + "]", false, "");
+  add_selector_link (html, "cancel", "applychapter", "[" + translate("cancel") + "]", false, "");
   
-  html.insert (0, R"(<span id="applychapter">)" + translate ("Select chapter"));
-  html.append ("</span>");
+  html.insert (0, R"(<span id="applychapter">)" + translate("Select chapter"));
+  html.append("</span>");
   
   return html;
 }

@@ -23,6 +23,7 @@
 #include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
@@ -94,10 +95,15 @@ std::string workspace_index (Webserver_Request& webserver_request)
   }
   
   
+  // The focus group.
+  const int focus_group = ipc_focus::get_focus_group(webserver_request);
+  
+  
   std::string page{};
   Assets_Header header = Assets_Header (translate("Workspace"), webserver_request);
   header.set_navigator ();
   header.set_fading_menu (menu_logic_workspace_category (webserver_request));
+  header.set_focus_group(focus_group);
   page = header.run ();
   Assets_View view;
 
@@ -106,8 +112,18 @@ std::string workspace_index (Webserver_Request& webserver_request)
   std::map <int, std::string> widths = workspace_get_widths (webserver_request);
   // The Bible editor number, starting from 1, increasing.
   std::map <int, int> editor_numbers = workspace_add_bible_editor_number (urls);
+  // Set the data for the pages in the workspace.
   for (int key = 0; key < 15; key++) {
-    const std::string url = urls [key];
+    // If a focus group is given other than the default focus group, add this to the URL.
+    const auto handle_focus_group = [focus_group](const std::string& url) {
+      if (url.empty())
+        return url;
+      if (!focus_group)
+        return url;
+      return filter_url_build_http_query (url, {{ipc_focus::focusgroup, std::to_string(focus_group)}});
+    };
+    const std::string url = handle_focus_group(urls[key]);
+    // Continue with the other parameters for the workspace.
     const std::string width = widths [key];
     const int editor_number = editor_numbers [key];
     const int row = static_cast<int> (round (key / 5)) + 1;

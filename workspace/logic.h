@@ -47,5 +47,5 @@ void workspace_copy (Webserver_Request& webserver_request, std::string source, s
 void workspace_cache_for_cloud (Webserver_Request& webserver_request, bool urls, bool widths, bool heights);
 std::string workspace_get_default_name ();
 void workspace_send (Webserver_Request& webserver_request, std::string workspace, std::string user);
-std::map <int, int> workspace_add_bible_editor_number (std::map <int, std::string> & urls);
+std::map <int, int> workspace_add_bible_editor_number (const std::map <int,std::string>& urls);
 std::optional<std::string> get_first_bible_from_urls (const std::map <int,std::string>& urls);

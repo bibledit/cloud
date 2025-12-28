@@ -555,13 +555,13 @@ void workspace_send (Webserver_Request& webserver_request, std::string workspace
 // The reason is that each editor's Javascript can determine
 // which Bible editor number it is.
 // It can then decide to make the editor read-only.
-std::map <int, int> workspace_add_bible_editor_number (std::map <int, std::string> & urls)
+std::map <int, int> workspace_add_bible_editor_number (const std::map <int,std::string>& urls)
 {
   std::map <int, int> editor_numbers;
   int bible_editor_count = 0;
-  for (auto & element : urls) {
+  for (const auto& element : urls) {
     bool is_bible_editor = false;
-    std::string url = element.second;
+    const std::string& url = element.second;
     if (url.empty()) continue;
     if (url.find (edit_index_url ()) != std::string::npos) is_bible_editor = true;
     if (url.find (editone_index_url ()) != std::string::npos) is_bible_editor = true;

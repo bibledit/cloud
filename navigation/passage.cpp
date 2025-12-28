@@ -610,7 +610,7 @@ void goto_previous_verse (Webserver_Request& webserver_request, const std::strin
 }
 
 
-void record_history (Webserver_Request& webserver_request, const int book, const int chapter, const int verse)
+void record_history (Webserver_Request& webserver_request, const int book, const int chapter, const int verse) // Todo
 {
   const std::string& user = webserver_request.session_logic()->get_username();
   Database_Navigation database_navigation;

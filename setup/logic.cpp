@@ -205,23 +205,24 @@ void setup_initialize_data ()
   database::confirm::upgrade();
 #endif
   config_globals_setup_message = "jobs";
-  Database_Jobs database_jobs = Database_Jobs ();
+  Database_Jobs database_jobs;
   database_jobs.create ();
 #ifdef HAVE_CLOUD
   config_globals_setup_message = "sprint";
-  Database_Sprint database_sprint = Database_Sprint ();
+  Database_Sprint database_sprint;
   database_sprint.create ();
 #endif
   config_globals_setup_message = "mail";
   Database_Mail database_mail (webserver_request);
   database_mail.create ();
   config_globals_setup_message = "navigation";
-  Database_Navigation database_navigation = Database_Navigation ();
-  database_navigation.create ();
+  Database_Navigation database_navigation;
+  database_navigation.create();
+  database_navigation.upgrade();
   config_globals_setup_message = "mappings";
   setup_generate_verse_mapping_databases ();
   config_globals_setup_message = "note actions";
-  Database_NoteActions database = Database_NoteActions ();
+  Database_NoteActions database;
   database.create ();
   config_globals_setup_message = "versifications";
   setup_generate_versification_databases ();

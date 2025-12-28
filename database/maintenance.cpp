@@ -107,8 +107,8 @@ void database_maintenance ()
 #endif
   
   
-  Database_Navigation database_navigation = Database_Navigation ();
-  database_navigation.create ();
+  Database_Navigation database_navigation;
+  database_navigation.create();
   database_navigation.trim();
   
   

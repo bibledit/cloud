@@ -26,6 +26,8 @@ class Database_Navigation
 {
 public:
   void create ();
+  void upgrade ();
+  void downgrade ();
   void trim ();
   void record (int time, std::string user, int book, int chapter, int verse);
   bool previous_exists (const std::string& user);

@@ -40,8 +40,31 @@ void Database_Navigation::create ()
                " book integer,"
                " chapter integer,"
                " verse integer,"
-               " active boolean"
+               " active boolean,"
+               " focusgroup integer"
                ");");
+  sql.execute ();
+}
+
+
+void Database_Navigation::upgrade ()
+{
+  SqliteDatabase sql (navigation);
+  // If there's no column for focus group yet, add it.
+  sql.add ("PRAGMA table_info (navigation);");
+  const std::vector <std::string> columns = sql.query () ["name"];
+  if (!in_array (static_cast<std::string> ("focusgroup"), columns)) {
+    sql.clear ();
+    sql.add ("ALTER TABLE navigation ADD COLUMN focusgroup integer;");
+    sql.execute ();
+  }
+}
+
+
+void Database_Navigation::downgrade ()
+{
+  SqliteDatabase sql (navigation);
+  sql.add ("ALTER TABLE navigation DROP COLUMN focusgroup;");
   sql.execute ();
 }
 
@@ -91,24 +114,24 @@ void Database_Navigation::record (int time, std::string user, int book, int chap
   sql.add (chapter);
   sql.add (",");
   sql.add (verse);
-  sql.add (", 1);");
+  sql.add (", 1, 0);"); // Todo pass focus group variable.
   sql.execute();
 }
 
 
-bool Database_Navigation::previous_exists (const std::string& user)
+bool Database_Navigation::previous_exists (const std::string& user) // Todo support focus group.
 {
   return (get_previous_id (user) != 0);
 }
 
 
-bool Database_Navigation::next_exists (const std::string& user)
+bool Database_Navigation::next_exists (const std::string& user) // Todo support focus group.
 {
   return (get_next_id (user) != 0);
 }
 
 
-Passage Database_Navigation::get_previous (const std::string& user)
+Passage Database_Navigation::get_previous (const std::string& user) // Todo support focus group.
 {
   int id = get_previous_id (user);
   if (id == 0) return Passage ();
@@ -151,7 +174,7 @@ Passage Database_Navigation::get_previous (const std::string& user)
 }
 
 
-Passage Database_Navigation::get_next (const std::string& user)
+Passage Database_Navigation::get_next (const std::string& user) // Todo support focus group.
 {
   int id = get_next_id (user);
   if (id == 0) return Passage ();
@@ -194,7 +217,7 @@ Passage Database_Navigation::get_next (const std::string& user)
 }
 
 
-int Database_Navigation::get_previous_id (const std::string& user)
+int Database_Navigation::get_previous_id (const std::string& user) // Todo support focus group.
 {
   // Get the database row identifier of the active entry for the user.
   int id = 0;
@@ -228,7 +251,7 @@ int Database_Navigation::get_previous_id (const std::string& user)
 }
 
 
-int Database_Navigation::get_next_id (const std::string& user)
+int Database_Navigation::get_next_id (const std::string& user) // Todo support focus group.
 {
   // Get the database row identifier of the active entry for the user.
   int id = 0;
@@ -266,7 +289,7 @@ int Database_Navigation::get_next_id (const std::string& user)
 // The $direction into which to get the history:
 // * negative: Get the past history as if going back.
 // * positive: Get the future history as if going forward.
-std::vector <Passage> Database_Navigation::get_history (const std::string& user, int direction)
+std::vector <Passage> Database_Navigation::get_history (const std::string& user, int direction) // Todo support focus group.
 {
   std::vector <Passage> passages;
   

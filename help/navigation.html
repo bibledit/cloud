@@ -27,3 +27,19 @@
   translate("Some pages display one or more clickable passages.")
   translate("Clicking them updates the Passage Navigator.")
 </p>
+<br>
+<p>
+translate("Normally the Bible editors and the Resources show the same passage.")
+translate("This is because they use the same focus group number 0.")
+translate("If one Bible editor should show another passage than another Bible editor, then use different focus groups for both Bible editors.")
+translate("This can be done in a web browser in Bibledit Cloud.")
+</p>
+<p>
+translate("Example URL for a Bible editor that uses focus group 2:")
+</p>
+<p>
+translate("http://website.org:8080/editone/index?focusgroup=2")
+</p>
+<p>
+translate("A focus group can be added in the URL for the three Bible editors, the Resources, the Workspaces.")
+</p>

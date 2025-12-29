@@ -29,13 +29,15 @@ public:
   void upgrade ();
   void downgrade ();
   void trim ();
-  void record (int time, std::string user, int book, int chapter, int verse);
-  bool previous_exists (const std::string& user);
-  bool next_exists (const std::string& user);
-  Passage get_previous (const std::string& user);
-  Passage get_next (const std::string& user);
-  std::vector <Passage> get_history (const std::string& user, int direction);
+  void record (const int time, const std::string& user,
+               const int book, const int chapter, const int verse,
+               const int focus_group);
+  bool previous_exists (const std::string& user, const int focus_group);
+  bool next_exists (const std::string& user, const int focus_group);
+  Passage get_previous (const std::string& user, const int focus_group);
+  Passage get_next (const std::string& user, const int focus_group);
+  std::vector <Passage> get_history (const std::string& user, const int direction, const int focus_group);
 private:
-  int get_previous_id (const std::string& user);
-  int get_next_id (const std::string& user);
+  int get_previous_id (const std::string& user, const int focus_group);
+  int get_next_id (const std::string& user, const int focus_group);
 };

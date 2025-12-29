@@ -186,6 +186,8 @@ std::string get_mouse_navigator (Webserver_Request& webserver_request, const std
   
   const bool have_arrows = webserver_request.database_config_user()->get_show_navigation_arrows();
   
+  const int focus_group = ipc_focus::get_focus_group(webserver_request);
+
   pugi::xml_document document;
   
   // Links to go back and forward are available only when there's available history to go to.
@@ -199,7 +201,7 @@ std::string get_mouse_navigator (Webserver_Request& webserver_request, const std
   // But it did not make a difference.
   {
     pugi::xml_node span_node = document.append_child("span");
-    if (database_navigation.previous_exists (user)) {
+    if (database_navigation.previous_exists (user, focus_group)) {
       pugi::xml_node span_node_back = span_node.append_child("span");
       span_node_back.append_attribute("id") = "navigateback";
       const std::string title = translate("Go back or long-press to show history");
@@ -211,7 +213,7 @@ std::string get_mouse_navigator (Webserver_Request& webserver_request, const std
     pugi::xml_node span_node = document.append_child("span");
     pugi::xml_node pcdata = span_node.append_child (pugi::node_pcdata);
     pcdata.set_value(" ");
-    if (database_navigation.next_exists (user)) {
+    if (database_navigation.next_exists (user, focus_group)) {
       pugi::xml_node span_node_back = span_node.append_child("span");
       span_node_back.append_attribute("id") = "navigateforward";
       const std::string title = translate("Go forward or long-press to show history");
@@ -610,11 +612,12 @@ void goto_previous_verse (Webserver_Request& webserver_request, const std::strin
 }
 
 
-void record_history (Webserver_Request& webserver_request, const int book, const int chapter, const int verse) // Todo
+void record_history (Webserver_Request& webserver_request, const int book, const int chapter, const int verse)
 {
   const std::string& user = webserver_request.session_logic()->get_username();
+  const int focus_group = ipc_focus::get_focus_group(webserver_request);
   Database_Navigation database_navigation;
-  database_navigation.record (filter::date::seconds_since_epoch (), user, book, chapter, verse);
+  database_navigation.record (filter::date::seconds_since_epoch (), user, book, chapter, verse, focus_group);
 }
 
 
@@ -622,7 +625,8 @@ void go_back (Webserver_Request& webserver_request)
 {
   Database_Navigation database_navigation;
   const std::string& user = webserver_request.session_logic ()->get_username ();
-  const Passage passage = database_navigation.get_previous (user);
+  const int focus_group = ipc_focus::get_focus_group(webserver_request);
+  const Passage passage = database_navigation.get_previous (user, focus_group);
   if (passage.m_book) {
     ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
@@ -633,7 +637,8 @@ void go_forward (Webserver_Request& webserver_request)
 {
   Database_Navigation database_navigation;
   const std::string& user = webserver_request.session_logic ()->get_username ();
-  const Passage passage = database_navigation.get_next (user);
+  const int focus_group = ipc_focus::get_focus_group(webserver_request);
+  const Passage passage = database_navigation.get_next (user, focus_group);
   if (passage.m_book) {
     ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
@@ -758,7 +763,8 @@ std::string get_history_back (Webserver_Request& webserver_request)
   // Get the whole history from the database.
   Database_Navigation database_navigation {};
   const std::string& user {webserver_request.session_logic ()->get_username ()};
-  const std::vector<Passage> passages = database_navigation.get_history(user, -1);
+  const int focus_group = ipc_focus::get_focus_group(webserver_request);
+  const std::vector<Passage> passages = database_navigation.get_history(user, -1, focus_group);
   // Take the most recent nnn history items and render them.
   std::string html {};
   for (size_t i = 0; i < passages.size(); i++) {
@@ -782,7 +788,8 @@ std::string get_history_forward (Webserver_Request& webserver_request)
   // Get the whole history from the database.
   Database_Navigation database_navigation;
   const std::string& user {webserver_request.session_logic ()->get_username ()};
-  const std::vector<Passage> passages {database_navigation.get_history(user, 1)};
+  const int focus_group = ipc_focus::get_focus_group(webserver_request);
+  const std::vector<Passage> passages {database_navigation.get_history(user, 1, focus_group)};
   // Take the most recent nnn history items and render them.
   std::string html {};
   for (size_t i = 0; i < passages.size(); i++) {

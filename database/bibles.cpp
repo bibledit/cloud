@@ -69,33 +69,33 @@ std::vector <std::string> get_bibles ()
 
 
 // Creates a new empty Bible. Returns its ID.
-void create_bible (const std::string& name)
+void create_bible (const std::string& bible)
 {
   // Create the empty system.
-  const std::string& folder = bible_folder (name);
+  const std::string& folder = bible_folder (bible);
   filter_url_mkdir (folder);
   // Handle exporting it.
-  Database_State::setExport (name, 0, export_logic::export_needed);
+  Database_State::setExport (bible, 0, export_logic::export_needed);
 }
 
 
 // Deletes a Bible.
-void delete_bible (const std::string& name)
+void delete_bible (const std::string& bible)
 {
-  const std::string& path = bible_folder (name);
+  const std::string& path = bible_folder (bible);
   // Delete directory.
   filter_url_rmdir (path);
   // Just in case it was a regular file: Delete it too.
   filter_url_unlink (path);
   // Handle exporting it.
-  Database_State::setExport (name, 0, export_logic::export_needed);
+  Database_State::setExport (bible, 0, export_logic::export_needed);
 }
 
 
-// Stores data of one chapter in Bible $name.
-void store_chapter (const std::string& name, const int book, const int chapter_number, std::string chapter_text)
+// Stores data of one chapter in Bible $bible.
+void store_chapter (const std::string& bible, const int book, const int chapter_number, std::string chapter_text)
 {
-  const std::string& folder = chapter_folder (name, book, chapter_number);
+  const std::string& folder = chapter_folder (bible, book, chapter_number);
   if (!file_or_dir_exists (folder))
     filter_url_mkdir (folder);
   
@@ -108,22 +108,22 @@ void store_chapter (const std::string& name, const int book, const int chapter_n
   }
 
   // Increase the chapter identifier, and store the chapter data.
-  int id = get_chapter_id (name, book, chapter_number);
+  int id = get_chapter_id (bible, book, chapter_number);
   id++;
   const std::string file = filter_url_create_path ({folder, std::to_string (id)});
   filter_url_file_put_contents (file, chapter_text);
   
   // Update search fields.
-  update_search_fields (name, book, chapter_number);
+  update_search_fields (bible, book, chapter_number);
 
   // Set flag for the exporter.
-  Database_State::setExport (name, 0, export_logic::export_needed);
+  Database_State::setExport (bible, 0, export_logic::export_needed);
 }
 
 
-void update_search_fields (const std::string& name, const int book, const int chapter)
+void update_search_fields (const std::string& bible, const int book, const int chapter)
 {
-  search_logic_index_chapter (name, book, chapter);
+  search_logic_index_chapter (bible, book, chapter);
 }
 
 

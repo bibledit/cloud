@@ -48,8 +48,15 @@ std::string sync_bibles_url ()
 }
 
 
-std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, std::string & bible, int book, int chapter)
+std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, const std::string& bible, const int book, const int chapter)
 {
+  // Check a Bible is given.
+  if (bible.empty()) {
+    const std::string message = "Missing Bible";
+    Database_Logs::log (message, roles::manager);
+    return message;
+  }
+  
   // Convert the tags to plus signs, which the client had converted to tags,
   // for safekeeping the + signs during transit.
   std::string oldusfm = filter_url_tag_to_plus (webserver_request.post_get("o"));
@@ -67,7 +74,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, s
     Database_Logs::log (message, roles::manager);
     // The Cloud will email the user with details about the issue.
     bible_logic::client_no_write_access_mail (bible, book, chapter, username, oldusfm, newusfm);
-    // The Cloud returns the checksum so the client things the chapter was send off correcly,
+    // The Cloud returns the checksum so the client thinks the chapter was send off correcly,
     // and will not re-schedule this as a failure.
     return checksum;
   }
@@ -75,7 +82,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, s
   
   // Check checksum.
   if (checksum != checksum_logic::get (oldusfm + newusfm)) {
-    std::string message = "The received data is corrupted";
+    const std::string message = "The received data is corrupted";
     Database_Logs::log (message, roles::manager);
     return message;
   }

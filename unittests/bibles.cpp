@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 
 
-constexpr const auto bible {"bible"};
+static constexpr const char* bible {"bible"};
 
 
 static void test_store_bible_data_safely_setup (const std::string& usfm)
@@ -53,8 +53,7 @@ R"(\v 2 Verse two two two two two two.)" "\n"
 R"(\p)" "\n"
 R"(\v 3 Verse 3.)" "\n"
 R"(\v 4 Verse 4.)" "\n"
-R"(\v 5 Verse 5.)"
-;
+R"(\v 5 Verse 5.)";
 
 
 // USFM with combined verses.
@@ -68,7 +67,7 @@ R"(\v 4-5 Verse 4 and 5.)" "\n"
 R"(\v 6 Verse 6.)";
 
 
-// Safely store a chapter.
+// Safely store a chapter within the limits of length and content.
 TEST (bibles, safely_store_a_chapter_1)
 {
   Webserver_Request webserver_request;
@@ -90,7 +89,7 @@ TEST (bibles, safely_store_a_chapter_1)
 }
 
 
-// Safely store a chapter.
+// Safely store a chapter within the limits of length and content.
 TEST (bibles, safely_store_a_chapter_2)
 {
   Webserver_Request webserver_request;
@@ -112,7 +111,7 @@ TEST (bibles, safely_store_a_chapter_2)
 }
 
 
-// Safely store chapter with length error
+// Safely store chapter with length error.
 TEST (bibles, safely_store_chapter_with_length_error)
 {
   Webserver_Request webserver_request;
@@ -167,6 +166,19 @@ TEST (bibles, safely_store_chapter_without_text_change)
   EXPECT_EQ (usfm_separate, result);
   const int currentId2 = database::bibles::get_chapter_id (bible, 1, 1);
   EXPECT_EQ (currentId, currentId2);
+}
+
+
+// Test that the function to safely store a chapter fails if no Bible is given.
+TEST (bibles, safely_store_chapter_without_bible)
+{
+  Webserver_Request webserver_request;
+  test_store_bible_data_safely_setup (usfm_separate);
+  std::string explanation;
+  constexpr const auto no_bible {""};
+  const std::string result = filter::usfm::safely_store_chapter (webserver_request, no_bible, 1, 1, usfm_separate, explanation);
+  EXPECT_EQ (result, "Missing Bible");
+  EXPECT_EQ (explanation, "The Bible is not given");
 }
 
 
@@ -671,6 +683,20 @@ TEST (bibles, safely_store_combined_verse_with_a_change_and_wrong_verses_fails)
     const std::string result = database::bibles::get_chapter (bible, 1, 1);
     EXPECT_EQ (usfm_combined, result);
   }
+}
+
+
+// Test that the function to safely store a verse fails if the Bible is not given.
+TEST (bibles, safely_store_verse_fails_without_bible)
+{
+  Webserver_Request webserver_request;
+  test_store_bible_data_safely_setup (usfm_combined);
+  constexpr const auto quill {false};
+  constexpr const auto nobible {""};
+  std::string explanation;
+  const std::string stored = filter::usfm::safely_store_verse (webserver_request, nobible, 1, 1, 3, usfm_separate, explanation, quill);
+  EXPECT_EQ (stored, "Missing Bible");
+  EXPECT_EQ (explanation, "The Bible is not given");
 }
 
 

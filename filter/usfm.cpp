@@ -753,8 +753,15 @@ std::string save_is_safe (Webserver_Request& webserver_request,
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
 std::string safely_store_chapter (Webserver_Request& webserver_request,
-                                  std::string bible, int book, int chapter, std::string usfm, std::string & explanation)
+                                  const std::string& bible, int book, int chapter, const std::string& usfm, std::string & explanation)
 {
+  // Check if Bible is given. Todo test.
+  if (bible.empty ()) {
+    explanation = "The Bible is not given";
+    Database_Logs::log (explanation + ": " + usfm);
+    return translate ("Missing Bible");
+  }
+
   // Existing chapter contents.
   std::string existing = database::bibles::get_chapter (bible, book, chapter);
   
@@ -785,10 +792,17 @@ std::string safely_store_chapter (Webserver_Request& webserver_request,
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
 // It handles combined verses.
 std::string safely_store_verse (Webserver_Request& webserver_request,
-                                std::string bible, int book, int chapter, int verse, std::string usfm,
+                                const std::string& bible, int book, int chapter, int verse, std::string usfm,
                                 std::string & explanation, bool quill)
 {
-  usfm = filter::strings::trim (usfm);
+  // Check if Bible is given. Todo test.
+  if (bible.empty ()) {
+    explanation = "The Bible is not given";
+    Database_Logs::log (explanation + ": " + usfm);
+    return translate ("Missing Bible");
+  }
+
+  usfm = filter::strings::trim (std::move(usfm));
 
   // Check that the USFM to be saved is for the correct verse.
   std::vector <int> save_verses = get_verse_numbers (usfm);

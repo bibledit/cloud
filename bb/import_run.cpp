@@ -34,6 +34,11 @@ void bible_import_run (std::string location, const std::string& bible, int book,
 {
   Database_Logs::log ("Importing Bible data from location " + location + " into Bible " + bible);
 
+  if (bible.empty()) {
+    Database_Logs::log ("Missing Bible while importing data");
+    return;
+  }
+
   const std::string folder = filter_archive_uncompress(location);
   if (!folder.empty ()) location = folder;
   std::vector <std::string> files {};

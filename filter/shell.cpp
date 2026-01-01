@@ -115,7 +115,7 @@ const char* get_executable(const Executable executable)
 
 static std::string escape_argument (std::string argument)
 {
-  argument = filter::strings::replace ("'", "\\'", argument);
+  argument = filter::string::replace ("'", "\\'", argument);
   argument.insert (0, "'");
   argument.append ("'");
   return argument;
@@ -256,9 +256,9 @@ std::vector<std::string> active_processes ()
     PROCESSENTRY32 pe32;
     pe32.dwSize = sizeof (PROCESSENTRY32);
     if (Process32First (hProcessSnap, &pe32)) {
-      processes.push_back (filter::strings::wstring2string (pe32.szExeFile));
+      processes.push_back (filter::string::wstring2string (pe32.szExeFile));
       while (Process32Next (hProcessSnap, &pe32)) {
-        processes.push_back (filter::strings::wstring2string (pe32.szExeFile));
+        processes.push_back (filter::string::wstring2string (pe32.szExeFile));
       }
       CloseHandle (hProcessSnap);
     }
@@ -268,7 +268,7 @@ std::vector<std::string> active_processes ()
   
   std::string output;
   filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::ps)) + " ax", output);
-  processes = filter::strings::explode (output, '\n');
+  processes = filter::string::explode (output, '\n');
   
 #endif
   

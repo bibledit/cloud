@@ -52,7 +52,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
       
       // Match on chapter.
       if (match) {
-        int chapter = filter::strings::convert_to_int (reference.attribute ("chapter").value ());
+        int chapter = filter::string::convert_to_int (reference.attribute ("chapter").value ());
         match = (chapter == input_chapter);
       }
       
@@ -61,7 +61,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
         std::string verse = reference.attribute ("verse").value ();
         std::vector <int> verses;
         if (filter::usfm::handle_verse_range (verse, verses)) {
-          match = in_array (filter::strings::convert_to_int (input_verse), verses);
+          match = in_array (filter::string::convert_to_int (input_verse), verses);
         } else {
           match = (verse == input_verse);
         }
@@ -72,11 +72,11 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
         for (pugi::xml_node passage_node : set.children ()) {
           std::string related_bookname = passage_node.attribute ("book").value ();
           book_id related_book = database::books::get_id_from_english (related_bookname);
-          int related_chapter = filter::strings::convert_to_int (passage_node.attribute ("chapter").value ());
+          int related_chapter = filter::string::convert_to_int (passage_node.attribute ("chapter").value ());
           std::string verse = passage_node.attribute ("verse").value ();
           std::vector <int> verses {};
           if (filter::usfm::handle_verse_range (verse, verses));
-          else verses.push_back (filter::strings::convert_to_int (verse));
+          else verses.push_back (filter::string::convert_to_int (verse));
           for (auto related_verse : verses) {
             if ((related_book != book_id::_unknown) && related_chapter) {
               Passage passage (std::string(), static_cast<int>(related_book), related_chapter, std::to_string (related_verse));

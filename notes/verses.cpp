@@ -59,16 +59,16 @@ std::string notes_verses (Webserver_Request& webserver_request)
   std::string success, error;
   
   
-  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+  int id = filter::string::convert_to_int (webserver_request.query ["id"]);
   view.set_variable ("id", std::to_string (id));
 
 
   if (webserver_request.post_count("submit")) {
-    std::vector <std::string> verses = filter::strings::explode (webserver_request.post_get("verses"), '\n');
+    std::vector <std::string> verses = filter::string::explode (webserver_request.post_get("verses"), '\n');
     std::vector <Passage> passages;
     Passage previousPassage = Passage ("", 1, 1, "1");
     for (auto & line : verses) {
-      line = filter::strings::trim (line);
+      line = filter::string::trim (line);
       if (line != "") {
         Passage passage = filter_passage_interpret_passage (previousPassage, line);
         if (passage.m_book != 0) {

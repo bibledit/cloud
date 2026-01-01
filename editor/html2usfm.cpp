@@ -41,7 +41,7 @@ static std_wla_mls get_standard_classes_and_wla_or_mls_class (const std::string&
 {
   std_wla_mls std_wla_mls;
   constexpr char separator = '0';
-  std::vector <std::string> classes = filter::strings::explode (class_name, separator);
+  std::vector <std::string> classes = filter::string::explode (class_name, separator);
   std::string wla{};
   for (auto iter = classes.cbegin(); iter != classes.cend(); iter++) {
     if (iter->find(quill::word_level_attribute_class_prefix) == 0) {
@@ -63,11 +63,11 @@ static std_wla_mls get_standard_classes_and_wla_or_mls_class (const std::string&
 void Editor_Html2Usfm::load (std::string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal spaces.
-  html = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), " ", html);
+  html = filter::string::replace (filter::string::unicode_non_breaking_space_entity (), " ", html);
   
   // The web editor produces <hr> and other elements following the HTML specs,
   // but the pugixml XML parser needs <hr/> and similar elements.
-  html = filter::strings::html2xml (html);
+  html = filter::string::html2xml (html);
 
   const std::string xml = "<body>" + std::move(html) + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
@@ -163,7 +163,7 @@ void Editor_Html2Usfm::main_process ()
 std::string Editor_Html2Usfm::get ()
 {
   // Generate the USFM as one string.
-  const std::string usfm = filter::strings::implode (m_output, "\n");
+  const std::string usfm = filter::string::implode (m_output, "\n");
   return clean_usfm (usfm);
 }
 
@@ -330,7 +330,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     // This emoji is put in the editor for visual appearance only, but should not be part of the USFM generated.
     // Remove it here.
     if (is_milestone())
-      m_current_line = filter::strings::replace (quill::milestone_emoji, std::string(), std::move(m_current_line));
+      m_current_line = filter::string::replace (quill::milestone_emoji, std::string(), std::move(m_current_line));
 
     // Check for and get and handle milestone attributes.
     if (is_milestone()) {
@@ -364,7 +364,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     }
     
     // Add closing USFM, optionally closing embedded tags in reverse order.
-    m_character_styles = filter::strings::array_diff (m_character_styles, std_wla_mls.standard_classes);
+    m_character_styles = filter::string::array_diff (m_character_styles, std_wla_mls.standard_classes);
     reverse (std_wla_mls.standard_classes.begin(), std_wla_mls.standard_classes.end());
     for (unsigned int offset = 0; offset < std_wla_mls.standard_classes.size(); offset++) {
       bool embedded = (std_wla_mls.standard_classes.size () > 1) && (offset == 0);
@@ -449,7 +449,7 @@ void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node)
   // Get more information about the note to retrieve.
   // <span class="i-notecall1" />
   std::string id = node.attribute ("class").value ();
-  id = filter::strings::replace ("call", "body", id);
+  id = filter::string::replace ("call", "body", id);
 
   // Sample footnote body.
   // <p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">notetext</span></p>
@@ -507,11 +507,11 @@ std::string Editor_Html2Usfm::clean_usfm (std::string usfm)
   // Replace a double space after a note opener.
   for (const std::string& noteOpener : m_note_openers) {
     const std::string opener = filter::usfm::get_opening_usfm (noteOpener);
-    usfm = filter::strings::replace (opener + " ", opener, usfm);
+    usfm = filter::string::replace (opener + " ", opener, usfm);
   }
   
   // Unescape special XML characters.
-  usfm = filter::strings::unescape_special_xml_characters (usfm);
+  usfm = filter::string::unescape_special_xml_characters (usfm);
 
   // Done.
   return usfm;
@@ -578,11 +578,11 @@ void Editor_Html2Usfm::flush_line ()
 {
   if (!m_current_line.empty ()) {
     // Trim so that '\p ' becomes '\p', for example.
-    m_current_line = filter::strings::trim (std::move(m_current_line));
+    m_current_line = filter::string::trim (std::move(m_current_line));
     // No longer doing the above
     // because it would remove a space intentionally added to the end of a line.
     // Instead it now only does a left trim instead of the full trim.
-    // current_line = filter::strings::ltrim (current_line);
+    // current_line = filter::string::ltrim (current_line);
     m_output.push_back (std::move(m_current_line));
     m_current_line.clear ();
   }
@@ -675,8 +675,8 @@ pugi::xml_node Editor_Html2Usfm::get_note_pointer (const pugi::xml_node& body, c
 
 std::string Editor_Html2Usfm::update_quill_class (std::string classname)
 {
-  classname = filter::strings::replace (quill::class_prefix_block, std::string(), std::move(classname));
-  classname = filter::strings::replace (quill::class_prefix_inline, std::string(), std::move(classname));
+  classname = filter::string::replace (quill::class_prefix_block, std::string(), std::move(classname));
+  classname = filter::string::replace (quill::class_prefix_inline, std::string(), std::move(classname));
   classname = quill::underscore_to_hyphen (std::move(classname));
   return classname;
 }
@@ -703,8 +703,8 @@ std::string editor_export_verse_quill (const std::string& stylesheet, std::strin
   std::string usfm = editor_export.get ();
   
   // Remove that recognizable style converted to USFM.
-  usfm = filter::strings::replace (R"(\)" + one_verse_style, std::string(), usfm);
-  usfm = filter::strings::trim (usfm);
+  usfm = filter::string::replace (R"(\)" + one_verse_style, std::string(), usfm);
+  usfm = filter::string::trim (usfm);
 
   return usfm;
 }

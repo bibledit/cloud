@@ -91,7 +91,7 @@ std::vector <int> Database_NoteActions::getNotes ()
   sql.set_sql ("SELECT DISTINCT note FROM noteactions ORDER BY rowid;");
   const std::vector <std::string> result = sql.query () ["note"];
   for (const auto& note : result) {
-    notes.push_back (filter::strings::convert_to_int (note));
+    notes.push_back (filter::string::convert_to_int (note));
   }
   return notes;
 }
@@ -112,10 +112,10 @@ std::vector <Database_Note_Action> Database_NoteActions::getNoteData (int note)
   const std::vector <std::string> contents = result ["content"];
   for (unsigned int i = 0; i < rowids.size (); i++) {
     Database_Note_Action action = Database_Note_Action ();
-    action.rowid = filter::strings::convert_to_int (rowids [i]);
+    action.rowid = filter::string::convert_to_int (rowids [i]);
     action.username = usernames [i];
-    action.timestamp = filter::strings::convert_to_int (timestamps [i]);
-    action.action = filter::strings::convert_to_int (actions [i]);
+    action.timestamp = filter::string::convert_to_int (timestamps [i]);
+    action.action = filter::string::convert_to_int (actions [i]);
     action.content = contents [i];
     data.push_back (action);
   }

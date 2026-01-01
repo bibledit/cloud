@@ -67,15 +67,15 @@ void ldap_logic_initialize ()
   if (file_or_dir_exists (path)) {
     // Parse the configuration file.
     const std::string contents = filter_url_file_get_contents (path);
-    const std::vector <std::string> lines = filter::strings::explode (contents, '\n');
+    const std::vector <std::string> lines = filter::string::explode (contents, '\n');
     for (auto line : lines) {
-      line = filter::strings::trim (line);
+      line = filter::string::trim (line);
       if (line.empty ()) continue;
       if (line.substr (0, 1) == "#") continue;
       size_t pos = line.find ("=");
-      const std::string key = filter::strings::trim (line.substr (0, pos));
+      const std::string key = filter::string::trim (line.substr (0, pos));
       line.erase (0, ++pos);
-      line = filter::strings::trim (line);
+      line = filter::string::trim (line);
       if (key == "uri"   ) ldap_logic_uri    = line;
       if (key == "binddn") ldap_logic_binddn = line;
       if (key == "basedn") ldap_logic_basedn = line;
@@ -147,8 +147,8 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
   role = roles::guest;
   
   // Insert the user name where appropriate.
-  const std::string binddn = filter::strings::replace ("[user]", user, ldap_logic_binddn);
-  const std::string filter = filter::strings::replace ("[user]", user, ldap_logic_filter);
+  const std::string binddn = filter::string::replace ("[user]", user, ldap_logic_binddn);
+  const std::string filter = filter::string::replace ("[user]", user, ldap_logic_filter);
   
   // Query the LDAP server.
   std::string output {};
@@ -175,15 +175,15 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
   // Parse server response.
   if (result == 0) {
     access = true;
-    const std::vector <std::string> lines = filter::strings::explode (output, '\n');
+    const std::vector <std::string> lines = filter::string::explode (output, '\n');
     for (const auto& line : lines) {
       if (line.find ("mail:") == 0) {
-        email = filter::strings::trim (line.substr (5));
+        email = filter::string::trim (line.substr (5));
       }
       if (line.find (ldap_logic_role + ":") == 0) {
-        const std::string fragment = filter::strings::unicode_string_casefold (filter::strings::trim (line.substr (3)));
+        const std::string fragment = filter::string::unicode_string_casefold (filter::string::trim (line.substr (3)));
         for (int r = roles::lowest; r <= roles::highest; r++) {
-          if (fragment.find (filter::strings::unicode_string_casefold (roles::english (r))) != std::string::npos) {
+          if (fragment.find (filter::string::unicode_string_casefold (roles::english (r))) != std::string::npos) {
             role = r;
           }
         }

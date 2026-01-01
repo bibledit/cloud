@@ -69,7 +69,7 @@ bool book_create (const std::string & bible, const book_id book, const int chapt
   for (const auto& row : versification_data) {
     if (book == static_cast<book_id>(row.m_book)) {
       const int ch = row.m_chapter;
-      const int verse = filter::strings::convert_to_int (row.m_verse);
+      const int verse = filter::string::convert_to_int (row.m_verse);
       if ((chapter < 0) || (chapter == ch)) {
         data  = "\\c " + std::to_string (ch) + "\n";
         data += "\\p\n";

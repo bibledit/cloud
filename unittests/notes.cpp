@@ -240,7 +240,7 @@ void test_database_notes ()
       std::string value = database_notes.get_summary (newidentifier);
       EXPECT_EQ (new_note.summary, value);
       value = database_notes.get_contents (newidentifier);
-      const auto values = filter::strings::explode (value, '\n');
+      const auto values = filter::string::explode (value, '\n');
       if (values.size () > 1) value = values.at(1);
       EXPECT_EQ ("<p>Contents</p>", value);
     }
@@ -254,7 +254,7 @@ void test_database_notes ()
       std::string value = database_notes.get_summary (newidentifier);
       EXPECT_EQ ("This is a note.", value);
       value = database_notes.get_contents (newidentifier);
-      const auto values = filter::strings::explode (value, '\n');
+      const auto values = filter::string::explode (value, '\n');
       if (values.size() > 2) value = values.at(2);
       EXPECT_EQ ("<p>Line two.</p>", value);
     }
@@ -1936,7 +1936,7 @@ void test_database_notes ()
       .bible = bible1,
       .book = passage1.m_book,
       .chapter = passage1.m_chapter,
-      .verse = filter::strings::convert_to_int (passage1.m_verse),
+      .verse = filter::string::convert_to_int (passage1.m_verse),
       .summary = "v1",
       .contents = "v1",
     };
@@ -1944,7 +1944,7 @@ void test_database_notes ()
       .bible = bible2,
       .book = passage2.m_book,
       .chapter = passage2.m_chapter,
-      .verse = filter::strings::convert_to_int (passage2.m_verse),
+      .verse = filter::string::convert_to_int (passage2.m_verse),
       .summary = "v2",
       .contents = "v2",
     };
@@ -2197,7 +2197,7 @@ TEST (notes, citations)
   {
     filter::note::citations citations;
     Style style {style_f};
-    style.properties[stylesv2::Property::note_numbering_sequence] = filter::strings::implode(alphanumeric, " ");
+    style.properties[stylesv2::Property::note_numbering_sequence] = filter::string::implode(alphanumeric, " ");
     citations.evaluate_style(style);
     size_t pointer{0};
     for (int i {0}; i < 100; i++) {
@@ -2236,7 +2236,7 @@ TEST (notes, restart_numbering_at_chapter)
   R"(</div>)"
   ;
   const auto make_readable = [] (const auto& html) {
-    return filter::strings::replace ("</p>", "</p>\n", html);
+    return filter::string::replace ("</p>", "</p>\n", html);
   };
   if (html != standard_html) {
     ADD_FAILURE() << "The produced html differs from the reference html";

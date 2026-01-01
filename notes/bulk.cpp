@@ -85,7 +85,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   const std::string search_text = text_selector ? webserver_request.database_config_user()->get_consultation_notes_search_text() : "";
   
   
-  int userid = filter::strings::user_identifier (webserver_request);
+  int userid = filter::string::user_identifier (webserver_request);
   
   
   // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
@@ -128,7 +128,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
     std::vector <int> identifiers = database_notes.select_notes (selector);
     std::vector <std::string> sids;
     for (auto id : identifiers) sids.push_back (std::to_string (id));
-    database::temporal::set_value (userid, "identifiers", filter::strings::implode (sids, " "));
+    database::temporal::set_value (userid, "identifiers", filter::string::implode (sids, " "));
   }
 
 
@@ -136,8 +136,8 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   // Get the stored note identifiers from the database.
   std::vector <int> identifiers;
   {
-    std::vector <std::string> sids = filter::strings::explode (database::temporal::get_value (userid, "identifiers"), ' ');
-    for (auto id : sids) identifiers.push_back (filter::strings::convert_to_int (id));
+    std::vector <std::string> sids = filter::string::explode (database::temporal::get_value (userid, "identifiers"), ' ');
+    for (auto id : sids) identifiers.push_back (filter::string::convert_to_int (id));
   }
   
   
@@ -218,7 +218,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   
   
   if (severity) {
-    int new_severity = filter::strings::convert_to_int (webserver_request.query["severity"]);
+    int new_severity = filter::string::convert_to_int (webserver_request.query["severity"]);
     for (auto identifier : identifiers) {
       if (database_notes.get_raw_severity (identifier) != new_severity) {
         notes_logic.setRawSeverity (identifier, new_severity);

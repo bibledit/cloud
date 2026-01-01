@@ -58,10 +58,10 @@ std::string sync_files (Webserver_Request& webserver_request)
       webserver_request.post.emplace_back(key, value);
     }
   }
-  const std::string user = filter::strings::hex2bin (webserver_request.post_get("u"));
-  const int action = filter::strings::convert_to_int (webserver_request.post_get("a"));
-  const int version = filter::strings::convert_to_int (webserver_request.post_get("v"));
-  const size_t d = static_cast<size_t>(filter::strings::convert_to_int (webserver_request.post_get("d")));
+  const std::string user = filter::string::hex2bin (webserver_request.post_get("u"));
+  const int action = filter::string::convert_to_int (webserver_request.post_get("a"));
+  const int version = filter::string::convert_to_int (webserver_request.post_get("v"));
+  const size_t d = static_cast<size_t>(filter::string::convert_to_int (webserver_request.post_get("d")));
   const std::string file = webserver_request.post_get("f");
 
   // For security reasons a client does not specify the directory of the file to be downloaded.
@@ -84,7 +84,7 @@ std::string sync_files (Webserver_Request& webserver_request)
 
   else if (action == Sync_Logic::files_directory_files) {
     std::vector <std::string> paths = Sync_Logic::files_get_files (directory);
-    return filter::strings::implode (paths, "\n");
+    return filter::string::implode (paths, "\n");
   }
 
   else if (action == Sync_Logic::files_file_checksum) {

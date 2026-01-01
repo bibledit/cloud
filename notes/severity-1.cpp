@@ -59,12 +59,12 @@ std::string notes_severity_1 (Webserver_Request& webserver_request)
   std::string success, error;
   
   
-  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+  int id = filter::string::convert_to_int (webserver_request.query ["id"]);
   view.set_variable ("id", std::to_string (id));
   
   
   if (webserver_request.query.count ("severity")) {
-    int severity = filter::strings::convert_to_int (webserver_request.query["severity"]);
+    int severity = filter::string::convert_to_int (webserver_request.query["severity"]);
     notes_logic.setRawSeverity (id, severity);
     redirect_browser (webserver_request, notes_actions_url () + "?id=" + std::to_string (id));
     return std::string();

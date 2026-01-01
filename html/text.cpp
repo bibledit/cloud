@@ -100,7 +100,7 @@ void HtmlText::add_text (const std::string& text)
     span.text().set (text.c_str());
     if (!current_text_style.empty ()) {
       // Take character style(s) as specified in the object.
-      span.append_attribute ("class") = filter::strings::implode (current_text_style, " ").c_str();
+      span.append_attribute ("class") = filter::string::implode (current_text_style, " ").c_str();
     }
     current_paragraph_content.append(text);
   }
@@ -227,7 +227,7 @@ void HtmlText::add_note_text (const std::string& text)
   span_node1.text().set (text.c_str());
   if (!current_note_text_style.empty ()) {
     // Take character style as specified in this object.
-    span_node1.append_attribute ("class") = filter::strings::implode (current_note_text_style, " ").c_str();
+    span_node1.append_attribute ("class") = filter::string::implode (current_note_text_style, " ").c_str();
   }
   if (popup_node) {
     pugi::xml_node span_node2 = popup_node.append_child ("span");

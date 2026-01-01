@@ -53,11 +53,11 @@ std::string sync_resources (Webserver_Request& webserver_request)
     std::this_thread::sleep_for (std::chrono::seconds (5));
   }
 
-  int action = filter::strings::convert_to_int (webserver_request.query ["a"]);
+  int action = filter::string::convert_to_int (webserver_request.query ["a"]);
   std::string resource = webserver_request.query ["r"];
-  int book = filter::strings::convert_to_int (webserver_request.query ["b"]);
-  int chapter = filter::strings::convert_to_int (webserver_request.query ["c"]);
-  int verse = filter::strings::convert_to_int (webserver_request.query ["v"]);
+  int book = filter::string::convert_to_int (webserver_request.query ["b"]);
+  int chapter = filter::string::convert_to_int (webserver_request.query ["c"]);
+  int verse = filter::string::convert_to_int (webserver_request.query ["v"]);
   
   bool request_ok = true;
   if (book <= 0) request_ok = false;

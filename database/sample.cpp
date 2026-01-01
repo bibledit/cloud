@@ -56,7 +56,7 @@ std::vector <int> Database_Sample::get ()
   sql.add ("SELECT rowid FROM sample;");
   std::vector <std::string> rowids = sql.query () ["rowid"];
   std::vector <int> ids;
-  for (auto rowid : rowids) ids.push_back (filter::strings::convert_to_int (rowid));
+  for (auto rowid : rowids) ids.push_back (filter::string::convert_to_int (rowid));
   return ids;
 }
 

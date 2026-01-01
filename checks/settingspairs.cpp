@@ -70,10 +70,10 @@ std::string checks_settingspairs (Webserver_Request& webserver_request)
   if (webserver_request.post_count ("pairs")) {
     const std::string fragment = webserver_request.post_get("pairs");
     std::vector <std::string> errors {};
-    std::vector <std::string> pairs = filter::strings::explode (fragment, ' ');
+    std::vector <std::string> pairs = filter::string::explode (fragment, ' ');
     bool okay {true};
     for (const auto& pair : pairs) {
-      const size_t length = filter::strings::unicode_string_length (pair);
+      const size_t length = filter::string::unicode_string_length (pair);
       if (length != 2) {
         errors.push_back (translate ("A pair should consist of two characters:") + " " + pair);
         okay = false;
@@ -83,7 +83,7 @@ std::string checks_settingspairs (Webserver_Request& webserver_request)
       database::config::bible::set_matching_pairs (bible, fragment);
       view.set_variable ("success", translate("The pairs were saved"));
     } else {
-      view.set_variable ("error", filter::strings::implode (errors, " | "));
+      view.set_variable ("error", filter::string::implode (errors, " | "));
     }
   }
   view.set_variable ("pairs", database::config::bible::get_matching_pairs (bible));

@@ -31,9 +31,9 @@ static std::string usfm_key (const std::string& bible, const int book, const int
   key.append (" ");
   key.append (bible);
   key.append (" ");
-  key.append (filter::strings::fill (std::to_string (book), 2, '0'));
+  key.append (filter::string::fill (std::to_string (book), 2, '0'));
   key.append (" ");
-  key.append (filter::strings::fill (std::to_string (chapter), 3, '0'));
+  key.append (filter::string::fill (std::to_string (chapter), 3, '0'));
   key.append (" ");
   key.append (editor);
   return key;
@@ -44,7 +44,7 @@ void store_loaded_usfm (Webserver_Request& webserver_request,
                         const std::string& bible, const int book, const int chapter,
                         const std::string& editor)
 {
-  const int userid = filter::strings::user_identifier (webserver_request);
+  const int userid = filter::string::user_identifier (webserver_request);
   const std::string key = usfm_key (bible, book, chapter, editor);
   const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
   database::temporal::set_value (userid, key, usfm);
@@ -55,7 +55,7 @@ std::string get_loaded_usfm (Webserver_Request& webserver_request,
                              const std::string& bible, const int book, const int chapter,
                              const std::string& editor)
 {
-  const int userid = filter::strings::user_identifier (webserver_request);
+  const int userid = filter::string::user_identifier (webserver_request);
   const std::string key = usfm_key (bible, book, chapter, editor);
   const std::string usfm = database::temporal::get_value (userid, key);
   return usfm;

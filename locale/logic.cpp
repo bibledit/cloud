@@ -65,11 +65,11 @@ std::string locale_logic_date_time (int seconds)
   std::string timestamp;
   timestamp.append (locale_logic_date (seconds));
   timestamp.append (" ");
-  timestamp.append (filter::strings::fill (std::to_string (filter::date::numerical_hour (seconds)), 2, '0'));
+  timestamp.append (filter::string::fill (std::to_string (filter::date::numerical_hour (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter::strings::fill (std::to_string (filter::date::numerical_minute (seconds)), 2, '0'));
+  timestamp.append (filter::string::fill (std::to_string (filter::date::numerical_minute (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter::strings::fill (std::to_string (filter::date::numerical_second (seconds)), 2, '0'));
+  timestamp.append (filter::string::fill (std::to_string (filter::date::numerical_second (seconds)), 2, '0'));
   // Done.
   return timestamp;
 }
@@ -80,15 +80,15 @@ std::map <std::string, std::string> locale_logic_localizations ()
 {
   std::string directory = filter_url_create_root_path ({"locale"});
   std::vector <std::string> files = filter_url_scandir (directory);
-  std::map <std::string, std::string> localizations = {std::pair (std::string(), filter::strings::english ())};
+  std::map <std::string, std::string> localizations = {std::pair (std::string(), filter::string::english ())};
   for (auto file : files) {
     std::string suffix = filter_url_get_extension (file);
     if (suffix == "po") {
-      std::string basename = filter::strings::replace ("." + suffix, "", file);
+      std::string basename = filter::string::replace ("." + suffix, "", file);
       std::string path = filter_url_create_path ({directory, file});
       std::string contents = filter_url_file_get_contents (path);
       std::string language = translate ("Unknown");
-      std::vector <std::string> lines = filter::strings::explode (contents, '\n');
+      std::vector <std::string> lines = filter::string::explode (contents, '\n');
       for (auto line : lines) {
         if (line.find ("translation for bibledit") != std::string::npos) {
           line.erase (0, 2);
@@ -107,25 +107,25 @@ std::unordered_map <std::string, std::string> locale_logic_read_msgid_msgstr (st
 {
   std::unordered_map <std::string, std::string> translations;
   std::string contents = filter_url_file_get_contents (file);
-  std::vector <std::string> lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> lines = filter::string::explode (contents, '\n');
   std::string msgid;
   std::string msgstr;
   int stage = 0;
   for (size_t i = 0; i < lines.size (); i++) {
     // Clean the line up.
-    std::string line = filter::strings::trim (lines[i]);
+    std::string line = filter::string::trim (lines[i]);
     // Skip a comment.
     if (line.find ("#") == 0) continue;
     // Deal with the messages.
     if (line.find ("msgid") == 0) {
       stage = 1;
       line.erase (0, 5);
-      line = filter::strings::trim (line);
+      line = filter::string::trim (line);
     }
     if (line.find ("msgstr") == 0) {
       stage = 2;
       line.erase (0, 6);
-      line = filter::strings::trim (line);
+      line = filter::string::trim (line);
     }
     // Build msgid.
     if (stage == 1) {
@@ -223,19 +223,19 @@ std::string locale_logic_space_get_name (std::string space, bool english)
     if (english) return "space";
     else return translate ("space");
   }
-  if (space == filter::strings::non_breaking_space_u00A0 ()) {
+  if (space == filter::string::non_breaking_space_u00A0 ()) {
     if (english) return "non-breaking space";
     else return translate ("non-breaking space");
   }
-  if (space == filter::strings::en_space_u2002 ()) {
+  if (space == filter::string::en_space_u2002 ()) {
     if (english) return "en space";
     else return translate ("en space");
   }
-  if (space == filter::strings::figure_space_u2007 ()) {
+  if (space == filter::string::figure_space_u2007 ()) {
     if (english) return "figure space";
     else return translate ("figure space");
   }
-  if (space == filter::strings::narrow_non_breaking_space_u202F ()) {
+  if (space == filter::string::narrow_non_breaking_space_u202F ()) {
     if (english) return "narrow non-breaking space";
     else return translate ("narrow non-breaking space");
   }
@@ -248,16 +248,16 @@ std::string locale_logic_deobfuscate (std::string value)
   // Replace longest strings first.
   
   // Change "Bbe" to "Bibledit".
-  value = filter::strings::replace ("Bbe", "Bibledit", value);
+  value = filter::string::replace ("Bbe", "Bibledit", value);
 
   // Change "bbe" to "bibledit".
-  value = filter::strings::replace ("bbe", "bibledit", value);
+  value = filter::string::replace ("bbe", "bibledit", value);
   
   // Change "Bb" to "Bible".
-  value = filter::strings::replace ("Bb", "Bible", value);
+  value = filter::string::replace ("Bb", "Bible", value);
   
   // Change "bb" to "bible". This includes "bbe" to "Bibledit".
-  value = filter::strings::replace ("bb", "bible", value);
+  value = filter::string::replace ("bb", "bible", value);
   
   // Done.
   return value;
@@ -275,7 +275,7 @@ void locale_logic_obfuscate_initialize ()
   // Load the contents of the obfuscation configuration file
   std::string filename = filter_url_create_root_path ({"obfuscate", "texts.txt"});
   std::string contents = filter_url_file_get_contents (filename);
-  std::vector <std::string> lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> lines = filter::string::explode (contents, '\n');
   
   // Container to map the original string to the obfuscated version.
   std::map <std::string, std::string> original_to_obfuscated;
@@ -284,7 +284,7 @@ void locale_logic_obfuscate_initialize ()
   for (auto & line : lines) {
 
     // Trim lines.
-    line = filter::strings::trim (line);
+    line = filter::string::trim (line);
     
     // Skip empty lines.
     if (line.empty ()) continue;
@@ -303,7 +303,7 @@ void locale_logic_obfuscate_initialize ()
     }
     
     // Lines require the equal sign = once.
-    std::vector <std::string> obfuscation_pair = filter::strings::explode (line, '=');
+    std::vector <std::string> obfuscation_pair = filter::string::explode (line, '=');
     if (obfuscation_pair.size () != 2) continue;
 
     // Deobfuscate recognized search terms.

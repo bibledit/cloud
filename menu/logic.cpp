@@ -103,18 +103,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 std::string menu_logic_href (std::string href)
 {
-  href = filter::strings::replace ("?", "__q__", href);
-  href = filter::strings::replace ("&", "__a__", href);
-  href = filter::strings::replace ("=", "__i__", href);
+  href = filter::string::replace ("?", "__q__", href);
+  href = filter::string::replace ("&", "__a__", href);
+  href = filter::string::replace ("=", "__i__", href);
   return href;
 }
 
 
 std::string menu_logic_click (std::string item)
 {
-  item = filter::strings::replace ("__q__", "?", item);
-  item = filter::strings::replace ("__a__", "&", item);
-  item = filter::strings::replace ("__i__", "=", item);
+  item = filter::string::replace ("__q__", "?", item);
+  item = filter::string::replace ("__a__", "&", item);
+  item = filter::string::replace ("__i__", "=", item);
   database::config::general::set_last_menu_click (item);
   return item;
 }
@@ -261,10 +261,10 @@ std::string menu_logic_main_categories (Webserver_Request& webserver_request, st
   }
 
   // Create one string of tool tips for this menu item, separated by a vertical bar.
-  tooltip = filter::strings::implode (tooltipbits, " | ");
+  tooltip = filter::string::implode (tooltipbits, " | ");
   
   // Create one string of html that is going to form the menu.
-  return filter::strings::implode (html, "\n");
+  return filter::string::implode (html, "\n");
 }
 
 
@@ -348,7 +348,7 @@ std::string menu_logic_basic_categories (Webserver_Request& webserver_request)
   }
 #endif
 
-  return filter::strings::implode (html, "\n");
+  return filter::string::implode (html, "\n");
 }
 
 
@@ -377,8 +377,8 @@ std::string menu_logic_workspace_category (Webserver_Request& webserver_request,
     }
   }
 
-  if (tooltip) tooltip->assign (filter::strings::implode (labels, " | "));
-  return filter::strings::implode (html, "\n");
+  if (tooltip) tooltip->assign (filter::string::implode (labels, " | "));
+  return filter::string::implode (html, "\n");
 }
 
 
@@ -452,8 +452,8 @@ std::string menu_logic_translate_category (Webserver_Request& webserver_request,
     html.insert (html.begin (), menu_logic_translate_text () + ": ");
   }
 
-  if (tooltip) tooltip->assign (filter::strings::implode (labels, " | "));
-  return filter::strings::implode (html, "\n");
+  if (tooltip) tooltip->assign (filter::string::implode (labels, " | "));
+  return filter::string::implode (html, "\n");
 }
 
 
@@ -520,8 +520,8 @@ std::string menu_logic_search_category (Webserver_Request& webserver_request, st
     html.insert (html.begin (), menu_logic_search_text () + ": ");
   }
   
-  if (tooltip) tooltip->assign (filter::strings::implode (labels, " | "));
-  return filter::strings::implode (html, "\n");
+  if (tooltip) tooltip->assign (filter::string::implode (labels, " | "));
+  return filter::string::implode (html, "\n");
 }
 
 
@@ -623,8 +623,8 @@ std::string menu_logic_tools_category (Webserver_Request& webserver_request, std
     html.insert (html.begin (), menu_logic_tools_text () + ": ");
   }
   
-  if (tooltip) tooltip->assign (filter::strings::implode (tiplabels, " | "));
-  return filter::strings::implode (html, "\n");
+  if (tooltip) tooltip->assign (filter::string::implode (tiplabels, " | "));
+  return filter::string::implode (html, "\n");
 }
 
 
@@ -852,7 +852,7 @@ std::string menu_logic_settings_category (Webserver_Request& webserver_request, 
     
     if (label == basic_mode) {
       if (webserver_request.session_logic ()->get_level () > roles::guest) {
-        html.push_back (menu_logic_create_item (index_index_url () + filter::strings::convert_to_string ("?mode=basic"), label, true, "", ""));
+        html.push_back (menu_logic_create_item (index_index_url () + filter::string::convert_to_string ("?mode=basic"), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
@@ -878,8 +878,8 @@ std::string menu_logic_settings_category (Webserver_Request& webserver_request, 
     html.insert (html.begin (), menu_logic_settings_text () + " (" + user + "): ");
   }
   
-  if (tooltip) tooltip->assign (filter::strings::implode (tiplabels, " | "));
-  return filter::strings::implode (html, "\n");
+  if (tooltip) tooltip->assign (filter::string::implode (tiplabels, " | "));
+  return filter::string::implode (html, "\n");
 }
 
 
@@ -939,7 +939,7 @@ std::string menu_logic_settings_resources_category ([[maybe_unused]] Webserver_R
     html.insert (html.begin (), menu_logic_resources_text () + ": ");
   }
   
-  return filter::strings::implode (html, "\n");
+  return filter::string::implode (html, "\n");
 }
 
 
@@ -955,7 +955,7 @@ std::string menu_logic_help_category (Webserver_Request& webserver_request)
     html.insert (html.begin (), menu_logic_help_text () + ": ");
   }
   
-  return filter::strings::implode (html, "\n");
+  return filter::string::implode (html, "\n");
 }
 
 

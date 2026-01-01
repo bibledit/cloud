@@ -47,9 +47,9 @@ bool editusfm_offset_acl (Webserver_Request& webserver_request)
 std::string editusfm_offset (Webserver_Request& webserver_request)
 {
   std::string bible = webserver_request.query ["bible"];
-  int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
-  unsigned int offset = static_cast<unsigned> (filter::strings::convert_to_int (webserver_request.query ["offset"]));
+  int book = filter::string::convert_to_int (webserver_request.query ["book"]);
+  int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
+  unsigned int offset = static_cast<unsigned> (filter::string::convert_to_int (webserver_request.query ["offset"]));
   std::string usfm = database::bibles::get_chapter (bible, book, chapter);
   std::vector <int> verses = filter::usfm::offset_to_versenumber (usfm, offset);
   // Only update navigation in case the verse differs.

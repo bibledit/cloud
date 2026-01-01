@@ -68,7 +68,7 @@ std::string styles_indexm (Webserver_Request& webserver_request)
     // Remove spaces at the ends of the name for the new stylesheet.
     // Because predictive keyboards can add a space to the name,
     // and the stylesheet system is not built for whitespace at the start / end of the name of the stylesheet.
-    name = filter::strings::trim (name);
+    name = filter::string::trim (name);
     std::vector <std::string> existing {database::styles::get_sheets ()};
     if (find (existing.begin(), existing.end (), name) != existing.end ()) {
       page += assets_page::error (translate("This stylesheet already exists"));

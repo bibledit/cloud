@@ -197,7 +197,7 @@ std::string send ([[maybe_unused]] std::string to_mail,
   Sync_Logic sync_logic (webserver_request);
   
   std::map <std::string, std::string> post;
-  post ["n"] = filter::strings::bin2hex (to_name);
+  post ["n"] = filter::string::bin2hex (to_name);
   post ["s"] = subject;
   post ["b"] = body;
   
@@ -238,7 +238,7 @@ std::string send ([[maybe_unused]] std::string to_mail,
   std::string site = from_mail;
   size_t pos = site.find ("@");
   if (pos != std::string::npos) site = site.substr (pos);
-  payload = "Message-ID: <" + md5 (std::to_string (filter::strings::rand (0, 1000000))) + site + ">\n";
+  payload = "Message-ID: <" + md5 (std::to_string (filter::string::rand (0, 1000000))) + site + ">\n";
   payload_text.push_back (payload);
   payload = "Subject: " + subject + "\n";
   payload_text.push_back (payload);
@@ -263,9 +263,9 @@ std::string send ([[maybe_unused]] std::string to_mail,
   payload_text.push_back ("<meta charset=\"utf-8\" />\n");
   payload_text.push_back ("</head>\n");
   payload_text.push_back ("<body>\n");
-  std::vector <std::string> bodylines = filter::strings::explode (body, '\n');
+  std::vector <std::string> bodylines = filter::string::explode (body, '\n');
   for (auto & line : bodylines) {
-    if (filter::strings::trim (line).empty ()) payload_text.push_back (" ");
+    if (filter::string::trim (line).empty ()) payload_text.push_back (" ");
     else payload_text.push_back (line);
     payload_text.push_back ("\n");
   }

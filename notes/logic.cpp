@@ -52,7 +52,7 @@ m_webserver_request (webserver_request)
 // It returns the $identifier of this new note.
 int Notes_Logic::createNote (std::string bible, int book, int chapter, int verse, std::string summary, std::string contents, bool raw)
 {
-  summary = filter::strings::replace ("\n", "", summary);
+  summary = filter::string::replace ("\n", "", summary);
   Database_Notes database_notes (m_webserver_request);
   Database_Notes::NewNote new_note {
     .bible = bible,
@@ -555,28 +555,28 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
   // Webserver request.
   // At this stage, the subject contains an identifier.
   // Check that the identifier is an existing Consultation Note.
-  int identifier = filter::strings::convert_to_int (subject);
+  int identifier = filter::string::convert_to_int (subject);
   Database_Notes database_notes (m_webserver_request);
   if (!database_notes.identifier_exists (identifier)) return false;
   // Check that the from address of the email belongs to an existing user.
   // Or else use the obfuscated email address as the user name.
   std::string username;
-  from = filter::strings::extract_email (from);
+  from = filter::string::extract_email (from);
   if (m_webserver_request.database_users()->emailExists (from)) {
     username = m_webserver_request.database_users()->getEmailToUser (from);
   } else {
     username = from;
-    username = filter::strings::replace ("@", " ", username);
-    username = filter::strings::replace (".", " ", username);
+    username = filter::string::replace ("@", " ", username);
+    username = filter::string::replace (".", " ", username);
   }
   // Clean the email's body.
   std::string year = std::to_string (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
   std::string sender = database::config::general::get_site_mail_name();
-  body = filter::strings::extract_body (body, year, sender);
+  body = filter::string::extract_body (body, year, sender);
   // Remove any new lines from the body. This cleans up the email considerably,
   // because some emails that get posted would otherwise look untidy,
   // when the many new lines take up a lot of space.
-  body = filter::strings::replace ("\n", " ", body);
+  body = filter::string::replace ("\n", " ", body);
   // Make comment on the consultation note.
   const std::string& sessionuser = m_webserver_request.session_logic ()->get_username ();
   m_webserver_request.session_logic ()->set_username (username);
@@ -605,17 +605,17 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
   // Store the original subject.
   std::string originalSubject = subject;
   // Check that the subject indicates that a new consultation note is to be created.
-  size_t pos = filter::strings::unicode_string_casefold (subject).find ("new note");
+  size_t pos = filter::string::unicode_string_casefold (subject).find ("new note");
   if (pos == std::string::npos) return false;
   // There is a new note. Remove that bit from the subject.
   if (pos > 0) subject.erase (0, pos + 8);
   // Clean the subject line.
-  subject = filter::strings::trim (subject);
-  subject = filter::strings::replace (".", " ", subject);
-  subject = filter::strings::replace (":", " ", subject);
-  subject = filter::strings::collapse_whitespace (subject);
+  subject = filter::string::trim (subject);
+  subject = filter::string::replace (".", " ", subject);
+  subject = filter::string::replace (":", " ", subject);
+  subject = filter::string::collapse_whitespace (subject);
   // Check that the from address of the email belongs to an existing user.
-  from = filter::strings::extract_email (from);
+  from = filter::string::extract_email (from);
   if (!m_webserver_request.database_users()->emailExists (from)) return false;
   std::string username = m_webserver_request.database_users()->getEmailToUser (from);
   // Extract book, chapter, verse, and note summary from the subject
@@ -623,20 +623,20 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
   int chapter {-1};
   int verse {-1};
   std::string summary {};
-  std::vector <std::string> subjectlines = filter::strings::explode (subject, ' ');
+  std::vector <std::string> subjectlines = filter::string::explode (subject, ' ');
   if (!subjectlines.empty()) {
     book = filter_passage_interpret_book_v2 (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
   }
   if (!subjectlines.empty()) {
-    chapter = filter::strings::convert_to_int (subjectlines[0]);
+    chapter = filter::string::convert_to_int (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
   }
   if (!subjectlines.empty()) {
-    verse = filter::strings::convert_to_int (subjectlines[0]);
+    verse = filter::string::convert_to_int (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
   }
-  summary = filter::strings::implode (subjectlines, " ");
+  summary = filter::string::implode (subjectlines, " ");
   // Check book, chapter, verse, and summary. Give feedback if there's anything wrong.
   std::string noteCheck;
   if (book == book_id::_unknown) noteCheck.append (translate("Unknown book"));
@@ -659,7 +659,7 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
     return false;
   }
   // Clean the email's body.
-  body = filter::strings::extract_body (body);
+  body = filter::string::extract_body (body);
   // Post the note.
   const std::string& sessionuser = m_webserver_request.session_logic ()->get_username ();
   m_webserver_request.session_logic()->set_username (username);
@@ -731,7 +731,7 @@ void notes_logic_maintain_note_assignees (bool force)
       }
     }
 
-    assignees = filter::strings::array_unique (assignees);
+    assignees = filter::string::array_unique (assignees);
     database_noteassignment.assignees (user, assignees);
   }
 }

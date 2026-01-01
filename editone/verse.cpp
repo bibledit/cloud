@@ -49,7 +49,7 @@ std::string editone_verse (Webserver_Request& webserver_request)
     
     // Only update navigation in case the verse changed.
     // This avoids unnecessary focus operations in the clients.
-    int iverse = filter::strings::convert_to_int (sverse);
+    int iverse = filter::string::convert_to_int (sverse);
     if (iverse != ipc_focus::get_verse (webserver_request)) {
       int book = ipc_focus::get_book (webserver_request);
       int chapter = ipc_focus::get_chapter (webserver_request);

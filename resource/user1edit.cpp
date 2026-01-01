@@ -65,21 +65,21 @@ std::string resource_user1edit (Webserver_Request& webserver_request)
 
   if (webserver_request.post_count("submit")) {
     std::string data = webserver_request.post_get("data");
-    std::vector <std::string> lines = filter::strings::explode (data, '\n');
+    std::vector <std::string> lines = filter::string::explode (data, '\n');
     int count = 0;
     int bookcount = 0;
     for (auto line : lines) {
-      line = filter::strings::trim (line);
+      line = filter::string::trim (line);
       if (line.empty ()) continue;
       if (count == 0) {
         Database_UserResources::url (name, line);
       } else {
-        std::vector <std::string> bits = filter::strings::explode (line, '=');
+        std::vector <std::string> bits = filter::string::explode (line, '=');
         if (bits.size () == 2) {
-          std::string english = filter::strings::trim (bits [0]);
+          std::string english = filter::string::trim (bits [0]);
           book_id id = database::books::get_id_from_english (english);
           if (id != book_id::_unknown) {
-            std::string fragment = filter::strings::trim (bits [1]);
+            std::string fragment = filter::string::trim (bits [1]);
             Database_UserResources::book (name, static_cast<int>(id), fragment);
             bookcount++;
           } else {
@@ -105,7 +105,7 @@ std::string resource_user1edit (Webserver_Request& webserver_request)
       lines.push_back (english + " = " + book);
     }
   }
-  view.set_variable ("data", filter::strings::implode (lines, "\n"));
+  view.set_variable ("data", filter::string::implode (lines, "\n"));
   
 
   view.set_variable ("success", success);

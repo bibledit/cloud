@@ -206,7 +206,7 @@ int Database_Users::get_level (std::string user)
   sql.add (user);
   sql.add (";");
   std::vector <std::string> result = sql.query () ["level"];
-  if (!result.empty()) return filter::strings::convert_to_int (result [0]);
+  if (!result.empty()) return filter::string::convert_to_int (result [0]);
   return roles::guest;
 }
 
@@ -304,7 +304,7 @@ void Database_Users::set_ldap (std::string user, bool on)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET ldap =");
-  sql.add (filter::strings::convert_to_int (on));
+  sql.add (filter::string::convert_to_int (on));
   sql.add ("WHERE username =");
   sql.add (user);
   sql.add (";");
@@ -321,7 +321,7 @@ bool Database_Users::get_ldap (std::string user)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["ldap"];
   if (!result.empty()) {
-    bool ldap_is_on = filter::strings::convert_to_bool (result [0]);
+    bool ldap_is_on = filter::string::convert_to_bool (result [0]);
     return ldap_is_on;
   }
   return false;
@@ -333,7 +333,7 @@ void Database_Users::set_enabled (std::string user, bool on)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET disabled =");
-  sql.add (filter::strings::convert_to_int (!on));
+  sql.add (filter::string::convert_to_int (!on));
   sql.add ("WHERE username =");
   sql.add (user);
   sql.add (";");
@@ -349,7 +349,7 @@ bool Database_Users::get_enabled (std::string user)
   sql.add (user);
   sql.add (";");
   std::vector <std::string> result = sql.query () ["disabled"];
-  if (!result.empty()) return !filter::strings::convert_to_bool (result [0]);
+  if (!result.empty()) return !filter::string::convert_to_bool (result [0]);
   return false;
 }
 

@@ -90,8 +90,8 @@ std::string bible_settings (Webserver_Request& webserver_request)
   std::string bible = webserver_request.query["bible"];
   if (bible.empty()) bible = webserver_request.post_get("val1");
   bible = access_bible::clamp (webserver_request, bible);
-  view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
-  view.set_variable ("urlbible", filter_url_urlencode(filter::strings::escape_special_xml_characters (bible)));
+  view.set_variable ("bible", filter::string::escape_special_xml_characters (bible));
+  view.set_variable ("urlbible", filter_url_urlencode(filter::string::escape_special_xml_characters (bible)));
 
   
   // Whether the user has write access to this Bible.
@@ -107,7 +107,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   
   // The state of the checkbox.
   const std::string checkbox = webserver_request.post_get("checkbox");
-  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+  bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
 
   
   // Versification
@@ -143,7 +143,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
     } else {
       std::vector <std::string> feedback{};
       if (write_access)
-        book_create (bible, static_cast<book_id>(filter::strings::convert_to_int (createbook)), -1, feedback);
+        book_create (bible, static_cast<book_id>(filter::string::convert_to_int (createbook)), -1, feedback);
     }
     // User creates a book in this Bible: Set it as the default Bible.
     webserver_request.database_config_user()->set_bible (bible);
@@ -155,7 +155,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   if (!deletebook.empty()) {
     const std::string confirm = webserver_request.query["confirm"];
     if (confirm == "yes") {
-      if (write_access) bible_logic::delete_book (bible, filter::strings::convert_to_int (deletebook));
+      if (write_access) bible_logic::delete_book (bible, filter::string::convert_to_int (deletebook));
     } 
     else if (confirm == "cancel") {
     } 
@@ -245,7 +245,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   if (checkbox == "public") {
     if (write_access) database::config::bible::set_public_feedback_enabled (bible, checked);
   }
-  view.set_variable ("public", filter::strings::get_checkbox_status (database::config::bible::get_public_feedback_enabled (bible)));
+  view.set_variable ("public", filter::string::get_checkbox_status (database::config::bible::get_public_feedback_enabled (bible)));
 
   
  
@@ -257,7 +257,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
       rss_logic_feed_on_off ();
     }
   }
-  view.set_variable ("rss", filter::strings::get_checkbox_status (database::config::bible::get_send_changes_to_rss (bible)));
+  view.set_variable ("rss", filter::string::get_checkbox_status (database::config::bible::get_send_changes_to_rss (bible)));
 #endif
 
   
@@ -310,7 +310,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
       }
     }
   }
-  view.set_variable ("checks", filter::strings::get_checkbox_status (database::config::bible::get_daily_checks_enabled (bible)));
+  view.set_variable ("checks", filter::string::get_checkbox_status (database::config::bible::get_daily_checks_enabled (bible)));
 #endif
 
   

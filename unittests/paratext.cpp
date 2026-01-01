@@ -105,8 +105,8 @@ TEST (paratext, logic)
 \v 1 paratext 1.
 \v 2 paratext 2.
     )";
-    bibledit = filter::strings::trim (bibledit);
-    paratext = filter::strings::trim (paratext);
+    bibledit = filter::string::trim (bibledit);
+    paratext = filter::string::trim (paratext);
     {
       // Test that it takes the changes from Paratext.
       std::string ancestor (bibledit);
@@ -189,7 +189,7 @@ TEST (paratext, logic)
     std::vector <std::string> messages;
     std::vector <Merge_Conflict> conflicts;
     std::string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-    EXPECT_EQ (filter::strings::trim (paratext), result);
+    EXPECT_EQ (filter::string::trim (paratext), result);
     EXPECT_EQ (1, messages.size ());
     if (messages.size() == 1) {
       EXPECT_EQ ("Chapter merged", messages[0]);
@@ -200,7 +200,7 @@ TEST (paratext, logic)
       EXPECT_EQ ("Failed to merge your changes", conflicts[0].subject);
       EXPECT_EQ (R"(\v 2 paratext.)", conflicts[1].result);
       EXPECT_EQ ("Failed to merge your changes", conflicts[1].subject);
-      EXPECT_EQ (filter::strings::trim (paratext), conflicts[2].result);
+      EXPECT_EQ (filter::string::trim (paratext), conflicts[2].result);
       EXPECT_EQ ("Failed to merge your changes", conflicts[1].subject);
     }
   }
@@ -246,7 +246,7 @@ TEST (paratext, logic)
     std::vector <std::string> messages;
     std::vector <Merge_Conflict> conflicts;
     std::string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-    EXPECT_EQ (filter::strings::trim (bibledit), filter::strings::trim (result));
+    EXPECT_EQ (filter::string::trim (bibledit), filter::string::trim (result));
     EXPECT_EQ (1, messages.size ());
     if (messages.size() == 1) {
       EXPECT_EQ ("Copy larger Bibledit chapter to smaller Paratext chapter", messages[0]);

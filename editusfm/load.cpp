@@ -44,8 +44,8 @@ bool editusfm_load_acl (Webserver_Request& webserver_request)
 std::string editusfm_load (Webserver_Request& webserver_request)
 {
   std::string bible = webserver_request.query ["bible"];
-  int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  int book = filter::string::convert_to_int (webserver_request.query ["book"]);
+  int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
   std::string unique_id = webserver_request.query ["id"];
 
   // Store a copy of the USFM loaded in the editor for later reference.
@@ -54,7 +54,7 @@ std::string editusfm_load (Webserver_Request& webserver_request)
   std::string usfm = database::bibles::get_chapter (bible, book, chapter);
 
   // Escape the XML special characters so they load properly in the editor.
-  usfm = filter::strings::escape_special_xml_characters (usfm);
+  usfm = filter::string::escape_special_xml_characters (usfm);
 
   const std::string& user = webserver_request.session_logic ()->get_username ();
   bool write = access_bible::book_write (webserver_request, user, bible, book);

@@ -76,7 +76,7 @@ std::string client_logic_connection_setup (std::string user, std::string hash)
     hash = database_users.get_md5 (user);
   }
   
-  std::string encoded_user = filter::strings::bin2hex (user);
+  std::string encoded_user = filter::string::bin2hex (user);
   
   std::string address = database::config::general::get_server_address ();
   int port = database::config::general::get_server_port ();
@@ -85,7 +85,7 @@ std::string client_logic_connection_setup (std::string user, std::string hash)
   
   std::string error {};
   std::string response = filter_url_http_get (url, error, true);
-  int iresponse = filter::strings::convert_to_int (response);
+  int iresponse = filter::string::convert_to_int (response);
   
   if ((iresponse >= roles::guest) && (iresponse <= roles::admin)) {
     // Set user's role on the client to be the same as on the server.
@@ -126,9 +126,9 @@ std::string client_logic_create_note_encode (const std::string& bible, int book,
   data.push_back (std::to_string (chapter));
   data.push_back (std::to_string (verse));
   data.push_back (summary);
-  data.push_back (filter::strings::convert_to_string (raw));
+  data.push_back (filter::string::convert_to_string (raw));
   data.push_back (contents);
-  return filter::strings::implode (data, "\n");
+  return filter::string::implode (data, "\n");
 }
 
 
@@ -136,21 +136,21 @@ void client_logic_create_note_decode (const std::string& data,
                                       std::string& bible, int& book, int& chapter, int& verse,
                                       std::string& summary, std::string& contents, bool& raw)
 {
-  std::vector <std::string> lines = filter::strings::explode (data, '\n');
+  std::vector <std::string> lines = filter::string::explode (data, '\n');
   if (!lines.empty ()) {
     bible = lines [0];
     lines.erase (lines.begin());
   }
   if (!lines.empty ()) {
-    book = filter::strings::convert_to_int (lines [0]);
+    book = filter::string::convert_to_int (lines [0]);
     lines.erase (lines.begin());
   }
   if (!lines.empty ()) {
-    chapter = filter::strings::convert_to_int (lines [0]);
+    chapter = filter::string::convert_to_int (lines [0]);
     lines.erase (lines.begin());
   }
   if (!lines.empty ()) {
-    verse = filter::strings::convert_to_int (lines [0]);
+    verse = filter::string::convert_to_int (lines [0]);
     lines.erase (lines.begin());
   }
   if (!lines.empty ()) {
@@ -158,10 +158,10 @@ void client_logic_create_note_decode (const std::string& data,
     lines.erase (lines.begin());
   }
   if (!lines.empty ()) {
-    raw = filter::strings::convert_to_bool (lines [0]);
+    raw = filter::string::convert_to_bool (lines [0]);
     lines.erase (lines.begin());
   }
-  contents = filter::strings::implode (lines, "\n");
+  contents = filter::string::implode (lines, "\n");
 }
 
 
@@ -215,14 +215,14 @@ void client_logic_usfm_resources_update ()
   std::string path = client_logic_usfm_resources_path ();
   Database_UsfmResources database_usfmresources {};
   std::vector <std::string> resources = database_usfmresources.getResources ();
-  filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
+  filter_url_file_put_contents (path, filter::string::implode (resources, "\n"));
 }
 
 
 std::vector <std::string> client_logic_usfm_resources_get ()
 {
   std::string contents = filter_url_file_get_contents (client_logic_usfm_resources_path ());
-  return filter::strings::explode (contents, '\n');
+  return filter::string::explode (contents, '\n');
 }
 
 
@@ -247,7 +247,7 @@ std::string client_logic_no_cache_resources_path ()
 
 void client_logic_no_cache_resources_save (std::vector<std::string> resources)
 {
-  std::string contents = filter::strings::implode(resources, "\n");
+  std::string contents = filter::string::implode(resources, "\n");
   std::string path = client_logic_no_cache_resources_path ();
   filter_url_file_put_contents(path, contents);
 }
@@ -266,7 +266,7 @@ void client_logic_no_cache_resource_remove (std::string name)
 {
   std::vector <std::string> resources = client_logic_no_cache_resources_get();
   if (!in_array(name, resources)) return;
-  resources = filter::strings::array_diff(resources, {name});
+  resources = filter::string::array_diff(resources, {name});
   client_logic_no_cache_resources_save(resources);
 }
 
@@ -274,6 +274,6 @@ void client_logic_no_cache_resource_remove (std::string name)
 std::vector <std::string> client_logic_no_cache_resources_get ()
 {
   std::string contents = filter_url_file_get_contents (client_logic_no_cache_resources_path());
-  std::vector<std::string> resources = filter::strings::explode(contents, "\n");
+  std::vector<std::string> resources = filter::string::explode(contents, "\n");
   return resources;
 }

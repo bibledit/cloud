@@ -179,8 +179,8 @@ TEST (checks, french)
   refresh_sandbox (false);
   database::check::create ();
   std::string bible = "unit test";
-  std::string nbsp = filter::strings::non_breaking_space_u00A0 ();
-  std::string nnbsp = filter::strings::narrow_non_breaking_space_u202F ();
+  std::string nbsp = filter::string::non_breaking_space_u00A0 ();
+  std::string nnbsp = filter::string::narrow_non_breaking_space_u202F ();
   
   // Test reporting lacking no-break space at French square brackets and other punctuation.
   {

@@ -54,7 +54,7 @@ bool resource_organize_acl (Webserver_Request& webserver_request)
 std::string resource_organize (Webserver_Request& webserver_request)
 {
   const std::string checkbox = webserver_request.post_get("checkbox");
-  const bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+  const bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
 
 
   // For administrator level default resource management purposes.
@@ -94,7 +94,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("remove")) {
-    int remove = filter::strings::convert_to_int (webserver_request.query["remove"]);
+    int remove = filter::string::convert_to_int (webserver_request.query["remove"]);
     std::vector <std::string> resources = webserver_request.database_config_user()->get_active_resources ();
     if (is_def) resources = default_active_resources;
     if (remove < static_cast<int>(resources.size ())) {
@@ -113,11 +113,11 @@ std::string resource_organize (Webserver_Request& webserver_request)
   if (!movefrom.empty ()) {
     std::string moveto =  webserver_request.post_get("moveto");
     if (!moveto.empty ()) {
-      size_t from = static_cast<size_t> (filter::strings::convert_to_int (movefrom));
-      size_t to = static_cast<size_t>(filter::strings::convert_to_int (moveto));
+      size_t from = static_cast<size_t> (filter::string::convert_to_int (movefrom));
+      size_t to = static_cast<size_t>(filter::string::convert_to_int (moveto));
       std::vector <std::string> resources = webserver_request.database_config_user()->get_active_resources ();
       if (is_def) resources = default_active_resources;
-      filter::strings::array_move_from_to (resources, from, to);
+      filter::string::array_move_from_to (resources, from, to);
       if (is_def) database::config::general::set_default_active_resources (resources);
       else webserver_request.database_config_user()->set_active_resources (resources);
       if (!is_def)
@@ -152,7 +152,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
     for (size_t i = 0; i < default_active_resources.size (); i++) {
       defactivesblock.append ("<p>&#183; ");
       defactivesblock.append ("<a href=\"?remove=" + std::to_string (i) + "&type=def\">");
-      defactivesblock.append (filter::strings::emoji_wastebasket ());
+      defactivesblock.append (filter::string::emoji_wastebasket ());
       defactivesblock.append ("</a>");
       defactivesblock.append (" ");
       defactivesblock.append (default_active_resources [i]);
@@ -169,7 +169,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
   for (size_t i = 0; i < active_resources.size (); i++) {
     activesblock.append ("<p>&#183; ");
     activesblock.append ("<a href=\"?remove=" + std::to_string (i) + "\">");
-    activesblock.append (filter::strings::emoji_wastebasket ());
+    activesblock.append (filter::string::emoji_wastebasket ());
     activesblock.append ("</a>");
     activesblock.append (" ");
     activesblock.append (active_resources [i]);
@@ -186,7 +186,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("before")) {
-    int value = filter::strings::convert_to_int (webserver_request.post_get("entry"));
+    int value = filter::string::convert_to_int (webserver_request.post_get("entry"));
     if ((value >= 0) && (value <= 100)) {
       webserver_request.database_config_user ()->set_resource_verses_before (value);
     }
@@ -201,7 +201,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("after")) {
-    int value = filter::strings::convert_to_int (webserver_request.post_get("entry"));
+    int value = filter::string::convert_to_int (webserver_request.post_get("entry"));
     if ((value >= 0) && (value <= 100)) {
       webserver_request.database_config_user ()->set_resource_verses_after (value);
     }
@@ -213,7 +213,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
     webserver_request.database_config_user ()->set_include_related_passages (checked);
     return std::string();
   }
-  view.set_variable ("related", filter::strings::get_checkbox_status (webserver_request.database_config_user ()->get_include_related_passages ()));
+  view.set_variable ("related", filter::string::get_checkbox_status (webserver_request.database_config_user ()->get_include_related_passages ()));
 
 
   // For users with lower than administrator access levels, they can replace

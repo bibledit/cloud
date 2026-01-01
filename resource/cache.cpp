@@ -70,7 +70,7 @@ std::string resource_cache (Webserver_Request& webserver_request)
   std::vector <std::string> resources = database::config::general::get_resources_to_cache ();
   if (!resources.empty ()) {
     view.enable_zone ("scheduled");
-    view.set_variable ("scheduled", filter::strings::implode (resources, " | "));
+    view.set_variable ("scheduled", filter::string::implode (resources, " | "));
   }
   
   

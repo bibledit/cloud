@@ -60,12 +60,12 @@ std::string public_comment (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  const int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+  const int id = filter::string::convert_to_int (webserver_request.query ["id"]);
   view.set_variable ("id", std::to_string (id));
   
   
   if (webserver_request.post_count("submit")) {
-    const std::string comment = filter::strings::trim (webserver_request.post_get("comment"));
+    const std::string comment = filter::string::trim (webserver_request.post_get("comment"));
     notes_logic.addComment (id, comment);
     redirect_browser (webserver_request, public_note_url () + "?id=" + std::to_string (id));
     return std::string();

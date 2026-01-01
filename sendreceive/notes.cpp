@@ -107,7 +107,7 @@ bool sendreceive_notes_upload ()
   
   
   std::string response = client_logic_connection_setup ("", "");
-  int iresponse = filter::strings::convert_to_int (response);
+  int iresponse = filter::string::convert_to_int (response);
   if (iresponse < roles::guest || iresponse > roles::admin) {
     Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), roles::translator);
     return false;
@@ -127,7 +127,7 @@ bool sendreceive_notes_upload ()
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
   std::map <std::string, std::string> post;
-  post ["u"] = filter::strings::bin2hex (user);
+  post ["u"] = filter::string::bin2hex (user);
   post ["p"] = webserver_request.database_users ()->get_md5 (user);
   post ["l"] = std::to_string (webserver_request.database_users ()->get_level (user));
   
@@ -284,7 +284,7 @@ bool sendreceive_notes_upload ()
     // Deal with the extra, added, note actions.
     for (int action = Sync_Logic::notes_get_total; action <= Sync_Logic::notes_get_modified; action++) {
       std::map <std::string, std::string> post2;
-      post2 ["u"] = filter::strings::bin2hex (user);
+      post2 ["u"] = filter::string::bin2hex (user);
       post2 ["i"] = std::to_string (identifier);
       post2 ["a"] = std::to_string (action);
       sendreceive_notes_kick_watchdog ();
@@ -296,15 +296,15 @@ bool sendreceive_notes_upload ()
           }
         }
         if (action == Sync_Logic::notes_get_subscribers) {
-          std::vector <std::string> subscribers = filter::strings::explode (response, '\n');
+          std::vector <std::string> subscribers = filter::string::explode (response, '\n');
           database_notes.set_subscribers (identifier, subscribers);
         }
         if (action == Sync_Logic::notes_get_assignees) {
-          std::vector <std::string> assignees = filter::strings::explode (response, '\n');
+          std::vector <std::string> assignees = filter::string::explode (response, '\n');
           database_notes.set_assignees (identifier, assignees);
         }
         if (action == Sync_Logic::notes_get_modified) {
-          database_notes.set_modified (identifier, filter::strings::convert_to_int (response));
+          database_notes.set_modified (identifier, filter::string::convert_to_int (response));
         }
       }
     }
@@ -324,7 +324,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   
   std::string response = client_logic_connection_setup ("", "");
-  int iresponse = filter::strings::convert_to_int (response);
+  int iresponse = filter::string::convert_to_int (response);
   if (iresponse < roles::guest || iresponse > roles::admin) {
     Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), roles::translator);
     return false;
@@ -365,7 +365,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   // The basic request to be POSTed to the server.
   std::map <std::string, std::string> post;
-  post ["u"] = filter::strings::bin2hex (user);
+  post ["u"] = filter::string::bin2hex (user);
   post ["l"] = std::to_string (lowId);
   post ["h"] = std::to_string (highId);
 
@@ -386,9 +386,9 @@ bool sendreceive_notes_download (int lowId, int highId)
     Database_Logs::log (sendreceive_notes_text () + "Failure requesting totals: " + error, roles::translator);
     return false;
   }
-  std::vector <std::string> vresponse = filter::strings::explode (response, '\n');
+  std::vector <std::string> vresponse = filter::string::explode (response, '\n');
   int server_total = 0;
-  if (vresponse.size () >= 1) server_total = filter::strings::convert_to_int (vresponse [0]);
+  if (vresponse.size () >= 1) server_total = filter::string::convert_to_int (vresponse [0]);
   std::string server_checksum;
   if (vresponse.size () >= 2) server_checksum = vresponse [1];
   std::vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, {}, true);
@@ -441,10 +441,10 @@ bool sendreceive_notes_download (int lowId, int highId)
   }
   std::vector <int> server_identifiers;
   std::vector <std::string> server_checksums;
-  vresponse = filter::strings::explode (response, '\n');
+  vresponse = filter::string::explode (response, '\n');
   for (size_t i = 0; i < vresponse.size (); i++) {
     if (i % 2 == 0) {
-      int identifier = filter::strings::convert_to_int (vresponse [i]);
+      int identifier = filter::string::convert_to_int (vresponse [i]);
       if (identifier > 0) server_identifiers.push_back (identifier);
     }
     else server_checksums.push_back (vresponse [i]);
@@ -458,7 +458,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // The client deletes notes no longer on the server.
   // But it skips the notes that have actions recorded for them,
   // as these notes are scheduled to be sent to the server first.
-  identifiers = filter::strings::array_diff (client_identifiers, server_identifiers);
+  identifiers = filter::string::array_diff (client_identifiers, server_identifiers);
   int delete_counter = 0;
   for (auto identifier : identifiers) {
     if (database_noteactions.exists (identifier)) continue;
@@ -503,7 +503,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     // Request the JSON from the Cloud: It will contain the requested notes.
     post.clear ();
     post ["a"] = std::to_string (Sync_Logic::notes_get_bulk);
-    std::string bulk_identifiers = filter::strings::implode (identifiers_bulk_download, "\n");
+    std::string bulk_identifiers = filter::string::implode (identifiers_bulk_download, "\n");
     post ["b"] = bulk_identifiers;
     std::string json = sync_logic.post (post, url, error);
     if (!error.empty ()) {

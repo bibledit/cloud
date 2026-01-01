@@ -67,7 +67,7 @@ std::string resource_divider (Webserver_Request& webserver_request)
   Assets_View view;
 
 
-  const int userid = filter::strings::user_identifier (webserver_request);
+  const int userid = filter::string::user_identifier (webserver_request);
   const std::string key = "rich divider";
 
 

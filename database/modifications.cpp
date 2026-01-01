@@ -289,8 +289,8 @@ std::vector <int> getTeamDiffChapters (const std::string& bible, int book)
   std::vector <std::string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
     if (file.substr (0, length) != pattern) continue;
-    std::vector <std::string> bits = filter::strings::explode (file, '.');
-    filter::strings::implode_from_beginning_remain_with_max_n_bits (bits, 3, ".");
+    std::vector <std::string> bits = filter::string::explode (file, '.');
+    filter::string::implode_from_beginning_remain_with_max_n_bits (bits, 3, ".");
     if (bits.size() != 3) continue;
     std::string path = filter_url_create_path ({teamFolder (), file});
     const int time = filter_url_file_modification_time (path);
@@ -302,7 +302,7 @@ std::vector <int> getTeamDiffChapters (const std::string& bible, int book)
       // Therefore just remove this change, without processing it.
       filter_url_unlink (path);
     } else {
-      chapters.push_back (filter::strings::convert_to_int (bits [2]));
+      chapters.push_back (filter::string::convert_to_int (bits [2]));
     }
   }
   std::sort (chapters.begin(), chapters.end());
@@ -336,10 +336,10 @@ std::vector <int> getTeamDiffBooks (const std::string& bible)
   const std::vector <std::string> files = filter_url_scandir (teamFolder ());
   for (const auto& file : files) {
     if (file.substr (0, length) != pattern) continue;
-    std::vector <std::string> bits = filter::strings::explode (file, '.');
-    filter::strings::implode_from_beginning_remain_with_max_n_bits (bits, 3, ".");
+    std::vector <std::string> bits = filter::string::explode (file, '.');
+    filter::string::implode_from_beginning_remain_with_max_n_bits (bits, 3, ".");
     if (bits.size() != 3) continue;
-    books.push_back (filter::strings::convert_to_int (bits [1]));
+    books.push_back (filter::string::convert_to_int (bits [1]));
   }
   std::set <int> bookset (books.begin (), books.end());
   books.assign (bookset.begin(), bookset.end());
@@ -355,8 +355,8 @@ std::vector <std::string> getTeamDiffBibles ()
   std::vector <std::string> bibles;
   std::vector <std::string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
-    std::vector <std::string> bits = filter::strings::explode (file, '.');
-    filter::strings::implode_from_beginning_remain_with_max_n_bits (bits, 3, ".");
+    std::vector <std::string> bits = filter::string::explode (file, '.');
+    filter::string::implode_from_beginning_remain_with_max_n_bits (bits, 3, ".");
     if (bits.size() != 3) continue;
     bibles.push_back (bits [0]);
   }
@@ -425,7 +425,7 @@ std::vector <int> getUserBooks (const std::string& username, const std::string& 
   std::vector <std::string> files = filter_url_scandir (folder);
   std::vector <int> books;
   for (auto & file : files) {
-    books.push_back (filter::strings::convert_to_int (file));
+    books.push_back (filter::string::convert_to_int (file));
   }
   sort (books.begin(), books.end());
   return books;
@@ -448,7 +448,7 @@ std::vector <int> getUserChapters (const std::string& username, const std::strin
       // Therefore just remove this change, without processing it.
       filter_url_rmdir (path);
     } else {
-      chapters.push_back (filter::strings::convert_to_int (file));
+      chapters.push_back (filter::string::convert_to_int (file));
     }
   }
   std::sort (chapters.begin(), chapters.end());
@@ -462,11 +462,11 @@ std::vector <id_bundle> getUserIdentifiers (const std::string& username, const s
   std::vector <id_bundle> ids;
   std::vector <std::string> newids = filter_url_scandir (folder);
   for (auto & newid : newids) {
-    std::string file = userOldIDFile (username, bible, book, chapter, filter::strings::convert_to_int (newid));
+    std::string file = userOldIDFile (username, bible, book, chapter, filter::string::convert_to_int (newid));
     std::string oldid = filter_url_file_get_contents (file);
     id_bundle id;
-    id.oldid = filter::strings::convert_to_int (oldid);
-    id.newid = filter::strings::convert_to_int (newid);
+    id.oldid = filter::string::convert_to_int (oldid);
+    id.newid = filter::string::convert_to_int (newid);
     ids.push_back (id);
   }
   return ids;
@@ -490,7 +490,7 @@ int getUserTimestamp (const std::string& username, const std::string& bible, int
 {
   std::string file = userTimeFile (username, bible, book, chapter, newID);
   std::string contents = filter_url_file_get_contents (file);
-  int time = filter::strings::convert_to_int (contents);
+  int time = filter::string::convert_to_int (contents);
   if (time > 0) return time;
   return filter::date::seconds_since_epoch ();
 }
@@ -517,7 +517,7 @@ int getNextAvailableNotificationIdentifier ()
   // Sort from low to high.
   std::vector <int> identifiers;
   for (auto file : files) {
-    identifiers.push_back (filter::strings::convert_to_int (file));
+    identifiers.push_back (filter::string::convert_to_int (file));
   }
   sort (identifiers.begin(), identifiers.end());
   // Fetch the last and highest identifier.
@@ -594,7 +594,7 @@ void indexTrimAllNotifications ()
   // Go through the notifications on disk.
   std::vector <int> identifiers;
   for (auto s : sidentifiers) {
-    identifiers.push_back (filter::strings::convert_to_int (s));
+    identifiers.push_back (filter::string::convert_to_int (s));
   }
   sort (identifiers.begin(), identifiers.end());
   for (auto & identifier : identifiers) {
@@ -616,7 +616,7 @@ void indexTrimAllNotifications ()
     if (valid) {
       std::vector <std::string> timestamps = result ["timestamp"];
       if (timestamps.empty ()) valid = false;
-      else timestamp = filter::strings::convert_to_int (timestamps [0]);
+      else timestamp = filter::string::convert_to_int (timestamps [0]);
     }
     if (timestamp < expiry_time) valid = false;
     
@@ -628,7 +628,7 @@ void indexTrimAllNotifications ()
       sql.add (";");
       const std::vector <std::string> count_result = sql.query () ["count(*)"];
       if (!count_result.empty ()) {
-        const int count = filter::strings::convert_to_int (count_result.at(0));
+        const int count = filter::string::convert_to_int (count_result.at(0));
         exists = (count > 0);
       }
     }
@@ -660,7 +660,7 @@ void indexTrimAllNotifications ()
     if (!exists && valid) {
       std::vector <std::string> books = result ["book"];
       if (books.empty ()) valid = false;
-      else book = filter::strings::convert_to_int (books [0]);
+      else book = filter::string::convert_to_int (books [0]);
       if (book == 0) valid = false;
     }
     
@@ -668,7 +668,7 @@ void indexTrimAllNotifications ()
     if (!exists && valid) {
       std::vector <std::string> chapters = result ["chapter"];
       if (chapters.empty ()) valid = false;
-      else chapter = filter::strings::convert_to_int (chapters [0]);
+      else chapter = filter::string::convert_to_int (chapters [0]);
       if (chapters [0].empty ()) valid = false;
     }
     
@@ -676,7 +676,7 @@ void indexTrimAllNotifications ()
     if (!exists && valid) {
       std::vector <std::string> verses = result ["verse"];
       if (verses.empty ()) valid = false;
-      else verse = filter::strings::convert_to_int (verses [0]);
+      else verse = filter::string::convert_to_int (verses [0]);
       if (verses [0].empty ()) valid = false;
     }
     
@@ -744,7 +744,7 @@ std::vector <int> getNotificationIdentifiers (std::string username, std::string 
   
   const std::vector <std::string> sidentifiers = sql.query () ["identifier"];
   for (auto & identifier : sidentifiers) {
-    ids.push_back (filter::strings::convert_to_int (identifier));
+    ids.push_back (filter::string::convert_to_int (identifier));
   }
   
   return ids;
@@ -767,7 +767,7 @@ std::vector <int> getNotificationTeamIdentifiers (const std::string& username, c
   sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC;");
   const std::vector <std::string> sidentifiers = sql.query () ["identifier"];
   for (const auto& sid : sidentifiers) {
-    ids.push_back (filter::strings::convert_to_int (sid));
+    ids.push_back (filter::string::convert_to_int (sid));
   }
   return ids;
 }
@@ -804,7 +804,7 @@ int getNotificationTimeStamp (int id)
   const std::vector <std::string> timestamps = sql.query () ["timestamp"];
   int time = filter::date::seconds_since_epoch ();
   for (const auto& stamp : timestamps) {
-    time = filter::strings::convert_to_int (stamp);
+    time = filter::string::convert_to_int (stamp);
   }
   return time;
 }
@@ -852,8 +852,8 @@ Passage getNotificationPassage (int id)
   const std::vector <std::string> chapters = result ["chapter"];
   const std::vector <std::string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
-    passage.m_book = filter::strings::convert_to_int (books [i]);
-    passage.m_chapter = filter::strings::convert_to_int (chapters [i]);
+    passage.m_book = filter::string::convert_to_int (books [i]);
+    passage.m_chapter = filter::string::convert_to_int (chapters [i]);
     passage.m_verse = verses [i];
   }
   return passage;
@@ -940,7 +940,7 @@ std::vector <int> clearNotificationMatches (std::string username, std::string pe
   std::vector <int> personals;
   const std::vector <std::string> result = sql.query () ["identifier"];
   for (const auto& item : result) {
-    personals.push_back (filter::strings::convert_to_int (item));
+    personals.push_back (filter::string::convert_to_int (item));
   }
   
   // Matches to be deleted.
@@ -952,7 +952,7 @@ std::vector <int> clearNotificationMatches (std::string username, std::string pe
     Passage passage = getNotificationPassage (personalID);
     int book = passage.m_book;
     int chapter = passage.m_chapter;
-    int verse = filter::strings::convert_to_int (passage.m_verse);
+    int verse = filter::string::convert_to_int (passage.m_verse);
     std::string modification = getNotificationModification (personalID);
     // Get all matching identifiers from the team's change notifications.
     sql.clear();
@@ -974,7 +974,7 @@ std::vector <int> clearNotificationMatches (std::string username, std::string pe
     std::vector <int> teamMatches;
     const std::vector <std::string> result2 = sql.query () ["identifier"];
     for (const auto& item : result2) {
-      teamMatches.push_back (filter::strings::convert_to_int (item));
+      teamMatches.push_back (filter::string::convert_to_int (item));
     }
     // There should be exactly one candidate for the matches to be removed.
     // If there are none, it means that the personal change didn't make it to the team's text.
@@ -997,7 +997,7 @@ std::vector <int> clearNotificationMatches (std::string username, std::string pe
       sql.add (";");
       const std::vector <std::string> result3 = sql.query () ["identifier"];
       for (const auto& item : result3) {
-        passageMatches.push_back (filter::strings::convert_to_int (item));
+        passageMatches.push_back (filter::string::convert_to_int (item));
       }
       if (passageMatches.size () == 2) {
         // Store the personal change to be deleted.

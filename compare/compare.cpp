@@ -243,7 +243,7 @@ void compare_compare (const std::string& bible, const std::string& compare, cons
       line.append ("</p>");
     }
   }
-  database_jobs.set_result (job_id, filter::strings::implode (result, "\n"));
+  database_jobs.set_result (job_id, filter::string::implode (result, "\n"));
   
   
   Database_Logs::log (translate("Comparison is ready"), roles::consultant);

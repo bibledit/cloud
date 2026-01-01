@@ -133,7 +133,7 @@ void user_logic_delete_account (std::string user, std::string role, std::string 
   std::vector <std::string> updated;
   std::vector <std::string> existing = database::config::general::get_account_creation_times ();
   for (auto line : existing) {
-    std::vector <std::string> bits = filter::strings::explode(line, '|');
+    std::vector <std::string> bits = filter::string::explode(line, '|');
     if (bits.size() != 2) continue;
     if (bits[1] == user) continue;
     updated.push_back(line);

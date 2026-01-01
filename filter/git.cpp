@@ -44,7 +44,7 @@ std::string filter_git_directory (std::string object)
 
 void filter_git_check_error (std::string data)
 {
-  std::vector <std::string> lines = filter::strings::explode (data, '\n');
+  std::vector <std::string> lines = filter::string::explode (data, '\n');
   for (auto & line : lines) Database_Logs::log (line);
 }
 
@@ -171,8 +171,8 @@ void filter_git_sync_bible_to_git (std::string bible, std::string repository)
           for (auto & chaptername : chapterfiles) {
             std::string chapter_path = filter_url_create_path ({repository, bookname, chaptername});
             if (filter_url_is_dir (chapter_path)) {
-              if (filter::strings::is_numeric (chaptername)) {
-                int chapter = filter::strings::convert_to_int (chaptername);
+              if (filter::string::is_numeric (chaptername)) {
+                int chapter = filter::string::convert_to_int (chaptername);
                 std::string filename = filter_url_create_path ({repository, bookname, chaptername, "data"});
                 if (file_or_dir_exists (filename)) {
                   if (!in_array (chapter, chapters)) {
@@ -238,8 +238,8 @@ void filter_git_sync_git_to_bible (std::string repository, std::string bible)
         for (auto & chapterfile : chapterfiles) {
           std::string chapterpath = filter_url_create_path ({bookpath, chapterfile});
           if (filter_url_is_dir (chapterpath)) {
-            if (filter::strings::is_numeric (chapterfile)) {
-              int chapter = filter::strings::convert_to_int (chapterfile);
+            if (filter::string::is_numeric (chapterfile)) {
+              int chapter = filter::string::convert_to_int (chapterfile);
               std::string filename = filter_url_create_path ({chapterpath, "data"});
               if (file_or_dir_exists (filename)) {
                 if (!in_array (chapter, chapters)) {
@@ -381,12 +381,12 @@ bool filter_git_commit (std::string repository, std::string user, std::string me
                                  "-m",
                                  message
                                 }, &out, &err);
-  out = filter::strings::trim (out);
-  err = filter::strings::trim (err);
+  out = filter::string::trim (out);
+  err = filter::string::trim (err);
   error = err;
   filter_git_check_error (error);
-  messages = filter::strings::explode (out, '\n');
-  std::vector <std::string> lines = filter::strings::explode (err, '\n');
+  messages = filter::string::explode (out, '\n');
+  std::vector <std::string> lines = filter::string::explode (err, '\n');
   messages.insert (messages.end(), lines.begin(), lines.end());
   
   // In case of Your branch is up-to-date with 'origin/master'. nothing to commit, working directory clean,
@@ -446,15 +446,15 @@ Passage filter_git_get_passage (std::string line)
   // no changes added to commit (use "git add" and/or "git commit -a")
   
   Passage passage;
-  std::vector <std::string> bits = filter::strings::explode (line, '/');
+  std::vector <std::string> bits = filter::string::explode (line, '/');
   if (bits.size () == 3) {
     size_t pos = bits [0].find (":");
     if (pos != std::string::npos) bits [0].erase (0, pos + 1);
-    std::string bookname = filter::strings::trim (bits [0]);
+    std::string bookname = filter::string::trim (bits [0]);
     int book = static_cast<int>(database::books::get_id_from_english (bookname));
     if (book) {
-      if (filter::strings::is_numeric (bits [1])) {
-        int chapter = filter::strings::convert_to_int (bits [1]);
+      if (filter::string::is_numeric (bits [1])) {
+        int chapter = filter::string::convert_to_int (bits [1]);
         std::string data = bits [2];
         if (data.find ("data") != std::string::npos) {
           passage.m_book = book;
@@ -479,7 +479,7 @@ std::vector <std::string> filter_git_status (std::string repository, bool porcel
   if (porcelain) parameters.push_back("--porcelain");
   filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), parameters, &output, &error);
   filter_git_check_error (error);
-  paths = filter::strings::explode (output, '\n');
+  paths = filter::string::explode (output, '\n');
   return paths;
 }
 
@@ -490,10 +490,10 @@ bool filter_git_pull (std::string repository, std::vector <std::string> & messag
 {
   std::string out, err;
   int result = filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), {"pull"}, &out, &err);
-  out = filter::strings::trim (out);
-  err = filter::strings::trim (err);
-  messages = filter::strings::explode (out, '\n');
-  std::vector <std::string> lines = filter::strings::explode (err, '\n');
+  out = filter::string::trim (out);
+  err = filter::string::trim (err);
+  messages = filter::string::explode (out, '\n');
+  std::vector <std::string> lines = filter::string::explode (err, '\n');
   messages.insert (messages.end(), lines.begin(), lines.end());
   return (result == 0);
 }
@@ -507,10 +507,10 @@ bool filter_git_push (std::string repository, std::vector <std::string> & messag
   std::vector <std::string> parameters = {"push"};
   if (all) parameters.push_back ("--all");
   int result = filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), parameters, &out, &err);
-  out = filter::strings::trim (out);
-  err = filter::strings::trim (err);
-  messages = filter::strings::explode (out, '\n');
-  std::vector <std::string> lines = filter::strings::explode (err, '\n');
+  out = filter::string::trim (out);
+  err = filter::string::trim (err);
+  messages = filter::string::explode (out, '\n');
+  std::vector <std::string> lines = filter::string::explode (err, '\n');
   messages.insert (messages.end(), lines.begin(), lines.end());
   return (result == 0);
 }
@@ -533,7 +533,7 @@ bool filter_git_resolve_conflicts (std::string repository, std::vector <std::str
     size_t pos = line.find ("UU ");
     if (pos != std::string::npos) {
       line.erase (0, 3);
-      line = filter::strings::trim (line);
+      line = filter::string::trim (line);
       unmerged_paths.push_back (line);
     }
   }
@@ -556,7 +556,7 @@ bool filter_git_resolve_conflicts (std::string repository, std::vector <std::str
     
     std::vector <Merge_Conflict> conflicts;
     std::string mergedData = filter_merge_run (mergeBase, userData, serverData, true, conflicts);
-    mergedData = filter::strings::trim (mergedData);
+    mergedData = filter::string::trim (mergedData);
     filter_url_file_put_contents (filter_url_create_path ({repository, unmerged_path}), mergedData);
     
     paths.push_back (unmerged_path);

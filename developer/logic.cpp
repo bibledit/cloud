@@ -78,7 +78,7 @@ Developer_Logic_Tracer::~Developer_Logic_Tracer()
   int microseconds2 = filter::date::numerical_microseconds();
   int microseconds = (seconds2 - seconds1) * 1000000 + microseconds2 - microseconds1;
   std::vector <std::string> bits = {rfc822, std::to_string (microseconds), request_get, request_query, username};
-  std::string entry = filter::strings::implode(bits, ",");
+  std::string entry = filter::string::implode(bits, ",");
   log_network_mutex.lock();
   log_network_cache.push_back(entry);
   log_network_mutex.unlock();
@@ -120,7 +120,7 @@ void developer_logic_import_changes ()
     return;
   }
   const std::string contents = filter_url_file_get_contents(file_path);
-  const std::vector<std::string> lines = filter::strings::explode(contents, "\n");
+  const std::vector<std::string> lines = filter::string::explode(contents, "\n");
 
   const std::vector <book_id> book_ids = database::books::get_ids ();
 
@@ -149,10 +149,10 @@ void developer_logic_import_changes ()
     if (book != book_id::_unknown) {
       size_t pos = line.find (":");
       if (pos != std::string::npos) {
-        const std::vector <std::string> bits = filter::strings::explode(line.substr (0, pos), ".");
+        const std::vector <std::string> bits = filter::string::explode(line.substr (0, pos), ".");
         if (bits.size() == 2) {
-          chapter = filter::strings::convert_to_int(filter::strings::trim(bits[0]));
-          verse = filter::strings::convert_to_int(filter::strings::trim(bits[1]));
+          chapter = filter::string::convert_to_int(filter::string::trim(bits[0]));
+          verse = filter::string::convert_to_int(filter::string::trim(bits[1]));
           line.erase (0, pos + 2);
           passage_found = (book != book_id::_unknown) && (chapter >= 0) && (verse >= 0);
         }
@@ -163,7 +163,7 @@ void developer_logic_import_changes ()
     // 1. Save the accumulated text to the existing passage.
     // 2. Update the passage to point to the new one.
     if (passage_found) {
-      developer_logic_import_changes_save (passage.m_bible, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse), text);
+      developer_logic_import_changes_save (passage.m_bible, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse), text);
       passage = Passage(bible, static_cast<int>(book), chapter, std::to_string(verse));
     }
     // Accumulate the text.
@@ -173,6 +173,6 @@ void developer_logic_import_changes ()
 
   }
   
-  developer_logic_import_changes_save (passage.m_bible, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse), text);
+  developer_logic_import_changes_save (passage.m_bible, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse), text);
 
 }

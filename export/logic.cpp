@@ -42,7 +42,7 @@ void export_logic::schedule_text_and_basic_usfm (const std::string& bible, bool 
 {
   std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
-    tasks_logic_queue (task::export_text_usfm, {bible, std::to_string (book), filter::strings::convert_to_string (log)});
+    tasks_logic_queue (task::export_text_usfm, {bible, std::to_string (book), filter::string::convert_to_string (log)});
   }
 }
 
@@ -50,7 +50,7 @@ void export_logic::schedule_text_and_basic_usfm (const std::string& bible, bool 
 // Schedule a Bible for export to USFM format.
 void export_logic::schedule_usfm (const std::string& bible, bool log)
 {
-  tasks_logic_queue (task::export_usfm, {bible, filter::strings::convert_to_string (log)});
+  tasks_logic_queue (task::export_usfm, {bible, filter::string::convert_to_string (log)});
 }
 
 
@@ -62,10 +62,10 @@ void export_logic::schedule_open_document (const std::string& bible, bool log)
   std::vector <int> books = database::bibles::get_books (bible);
   // Export the books, one OpenDocument file per book.
   for (auto book : books) {
-    tasks_logic_queue (task::export_odt, {bible, std::to_string (book), filter::strings::convert_to_string (log)});
+    tasks_logic_queue (task::export_odt, {bible, std::to_string (book), filter::string::convert_to_string (log)});
   }
   // Export the whole Bible to one OpenDocument file.
-  tasks_logic_queue (task::export_odt, {bible, "0", filter::strings::convert_to_string (log)});
+  tasks_logic_queue (task::export_odt, {bible, "0", filter::string::convert_to_string (log)});
 }
 
 
@@ -73,7 +73,7 @@ void export_logic::schedule_open_document (const std::string& bible, bool log)
 // $bible: Bible.
 void export_logic::schedule_info (const std::string& bible, bool log)
 {
-  tasks_logic_queue (task::export_info, {bible, filter::strings::convert_to_string (log)});
+  tasks_logic_queue (task::export_info, {bible, filter::string::convert_to_string (log)});
 }
 
 
@@ -83,7 +83,7 @@ void export_logic::schedule_html (const std::string& bible, bool log)
 {
   std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
-    tasks_logic_queue (task::export_html, {bible, std::to_string (book), filter::strings::convert_to_string (log)});
+    tasks_logic_queue (task::export_html, {bible, std::to_string (book), filter::string::convert_to_string (log)});
   }
 }
 
@@ -94,7 +94,7 @@ void export_logic::schedule_web (const std::string& bible, bool log)
 {
   std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
-    tasks_logic_queue (task::export_web_main, {bible, std::to_string (book), filter::strings::convert_to_string (log)});
+    tasks_logic_queue (task::export_web_main, {bible, std::to_string (book), filter::string::convert_to_string (log)});
   }
 }
 
@@ -103,19 +103,19 @@ void export_logic::schedule_web (const std::string& bible, bool log)
 // $bible: Bible.
 void export_logic::schedule_web_index (const std::string& bible, bool log)
 {
-  tasks_logic_queue (task::export_web_index, {bible, filter::strings::convert_to_string (log)});
+  tasks_logic_queue (task::export_web_index, {bible, filter::string::convert_to_string (log)});
 }
 
 
 void export_logic::schedule_online_bible (const std::string& bible, bool log)
 {
-  tasks_logic_queue (task::export_online_bible, {bible, filter::strings::convert_to_string (log)});
+  tasks_logic_queue (task::export_online_bible, {bible, filter::string::convert_to_string (log)});
 }
 
 
 void export_logic::schedule_e_sword (const std::string& bible, bool log)
 {
-  tasks_logic_queue (task::export_esword, {bible, filter::strings::convert_to_string (log)});
+  tasks_logic_queue (task::export_esword, {bible, filter::string::convert_to_string (log)});
 }
 
 
@@ -177,7 +177,7 @@ std::string export_logic::base_book_filename (const std::string& bible, int book
     iterator = find(ordered_books.begin(), ordered_books.end(), book);
     if (iterator != ordered_books.end()) {
       const long order = iterator - ordered_books.begin() + 1;
-      filename = filter::strings::fill (std::to_string (order), 2, '0');
+      filename = filter::string::fill (std::to_string (order), 2, '0');
       filename.append ("_");
     }
     filename.append (translate (database::books::get_english_from_id (static_cast<book_id>(book))));

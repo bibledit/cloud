@@ -84,7 +84,7 @@ std::tuple <bool, std::string> print_store_access_token ()
   bool success = (result == 0);
   // Store the token if it was received, else clear it.
   // Trim the token to remove any new line it likely contains.
-  if (success) google_access_token = filter::strings::trim(out_err);
+  if (success) google_access_token = filter::string::trim(out_err);
   else google_access_token.clear();
   // Done.
   return { success, out_err };

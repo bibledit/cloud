@@ -130,7 +130,7 @@ TEST (DISABLED_memory, basic)
     for (int book = 1; book <= 1; book++) {
       for (int chapter = 1; chapter <= 1; chapter++) {
         std::string usfm = database::bibles::get_chapter (bible, book, chapter);
-        usfm = filter::strings::replace ("the", "THE", usfm);
+        usfm = filter::string::replace ("the", "THE", usfm);
         database::modifications::storeTeamDiff (bible, book, chapter);
         database::bibles::store_chapter (bible, book, chapter, usfm);
       }

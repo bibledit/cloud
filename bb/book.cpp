@@ -68,13 +68,13 @@ std::string bible_book (Webserver_Request& webserver_request)
   
   // The name of the Bible.
   const std::string bible = access_bible::clamp (webserver_request, webserver_request.query["bible"]);
-  view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
+  view.set_variable ("bible", filter::string::escape_special_xml_characters (bible));
   
   // The book.
-  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
   view.set_variable ("book", std::to_string (book));
   const std::string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
-  view.set_variable ("book_name", filter::strings::escape_special_xml_characters (book_name));
+  view.set_variable ("book_name", filter::string::escape_special_xml_characters (book_name));
   
   // Whether the user has write access to this Bible book.
   const bool write_access = access_bible::book_write (webserver_request, std::string(), bible, book);
@@ -92,7 +92,7 @@ std::string bible_book (Webserver_Request& webserver_request)
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      if (write_access) bible_logic::delete_chapter (bible, book, filter::strings::convert_to_int (deletechapter));
+      if (write_access) bible_logic::delete_chapter (bible, book, filter::string::convert_to_int (deletechapter));
     }
   }
   
@@ -105,14 +105,14 @@ std::string bible_book (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("createchapter")) {
-    const int createchapter = filter::strings::convert_to_int (webserver_request.post_get("entry"));
+    const int createchapter = filter::string::convert_to_int (webserver_request.post_get("entry"));
     const std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     // Only create the chapters if it does not yet exist.
     if (find (chapters.begin(), chapters.end(), createchapter) == chapters.end()) {
       std::vector <std::string> feedback{};
       bool result {true};
       if (write_access) result = book_create (bible, static_cast<book_id>(book), createchapter, feedback);
-      const std::string message = filter::strings::implode (feedback, " ");
+      const std::string message = filter::string::implode (feedback, " ");
       if (result) success_message = message;
       else error_message = message;
     } else {

@@ -265,7 +265,7 @@ std::string rfc822 (int seconds)
   // rfc822.append (day_rfc822 (weekday));
   // rfc822.append (", ");
   std::string monthday = std::to_string (numerical_month_day (seconds));
-  rfc822.append (filter::strings::fill (monthday, 2, '0'));
+  rfc822.append (filter::string::fill (monthday, 2, '0'));
   rfc822.append (" ");
   int month = numerical_month (seconds);
   rfc822.append (month_rfc822 (month));
@@ -274,19 +274,19 @@ std::string rfc822 (int seconds)
   rfc822.append (std::to_string (year));
   rfc822.append (" ");
   std::string hour = std::to_string (numerical_hour (seconds));
-  rfc822.append (filter::strings::fill (hour, 2, '0'));
+  rfc822.append (filter::string::fill (hour, 2, '0'));
   rfc822.append (":");
   std::string minute = std::to_string (numerical_minute (seconds));
-  rfc822.append (filter::strings::fill (minute, 2, '0'));
+  rfc822.append (filter::string::fill (minute, 2, '0'));
   rfc822.append (":");
   std::string second = std::to_string (numerical_second (seconds));
-  rfc822.append (filter::strings::fill (second, 2, '0'));
+  rfc822.append (filter::string::fill (second, 2, '0'));
   rfc822.append (" ");
   int timezone = database::config::general::get_timezone ();
   if (timezone >= 0) rfc822.append ("+");
   else rfc822.append ("-");
   if (timezone < 0) timezone = 0 - timezone;
-  rfc822.append (filter::strings::fill (std::to_string (timezone), 2, '0'));
+  rfc822.append (filter::string::fill (std::to_string (timezone), 2, '0'));
   rfc822.append ("00");
   return rfc822;
 }

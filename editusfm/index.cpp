@@ -61,8 +61,8 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
     const std::string switchbook = webserver_request.query ["switchbook"];
     const std::string switchchapter = webserver_request.query ["switchchapter"];
-    const int book = filter::strings::convert_to_int (switchbook);
-    const int chapter = filter::strings::convert_to_int (switchchapter);
+    const int book = filter::string::convert_to_int (switchbook);
+    const int chapter = filter::string::convert_to_int (switchchapter);
     ipc_focus::set_passage (webserver_request, book, chapter, 1);
     navigation_passage::record_history (webserver_request, book, chapter, 1);
   }
@@ -139,7 +139,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   }
   
   // Whether to enable spell check in the editor.
-  view.set_variable ("spellcheck", filter::strings::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
+  view.set_variable ("spellcheck", filter::string::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
   
 
   page.append (view.render ("editusfm", "index"));

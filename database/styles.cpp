@@ -497,7 +497,7 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
   if (lines.empty())
     filter_url_unlink(filename);
   else
-    filter_url_file_put_contents (filename, filter::strings::implode (lines, "\n"));
+    filter_url_file_put_contents (filename, filter::string::implode (lines, "\n"));
 
   // A style was saved: Clear the cache.
   std::unique_lock lock (cache_mutex);
@@ -518,7 +518,7 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
   // Load the style data from file.
   const std::string filename = style_file (sheet, marker);
   const std::string contents = filter_url_file_get_contents (filename);
-  std::vector<std::string> lines = filter::strings::explode (contents, "\n");
+  std::vector<std::string> lines = filter::string::explode (contents, "\n");
 
   // Iterate over the loaded lines and extract the changes from it as compared to the base style.
   size_t pos{};
@@ -587,35 +587,35 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
     pos = line.find(add_space(paragraph_spacebefore_key));
     if (pos == 0) {
       ensure_paragraph_is_set(style);
-      style.paragraph.value().space_before = filter::strings::convert_to_float(line.substr(paragraph_spacebefore_key.length()+1));
+      style.paragraph.value().space_before = filter::string::convert_to_float(line.substr(paragraph_spacebefore_key.length()+1));
     }
 
     // Check / set paragraph space after.
     pos = line.find(add_space(paragraph_spaceafter_key));
     if (pos == 0) {
       ensure_paragraph_is_set(style);
-      style.paragraph.value().space_after = filter::strings::convert_to_float(line.substr(paragraph_spaceafter_key.length()+1));
+      style.paragraph.value().space_after = filter::string::convert_to_float(line.substr(paragraph_spaceafter_key.length()+1));
     }
 
     // Check / set paragraph left margin.
     pos = line.find(add_space(paragraph_leftmargin_key));
     if (pos == 0) {
       ensure_paragraph_is_set(style);
-      style.paragraph.value().left_margin = filter::strings::convert_to_float(line.substr(paragraph_leftmargin_key.length()+1));
+      style.paragraph.value().left_margin = filter::string::convert_to_float(line.substr(paragraph_leftmargin_key.length()+1));
     }
 
     // Check / set paragraph right margin.
     pos = line.find(add_space(paragraph_rightmargin_key));
     if (pos == 0) {
       ensure_paragraph_is_set(style);
-      style.paragraph.value().right_margin = filter::strings::convert_to_float(line.substr(paragraph_rightmargin_key.length()+1));
+      style.paragraph.value().right_margin = filter::string::convert_to_float(line.substr(paragraph_rightmargin_key.length()+1));
     }
 
     // Check / set paragraph first line indent.
     pos = line.find(add_space(paragraph_firstlineindent_key));
     if (pos == 0) {
       ensure_paragraph_is_set(style);
-      style.paragraph.value().first_line_indent = filter::strings::convert_to_float(line.substr(paragraph_firstlineindent_key.length()+1));
+      style.paragraph.value().first_line_indent = filter::string::convert_to_float(line.substr(paragraph_firstlineindent_key.length()+1));
     }
     
     // Function to ensure that the character field is not a nullopt.
@@ -681,10 +681,10 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
       const stylesv2::Variant variant {stylesv2::property_to_variant(property)};
       switch (variant) {
         case stylesv2::Variant::boolean:
-          style.properties[property] = filter::strings::convert_to_bool(line);
+          style.properties[property] = filter::string::convert_to_bool(line);
           break;
         case stylesv2::Variant::number:
-          style.properties[property] = filter::strings::convert_to_int(line);
+          style.properties[property] = filter::string::convert_to_int(line);
           break;
         case stylesv2::Variant::text:
           style.properties[property] = line;

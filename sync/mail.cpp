@@ -54,7 +54,7 @@ std::string sync_mail (Webserver_Request& webserver_request)
   }
   
   // Get the relevant parameters the client may have POSTed to us, the server.
-  std::string name = filter::strings::hex2bin (webserver_request.post_get("n"));
+  std::string name = filter::string::hex2bin (webserver_request.post_get("n"));
   std::string subject = webserver_request.post_get("s");
   std::string body = webserver_request.post_get("b");
   

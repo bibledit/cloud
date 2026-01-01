@@ -46,13 +46,13 @@ std::string navigation_paratext (Webserver_Request& webserver_request)
     // User should have set to receive references from Paratext.
     if (webserver_request.database_config_user ()->get_receive_focused_reference_from_paratext ()) {
       // Parse the reference from Paratext.
-      std::vector<std::string> book_rest = filter::strings::explode (from, ' ');
+      std::vector<std::string> book_rest = filter::string::explode (from, ' ');
       if (book_rest.size() == 2) {
         int book = static_cast<int>(database::books::get_id_from_usfm (book_rest[0]));
-        std::vector <std::string> chapter_verse = filter::strings::explode(book_rest[1], ':');
+        std::vector <std::string> chapter_verse = filter::string::explode(book_rest[1], ':');
         if (chapter_verse.size() == 2) {
-          int chapter = filter::strings::convert_to_int(chapter_verse[0]);
-          int verse = filter::strings::convert_to_int(chapter_verse[1]);
+          int chapter = filter::string::convert_to_int(chapter_verse[0]);
+          int verse = filter::string::convert_to_int(chapter_verse[1]);
           // Set the user name on this client device.
           const std::string& user = client_logic_get_username ();
           webserver_request.session_logic()->set_username(user);
@@ -68,14 +68,14 @@ std::string navigation_paratext (Webserver_Request& webserver_request)
           std::string versification = database::config::bible::get_versification_system (bible);
           std::vector <Passage> passages;
           Database_Mappings database_mappings;
-          if ((versification != filter::strings::english()) && !versification.empty ()) {
-            passages = database_mappings.translate (filter::strings::english (), versification, book, chapter, verse);
+          if ((versification != filter::string::english()) && !versification.empty ()) {
+            passages = database_mappings.translate (filter::string::english (), versification, book, chapter, verse);
           } else {
             passages.push_back (Passage ("", book, chapter, std::to_string (verse)));
           }
           if (passages.empty()) return std::string();
           chapter = passages[0].m_chapter;
-          verse = filter::strings::convert_to_int (passages[0].m_verse);
+          verse = filter::string::convert_to_int (passages[0].m_verse);
           // Set the focused passage for Bibledit.
           ipc_focus::set_passage (webserver_request, book, chapter, verse);
         }

@@ -76,7 +76,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
 
   
   // What action does the client request from us?
-  int action = filter::strings::convert_to_int (webserver_request.post_get("a"));
+  int action = filter::string::convert_to_int (webserver_request.post_get("a"));
 
   
   // Check on the credentials when the clients sends data to the server to be stored there.
@@ -86,7 +86,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
 
 
   // Check on username only, without password or level.
-  std::string user = filter::strings::hex2bin (webserver_request.post_get("u"));
+  std::string user = filter::string::hex2bin (webserver_request.post_get("u"));
   if ((action == Sync_Logic::notes_get_total) || (action == Sync_Logic::notes_get_identifiers)) {
     if (!webserver_request.database_users ()->usernameExists (user)) {
       Database_Logs::log ("A client passes a non-existing user " + user, roles::manager);
@@ -97,11 +97,11 @@ std::string sync_notes (Webserver_Request& webserver_request)
   
   
   // Note lower and upper limits.
-  int lowId = filter::strings::convert_to_int (webserver_request.post_get("l"));
-  int highId = filter::strings::convert_to_int (webserver_request.post_get("h"));
+  int lowId = filter::string::convert_to_int (webserver_request.post_get("l"));
+  int highId = filter::string::convert_to_int (webserver_request.post_get("h"));
 
   
-  int identifier = filter::strings::convert_to_int (webserver_request.post_get("i"));
+  int identifier = filter::string::convert_to_int (webserver_request.post_get("i"));
   std::string content = webserver_request.post_get("c");
   
   switch (action) {
@@ -150,12 +150,12 @@ std::string sync_notes (Webserver_Request& webserver_request)
     case Sync_Logic::notes_get_subscribers:
     {
       std::vector <std::string> subscribers = database_notes.get_subscribers (identifier);
-      return filter::strings::implode (subscribers, "\n");
+      return filter::string::implode (subscribers, "\n");
     }
     case Sync_Logic::notes_get_assignees:
     {
       std::vector <std::string> assignees = database_notes.get_assignees (identifier);
-      return filter::strings::implode (assignees, "\n");
+      return filter::string::implode (assignees, "\n");
     }
     case Sync_Logic::notes_get_status:
     {
@@ -295,7 +295,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
     case Sync_Logic::notes_put_severity:
     {
       // Set the severity for a note on the server.
-      notes_logic.setRawSeverity (identifier, filter::strings::convert_to_int (content));
+      notes_logic.setRawSeverity (identifier, filter::string::convert_to_int (content));
       // Info
       Database_Logs::log ("Client set the severity for a note on server: " + database_notes.get_summary (identifier), roles::manager);
       // Done.
@@ -344,9 +344,9 @@ std::string sync_notes (Webserver_Request& webserver_request)
     case Sync_Logic::notes_get_bulk:
     {
       // Get the note identifiers the client requests.
-      std::vector <std::string> notes = filter::strings::explode (webserver_request.post_get("b"), '\n');
+      std::vector <std::string> notes = filter::string::explode (webserver_request.post_get("b"), '\n');
       std::vector <int> identifiers;
-      for (auto note : notes) identifiers.push_back (filter::strings::convert_to_int (note));
+      for (auto note : notes) identifiers.push_back (filter::string::convert_to_int (note));
       // Return the JSON that contains all the requested notes.
       std::string json = database_notes.get_bulk (identifiers);
       return json;

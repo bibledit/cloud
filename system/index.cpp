@@ -110,14 +110,14 @@ std::string system_index (Webserver_Request& webserver_request)
 
   // Get values for setting checkboxes.
   const std::string checkbox = webserver_request.post_get("checkbox");
-  [[maybe_unused]] const bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+  [[maybe_unused]] const bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
 
 
   // Entry of time zone offset in hours.
   if (webserver_request.post_count("timezone")) {
     std::string input = webserver_request.post_get("timezone");
-    input = filter::strings::replace ("UTC", std::string(), input);
-    int input_timezone = filter::strings::convert_to_int (input);
+    input = filter::string::replace ("UTC", std::string(), input);
+    int input_timezone = filter::string::convert_to_int (input);
     input_timezone = clip (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
     database::config::general::set_timezone (input_timezone);
   }
@@ -140,7 +140,7 @@ std::string system_index (Webserver_Request& webserver_request)
     database::config::general::set_uuthor_in_rss_feed (checked);
     return std::string();
   }
-  view.set_variable ("rssauthor", filter::strings::get_checkbox_status (database::config::general::get_author_in_rss_feed ()));
+  view.set_variable ("rssauthor", filter::string::get_checkbox_status (database::config::general::get_author_in_rss_feed ()));
   // The location of the RSS feed.
   view.set_variable ("rssfeed", rss_feed_url ());
   // The Bibles that send their changes to the RSS feed.
@@ -304,7 +304,7 @@ std::string system_index (Webserver_Request& webserver_request)
   for (const auto& font : fonts) {
     fontsblock << "<p>";
 #ifndef HAVE_CLIENT
-    fontsblock << "<a href=" << std::quoted ("?deletefont=" + font) << " title=" << std::quoted(translate("Delete font")) << ">" << filter::strings::emoji_wastebasket () << "</a>";
+    fontsblock << "<a href=" << std::quoted ("?deletefont=" + font) << " title=" << std::quoted(translate("Delete font")) << ">" << filter::string::emoji_wastebasket () << "</a>";
 #endif
     fontsblock << font;
     fontsblock << "</p>";
@@ -326,7 +326,7 @@ std::string system_index (Webserver_Request& webserver_request)
     database::config::general::set_keep_resources_cache_for_long (checked);
     return std::string();
   }
-  view.set_variable ("keepcache", filter::strings::get_checkbox_status (database::config::general::get_keep_resources_cache_for_long ()));
+  view.set_variable ("keepcache", filter::string::get_checkbox_status (database::config::general::get_keep_resources_cache_for_long ()));
 #endif
 
 
@@ -351,7 +351,7 @@ std::string system_index (Webserver_Request& webserver_request)
     database::config::general::set_keep_osis_content_in_sword_resources (checked);
     return std::string();
   }
-  view.set_variable ("keeposis", filter::strings::get_checkbox_status (database::config::general::get_keep_osis_content_in_sword_resources ()));
+  view.set_variable ("keeposis", filter::string::get_checkbox_status (database::config::general::get_keep_osis_content_in_sword_resources ()));
 #endif
 
   

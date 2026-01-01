@@ -66,9 +66,9 @@ std::string editone_save (Webserver_Request& webserver_request)
 
   
   const std::string bible = webserver_request.post_get("bible");
-  const int book = filter::strings::convert_to_int (webserver_request.post_get("book"));
-  const int chapter = filter::strings::convert_to_int (webserver_request.post_get("chapter"));
-  const int verse = filter::strings::convert_to_int (webserver_request.post_get("verse"));
+  const int book = filter::string::convert_to_int (webserver_request.post_get("book"));
+  const int chapter = filter::string::convert_to_int (webserver_request.post_get("chapter"));
+  const int verse = filter::string::convert_to_int (webserver_request.post_get("verse"));
   std::string html = webserver_request.post_get("html");
   const std::string checksum = webserver_request.post_get("checksum");
   const std::string unique_id = webserver_request.post_get("id");
@@ -86,14 +86,14 @@ std::string editone_save (Webserver_Request& webserver_request)
 
   
   // Check there's anything to save at all.
-  html = filter::strings::trim (std::move(html));
+  html = filter::string::trim (std::move(html));
   if (html.empty ()) {
     return translate ("Nothing to save");
   }
   
   
   // Check on valid UTF-8.
-  if (!filter::strings::unicode_string_is_valid (html)) {
+  if (!filter::string::unicode_string_is_valid (html)) {
     return translate ("Cannot save: Needs Unicode");
   }
   

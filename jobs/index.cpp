@@ -51,7 +51,7 @@ std::string jobs_index (Webserver_Request& webserver_request)
 
   Assets_View view;
 
-  const int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+  const int id = filter::string::convert_to_int (webserver_request.query ["id"]);
 
   // Get information about this job.
   Database_Jobs database_jobs = Database_Jobs ();

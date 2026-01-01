@@ -85,7 +85,7 @@ std::string bible_manage (Webserver_Request& webserver_request)
   if (webserver_request.post_count("new")) {
     std::string bible = webserver_request.post_get("entry");
     // No underscrore ( _ ) in the name of a Bible because the underscores are used in the searches to separate data.
-    bible = filter::strings::replace ("_", "", bible);
+    bible = filter::string::replace ("_", "", bible);
     const std::vector <std::string> bibles = database::bibles::get_bibles ();
     if (find (bibles.begin(), bibles.end(), bible) != bibles.end()) {
       error_message = translate("This Bible already exists");
@@ -117,7 +117,7 @@ std::string bible_manage (Webserver_Request& webserver_request)
     const std::string origin = webserver_request.query["origin"];
     if (webserver_request.post_count("entry")) {
       std::string destination = webserver_request.post_get("entry");
-      destination = filter::strings::replace ("_", "", destination); // No underscores in the name.
+      destination = filter::string::replace ("_", "", destination); // No underscores in the name.
       const std::vector <std::string> bibles = database::bibles::get_bibles ();
       if (find (bibles.begin(), bibles.end(), destination) != bibles.end()) {
         error_message = translate("Cannot copy the Bible because the destination Bible already exists.");

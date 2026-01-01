@@ -59,7 +59,7 @@ std::string notes_bible_1 (Webserver_Request& webserver_request)
   std::string success, error;
   
   
-  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+  int id = filter::string::convert_to_int (webserver_request.query ["id"]);
   view.set_variable ("id", std::to_string (id));
   
   

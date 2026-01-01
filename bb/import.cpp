@@ -65,7 +65,7 @@ std::string bible_import (Webserver_Request& webserver_request)
   
   // The name of the Bible.
   const std::string bible = access_bible::clamp (webserver_request, webserver_request.query["bible"]);
-  view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
+  view.set_variable ("bible", filter::string::escape_special_xml_characters (bible));
   
   const int book = ipc_focus::get_book (webserver_request);
   const int chapter = ipc_focus::get_chapter (webserver_request);
@@ -80,9 +80,9 @@ std::string bible_import (Webserver_Request& webserver_request)
     // Submission may take long if there's a lot of data or the network is slow.
     std::string data = webserver_request.post_get("data");
     data = filter_url_tag_to_plus (data);
-    data = filter::strings::trim (data);
+    data = filter::string::trim (data);
     if (!data.empty()) {
-      if (filter::strings::unicode_string_is_valid (data)) {
+      if (filter::string::unicode_string_is_valid (data)) {
         const std::string datafile = filter_url_tempfile ();
         filter_url_file_put_contents (datafile, data);
         success_message = translate("Import has started.");

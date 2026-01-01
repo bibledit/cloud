@@ -405,7 +405,7 @@ TEST (database, modifications_notifications)
     ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ ((std::vector <int>{1, 2}), ids);
     
-    // Set the time back, re-index, filter::strings::trim, and check one entry's gone.
+    // Set the time back, re-index, filter::string::trim, and check one entry's gone.
     database::modifications::indexTrimAllNotifications ();
     database::modifications::notificationUpdateTime (1, filter::date::seconds_since_epoch () - 7776001);
     database::modifications::indexTrimAllNotifications ();

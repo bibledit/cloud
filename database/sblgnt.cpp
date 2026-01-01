@@ -70,8 +70,8 @@ std::vector <Passage> Database_Sblgnt::searchGreek (std::string greek)
   const std::vector <std::string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
     Passage passage;
-    passage.m_book = filter::strings::convert_to_int (books [i]);
-    passage.m_chapter = filter::strings::convert_to_int (chapters [i]);
+    passage.m_book = filter::string::convert_to_int (books [i]);
+    passage.m_chapter = filter::string::convert_to_int (chapters [i]);
     passage.m_verse = verses [i];
     hits.push_back (passage);
   }

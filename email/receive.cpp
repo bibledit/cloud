@@ -172,8 +172,8 @@ int receive_count (std::string& error, bool verbose)
   if (res == CURLE_OK) {
     if (s.ptr) {
       std::string response = s.ptr;
-      response = filter::strings::trim (response);
-      mailcount = static_cast<int>(filter::strings::explode (response, '\n').size());
+      response = filter::string::trim (response);
+      mailcount = static_cast<int>(filter::string::explode (response, '\n').size());
     }
   } else {
     error = curl_easy_strerror (res);

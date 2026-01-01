@@ -65,11 +65,11 @@ std::string editusfm_save (Webserver_Request& webserver_request)
 
   if (!webserver_request.post_count("book"))
     return nothing_to_save();
-  const int book = filter::strings::convert_to_int (webserver_request.post_get("book"));
+  const int book = filter::string::convert_to_int (webserver_request.post_get("book"));
 
   if (!webserver_request.post_count("chapter"))
     return nothing_to_save();
-  const int chapter = filter::strings::convert_to_int (webserver_request.post_get("chapter"));
+  const int chapter = filter::string::convert_to_int (webserver_request.post_get("chapter"));
 
   if (!webserver_request.post_count("usfm"))
     return nothing_to_save();
@@ -82,16 +82,16 @@ std::string editusfm_save (Webserver_Request& webserver_request)
   }
   
   usfm = filter_url_tag_to_plus (std::move(usfm));
-  usfm = filter::strings::trim (std::move(usfm));
+  usfm = filter::string::trim (std::move(usfm));
   // Collapse multiple spaces in the USFM into one space.
   // https://github.com/bibledit/cloud/issues/711
-  usfm = filter::strings::collapse_whitespace(std::move(usfm));
+  usfm = filter::string::collapse_whitespace(std::move(usfm));
   if (usfm.empty ()) {
     Database_Logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
     return translate("Nothing to save");
   }
 
-  if (!filter::strings::unicode_string_is_valid (usfm)) {
+  if (!filter::string::unicode_string_is_valid (usfm)) {
     Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
     return translate("Needs Unicode");
   }

@@ -70,11 +70,11 @@ std::string search_index (Webserver_Request& webserver_request)
     const std::string verse = passage.m_verse;
     
     // Get the plain text.
-    std::string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
+    std::string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::string::convert_to_int (verse));
     
     // Format it.
     const std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-    text = filter::strings::markup_words ({q}, text);
+    text = filter::string::markup_words ({q}, text);
     const std::string output = "<div>" + link + " " + text + "</div>";
     
     // Output to browser.

@@ -26,43 +26,43 @@
 
 void Checks_Sentences::enter_capitals (const std::string& capitals)
 {
-  m_capitals = filter::strings::explode (capitals, ' ');
+  m_capitals = filter::string::explode (capitals, ' ');
 }
 
 
 void Checks_Sentences::enter_small_letters (const std::string& small_letters)
 {
-  m_small_letters = filter::strings::explode (small_letters, ' ');
+  m_small_letters = filter::string::explode (small_letters, ' ');
 }
 
 
 void Checks_Sentences::enter_end_marks (const std::string& end_marks)
 {
-  m_end_marks = filter::strings::explode (end_marks, ' ');
+  m_end_marks = filter::string::explode (end_marks, ' ');
 }
 
 
 void Checks_Sentences::enter_center_marks (const std::string& center_marks)
 {
-  m_center_marks = filter::strings::explode (center_marks, ' ');
+  m_center_marks = filter::string::explode (center_marks, ' ');
 }
 
 
 void Checks_Sentences::enter_disregards (const std::string& disregards)
 {
-  m_disregards = filter::strings::explode (disregards, ' ');
+  m_disregards = filter::string::explode (disregards, ' ');
 }
 
 
 void Checks_Sentences::enter_names (std::string names)
 {
   m_names.clear ();
-  names = filter::strings::replace ("\n", " ", names);
-  std::vector <std::string> names2 = filter::strings::explode (names, ' ');
+  names = filter::string::replace ("\n", " ", names);
+  std::vector <std::string> names2 = filter::string::explode (names, ' ');
   for (auto name : names2) {
     if (!name.empty()) {
       // Limit the length to the left of the suffix in the test.
-      name = filter::strings::unicode_string_substr (name, 0, 11);
+      name = filter::string::unicode_string_substr (name, 0, 11);
       m_names.push_back (name);
     }
   }
@@ -100,9 +100,9 @@ void Checks_Sentences::check (const std::map <int, std::string> & texts)
       full_text += " ";
     }
     // Split the UTF-8 text into characters and add them to the arrays of verse_numbers / characters.
-    size_t count = filter::strings::unicode_string_length (text);
+    size_t count = filter::string::unicode_string_length (text);
     for (size_t i = 0; i < count; i++) {
-      character = filter::strings::unicode_string_substr (text, i, 1);
+      character = filter::string::unicode_string_substr (text, i, 1);
       // Skip characters to be disregarded.
       if (in_array (character, m_disregards)) continue;
       // Store verse numbers and characters.
@@ -198,7 +198,7 @@ void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_st
     int verse = verses_paragraph.begin()->first;
     std::string character2 = verses_paragraph.begin()->second;
     if (!character2.empty ()) {
-      character2 = filter::strings::unicode_string_substr (character2, 0, 1);
+      character2 = filter::string::unicode_string_substr (character2, 0, 1);
     }
     
     // Check that the paragraph starts with a capital.
@@ -207,7 +207,7 @@ void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_st
       const std::string& paragraph_marker = paragraph_start_markers [p];
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
         std::string context = verses_paragraph.begin()->second;
-        context = filter::strings::unicode_string_substr (context, 0, 15);
+        context = filter::string::unicode_string_substr (context, 0, 15);
         checking_results.push_back (std::pair (verse, checks::issues::text(checks::issues::issue::paragraph_does_not_start_with_a_capital) + ": " + context));
       }
     }
@@ -216,14 +216,14 @@ void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_st
     verse = verses_paragraph.rbegin()->first;
     character2 = verses_paragraph.rbegin()->second;
     if (!character2.empty ()) {
-      size_t length = filter::strings::unicode_string_length (character2);
-      character2 = filter::strings::unicode_string_substr (character2, length - 1, 1);
+      size_t length = filter::string::unicode_string_length (character2);
+      character2 = filter::string::unicode_string_substr (character2, length - 1, 1);
     }
     std::string previous_character = verses_paragraph.rbegin()->second;
     if (!previous_character.empty ()) {
-      const size_t length = filter::strings::unicode_string_length (character2);
+      const size_t length = filter::string::unicode_string_length (character2);
       if (length >= 2) {
-        previous_character = filter::strings::unicode_string_substr (previous_character, length - 2, 1);
+        previous_character = filter::string::unicode_string_substr (previous_character, length - 2, 1);
       } else {
         previous_character.clear ();
       }
@@ -241,9 +241,9 @@ void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_st
       }
       if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
         std::string context = verses_paragraph.rbegin()->second;
-        const size_t length = filter::strings::unicode_string_length (character2);
+        const size_t length = filter::string::unicode_string_length (character2);
         if (length >= 15) {
-          context = filter::strings::unicode_string_substr (context, length - 15, 15);
+          context = filter::string::unicode_string_substr (context, length - 15, 15);
         }
         checking_results.push_back (std::pair (verse, checks::issues::text(checks::issues::issue::paragraph_does_not_end_with_an_end_marker) + ": " + context));
       }
@@ -264,7 +264,7 @@ void Checks_Sentences::add_result (std::string text, int modifier)
   // Get previous and next text fragment.
   int start = current_position - 25;
   if (start < 0) start = 0;
-  std::string previousFragment = filter::strings::unicode_string_substr (full_text, static_cast <size_t> (start), static_cast <size_t> (current_position - start - 1));
+  std::string previousFragment = filter::string::unicode_string_substr (full_text, static_cast <size_t> (start), static_cast <size_t> (current_position - start - 1));
   int iterations {5};
   while (iterations) {
     const size_t pos = previousFragment.find (" ");
@@ -275,7 +275,7 @@ void Checks_Sentences::add_result (std::string text, int modifier)
     }
     iterations--;
   }
-  std::string nextFragment = filter::strings::unicode_string_substr (full_text, static_cast <size_t> (current_position), 25);
+  std::string nextFragment = filter::string::unicode_string_substr (full_text, static_cast <size_t> (current_position), 25);
   while (nextFragment.length () > 10) {
     const size_t pos = nextFragment.rfind (" ");
     if (pos == std::string::npos) nextFragment.erase (nextFragment.length () - 1, 1);

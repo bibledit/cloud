@@ -68,7 +68,7 @@ std::string consistency_index (Webserver_Request& webserver_request)
   std::string remove = webserver_request.query ["remove"];
   if (!remove.empty ()) {
     std::vector <std::string> resources = webserver_request.database_config_user()->get_consistency_resources ();
-    resources = filter::strings::array_diff (resources, {remove});
+    resources = filter::string::array_diff (resources, {remove});
     webserver_request.database_config_user()->set_consistency_resources (resources);
   }
   

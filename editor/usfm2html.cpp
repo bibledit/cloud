@@ -30,7 +30,7 @@
 void Editor_Usfm2Html::load (std::string usfm)
 {
   // Clean the USFM up.
-  usfm = filter::strings::trim (std::move(usfm));
+  usfm = filter::string::trim (std::move(usfm));
   usfm.append ("\n");
   // Separate the USFM into markers and text fragments.
   // Load it into the object.
@@ -119,7 +119,7 @@ std::string Editor_Usfm2Html::get ()
   
   // Currently the XML library produces hexadecimal character entities.
   // This is unwanted behaviour: Convert them to normal characters.
-  html = filter::strings::convert_xml_character_entities_to_characters (std::move(html));
+  html = filter::string::convert_xml_character_entities_to_characters (std::move(html));
   
   // Result.
   return html;
@@ -148,7 +148,7 @@ void Editor_Usfm2Html::preprocess ()
     std::string notes_class = quill::notes_class;
     notes_class.insert (0, quill::class_prefix_block);
     m_notes_node.append_attribute ("class") = notes_class.c_str ();
-    m_notes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
+    m_notes_node.text().set(filter::string::non_breaking_space_u00A0().c_str());
   }
   
   // Create the xml node for the word-level attributes container.
@@ -159,7 +159,7 @@ void Editor_Usfm2Html::preprocess ()
     std::string word_level_attributes_class = quill::word_level_attributes_class;
     word_level_attributes_class.insert (0, quill::class_prefix_block);
     m_word_level_attributes_node.append_attribute ("class") = word_level_attributes_class.c_str ();
-    m_word_level_attributes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
+    m_word_level_attributes_node.text().set(filter::string::non_breaking_space_u00A0().c_str());
   }
   
   // Create the xml node for the milestone attributes container.
@@ -170,7 +170,7 @@ void Editor_Usfm2Html::preprocess ()
     std::string milestone_attributes_class = quill::milestone_attributes_class;
     milestone_attributes_class.insert (0, quill::class_prefix_block);
     m_milestone_attributes_node.append_attribute ("class") = milestone_attributes_class.c_str ();
-    m_milestone_attributes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
+    m_milestone_attributes_node.text().set(filter::string::non_breaking_space_u00A0().c_str());
   }
 }
 
@@ -271,7 +271,7 @@ void Editor_Usfm2Html::process ()
             open_text_style (style->marker, false);
             std::string text_following_marker = filter::usfm::get_text_following_marker (m_markers_and_text, m_markers_and_text_pointer);
             const std::string number = filter::usfm::peek_verse_number (text_following_marker);
-            m_verse_start_offsets [filter::strings::convert_to_int (number)] = static_cast<int>(m_text_tength);
+            m_verse_start_offsets [filter::string::convert_to_int (number)] = static_cast<int>(m_text_tength);
             add_text (number);
             close_text_style (false);
             add_text (" ");
@@ -282,7 +282,7 @@ void Editor_Usfm2Html::process ()
                   pos != std::string::npos) {
                 text_following_marker = text_following_marker.substr (pos + number.length());
               }
-              text_following_marker = filter::strings::ltrim (text_following_marker);
+              text_following_marker = filter::string::ltrim (text_following_marker);
               m_markers_and_text [m_markers_and_text_pointer] = text_following_marker;
               m_markers_and_text_pointer--;
             }
@@ -612,7 +612,7 @@ void Editor_Usfm2Html::add_text (const std::string& text)
       span_dom_element.append_attribute ("class") = textstyle.c_str();
     m_current_paragraph_content.append (text);
   }
-  m_text_tength += filter::strings::unicode_string_length (text);
+  m_text_tength += filter::string::unicode_string_length (text);
 }
 
 
@@ -654,7 +654,7 @@ void Editor_Usfm2Html::add_note (const std::string& citation, const std::string&
   add_note_text (" ");
   
   // Update the text length of the text body, excluding the note.
-  m_text_tength += filter::strings::unicode_string_length (citation);
+  m_text_tength += filter::string::unicode_string_length (citation);
 }
 
 
@@ -672,7 +672,7 @@ void Editor_Usfm2Html::add_note_text (const std::string& text)
   if (!m_current_note_text_styles.empty()) {
     // Take character style(s) as specified in this object.
     std::string classs;
-    classs = filter::strings::implode (m_current_note_text_styles, "0");
+    classs = filter::string::implode (m_current_note_text_styles, "0");
     classs.insert (0, quill::class_prefix_inline);
     span_dom_element.append_attribute ("class") = classs.c_str();
   }
@@ -827,7 +827,7 @@ bool Editor_Usfm2Html::extract_milestone_attributes()
   
   // If the pointer increase is 2, it means there's attributes. Handle those.
   if (pointer_increase == 2) {
-    std::string attributes = filter::strings::trim(filter::usfm::peek_text_following_marker (m_markers_and_text, m_markers_and_text_pointer));
+    std::string attributes = filter::string::trim(filter::usfm::peek_text_following_marker (m_markers_and_text, m_markers_and_text_pointer));
     // Check whether the first character in the milestone data is the vertical bar "|".
     // If so, remove it.
     if (attributes.at(0) == '|')

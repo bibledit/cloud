@@ -99,7 +99,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, c
   // Solution / fix to this:
   // Remove all the double spaces from the USFM to be saved.
   // (Keep the reference USFM as it is: Goal: Detect the differences.
-  newusfm = filter::strings::collapse_whitespace (newusfm);
+  newusfm = filter::string::collapse_whitespace (newusfm);
   
 
   // Gather data for recording the changes made by the user, for the change notifications.
@@ -168,10 +168,10 @@ std::string sync_bibles (Webserver_Request& webserver_request)
   sync_logic.prioritized_ip_address_record ();
   
   // Get the relevant parameters the client may have POSTed to us, the server.
-  int action = filter::strings::convert_to_int (webserver_request.post_get("a"));
+  int action = filter::string::convert_to_int (webserver_request.post_get("a"));
   std::string bible = webserver_request.post_get("b");
-  int book = filter::strings::convert_to_int (webserver_request.post_get("bk"));
-  int chapter = filter::strings::convert_to_int (webserver_request.post_get("c"));
+  int book = filter::string::convert_to_int (webserver_request.post_get("bk"));
+  int chapter = filter::string::convert_to_int (webserver_request.post_get("c"));
   
   switch (action) {
     case Sync_Logic::bibles_get_total_checksum:
@@ -192,7 +192,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
       const std::string& username = webserver_request.session_logic ()->get_username ();
       std::vector <std::string> bibles = access_bible::bibles (webserver_request, username);
       std::string checksum = checksum_logic::get (bibles);
-      std::string s_bibles = filter::strings::implode (bibles, "\n");
+      std::string s_bibles = filter::string::implode (bibles, "\n");
       return checksum + "\n" + s_bibles;
     }
     case Sync_Logic::bibles_get_bible_checksum:
@@ -206,7 +206,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
       std::vector <int> server_books = database::bibles::get_books (bible);
       std::vector <std::string> v_server_books;
       for (auto server_book : server_books) v_server_books.push_back (std::to_string (server_book));
-      std::string s_server_books = filter::strings::implode (v_server_books, "\n");
+      std::string s_server_books = filter::string::implode (v_server_books, "\n");
       std::string checksum = checksum_logic::get (v_server_books);
       return checksum + "\n" + s_server_books;
     }
@@ -221,7 +221,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
       std::vector <int> server_chapters = database::bibles::get_chapters (bible, book);
       std::vector <std::string> v_server_chapters;
       for (auto & server_chapter : server_chapters) v_server_chapters.push_back (std::to_string (server_chapter));
-      std::string s_server_chapters = filter::strings::implode (v_server_chapters, "\n");
+      std::string s_server_chapters = filter::string::implode (v_server_chapters, "\n");
       std::string checksum = checksum_logic::get (v_server_chapters);
       return checksum + "\n" + s_server_chapters;
     }
@@ -237,7 +237,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
     case Sync_Logic::bibles_get_chapter:
     {
       // The server responds with the USFM of the chapter, prefixed by a checksum.
-      std::string usfm = filter::strings::trim (database::bibles::get_chapter (bible, book, chapter));
+      std::string usfm = filter::string::trim (database::bibles::get_chapter (bible, book, chapter));
       std::string checksum = checksum_logic::get (usfm);
       return checksum + "\n" + usfm;
     }

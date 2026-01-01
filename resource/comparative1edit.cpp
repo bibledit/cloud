@@ -68,7 +68,7 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
 
   
   std::string checkbox = webserver_request.post_get("checkbox");
-  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+  bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
 
   
   bool resource_edited = false;
@@ -189,7 +189,7 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
     // Store the list of comparative resources for download by the client devices.
     {
       std::string path = resource_logic_comparative_resources_list_path ();
-      filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
+      filter_url_file_put_contents (path, filter::string::implode (resources, "\n"));
     }
   }
   
@@ -199,9 +199,9 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
   view.set_variable ("title", title);
   view.set_variable ("remove", remove);
   view.set_variable ("replace", replace);
-  view.set_variable ("diacritics", filter::strings::get_checkbox_status (diacritics));
-  view.set_variable ("casefold", filter::strings::get_checkbox_status (casefold));
-  view.set_variable ("cache", filter::strings::get_checkbox_status (cache));
+  view.set_variable ("diacritics", filter::string::get_checkbox_status (diacritics));
+  view.set_variable ("casefold", filter::string::get_checkbox_status (casefold));
+  view.set_variable ("cache", filter::string::get_checkbox_status (cache));
   page += view.render ("resource", "comparative1edit");
   page += assets_page::footer ();
   return page;

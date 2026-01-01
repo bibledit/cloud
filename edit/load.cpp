@@ -50,8 +50,8 @@ bool edit_load_acl (Webserver_Request& webserver_request)
 std::string edit_load (Webserver_Request& webserver_request)
 {
   const std::string bible = webserver_request.query ["bible"];
-  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
+  const int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
   const std::string unique_id = webserver_request.query ["id"];
 
   // Store a copy of the USFM loaded in the editor for later reference.
@@ -71,8 +71,8 @@ std::string edit_load (Webserver_Request& webserver_request)
   // To make editing empty verses easier, convert spaces to non-breaking spaces, so they appear in the editor.
   if (filter::usfm::contains_empty_verses (usfm)) {
     const std::string search = "<span> </span>";
-    const std::string replace = "<span>" + filter::strings::unicode_non_breaking_space_entity () + "</span>";
-    html = filter::strings::replace (search, replace, html);
+    const std::string replace = "<span>" + filter::string::unicode_non_breaking_space_entity () + "</span>";
+    html = filter::string::replace (search, replace, html);
   }
   
   const std::string& user = webserver_request.session_logic ()->get_username ();

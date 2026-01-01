@@ -89,109 +89,109 @@ std::string checks_settings (Webserver_Request& webserver_request)
   
   
   const std::string checkbox = webserver_request.post_get("checkbox");
-  const bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+  const bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
   
                         
   if (checkbox == "doublespacesusfm") {
     database::config::bible::set_check_double_spaces_usfm (bible, checked);
   }
-  view.set_variable ("doublespacesusfm", filter::strings::get_checkbox_status (database::config::bible::get_check_double_spaces_usfm (bible)));
+  view.set_variable ("doublespacesusfm", filter::string::get_checkbox_status (database::config::bible::get_check_double_spaces_usfm (bible)));
    
   
   if (checkbox == "fullstopheadings") {
     database::config::bible::set_check_full_stop_in_headings (bible, checked);
   }
-  view.set_variable ("fullstopheadings", filter::strings::get_checkbox_status (database::config::bible::get_check_full_stop_in_headings (bible)));
+  view.set_variable ("fullstopheadings", filter::string::get_checkbox_status (database::config::bible::get_check_full_stop_in_headings (bible)));
 
   
   if (checkbox == "spacebeforepunctuation") {
     database::config::bible::set_check_space_before_punctuation (bible, checked);
   }
-  view.set_variable ("spacebeforepunctuation", filter::strings::get_checkbox_status (database::config::bible::get_check_space_before_punctuation (bible)));
+  view.set_variable ("spacebeforepunctuation", filter::string::get_checkbox_status (database::config::bible::get_check_space_before_punctuation (bible)));
 
   
   if (checkbox == "spacebeforefinalnotemarkup") {
     database::config::bible::set_check_space_before_final_note_marker (bible, checked);
   }
-  view.set_variable ("spacebeforefinalnotemarkup", filter::strings::get_checkbox_status (database::config::bible::get_check_space_before_final_note_marker (bible)));
+  view.set_variable ("spacebeforefinalnotemarkup", filter::string::get_checkbox_status (database::config::bible::get_check_space_before_final_note_marker (bible)));
 
                       
   if (checkbox == "sentencestructure") {
     database::config::bible::set_check_sentence_structure (bible, checked);
   }
-  view.set_variable ("sentencestructure", filter::strings::get_checkbox_status (database::config::bible::get_check_sentence_structure (bible)));
+  view.set_variable ("sentencestructure", filter::string::get_checkbox_status (database::config::bible::get_check_sentence_structure (bible)));
                       
                       
   if (checkbox == "paragraphstructure") {
     database::config::bible::set_check_paragraph_structure (bible, checked);
   }
-  view.set_variable ("paragraphstructure", filter::strings::get_checkbox_status (database::config::bible::get_check_paragraph_structure (bible)));
+  view.set_variable ("paragraphstructure", filter::string::get_checkbox_status (database::config::bible::get_check_paragraph_structure (bible)));
                       
                       
   if (checkbox == "booksversification") {
     database::config::bible::set_check_books_versification (bible, checked);
   }
-  view.set_variable ("booksversification", filter::strings::get_checkbox_status (database::config::bible::get_check_books_versification (bible)));
+  view.set_variable ("booksversification", filter::string::get_checkbox_status (database::config::bible::get_check_books_versification (bible)));
   
   
   if (checkbox == "chaptersversesversification") {
     database::config::bible::set_check_chaptes_verses_versification (bible, checked);
   }
-  view.set_variable ("chaptersversesversification", filter::strings::get_checkbox_status (database::config::bible::get_check_chaptes_verses_versification (bible)));
+  view.set_variable ("chaptersversesversification", filter::string::get_checkbox_status (database::config::bible::get_check_chaptes_verses_versification (bible)));
                       
                       
   if (checkbox == "wellformedusfm") {
     database::config::bible::set_check_well_formed_usfm (bible, checked);
   }
-  view.set_variable ("wellformedusfm", filter::strings::get_checkbox_status (database::config::bible::get_check_well_formed_usfm (bible)));
+  view.set_variable ("wellformedusfm", filter::string::get_checkbox_status (database::config::bible::get_check_well_formed_usfm (bible)));
                       
                       
   if (checkbox == "punctuationatendverse") {
     database::config::bible::set_check_missing_punctuation_end_verse (bible, checked);
   }
-  view.set_variable ("punctuationatendverse", filter::strings::get_checkbox_status (database::config::bible::get_check_missing_punctuation_end_verse (bible)));
+  view.set_variable ("punctuationatendverse", filter::string::get_checkbox_status (database::config::bible::get_check_missing_punctuation_end_verse (bible)));
                       
                       
   if (checkbox == "patterns") {
     database::config::bible::set_check_patterns (bible, checked);
   }
-  view.set_variable ("patterns", filter::strings::get_checkbox_status (database::config::bible::get_check_patterns (bible)));
+  view.set_variable ("patterns", filter::string::get_checkbox_status (database::config::bible::get_check_patterns (bible)));
 
   
   if (checkbox == "pairs") {
     database::config::bible::set_check_matching_pairs (bible, checked);
   }
-  view.set_variable ("pairs", filter::strings::get_checkbox_status (database::config::bible::get_check_matching_pairs (bible)));
+  view.set_variable ("pairs", filter::string::get_checkbox_status (database::config::bible::get_check_matching_pairs (bible)));
 
   
   if (checkbox == "spaceendverse") {
     database::config::bible::set_check_space_end_verse (bible, checked);
   }
-  view.set_variable ("spaceendverse", filter::strings::get_checkbox_status (database::config::bible::get_check_space_end_verse (bible)));
+  view.set_variable ("spaceendverse", filter::string::get_checkbox_status (database::config::bible::get_check_space_end_verse (bible)));
 
   
   if (checkbox == "frenchpunctuation") {
     database::config::bible::set_check_french_punctuation (bible, checked);
   }
-  view.set_variable ("frenchpunctuation", filter::strings::get_checkbox_status (database::config::bible::get_check_french_punctuation (bible)));
+  view.set_variable ("frenchpunctuation", filter::string::get_checkbox_status (database::config::bible::get_check_french_punctuation (bible)));
 
   
   if (checkbox == "frenchcitation") {
     database::config::bible::set_check_french_citation_style (bible, checked);
   }
-  view.set_variable ("frenchcitation", filter::strings::get_checkbox_status (database::config::bible::get_check_french_citation_style (bible)));
+  view.set_variable ("frenchcitation", filter::string::get_checkbox_status (database::config::bible::get_check_french_citation_style (bible)));
 
   
   if (checkbox == "transposenotes") {
     database::config::bible::set_transpose_fix_spaces_notes (bible, checked);
   }
-  view.set_variable ("transposenotes", filter::strings::get_checkbox_status (database::config::bible::get_transpose_fix_spaces_notes (bible)));
+  view.set_variable ("transposenotes", filter::string::get_checkbox_status (database::config::bible::get_transpose_fix_spaces_notes (bible)));
 
   
   if (checkbox == "validutf8") {
     database::config::bible::set_check_valid_utf8_text (bible, checked);
   }
-  view.set_variable ("validutf8", filter::strings::get_checkbox_status (database::config::bible::get_check_valid_utf8_text (bible)));
+  view.set_variable ("validutf8", filter::string::get_checkbox_status (database::config::bible::get_check_valid_utf8_text (bible)));
 
   
 #ifdef HAVE_CLIENT

@@ -47,8 +47,8 @@ std::string public_notes (Webserver_Request& webserver_request)
 
   
   const std::string bible = webserver_request.query ["bible"];
-  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
+  const int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
   
   
   Database_Notes::Selector selector {

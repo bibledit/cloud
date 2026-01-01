@@ -55,7 +55,7 @@ void bible_import_run (std::string location, const std::string& bible, int book,
     std::string error_message {};
     const std::string data = filter_url_file_get_contents (file);
     if (!data.empty()) {
-      if (filter::strings::unicode_string_is_valid (data)) {
+      if (filter::string::unicode_string_is_valid (data)) {
         
         // Check whether this is USFM data.
         bool id = data.find ("\\id ") != std::string::npos;
@@ -111,13 +111,13 @@ void bible_import_text (const std::string& text, const std::string& bible, int b
   bool discoveries_passed {true};
   
   // Split the input text into separate lines.
-  std::vector <std::string> lines = filter::strings::explode (text, '\n');
+  std::vector <std::string> lines = filter::string::explode (text, '\n');
   
   // Go through the lines.
   for (size_t i = 0; i < lines.size(); i++) {
     
     // Trim the line.
-    lines[i] = filter::strings::trim (lines[i]);
+    lines[i] = filter::string::trim (lines[i]);
     
     // Skip empty line.
     if (lines[i].empty())
@@ -136,8 +136,8 @@ void bible_import_text (const std::string& text, const std::string& bible, int b
     // If the line is a number on its own, and the number agrees with the chapter number
     // that was set, it silently removes this line. But if it differs, an error comes up.
     if (discoveries_passed) {
-      if (filter::strings::number_in_string(lines[i]) == lines[i]) {
-        const int number = filter::strings::convert_to_int (filter::strings::number_in_string (lines[i]));
+      if (filter::string::number_in_string(lines[i]) == lines[i]) {
+        const int number = filter::string::convert_to_int (filter::string::number_in_string (lines[i]));
         if (number == chapter) {
           lines[i].clear();
           continue;
@@ -153,9 +153,9 @@ void bible_import_text (const std::string& text, const std::string& bible, int b
     // it is considered a a normal paragraph.
     // If no punctuation at the end, it is a section heading.
     if (discoveries_passed) {
-      if (filter::strings::number_in_string(lines[i]).empty()) {
+      if (filter::string::number_in_string(lines[i]).empty()) {
         const std::string last_character = lines[i].substr(lines[i].length() -1, 1);
-        if (filter::strings::unicode_string_is_punctuation (last_character)) {
+        if (filter::string::unicode_string_is_punctuation (last_character)) {
           lines[i].insert(0, "\\p ");
         } else {
           lines[i].insert(0, "\\s ");
@@ -169,7 +169,7 @@ void bible_import_text (const std::string& text, const std::string& bible, int b
     bool paragraph_open = false;
     if (discoveries_passed) {
       std::string output {};
-      std::string number = filter::strings::number_in_string(lines[i]);
+      std::string number = filter::string::number_in_string(lines[i]);
       // Setting for having the number only at the start of the line.
       bool treat_as_normal_paragraph {false};
       bool verses_at_start {true};
@@ -201,8 +201,8 @@ void bible_import_text (const std::string& text, const std::string& bible, int b
           output.append (number);
           output.append (" ");
           lines[i].erase (0, number.length());
-          lines[i] = filter::strings::trim (lines[i]);
-          number = filter::strings::number_in_string(lines[i]);
+          lines[i] = filter::string::trim (lines[i]);
+          number = filter::string::number_in_string(lines[i]);
           // Setting for discovering only first number in a paragraph.
           if (verses_at_start) {
             number.clear();
@@ -222,8 +222,8 @@ void bible_import_text (const std::string& text, const std::string& bible, int b
   for (unsigned int i = 0; i < lines.size(); i++) {
     if (lines[i].empty())
       continue;
-    lines[i] = filter::strings::collapse_whitespace (lines[i]);
-    lines[i] = filter::strings::replace (" \n", "\n", lines[i]);
+    lines[i] = filter::string::collapse_whitespace (lines[i]);
+    lines[i] = filter::string::replace (" \n", "\n", lines[i]);
     newtext.append(lines[i]);
     newtext.append("\n");
   }

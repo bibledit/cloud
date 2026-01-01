@@ -64,8 +64,8 @@ std::string editone_index (Webserver_Request& webserver_request)
   const bool touch = webserver_request.session_logic ()->get_touch_enabled ();
   
   if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
-    const int switchbook = filter::strings::convert_to_int (webserver_request.query ["switchbook"]);
-    const int switchchapter = filter::strings::convert_to_int (webserver_request.query ["switchchapter"]);
+    const int switchbook = filter::string::convert_to_int (webserver_request.query ["switchbook"]);
+    const int switchchapter = filter::string::convert_to_int (webserver_request.query ["switchchapter"]);
     ipc_focus::set_passage (webserver_request, switchbook, switchchapter, 1);
     navigation_passage::record_history (webserver_request, switchbook, switchchapter, 1);
   }
@@ -149,7 +149,7 @@ std::string editone_index (Webserver_Request& webserver_request)
     view.enable_zone ("stylesbutton");
   }
   
-  view.set_variable ("spellcheck", filter::strings::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
+  view.set_variable ("spellcheck", filter::string::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
 
   page.append (view.render ("editone", "index"));
   

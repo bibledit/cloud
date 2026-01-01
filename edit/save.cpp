@@ -65,8 +65,8 @@ std::string edit_save (Webserver_Request& webserver_request)
   }
 
   const std::string bible = webserver_request.post_get("bible");
-  const int book = filter::strings::convert_to_int (webserver_request.post_get("book"));
-  const int chapter = filter::strings::convert_to_int (webserver_request.post_get("chapter"));
+  const int book = filter::string::convert_to_int (webserver_request.post_get("book"));
+  const int chapter = filter::string::convert_to_int (webserver_request.post_get("chapter"));
   std::string html = webserver_request.post_get("html");
   const std::string checksum = webserver_request.post_get("checksum");
   const std::string unique_id = webserver_request.post_get("id");
@@ -77,14 +77,14 @@ std::string edit_save (Webserver_Request& webserver_request)
   }
 
   html = filter_url_tag_to_plus (std::move(html));
-  html = filter::strings::trim (std::move(html));
+  html = filter::string::trim (std::move(html));
 
   if (html.empty ()) {
     Database_Logs::log (translate ("There was no text.") + " " + translate ("Nothing was saved.") + " " + translate ("The original text of the chapter was reloaded."));
     return translate("Nothing to save");
   }
 
-  if (!filter::strings::unicode_string_is_valid (html)) {
+  if (!filter::string::unicode_string_is_valid (html)) {
     Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
     return translate("Save failure");
   }
@@ -187,14 +187,14 @@ std::string edit_save (Webserver_Request& webserver_request)
   // Convert to XML for comparison.
   // Remove spaces before comparing.
   // Goal: Entering a space in the editor does not cause a reload.
-  html = filter::strings::html2xml (html);
-  html = filter::strings::replace (" ", "", html);
-  html = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), "", html);
-  filter::strings::replace_between (html, "<", ">", "");
-  converted_html = filter::strings::html2xml (converted_html);
-  converted_html = filter::strings::replace (" ", "", converted_html);
-  converted_html = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), "", converted_html);
-  filter::strings::replace_between (converted_html, "<", ">", "");
+  html = filter::string::html2xml (html);
+  html = filter::string::replace (" ", "", html);
+  html = filter::string::replace (filter::string::unicode_non_breaking_space_entity (), "", html);
+  filter::string::replace_between (html, "<", ">", "");
+  converted_html = filter::string::html2xml (converted_html);
+  converted_html = filter::string::replace (" ", "", converted_html);
+  converted_html = filter::string::replace (filter::string::unicode_non_breaking_space_entity (), "", converted_html);
+  filter::string::replace_between (converted_html, "<", ">", "");
   // If round trip conversion differs, send a known string to the browser,
   // to signal the browser to reload the reformatted chapter.
   if (html != converted_html) return locale_logic_text_reformat ();

@@ -70,7 +70,7 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
 
   
   std::string checkbox = webserver_request.post_get("checkbox");
-  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+  bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
 
   
   bool resource_edited {false};
@@ -181,7 +181,7 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
     // Store the list of translated resources for download by the client devices.
     {
       std::string path = resource_logic_translated_resources_list_path ();
-      filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
+      filter_url_file_put_contents (path, filter::string::implode (resources, "\n"));
     }
   }
   
@@ -189,7 +189,7 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   view.set_variable ("title", title);
-  view.set_variable ("cache", filter::strings::get_checkbox_status (cache));
+  view.set_variable ("cache", filter::string::get_checkbox_status (cache));
   page += view.render ("resource", "translated1edit");
   page += assets_page::footer ();
   return page;

@@ -184,13 +184,13 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
     resource_versification = resource_external_mapping (resource);
   } else if (is_lexicon) {
     resource_versification = database_mappings.original ();
-    if (resource == KJV_LEXICON_NAME) resource_versification = filter::strings::english ();
+    if (resource == KJV_LEXICON_NAME) resource_versification = filter::string::english ();
   } else if (is_sword) {
-    resource_versification = filter::strings::english ();
+    resource_versification = filter::string::english ();
   } else if (is_bible_gateway) {
-    resource_versification = filter::strings::english ();
+    resource_versification = filter::string::english ();
   } else if (is_study_light) {
-    resource_versification = filter::strings::english ();
+    resource_versification = filter::string::english ();
   } else {
   }
 
@@ -207,7 +207,7 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
   // If there's been a mapping, the resource should include the verse number for clarity.
   if (passages.size () != 1) add_verse_numbers = true;
   for (auto passage : passages) {
-    if (verse != filter::strings::convert_to_int (passage.m_verse)) {
+    if (verse != filter::string::convert_to_int (passage.m_verse)) {
       add_verse_numbers = true;
     }
   }
@@ -232,7 +232,7 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
         if (resource_versification != database_mappings.original ()) {
           passages.clear ();
           for (auto & related_passage : related_passages) {
-            std::vector <Passage> mapped_passages = database_mappings.translate (database_mappings.original (), resource_versification, related_passage.m_book, related_passage.m_chapter, filter::strings::convert_to_int (related_passage.m_verse));
+            std::vector <Passage> mapped_passages = database_mappings.translate (database_mappings.original (), resource_versification, related_passage.m_book, related_passage.m_chapter, filter::string::convert_to_int (related_passage.m_verse));
             passages.insert (passages.end (), mapped_passages.begin (), mapped_passages.end ());
           }
         }
@@ -247,7 +247,7 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
     if (add_verse_numbers) possible_included_passage = passage.m_verse + " ";
     if (add_passages_in_full) possible_included_passage = filter_passage_display (passage.m_book, passage.m_chapter, passage.m_verse) + " ";
     html.append (possible_included_passage);
-    html.append (resource_logic_get_verse (webserver_request, resource, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse)));
+    html.append (resource_logic_get_verse (webserver_request, resource, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse)));
   }
   
   return html;
@@ -327,7 +327,7 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
   }
   
   // NET Bible updates.
-  data = filter::strings::replace ("<span class=\"s ", "<span class=\"", data);
+  data = filter::string::replace ("<span class=\"s ", "<span class=\"", data);
 
   return data;
 }
@@ -353,8 +353,8 @@ std::string resource_logic_cloud_get_comparison (Webserver_Request& webserver_re
   update = resource_logic_get_html (webserver_request, update, book, chapter, verse, add_verse_numbers);
   
   // Clean all html elements away from the text to get a better and cleaner comparison.
-  base = filter::strings::html2text (base);
-  update = filter::strings::html2text(update);
+  base = filter::string::html2text (base);
+  update = filter::string::html2text(update);
   
   // It has been seen that one resource had a normal space, and the updated resource a non-breaking space.
   // In such a situation there was highlighting of differences between the two resources.
@@ -362,30 +362,30 @@ std::string resource_logic_cloud_get_comparison (Webserver_Request& webserver_re
   // So the question would come up like:
   // Why does it highlight a difference while there seems to be no difference?
   // The solution is to convert types of non-breaking spaces to normal ones.
-  base = filter::strings::any_space_to_standard_space (base);
-  update = filter::strings::any_space_to_standard_space(update);
+  base = filter::string::any_space_to_standard_space (base);
+  update = filter::string::any_space_to_standard_space(update);
 
   // If characters are given to remove from the resources, handle that situation now.
   if (!remove.empty()) {
-    const std::vector<std::string> bits = filter::strings::explode(remove, ' ');
+    const std::vector<std::string> bits = filter::string::explode(remove, ' ');
     for (const auto& rem : bits) {
       if (rem.empty()) continue;
-      base = filter::strings::replace(rem, "", base);
-      update = filter::strings::replace(rem, "", update);
+      base = filter::string::replace(rem, "", base);
+      update = filter::string::replace(rem, "", update);
     }
   }
   
   // If search-and-replace sets are given to be applied to the resources, handle that now.
   if (!replace.empty()) {
-    std::vector<std::string> search_replace_sets = filter::strings::explode(replace, ' ');
+    std::vector<std::string> search_replace_sets = filter::string::explode(replace, ' ');
     for (auto search_replace_set : search_replace_sets) {
-      std::vector <std::string> search_replace = filter::strings::explode(search_replace_set, '=');
+      std::vector <std::string> search_replace = filter::string::explode(search_replace_set, '=');
       if (search_replace.size() == 2) {
         std::string search_item = search_replace[0];
         if (search_item.empty()) continue;
         std::string replace_item = search_replace[1];
-        base = filter::strings::replace(search_item, replace_item, base);
-        update = filter::strings::replace(search_item, replace_item, update);
+        base = filter::string::replace(search_item, replace_item, base);
+        update = filter::string::replace(search_item, replace_item, update);
       }
     }
   }
@@ -396,8 +396,8 @@ std::string resource_logic_cloud_get_comparison (Webserver_Request& webserver_re
   // To handle such a situation, remove the diacritics.
   // Similarly to not mark small letters versus capitals as a difference, do case folding.
 #ifdef HAVE_ICU
-  base = filter::strings::icu_string_normalize (base, diacritics, casefold);
-  update = filter::strings::icu_string_normalize (update, diacritics, casefold);
+  base = filter::string::icu_string_normalize (base, diacritics, casefold);
+  update = filter::string::icu_string_normalize (update, diacritics, casefold);
 #endif
 
   // Find the differences.
@@ -424,7 +424,7 @@ std::string resource_logic_cloud_get_translation (Webserver_Request& webserver_r
   // Get the html of the resources to be translated.
   std::string original_text = resource_logic_get_html (webserver_request, original_resource, book, chapter, verse, add_verse_numbers);
   // Clean all html elements away from the text to get a better and cleaner translation.
-  original_text = filter::strings::html2text (original_text);
+  original_text = filter::string::html2text (original_text);
   
   // If the original text is empty, do not even send it to Google Translate, for saving resources.
   if (original_text.empty()) return std::string();
@@ -611,7 +611,7 @@ bool resource_logic_parse_rich_divider (std::string input, std::string& title, s
   link.clear();
   foreground.clear();
   background.clear();
-  std::vector <std::string> bits = filter::strings::explode(input, '|');
+  std::vector <std::string> bits = filter::string::explode(input, '|');
   if (bits.size() != 5) return false;
   if (bits[0] != resource_logic_rich_divider()) return false;
   title = bits[1];
@@ -625,7 +625,7 @@ bool resource_logic_parse_rich_divider (std::string input, std::string& title, s
 std::string resource_logic_assemble_rich_divider (std::string title, std::string link, std::string foreground, std::string background)
 {
   std::vector <std::string> bits = {resource_logic_rich_divider(), title, link, foreground, background};
-  return filter::strings::implode(bits, "|");
+  return filter::string::implode(bits, "|");
 }
 
 
@@ -637,8 +637,8 @@ std::string resource_logic_get_divider (std::string resource)
   std::string background {};
   if (resource_logic_parse_rich_divider (resource, title, link, foreground, background)) {
     // Trim whitespace.
-    title = filter::strings::trim(title);
-    link = filter::strings::trim(link);
+    title = filter::string::trim(title);
+    link = filter::string::trim(link);
     // Render a rich divider.
     if (title.empty ()) title = link;
     // The $ influences the resource's embedding through Javascript.
@@ -660,8 +660,8 @@ std::string resource_logic_get_divider (std::string resource)
     return html;
   } else {
     // Render the standard fixed dividers.
-    std::vector <std::string> bits = filter::strings::explode (resource, ' ');
-    std::string colour = filter::strings::unicode_string_casefold (bits [0]);
+    std::vector <std::string> bits = filter::string::explode (resource, ' ');
+    std::string colour = filter::string::unicode_string_casefold (bits [0]);
     // The $ influences the resource's embedding through Javascript.
     std::string html = R"($<div class="divider" style="background-color:)" + colour + R"(">&nbsp;</div>)";
     return html;
@@ -746,7 +746,7 @@ void resource_logic_create_cache ()
   database::config::general::set_resources_to_cache (signatures);
   size_t pos = signature.find_last_of (" ");
   std::string resource = signature.substr (0, pos);
-  int book = filter::strings::convert_to_int (signature.substr (pos++));
+  int book = filter::string::convert_to_int (signature.substr (pos++));
   std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   
   // Whether it's a SWORD module.
@@ -873,7 +873,7 @@ std::string resource_logic_bible_gateway_module_list_refresh ()
   std::string html = filter_url_http_get ("https://www.biblegateway.com/versions/", error, false);
   if (error.empty ()) {
     std::vector <std::string> resources {};
-    html =  filter::strings::html_get_element (html, "select");
+    html =  filter::string::html_get_element (html, "select");
     pugi::xml_document document;
     document.load_string (html.c_str());
     pugi::xml_node select_node = document.first_child ();
@@ -884,7 +884,7 @@ std::string resource_logic_bible_gateway_module_list_refresh ()
       std::string name = option_node.text ().get ();
       resources.push_back (name);
     }
-    filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
+    filter_url_file_put_contents (path, filter::string::implode (resources, "\n"));
     Database_Logs::log ("Modules: " + std::to_string (resources.size ()));
   } else {
     Database_Logs::log (error);
@@ -898,7 +898,7 @@ std::vector <std::string> resource_logic_bible_gateway_module_list_get ()
 {
   std::string path = resource_logic_bible_gateway_module_list_path ();
   std::string contents = filter_url_file_get_contents (path);
-  return filter::strings::explode (contents, '\n');
+  return filter::string::explode (contents, '\n');
 }
 
 
@@ -1176,7 +1176,7 @@ std::string resource_logic_bible_gateway_get (std::string resource, int book, in
             std::stringstream ss {};
             xpath.node().print (ss, "", pugi::format_raw);
             std::string selected_html = ss.str ();
-            std::string footnote_text = filter::strings::html2text (selected_html);
+            std::string footnote_text = filter::string::html2text (selected_html);
             result.append ("<br>Note: ");
             result.append (footnote_text);
           }
@@ -1184,10 +1184,10 @@ std::string resource_logic_bible_gateway_get (std::string resource, int book, in
       }
     }
   }
-  result = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), " ", result);
-  result = filter::strings::replace (" ", " ", result); // Make special space visible.
-  result = filter::strings::collapse_whitespace (result);
-  result = filter::strings::trim (result);
+  result = filter::string::replace (filter::string::unicode_non_breaking_space_entity (), " ", result);
+  result = filter::string::replace (" ", " ", result); // Make special space visible.
+  result = filter::string::collapse_whitespace (result);
+  result = filter::string::trim (result);
 #endif
 #ifdef HAVE_CLIENT
   result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
@@ -1238,14 +1238,14 @@ std::string resource_logic_study_light_module_list_refresh ()
       pos = html.find ("</a>");
       if (pos == std::string::npos) break;
       std::string name = html.substr (0, pos);
-      filter::strings::replace_between(name, "<desktop>", "</desktop>", std::string());
-      name = filter::strings::replace("<mobile>", std::string(), name);
-      name = filter::strings::replace("</mobile>", std::string(), name);
+      filter::string::replace_between(name, "<desktop>", "</desktop>", std::string());
+      name = filter::string::replace("<mobile>", std::string(), name);
+      name = filter::string::replace("</mobile>", std::string(), name);
       std::string resource = name + " (studylight-" + abbreviation + ")";
       resources.push_back (resource);
     } while (true);
     // Store the resources in a file.
-    filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
+    filter_url_file_put_contents (path, filter::string::implode (resources, "\n"));
     // Done.
     Database_Logs::log ("Modules: " + std::to_string (resources.size ()));
   } else {
@@ -1260,7 +1260,7 @@ std::vector <std::string> resource_logic_study_light_module_list_get ()
 {
   std::string path = resource_logic_study_light_module_list_path ();
   std::string contents = filter_url_file_get_contents (path);
-  return filter::strings::explode (contents, '\n');
+  return filter::string::explode (contents, '\n');
 }
 
 
@@ -1298,8 +1298,8 @@ std::string resource_logic_study_light_get (std::string resource, int book, int 
   // It appears that the html from this website is not well-formed.
   // It cannot be loaded as an XML document without errors and missing text.
   // Therefore the html is tidied first.
-//  html = filter::strings::fix_invalid_html_gumbo (html);
-  html = filter::strings::fix_invalid_html_tidy(html);
+//  html = filter::string::fix_invalid_html_gumbo (html);
+  html = filter::string::fix_invalid_html_tidy(html);
 
   // Where to start (updated over time).
 //  std::string start_key = R"(<div class="ptb10">)";
@@ -1388,7 +1388,7 @@ std::vector <std::string> resource_logic_easy_english_bible_pages (int book, int
     case 18: return { "job-lbw" }; // Job.
     case 19: // Psalms.
     {
-      std::string number = filter::strings::fill (std::to_string (chapter), 3, '0');
+      std::string number = filter::string::fill (std::to_string (chapter), 3, '0');
       return { "psalm" + number + "-taw" };
     }
     case 20: return { "proverbs-lbw" }; // Proverbs.
@@ -1490,7 +1490,7 @@ struct easy_english_bible_walker: pugi::xml_tree_walker
     // Handle this node if it's a text node.
     if (node.type() == pugi::node_pcdata) {
       std::string fragment = node.value();
-      fragment = filter::strings::replace ("\n", " ", fragment);
+      fragment = filter::string::replace ("\n", " ", fragment);
       text.append (fragment);
     }
     // Continue parsing.
@@ -1546,13 +1546,13 @@ std::string resource_logic_easy_english_bible_get (int book, int chapter, int ve
     // It appears that the html from this website is not well-formed.
     // It cannot be loaded as an XML document without errors and missing text.
     // Therefore the html is tidied first.
-    html = filter::strings::fix_invalid_html_gumbo (html);
+    html = filter::string::fix_invalid_html_gumbo (html);
 
     // The html from this website requires further cleaning.
     // One issue is that instead of  class="Section1"  it has  class=Section1
     // Notice the missing quotes around the class name.
     // Call libtidy to further tidy this heml up.
-    html = filter::strings::fix_invalid_html_tidy (html);
+    html = filter::string::fix_invalid_html_tidy (html);
 
     // The document has one main div like this:
     // <div class="Section1">
@@ -1583,7 +1583,7 @@ std::string resource_logic_easy_english_bible_get (int book, int chapter, int ve
       paragraph_node.traverse(tree_walker);
 
       // Clean the text and skip empty text.
-      std::string paragraph = filter::strings::trim (tree_walker.text);
+      std::string paragraph = filter::string::trim (tree_walker.text);
       if (paragraph.empty()) continue;
 
       // Check for whether the chapter indicates that
@@ -1642,7 +1642,7 @@ std::string resource_logic_easy_english_bible_get (int book, int chapter, int ve
         if (at_passage) {
           // The html from this website is encoded as charset=windows-1252.
           // Convert that to UTF0-8.
-          paragraph = filter::strings::convert_windows1252_to_utf8 (paragraph);
+          paragraph = filter::string::convert_windows1252_to_utf8 (paragraph);
           // Add this paragraph to the resulting text.
           result.append ("<p>");
           result.append (paragraph);
@@ -1723,8 +1723,8 @@ bool resource_logic_easy_english_bible_handle_passage_heading (const std::string
   
   // There's also situations that the last bit is surrounded by round bracket.
   // Example: Greetings from Paul to Timothy (1:1-2)
-  last_word = filter::strings::replace ("(", std::string(), last_word);
-  last_word = filter::strings::replace (")", std::string(), last_word);
+  last_word = filter::string::replace ("(", std::string(), last_word);
+  last_word = filter::string::replace (")", std::string(), last_word);
   
   // Look for the first colon and the first hyphen.
   // This will obtain the starting chapter and verse numbers.
@@ -1733,14 +1733,14 @@ bool resource_logic_easy_english_bible_handle_passage_heading (const std::string
   size_t hyphen_pos = last_word.find ("-");
   if (hyphen_pos == std::string::npos) return false;
   std::string ch_fragment = last_word.substr(0, colon_pos);
-  int starting_chapter = filter::strings::convert_to_int(ch_fragment);
+  int starting_chapter = filter::string::convert_to_int(ch_fragment);
   std::string check = std::to_string(starting_chapter);
   if (ch_fragment != check) return false;
 
   // Look for the first hyphen.
   // This will provide the starting verse number.
   std::string vs_fragment = last_word.substr(colon_pos + 1, hyphen_pos - colon_pos - 1);
-  int starting_verse = filter::strings::convert_to_int(vs_fragment);
+  int starting_verse = filter::string::convert_to_int(vs_fragment);
   check = std::to_string(starting_verse);
   if (vs_fragment != check) return false;
   last_word.erase (0, hyphen_pos + 1);
@@ -1755,14 +1755,14 @@ bool resource_logic_easy_english_bible_handle_passage_heading (const std::string
   colon_pos = last_word.find(":");
   if (colon_pos != std::string::npos) {
     std::string chapter_fragment = last_word.substr(0, colon_pos);
-    ending_chapter = filter::strings::convert_to_int(chapter_fragment);
+    ending_chapter = filter::string::convert_to_int(chapter_fragment);
     check = std::to_string(ending_chapter);
     if (chapter_fragment != check) return false;
     last_word.erase(0, colon_pos + 1);
   }
 
   // The last bit of the fragment will now be the second verse number.
-  int ending_verse = filter::strings::convert_to_int(last_word);
+  int ending_verse = filter::string::convert_to_int(last_word);
   check = std::to_string(ending_verse);
   if (check != last_word) return false;
 
@@ -1823,10 +1823,10 @@ void resource_logic_easy_english_bible_handle_verse_marker (const std::string& p
   tag = "Verse ";
   if (paragraph.find(tag) == 0) {
     std::string fragment = paragraph.substr(tag.size(), 10);
-    std::vector<std::string> bits = filter::strings::explode(fragment, '-');
+    std::vector<std::string> bits = filter::string::explode(fragment, '-');
     if (bits.size() >= 2) {
-      int begin = filter::strings::convert_to_int(bits[0]);
-      int end = filter::strings::convert_to_int(bits[1]);
+      int begin = filter::string::convert_to_int(bits[0]);
+      int end = filter::string::convert_to_int(bits[1]);
       at_passage = (verse >= begin) && (verse <= end);
     }
   }
@@ -1847,7 +1847,7 @@ void resource_logic_easy_english_bible_handle_verse_marker (const std::string& p
     std::vector <int> digits;
     int digit = 0;
     for (size_t i = 0; i < fragment.size(); i++) {
-      int d = filter::strings::convert_to_int(fragment.substr(i, 1));
+      int d = filter::string::convert_to_int(fragment.substr(i, 1));
       if (d) {
         digit *= 10;
         digit += d;
@@ -1968,15 +1968,15 @@ bool resource_logic_parse_comparative_resource (const std::string& input,
   if (diacritics) * diacritics = false;
   if (casefold) * casefold = false;
   if (cache) * cache = false;
-  std::vector <std::string> bits = filter::strings::explode(input, '|');
+  std::vector <std::string> bits = filter::string::explode(input, '|');
   if (bits.size() > 0) if (title) title->assign (bits[0]);
   if (bits.size() > 1) if (base) base->assign(bits[1]);
   if (bits.size() > 2) if (update) update->assign(bits[2]);
   if (bits.size() > 3) if (remove) remove->assign(bits[3]);
   if (bits.size() > 4) if (replace) replace->assign(bits[4]);
-  if (bits.size() > 5) if (diacritics) * diacritics = filter::strings::convert_to_bool(bits[5]);
-  if (bits.size() > 6) if (casefold) * casefold = filter::strings::convert_to_bool(bits[6]);
-  if (bits.size() > 7) if (cache) * cache = filter::strings::convert_to_bool(bits[7]);
+  if (bits.size() > 5) if (diacritics) * diacritics = filter::string::convert_to_bool(bits[5]);
+  if (bits.size() > 6) if (casefold) * casefold = filter::string::convert_to_bool(bits[6]);
+  if (bits.size() > 7) if (cache) * cache = filter::string::convert_to_bool(bits[7]);
 
   // Done.
   return true;
@@ -1998,8 +1998,8 @@ std::string resource_logic_assemble_comparative_resource (std::string title,
     title.erase (pos, resource_logic_comparative_resource ().length());
   }
   // Ensure the "Comparative " flag is always included right at the start.
-  std::vector <std::string> bits = {resource_logic_comparative_resource() + title, base, update, remove, replace, filter::strings::convert_to_true_false(diacritics), filter::strings::convert_to_true_false(casefold), filter::strings::convert_to_true_false(cache)};
-  return filter::strings::implode(bits, "|");
+  std::vector <std::string> bits = {resource_logic_comparative_resource() + title, base, update, remove, replace, filter::string::convert_to_true_false(diacritics), filter::string::convert_to_true_false(casefold), filter::string::convert_to_true_false(cache)};
+  return filter::string::implode(bits, "|");
 }
 
 
@@ -2014,7 +2014,7 @@ std::vector <std::string> resource_logic_comparative_resources_get_list_on_clien
 {
   std::string path = resource_logic_comparative_resources_list_path ();
   std::string contents = filter_url_file_get_contents (path);
-  return filter::strings::explode (contents, '\n');
+  return filter::string::explode (contents, '\n');
 }
 
 
@@ -2047,12 +2047,12 @@ bool resource_logic_parse_translated_resource (const std::string& input,
   if (source_language) source_language->clear();
   if (target_language) target_language->clear();
   if (cache) * cache = false;
-  std::vector <std::string> bits = filter::strings::explode(input, '|');
+  std::vector <std::string> bits = filter::string::explode(input, '|');
   if (bits.size() > 0) if (title) title->assign (bits[0]);
   if (bits.size() > 1) if (original_resource) original_resource->assign(bits[1]);
   if (bits.size() > 2) if (source_language) source_language->assign(bits[2]);
   if (bits.size() > 3) if (target_language) target_language->assign(bits[3]);
-  if (bits.size() > 4) if (cache) * cache = filter::strings::convert_to_bool(bits[4]);
+  if (bits.size() > 4) if (cache) * cache = filter::string::convert_to_bool(bits[4]);
   
   // Done.
   return true;
@@ -2071,8 +2071,8 @@ std::string resource_logic_assemble_translated_resource (std::string title,
     title.erase (pos, resource_logic_translated_resource ().length());
   }
   // Ensure the "Translated " flag is always included right at the start.
-  std::vector <std::string> bits = {resource_logic_translated_resource() + title, original_resource, source_language, target_language, filter::strings::convert_to_true_false(cache)};
-  return filter::strings::implode(bits, "|");
+  std::vector <std::string> bits = {resource_logic_translated_resource() + title, original_resource, source_language, target_language, filter::string::convert_to_true_false(cache)};
+  return filter::string::implode(bits, "|");
 }
 
 
@@ -2087,5 +2087,5 @@ std::vector <std::string> resource_logic_translated_resources_get_list_on_client
 {
   std::string path = resource_logic_translated_resources_list_path ();
   std::string contents = filter_url_file_get_contents (path);
-  return filter::strings::explode (contents, '\n');
+  return filter::string::explode (contents, '\n');
 }

@@ -98,7 +98,7 @@ void sword_logic_refresh_module_list ()
   }
 #else
   filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -sc", out_err);
-  filter::strings::replace_between (out_err, "WARNING", "enable? [no]", "");
+  filter::string::replace_between (out_err, "WARNING", "enable? [no]", "");
   sword_logic_log (out_err);
 #endif
   
@@ -109,9 +109,9 @@ void sword_logic_refresh_module_list ()
 #else
   filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -s", out_err);
   sword_logic_log (out_err);
-  std::vector <std::string> lines = filter::strings::explode (out_err, '\n');
+  std::vector <std::string> lines = filter::string::explode (out_err, '\n');
   for (auto line : lines) {
-    line = filter::strings::trim (line);
+    line = filter::string::trim (line);
     if (line.find ("[") != std::string::npos) {
       line.erase (0, 1);
       if (line.find ("]") != std::string::npos) {
@@ -133,7 +133,7 @@ void sword_logic_refresh_module_list ()
     }
 #else
     filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -r \"" + remote_source + "\"", out_err);
-    filter::strings::replace_between (out_err, "WARNING", "type yes at the prompt", "");
+    filter::string::replace_between (out_err, "WARNING", "type yes at the prompt", "");
     sword_logic_log (out_err);
 #endif
 
@@ -145,9 +145,9 @@ void sword_logic_refresh_module_list ()
     }
 #else
     filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -rl \"" + remote_source + "\"", out_err);
-    lines = filter::strings::explode (out_err, '\n');
+    lines = filter::string::explode (out_err, '\n');
     for (auto line : lines) {
-      line = filter::strings::trim (line);
+      line = filter::string::trim (line);
       if (line.empty ()) continue;
       if (line.find ("[") == std::string::npos) continue;
       if (line.find ("]") == std::string::npos) continue;
@@ -164,7 +164,7 @@ void sword_logic_refresh_module_list ()
   // It is stored in the client files area.
   // Clients can access it from there too.
   std::string path = sword_logic_module_list_path ();
-  filter_url_file_put_contents (path, filter::strings::implode (sword_modules, "\n"));
+  filter_url_file_put_contents (path, filter::string::implode (sword_modules, "\n"));
   
   Database_Logs::log ("Ready refreshing SWORD module list");
 }
@@ -210,7 +210,7 @@ std::string sword_logic_get_remote_module (std::string line)
 // [Shona]  (1.1)  - Shona Bible
 std::string sword_logic_get_installed_module (std::string line)
 {
-  line = filter::strings::trim (line);
+  line = filter::string::trim (line);
   if (line.length () > 10) {
     line.erase (0, 1);
     size_t pos = line.find ("]");
@@ -224,7 +224,7 @@ std::string sword_logic_get_installed_module (std::string line)
 // [Shona]  (1.1)  - Shona Bible
 std::string sword_logic_get_version (std::string line)
 {
-  line = filter::strings::trim (line);
+  line = filter::string::trim (line);
   if (line.length () > 10) {
     line.erase (0, 3);
   }
@@ -242,12 +242,12 @@ std::string sword_logic_get_version (std::string line)
 // [CrossWire] *[Shona] (1.1) - Shona Bible
 std::string sword_logic_get_name (std::string line)
 {
-  std::vector <std::string> bits = filter::strings::explode (line, '-');
+  std::vector <std::string> bits = filter::string::explode (line, '-');
   if (bits.size () >= 2) {
     bits.erase (bits.begin ());
   }
-  line = filter::strings::implode (bits, "-");
-  line = filter::strings::trim (line);
+  line = filter::string::implode (bits, "-");
+  line = filter::string::trim (line);
   return line;
 }
 
@@ -345,7 +345,7 @@ void sword_logic_uninstall_module (const std::string& module)
 std::vector <std::string> sword_logic_get_available ()
 {
   const std::string contents = filter_url_file_get_contents (sword_logic_module_list_path ());
-  return filter::strings::explode (contents, '\n');
+  return filter::string::explode (contents, '\n');
 }
 
 
@@ -356,9 +356,9 @@ std::vector <std::string> sword_logic_get_installed ()
   std::string out_err {};
   const std::string sword_path {sword_logic_get_path ()};
   filter::shell::run ("cd " + sword_path + "; " + std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -l", out_err);
-  std::vector <std::string> lines = filter::strings::explode (out_err, '\n');
+  std::vector <std::string> lines = filter::string::explode (out_err, '\n');
   for (auto line : lines) {
-    line = filter::strings::trim (line);
+    line = filter::string::trim (line);
     if (line.empty ()) continue;
     if (line.find ("[") == std::string::npos) continue;
     modules.push_back (line);
@@ -468,7 +468,7 @@ std::string sword_logic_get_text (const std::string& source, const std::string& 
     
     // Check whether the SWORD module exists.
     std::vector <std::string> modules {sword_logic_get_available ()};
-    const std::string smodules = filter::strings::implode (modules, std::string());
+    const std::string smodules = filter::string::implode (modules, std::string());
     if (smodules.find ("[" + module + "]") != std::string::npos) {
       // Schedule SWORD module installation.
       // (It used to be the case that this function, to get the text,
@@ -869,7 +869,7 @@ std::string sword_logic_diatheke ([[maybe_unused]] const std::string& module_nam
   sword::SWModule *module = manager.getModule (module_name.c_str ());
   available = module;
   if (module) {
-    std::string key = osis + " " + filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string (verse);
+    std::string key = osis + " " + filter::string::convert_to_string (chapter) + ":" + filter::string::convert_to_string (verse);
     module->setKey (key.c_str ());
     rendering = module->renderText();
   }
@@ -883,13 +883,13 @@ std::string sword_logic_diatheke ([[maybe_unused]] const std::string& module_nam
 void sword_logic_log (std::string message)
 {
   // Remove less comely stuff, warnings, confusing information.
-  message = filter::strings::replace ("-=+*", "", message);
-  message = filter::strings::replace ("WARNING", "", message);
-  message = filter::strings::replace ("*+=-", "", message);
-  message = filter::strings::replace ("enable?", "", message);
-  message = filter::strings::replace ("[no]", "", message);
+  message = filter::string::replace ("-=+*", "", message);
+  message = filter::string::replace ("WARNING", "", message);
+  message = filter::string::replace ("*+=-", "", message);
+  message = filter::string::replace ("enable?", "", message);
+  message = filter::string::replace ("[no]", "", message);
   // Clean message up.
-  message = filter::strings::trim (message);
+  message = filter::string::trim (message);
   // Record in the journal.
   Database_Logs::log (message);
 }
@@ -899,9 +899,9 @@ std::string sword_logic_clean_verse (const std::string& module, int chapter, int
 {
   // Remove any OSIS elements or make those elements displayable.
   if (database::config::general::get_keep_osis_content_in_sword_resources ()) {
-    text = filter::strings::escape_special_xml_characters (text);
+    text = filter::string::escape_special_xml_characters (text);
   } else {
-    filter::strings::replace_between (text, "<", ">", "");
+    filter::string::replace_between (text, "<", ">", "");
   }
   
   // Remove the passage name that diatheke adds.
@@ -915,10 +915,10 @@ std::string sword_logic_clean_verse (const std::string& module, int chapter, int
   }
   
   // Remove the module name that diatheke adds.
-  text = filter::strings::replace ("(" + module + ")", "", text);
+  text = filter::string::replace ("(" + module + ")", "", text);
   
   // Clean whitespace away.
-  text = filter::strings::trim (text);
+  text = filter::string::trim (text);
 
   // Done.
   return text;

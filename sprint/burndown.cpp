@@ -131,7 +131,7 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
       if (task_count) {
         // Only mail if the current sprint contains tasks.
         std::string scategories = database::config::bible::get_sprint_task_completion_categories (bible2);
-        std::vector <std::string> categories = filter::strings::explode (scategories, '\n');
+        std::vector <std::string> categories = filter::string::explode (scategories, '\n');
         int category_count = static_cast<int>(categories.size());
         int category_percentage = static_cast<int>(round (100 / category_count));
         std::vector <std::string> users = request.database_users ()->get_users ();
@@ -168,7 +168,7 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
             body.push_back ("<p>" + burndownchart + "</p>");
             
             if (!body.empty ()) {
-              std::string mailbody = filter::strings::implode (body, "\n");
+              std::string mailbody = filter::string::implode (body, "\n");
               email::schedule (user, subject, mailbody);
             }
             
@@ -255,7 +255,7 @@ std::string sprint_create_burndown_chart ([[maybe_unused]] std::string bible,
                                     
   lines.push_back ("</table>");
                                                                       
-  std::string chart = filter::strings::implode (lines, "\n");
+  std::string chart = filter::string::implode (lines, "\n");
   return chart;
 #endif
 }

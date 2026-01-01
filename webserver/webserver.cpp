@@ -342,7 +342,7 @@ void http_server ()
   memset (&serveraddr, 0, sizeof (serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
-  serveraddr.sin_port = htons (filter::strings::convert_to_int (config::logic::http_network_port ()));
+  serveraddr.sin_port = htons (filter::string::convert_to_int (config::logic::http_network_port ()));
 #endif
 #ifdef HAVE_CLOUD
   // When configured as a server it listens on any IPv6 address.
@@ -351,7 +351,7 @@ void http_server ()
   serveraddr.sin6_flowinfo = 0;
   serveraddr.sin6_family = AF_INET6;
   serveraddr.sin6_addr = in6addr_any;
-  serveraddr.sin6_port = htons (static_cast<uint16_t>(filter::strings::convert_to_int (config::logic::http_network_port ())));
+  serveraddr.sin6_port = htons (static_cast<uint16_t>(filter::string::convert_to_int (config::logic::http_network_port ())));
 #endif
   result = ::bind (listenfd, reinterpret_cast<sockaddr *>(&serveraddr), sizeof (serveraddr));
   if (result != 0) {
@@ -499,7 +499,7 @@ void http_server ()
   memset(&serveraddr, 0, sizeof(serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-  serveraddr.sin_port = htons(filter::strings::convert_to_int(config::logic::http_network_port()));
+  serveraddr.sin_port = htons(filter::string::convert_to_int(config::logic::http_network_port()));
   result = ::bind(listen_socket, (SA *)&serveraddr, sizeof(serveraddr));
   if (result == SOCKET_ERROR) {
 	  std::string error = "Error binding server to socket";

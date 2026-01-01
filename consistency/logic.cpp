@@ -44,13 +44,13 @@ std::string Consistency_Logic::response ()
   
   // The passages entered in the Consistency tool.
   std::string s_passages = database::temporal::get_value (m_id, "passages");
-  s_passages = filter::strings::trim (s_passages);
-  std::vector <std::string> passages = filter::strings::explode (s_passages, '\n');
+  s_passages = filter::string::trim (s_passages);
+  std::vector <std::string> passages = filter::string::explode (s_passages, '\n');
   
   // The translations entered in the Consistency tool.
   std::string s_translations = database::temporal::get_value (m_id, "translations");
-  s_translations = filter::strings::trim (s_translations);
-  std::vector <std::string> translations = filter::strings::explode (s_translations, '\n');
+  s_translations = filter::string::trim (s_translations);
+  std::vector <std::string> translations = filter::string::explode (s_translations, '\n');
   
   // Contains the response to display.
   std::vector <std::string> response;
@@ -60,7 +60,7 @@ std::string Consistency_Logic::response ()
   for (auto line : passages) {
     
     // Clean line.
-    line = filter::strings::trim (line);
+    line = filter::string::trim (line);
     
     // Skip empty line.
     if (line.empty ()) continue;
@@ -84,7 +84,7 @@ std::string Consistency_Logic::response ()
         bool redoPassage = false;
         std::string passageKey = std::to_string (book) + "." + std::to_string (chapter) + "." + verse;
         int currentChapterId = database::bibles::get_chapter_id (resources [0], book, chapter);
-        int storedChapterId = filter::strings::convert_to_int (database::temporal::get_value (m_id, passageKey + ".id"));
+        int storedChapterId = filter::string::convert_to_int (database::temporal::get_value (m_id, passageKey + ".id"));
         if (currentChapterId != storedChapterId) {
           database::temporal::set_value (m_id, passageKey + ".id", std::to_string (currentChapterId));
           redoPassage = true;
@@ -96,10 +96,10 @@ std::string Consistency_Logic::response ()
           // Produce new verse text if the passage is to be redone, or else fetch the existing text.
           std::string text;
           if (redoPassage) {
-            text = verseText (resource, book, chapter, filter::strings::convert_to_int (verse));
+            text = verseText (resource, book, chapter, filter::string::convert_to_int (verse));
             size_t length1 = text.size ();
             if (!translations.empty ()) {
-              text = filter::strings::markup_words (translations, text);
+              text = filter::string::markup_words (translations, text);
             }
             size_t length2 = text.size ();
             if (length2 == length1) {
@@ -146,15 +146,15 @@ std::string Consistency_Logic::omit_verse_text (std::string input)
   // 1 Peter 4:17 For the time has come for judgment to begin with the household of God. If it begins first with us, what will happen to those who don’t obey the Good News of God?
   // The purpose of this function is to extract "1 Peter 4:17" from it, and leave the rest out.
   // This is done by leaving out everything after the last numeral.
-  size_t length = filter::strings::unicode_string_length (input);
+  size_t length = filter::string::unicode_string_length (input);
   size_t last_numeral = 0;
   for (size_t i = 0; i < length; i++) {
-    std::string character = filter::strings::unicode_string_substr (input, i, 1);
-    if (filter::strings::is_numeric (character)) {
+    std::string character = filter::string::unicode_string_substr (input, i, 1);
+    if (filter::string::is_numeric (character)) {
       last_numeral = i;
     }
   }
   last_numeral++;
-  input = filter::strings::unicode_string_substr (input, 0, last_numeral);
+  input = filter::string::unicode_string_substr (input, 0, last_numeral);
   return input;
 }

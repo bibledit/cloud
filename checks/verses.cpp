@@ -34,19 +34,19 @@ void checks_verses::missing_punctuation_at_end (const std::string& bible, int bo
                                                 const std::string& center_marks, const std::string& end_marks,
                                                 const std::string& disregards)
 {
-  const std::vector <std::string> centermarks = filter::strings::explode (center_marks, ' ');
-  const std::vector <std::string> endmarks = filter::strings::explode (end_marks, ' ');
-  const std::vector <std::string> ignores = filter::strings::explode (disregards, ' ');
+  const std::vector <std::string> centermarks = filter::string::explode (center_marks, ' ');
+  const std::vector <std::string> endmarks = filter::string::explode (end_marks, ' ');
+  const std::vector <std::string> ignores = filter::string::explode (disregards, ' ');
   for (const auto & element : verses) {
     int verse = element.first;
     std::string text = element.second;
     if (verse == 0) continue;
     if (text.empty ()) continue;
     for (const auto & ignore_text : ignores) {
-      text = filter::strings::replace (ignore_text, std::string(), text);
+      text = filter::string::replace (ignore_text, std::string(), text);
     }
-    const size_t text_length = filter::strings::unicode_string_length (text);
-    const std::string lastCharacter = filter::strings::unicode_string_substr (text, text_length - 1, 1);
+    const size_t text_length = filter::string::unicode_string_length (text);
+    const std::string lastCharacter = filter::string::unicode_string_substr (text, text_length - 1, 1);
     if (in_array (lastCharacter, centermarks)) continue;
     if (in_array (lastCharacter, endmarks)) continue;
     database::check::record_output (bible, book, chapter, verse, checks::issues::text(checks::issues::issue::no_punctuation_at_end_of_verse) + ": " + lastCharacter);

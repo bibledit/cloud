@@ -47,8 +47,8 @@ bool editusfm_focus_acl (Webserver_Request& webserver_request)
 std::string editusfm_focus (Webserver_Request& webserver_request)
 {
   std::string bible = webserver_request.query ["bible"];
-  int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  int book = filter::string::convert_to_int (webserver_request.query ["book"]);
+  int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
   std::string usfm = database::bibles::get_chapter (bible, book, chapter);
   int verse = ipc_focus::get_verse (webserver_request);
   int startingOffset = filter::usfm::versenumber_to_offset (usfm, verse);

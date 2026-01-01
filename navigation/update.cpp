@@ -44,9 +44,9 @@ std::string navigation_update (Webserver_Request& webserver_request)
   // the navigator would only show the NT books.
   // Now, by taking the Bible from the database, it will show the books of the last selected Bible.
   const std::string bible = webserver_request.database_config_user()->get_bible ();
-  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
-  const int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
+  const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
+  const int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
+  const int verse = filter::string::convert_to_int (webserver_request.query ["verse"]);
   const int focus_group = ipc_focus::get_focus_group(webserver_request);
   
   
@@ -80,7 +80,7 @@ std::string navigation_update (Webserver_Request& webserver_request)
   else if (webserver_request.query.count ("applybook")) {
     const std::string msg = webserver_request.query ["applybook"];
     if (msg.find ("cancel") == std::string::npos) {
-      int apply_book = filter::strings::convert_to_int (msg);
+      int apply_book = filter::string::convert_to_int (msg);
       if (apply_book) navigation_passage::set_book (webserver_request, apply_book);
     }
   }
@@ -102,7 +102,7 @@ std::string navigation_update (Webserver_Request& webserver_request)
     }
     else if (msg.find ("cancel") != std::string::npos) {
     } else {
-      int apply_chapter = filter::strings::convert_to_int (msg);
+      int apply_chapter = filter::string::convert_to_int (msg);
       navigation_passage::set_chapter (webserver_request, apply_chapter);
     }
   }
@@ -124,7 +124,7 @@ std::string navigation_update (Webserver_Request& webserver_request)
     }
     else if (msg.find ("cancel") != std::string::npos) {
     } else {
-      int apply_verse = filter::strings::convert_to_int (msg);
+      int apply_verse = filter::string::convert_to_int (msg);
       navigation_passage::set_verse (webserver_request, apply_verse);
     }
   }

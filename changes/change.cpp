@@ -70,7 +70,7 @@ std::string changes_change (Webserver_Request& webserver_request)
   if (webserver_request.post_count ("unsubscribe")) {
     std::string unsubscribe = webserver_request.post_get("unsubscribe");
     unsubscribe.erase (0, 11);
-    notes_logic.unsubscribe (filter::strings::convert_to_int (unsubscribe));
+    notes_logic.unsubscribe (filter::string::convert_to_int (unsubscribe));
     return std::string();
   }
   
@@ -79,7 +79,7 @@ std::string changes_change (Webserver_Request& webserver_request)
   if (webserver_request.post_count ("unassign")) {
     std::string unassign = webserver_request.post_get("unassign");
     unassign.erase (0, 8);
-    notes_logic.unassignUser (filter::strings::convert_to_int (unassign), webserver_request.session_logic ()->get_username ());
+    notes_logic.unassignUser (filter::string::convert_to_int (unassign), webserver_request.session_logic ()->get_username ());
     return std::string();
   }
   
@@ -88,7 +88,7 @@ std::string changes_change (Webserver_Request& webserver_request)
   if (webserver_request.post_count("delete")) {
     std::string erase = webserver_request.post_get("delete");
     erase.erase (0, 6);
-    const int identifier {filter::strings::convert_to_int (erase)};
+    const int identifier {filter::string::convert_to_int (erase)};
     notes_logic.markForDeletion (identifier);
     return std::string();
   }
@@ -101,7 +101,7 @@ std::string changes_change (Webserver_Request& webserver_request)
   
                       
   // The identifier of the change notification.
-  const int id {filter::strings::convert_to_int (webserver_request.query ["get"])};
+  const int id {filter::string::convert_to_int (webserver_request.query ["get"])};
   view.set_variable ("id", std::to_string (id));
                       
                       
@@ -126,7 +126,7 @@ std::string changes_change (Webserver_Request& webserver_request)
     .bibles = bibles,
     .book = passage.m_book,
     .chapter = passage.m_chapter,
-    .verse = filter::strings::convert_to_int (passage.m_verse),
+    .verse = filter::string::convert_to_int (passage.m_verse),
     .passage_selector = Database_Notes::PassageSelector::current_verse,
   };
   std::vector<int> notes = database_notes.select_notes(selector);
@@ -148,7 +148,7 @@ std::string changes_change (Webserver_Request& webserver_request)
     const int timestap = database_notes.get_modified (note);
     timestamps.push_back (timestap);
   }
-  filter::strings::quick_sort (timestamps, notes, 0, static_cast <unsigned int> (notes.size ()));
+  filter::string::quick_sort (timestamps, notes, 0, static_cast <unsigned int> (notes.size ()));
   std::reverse (notes.begin(), notes.end());
   
   
@@ -164,7 +164,7 @@ std::string changes_change (Webserver_Request& webserver_request)
   pugi::xml_document notes_document {};
   for (const auto note : notes) {
     std::string summary = database_notes.get_summary (note);
-    summary = filter::strings::escape_special_xml_characters (summary);
+    summary = filter::string::escape_special_xml_characters (summary);
     const bool subscription = database_notes.is_subscribed (note, username);
     const bool assignment = database_notes.is_assigned (note, username);
     pugi::xml_node tr_node = notes_document.append_child("tr");

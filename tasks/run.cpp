@@ -83,7 +83,7 @@ void tasks_run_one (const std::string& filename)
 
   // Read the task from disk and erase the file.
   const std::string path = filter_url_create_path ({tasks_logic_folder (), filename});
-  std::vector <std::string> lines = filter::strings::explode (filter_url_file_get_contents (path), '\n');
+  std::vector <std::string> lines = filter::string::explode (filter_url_file_get_contents (path), '\n');
   filter_url_unlink (path);
   
   // Interpret the task's command and its parameters, if any.
@@ -133,7 +133,7 @@ void tasks_run_one (const std::string& filename)
     email::send ();
   }
   else if (command == task::reindex_bibles) {
-    search_reindex_bibles (filter::strings::convert_to_bool (parameter1));
+    search_reindex_bibles (filter::string::convert_to_bool (parameter1));
   }
   else if (command == task::reindex_notes) {
     search_reindex_notes ();
@@ -142,13 +142,13 @@ void tasks_run_one (const std::string& filename)
     styles_sheets_create_all_run ();
   }
   else if (command == task::import_bible) {
-    bible_import_run (parameter1, parameter2, filter::strings::convert_to_int (parameter3), filter::strings::convert_to_int (parameter4));
+    bible_import_run (parameter1, parameter2, filter::string::convert_to_int (parameter3), filter::string::convert_to_int (parameter4));
   }
   else if (command == task::import_resource) {
     bible_logic::import_resource (parameter1, parameter2);
   }
   else if (command == task::compare_usfm) {
-    compare_compare (parameter1, parameter2, filter::strings::convert_to_int (parameter3));
+    compare_compare (parameter1, parameter2, filter::string::convert_to_int (parameter3));
   }
   else if (command == task::maintain_database) {
     database_maintenance ();
@@ -157,7 +157,7 @@ void tasks_run_one (const std::string& filename)
     tmp_tmp ();
   }
   else if (command == task::link_git_repository) {
-    collaboration_link (parameter1, filter::strings::convert_to_int (parameter2), parameter3);
+    collaboration_link (parameter1, filter::string::convert_to_int (parameter2), parameter3);
   }
   else if (command == task::send_receive_bibles) {
     sendreceive_sendreceive (parameter1);
@@ -205,37 +205,37 @@ void tasks_run_one (const std::string& filename)
     export_index ();
   }
   else if (command == task::export_web_main) {
-    export_web_book (parameter1, filter::strings::convert_to_int (parameter2), filter::strings::convert_to_bool (parameter3));
+    export_web_book (parameter1, filter::string::convert_to_int (parameter2), filter::string::convert_to_bool (parameter3));
   }
   else if (command == task::export_web_index) {
-    export_web_index (parameter1, filter::strings::convert_to_bool (parameter2));
+    export_web_index (parameter1, filter::string::convert_to_bool (parameter2));
   }
   else if (command == task::export_html) {
-    export_html_book (parameter1, filter::strings::convert_to_int (parameter2), filter::strings::convert_to_bool (parameter3));
+    export_html_book (parameter1, filter::string::convert_to_int (parameter2), filter::string::convert_to_bool (parameter3));
   }
   else if (command == task::export_usfm) {
-    export_usfm (parameter1, filter::strings::convert_to_bool (parameter2));
+    export_usfm (parameter1, filter::string::convert_to_bool (parameter2));
   }
   else if (command == task::export_text_usfm) {
-    export_text_usfm_book (parameter1, filter::strings::convert_to_int (parameter2), filter::strings::convert_to_bool (parameter3));
+    export_text_usfm_book (parameter1, filter::string::convert_to_int (parameter2), filter::string::convert_to_bool (parameter3));
   }
   else if (command == task::export_odt) {
-    export_odt_book (parameter1, filter::strings::convert_to_int (parameter2), filter::strings::convert_to_bool (parameter3));
+    export_odt_book (parameter1, filter::string::convert_to_int (parameter2), filter::string::convert_to_bool (parameter3));
   }
   else if (command == task::export_info) {
-    export_info (parameter1, filter::strings::convert_to_bool (parameter2));
+    export_info (parameter1, filter::string::convert_to_bool (parameter2));
   }
   else if (command == task::export_esword) {
-    export_esword (parameter1, filter::strings::convert_to_bool (parameter2));
+    export_esword (parameter1, filter::string::convert_to_bool (parameter2));
   }
   else if (command == task::export_online_bible) {
-    export_onlinebible (parameter1, filter::strings::convert_to_bool (parameter2));
+    export_onlinebible (parameter1, filter::string::convert_to_bool (parameter2));
   }
   else if (command == task::setup_paratext) {
     Paratext_Logic::setup (parameter1, parameter2);
   }
   else if (command == task::sync_paratext) {
-    int imethod = filter::strings::convert_to_int(parameter1);
+    int imethod = filter::string::convert_to_int(parameter1);
     auto method = static_cast<tasks::enums::paratext_sync>(imethod);
     Paratext_Logic::synchronize (method);
   }
@@ -263,24 +263,24 @@ void tasks_run_one (const std::string& filename)
   }
 #ifdef HAVE_CLOUD
   else if (command == task::rss_feed_update_chapter) {
-    rss_logic_execute_update (parameter1, parameter2, filter::strings::convert_to_int (parameter3), filter::strings::convert_to_int (parameter4), parameter5, parameter6);
+    rss_logic_execute_update (parameter1, parameter2, filter::string::convert_to_int (parameter3), filter::string::convert_to_int (parameter4), parameter5, parameter6);
   }
 #endif
 #ifdef HAVE_CLIENT
   else if (command == task::produce_bibles_transferfile) {
-    system_logic_produce_bibles_file (filter::strings::convert_to_int (parameter1));
+    system_logic_produce_bibles_file (filter::string::convert_to_int (parameter1));
   }
   else if (command == task::import_bibles_transferfile) {
     system_logic_import_bibles_file (parameter1);
   }
   else if (command == task::produce_notes_transferfile) {
-    system_logic_produce_notes_file (filter::strings::convert_to_int (parameter1));
+    system_logic_produce_notes_file (filter::string::convert_to_int (parameter1));
   }
   else if (command == task::import_notes_transferfile) {
     system_logic_import_notes_file (parameter1);
   }
   else if (command == task::produce_resources_transferfile) {
-    system_logic_produce_resources_file (filter::strings::convert_to_int (parameter1));
+    system_logic_produce_resources_file (filter::string::convert_to_int (parameter1));
   }
   else if (command == task::import_resources_transferfile) {
     system_logic_import_resources_file (parameter1);

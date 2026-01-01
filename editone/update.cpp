@@ -101,9 +101,9 @@ std::string editone_update (Webserver_Request& webserver_request)
   std::string unique_id;
   if (good2go) {
     bible = webserver_request.post_get("bible");
-    book = filter::strings::convert_to_int (webserver_request.post_get("book"));
-    chapter = filter::strings::convert_to_int (webserver_request.post_get("chapter"));
-    verse = filter::strings::convert_to_int (webserver_request.post_get("verse"));
+    book = filter::string::convert_to_int (webserver_request.post_get("book"));
+    chapter = filter::string::convert_to_int (webserver_request.post_get("chapter"));
+    verse = filter::string::convert_to_int (webserver_request.post_get("verse"));
     loaded_html = webserver_request.post_get("loaded");
     edited_html = webserver_request.post_get("edited");
     checksum1 = webserver_request.post_get("checksum1");
@@ -131,13 +131,13 @@ std::string editone_update (Webserver_Request& webserver_request)
   // Decode html encoded in javascript, and clean it.
   loaded_html = filter_url_tag_to_plus (loaded_html);
   edited_html = filter_url_tag_to_plus (edited_html);
-  loaded_html = filter::strings::trim (loaded_html);
-  edited_html = filter::strings::trim (edited_html);
+  loaded_html = filter::string::trim (loaded_html);
+  edited_html = filter::string::trim (edited_html);
 
   
   // Check on valid UTF-8.
   if (good2go) {
-    if (!filter::strings::unicode_string_is_valid (loaded_html) || !filter::strings::unicode_string_is_valid (edited_html)) {
+    if (!filter::string::unicode_string_is_valid (loaded_html) || !filter::string::unicode_string_is_valid (edited_html)) {
       messages.push_back (translate ("Cannot update: Needs Unicode"));
       good2go = false;
     }
@@ -178,7 +178,7 @@ std::string editone_update (Webserver_Request& webserver_request)
   std::string edited_verse_usfm = editone_logic_html_to_usfm (stylesheet, edited_html);
   edited_verse_usfm = filter::usfm::transpose_opening_marker_and_space_sequence(std::move(edited_verse_usfm));
   std::string existing_verse_usfm = filter::usfm::get_verse_text_quill (chapter, verse, old_chapter_usfm);
-  existing_verse_usfm = filter::strings::trim (existing_verse_usfm);
+  existing_verse_usfm = filter::string::trim (existing_verse_usfm);
 
   
   // Set a flag if there is a reason to save the editor text, since it was edited.
@@ -212,7 +212,7 @@ std::string editone_update (Webserver_Request& webserver_request)
   // If there's double spaces removed here,
   // then later in this code, the editor will load that text.
   if (good2go && bible_write_access && text_was_edited) {
-    edited_verse_usfm = filter::strings::collapse_whitespace(edited_verse_usfm);
+    edited_verse_usfm = filter::string::collapse_whitespace(edited_verse_usfm);
   }
 
 
@@ -264,7 +264,7 @@ std::string editone_update (Webserver_Request& webserver_request)
   // The response starts with the save message(s) if any.
   // The message(s) contain information about save success or failure.
   // Send it to the browser for display to the user.
-  response.append (filter::strings::implode (messages, " | "));
+  response.append (filter::string::implode (messages, " | "));
 
   
   // Add separator and the new chapter identifier to the response.
@@ -301,11 +301,11 @@ std::string editone_update (Webserver_Request& webserver_request)
       response.append (operation);
       if (operation == bible_logic::insert_operator ()) {
         std::string text = content[i];
-        std::string character = filter::strings::unicode_string_substr (text, 0, 1);
+        std::string character = filter::string::unicode_string_substr (text, 0, 1);
         response.append (separator);
         response.append (character);
-        size_t length = filter::strings::unicode_string_length (text);
-        std::string format = filter::strings::unicode_string_substr (text, 1, length - 1);
+        size_t length = filter::string::unicode_string_length (text);
+        std::string format = filter::string::unicode_string_substr (text, 1, length - 1);
         response.append (separator);
         response.append (format);
         // Also add the size of the character in UTF-16 format, 2-bytes or 4 bytes, as size 1 or 2.

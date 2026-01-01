@@ -48,7 +48,7 @@ bool sources_style_parse_cpp_element (std::string & line, std::string signature)
   size_t pos = line.find (signature);
   if (pos == std::string::npos) return false;
   line.erase (0, pos + signature.length ());
-  line = filter::strings::trim (line);
+  line = filter::string::trim (line);
   if (line [line.size () - 1] == ',') line = line.erase (line.size () - 1);
   if (line [line.size () - 1] == '"') line = line.erase (line.size () - 1);
   if (line [0] == '"') line.erase (0, 1);
@@ -77,7 +77,7 @@ void sources_styles_parse ()
     return;
   }
   contents.erase (pos);
-  std::vector <std::string> cpp_lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> cpp_lines = filter::string::explode (contents, '\n');
 
   // Parser signatures for the C++ source code.
   const char * marker_key = "marker";
@@ -217,7 +217,7 @@ void sources_styles_parse ()
   // Read the default stylesheet for Paratext projects.
   std::string path = filter_url_create_root_path ({"sources", "usfm.sty"});
   contents = filter_url_file_get_contents (path);
-  std::vector <std::string> paratext_lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> paratext_lines = filter::string::explode (contents, '\n');
   
   // Parse state variables.
   std::string paratext_marker;
@@ -236,7 +236,7 @@ void sources_styles_parse ()
   for (auto paratext_line : paratext_lines) {
     
     // An empty line: End of style block reached.
-    paratext_line = filter::strings::trim (paratext_line);
+    paratext_line = filter::string::trim (paratext_line);
     if (paratext_line.empty ()) {
       paratext_marker.clear ();
       continue;
@@ -245,7 +245,7 @@ void sources_styles_parse ()
     // Look for the start of a style block trough e.g. "\Marker id".
     if (paratext_line.find (backslash_marker) == 0) {
       paratext_line.erase (0, backslash_marker.length ());
-      std::string curr_marker = filter::strings::trim (paratext_line);
+      std::string curr_marker = filter::string::trim (paratext_line);
       // Skip markers in the z-area.
       if (curr_marker [0] == 'z') continue;
       // A new style block starts here.
@@ -267,7 +267,7 @@ void sources_styles_parse ()
     // Read and import the font size.
     if (paratext_line.find (backslash_fontsize) == 0) {
       paratext_line.erase (0, backslash_fontsize.length());
-      std::string fontsize = filter::strings::trim (paratext_line);
+      std::string fontsize = filter::string::trim (paratext_line);
       style_definitions [paratext_marker] [fontsize_key] = fontsize;
       continue;
     }
@@ -275,37 +275,37 @@ void sources_styles_parse ()
     // Read and import the left margin.
     if (paratext_line.find (backslash_leftmargin) == 0) {
       paratext_line.erase (0, backslash_leftmargin.length());
-      std::string inches = filter::strings::trim (paratext_line);
-      int value = static_cast<int>(round (254 * filter::strings::convert_to_float (inches)));
+      std::string inches = filter::string::trim (paratext_line);
+      int value = static_cast<int>(round (254 * filter::string::convert_to_float (inches)));
       float millimeters = static_cast<float> (value) / 10;
-      style_definitions [paratext_marker] [leftmargin_key] = filter::strings::convert_to_string (millimeters);
+      style_definitions [paratext_marker] [leftmargin_key] = filter::string::convert_to_string (millimeters);
       continue;
     }
 
     // Read and import the right margin.
     if (paratext_line.find (backslash_rightmargin) == 0) {
       paratext_line.erase (0, backslash_rightmargin.length());
-      std::string inches = filter::strings::trim (paratext_line);
-      int value = static_cast<int>(round (254 * filter::strings::convert_to_float (inches)));
+      std::string inches = filter::string::trim (paratext_line);
+      int value = static_cast<int>(round (254 * filter::string::convert_to_float (inches)));
       float millimeters = static_cast<float> (value) / 10;
-      style_definitions [paratext_marker] [rightmargin_key] = filter::strings::convert_to_string (millimeters);
+      style_definitions [paratext_marker] [rightmargin_key] = filter::string::convert_to_string (millimeters);
       continue;
     }
 
     // Read and import the first line indent.
     if (paratext_line.find (backslash_firstlineindent) == 0) {
       paratext_line.erase (0, backslash_firstlineindent.length());
-      std::string inches = filter::strings::trim (paratext_line);
-      int value = static_cast<int>(round (254 * filter::strings::convert_to_float (inches)));
+      std::string inches = filter::string::trim (paratext_line);
+      int value = static_cast<int>(round (254 * filter::string::convert_to_float (inches)));
       float millimeters = static_cast<float> (value) / 10;
-      style_definitions [paratext_marker] [firstlineindent_key] = filter::strings::convert_to_string (millimeters);
+      style_definitions [paratext_marker] [firstlineindent_key] = filter::string::convert_to_string (millimeters);
       continue;
     }
 
     // Read and import the space before.
     if (paratext_line.find (backslash_spacebefore) == 0) {
       paratext_line.erase (0, backslash_spacebefore.length());
-      std::string value = filter::strings::trim (paratext_line);
+      std::string value = filter::string::trim (paratext_line);
       style_definitions [paratext_marker] [spacebefore_key] = value;
       continue;
     }
@@ -313,7 +313,7 @@ void sources_styles_parse ()
     // Read and import the space after.
     if (paratext_line.find (backslash_spaceafter) == 0) {
       paratext_line.erase (0, backslash_spaceafter.length());
-      std::string value = filter::strings::trim (paratext_line);
+      std::string value = filter::string::trim (paratext_line);
       style_definitions [paratext_marker] [spaceafter_key] = value;
       continue;
     }
@@ -398,7 +398,7 @@ void sources_styles_parse ()
   
   // Insert the C++ fragment into the source code.
   contents = filter_url_file_get_contents (cpp_path);
-  std::vector <std::string> source_lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> source_lines = filter::string::explode (contents, '\n');
   std::vector <std::string> updated_lines;
   bool updating = false;
   for (auto source_line : source_lines) {
@@ -417,7 +417,7 @@ void sources_styles_parse ()
   }
 
   // Save it to the C++ source file.
-  contents = filter::strings::implode (updated_lines, "\n");
+  contents = filter::string::implode (updated_lines, "\n");
   filter_url_file_put_contents (cpp_path, contents);
   
   std::cout << "Finished parsing style values from the usfm.sty file" << std::endl;

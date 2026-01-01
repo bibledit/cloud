@@ -72,11 +72,11 @@ std::string search_all (Webserver_Request& webserver_request)
 
   
   // Clean the query string up.
-  queryString = filter::strings::trim (queryString);
+  queryString = filter::string::trim (queryString);
   
   
   // Generate search words for emphasizing the search passages.
-  std::vector <std::string> queryWords = filter::strings::explode (queryString, ' ');
+  std::vector <std::string> queryWords = filter::string::explode (queryString, ' ');
   
   
   Database_Notes database_notes (webserver_request);
@@ -104,18 +104,18 @@ std::string search_all (Webserver_Request& webserver_request)
     std::string summary = database_notes.get_summary (identifier);
     std::string verses = filter_passage_display_inline (database_notes.get_passages (identifier));
     std::string title = summary + " | " + verses;
-    title = filter::strings::escape_special_xml_characters (title);
+    title = filter::string::escape_special_xml_characters (title);
     
     // The url.
     std::string url = site_url + notes_note_url () + "?id=" + std::to_string (identifier);
     
     // The excerpt.
     std::string stext = database_notes.get_search_field (identifier);
-    std::vector <std::string> vtext = filter::strings::explode (stext, '\n');
+    std::vector <std::string> vtext = filter::string::explode (stext, '\n');
     std::string excerpt;
     // Go through each line of text separately.
     for (auto & line : vtext) {
-      std::string markedLine = filter::strings::markup_words (queryWords, line);
+      std::string markedLine = filter::string::markup_words (queryWords, line);
       // If the line is marked up, add it to the excerpts.
       if (!excerpt.empty()) excerpt.append ("\n");
       if (markedLine != line) {
@@ -157,12 +157,12 @@ std::string search_all (Webserver_Request& webserver_request)
     // The title plus link.
     std::string link = bible + " | " + filter_passage_link_for_opening_editor_at (book, chapter, verse);
     // The excerpt.
-    std::string stext = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
-    std::vector <std::string> vtext = filter::strings::explode (stext, '\n');
+    std::string stext = search_logic_get_bible_verse_text (bible, book, chapter, filter::string::convert_to_int (verse));
+    std::vector <std::string> vtext = filter::string::explode (stext, '\n');
     std::string excerpt;
     // Go through each line of text separately.
     for (auto & line : vtext) {
-      std::string markedLine = filter::strings::markup_words (queryWords, line);
+      std::string markedLine = filter::string::markup_words (queryWords, line);
       if (markedLine != line) {
         // Store this bit of the excerpt.
         excerpt.append ("<p style=\"margin-top: 0em\">" + markedLine + "</p>\n");

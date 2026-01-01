@@ -42,14 +42,14 @@ bool Database_NoteAssignment::exists (std::string user)
 
 void Database_NoteAssignment::assignees (std::string user, std::vector <std::string> assignees)
 {
-  filter_url_file_put_contents (path (user), filter::strings::implode (assignees, "\n"));
+  filter_url_file_put_contents (path (user), filter::string::implode (assignees, "\n"));
 }
 
 
 std::vector <std::string> Database_NoteAssignment::assignees (std::string user)
 {
   std::string contents = filter_url_file_get_contents (path (user));
-  return filter::strings::explode (contents, '\n');
+  return filter::string::explode (contents, '\n');
 }
 
 

@@ -66,11 +66,11 @@ std::string styles_view (Webserver_Request& webserver_request)
 
 
   std::string sheet = webserver_request.query ["sheet"];
-  view.set_variable ("sheet", filter::strings::escape_special_xml_characters (sheet));
+  view.set_variable ("sheet", filter::string::escape_special_xml_characters (sheet));
   
   
   std::string style = webserver_request.query ["style"];
-  view.set_variable ("style", filter::strings::escape_special_xml_characters (style));
+  view.set_variable ("style", filter::string::escape_special_xml_characters (style));
 
   
   // Get the data for the marker.
@@ -136,7 +136,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     marker_data.name = webserver_request.post_get("entry");
     style_is_edited = true;
   }
-  view.set_variable ("name", empty_to_dashes(filter::strings::escape_special_xml_characters (translate (marker_data.name))));
+  view.set_variable ("name", empty_to_dashes(filter::string::escape_special_xml_characters (translate (marker_data.name))));
 
   
   // The style's info.
@@ -151,13 +151,13 @@ std::string styles_view (Webserver_Request& webserver_request)
     marker_data.info = webserver_request.post_get("entry");
     style_is_edited = true;
   }
-  view.set_variable ("info", empty_to_dashes(filter::strings::escape_special_xml_characters (translate (marker_data.info))));
+  view.set_variable ("info", empty_to_dashes(filter::string::escape_special_xml_characters (translate (marker_data.info))));
 
   
   // Handle toggle of checkbox.
   const std::string checkbox = webserver_request.post_get("checkbox");
   if (!checkbox.empty()) {
-    const bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+    const bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
     sheet = webserver_request.post_get("val1");
     style = webserver_request.post_get("val2");
     marker_data = *(database::styles::get_marker_data (sheet, style));
@@ -173,7 +173,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     
     // Handle paragraph font size in points.
     if (const std::string fontsize = webserver_request.post_get("fontsize"); !fontsize.empty()) {
-      marker_data.paragraph.value().font_size = std::clamp(filter::strings::convert_to_int(fontsize), 5, 50);
+      marker_data.paragraph.value().font_size = std::clamp(filter::string::convert_to_int(fontsize), 5, 50);
       style_is_edited = true;
     }
     view.set_variable("fontsize", std::to_string(marker_data.paragraph.value().font_size));
@@ -285,43 +285,43 @@ std::string styles_view (Webserver_Request& webserver_request)
 
     // Handle space before in millimeters.
     if (const std::string space_before = webserver_request.post_get("spacebefore"); !space_before.empty()) {
-      marker_data.paragraph.value().space_before = std::clamp(filter::strings::convert_to_float(space_before), 0.0f, 100.0f);
+      marker_data.paragraph.value().space_before = std::clamp(filter::string::convert_to_float(space_before), 0.0f, 100.0f);
       style_is_edited = true;
     }
     // Precision = 1, i.e. one number after the digit.
-    view.set_variable("spacebefore", filter::strings::convert_to_string(marker_data.paragraph.value().space_before, 1));
+    view.set_variable("spacebefore", filter::string::convert_to_string(marker_data.paragraph.value().space_before, 1));
 
     // Handle space after in millimeters.
     if (const std::string space_after = webserver_request.post_get("spaceafter"); !space_after.empty()) {
-      marker_data.paragraph.value().space_after = std::clamp(filter::strings::convert_to_float(space_after), 0.0f, 100.0f);
+      marker_data.paragraph.value().space_after = std::clamp(filter::string::convert_to_float(space_after), 0.0f, 100.0f);
       style_is_edited = true;
     }
     // Precision = 1.
-    view.set_variable("spaceafter", filter::strings::convert_to_string(marker_data.paragraph.value().space_after, 1));
+    view.set_variable("spaceafter", filter::string::convert_to_string(marker_data.paragraph.value().space_after, 1));
 
     // Handle left margin in millimeters.
     if (const std::string left_margin = webserver_request.post_get("leftmargin"); !left_margin.empty()) {
-      marker_data.paragraph.value().left_margin = std::clamp(filter::strings::convert_to_float(left_margin), 0.0f, 100.0f);
+      marker_data.paragraph.value().left_margin = std::clamp(filter::string::convert_to_float(left_margin), 0.0f, 100.0f);
       style_is_edited = true;
     }
     // Precision = 1.
-    view.set_variable("leftmargin", filter::strings::convert_to_string(marker_data.paragraph.value().left_margin, 1));
+    view.set_variable("leftmargin", filter::string::convert_to_string(marker_data.paragraph.value().left_margin, 1));
 
     // Handle right margin in millimeters.
     if (const std::string right_margin = webserver_request.post_get("rightmargin"); !right_margin.empty()) {
-      marker_data.paragraph.value().right_margin = std::clamp(filter::strings::convert_to_float(right_margin), -100.0f, 100.0f);
+      marker_data.paragraph.value().right_margin = std::clamp(filter::string::convert_to_float(right_margin), -100.0f, 100.0f);
       style_is_edited = true;
     }
     // Precision = 1.
-    view.set_variable("rightmargin", filter::strings::convert_to_string(marker_data.paragraph.value().right_margin, 1));
+    view.set_variable("rightmargin", filter::string::convert_to_string(marker_data.paragraph.value().right_margin, 1));
 
     // Handle first line indent in millimeters.
     if (const std::string first_line_indent = webserver_request.post_get("firstlineindent"); !first_line_indent.empty()) {
-      marker_data.paragraph.value().first_line_indent = std::clamp(filter::strings::convert_to_float(first_line_indent), -100.0f, 100.0f);
+      marker_data.paragraph.value().first_line_indent = std::clamp(filter::string::convert_to_float(first_line_indent), -100.0f, 100.0f);
       style_is_edited = true;
     }
     // Precision = 1.
-    view.set_variable("firstlineindent", filter::strings::convert_to_string(marker_data.paragraph.value().first_line_indent, 1));
+    view.set_variable("firstlineindent", filter::string::convert_to_string(marker_data.paragraph.value().first_line_indent, 1));
   }
   
   
@@ -555,7 +555,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     const std::string enum_value = property_enum_to_value(property);
     view.enable_zone(enum_value);
     if (std::holds_alternative<bool>(parameter))
-      view.set_variable (enum_value, filter::strings::get_checkbox_status(std::get<bool>(parameter)));
+      view.set_variable (enum_value, filter::string::get_checkbox_status(std::get<bool>(parameter)));
     if (std::holds_alternative<int>(parameter))
       view.set_variable (enum_value, std::to_string(std::get<int>(parameter)));
     if (std::holds_alternative<std::string>(parameter))

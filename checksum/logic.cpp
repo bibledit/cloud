@@ -35,7 +35,7 @@ std::string checksum_logic::send (const std::string& data, bool readwrite)
 {
   std::string checksum = get (data);
   checksum.append ("\n");
-  checksum.append (filter::strings::convert_to_string (readwrite));
+  checksum.append (filter::string::convert_to_string (readwrite));
   checksum.append ("\n");
   checksum.append (data);
   return checksum;
@@ -64,7 +64,7 @@ std::string checksum_logic::get (const std::vector <std::string>& data)
 std::string checksum_logic::get_chapter (const std::string& bible, int book, int chapter)
 {
   std::string usfm = database::bibles::get_chapter (bible, book, chapter);
-  std::string checksum = md5 (filter::strings::trim (usfm));
+  std::string checksum = md5 (filter::string::trim (usfm));
   return checksum;
 }
 
@@ -77,7 +77,7 @@ std::string checksum_logic::get_book (const std::string& bible, int book)
   for (auto chapter : chapters) {
     checksums.push_back (get_chapter (bible, book, chapter));
   }
-  std::string checksum = filter::strings::implode (checksums, std::string());
+  std::string checksum = filter::string::implode (checksums, std::string());
   checksum = md5 (checksum);
   return checksum;
 }
@@ -91,7 +91,7 @@ std::string checksum_logic::get_bible (const std::string& bible)
   for (auto book : books) {
     checksums.push_back (get_book (bible, book));
   }
-  std::string checksum = filter::strings::implode (checksums, std::string());
+  std::string checksum = filter::string::implode (checksums, std::string());
   checksum = md5 (checksum);
   return checksum;
 }
@@ -104,7 +104,7 @@ std::string checksum_logic::get_bibles (const std::vector <std::string> & bibles
   for (const auto & bible : bibles) {
     checksums.push_back (get_bible (bible));
   }
-  std::string checksum = filter::strings::implode (checksums, std::string());
+  std::string checksum = filter::string::implode (checksums, std::string());
   checksum = md5 (checksum);
   return checksum;
 }

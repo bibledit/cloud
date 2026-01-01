@@ -55,7 +55,7 @@ TEST (filter, archive)
 
   for (int i = 0; i < 5; i++) {
     std::string path = filter_url_create_path ({directory, "testdata" + std::to_string (i)});
-    std::string data = std::to_string (filter::strings::rand (1000000, 2000000));
+    std::string data = std::to_string (filter::string::rand (1000000, 2000000));
     for (int i2 = 0; i2 <= i; i2++) data.append (data);
     filter_url_file_put_contents (path, data);
     path = filter_url_create_path ({directory, std::to_string (i), std::to_string (i)});

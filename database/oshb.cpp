@@ -106,8 +106,8 @@ std::vector <Passage> Database_OsHb::searchHebrew (std::string hebrew)
   std::vector <std::string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
     Passage passage;
-    passage.m_book = filter::strings::convert_to_int (books [i]);
-    passage.m_chapter = filter::strings::convert_to_int (chapters [i]);
+    passage.m_book = filter::string::convert_to_int (books [i]);
+    passage.m_chapter = filter::string::convert_to_int (chapters [i]);
     passage.m_verse = verses [i];
     hits.push_back (passage);
   }
@@ -159,7 +159,7 @@ std::vector <int> Database_OsHb::rowids (int book, int chapter, int verse)
   sql.add ("ORDER BY rowid;");
   std::vector <std::string> result = sql.query () ["rowid"];
   std::vector <int> rowids;
-  for (auto rowid : result) rowids.push_back (filter::strings::convert_to_int (rowid));
+  for (auto rowid : result) rowids.push_back (filter::string::convert_to_int (rowid));
   return rowids;
 }
 
@@ -197,7 +197,7 @@ int Database_OsHb::get_id (const char * table_row, std::string item)
     sql.add (item);
     sql.add (";");
     std::vector <std::string> result = sql.query () ["rowid"];
-    if (!result.empty ()) return filter::strings::convert_to_int (result [0]);
+    if (!result.empty ()) return filter::string::convert_to_int (result [0]);
     // The rowid was not found: Insert the word into the table.
     // The rowid will now be found during the second iteration.
     sql.clear ();
@@ -224,7 +224,7 @@ std::string Database_OsHb::get_item (const char * item, int rowid)
   sql.add (";");
   std::vector <std::string> result = sql.query () [item];
   rowid = 0;
-  if (!result.empty ()) rowid = filter::strings::convert_to_int (result [0]);
+  if (!result.empty ()) rowid = filter::string::convert_to_int (result [0]);
   // Retrieve the requested value from the sub table.
   sql.clear ();
   sql.add ("SELECT");

@@ -55,7 +55,7 @@ std::string sync_settings (Webserver_Request& webserver_request)
   sync_logic.prioritized_ip_address_record ();
 
   // Get the relevant parameters the client POSTed to us, the server.
-  int action = filter::strings::convert_to_int (webserver_request.post_get("a"));
+  int action = filter::string::convert_to_int (webserver_request.post_get("a"));
   std::string value = webserver_request.post_get("v");
   // The value can be all Bibles, or one Bible.
   std::string bible_s = webserver_request.post_get("b");
@@ -63,7 +63,7 @@ std::string sync_settings (Webserver_Request& webserver_request)
   switch (action) {
     case Sync_Logic::settings_get_total_checksum:
     {
-      return sync_logic.settings_checksum (filter::strings::explode (bible_s, '\n'));
+      return sync_logic.settings_checksum (filter::string::explode (bible_s, '\n'));
     }
     case Sync_Logic::settings_send_workspace_urls:
     {
@@ -94,14 +94,14 @@ std::string sync_settings (Webserver_Request& webserver_request)
     }
     case Sync_Logic::settings_send_resources_organization:
     {
-      std::vector <std::string> resources = filter::strings::explode (value, '\n');
+      std::vector <std::string> resources = filter::string::explode (value, '\n');
       webserver_request.database_config_user()->set_active_resources (resources);
       return std::string();
     }
     case Sync_Logic::settings_get_resources_organization:
     {
       std::vector <std::string> resources = webserver_request.database_config_user()->get_active_resources ();
-      return filter::strings::implode (resources, "\n");
+      return filter::string::implode (resources, "\n");
     }
     case Sync_Logic::settings_get_bible_id:
     {
@@ -119,7 +119,7 @@ std::string sync_settings (Webserver_Request& webserver_request)
     }
     case Sync_Logic::settings_get_privilege_delete_consultation_notes:
     {
-      return filter::strings::convert_to_string (webserver_request.database_config_user()->get_privilege_delete_consultation_notes ());
+      return filter::string::convert_to_string (webserver_request.database_config_user()->get_privilege_delete_consultation_notes ());
     }
     default:
     {

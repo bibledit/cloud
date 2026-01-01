@@ -114,13 +114,13 @@ static std::vector <std::string> filter_url_scandir_internal (std::string folder
       folder = folder.substr(0, folder.size() - 1);
     }
     folder.append("\\*");
-    std::wstring wfolder = filter::strings::string2wstring(folder);
+    std::wstring wfolder = filter::string::string2wstring(folder);
     WIN32_FIND_DATA fdata;
     HANDLE hFind = FindFirstFileW(wfolder.c_str(), &fdata);
     if (hFind != INVALID_HANDLE_VALUE) {
       do {
         std::wstring wfilename(fdata.cFileName);
-        std::string name = filter::strings::wstring2string (wfilename);
+        std::string name = filter::string::wstring2string (wfilename);
         if (name.substr(0, 1) != ".") {
           files.push_back(name);
         }
@@ -156,7 +156,7 @@ static std::vector <std::string> filter_url_scandir_internal (std::string folder
 #endif
   
   // Remove . and ..
-  files = filter::strings::array_diff (files, {".", ".."});
+  files = filter::string::array_diff (files, {".", ".."});
   
   return files;
 }
@@ -189,10 +189,10 @@ void redirect_browser (Webserver_Request& webserver_request, std::string path)
   // ensure the location contains https rather than plain http,
   // plus the correct secure port.
   if (webserver_request.secure || config_globals_enforce_https_browser) {
-    location = filter::strings::replace ("http:", "https:", location);
+    location = filter::string::replace ("http:", "https:", location);
     std::string plainport = config::logic::http_network_port ();
     std::string secureport = config::logic::https_network_port ();
-    location = filter::strings::replace (":" + plainport, ":" + secureport, location);
+    location = filter::string::replace (":" + plainport, ":" + secureport, location);
   }
   
   location.append (path);
@@ -586,7 +586,7 @@ bool filter_url_get_write_permission (const std::string& path)
 // The only known option is to use the "access" call.
 {
 #ifdef HAVE_WINDOWS
-  std::wstring wpath = filter::strings::string2wstring (path);
+  std::wstring wpath = filter::string::string2wstring (path);
   int result = _waccess (wpath.c_str (), 06);
 #else
   int result = access (path.c_str(), W_OK);
@@ -614,7 +614,7 @@ std::string filter_url_file_get_contents(const std::string& filename)
   if (!file_or_dir_exists (filename)) return std::string();
   try {
 #ifdef HAVE_WINDOWS
-    std::wstring wfilename = filter::strings::string2wstring(filename);
+    std::wstring wfilename = filter::string::string2wstring(filename);
     std::ifstream ifs(wfilename.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
 #else
     std::ifstream ifs(filename.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
@@ -638,7 +638,7 @@ void filter_url_file_put_contents (const std::string& filename, const std::strin
   try {
     std::ofstream file;
 #ifdef HAVE_WINDOWS
-    std::wstring wfilename = filter::strings::string2wstring(filename);
+    std::wstring wfilename = filter::string::string2wstring(filename);
     file.open(wfilename, std::ios::binary | std::ios::trunc);
 #else
     file.open(filename, std::ios::binary | std::ios::trunc);
@@ -657,7 +657,7 @@ void filter_url_file_put_contents_append (const std::string& filename, const std
   try {
     std::ofstream file;
 #ifdef HAVE_WINDOWS
-    std::wstring wfilename = filter::strings::string2wstring (filename);
+    std::wstring wfilename = filter::string::string2wstring (filename);
     file.open (wfilename, std::ios::binary | std::ios::app);
 #else
     file.open (filename, std::ios::binary | std::ios::app);
@@ -774,7 +774,7 @@ std::vector <std::string> filter_url_scandir (const std::string& folder)
 #else
 {
   std::vector <std::string> files = filter_url_scandir_internal (folder);
-  files = filter::strings::array_diff (files, {"gitflag"});
+  files = filter::string::array_diff (files, {"gitflag"});
   return files;
 }
 #endif
@@ -842,7 +842,7 @@ const char * filter_url_temp_dir ()
 // Returns the name of a temporary file.
 std::string filter_url_tempfile (const char * directory)
 {
-  std::string filename = std::to_string (filter::date::seconds_since_epoch ()) + std::to_string (filter::date::numerical_microseconds ()) + std::to_string (filter::strings::rand (10000000, 99999999));
+  std::string filename = std::to_string (filter::date::seconds_since_epoch ()) + std::to_string (filter::date::numerical_microseconds ()) + std::to_string (filter::string::rand (10000000, 99999999));
   if (directory) {
     filename = filter_url_create_path ({directory, filename});
   } else {
@@ -855,7 +855,7 @@ std::string filter_url_tempfile (const char * directory)
 // C++ equivalent for PHP's escapeshellarg function.
 std::string filter_url_escape_shell_argument (std::string argument)
 {
-  argument = filter::strings::replace ("'", "\\'", argument);
+  argument = filter::string::replace ("'", "\\'", argument);
   argument.insert (0, "'");
   argument.append ("'");
   return argument;
@@ -872,7 +872,7 @@ std::string filter_url_unique_path (std::string path)
     std::string uniquepath = path + "." + std::to_string (i);
     if (!file_or_dir_exists (uniquepath)) return uniquepath;
   }
-  return path + "." + std::to_string (filter::strings::rand (100, 1000));
+  return path + "." + std::to_string (filter::string::rand (100, 1000));
 }
 
 
@@ -881,7 +881,7 @@ bool filter_url_email_is_valid (std::string email)
 {
   const std::string valid_set ("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._-");
   // The @ character should appear only once.
-  std::vector <std::string> atbits = filter::strings::explode (email, '@');
+  std::vector <std::string> atbits = filter::string::explode (email, '@');
   if (atbits.size() != 2) return false;
   // The characters on the left of @ should be from the valid set.
   std::string left = atbits [0];
@@ -896,7 +896,7 @@ bool filter_url_email_is_valid (std::string email)
     if (valid_set.find (c) == std::string::npos) return false;
   }
   // The character . should appear at least once to the right of @.
-  std::vector <std::string> dotbits = filter::strings::explode (right, '.');
+  std::vector <std::string> dotbits = filter::string::explode (right, '.');
   if (dotbits.size () < 2) return false;
   // The email address is valid.
   return true;
@@ -1241,14 +1241,14 @@ std::string filter_url_html_file_name_bible (std::string path, int book, int cha
   }
   
   // Add the name for the book. No spaces.
-  filename += filter::strings::fill (std::to_string (book), 2, '0');
+  filename += filter::string::fill (std::to_string (book), 2, '0');
   std::string sbook = database::books::get_english_from_id (static_cast<book_id>(book));
-  sbook = filter::strings::replace (" ", "", sbook);
+  sbook = filter::string::replace (" ", "", sbook);
   filename += '-' + sbook;
   
   // Chapter given: Provide name for the chaper.
   if (chapter >= 0) {
-    filename += '-' + filter::strings::fill (std::to_string (chapter), 3, '0');
+    filename += '-' + filter::string::fill (std::to_string (chapter), 3, '0');
   }
   
   filename += ".html";
@@ -1314,7 +1314,7 @@ void filter_url_curl_set_timeout (void *curl_handle, bool burst)
 // Therefore first convert the + to a TAG before sending it off.
 std::string filter_url_plus_to_tag (std::string data)
 {
-  return filter::strings::replace ("+", "PLUSSIGN", data);
+  return filter::string::replace ("+", "PLUSSIGN", data);
 }
 
 
@@ -1324,7 +1324,7 @@ std::string filter_url_plus_to_tag (std::string data)
 // This function reverts the TAG to the original + sign.
 std::string filter_url_tag_to_plus (std::string data)
 {
-  return filter::strings::replace ("PLUSSIGN", "+", data);
+  return filter::string::replace ("PLUSSIGN", "+", data);
 }
 
 
@@ -1336,10 +1336,10 @@ std::string filter_url_remove_username_password (std::string url)
 
   // Consider the following URL for github:
   // https://username:password@github.com/username/repository.git
-  if (filter::strings::replace_between (url, slashes, ":", "")) {
+  if (filter::string::replace_between (url, slashes, ":", "")) {
     if (pos != std::string::npos) url.insert (pos, slashes);
   }
-  if (filter::strings::replace_between (url, slashes, "@", "")) {
+  if (filter::string::replace_between (url, slashes, "@", "")) {
     if (pos != std::string::npos) url.insert (pos, slashes);
   }
   
@@ -1391,7 +1391,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
     size_t pos2 = url.find ("/");
     if (pos2 == std::string::npos) pos2 = url.length () + 1;
     const std::string p = url.substr (0, pos2);
-    port = filter::strings::convert_to_int (p);
+    port = filter::string::convert_to_int (p);
     url.erase (0, p.length ());
   }
   
@@ -1440,7 +1440,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
       error = "Internet connection failure: " + hostname + ": ";
 #ifdef HAVE_WINDOWS
       wchar_t * err = gai_strerrorW (res);
-      error.append (filter::strings::wstring2string (err));
+      error.append (filter::string::wstring2string (err));
 #else
       error.append (gai_strerror (res));
 #endif
@@ -1487,7 +1487,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
     // Secure connect to host.
     if (connection_healthy) {
       // It used to pass the "server_port" to the connect routine:
-      // const char * server_port = filter::strings::convert_to_string (port).c_str ();
+      // const char * server_port = filter::string::convert_to_string (port).c_str ();
       // But MSVC optimized this variable away before it could be passed to that routine.
       // The code was updated to work around that.
       int ret = mbedtls_net_connect (&fd, hostname.c_str(), std::to_string(port).c_str(), MBEDTLS_NET_PROTO_TCP);
@@ -1542,7 +1542,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
     // Check whether no address succeeded.
     if (connection_healthy) {
       if (rp == nullptr) {
-        error = filter::strings::implode (errors, " | ");
+        error = filter::string::implode (errors, " | ");
         connection_healthy = false;
       }
     }
@@ -1705,7 +1705,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
     FILE* file {nullptr};
     if (!filename.empty ()) {
 #ifdef HAVE_WINDOWS
-      std::wstring wfilename = filter::strings::string2wstring (filename);
+      std::wstring wfilename = filter::string::string2wstring (filename);
       file = _wfopen (wfilename.c_str (), L"w");
 #else
       file = fopen (filename.c_str (), "w");
@@ -1779,14 +1779,14 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
 
   
   // Check the response headers.
-  std::vector <std::string> lines = filter::strings::explode (headers, '\n');
+  std::vector <std::string> lines = filter::string::explode (headers, '\n');
   for (auto & line : lines) {
     if (line.empty ()) continue;
     if (line.find ("HTTP") != std::string::npos) {
       const size_t pos2 = line.find (" ");
       if (pos2 != std::string::npos) {
         line.erase (0, pos2 + 1);
-        int response_code = filter::strings::convert_to_int (line);
+        int response_code = filter::string::convert_to_int (line);
         if (response_code != 200) {
           error = "Response code: " + line;
           return std::string();
@@ -1902,7 +1902,7 @@ void filter_url_display_mbed_tls_error (int& ret, std::string* error, bool serve
 std::string filter_url_set_scheme (std::string url, bool secure)
 {
   // Remove whitespace.
-  url = filter::strings::trim (url);
+  url = filter::string::trim (url);
   // Remove amy existing scheme: http(s) or whatever.
   size_t pos = url.find ("://");
   if (pos != std::string::npos) {
@@ -1922,15 +1922,15 @@ std::string filter_url_set_scheme (std::string url, bool secure)
 // Replace invalid characters in Windows filenames with valid abbreviations.
 std::string filter_url_clean_filename (std::string name)
 {
-  name = filter::strings::replace ("\\", "b2", name);
-  name = filter::strings::replace ("/",  "sl", name);
-  name = filter::strings::replace (":",  "co", name);
-  name = filter::strings::replace ("*",  "as", name);
-  name = filter::strings::replace ("?",  "qu", name);
-  name = filter::strings::replace ("\"", "ba", name);
-  name = filter::strings::replace ("<",  "sm", name);
-  name = filter::strings::replace (">",  "la", name);
-  name = filter::strings::replace ("|",  "ve", name);
+  name = filter::string::replace ("\\", "b2", name);
+  name = filter::string::replace ("/",  "sl", name);
+  name = filter::string::replace (":",  "co", name);
+  name = filter::string::replace ("*",  "as", name);
+  name = filter::string::replace ("?",  "qu", name);
+  name = filter::string::replace ("\"", "ba", name);
+  name = filter::string::replace ("<",  "sm", name);
+  name = filter::string::replace (">",  "la", name);
+  name = filter::string::replace ("|",  "ve", name);
   return name;
 }
 
@@ -1940,15 +1940,15 @@ std::string filter_url_clean_filename (std::string name)
 // The next function does the "unclean" operation, to get the original $name back.
 std::string filter_url_filename_clean (std::string name)
 {
-  name = filter::strings::replace ("\\", "___b2___", name);
-  name = filter::strings::replace ("/",  "___sl___", name);
-  name = filter::strings::replace (":",  "___co___", name);
-  name = filter::strings::replace ("*",  "___as___", name);
-  name = filter::strings::replace ("?",  "___qu___", name);
-  name = filter::strings::replace ("\"", "___ba___", name);
-  name = filter::strings::replace ("<",  "___sm___", name);
-  name = filter::strings::replace (">",  "___la___", name);
-  name = filter::strings::replace ("|",  "___ve___", name);
+  name = filter::string::replace ("\\", "___b2___", name);
+  name = filter::string::replace ("/",  "___sl___", name);
+  name = filter::string::replace (":",  "___co___", name);
+  name = filter::string::replace ("*",  "___as___", name);
+  name = filter::string::replace ("?",  "___qu___", name);
+  name = filter::string::replace ("\"", "___ba___", name);
+  name = filter::string::replace ("<",  "___sm___", name);
+  name = filter::string::replace (">",  "___la___", name);
+  name = filter::string::replace ("|",  "___ve___", name);
   return name;
 }
 
@@ -1956,15 +1956,15 @@ std::string filter_url_filename_clean (std::string name)
 // Take $name, and undo the "clean" function in the above.
 std::string filter_url_filename_unclean (std::string name)
 {
-  name = filter::strings::replace ("___b2___", "\\", name);
-  name = filter::strings::replace ("___sl___", "/",  name);
-  name = filter::strings::replace ("___co___", ":",  name);
-  name = filter::strings::replace ("___as___", "*",  name);
-  name = filter::strings::replace ("___qu___", "?",  name);
-  name = filter::strings::replace ("___ba___", "\"", name);
-  name = filter::strings::replace ("___sm___", "<",  name);
-  name = filter::strings::replace ("___la___", ">",  name);
-  name = filter::strings::replace ("___ve___", "|",  name);
+  name = filter::string::replace ("___b2___", "\\", name);
+  name = filter::string::replace ("___sl___", "/",  name);
+  name = filter::string::replace ("___co___", ":",  name);
+  name = filter::string::replace ("___as___", "*",  name);
+  name = filter::string::replace ("___qu___", "?",  name);
+  name = filter::string::replace ("___ba___", "\"", name);
+  name = filter::string::replace ("___sm___", "<",  name);
+  name = filter::string::replace ("___la___", ">",  name);
+  name = filter::string::replace ("___ve___", "|",  name);
   return name;
 }
 
@@ -1974,7 +1974,7 @@ std::string filter_url_filename_unclean (std::string name)
 std::string filter_url_update_directory_separator_if_windows (std::string filename)
 {
 #ifdef HAVE_WINDOWS
-  filename = filter::strings::replace ("/", DIRECTORY_SEPARATOR, filename);
+  filename = filter::string::replace ("/", DIRECTORY_SEPARATOR, filename);
 #endif
   return filename;
 }
@@ -2121,7 +2121,7 @@ void filter_url_get_scheme_host_port (std::string url, std::string & scheme, std
     size_t pos2 = url.find ("/");
     if (pos2 == std::string::npos) pos2 = url.length () + 1;
     std::string p = url.substr (0, pos2);
-    port = filter::strings::convert_to_int (p);
+    port = filter::string::convert_to_int (p);
     url.erase (0, p.length ());
   }
 }

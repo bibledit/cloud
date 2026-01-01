@@ -59,7 +59,7 @@ std::string versification_system (Webserver_Request& webserver_request)
   Database_Versifications database_versifications = Database_Versifications();
 
   std::string name = webserver_request.query["name"];
-  view.set_variable ("name", filter::strings::escape_special_xml_characters (name));
+  view.set_variable ("name", filter::string::escape_special_xml_characters (name));
 
   if (webserver_request.post_count("submit")) {
     std::string data = webserver_request.post_get("data");
@@ -78,10 +78,10 @@ std::string versification_system (Webserver_Request& webserver_request)
     data.push_back ("<tr>");
     data.push_back ("<td>" + bookname + "</td>");
     data.push_back ("<td>" + std::to_string (chapter) + "</td>");
-    data.push_back ("<td>" + filter::strings::convert_to_string (verse) + "</td>");
+    data.push_back ("<td>" + filter::string::convert_to_string (verse) + "</td>");
     data.push_back ("</tr>");
   }
-  view.set_variable ("data", filter::strings::implode (data, "\n"));
+  view.set_variable ("data", filter::string::implode (data, "\n"));
 
   std::string output = database_versifications.output (name);
   view.set_variable ("output", output);

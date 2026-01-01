@@ -82,7 +82,7 @@ void Database_Mappings::defaults ()
     if (extension != "txt")
       continue;
     name = name.substr (0, strlen (name.c_str()) - 4);
-    name = filter::strings::replace ("_", " ", name);
+    name = filter::string::replace ("_", " ", name);
     const std::string path = filter_url_create_path ({folder, file});
     const std::string data = filter_url_file_get_contents (path);
     import (name, data);
@@ -109,50 +109,50 @@ void Database_Mappings::import (const std::string& name, const std::string& data
   sql.set_sql ("BEGIN;");
   sql.execute();
 
-  const std::vector <std::string> lines = filter::strings::explode (data, '\n');
+  const std::vector <std::string> lines = filter::string::explode (data, '\n');
   for (std::string line : lines) {
     
     // Each line looks like this: 
     // Haggai 2:15 = Haggai 2:14
     // At the left is the passage in this versification.
     // At the right is the passage in the original Hebrew and Greek versification.
-    line = filter::strings::trim (line);
+    line = filter::string::trim (line);
     if (line.empty ()) continue;
 
     // Cut the line into two: The two passages.
-    std::vector <std::string> entry = filter::strings::explode (line, '=');
+    std::vector <std::string> entry = filter::string::explode (line, '=');
     if (entry.size() != 2) continue;
     
-    std::string passage_string = filter::strings::trim (entry [0]);
-    std::string original_string = filter::strings::trim (entry [1]);
+    std::string passage_string = filter::string::trim (entry [0]);
+    std::string original_string = filter::string::trim (entry [1]);
 
     // Storage for further interpretation.
     std::vector <std::string> bits;
     
     // Split the passage entry on the colon (:) to get the verse.
-    bits = filter::strings::explode(passage_string, ':');
+    bits = filter::string::explode(passage_string, ':');
     if (bits.size() != 2) continue;
-    int passage_verse = filter::strings::convert_to_int(bits[1]);
+    int passage_verse = filter::string::convert_to_int(bits[1]);
     // Split the first bit on the spaces and get the last item as the chapter.
-    bits = filter::strings::explode(bits[0], ' ');
+    bits = filter::string::explode(bits[0], ' ');
     if (bits.size() < 2) continue;
-    int passage_chapter = filter::strings::convert_to_int(bits[bits.size()-1]);
+    int passage_chapter = filter::string::convert_to_int(bits[bits.size()-1]);
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
-    std::string passage_book_string = filter::strings::implode(bits, " ");
+    std::string passage_book_string = filter::string::implode(bits, " ");
     int passage_book = static_cast<int>(database::books::get_id_from_english(passage_book_string));
 
     // Split the original entry on the colon (:) to get the verse.
-    bits = filter::strings::explode(original_string, ':');
+    bits = filter::string::explode(original_string, ':');
     if (bits.size() != 2) continue;
-    int original_verse = filter::strings::convert_to_int(bits[1]);
+    int original_verse = filter::string::convert_to_int(bits[1]);
     // Split the first bit on the spaces and get the last item as the chapter.
-    bits = filter::strings::explode(bits[0], ' ');
+    bits = filter::string::explode(bits[0], ' ');
     if (bits.size() < 2) continue;
-    int original_chapter = filter::strings::convert_to_int(bits[bits.size()-1]);
+    int original_chapter = filter::string::convert_to_int(bits[bits.size()-1]);
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
-    std::string original_book_string = filter::strings::implode(bits, " ");
+    std::string original_book_string = filter::string::implode(bits, " ");
     int original_book = static_cast<int>(database::books::get_id_from_english(original_book_string));
 
     // Store it in the database.
@@ -198,18 +198,18 @@ std::string Database_Mappings::output (const std::string& name)
   const std::vector <std::string> origverses = result ["origverse"];
 
   for (unsigned int i = 0; i < books.size (); i++) {
-    const int book = filter::strings::convert_to_int (books [i]);
+    const int book = filter::string::convert_to_int (books [i]);
     const std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     const std::string chapter = chapters [i];
     const std::string verse = verses [i];
-    const int origbook = filter::strings::convert_to_int (origbooks[i]);
+    const int origbook = filter::string::convert_to_int (origbooks[i]);
     const std::string origbookname = database::books::get_english_from_id (static_cast<book_id>(origbook));
     const std::string origchapter = origchapters[i];
     const std::string origverse = origverses [i];
     const std::string item = bookname + " " + chapter + ":" + verse + " = " + origbookname + " " + origchapter + ":" + origverse;
     data.push_back (item);
   }
-  return filter::strings::implode (data, "\n");
+  return filter::string::implode (data, "\n");
 }
 
 
@@ -293,7 +293,7 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
     const std::vector <std::string> origchapters = result ["origchapter"];
     const std::vector <std::string> origverses = result ["origverse"];
     for (unsigned int i = 0; i < origbooks.size (); i++) {
-      const Passage passage ("", filter::strings::convert_to_int (origbooks [i]), filter::strings::convert_to_int (origchapters [i]), origverses [i]);
+      const Passage passage ("", filter::string::convert_to_int (origbooks [i]), filter::string::convert_to_int (origchapters [i]), origverses [i]);
       origpassage.push_back (passage);
     }
   }
@@ -316,7 +316,7 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
   for (const Passage& passage : origpassage) {
     const int origbook = passage.m_book;
     const int origchapter = passage.m_chapter;
-    const int origverse = filter::strings::convert_to_int (passage.m_verse);
+    const int origverse = filter::string::convert_to_int (passage.m_verse);
     SqliteDatabase sql (mappings);
     sql.add ("SELECT book, chapter, verse FROM maps WHERE name =");
     sql.add (output);
@@ -332,7 +332,7 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
     const std::vector <std::string> chapters = result ["chapter"];
     const std::vector <std::string> verses = result ["verse"];
     for (unsigned int i = 0; i < books.size (); i++) {
-      Passage passage2 = Passage (std::string(), filter::strings::convert_to_int (books [i]), filter::strings::convert_to_int (chapters [i]), verses [i]);
+      Passage passage2 = Passage (std::string(), filter::string::convert_to_int (books [i]), filter::string::convert_to_int (chapters [i]), verses [i]);
       bool passageExists = false;
       for (auto& existingpassage : targetpassage) {
         if (existingpassage.equal (passage2)) passageExists = true;

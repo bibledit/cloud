@@ -82,22 +82,22 @@ void Database_Versifications::input (const std::string& contents, const std::str
   sql.set_sql ("BEGIN;");
   sql.execute();
 
-  std::vector <std::string> lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> lines = filter::string::explode (contents, '\n');
   for (auto line : lines) {
-    line = filter::strings::trim (line);
+    line = filter::string::trim (line);
     if (line.empty ()) continue;
     // The line will be something similar to this: 1 Corinthians 1:31
     // Split the passage entry on the colon (:) to get the verse.
-    std::vector <std::string> bits = filter::strings::explode(line, ':');
+    std::vector <std::string> bits = filter::string::explode(line, ':');
     if (bits.size() != 2) continue;
-    int verse = filter::strings::convert_to_int(bits[1]);
+    int verse = filter::string::convert_to_int(bits[1]);
     // Split the first bit on the spaces and get the last item as the chapter.
-    bits = filter::strings::explode(bits[0], ' ');
+    bits = filter::string::explode(bits[0], ' ');
     if (bits.size() < 2) continue;
-    int chapter = filter::strings::convert_to_int(bits[bits.size()-1]);
+    int chapter = filter::string::convert_to_int(bits[bits.size()-1]);
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
-    std::string passage_book_string = filter::strings::implode(bits, " ");
+    std::string passage_book_string = filter::string::implode(bits, " ");
     int book = static_cast<int>(database::books::get_id_from_english(passage_book_string));
     // Check result.
     if ((book == 0) || (chapter == 0)) {
@@ -136,7 +136,7 @@ std::string Database_Versifications::output (const std::string& name)
     line.append (passage.m_verse);
     lines.push_back (line);
   }
-  return filter::strings::implode (lines, "\n");
+  return filter::string::implode (lines, "\n");
 }
 
 
@@ -169,7 +169,7 @@ int Database_Versifications::getID (const std::string& name)
   const std::vector <std::string> systems = sql.query () ["system"];
   if (!systems.empty()) {
     const auto id = systems.at(0);
-    return filter::strings::convert_to_int (id);
+    return filter::string::convert_to_int (id);
   }
   return 0;
 }
@@ -190,7 +190,7 @@ int Database_Versifications::createSystem (const std::string& name)
   sql.set_sql ("SELECT system FROM names ORDER BY system DESC LIMIT 1;");
   const std::vector <std::string> systems = sql.query () ["system"];
   for (const auto& system : systems) {
-    id = filter::strings::convert_to_int (system);
+    id = filter::string::convert_to_int (system);
   }
   id++;
   if (!creating_defaults) if (id < 1000) id = 1000;
@@ -232,8 +232,8 @@ std::vector <Passage> Database_Versifications::getBooksChaptersVerses (const std
   const std::vector <std::string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
     Passage passage;
-    passage.m_book = filter::strings::convert_to_int (books [i]);
-    passage.m_chapter = filter::strings::convert_to_int (chapters [i]);
+    passage.m_book = filter::string::convert_to_int (books [i]);
+    passage.m_chapter = filter::string::convert_to_int (chapters [i]);
     passage.m_verse = verses [i];
     data.push_back (passage);
   }
@@ -251,7 +251,7 @@ std::vector <int> Database_Versifications::getBooks (const std::string& name)
   sql.add ("ORDER BY book ASC;");
   std::vector <std::string> sbooks = sql.query () ["book"];
   for (const auto& book : sbooks) {
-    books.push_back (filter::strings::convert_to_int (book));
+    books.push_back (filter::string::convert_to_int (book));
   }
   return books;
 }
@@ -272,7 +272,7 @@ std::vector <int> Database_Versifications::getChapters (const std::string& name,
   sql.add ("ORDER BY chapter ASC;");
   std::vector <std::string> schapters = sql.query () ["chapter"];
   for (const auto& chapter : schapters) {
-    chapters.push_back (filter::strings::convert_to_int (chapter));
+    chapters.push_back (filter::string::convert_to_int (chapter));
   }
   return chapters;
 }
@@ -292,7 +292,7 @@ std::vector <int> Database_Versifications::getVerses (const std::string& name, i
   sql.add ("ORDER BY verse ASC;");
   std::vector <std::string> sverses = sql.query () ["verse"];
   for (const auto& verse : sverses) {
-    const int maxverse = filter::strings::convert_to_int (verse);
+    const int maxverse = filter::string::convert_to_int (verse);
     for (int i = 0; i <= maxverse; i++) {
       verses.push_back (i);
     }
@@ -337,7 +337,7 @@ std::vector <int> Database_Versifications::getMaximumBooks ()
   sql.add ("SELECT DISTINCT book FROM data ORDER BY book ASC;");
   const std::vector <std::string> sbooks = sql.query () ["book"];
   for (const auto& book : sbooks) {
-    books.push_back (filter::strings::convert_to_int (book));
+    books.push_back (filter::string::convert_to_int (book));
   }
   return books;
 }
@@ -354,7 +354,7 @@ std::vector <int> Database_Versifications::getMaximumChapters (int book)
   sql.add ("ORDER BY chapter ASC;");
   const std::vector <std::string> schapters = sql.query () ["chapter"];
   for (const auto& chapter : schapters) {
-    chapters.push_back (filter::strings::convert_to_int (chapter));
+    chapters.push_back (filter::string::convert_to_int (chapter));
   }
   return chapters;
 }
@@ -372,7 +372,7 @@ std::vector <int> Database_Versifications::getMaximumVerses (int book, int chapt
   sql.add ("ORDER BY verse ASC;");
   const std::vector <std::string> sverses = sql.query () ["verse"];
   for (const auto& verse : sverses) {
-    const int maxverse = filter::strings::convert_to_int (verse);
+    const int maxverse = filter::string::convert_to_int (verse);
     for (int i = 0; i <= maxverse; i++) {
       verses.push_back (i);
     }

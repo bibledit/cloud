@@ -34,7 +34,7 @@ void editone_logic_prefix_html (const std::string& usfm, const std::string& styl
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
     // No identical id's in the same DOM.
-    html = filter::strings::replace (R"( id="notes")", R"( id="prefixnotes")", std::move(html));
+    html = filter::string::replace (R"( id="notes")", R"( id="prefixnotes")", std::move(html));
     // The last paragraph style in this USFM fragment, the prefix to the editable fragment.
     // If the last paragraph has any content in it,
     // for correct visual representation of the editable fragment, that follows this,
@@ -69,7 +69,7 @@ void editone_logic_suffix_html (const std::string& editable_last_p_style, const 
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
     // No identical id in the same DOM.
-    html = filter::strings::replace (R"( id="notes")", R"( id="suffixnotes")", std::move(html));
+    html = filter::string::replace (R"( id="notes")", R"( id="suffixnotes")", std::move(html));
   }
   
   // If the first paragraph of the suffix does not have a paragraph style applied,
@@ -81,7 +81,7 @@ void editone_logic_suffix_html (const std::string& editable_last_p_style, const 
   if (!html.empty ()) {
     if (!editable_last_p_style.empty ()) {
       pugi::xml_document document;
-      html = filter::strings::html2xml (std::move(html));
+      html = filter::string::html2xml (std::move(html));
       document.load_string (std::move(html).c_str(), pugi::parse_ws_pcdata_single);
       pugi::xml_node p_node = document.first_child ();
       const std::string p_style = p_node.attribute ("class").value ();
@@ -108,7 +108,7 @@ std::string editone_logic_html_to_usfm (const std::string& stylesheet, std::stri
   // It does it much later now, before saving the USFM that the converter produces.
   
   // Convert special spaces to normal ones.
-  html = filter::strings::any_space_to_standard_space (std::move(html));
+  html = filter::string::any_space_to_standard_space (std::move(html));
 
   // Convert the html back to USFM in the special way for editing one verse.
   const std::string usfm = editor_export_verse_quill (stylesheet, std::move(html));
@@ -126,7 +126,7 @@ void editone_logic_move_notes (std::string& prefix, std::string& suffix)
     return;
   
   // Do a html to xml conversion to avoid a mismatched tag error.
-  prefix = filter::strings::html2xml (prefix);
+  prefix = filter::string::html2xml (prefix);
 
   // Load the prefix.
   pugi::xml_document document;
@@ -177,7 +177,7 @@ void editone_logic_move_notes (std::string& prefix, std::string& suffix)
   }
 
   // Do a html to xml conversion in the suffix to avoid a mismatched tag error.
-  suffix = filter::strings::html2xml (std::move(suffix));
+  suffix = filter::string::html2xml (std::move(suffix));
 
   // Load the suffix.
   document.load_string (std::move(suffix).c_str(), pugi::parse_ws_pcdata_single);

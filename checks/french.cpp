@@ -32,8 +32,8 @@
 void checks_french::space_before_after_punctuation (const std::string& bible, int book, int chapter,
                                                     const std::map <int, std::string>& texts)
 {
-  const std::string nbsp = filter::strings::non_breaking_space_u00A0 ();
-  const std::string nnbsp = filter::strings::narrow_non_breaking_space_u202F ();
+  const std::string nbsp = filter::string::non_breaking_space_u00A0 ();
+  const std::string nnbsp = filter::string::narrow_non_breaking_space_u202F ();
   const std::vector <std::string> right_punctuation = { right_guillemet(), "!", "?", ":", ";" };
   for (const auto & element : texts) {
     int verse = element.first;
@@ -60,10 +60,10 @@ void checks_french::space_before_after_punctuation (const std::string& bible, in
     for (const auto & punctuation : right_punctuation) {
       std::string text = element.second;
       // The location of this punctuation character.
-      size_t pos = filter::strings::unicode_string_strpos (text, punctuation);
+      size_t pos = filter::string::unicode_string_strpos (text, punctuation);
       while (pos != std::string::npos) {
         if (pos > 0) {
-          const std::string preceding_character = filter::strings::unicode_string_substr (text, pos - 1, 1);
+          const std::string preceding_character = filter::string::unicode_string_substr (text, pos - 1, 1);
           if (preceding_character == " ") {
             const std::string message = punctuation + " - " + checks::issues::text(checks::issues::issue::should_be_preceded_by_a_no_break_space_rather_than_a_plain_space_in_french);
             database::check::record_output (bible, book, chapter, verse, message);
@@ -76,8 +76,8 @@ void checks_french::space_before_after_punctuation (const std::string& bible, in
           }
         }
         // Prepare for next iteration.
-        text = filter::strings::unicode_string_substr (text, pos + 1, filter::strings::unicode_string_length (text) - pos - 1);
-        pos = filter::strings::unicode_string_strpos (text, punctuation);
+        text = filter::string::unicode_string_substr (text, pos + 1, filter::string::unicode_string_length (text) - pos - 1);
+        pos = filter::string::unicode_string_strpos (text, punctuation);
       }
     }
     
@@ -114,7 +114,7 @@ void checks_french::citation_style (const std::string & bible, int book, int cha
         int verse = verses_paragraph.begin()->first;
         const std::string text = verses_paragraph.begin()->second;
         if (!text.empty ()) {
-          const std::string character = filter::strings::unicode_string_substr (text, 0, 1);
+          const std::string character = filter::string::unicode_string_substr (text, 0, 1);
           if (character != left_guillemet ()) {
             const std::string message = checks::issues::text(checks::issues::issue::the_previous_paragraph_contains_a_citation_not_closed_with_a_right_guillemet_therefore_the_current_paragraph_is_expected_to_start_with_a_left_guillemet_to_continue_that_citation_in_french);
             database::check::record_output (bible, book, chapter, verse, message);
@@ -131,9 +131,9 @@ void checks_french::citation_style (const std::string & bible, int book, int cha
       last_verse = element.first;
     }
     int opener_count {0};
-    filter::strings::replace (left_guillemet (), "", paragraph, &opener_count);
+    filter::string::replace (left_guillemet (), "", paragraph, &opener_count);
     int closer_count {0};
-    filter::strings::replace (right_guillemet (), "", paragraph, &closer_count);
+    filter::string::replace (right_guillemet (), "", paragraph, &closer_count);
 
     // Determine whether the current paragraph opens a citation and does not close it.
     previous_paragraph_open_citation = (opener_count > closer_count);

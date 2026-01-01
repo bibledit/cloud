@@ -439,7 +439,7 @@ std::string get_chapters_fragment (const std::string& bible, const int book, con
   const auto get_chapters = [&]() {
     if (bible.empty ()) {
       Database_Versifications database_versifications;
-      return database_versifications.getChapters (filter::strings::english (), book, true);
+      return database_versifications.getChapters (filter::string::english (), book, true);
     }
     return database::bibles::get_chapters (bible, book);
   };
@@ -464,7 +464,7 @@ std::string get_verses_fragment (const std::string& bible, const int book, const
   std::vector <int> verses;
   if (bible.empty()) {
     Database_Versifications database_versifications;
-    verses = database_versifications.getVerses (filter::strings::english (), book, chapter);
+    verses = database_versifications.getVerses (filter::string::english (), book, chapter);
   } else {
     verses = filter::usfm::get_verse_numbers (database::bibles::get_chapter (bible, book, chapter));
   }
@@ -523,7 +523,7 @@ void set_passage (Webserver_Request& webserver_request, const std::string& bible
   const int book = ipc_focus::get_book (webserver_request);
   const int chapter = ipc_focus::get_chapter (webserver_request);
   const int verse = ipc_focus::get_verse (webserver_request);
-  passage = filter::strings::trim (std::move(passage));
+  passage = filter::string::trim (std::move(passage));
   Passage passage_to_set;
   if ((passage.empty()) || (passage == "+")) {
     passage_to_set = get_next_verse (bible, book, chapter, verse);
@@ -534,8 +534,8 @@ void set_passage (Webserver_Request& webserver_request, const std::string& bible
     passage_to_set = filter_passage_interpret_passage (inputpassage, passage);
   }
   if (passage_to_set.m_book) {
-    ipc_focus::set_passage (webserver_request, passage_to_set.m_book, passage_to_set.m_chapter, filter::strings::convert_to_int (passage_to_set.m_verse));
-    record_history (webserver_request, passage_to_set.m_book, passage_to_set.m_chapter, filter::strings::convert_to_int (passage_to_set.m_verse));
+    ipc_focus::set_passage (webserver_request, passage_to_set.m_book, passage_to_set.m_chapter, filter::string::convert_to_int (passage_to_set.m_verse));
+    record_history (webserver_request, passage_to_set.m_book, passage_to_set.m_chapter, filter::string::convert_to_int (passage_to_set.m_verse));
   }
 }
 
@@ -545,8 +545,8 @@ void goto_next_book (Webserver_Request& webserver_request, const std::string& bi
   const int current_book = ipc_focus::get_book (webserver_request);
   Passage passage = get_next_book (bible, current_book);
   if (passage.m_book) {
-    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
-    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
+    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
   }
 }
 
@@ -556,8 +556,8 @@ void goto_previous_book (Webserver_Request& webserver_request, const std::string
   int current_book = ipc_focus::get_book (webserver_request);
   const Passage passage = get_previous_book (bible, current_book);
   if (passage.m_book) {
-    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
-    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
+    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
   }
 }
 
@@ -568,8 +568,8 @@ void goto_next_chapter (Webserver_Request& webserver_request, const std::string&
   const int chapter = ipc_focus::get_chapter (webserver_request);
   const Passage passage = get_next_chapter (bible, book, chapter);
   if (passage.m_book) {
-    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
-    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
+    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
   }
 }
 
@@ -580,8 +580,8 @@ void goto_previous_chapter (Webserver_Request& webserver_request, const std::str
   int chapter = ipc_focus::get_chapter (webserver_request);
   const Passage passage = get_previous_chapter (bible, book, chapter);
   if (passage.m_book) {
-    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
-    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
+    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
   }
 }
 
@@ -593,8 +593,8 @@ void goto_next_verse (Webserver_Request& webserver_request, const std::string& b
   const int verse = ipc_focus::get_verse (webserver_request);
   const Passage passage = get_next_verse (bible, book, chapter, verse);
   if (passage.m_book) {
-    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
-    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
+    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
   }
 }
 
@@ -606,8 +606,8 @@ void goto_previous_verse (Webserver_Request& webserver_request, const std::strin
   const int verse = ipc_focus::get_verse (webserver_request);
   const Passage passage = get_previous_verse (bible, book, chapter, verse);
   if (passage.m_book) {
-    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
-    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
+    record_history (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
   }
 }
 
@@ -628,7 +628,7 @@ void go_back (Webserver_Request& webserver_request)
   const int focus_group = ipc_focus::get_focus_group(webserver_request);
   const Passage passage = database_navigation.get_previous (user, focus_group);
   if (passage.m_book) {
-    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
   }
 }
 
@@ -640,7 +640,7 @@ void go_forward (Webserver_Request& webserver_request)
   const int focus_group = ipc_focus::get_focus_group(webserver_request);
   const Passage passage = database_navigation.get_next (user, focus_group);
   if (passage.m_book) {
-    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
   }
 }
 
@@ -753,8 +753,8 @@ void interpret_keyboard_navigator (Webserver_Request& webserver_request, std::st
   const Passage new_passage = filter_passage_interpret_passage (current_passage, passage);
   
   // Store book / chapter / verse.
-  ipc_focus::set_passage (webserver_request, new_passage.m_book, new_passage.m_chapter, filter::strings::convert_to_int (new_passage.m_verse));
-  record_history (webserver_request, new_passage.m_book, new_passage.m_chapter, filter::strings::convert_to_int (new_passage.m_verse));
+  ipc_focus::set_passage (webserver_request, new_passage.m_book, new_passage.m_chapter, filter::string::convert_to_int (new_passage.m_verse));
+  record_history (webserver_request, new_passage.m_book, new_passage.m_chapter, filter::string::convert_to_int (new_passage.m_verse));
 }
 
 
@@ -832,7 +832,7 @@ void go_history (Webserver_Request& webserver_request, std::string message)
   if (!direction) return;
   
   // Get the offset of the history item.
-  const int offset = filter::strings::convert_to_int(message);
+  const int offset = filter::string::convert_to_int(message);
   
   // Go n times forward or backward.
   for (int i = 0; i <= offset; i++) {

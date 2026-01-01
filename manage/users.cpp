@@ -84,7 +84,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     constexpr const char* identification {"defaultacl"};
     if (webserver_request.post_count(identification)) {
       const std::string value {webserver_request.post_get(identification)};
-      const int defaultacl = filter::strings::convert_to_int (value);
+      const int defaultacl = filter::string::convert_to_int (value);
       database::config::general::set_default_new_user_access_level(defaultacl);
       return std::string();
     }
@@ -177,7 +177,7 @@ std::string manage_users (Webserver_Request& webserver_request)
       const std::string identification = level_identification + std::to_string(u);
       if (webserver_request.post_count(identification)) {
         const std::string value = webserver_request.post_get(identification);
-        webserver_request.database_users ()->set_level (object_username, filter::strings::convert_to_int (value));
+        webserver_request.database_users ()->set_level (object_username, filter::string::convert_to_int (value));
       }
     }
   }
@@ -256,7 +256,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     
     // Display emoji to delete this account.
     tbody << "<td>";
-    tbody << "<a href=" << std::quoted("?user=" + username + "&delete") << ">" << filter::strings::emoji_wastebasket () << "</a> " << username;
+    tbody << "<a href=" << std::quoted("?user=" + username + "&delete") << ">" << filter::string::emoji_wastebasket () << "</a> " << username;
     tbody << "</td>";
 
     // Divider.

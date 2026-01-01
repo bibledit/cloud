@@ -148,7 +148,7 @@ sqlite3 * connect (const std::string& database)
 
 std::string no_sql_injection (const std::string& sql)
 {
-  return filter::strings::replace ("'", "''", sql);
+  return filter::string::replace ("'", "''", sql);
 }
 
 

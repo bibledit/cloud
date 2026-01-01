@@ -41,7 +41,7 @@ void images_logic_import_images (std::string path)
     paths.erase (paths.begin());
     std::string basename = filter_url_basename (path);
     std::string extension = filter_url_get_extension (path);
-    extension = filter::strings::unicode_string_casefold (extension);
+    extension = filter::string::unicode_string_casefold (extension);
 
     // Store images.
     if (filter_url_is_image (extension)) {

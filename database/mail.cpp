@@ -112,7 +112,7 @@ int Database_Mail::getMailCount ()
   sql.add (";");
   const std::vector <std::string> result = sql.query () ["count(*)"];
   if (!result.empty ()) {
-    return filter::strings::convert_to_int (result.at(0));
+    return filter::string::convert_to_int (result.at(0));
   }
   return 0;
 }
@@ -133,8 +133,8 @@ std::vector <Database_Mail_User> Database_Mail::getMails ()
   const std::vector <std::string> subjects = result ["subject"];
   for (unsigned int i = 0; i < rowids.size(); i++) {
     Database_Mail_User db_mail = Database_Mail_User ();
-    db_mail.rowid = filter::strings::convert_to_int (rowids [i]);
-    db_mail.timestamp = filter::strings::convert_to_int (timestamps [i]);
+    db_mail.rowid = filter::string::convert_to_int (rowids [i]);
+    db_mail.timestamp = filter::string::convert_to_int (timestamps [i]);
     db_mail.subject = subjects [i];
     mails.push_back (db_mail);
   }
@@ -182,7 +182,7 @@ std::vector <int> Database_Mail::getMailsToSend ()
   sql.add (";");
   const std::vector <std::string> result = sql.query () ["rowid"];
   for (const auto& id : result) {
-    ids.push_back (filter::strings::convert_to_int (id));
+    ids.push_back (filter::string::convert_to_int (id));
   }
   return ids;
 }
@@ -213,7 +213,7 @@ std::vector <int> Database_Mail::getAllMails ()
   sql.add ("SELECT rowid FROM mail;");
   const std::vector <std::string> result = sql.query () ["rowid"];
   for (const auto& rowid : result) {
-    const int id = filter::strings::convert_to_int (rowid);
+    const int id = filter::string::convert_to_int (rowid);
     rowids.push_back (id);
   }
   return rowids;

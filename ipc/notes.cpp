@@ -37,7 +37,7 @@ void Ipc_Notes::open (Webserver_Request& webserver_request, int identifier)
 int Ipc_Notes::get (Webserver_Request& webserver_request)
 {
   Database_Ipc_Message data = webserver_request.database_ipc()->getNote ();
-  return filter::strings::convert_to_int (data.message);
+  return filter::string::convert_to_int (data.message);
 }
 
 
@@ -59,7 +59,7 @@ bool Ipc_Notes::alive (Webserver_Request& webserver_request, bool set, bool aliv
 {
   const std::string& user = webserver_request.session_logic ()->get_username ();
   if (set) {
-    webserver_request.database_ipc()->storeMessage (user, "", "notesalive", filter::strings::convert_to_string (alive));
+    webserver_request.database_ipc()->storeMessage (user, "", "notesalive", filter::string::convert_to_string (alive));
   } else {
     return webserver_request.database_ipc()->getNotesAlive ();
   }

@@ -69,14 +69,14 @@ std::string checks_index (Webserver_Request& webserver_request)
   
 
   if (webserver_request.query.count ("approve")) {
-    const int approve = filter::strings::convert_to_int (webserver_request.query["approve"]);
+    const int approve = filter::string::convert_to_int (webserver_request.query["approve"]);
     database::check::approve (approve);
     view.set_variable ("success", translate("The entry was suppressed."));
   }
   
                         
   if (webserver_request.query.count ("delete")) {
-    const int id = filter::strings::convert_to_int (webserver_request.query["delete"]);
+    const int id = filter::string::convert_to_int (webserver_request.query["delete"]);
     database::check::delete_id (id);
     view.set_variable ("success", translate("The entry was deleted for just now."));
   }
@@ -100,7 +100,7 @@ std::string checks_index (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("deletegroup")) {
-    const int group = filter::strings::convert_to_int (webserver_request.query.at("deletegroup"));
+    const int group = filter::string::convert_to_int (webserver_request.query.at("deletegroup"));
     using namespace checks::issues;
     if (group > static_cast<int>(issue::start_boundary) and group < static_cast<int>(issue::stop_boundary)) {
       const auto fragment = text(static_cast<enum issue>(group));
@@ -128,11 +128,11 @@ std::string checks_index (Webserver_Request& webserver_request)
       if (find (bibles.begin(), bibles.end (), bible) == bibles.end ())
         continue;
       const int id = hit.rowid;
-      bible = filter::strings::escape_special_xml_characters (bible);
+      bible = filter::string::escape_special_xml_characters (bible);
       const int book = hit.book;
       const int chapter = hit.chapter;
       const int verse = hit.verse;
-      const std::string information = filter::strings::escape_special_xml_characters (hit.data);
+      const std::string information = filter::string::escape_special_xml_characters (hit.data);
       pugi::xml_node p = document.append_child("p");
       // Add the Bible.
       p.append_child("span").text().set(bible.c_str());

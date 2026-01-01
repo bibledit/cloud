@@ -116,7 +116,7 @@ void sendreceive_files ()
     return;
   }
   const std::string user {users.at(0)};
-  post ["u"] = filter::strings::bin2hex (user);
+  post ["u"] = filter::string::bin2hex (user);
 
   
   post ["v"] = std::to_string (version);
@@ -135,7 +135,7 @@ void sendreceive_files ()
     sendreceive_files_done ();
     return;
   }
-  iresponse = filter::strings::convert_to_int (response);
+  iresponse = filter::string::convert_to_int (response);
   int checksum = Sync_Logic::files_get_total_checksum (version, user);
   if (iresponse == checksum) {
     Database_Logs::log (sendreceive_files_up_to_date_text (), roles::translator);
@@ -166,7 +166,7 @@ void sendreceive_files ()
       sendreceive_files_done ();
       return;
     }
-    iresponse = filter::strings::convert_to_int (response);
+    iresponse = filter::string::convert_to_int (response);
     int checksum_d = Sync_Logic::files_get_directory_checksum (directory);
     if (iresponse == checksum_d) {
       continue;
@@ -181,12 +181,12 @@ void sendreceive_files ()
       sendreceive_files_done ();
       return;
     }
-    const std::vector <std::string> server_files = filter::strings::explode (response, '\n');
+    const std::vector <std::string> server_files = filter::string::explode (response, '\n');
     
     
     // Delete files that exist locally but not on the server.
     const std::vector <std::string> client_files = Sync_Logic::files_get_files (directory);
-    const std::vector <std::string> files = filter::strings::array_diff (client_files, server_files);
+    const std::vector <std::string> files = filter::string::array_diff (client_files, server_files);
     for (const auto& file : files) {
       Database_Logs::log (sendreceive_files_text () + "Deleting file: " + filter_url_create_path ({directory, file}), roles::translator);
       std::string path = filter_url_create_root_path ({directory, file});
@@ -212,7 +212,7 @@ void sendreceive_files ()
         sendreceive_files_done ();
         return;
       }
-      const int iresponse_file = filter::strings::convert_to_int (response);
+      const int iresponse_file = filter::string::convert_to_int (response);
       const int checksum_file = Sync_Logic::files_get_file_checksum (directory, file);
       if (iresponse_file == checksum_file) {
         continue;
@@ -235,7 +235,7 @@ void sendreceive_files ()
         {"a", std::to_string (Sync_Logic::files_file_download)},
         {"v", std::to_string (version)},
         {"d", std::to_string (d)},
-        {"u", filter::strings::bin2hex (user)},
+        {"u", filter::string::bin2hex (user)},
         {"f", filter_url_urlencode (file)},
       });
       // Download and save file locally.

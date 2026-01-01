@@ -62,7 +62,7 @@ std::string http_network_port ()
   const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "network-port"});
   config_globals_negotiated_port_number = filter_url_file_get_contents (path);
   // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
-  config_globals_negotiated_port_number = filter::strings::trim (config_globals_negotiated_port_number);
+  config_globals_negotiated_port_number = filter::string::trim (config_globals_negotiated_port_number);
   // Default port number.
   if (config_globals_negotiated_port_number.empty ()) config_globals_negotiated_port_number = "8080";
   // Done.
@@ -77,11 +77,11 @@ std::string https_network_port ()
   const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "network-port-secure"});
   std::string port = filter_url_file_get_contents (path);
   // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
-  port = filter::strings::trim (port);
+  port = filter::string::trim (port);
   // Default value.
   if (port.empty ()) {
     // The secure port is the plain http port plus one.
-    int iport = filter::strings::convert_to_int (config::logic::http_network_port ());
+    int iport = filter::string::convert_to_int (config::logic::http_network_port ());
     iport++;
     port = std::to_string (iport);
   }
@@ -101,7 +101,7 @@ bool demo_enabled ()
 std::string admin_username ()
 {
   const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-username"});
-  return filter::strings::trim (filter_url_file_get_contents (path));
+  return filter::string::trim (filter_url_file_get_contents (path));
 }
 
 
@@ -109,7 +109,7 @@ std::string admin_username ()
 std::string admin_password ()
 {
   const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-password"});
-  return filter::strings::trim (filter_url_file_get_contents (path));
+  return filter::string::trim (filter_url_file_get_contents (path));
 }
 
 
@@ -117,7 +117,7 @@ std::string admin_password ()
 std::string admin_email ()
 {
   const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-email"});
-  return filter::strings::trim (filter_url_file_get_contents (path));
+  return filter::string::trim (filter_url_file_get_contents (path));
 }
 
 
@@ -166,7 +166,7 @@ std::string manual_user_facing_url ()
   const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "userfacingurl.conf"});
   std::string url = filter_url_file_get_contents (path);
   // Remove white space.
-  url = filter::strings::trim (url);
+  url = filter::string::trim (url);
   // The previous file contained dummy text by default. Remove that.
   if (url.length () <= 6) url.clear ();
   // Ensure it ends with a slash.
@@ -241,7 +241,7 @@ void swipe_enabled (Webserver_Request& webserver_request, std::string& script)
   
   script.append ("\n");
   script.append ("var swipe_operations = ");
-  script.append (filter::strings::convert_to_true_false(swipe_operations));
+  script.append (filter::string::convert_to_true_false(swipe_operations));
   script.append (";");
 }
 

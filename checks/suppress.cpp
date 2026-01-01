@@ -54,7 +54,7 @@ std::string checks_suppress (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("release")) {
-    int release = filter::strings::convert_to_int (webserver_request.query["release"]);
+    int release = filter::string::convert_to_int (webserver_request.query["release"]);
     database::check::release (release);
     view.set_variable ("success", translate ("The check result is no longer suppressed."));
   }
@@ -79,13 +79,13 @@ std::string checks_suppress (Webserver_Request& webserver_request)
     // Only display entries for Bibles the user has write access to.
     if (in_array (bible, bibles)) {
       int id = suppression.rowid;
-      bible = filter::strings::escape_special_xml_characters (bible);
+      bible = filter::string::escape_special_xml_characters (bible);
       const std::string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, std::to_string (suppression.verse))});
-      std::string result = filter::strings::escape_special_xml_characters (suppression.data);
+      std::string result = filter::string::escape_special_xml_characters (suppression.data);
       result.insert (0, bible + " " + passage + " ");
       block.append (R"(<p style="color:grey;">)");
       block.append (R"(<a href="suppress?release=)" + std::to_string (id) + R"(">)");
-      block.append (filter::strings::emoji_wastebasket ());
+      block.append (filter::string::emoji_wastebasket ());
       block.append ("</a>");
       block.append (result);
       block.append ("</p>\n");

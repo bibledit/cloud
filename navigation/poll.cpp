@@ -45,5 +45,5 @@ std::string navigation_poll (Webserver_Request& webserver_request)
   passage.push_back (std::to_string (book));
   passage.push_back (std::to_string (chapter));
   passage.push_back (std::to_string (verse));
-  return filter::strings::implode (passage, "\n");
+  return filter::string::implode (passage, "\n");
 }

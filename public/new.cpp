@@ -51,9 +51,9 @@ std::string public_new (Webserver_Request& webserver_request)
 {
   if (!webserver_request.query.empty ()) {
     const std::string bible = webserver_request.query ["bible"];
-    const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-    const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
-    const int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
+    const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
+    const int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
+    const int verse = filter::string::convert_to_int (webserver_request.query ["verse"]);
 
     const std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
     const std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);

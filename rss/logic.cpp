@@ -81,8 +81,8 @@ void rss_logic_schedule_update (std::string user, std::string bible, int book, i
   if (!database::config::bible::get_send_changes_to_rss (bible)) return;
   
   // Mould the USFM into one line.
-  oldusfm = filter::strings::replace ("\n", rss_logic_new_line (), oldusfm);
-  newusfm = filter::strings::replace ("\n", rss_logic_new_line (), newusfm);
+  oldusfm = filter::string::replace ("\n", rss_logic_new_line (), oldusfm);
+  newusfm = filter::string::replace ("\n", rss_logic_new_line (), newusfm);
   
   // Schedule it.
   std::vector <std::string> parameters;
@@ -103,8 +103,8 @@ void rss_logic_execute_update (std::string user, std::string bible, int book, in
   if (oldusfm == newusfm) return;
 
   // Mould the USFM back into its original format with new lines.
-  oldusfm = filter::strings::replace (rss_logic_new_line (), "\n", oldusfm);
-  newusfm = filter::strings::replace (rss_logic_new_line (), "\n", newusfm);
+  oldusfm = filter::string::replace (rss_logic_new_line (), "\n", oldusfm);
+  newusfm = filter::string::replace (rss_logic_new_line (), "\n", newusfm);
 
   // Whether to include the author in the RSS feed.
   // For security reasons this can be set off.
@@ -123,7 +123,7 @@ void rss_logic_execute_update (std::string user, std::string bible, int book, in
   std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (newusfm);
   std::vector <int> verses = old_verse_numbers;
   verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
-  verses = filter::strings::array_unique (verses);
+  verses = filter::string::array_unique (verses);
   sort (verses.begin(), verses.end());
 
   for (auto verse : verses) {

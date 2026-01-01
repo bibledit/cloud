@@ -49,9 +49,9 @@ bool editone_load_acl (Webserver_Request& webserver_request)
 std::string editone_load (Webserver_Request& webserver_request)
 {
   const std::string bible = webserver_request.query ["bible"];
-  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
-  const int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
+  const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
+  const int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
+  const int verse = filter::string::convert_to_int (webserver_request.query ["verse"]);
   const std::string unique_id = webserver_request.query ["id"];
   
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
@@ -93,14 +93,14 @@ std::string editone_load (Webserver_Request& webserver_request)
   
   // If the verse was empty, ensure that it has a non-breaking space as the last character,
   // for easier text entry in the verse.
-  std::string plain_text = filter::strings::html2text (focused_verse_html);
-  plain_text = filter::strings::trim (plain_text);
+  std::string plain_text = filter::string::html2text (focused_verse_html);
+  plain_text = filter::string::trim (plain_text);
   const std::string vs = std::to_string (verse);
   const bool editable_verse_is_empty = plain_text == vs;
   if (editable_verse_is_empty) {
     const std::string search = "<span> </span></p>";
-    const std::string replace = "<span>" + filter::strings::unicode_non_breaking_space_entity () + "</span></p>";
-    focused_verse_html = filter::strings::replace (search, replace, focused_verse_html);
+    const std::string replace = "<span>" + filter::string::unicode_non_breaking_space_entity () + "</span></p>";
+    focused_verse_html = filter::string::replace (search, replace, focused_verse_html);
   }
 
   // Moves any notes from the prefix to the suffix.

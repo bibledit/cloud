@@ -67,7 +67,7 @@ std::string render_journal_entry (std::string filename, [[maybe_unused]] int use
   std::string entry = filter_url_file_get_contents (path);
   
   // Deal with the user-level of the entry.
-  [[maybe_unused]] int entryLevel = filter::strings::convert_to_int (entry);
+  [[maybe_unused]] int entryLevel = filter::string::convert_to_int (entry);
   // Cloud: Only render journal entries of a sufficiently high level.
   // Client: Render journal entries of any level.
 #ifndef HAVE_CLIENT
@@ -77,11 +77,11 @@ std::string render_journal_entry (std::string filename, [[maybe_unused]] int use
   entry.erase (0, 2);
   
   // Split entry into lines.
-  std::vector <std::string> lines = filter::strings::explode (entry, '\n');
+  std::vector <std::string> lines = filter::string::explode (entry, '\n');
   if (!lines.empty ()) entry = lines [0];
   
   // Sanitize HTML.
-  entry = filter::strings::escape_special_xml_characters (entry);
+  entry = filter::string::escape_special_xml_characters (entry);
   
   bool limit = entry.size () > 150;
   if (limit) {
@@ -90,7 +90,7 @@ std::string render_journal_entry (std::string filename, [[maybe_unused]] int use
   }
     
   // Extract the seconds since the Unix epoch from the filename.
-  int seconds = filter::strings::convert_to_int (filename.substr (0, 10));
+  int seconds = filter::string::convert_to_int (filename.substr (0, 10));
   // Localized date and time stamp.
   std::string timestamp = locale_logic_date_time (seconds);
 
@@ -142,9 +142,9 @@ std::string journal_index (Webserver_Request& webserver_request)
     // The rest is sanitized.
     // To do this properly, the order is important:
     // 1. Clean it up.
-    expansion = filter::strings::escape_special_xml_characters (expansion);
+    expansion = filter::string::escape_special_xml_characters (expansion);
     // 2. Convert \n to <br>
-    expansion = filter::strings::replace ("\n", "<br>", expansion);
+    expansion = filter::string::replace ("\n", "<br>", expansion);
     // Done.
     return expansion;
   }

@@ -176,7 +176,7 @@ void Styles_Css::add (const stylesv2::Style* style, const bool paragraph, const 
   if (paragraph && style->paragraph) {
     const float points {static_cast<float>(style->paragraph.value().font_size)};
     const float percents {points * 100 / 12};
-    const int fontsize = filter::strings::convert_to_int (percents);
+    const int fontsize = filter::string::convert_to_int (percents);
     if (fontsize != 100) {
       m_code.push_back ("font-size: " + std::to_string (fontsize) + "%;");
     }
@@ -240,7 +240,7 @@ void Styles_Css::add (const stylesv2::Style* style, const bool paragraph, const 
     // If a value is like 1.2 then return "1.2".
     // If the value is like 1.0, then return "1" leaving out the dot and what follows.
     const auto to_float_precision_01 = [](const float value) {
-      std::string result = filter::strings::convert_to_string(value, 1);
+      std::string result = filter::string::convert_to_string(value, 1);
       const size_t pos = result.find(".0");
       if (pos != std::string::npos)
         result.erase(pos);
@@ -295,7 +295,7 @@ void Styles_Css::add (const stylesv2::Style* style, const bool paragraph, const 
 // The function returns the CSS as a string.
 std::string Styles_Css::css (std::string path)
 {
-  std::string css = filter::strings::implode (m_code, "\n");
+  std::string css = filter::string::implode (m_code, "\n");
   if (!path.empty()) {
     filter_url_file_put_contents (path, css);
   }
@@ -341,7 +341,7 @@ void Styles_Css::customize (const std::string& bible)
   font = fonts::logic::get_font_path (font);
   int direction = database::config::bible::get_text_direction (bible);
   std::string css = Filter_Css::get_css (cls, font, direction);
-  if (uploaded_font) css = filter::strings::replace ("../fonts/", "", css);
+  if (uploaded_font) css = filter::string::replace ("../fonts/", "", css);
   m_code.push_back (css);
 }
 

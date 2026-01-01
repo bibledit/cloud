@@ -998,7 +998,7 @@ TEST (usfm, genesis)
   EXPECT_EQ (std::vector <int>{ 0 }, chapters);
   
   // Test getting text for chapter that has a space after chapter number.
-  std::string modified_book_usfm = filter::strings::replace ("\\c 10", "\\c 10 ", bookusfm);
+  std::string modified_book_usfm = filter::string::replace ("\\c 10", "\\c 10 ", bookusfm);
   usfm = filter::usfm::get_chapter_text (modified_book_usfm, 10);
   standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-10.SFM"}));
   EXPECT_EQ (standard, usfm);
@@ -1103,7 +1103,7 @@ TEST (usfm, importing)
 \v 1 \vp A\vp* Verse one.
 \v 2 \vp B\vp* Verse two.
 )";
-    standard_chapter = filter::strings::trim (standard_chapter);
+    standard_chapter = filter::string::trim (standard_chapter);
     std::vector <filter::usfm::BookChapterData> imported = filter::usfm::usfm_import (usfm, stylesv2::standard_sheet ());
     EXPECT_EQ (2, imported.size ());
     if (imported.size () == 2) {
@@ -1112,7 +1112,7 @@ TEST (usfm, importing)
       EXPECT_EQ ("\\id MIC", imported [0].m_data);
       EXPECT_EQ (33, imported [1].m_book);
       EXPECT_EQ (1, imported [1].m_chapter);
-      EXPECT_EQ (standard_chapter, filter::strings::trim (imported [1].m_data));
+      EXPECT_EQ (standard_chapter, filter::string::trim (imported [1].m_data));
     }
   }
 
@@ -1556,7 +1556,7 @@ TEST (usfm, check_notes)
 TEST (usfm, check_all_markers)
 {
   // Check that the USFM fragment with all markers has all markers defined according to the stylesheet v2.
-  const std::string usfm {filter::strings::replace ("\n", " ", usfm_with_all_markers)};
+  const std::string usfm {filter::string::replace ("\n", " ", usfm_with_all_markers)};
   for (const std::string& marker : database::styles::get_markers (stylesv2::standard_sheet())) {
     const std::string opener = filter::usfm::get_opening_usfm (marker);
     const size_t pos = usfm.find(opener);

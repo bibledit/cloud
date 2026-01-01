@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 class Webserver_Request;
 
-namespace filter::strings {
+namespace filter::string {
 
 std::vector <std::string> explode (const std::string& value, char delimiter);
 std::vector <std::string> explode (std::string value, const std::string& delimiters);

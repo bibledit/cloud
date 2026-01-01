@@ -70,14 +70,14 @@ TEST_F (usfm_html, one_unknown_opening_marker)
   editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
   editor_usfm2html.run ();
   std::string html = editor_usfm2html.get ();
-  EXPECT_EQ (standard_html, filter::strings::trim (html));
+  EXPECT_EQ (standard_html, filter::string::trim (html));
   
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (html);
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
   std::string usfm = editor_html2usfm.get ();
-  EXPECT_EQ (standard_usfm, filter::strings::trim (usfm));
+  EXPECT_EQ (standard_usfm, filter::string::trim (usfm));
 }
 
 
@@ -355,7 +355,7 @@ TEST_F (usfm_html, published_verse_markers)
 \v 1 \vp A\vp* One.
 \v 2 \vp B\vp* Two.
 )";
-  standard_usfm = filter::strings::trim (standard_usfm);
+  standard_usfm = filter::string::trim (standard_usfm);
   constexpr const auto standard_html = R"(
 <p class="b-p"><span class="i-v">1</span><span> </span><span class="i-vp">A</span><span> One.</span><span> </span><span class="i-v">2</span><span> </span><span class="i-vp">B</span><span> Two.</span></p>
 )";
@@ -365,7 +365,7 @@ TEST_F (usfm_html, published_verse_markers)
   editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
   editor_usfm2html.run ();
   std::string html = editor_usfm2html.get ();
-  EXPECT_EQ (filter::strings::trim (standard_html), html);
+  EXPECT_EQ (filter::string::trim (standard_html), html);
   
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (html);
@@ -455,7 +455,7 @@ TEST_F (usfm_html, table)
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
   std::string usfm = editor_html2usfm.get ();
-  const auto standard_usfm2 = filter::strings::replace ("\\tc1 \\", "\\", standard_usfm);
+  const auto standard_usfm2 = filter::string::replace ("\\tc1 \\", "\\", standard_usfm);
   EXPECT_EQ (standard_usfm2, usfm);
 }
 
@@ -990,7 +990,7 @@ TEST_F (usfm_html, unmatched_note_opener_and_xref_opener)
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
   std::string usfm = editor_html2usfm.get ();
-  EXPECT_EQ (filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
+  EXPECT_EQ (filter::string::trim (standard_usfm), filter::string::trim (usfm));
 }
 
 
@@ -1013,7 +1013,7 @@ TEST_F (usfm_html, inline_opener_without_matching_inline_closer)
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
   std::string usfm = editor_html2usfm.get ();
-  EXPECT_EQ (filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
+  EXPECT_EQ (filter::string::trim (standard_usfm), filter::string::trim (usfm));
 }
 
 
@@ -1038,7 +1038,7 @@ TEST_F (usfm_html, inline_opener_wo_closer_w_other_inline_markup)
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
   std::string usfm = editor_html2usfm.get ();
-  EXPECT_EQ (filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
+  EXPECT_EQ (filter::string::trim (standard_usfm), filter::string::trim (usfm));
 }
 
 
@@ -1063,7 +1063,7 @@ TEST_F (usfm_html, inline_opener_wo_closer_w_paragraph_after)
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
   std::string usfm = editor_html2usfm.get ();
-  EXPECT_EQ (filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
+  EXPECT_EQ (filter::string::trim (standard_usfm), filter::string::trim (usfm));
 }
 
 
@@ -1086,7 +1086,7 @@ TEST_F (usfm_html, verse_wo_starting_paragraph)
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
   std::string saved_usfm = editor_html2usfm.get ();
-  EXPECT_EQ (filter::strings::trim (saved_usfm), filter::strings::trim ("\\p\n" + usfm));
+  EXPECT_EQ (filter::string::trim (saved_usfm), filter::string::trim ("\\p\n" + usfm));
 }
 
 
@@ -1405,8 +1405,8 @@ TEST_F (usfm_html, basic)
     EXPECT_EQ (standard, usfm);
   }
   // The Quill library uses <span> only when needed, so remove them for testing.
-  html = filter::strings::replace ("<span>", "", html);
-  html = filter::strings::replace ("</span>", "", html);
+  html = filter::string::replace ("<span>", "", html);
+  html = filter::string::replace ("</span>", "", html);
   {
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
@@ -1424,8 +1424,8 @@ TEST_F (usfm_html, non_breaking_spaces)
   std::string html = R"(<p class="p"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>)";
   const std::string standard = R"(\p The earth   brought  forth.)";
   // Test Quill-based editor.
-  html = filter::strings::replace ("<span>", "", html);
-  html = filter::strings::replace ("</span>", "", html);
+  html = filter::string::replace ("<span>", "", html);
+  html = filter::string::replace ("</span>", "", html);
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (html);
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
@@ -1577,12 +1577,12 @@ TEST_F (usfm_html, unexpected_char_before_note_body)
 \p
 \v 1 Line\f  + \fr 117.1\fk  keyword\ft  Text.\f* one.
 )";
-  standard = filter::strings::ltrim(standard);
+  standard = filter::string::ltrim(standard);
   std::string html = R"(
     <p class="b-p"><span class="i-v">1</span> Line<span class="i-notecall1">1</span> one.</p>
     <p class="b-f">&nbsp;<span class="i-notebody1">1</span> + <span class="i-fr">117.1</span><span class="i-fk"> keyword</span><span class="i-ft"> Text.</span></p>
     )";
-  html = filter::strings::trim(html);
+  html = filter::string::trim(html);
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (html);
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
@@ -1601,7 +1601,7 @@ TEST_F (usfm_html, deleted_note_separator)
     <p class="b-p">Body<span class="i-notecall33" /></p>
     <p class="b-x"><span class="i-notebody33">1</span> + <span class="i-xo">117.1</span> <span class="i-xt">Note</span></p>
     )";
-  html = filter::strings::trim(html);
+  html = filter::string::trim(html);
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (html);
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
@@ -1626,8 +1626,8 @@ TEST_F (usfm_html, limited_spaces_collapse)
     EXPECT_EQ (standard, usfm);
   }
   // The Quill library uses <span> only when needed, so remove them for testing.
-  html = filter::strings::replace ("<span>", "", html);
-  html = filter::strings::replace ("</span>", "", html);
+  html = filter::string::replace ("<span>", "", html);
+  html = filter::string::replace ("</span>", "", html);
   {
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
@@ -1808,7 +1808,7 @@ TEST_F (usfm_html, word_level_attributes_linking)
   editor_html2usfm.load (html);
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
-  EXPECT_EQ (filter::strings::trim(usfm), editor_html2usfm.get ());
+  EXPECT_EQ (filter::string::trim(usfm), editor_html2usfm.get ());
 }
 
 
@@ -1849,7 +1849,7 @@ TEST_F (usfm_html, word_level_attributes_with_notes)
   editor_html2usfm.load (html);
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
-  EXPECT_EQ (filter::strings::trim(usfm), editor_html2usfm.get ());
+  EXPECT_EQ (filter::string::trim(usfm), editor_html2usfm.get ());
 }
 
 
@@ -2339,7 +2339,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   ;
 
   const auto make_readable = [] (const auto& html) {
-    return filter::strings::replace ("</p>", "</p>\n", html);
+    return filter::string::replace ("</p>", "</p>\n", html);
   };
 
   Editor_Usfm2Html editor_usfm2html;
@@ -2365,13 +2365,13 @@ TEST_F (usfm_html, usfm_with_all_markers)
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
   const std::string usfm = editor_html2usfm.get ();
-  if (filter::strings::trim(standard_usfm) != filter::strings::trim(usfm)) {
+  if (filter::string::trim(standard_usfm) != filter::string::trim(usfm)) {
     ADD_FAILURE() << "The generated USFM differs from the reference USFM";
     std::cout << "Generated USFM:" << std::endl;
     std::cout << usfm << std::endl;
     std::vector<std::string> removals;
     std::vector<std::string> additions;
-    filter_diff_diff (filter::strings::trim(standard_usfm), filter::strings::trim(usfm), &removals, &additions);
+    filter_diff_diff (filter::string::trim(standard_usfm), filter::string::trim(usfm), &removals, &additions);
     if (!removals.empty())
       std::cout << "First item that the generated USFM does not have: " << removals.front() << std::endl;
     if (!additions.empty())
@@ -2422,7 +2422,7 @@ TEST_F (usfm_html, milestones)
   // Test milestones without content, which means that the ending marker ( \*) follows straight on the opening marker.
   {
     constexpr auto standard_usfm = R"(\p text1\qt-e\* text2\qt-e \*)";
-    const auto replaced_usfm = filter::strings::replace (R"( \*)", R"(\*)", standard_usfm);
+    const auto replaced_usfm = filter::string::replace (R"( \*)", R"(\*)", standard_usfm);
     
     constexpr auto standard_html =
     R"(<p class="b-p">)"

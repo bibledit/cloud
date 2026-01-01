@@ -65,8 +65,8 @@ std::string read_index (Webserver_Request& webserver_request)
   bool touch = webserver_request.session_logic ()->get_touch_enabled ();
   
   if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
-    int switchbook = filter::strings::convert_to_int (webserver_request.query ["switchbook"]);
-    int switchchapter = filter::strings::convert_to_int (webserver_request.query ["switchchapter"]);
+    int switchbook = filter::string::convert_to_int (webserver_request.query ["switchbook"]);
+    int switchchapter = filter::string::convert_to_int (webserver_request.query ["switchchapter"]);
     ipc_focus::set_passage (webserver_request, switchbook, switchchapter, 1);
     navigation_passage::record_history (webserver_request, switchbook, switchchapter, 1);
   }

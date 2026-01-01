@@ -91,7 +91,7 @@ std::string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserve
         ss << "<tr>";
         ss << "<td>";
         std::string gloss = database::etcbc4::gloss (rowid);
-        gloss = filter::strings::escape_special_xml_characters (gloss);
+        gloss = filter::string::escape_special_xml_characters (gloss);
         ss << gloss;
         ss << "</td>";
         ss << "</tr>";
@@ -214,8 +214,8 @@ std::string lexicon_logic_get_script (std::string prefix)
 </script>
   )";
 
-  script = filter::strings::replace ("defid", defid, script);
-  script = filter::strings::replace ("txtid", txtid, script);
+  script = filter::string::replace ("defid", defid, script);
+  script = filter::string::replace ("txtid", txtid, script);
   
   return script;
 }
@@ -225,7 +225,7 @@ std::string lexicon_logic_get_script (std::string prefix)
 std::string lexicon_logic_strong_number_cleanup (std::string strong)
 {
   // Remove the leading zero from a Hebrew Strong's number.
-  strong = filter::strings::replace ("H0", "H", strong);
+  strong = filter::string::replace ("H0", "H", strong);
   
   return strong;
 }
@@ -239,12 +239,12 @@ void lexicon_logic_convert_morphhb_parsing_to_strong (std::string parsing,
 {
   strongs.clear ();
   bdbs.clear ();
-  std::vector <std::string> bits = filter::strings::explode (parsing, '/');
+  std::vector <std::string> bits = filter::string::explode (parsing, '/');
   for (auto & bit : bits) {
     // Remove the space that is in the parsings, e.g. change "1254 a" to "1254a".
-    bit = filter::strings::replace (" ", "", bit);
+    bit = filter::string::replace (" ", "", bit);
     bdbs.push_back (bit);
-    int strong = filter::strings::convert_to_int (bit);
+    int strong = filter::string::convert_to_int (bit);
     if (strong == 0) {
       if (bit == "b") {
         // The Hebrew letter beth ב֖.
@@ -293,11 +293,11 @@ std::string lexicon_logic_render_strongs_definition (std::string strong)
   if (definition.empty ()) {
     definition = database_hebrewlexicon.getstrong (lexicon_logic_strong_number_cleanup (strong));
   }
-  definition = filter::strings::replace ("/>", "/>\n", definition);
-  std::vector <std::string> lines = filter::strings::explode (definition, '\n');
+  definition = filter::string::replace ("/>", "/>\n", definition);
+  std::vector <std::string> lines = filter::string::explode (definition, '\n');
   for (auto & line : lines) {
-    line = filter::strings::trim (line);
-    line = filter::strings::collapse_whitespace (line);
+    line = filter::string::trim (line);
+    line = filter::string::collapse_whitespace (line);
     size_t position;
     // The first <w> element describes it.
     position = line.find ("<w");
@@ -327,30 +327,30 @@ std::string lexicon_logic_render_strongs_definition (std::string strong)
       }
     } else {
       // Transform link to a source Strong's number.
-      line = filter::strings::replace ("<w ", "<a ", line);
-      line = filter::strings::replace ("src=", "href=", line);
-      line = filter::strings::replace ("</w>", "</a>", line);
+      line = filter::string::replace ("<w ", "<a ", line);
+      line = filter::string::replace ("src=", "href=", line);
+      line = filter::string::replace ("</w>", "</a>", line);
       // Elements referring to the source/derivation can be removed.
-      line = filter::strings::replace ("<source>", "", line);
-      line = filter::strings::replace ("</source>", "", line);
-      line = filter::strings::replace ("<strongs_derivation>", "", line);
-      line = filter::strings::replace ("</strongs_derivation>", "", line);
+      line = filter::string::replace ("<source>", "", line);
+      line = filter::string::replace ("</source>", "", line);
+      line = filter::string::replace ("<strongs_derivation>", "", line);
+      line = filter::string::replace ("</strongs_derivation>", "", line);
       // Remove elements referring to the meaning.
-      line = filter::strings::replace ("<meaning>", "", line);
-      line = filter::strings::replace ("</meaning>", "", line);
-      line = filter::strings::replace ("<strongs_def>", "", line);
-      line = filter::strings::replace ("</strongs_def>", "", line);
+      line = filter::string::replace ("<meaning>", "", line);
+      line = filter::string::replace ("</meaning>", "", line);
+      line = filter::string::replace ("<strongs_def>", "", line);
+      line = filter::string::replace ("</strongs_def>", "", line);
       // Transform markup for usage in the King James Bible.
-      line = filter::strings::replace ("<usage>", "; usage in King James Bible: ", line);
-      line = filter::strings::replace ("</usage>", "", line);
-      line = filter::strings::replace ("<kjv_def>", "; usage in King James Bible", line);
-      line = filter::strings::replace ("</kjv_def>", "", line);
+      line = filter::string::replace ("<usage>", "; usage in King James Bible: ", line);
+      line = filter::string::replace ("</usage>", "", line);
+      line = filter::string::replace ("<kjv_def>", "; usage in King James Bible", line);
+      line = filter::string::replace ("</kjv_def>", "", line);
       // Mark the definitions.
-      line = filter::strings::replace ("<def>", "<em>", line);
-      line = filter::strings::replace ("</def>", "</em>", line);
+      line = filter::string::replace ("<def>", "<em>", line);
+      line = filter::string::replace ("</def>", "</em>", line);
       // Clarify Strong's number.
-      line = filter::strings::replace ("<strongs>", "Strong's ", line);
-      line = filter::strings::replace ("</strongs>", "", line);
+      line = filter::string::replace ("<strongs>", "Strong's ", line);
+      line = filter::string::replace ("</strongs>", "", line);
       // Get the <greek /> line to extract information from it.
       position = line.find ("<greek ");
       if (position != std::string::npos) {
@@ -363,7 +363,7 @@ std::string lexicon_logic_render_strongs_definition (std::string strong)
           // Greek in transliteration.
           std::string translit = lexicon_logic_get_remove_attribute (xml, "translit");
           // Put the updated fragment back.
-          line = filter::strings::replace (greek, unicode + " " + translit, line);
+          line = filter::string::replace (greek, unicode + " " + translit, line);
         }
       }
       // Get the <pronunciation /> line to extract information from it.
@@ -376,7 +376,7 @@ std::string lexicon_logic_render_strongs_definition (std::string strong)
           // Greek in strongs.
           std::string strongs = lexicon_logic_get_remove_attribute (xml, "strongs");
           // Put the updated fragment back.
-          line = filter::strings::replace (pronunciation, strongs, line);
+          line = filter::string::replace (pronunciation, strongs, line);
         }
       }
       // Get the <see /> line to extract information from it.
@@ -400,7 +400,7 @@ std::string lexicon_logic_render_strongs_definition (std::string strong)
             if (i) {
               replacement = R"(<a href=")" + language.substr (0, 1) + strongs + R"(">)" + strongs + "</a>";
             }
-            line = filter::strings::replace (see_strongsref, replacement, line);
+            line = filter::string::replace (see_strongsref, replacement, line);
           }
         }
       }
@@ -408,8 +408,8 @@ std::string lexicon_logic_render_strongs_definition (std::string strong)
       renderings.push_back (line);
     }
   }
-  std::string rendering = filter::strings::implode (renderings, " ");
-  rendering = filter::strings::trim (rendering);
+  std::string rendering = filter::string::implode (renderings, " ");
+  rendering = filter::string::trim (rendering);
 
   // If no rendering has been found yet, try the user-defined Strong's definitions.
   if (rendering.empty ()) {
@@ -417,7 +417,7 @@ std::string lexicon_logic_render_strongs_definition (std::string strong)
   }
   
   // Remove bits.
-  rendering = filter::strings::replace ("×", "", rendering);
+  rendering = filter::string::replace ("×", "", rendering);
   
   return rendering;
 }
@@ -437,9 +437,9 @@ std::string lexicon_logic_render_part_of_speech_pop_front (std::vector <std::str
 // Render the part of speech.
 std::string lexicon_logic_render_strongs_part_of_speech (std::string value)
 {
-  if (value == filter::strings::unicode_string_casefold (value)) {
+  if (value == filter::string::unicode_string_casefold (value)) {
     // Deal with Strong's parsings.
-    std::vector <std::string> parts = filter::strings::explode (value, ' ');
+    std::vector <std::string> parts = filter::string::explode (value, ' ');
     value.clear ();
     for (auto part : parts) {
       value.append (" ");
@@ -500,7 +500,7 @@ std::string lexicon_logic_render_strongs_part_of_speech (std::string value)
     
   } else {
     // Deal with the BDB parsings.
-    std::vector <std::string> parts = filter::strings::explode (value, '-');
+    std::vector <std::string> parts = filter::string::explode (value, '-');
     value.clear ();
     std::string word = lexicon_logic_render_part_of_speech_pop_front (parts);
     value.append (" ");
@@ -569,7 +569,7 @@ std::string lexicon_logic_define_user_strong (std::string strong)
   if (!strong.empty ()) {
     if (strong.substr (0, 1) == "H") {
       strong.erase (0, 1);
-      int number = filter::strings::convert_to_int (strong);
+      int number = filter::string::convert_to_int (strong);
       if (number == BETH_STRONG) {
         definition = "particle preposition ב: in, at, by, with, among";
       }
@@ -602,7 +602,7 @@ std::string lexicon_logic_define_user_strong (std::string strong)
 
 std::string lexicon_logic_render_morphgnt_part_of_speech (std::string pos)
 {
-  pos = filter::strings::replace ("-", "", pos);
+  pos = filter::string::replace ("-", "", pos);
   std::string rendering;
   if (pos == "N") rendering = "noun";
   if (pos == "V") rendering = "verb";
@@ -694,7 +694,7 @@ std::string lexicon_logic_render_morphgnt_parsing_code (std::string parsing)
     if (p == "C") renderings.push_back ("comparative");
     if (p == "S") renderings.push_back ("superlative");
   }
-  return filter::strings::implode (renderings, " ");
+  return filter::string::implode (renderings, " ");
 }
 
 
@@ -705,7 +705,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
   // and the remaining bits come after.
   
   std::vector <std::string> renderings;
-  int row = filter::strings::convert_to_int (rowid.substr (1));
+  int row = filter::string::convert_to_int (rowid.substr (1));
 
   std::string pos = database::etcbc4::pos (row);
   if (pos == "art") pos = "article";
@@ -844,7 +844,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
   //renderings.push_back (";");
   //renderings.push_back ("gloss:");
   renderings.push_back ("-");
-  renderings.push_back (filter::strings::escape_special_xml_characters (gloss));
+  renderings.push_back (filter::string::escape_special_xml_characters (gloss));
   
   renderings.push_back ("<br>");
   
@@ -1032,7 +1032,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (clause_relation);
   }
 
-  return filter::strings::implode (renderings, " ");
+  return filter::string::implode (renderings, " ");
 }
 
 
@@ -1047,11 +1047,11 @@ std::string lexicon_logic_render_bdb_entry (std::string code)
   // Get the BDB definition.
   std::string definition = database_hebrewlexicon.getbdb (bdb);
   // Remove XML elements.
-  filter::strings::replace_between (definition, "<", ">", "");
+  filter::string::replace_between (definition, "<", ">", "");
   // Convert new lines to <br> to retain some formatting.
-  definition = filter::strings::replace ("\n\n", "\n", definition);
-  definition = filter::strings::replace ("\n\n", "\n", definition);
-  definition = filter::strings::replace ("\n", "<br>", definition);
+  definition = filter::string::replace ("\n\n", "\n", definition);
+  definition = filter::string::replace ("\n\n", "\n", definition);
+  definition = filter::string::replace ("\n", "<br>", definition);
   // Done.
   return definition;
 }
@@ -1120,7 +1120,7 @@ std::string lexicon_logic_hebrew_morphology_render (std::string value)
   std::vector <std::string> renderings;
   
   // A slash separates morphology items.
-  std::vector <std::string> values = filter::strings::explode (value, '/');
+  std::vector <std::string> values = filter::string::explode (value, '/');
   for (auto value2 : values) {
 
     if (value2.empty ()) continue;
@@ -1194,7 +1194,7 @@ std::string lexicon_logic_hebrew_morphology_render (std::string value)
     
   }
   
-  return filter::strings::implode (renderings, " ");
+  return filter::string::implode (renderings, " ");
 }
 
 
@@ -1532,8 +1532,8 @@ std::string lexicon_logic_render_abbott_smiths_definition (std::string lemma, st
   document.traverse (tree_walker);
   renderings.push_back (tree_walker.text);
 
-  std::string rendering = filter::strings::implode (renderings, " ");
-  rendering = filter::strings::trim (rendering);
+  std::string rendering = filter::string::implode (renderings, " ");
+  rendering = filter::string::trim (rendering);
 
   // If any rendering is given, then prefix the name of the lexicon.
   if (!rendering.empty ()) {

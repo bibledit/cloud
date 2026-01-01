@@ -86,7 +86,7 @@ void export_html_book (const std::string& bible, const int book, const bool log)
   for (const auto chapter : chapters) {
     // Get the USFM for this chapter.
     std::string usfm = database::bibles::get_chapter (bible, book, chapter);
-    usfm = filter::strings::trim (usfm);
+    usfm = filter::string::trim (usfm);
     // Use small chunks of USFM at a time for much better performance.
     filter_text.add_usfm_code (usfm);
   }

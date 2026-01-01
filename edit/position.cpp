@@ -50,10 +50,10 @@ std::string edit_position (Webserver_Request& webserver_request)
   if (bible.empty ())
     return std::string();
   // Get book: If no book is given: Bail out.
-  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
   if (!book) return std::string();
   // Get chapter.
-  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  const int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
   
   
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);

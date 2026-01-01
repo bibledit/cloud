@@ -87,11 +87,11 @@ Filter_Text::~Filter_Text ()
 void Filter_Text::add_usfm_code (std::string usfm)
 {
   // Check that the USFM is valid UTF-8.
-  if (!filter::strings::unicode_string_is_valid (usfm)) {
+  if (!filter::string::unicode_string_is_valid (usfm)) {
     Database_Logs::log (translate ("Exporting invalid UTF-8.") + " " + translate ("Please check.") + " " + usfm);
   }
   // Clean the USFM.
-  usfm = filter::strings::trim (usfm);
+  usfm = filter::string::trim (usfm);
   usfm += "\n";
   // Sort the USFM code out and separate it into markers and text.
   std::vector <std::string> markers_and_text = filter::usfm::get_markers_and_text (usfm);
@@ -150,7 +150,7 @@ void Filter_Text::get_usfm_next_chapter ()
   while (unprocessed_usfm_code_available ()) {
     std::string item = m_usfm_markers_and_text [usfm_markers_and_text_ptr];
     if (!firstLine) {
-      if (filter::strings::trim (item) == (R"(\)" + chapter_marker)) {
+      if (filter::string::trim (item) == (R"(\)" + chapter_marker)) {
         return;
       }
     }
@@ -194,7 +194,7 @@ void Filter_Text::pre_process_usfm ()
     for (chapter_usfm_markers_and_text_pointer = 0; chapter_usfm_markers_and_text_pointer < chapter_usfm_markers_and_text.size(); chapter_usfm_markers_and_text_pointer++) {
       std::string current_item = chapter_usfm_markers_and_text[chapter_usfm_markers_and_text_pointer];
       if (filter::usfm::is_usfm_marker (current_item)) {
-        std::string marker = filter::strings::trim (current_item); // Change, e.g. '\id ' to '\id'.
+        std::string marker = filter::string::trim (current_item); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
           if (const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, marker)}; style) {
@@ -207,7 +207,7 @@ void Filter_Text::pre_process_usfm ()
                 // Get book number.
                 std::string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                 // Remove possible soft hyphen.
-                usfm_id = filter::strings::replace (filter::strings::soft_hyphen_u00AD (), std::string(), usfm_id);
+                usfm_id = filter::string::replace (filter::string::soft_hyphen_u00AD (), std::string(), usfm_id);
                 // Get Bibledit book number.
                 m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
                 // Reset chapter and verse numbers.
@@ -256,7 +256,7 @@ void Filter_Text::pre_process_usfm ()
               case stylesv2::Type::chapter:
               {
                 const std::string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                m_current_chapter_number = filter::strings::convert_to_int (number);
+                m_current_chapter_number = filter::string::convert_to_int (number);
                 m_number_of_chapters_per_book[m_current_book_identifier] = m_current_chapter_number;
                 set_to_zero(m_current_verse_number);
                 break;
@@ -286,7 +286,7 @@ void Filter_Text::pre_process_usfm ()
               case stylesv2::Type::verse:
               {
                 const std::string fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                const int number = filter::strings::convert_to_int (fragment);
+                const int number = filter::string::convert_to_int (fragment);
                 m_current_verse_number = std::to_string (number);
                 break;
               }
@@ -382,7 +382,7 @@ void Filter_Text::process_usfm ()
               close_text_style_all();
               // Get book number.
               std::string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-              usfm_id = filter::strings::replace (filter::strings::soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
+              usfm_id = filter::string::replace (filter::string::soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
               m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
               // Reset chapter and verse numbers.
               m_current_chapter_number = 0;
@@ -504,7 +504,7 @@ void Filter_Text::process_usfm ()
                 if (headings_text_per_verse_active) {
                   // If a new paragraph starts within an existing verse,
                   // add a space to the text already in that verse.
-                  int iverse = filter::strings::convert_to_int (m_current_verse_number);
+                  int iverse = filter::string::convert_to_int (m_current_verse_number);
                   if (m_verses_text.count (iverse) && !m_verses_text [iverse].empty ()) {
                     m_verses_text [iverse].append (" ");
                   }
@@ -537,7 +537,7 @@ void Filter_Text::process_usfm ()
               std::string usfm_c_fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               
               // Update this object.
-              m_current_chapter_number = filter::strings::convert_to_int (usfm_c_fragment);
+              m_current_chapter_number = filter::string::convert_to_int (usfm_c_fragment);
               set_to_zero(m_current_verse_number);
               
               // If there is a published chapter character, the chapter number takes that value.
@@ -725,7 +725,7 @@ void Filter_Text::process_usfm ()
               // Deal with the case of a pending chapter number.
               if (!m_output_chapter_text_at_first_verse.empty()) {
                 if (!database::config::bible::get_export_chapter_drop_caps_frames (m_bible)) {
-                  const int drop_caps_length = static_cast<int>( filter::strings::unicode_string_length (m_output_chapter_text_at_first_verse));
+                  const int drop_caps_length = static_cast<int>( filter::string::unicode_string_length (m_output_chapter_text_at_first_verse));
                   apply_drop_caps_to_current_paragraph (drop_caps_length);
                   if (odf_text_standard) odf_text_standard->add_text (m_output_chapter_text_at_first_verse);
                   if (odf_text_text_only) odf_text_text_only->add_text (m_output_chapter_text_at_first_verse);
@@ -836,7 +836,7 @@ void Filter_Text::process_usfm ()
                 }
                 // If a verse number was put, do this:
                 // Remove any whitespace from the start of the following text.
-                text_following_v_marker = filter::strings::ltrim (text_following_v_marker);
+                text_following_v_marker = filter::string::ltrim (text_following_v_marker);
                 chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer] = text_following_v_marker;
                 chapter_usfm_markers_and_text_pointer--;
                 // If a verse number was put, do this too:
@@ -872,8 +872,8 @@ void Filter_Text::process_usfm ()
               // This makes it ready for subsequent use.
               m_output_chapter_text_at_first_verse.clear();
               // Other export formats.
-              if (onlinebible_text) onlinebible_text->newVerse (m_current_book_identifier, m_current_chapter_number, filter::strings::convert_to_int (m_current_verse_number));
-              if (esword_text) esword_text->newVerse (filter::strings::convert_to_int (m_current_verse_number));
+              if (onlinebible_text) onlinebible_text->newVerse (m_current_book_identifier, m_current_chapter_number, filter::string::convert_to_int (m_current_verse_number));
+              if (esword_text) esword_text->newVerse (filter::string::convert_to_int (m_current_verse_number));
               // Done.
               break;
             }
@@ -892,7 +892,7 @@ void Filter_Text::process_usfm ()
                 const size_t pointer = chapter_usfm_markers_and_text_pointer + 1;
                 if (pointer < chapter_usfm_markers_and_text.size()) {
                   std::string text = chapter_usfm_markers_and_text[pointer];
-                  text = filter::strings::ltrim (text);
+                  text = filter::string::ltrim (text);
                   chapter_usfm_markers_and_text[pointer] = text;
                 }
               }
@@ -1155,20 +1155,20 @@ void Filter_Text::process_usfm ()
           if (esword_text) esword_text->add_text (text_item);
           if (text_text) text_text->addtext (text_item);
           if (headings_text_per_verse_active && heading_started) {
-            int iverse = filter::strings::convert_to_int (m_current_verse_number);
+            int iverse = filter::string::convert_to_int (m_current_verse_number);
             verses_headings [iverse].append (text_item);
           }
           if (headings_text_per_verse_active && text_started) {
-            int iverse = filter::strings::convert_to_int (m_current_verse_number);
+            int iverse = filter::string::convert_to_int (m_current_verse_number);
             if (m_verses_text.count (iverse) && !m_verses_text [iverse].empty ()) {
               m_verses_text [iverse].append (text_item);
               actual_verses_paragraph [iverse].append (text_item);
             } else {
               // The verse text straight after the \v starts with certain space type.
               // Replace it with a normal space.
-              std::string item = filter::strings::replace (space_type_after_verse, " ", text_item);
-              m_verses_text [iverse] = filter::strings::ltrim (item);
-              actual_verses_paragraph [iverse] = filter::strings::ltrim (item);
+              std::string item = filter::string::replace (space_type_after_verse, " ", text_item);
+              m_verses_text [iverse] = filter::string::ltrim (item);
+              actual_verses_paragraph [iverse] = filter::string::ltrim (item);
             }
           }
           if (note_open_now) {
@@ -1254,7 +1254,7 @@ void Filter_Text::processNote ()
               }
               // Add the note citation. And a no-break space after it.
               if (odf_text_notes)
-                odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
+                odf_text_notes->add_text (citation + filter::string::non_breaking_space_u00A0());
               // Open note in the web pages.
               if (html_text_standard)
                 html_text_standard->add_note (citation, standard_content_marker_foot_end_note);
@@ -1395,7 +1395,7 @@ void Filter_Text::processNote ()
               }
               // Add the note citation. And a no-break space (NBSP) after it.
               if (odf_text_notes)
-                odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
+                odf_text_notes->add_text (citation + filter::string::non_breaking_space_u00A0());
               // Open note in the web page.
               ensure_note_paragraph_style (standard_content_marker_cross_reference, xt_style);
               if (html_text_standard)
@@ -1802,9 +1802,9 @@ std::string Filter_Text::get_note_citation (const std::string& marker)
   // Extract the raw note citation from the USFM. This could be, e.g. '+'.
   std::string next_text = chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1];
   std::string citation = next_text.substr (0, 1);
-  next_text = filter::strings::ltrim (next_text.substr (1));
+  next_text = filter::string::ltrim (next_text.substr (1));
   chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1] = next_text;
-  citation = filter::strings::trim (citation);
+  citation = filter::string::trim (citation);
   
   // Get the rendered note citation.
   citation = note_citations.get(marker, citation);
@@ -1868,7 +1868,7 @@ std::map <int, std::string> Filter_Text::getVersesText ()
 {
   // Trim white space at start and end of each line.
   for (auto& element : m_verses_text) {
-    element.second = filter::strings::trim (element.second);
+    element.second = filter::string::trim (element.second);
   }
   // Return the result.
   return m_verses_text;
@@ -1887,7 +1887,7 @@ void Filter_Text::store_verses_paragraphs ()
 void Filter_Text::notes_plain_text_handler ()
 {
   int offset {0};
-  const int iverse = filter::strings::convert_to_int (m_current_verse_number);
+  const int iverse = filter::string::convert_to_int (m_current_verse_number);
   if (m_verses_text.count (iverse)) {
     offset = static_cast<int>(m_verses_text [iverse].size ());
   }
@@ -1924,14 +1924,14 @@ std::string Filter_Text::handle_tilde_and_double_slash(std::string text)
   // change a tilde ( ~ ) to a non-breaking space.
   constexpr const char* tilde {"~"};
   if (text.find(tilde) != std::string::npos) {
-    text = filter::strings::replace (tilde, filter::strings::non_breaking_space_u00A0(), std::move(text));
+    text = filter::string::replace (tilde, filter::string::non_breaking_space_u00A0(), std::move(text));
     add_to_info("A tilde was changed to a non-breaking space");
   }
   // According to https://ubsicap.github.io/usfm/characters/index.html#id3,
   // change a double forward slash ( // ) to a soft hyphen.
   constexpr const char* double_slash {"//"};
   if (text.find(double_slash) != std::string::npos) {
-    text = filter::strings::replace (double_slash, filter::strings::soft_hyphen_u00AD(), std::move(text));
+    text = filter::string::replace (double_slash, filter::string::soft_hyphen_u00AD(), std::move(text));
     add_to_info("A double forward slash was changed to a soft hyphen");
   }
   return text;

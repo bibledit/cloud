@@ -70,7 +70,7 @@ void export_odt_book (std::string bible, int book, bool log)
       std::vector <int> chapters = database::bibles::get_chapters (bible, book2);
       for (auto chapter : chapters) {
         std::string usfm = database::bibles::get_chapter (bible, book2, chapter);
-        usfm = filter::strings::trim (usfm);
+        usfm = filter::string::trim (usfm);
         // Use small chunks of USFM at a time for much better performance.
         filter_text.add_usfm_code (usfm);
       }
@@ -80,7 +80,7 @@ void export_odt_book (std::string bible, int book, bool log)
     std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto chapter : chapters) {
       std::string usfm = database::bibles::get_chapter (bible, book, chapter);
-      usfm = filter::strings::trim (usfm);
+      usfm = filter::string::trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
       filter_text.add_usfm_code (usfm);
     }

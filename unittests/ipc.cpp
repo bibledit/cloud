@@ -173,12 +173,12 @@ TEST (database, ipc)
     std::string message = "1";
     database_ipc.storeMessage (user, channel, command, message);
     alive = database_ipc.getNotesAlive ();
-    EXPECT_EQ (filter::strings::convert_to_bool (message), alive);
+    EXPECT_EQ (filter::string::convert_to_bool (message), alive);
     
     message = "0";
     database_ipc.storeMessage (user, channel, command, message);
     alive = database_ipc.getNotesAlive ();
-    EXPECT_EQ (filter::strings::convert_to_bool (message), alive);
+    EXPECT_EQ (filter::string::convert_to_bool (message), alive);
   }
 }
 

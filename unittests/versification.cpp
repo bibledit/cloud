@@ -41,8 +41,8 @@ TEST (versification, basic )
     database_versifications.create ();
     database_versifications.defaults ();
     database::check::create ();
-    std::vector <int> books = database_versifications.getBooks (filter::strings::english ());
-    std::vector <int> fault = filter::strings::array_diff (books, {10});
+    std::vector <int> books = database_versifications.getBooks (filter::string::english ());
+    std::vector <int> fault = filter::string::array_diff (books, {10});
     checks_versification::books ("Bible", fault);
     std::vector <database::check::Hit> results = database::check::get_hits ();
     EXPECT_EQ (1, static_cast<int>(results.size()));
@@ -204,7 +204,7 @@ TEST (database, mappings)
     database_mappings.create2 ();
     database_mappings.optimize ();
     std::vector <std::string> names = database_mappings.names ();
-    std::vector <std::string> standard_names{"Dutch Traditional", filter::strings::english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"};
+    std::vector <std::string> standard_names{"Dutch Traditional", filter::string::english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"};
     EXPECT_EQ (standard_names, names);
   }
 
@@ -222,7 +222,7 @@ TEST (database, mappings)
     std::vector <std::string> standard_names{"Hebrew Greek", "phpunit"};
     EXPECT_EQ (standard_names, names);
     std::string output = database_mappings.output ("phpunit");
-    EXPECT_EQ (filter::strings::trim (import), filter::strings::trim (output));
+    EXPECT_EQ (filter::string::trim (import), filter::string::trim (output));
   }
   
   // Create.
@@ -421,37 +421,37 @@ TEST (database, versifications)
     database_versifications.defaults ();
     
     // GetID
-    int id = database_versifications.getID (filter::strings::english ());
+    int id = database_versifications.getID (filter::string::english ());
     EXPECT_EQ (4 , id);
     
     // Test books.
-    std::vector <int> books = database_versifications.getBooks (filter::strings::english ());
+    std::vector <int> books = database_versifications.getBooks (filter::string::english ());
     std::vector <int> standard;
     for (int i = 1; i <= 66; i++) standard.push_back (i);
     EXPECT_EQ (standard, books);
     
     // Test chapters.
-    std::vector <int> chapters = database_versifications.getChapters (filter::strings::english (), 1);
+    std::vector <int> chapters = database_versifications.getChapters (filter::string::english (), 1);
     standard.clear ();
     for (int i = 1; i <= 50; i++) standard.push_back (i);
     EXPECT_EQ (standard, chapters);
-    chapters = database_versifications.getChapters (filter::strings::english (), 1, true);
+    chapters = database_versifications.getChapters (filter::string::english (), 1, true);
     standard.clear ();
     for (int i = 0; i <= 50; i++) standard.push_back (i);
     EXPECT_EQ (standard, chapters);
     
     // Test verses.
-    std::vector <int> verses = database_versifications.getVerses (filter::strings::english (), 1, 2);
+    std::vector <int> verses = database_versifications.getVerses (filter::string::english (), 1, 2);
     standard.clear ();
     for (int i = 0; i <= 25; i++) standard.push_back (i);
     EXPECT_EQ (standard, verses);
     
     // Verses in chapter 0.
-    verses = database_versifications.getVerses (filter::strings::english (), 1, 0);
+    verses = database_versifications.getVerses (filter::string::english (), 1, 0);
     EXPECT_EQ (std::vector <int>{0}, verses);
     
     // Books Chapters Verses.
-    std::vector <Passage> data = database_versifications.getBooksChaptersVerses (filter::strings::english ());
+    std::vector <Passage> data = database_versifications.getBooksChaptersVerses (filter::string::english ());
     EXPECT_EQ (1189, static_cast<int>(data.size()));
     EXPECT_EQ ("31", data [0].m_verse);
     
@@ -487,7 +487,7 @@ TEST (database, versifications)
     EXPECT_EQ (2, static_cast<int> (data.size ()));
     EXPECT_EQ ("25", data [1].m_verse);
     std::string output = database_versifications.output ("phpunit");
-    EXPECT_EQ (filter::strings::trim (input), filter::strings::trim (output));
+    EXPECT_EQ (filter::string::trim (input), filter::string::trim (output));
   }
 }
 

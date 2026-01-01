@@ -83,7 +83,7 @@ std::string search_strong (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("strong")) {
     
     std::string strong = webserver_request.query ["strong"];
-    strong = filter::strings::trim (strong);
+    strong = filter::string::trim (strong);
     
     std::vector <int> passages;
     
@@ -94,7 +94,7 @@ std::string search_strong (Webserver_Request& webserver_request)
       passages.push_back (i_passage);
     }
     
-    passages = filter::strings::array_unique (passages);
+    passages = filter::string::array_unique (passages);
     sort (passages.begin(), passages.end());
     
     std::string output;
@@ -107,7 +107,7 @@ std::string search_strong (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("id")) {
-    int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+    int id = filter::string::convert_to_int (webserver_request.query ["id"]);
     
     // Get the and passage for this identifier.
     Passage passage = filter_integer_to_passage (id);
@@ -116,7 +116,7 @@ std::string search_strong (Webserver_Request& webserver_request)
     std::string verse = passage.m_verse;
     
     // Get the plain text.
-    std::string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
+    std::string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::string::convert_to_int (verse));
     
     // Format it.
     std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

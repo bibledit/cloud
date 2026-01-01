@@ -71,9 +71,9 @@ bool Sync_Logic::credentials_okay ()
   }
   
   // Get the credentials the client POSTed to the us, the server.
-  std::string username = filter::strings::hex2bin (m_webserver_request.post_get("u"));
+  std::string username = filter::string::hex2bin (m_webserver_request.post_get("u"));
   std::string password = m_webserver_request.post_get("p");
-  int level = filter::strings::convert_to_int (m_webserver_request.post_get("l"));
+  int level = filter::string::convert_to_int (m_webserver_request.post_get("l"));
   
   // Check all credentials.
   bool user_ok = m_webserver_request.database_users ()->usernameExists (username);
@@ -106,7 +106,7 @@ std::string Sync_Logic::checksum (const std::vector <int> & identifiers)
   for (const auto & identifier : identifiers) {
     checksums.push_back (database_notes.get_checksum (identifier));
   }
-  std::string checksum = filter::strings::implode (checksums, "");
+  std::string checksum = filter::string::implode (checksums, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -162,13 +162,13 @@ std::string Sync_Logic::settings_checksum (const std::vector <std::string> & bib
   checksum.append (m_webserver_request.database_config_user()->get_workspace_widths ());
   checksum.append (m_webserver_request.database_config_user()->get_workspace_heights ());
   std::vector <std::string> resources = m_webserver_request.database_config_user()->get_active_resources ();
-  checksum.append (filter::strings::implode (resources, "\n"));
+  checksum.append (filter::string::implode (resources, "\n"));
   for (auto & bible : bibles) {
     checksum.append (bible);
     // Download Bible text font name: It is the default name for the clients.
     checksum.append (database::config::bible::get_text_font (bible));
   }
-  checksum.append (filter::strings::convert_to_string (m_webserver_request.database_config_user()->get_privilege_delete_consultation_notes ()));
+  checksum.append (filter::string::convert_to_string (m_webserver_request.database_config_user()->get_privilege_delete_consultation_notes ()));
   return md5 (checksum);
 }
 
@@ -182,7 +182,7 @@ std::string Sync_Logic::usfm_resources_checksum ()
   for (auto & resource : resources) {
     vchecksum.push_back (usfm_resource_checksum (resource));
   }
-  std::string checksum = filter::strings::implode (vchecksum, "");
+  std::string checksum = filter::string::implode (vchecksum, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -198,7 +198,7 @@ std::string Sync_Logic::usfm_resource_checksum (const std::string& name)
     vchecksum.push_back (std::to_string (book));
     vchecksum.push_back (usfm_resource_book_checksum (name, book));
   }
-  std::string checksum = filter::strings::implode (vchecksum, "");
+  std::string checksum = filter::string::implode (vchecksum, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -214,7 +214,7 @@ std::string Sync_Logic::usfm_resource_book_checksum (const std::string& name, in
     vchecksum.push_back (std::to_string (chapter));
     vchecksum.push_back (usfm_resource_chapter_checksum (name, book, chapter));
   }
-  std::string checksum = filter::strings::implode (vchecksum, "");
+  std::string checksum = filter::string::implode (vchecksum, "");
   checksum = md5 (checksum);
   return checksum;
 }

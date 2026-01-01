@@ -145,7 +145,7 @@ void sendreceive_resources ()
     if (error.empty ()) {
       // When the Cloud responds with a "0", it means that the database is not yet ready for distribution.
       // The Cloud will be working on preparing it.
-      int server_size = filter::strings::convert_to_int (response);
+      int server_size = filter::string::convert_to_int (response);
       if (server_size > 0) {
         // The Cloud has now responded with the file size of the resource database, in bytes.
         // Now request the path to download it.
@@ -211,7 +211,7 @@ void sendreceive_resources ()
   }
   // Store new download schedule.
   resources = database::config::general::get_resources_to_cache ();
-  resources = filter::strings::array_diff (resources, {resource});
+  resources = filter::string::array_diff (resources, {resource});
   if (re_schedule_download) {
     resources.push_back (resource);
   }

@@ -44,7 +44,7 @@ void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, i
 {
   std::string lemma = node.attribute ("lemma").value ();
   std::string word = node.child_value ();
-  word = filter::strings::replace ("/", "", word);
+  word = filter::string::replace ("/", "", word);
   database_oshb->store (book, chapter, verse, lemma, word, "");
 }
 
@@ -124,9 +124,9 @@ void sources_morphhb_parse ()
 
         // Get the passage.
         std::string osisID = verse_node.attribute ("osisID").value ();
-        std::vector <std::string> bits = filter::strings::explode (osisID, '.');
-        int chapter = filter::strings::convert_to_int (bits[1]);
-        int verse = filter::strings::convert_to_int (bits[2]);
+        std::vector <std::string> bits = filter::string::explode (osisID, '.');
+        int chapter = filter::string::convert_to_int (bits[1]);
+        int verse = filter::string::convert_to_int (bits[2]);
 
         bool word_stored = false;
         

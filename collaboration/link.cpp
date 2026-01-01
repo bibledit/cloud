@@ -269,7 +269,7 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
   if (take_repo) view.enable_zone ("takerepo");
   if (result) view.enable_zone ("okay");
   else view.enable_zone ("error");
-  view.set_variable ("success", filter::strings::implode (success, "<br>\n"));
+  view.set_variable ("success", filter::string::implode (success, "<br>\n"));
   view.set_variable ("error", error);
   page.append (view.render ("collaboration", "link"));
   page.append (assets_page::footer ());

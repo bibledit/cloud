@@ -56,7 +56,7 @@ std::string manage_write (Webserver_Request& webserver_request)
 
   Assets_View view {};
 
-  int userid = filter::strings::user_identifier (webserver_request);
+  int userid = filter::string::user_identifier (webserver_request);
   
   std::string user {};
   if (webserver_request.query.count ("user")) {
@@ -81,10 +81,10 @@ std::string manage_write (Webserver_Request& webserver_request)
     std::string checkbox = webserver_request.post_get("checkbox");
     std::string s_book (checkbox);
     s_book.erase (0, 4);
-    int book = filter::strings::convert_to_int (s_book);
+    int book = filter::string::convert_to_int (s_book);
     if (book) {
       if (bible_read_access) {
-        bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+        bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
         DatabasePrivileges::set_bible_book (user, bible, book, checked);
         database_privileges_client_create (user, true);
       }
@@ -127,7 +127,7 @@ std::string manage_write (Webserver_Request& webserver_request)
     std::string checkboxname = "book" + std::to_string (book);
     bool read, write;
     DatabasePrivileges::get_bible_book (user, bible, book, read, write);
-    std::string checked = filter::strings::get_checkbox_status (write);
+    std::string checked = filter::string::get_checkbox_status (write);
     view.add_iteration ("write", { std::pair ("bookname", bookname), std::pair ("checkboxname", checkboxname), std::pair ("checked", checked) } );
   }
   

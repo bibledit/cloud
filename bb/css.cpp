@@ -59,13 +59,13 @@ std::string bible_css (Webserver_Request& webserver_request)
   
   // The name of the Bible.
   const std::string bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
-  view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
+  view.set_variable ("bible", filter::string::escape_special_xml_characters (bible));
   
   // Data submission.
   if (webserver_request.post_count("submit")) {
     
     std::string font = webserver_request.post_get("font");
-    font = filter::strings::trim (font);
+    font = filter::string::trim (font);
 #ifdef HAVE_CLIENT
     // Bibledit client storage.
     database::config::bible::set_text_font_client (bible, font);
@@ -82,12 +82,12 @@ std::string bible_css (Webserver_Request& webserver_request)
     
     database::config::bible::set_text_direction (bible, i_mode * 10 + i_direction);
     
-    int lineheight = filter::strings::convert_to_int (webserver_request.post_get("lineheight"));
+    int lineheight = filter::string::convert_to_int (webserver_request.post_get("lineheight"));
     if (lineheight < 50) lineheight = 50;
     if (lineheight > 300) lineheight = 300;
     database::config::bible::set_line_height (bible, lineheight);
 
-    float letterspacing = filter::strings::convert_to_float (webserver_request.post_get("letterspacing"));
+    float letterspacing = filter::string::convert_to_float (webserver_request.post_get("letterspacing"));
     if (letterspacing < -3) letterspacing = -3;
     if (letterspacing > 3) letterspacing = 3;
     database::config::bible::set_letter_spacing (bible, static_cast<int>(10 * letterspacing));
@@ -119,7 +119,7 @@ std::string bible_css (Webserver_Request& webserver_request)
 
   float letterspacing = static_cast<float> (database::config::bible::get_letter_spacing (bible));
   letterspacing /= 10;
-  view.set_variable ("letterspacing", filter::strings::convert_to_string (letterspacing));
+  view.set_variable ("letterspacing", filter::string::convert_to_string (letterspacing));
 
   const std::string custom_class = Filter_Css::getClass (bible);
   view.set_variable ("custom_class", custom_class);

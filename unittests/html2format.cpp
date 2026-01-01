@@ -48,8 +48,8 @@ TEST (html, format)
       EXPECT_EQ (formats, editor_html2format.formats);
     }
     // The Quill library uses <span> only when needed, so remove them for testing.
-    html = filter::strings::replace ("<span>", "", html);
-    html = filter::strings::replace ("</span>", "", html);
+    html = filter::string::replace ("<span>", "", html);
+    html = filter::string::replace ("</span>", "", html);
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
@@ -72,8 +72,8 @@ TEST (html, format)
       EXPECT_EQ (formats, editor_html2format.formats);
     }
     // Test Quill-based editor.
-    html = filter::strings::replace ("<span>", "", html);
-    html = filter::strings::replace ("</span>", "", html);
+    html = filter::string::replace ("<span>", "", html);
+    html = filter::string::replace ("</span>", "", html);
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
@@ -321,8 +321,8 @@ TEST (html, format)
       EXPECT_EQ (formats, editor_html2format.formats);
     }
     // The Quill library uses <span> only when needed, so remove them for testing.
-    html = filter::strings::replace ("<span>", "", html);
-    html = filter::strings::replace ("</span>", "", html);
+    html = filter::string::replace ("<span>", "", html);
+    html = filter::string::replace ("</span>", "", html);
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);

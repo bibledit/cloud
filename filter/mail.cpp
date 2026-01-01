@@ -54,15 +54,15 @@ std::string filter_mail_remove_headers_internal (std::string contents)
 {
   bool empty_line_encountered = false;
   std::vector <std::string> cleaned;
-  std::vector <std::string> inputlines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> inputlines = filter::string::explode (contents, '\n');
   for (auto line : inputlines) {
     if (line.find ("Content-Type") != std::string::npos) continue;
     if (line.find ("Content-Transfer-Encoding") != std::string::npos) continue;
     if (empty_line_encountered) cleaned.push_back (line);
-    if (filter::strings::trim (line).empty ()) empty_line_encountered = true;
+    if (filter::string::trim (line).empty ()) empty_line_encountered = true;
   }
-  contents = filter::strings::implode (cleaned, "\n");
-  contents = filter::strings::trim (contents);
+  contents = filter::string::implode (cleaned, "\n");
+  contents = filter::string::trim (contents);
   return contents;
 }
 
@@ -78,8 +78,8 @@ void filter_mail_dissect_internal (const mimetic::MimeEntity& me, std::string& p
   
   // Look for content type and subtype.
   // Fold their case as some messages use upper case.
-  const std::string type = filter::strings::unicode_string_casefold (h.contentType().type());
-  const std::string subtype = filter::strings::unicode_string_casefold (h.contentType().subtype());
+  const std::string type = filter::string::unicode_string_casefold (h.contentType().type());
+  const std::string subtype = filter::string::unicode_string_casefold (h.contentType().subtype());
 
   if (type == "text") {
   
@@ -100,12 +100,12 @@ void filter_mail_dissect_internal (const mimetic::MimeEntity& me, std::string& p
       // Remove headers.
       html = filter_mail_remove_headers_internal (html);
       // Convert the html to plain text.
-      plaintext = filter::strings::html2text (html);
+      plaintext = filter::string::html2text (html);
     }
     
     // Get transfer encoding.
     // Fold the case as some email messages use uppercase.
-    std::string transfer_encoding = filter::strings::unicode_string_casefold (h.contentTransferEncoding().str ());
+    std::string transfer_encoding = filter::string::unicode_string_casefold (h.contentTransferEncoding().str ());
     
     // Decode quoted-printable text.
     if (transfer_encoding == mimetic::ContentTransferEncoding::quoted_printable) {
@@ -166,17 +166,17 @@ void filter_mail_dissect (std::string message, std::string & from, std::string &
 
   // Clean the text body up.
   std::vector <std::string> cleaned;
-  std::vector <std::string> inputlines = filter::strings::explode (plaintext, '\n');
+  std::vector <std::string> inputlines = filter::string::explode (plaintext, '\n');
   for (auto line : inputlines) {
     // Remove whitespace and empty lines.
-    line = filter::strings::trim (line);
+    line = filter::string::trim (line);
     if (line.empty ()) continue;
     // If the line starts with ">", it indicates quoted text. Skip it.
     if (line.substr (0, 1) == ">") continue;
     // Store this line.
     cleaned.push_back (line);
   }
-  plaintext = filter::strings::implode (cleaned, "\n");
+  plaintext = filter::string::implode (cleaned, "\n");
 }
 
 

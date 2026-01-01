@@ -106,7 +106,7 @@ void record_output (const std::string& bible, int book, int chapter, int verse, 
   sql.add (";");
   std::vector <std::string> result = sql.query () ["count(*)"];
   if (!result.empty ()) {
-    count = filter::strings::convert_to_int (result [0]);
+    count = filter::string::convert_to_int (result [0]);
   }
   if (count == 0) {
     // Check how often $data has been recorded already.
@@ -118,7 +118,7 @@ void record_output (const std::string& bible, int book, int chapter, int verse, 
     sql.add (";");
     std::vector <std::string> count_result = sql.query () ["count(*)"];
     if (!count_result.empty ()) {
-      count = filter::strings::convert_to_int (count_result [0]);
+      count = filter::string::convert_to_int (count_result [0]);
     }
     // Record the data no more than so often.
     if (count < 10) {
@@ -175,11 +175,11 @@ std::vector <database::check::Hit> get_hits ()
   std::vector <std::string> data = result ["data"];
   for (unsigned int i = 0; i < rowids.size(); i++) {
     database::check::Hit hit = database::check::Hit ();
-    hit.rowid = filter::strings::convert_to_int (rowids [i]);
+    hit.rowid = filter::string::convert_to_int (rowids [i]);
     hit.bible = bibles [i];
-    hit.book = filter::strings::convert_to_int (books [i]);
-    hit.chapter = filter::strings::convert_to_int (chapters [i]);
-    hit.verse = filter::strings::convert_to_int (verses [i]);
+    hit.book = filter::string::convert_to_int (books [i]);
+    hit.chapter = filter::string::convert_to_int (chapters [i]);
+    hit.verse = filter::string::convert_to_int (verses [i]);
     hit.data = data [i];
     hits.push_back (hit);
   }
@@ -240,7 +240,7 @@ Passage get_passage (int id)
   std::vector <std::string> chapters = result ["chapter"];
   std::vector <std::string> verses = result ["verse"];
   if (!books.empty()) {
-    Passage passage = Passage ("", filter::strings::convert_to_int (books[0]), filter::strings::convert_to_int (chapters[0]), verses[0]);
+    Passage passage = Passage ("", filter::string::convert_to_int (books[0]), filter::string::convert_to_int (chapters[0]), verses[0]);
     return passage;
   }
   return Passage ("", 0, 0, "");
@@ -261,11 +261,11 @@ std::vector <database::check::Hit> get_suppressions ()
   std::vector <std::string> data = result ["data"];
   for (unsigned int i = 0; i < rowids.size(); i++) {
     database::check::Hit hit = database::check::Hit ();
-    hit.rowid = filter::strings::convert_to_int (rowids [i]);
+    hit.rowid = filter::string::convert_to_int (rowids [i]);
     hit.bible = bibles [i];
-    hit.book = filter::strings::convert_to_int (books [i]);
-    hit.chapter = filter::strings::convert_to_int (chapters [i]);
-    hit.verse = filter::strings::convert_to_int (verses [i]);
+    hit.book = filter::string::convert_to_int (books [i]);
+    hit.chapter = filter::string::convert_to_int (chapters [i]);
+    hit.verse = filter::string::convert_to_int (verses [i]);
     hit.data = data [i];
     hits.push_back (hit);
   }

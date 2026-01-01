@@ -37,9 +37,9 @@ TEST (session, users)
   Webserver_Request webserver_request;
   webserver_request.database_users ()->create ();
   webserver_request.session_logic()->set_username ("phpunit");
-  EXPECT_EQ (13683715, filter::strings::user_identifier (webserver_request));
+  EXPECT_EQ (13683715, filter::string::user_identifier (webserver_request));
   webserver_request.session_logic()->set_username ("phpunit2");
-  EXPECT_EQ (13767813, filter::strings::user_identifier (webserver_request));
+  EXPECT_EQ (13767813, filter::string::user_identifier (webserver_request));
   refresh_sandbox (true);
 }
 

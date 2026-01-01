@@ -83,7 +83,7 @@ void sendreceive_settings ()
   Sync_Logic sync_logic (webserver_request);
 
   std::string response = client_logic_connection_setup ("", "");
-  int iresponse = filter::strings::convert_to_int (response);
+  int iresponse = filter::string::convert_to_int (response);
   if (iresponse < roles::guest || iresponse > roles::admin) {
     Database_Logs::log (translate("Failure sending and receiving Settings"), roles::translator);
     sendreceive_settings_done ();
@@ -112,7 +112,7 @@ void sendreceive_settings ()
   
   // The POST request contains the credentials.
   std::map <std::string, std::string> post;
-  post ["u"] = filter::strings::bin2hex (user);
+  post ["u"] = filter::string::bin2hex (user);
   post ["p"] = webserver_request.database_users ()->get_md5 (user);
   post ["l"] = std::to_string (webserver_request.database_users ()->get_level (user));
 
@@ -135,7 +135,7 @@ void sendreceive_settings ()
       case Sync_Logic::settings_send_resources_organization:
       {
         std::vector <std::string> resources = webserver_request.database_config_user()->get_active_resources ();
-        value = filter::strings::implode (resources, "\n");
+        value = filter::string::implode (resources, "\n");
         break;
       }
       default: break;
@@ -175,7 +175,7 @@ void sendreceive_settings ()
   if (post.count ("v")) post.erase (post.find ("v"));
   std::vector <std::string> bibles = database::bibles::get_bibles ();
   post ["a"] = std::to_string (Sync_Logic::settings_get_total_checksum);
-  post ["b"] = filter::strings::implode (bibles, "\n");
+  post ["b"] = filter::string::implode (bibles, "\n");
   std::string error;
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
@@ -228,7 +228,7 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  webserver_request.database_config_user()->set_active_resources (filter::strings::explode (response, '\n'));
+  webserver_request.database_config_user()->set_active_resources (filter::string::explode (response, '\n'));
   
   // Fetch values for the Bibles.
   for (auto & bible : bibles) {
@@ -255,7 +255,7 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  webserver_request.database_config_user()->set_privilege_delete_consultation_notes (filter::strings::convert_to_bool (response));
+  webserver_request.database_config_user()->set_privilege_delete_consultation_notes (filter::string::convert_to_bool (response));
 
   // Done.
   Database_Logs::log ("Settings: Updated", roles::translator);

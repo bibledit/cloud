@@ -129,7 +129,7 @@ std::string setup_index (Webserver_Request& webserver_request)
         redirect_browser (webserver_request, index_index_url ());
       } else {
         view.enable_zone ("errors");
-        view.set_variable ("error", filter::strings::implode (errors, " "));
+        view.set_variable ("error", filter::string::implode (errors, " "));
       }
     }
   }

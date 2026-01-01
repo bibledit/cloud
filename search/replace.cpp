@@ -72,17 +72,17 @@ std::string search_replace (Webserver_Request& webserver_request)
     std::string verse = passage.m_verse;
     
     // Get the plain text.
-    std::string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
+    std::string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::string::convert_to_int (verse));
     
     // Format it.
     std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
     std::string oldtext = text;
-    std::string newtext = filter::strings::replace (searchfor, replacewith, text);
-    if (replacewith != "") newtext = filter::strings::markup_words ({replacewith}, newtext);
+    std::string newtext = filter::string::replace (searchfor, replacewith, text);
+    if (replacewith != "") newtext = filter::string::markup_words ({replacewith}, newtext);
     
     std::string output =
-    "<div id=\"" + filter::strings::convert_to_string (id) + "\">\n"
-    "<p><a href=\"replace\"> ✔ </a> <a href=\"delete\">" + filter::strings::emoji_wastebasket () + "</a> $link</p>\n"
+    "<div id=\"" + filter::string::convert_to_string (id) + "\">\n"
+    "<p><a href=\"replace\"> ✔ </a> <a href=\"delete\">" + filter::string::emoji_wastebasket () + "</a> $link</p>\n"
     "<p>" + oldtext + "</p>\n"
     "<p>" + newtext + "</p>\n"
     "</div>\n";

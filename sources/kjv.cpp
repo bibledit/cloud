@@ -44,7 +44,7 @@ void sources_kjv_parse_loop (pugi::xml_node element, int & book, int & chapter, 
 void sources_kjv_store (int book, int chapter, int verse, std::string lemma, std::string english)
 {
   Database_Kjv database_kjv;
-  std::vector <std::string> lemmas = filter::strings::explode (lemma, ' ');
+  std::vector <std::string> lemmas = filter::string::explode (lemma, ' ');
   bool output_done = false;
   for (auto & strong : lemmas) {
     if (strong.find ("strong") == std::string::npos) continue;
@@ -52,7 +52,7 @@ void sources_kjv_store (int book, int chapter, int verse, std::string lemma, std
       // Two separate two identical words.
       database_kjv.store (book, chapter, verse, "", " / ");
     }
-    strong = filter::strings::replace ("strong:", "", strong);
+    strong = filter::string::replace ("strong:", "", strong);
     database_kjv.store (book, chapter, verse, strong, english);
     output_done = true;
   }
@@ -80,7 +80,7 @@ void sources_kjv_parse_loop (pugi::xml_node element,
   } else if (element_name == "w") {
     if (within_verse) {
       lemma = element.attribute ("lemma").value ();
-      lemma = filter::strings::trim (lemma);
+      lemma = filter::string::trim (lemma);
       for (pugi::xml_node child : element.children ()) {
         sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
       }

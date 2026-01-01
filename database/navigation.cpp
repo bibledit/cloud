@@ -180,8 +180,8 @@ Passage Database_Navigation::get_previous (const std::string& user, const int fo
   const std::vector <std::string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
-    passage.m_book = filter::strings::convert_to_int (books [0]);
-    passage.m_chapter = filter::strings::convert_to_int (chapters [0]);
+    passage.m_book = filter::string::convert_to_int (books [0]);
+    passage.m_chapter = filter::string::convert_to_int (chapters [0]);
     passage.m_verse = verses [0];
     return passage;
   }
@@ -225,8 +225,8 @@ Passage Database_Navigation::get_next (const std::string& user, const int focus_
   const std::vector <std::string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
-    passage.m_book = filter::strings::convert_to_int (books [0]);
-    passage.m_chapter = filter::strings::convert_to_int (chapters [0]);
+    passage.m_book = filter::string::convert_to_int (books [0]);
+    passage.m_chapter = filter::string::convert_to_int (chapters [0]);
     passage.m_verse = verses [0];
     return passage;
   }
@@ -247,7 +247,7 @@ int Database_Navigation::get_previous_id (const std::string& user, const int foc
     sql.add (";");
     const std::vector <std::string> ids = sql.query () ["rowid"];
     for (const auto& s : ids) {
-      id = filter::strings::convert_to_int (s);
+      id = filter::string::convert_to_int (s);
     }
   }
   // If no active row identifier was found, return zero.
@@ -264,7 +264,7 @@ int Database_Navigation::get_previous_id (const std::string& user, const int foc
   sql.add ("ORDER BY rowid DESC LIMIT 1;");
   const std::vector <std::string> ids = sql.query () ["rowid"];
   if (!ids.empty()) {
-    return filter::strings::convert_to_int (ids.at(0));
+    return filter::string::convert_to_int (ids.at(0));
   }
 
   // Nothing found.
@@ -285,7 +285,7 @@ int Database_Navigation::get_next_id (const std::string& user, const int focus_g
     sql.add (";");
     const std::vector <std::string> ids = sql.query () ["rowid"];
     for (const auto& s : ids) {
-      id = filter::strings::convert_to_int (s);
+      id = filter::string::convert_to_int (s);
     }
   }
   // If no active row identifier was found, return zero.
@@ -302,7 +302,7 @@ int Database_Navigation::get_next_id (const std::string& user, const int focus_g
   sql.add ("ORDER BY rowid ASC LIMIT 1;");
   const std::vector <std::string> ids = sql.query () ["rowid"];
   if (!ids.empty()) {
-    return filter::strings::convert_to_int (ids.at(0));
+    return filter::string::convert_to_int (ids.at(0));
   }
 
   // Nothing found.
@@ -349,8 +349,8 @@ std::vector <Passage> Database_Navigation::get_history (const std::string& user,
     const std::vector <std::string> verses = result ["verse"];
     for (unsigned int i = 0; i < books.size(); i++) {
       Passage passage;
-      passage.m_book = filter::strings::convert_to_int (books [i]);
-      passage.m_chapter = filter::strings::convert_to_int (chapters [i]);
+      passage.m_book = filter::string::convert_to_int (books [i]);
+      passage.m_chapter = filter::string::convert_to_int (chapters [i]);
       passage.m_verse = verses [i];
       passages.push_back(passage);
     }

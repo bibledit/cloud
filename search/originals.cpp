@@ -84,8 +84,8 @@ std::string search_originals (Webserver_Request& webserver_request)
       details = database_sblgnt.getVerse (static_cast<int>(book), chapter, verse);
       classs = "greek";
     }
-    searchtext = filter::strings::implode (details, " ");
-    searchtext = filter::strings::trim (searchtext);
+    searchtext = filter::string::implode (details, " ");
+    searchtext = filter::string::trim (searchtext);
     
     return classs + "\n" + searchtext;
   }
@@ -94,8 +94,8 @@ std::string search_originals (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("words")) {
     std::string words = webserver_request.query ["words"];
     
-    words = filter::strings::trim (words);
-    std::vector <std::string> v_words = filter::strings::explode (words, ' ');
+    words = filter::string::trim (words);
+    std::vector <std::string> v_words = filter::string::explode (words, ' ');
     
     book_id book = static_cast<book_id>(ipc_focus::get_book (webserver_request));
     book_type type = database::books::get_type (book);
@@ -149,7 +149,7 @@ std::string search_originals (Webserver_Request& webserver_request)
       v_passages.push_back (passage);
       counts.push_back (count);
     }
-    filter::strings::quick_sort (counts, v_passages, 0, static_cast<unsigned> (counts.size()));
+    filter::string::quick_sort (counts, v_passages, 0, static_cast<unsigned> (counts.size()));
     reverse (v_passages.begin(), v_passages.end());
 
     
@@ -164,7 +164,7 @@ std::string search_originals (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("id")) {
-    int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+    int id = filter::string::convert_to_int (webserver_request.query ["id"]);
     
     // Get the and passage for this identifier.
     Passage passage = filter_integer_to_passage (id);
@@ -173,7 +173,7 @@ std::string search_originals (Webserver_Request& webserver_request)
     std::string verse = passage.m_verse;
     
     // Get the plain text.
-    std::string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
+    std::string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::string::convert_to_int (verse));
     
     // Format it.
     std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

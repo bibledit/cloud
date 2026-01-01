@@ -81,27 +81,27 @@ std::vector <std::string> filter_merge_merge (const std::vector <std::string>& b
 
 std::string filter_merge_lines2words (std::string data)
 {
-  data = filter::strings::replace ("\n", " new__line ", data);
-  data = filter::strings::replace (" ", "\n", data);
+  data = filter::string::replace ("\n", " new__line ", data);
+  data = filter::string::replace (" ", "\n", data);
   return data;
 }
 
 
 std::string filter_merge_words2lines (std::string data)
 {
-  data = filter::strings::replace ("\n", " ", data);
-  data = filter::strings::replace (" new__line ", "\n", data);
+  data = filter::string::replace ("\n", " ", data);
+  data = filter::string::replace (" new__line ", "\n", data);
   return data;
 }
 
 
 std::string filter_merge_lines2graphemes (std::string data)
 {
-  data = filter::strings::replace ("\n", " new__line ", data);
+  data = filter::string::replace ("\n", " new__line ", data);
   std::string data2;
-  size_t count = filter::strings::unicode_string_length (data);
+  size_t count = filter::string::unicode_string_length (data);
   for (size_t i = 0; i < count; i++) {
-    std::string grapheme = filter::strings::unicode_string_substr (data, i, 1);
+    std::string grapheme = filter::string::unicode_string_substr (data, i, 1);
     data2.append (grapheme);
     data2.append ("\n");
   }
@@ -111,8 +111,8 @@ std::string filter_merge_lines2graphemes (std::string data)
 
 std::string filter_merge_graphemes2lines (std::string data)
 {
-  data = filter::strings::replace ("\n", "", data);
-  data = filter::strings::replace (" new__line ", "\n", data);
+  data = filter::string::replace ("\n", "", data);
+  data = filter::string::replace (" new__line ", "\n", data);
   return data;
 }
 
@@ -124,10 +124,10 @@ void filter_merge_detect_conflict (std::string base,
                                    std::vector <Merge_Conflict> & conflicts)
 {
   // Clean input.
-  base = filter::strings::trim (base);
-  change = filter::strings::trim (change);
-  prioritized_change = filter::strings::trim (prioritized_change);
-  result = filter::strings::trim (result);
+  base = filter::string::trim (base);
+  change = filter::string::trim (change);
+  prioritized_change = filter::string::trim (prioritized_change);
+  result = filter::string::trim (result);
 
   bool irregularity = false;
   std::string subject;
@@ -194,17 +194,17 @@ std::string filter_merge_run (std::string base, std::string change, std::string 
                               std::vector <Merge_Conflict> & conflicts)
 {
   // Trim the input.
-  base = filter::strings::trim (base);
-  change = filter::strings::trim (change);
-  prioritized_change = filter::strings::trim (prioritized_change);
+  base = filter::string::trim (base);
+  change = filter::string::trim (change);
+  prioritized_change = filter::string::trim (prioritized_change);
 
   // Try a standard line-based merge. Should be sufficient for most cases.
-  std::vector <std::string> baselines = filter::strings::explode (base, '\n');
-  std::vector <std::string> userlines = filter::strings::explode (change, '\n');
-  std::vector <std::string> serverlines = filter::strings::explode (prioritized_change, '\n');
+  std::vector <std::string> baselines = filter::string::explode (base, '\n');
+  std::vector <std::string> userlines = filter::string::explode (change, '\n');
+  std::vector <std::string> serverlines = filter::string::explode (prioritized_change, '\n');
   std::vector <std::string> results = filter_merge_merge (baselines, userlines, serverlines);
   if (!results.empty ()) {
-    std::string result = filter::strings::implode (results, "\n");
+    std::string result = filter::string::implode (results, "\n");
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
     return result;
   }
@@ -213,12 +213,12 @@ std::string filter_merge_run (std::string base, std::string change, std::string 
   std::string baseWords = filter_merge_lines2words (base);
   std::string userWords = filter_merge_lines2words (change);
   std::string serverWords = filter_merge_lines2words (prioritized_change);
-  baselines = filter::strings::explode (baseWords, '\n');
-  userlines = filter::strings::explode (userWords, '\n');
-  serverlines = filter::strings::explode (serverWords, '\n');
+  baselines = filter::string::explode (baseWords, '\n');
+  userlines = filter::string::explode (userWords, '\n');
+  serverlines = filter::string::explode (serverWords, '\n');
   results = filter_merge_merge (baselines, userlines, serverlines);
   if (!results.empty ()) {
-    std::string mergedWords = filter::strings::implode (results, "\n");
+    std::string mergedWords = filter::string::implode (results, "\n");
     std::string result = filter_merge_words2lines (mergedWords);
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
     return result;
@@ -228,12 +228,12 @@ std::string filter_merge_run (std::string base, std::string change, std::string 
   std::string baseGraphemes = filter_merge_lines2graphemes (base);
   std::string userGraphemes = filter_merge_lines2graphemes (change);
   std::string serverGraphemes = filter_merge_lines2graphemes (prioritized_change);
-  baselines = filter::strings::explode (baseGraphemes, '\n');
-  userlines = filter::strings::explode (userGraphemes, '\n');
-  serverlines = filter::strings::explode (serverGraphemes, '\n');
+  baselines = filter::string::explode (baseGraphemes, '\n');
+  userlines = filter::string::explode (userGraphemes, '\n');
+  serverlines = filter::string::explode (serverGraphemes, '\n');
   results = filter_merge_merge (baselines, userlines, serverlines);
   if (!results.empty ()) {
-    std::string mergedGraphemes = filter::strings::implode (results, "\n");
+    std::string mergedGraphemes = filter::string::implode (results, "\n");
     std::string result = filter_merge_graphemes2lines (mergedGraphemes);
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
     return result;
@@ -307,7 +307,7 @@ std::string filter_merge_run_clever (std::string base, std::string change, std::
   }
   
   // Done.
-  return filter::strings::implode (results, "\n");
+  return filter::string::implode (results, "\n");
 }
 
 

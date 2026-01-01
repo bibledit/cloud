@@ -33,7 +33,7 @@ citation::citation ()
 
 void citation::set_sequence (std::string sequence_in)
 {
-  sequence = filter::strings::explode (std::move(sequence_in), ' ');
+  sequence = filter::string::explode (std::move(sequence_in), ' ');
   // The note will be numbered as follows:
   // If a sequence is given, then this sequence is followed for the citations.
   // If an empty sequence is given, then the note gets ever increasing numerical citations.

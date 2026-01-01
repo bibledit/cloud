@@ -46,9 +46,9 @@ void sources_morphgnt_parse ()
     file.insert (0, "sources/morphgnt/");
     Database_Logs::log (file);
     std::string contents = filter_url_file_get_contents (file);
-    std::vector <std::string> lines = filter::strings::explode (contents, '\n');
+    std::vector <std::string> lines = filter::string::explode (contents, '\n');
     for (auto line : lines) {
-      std::vector <std::string> bits = filter::strings::explode (line, ' ');
+      std::vector <std::string> bits = filter::string::explode (line, ' ');
       if (bits.size () != 7) {
         Database_Logs::log (line);
         Database_Logs::log ("Should be seven bits");
@@ -56,9 +56,9 @@ void sources_morphgnt_parse ()
       }
 
       std::string passage = bits [0];
-      int book = filter::strings::convert_to_int (passage.substr (0, 2)) + 39;
-      int chapter = filter::strings::convert_to_int (passage.substr (2, 2));
-      int verse = filter::strings::convert_to_int (passage.substr (4, 2));
+      int book = filter::string::convert_to_int (passage.substr (0, 2)) + 39;
+      int chapter = filter::string::convert_to_int (passage.substr (2, 2));
+      int verse = filter::string::convert_to_int (passage.substr (4, 2));
       std::string pos = bits[1];
       std::string parsing = bits[2];
       parsings.insert (parsing.substr (7, 1)); // degree
@@ -66,8 +66,8 @@ void sources_morphgnt_parse ()
       std::string lemma = bits[6];
 
       // Casefold and transliterate the lemma: This enables searching on the lemma.
-      lemma = filter::strings::unicode_string_casefold (lemma);
-      lemma = filter::strings::unicode_string_transliterate (lemma);
+      lemma = filter::string::unicode_string_casefold (lemma);
+      lemma = filter::string::unicode_string_transliterate (lemma);
 
       database_morphgnt.store (book, chapter, verse, pos, parsing, word, lemma);
     }

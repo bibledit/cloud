@@ -89,7 +89,7 @@ void system_logic_produce_bibles_file (int jobid)
       std::vector <int> chapters = database::bibles::get_chapters (bible, book);
       for (auto chapter : chapters) {
         std::string usfm = database::bibles::get_chapter (bible, book, chapter);
-        book_usfm.append (filter::strings::trim (usfm));
+        book_usfm.append (filter::string::trim (usfm));
         book_usfm.append ("\n");
       }
       std::string file = bible + "_" + std::to_string (book) + ".usfm";

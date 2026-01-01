@@ -72,7 +72,7 @@ void export_usfm (std::string bible, bool log)
     for (auto chapter : chapters) {
       // Get the USFM code for the current chapter.
       std::string chapter_data = database::bibles::get_chapter (bible, book, chapter);
-      chapter_data = filter::strings::trim (chapter_data);
+      chapter_data = filter::string::trim (chapter_data);
       // Add the chapter USFM code to the book's USFM code.
       bookUsfmDataFull += chapter_data;
       bookUsfmDataFull += "\n";

@@ -79,7 +79,7 @@ void changes_process_identifiers (Webserver_Request& webserver_request,
     const std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
     std::vector <int> verses = old_verse_numbers;
     verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
-    verses = filter::strings::array_unique (verses);
+    verses = filter::string::array_unique (verses);
     std::sort (verses.begin(), verses.end());
     for (const auto verse : verses) {
       const std::string old_verse_usfm = filter::usfm::get_verse_text (old_chapter_usfm, verse);
@@ -325,15 +325,15 @@ void changes_modifications ()
     std::string timepath;
     timepath.append (std::to_string (filter::date::numerical_year (seconds)));
     timepath.append ("-");
-    timepath.append (filter::strings::fill (std::to_string (filter::date::numerical_month (seconds)), 2, '0'));
+    timepath.append (filter::string::fill (std::to_string (filter::date::numerical_month (seconds)), 2, '0'));
     timepath.append ("-");
-    timepath.append (filter::strings::fill (std::to_string (filter::date::numerical_month_day (seconds)), 2, '0'));
+    timepath.append (filter::string::fill (std::to_string (filter::date::numerical_month_day (seconds)), 2, '0'));
     timepath.append (" ");
-    timepath.append (filter::strings::fill (std::to_string (filter::date::numerical_hour (seconds)), 2, '0'));
+    timepath.append (filter::string::fill (std::to_string (filter::date::numerical_hour (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (filter::strings::fill (std::to_string (filter::date::numerical_minute (seconds)), 2, '0'));
+    timepath.append (filter::string::fill (std::to_string (filter::date::numerical_minute (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (filter::strings::fill (std::to_string (filter::date::numerical_second (seconds)), 2, '0'));
+    timepath.append (filter::string::fill (std::to_string (filter::date::numerical_second (seconds)), 2, '0'));
     const std::string directory = filter_url_create_root_path ({"revisions", bible, timepath});
     filter_url_mkdir (directory);
     
@@ -363,7 +363,7 @@ void changes_modifications ()
         const std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
         std::vector <int> verses = old_verse_numbers;
         verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
-        verses = filter::strings::array_unique (verses);
+        verses = filter::string::array_unique (verses);
         std::sort (verses.begin (), verses.end());
         for (auto verse : verses) {
           const std::string old_verse_usfm = filter::usfm::get_verse_text (old_chapter_usfm, verse);

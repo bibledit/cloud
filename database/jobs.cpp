@@ -91,7 +91,7 @@ int Database_Jobs::get_new_id ()
   // Iterate till a non-existing identifier is found.
   int id;
   do {
-    id = filter::strings::rand (100'000'000, 999'999'999);
+    id = filter::string::rand (100'000'000, 999'999'999);
   } while (id_exists (id));
   // Store the new id so it can't be given out again just now.
   // Also store the timestamp. used for entry expiry.
@@ -127,7 +127,7 @@ int Database_Jobs::get_level (int id)
   sql.add (";");
   const std::vector <std::string> levels = sql.query () ["level"];
   if (!levels.empty()) {
-    return filter::strings::convert_to_int (levels.at(0));
+    return filter::string::convert_to_int (levels.at(0));
   }
   return 0;
 }

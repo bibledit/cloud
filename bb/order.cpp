@@ -57,7 +57,7 @@ std::string bible_order (Webserver_Request& webserver_request)
   
   // The name of the Bible.
   const std::string bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
-  view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
+  view.set_variable ("bible", filter::string::escape_special_xml_characters (bible));
 
   // The order the user wants for the Bibles.
   const std::string order = webserver_request.query ["order"];
@@ -116,7 +116,7 @@ std::string bible_order (Webserver_Request& webserver_request)
     };
     std::vector <std::string> v_book_order {};
     for (const auto book : interspersed) v_book_order.push_back (std::to_string (static_cast<int>(book)));
-    const std::string s_book_order = filter::strings::implode (v_book_order, " ");
+    const std::string s_book_order = filter::string::implode (v_book_order, " ");
     database::config::bible::set_book_order (bible, s_book_order);
   }
 
@@ -175,7 +175,7 @@ std::string bible_order (Webserver_Request& webserver_request)
     };
     std::vector <std::string> v_book_order {};
     for (const auto book : interspersed) v_book_order.push_back (std::to_string (static_cast<int>(book)));
-    const std::string s_book_order = filter::strings::implode (v_book_order, " ");
+    const std::string s_book_order = filter::string::implode (v_book_order, " ");
     database::config::bible::set_book_order (bible, s_book_order);
   }
 
@@ -189,13 +189,13 @@ std::string bible_order (Webserver_Request& webserver_request)
   const std::string moveup = webserver_request.query ["moveup"];
   const std::string movedown = webserver_request.query ["movedown"];
   if (!moveup.empty () || !movedown.empty ()) {
-    size_t move = static_cast<size_t>(filter::strings::convert_to_int (moveup + movedown));
+    size_t move = static_cast<size_t>(filter::string::convert_to_int (moveup + movedown));
     const std::vector <int> books = filter_passage_get_ordered_books (bible);
     std::vector <std::string> s_books;
     for (const auto& book : books)
       s_books.push_back (std::to_string (book));
-    filter::strings::array_move_up_down (s_books, move, !moveup.empty ());
-    const std::string s_order = filter::strings::implode (s_books, " ");
+    filter::string::array_move_up_down (s_books, move, !moveup.empty ());
+    const std::string s_order = filter::string::implode (s_books, " ");
     database::config::bible::set_book_order (bible, s_order);
   }
   
@@ -206,8 +206,8 @@ std::string bible_order (Webserver_Request& webserver_request)
     view.add_iteration ("order", { std::pair ("offset", std::to_string (i)), std::pair ("bookname", bookname) } );
   }
 
-  view.set_variable ("uparrow", filter::strings::unicode_black_up_pointing_triangle ());
-  view.set_variable ("downarrow", filter::strings::unicode_black_down_pointing_triangle ());
+  view.set_variable ("uparrow", filter::string::unicode_black_up_pointing_triangle ());
+  view.set_variable ("downarrow", filter::string::unicode_black_down_pointing_triangle ());
 
   page += view.render ("bb", "order");
   

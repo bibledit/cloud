@@ -74,7 +74,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   
   // The name of the stylesheet.
   const std::string name = webserver_request.query["name"];
-  view.set_variable ("name", filter::strings::escape_special_xml_characters (name));
+  view.set_variable ("name", filter::string::escape_special_xml_characters (name));
   
   // Whether this user has write access to the stylesheet.
   const std::string& username = webserver_request.session_logic ()->get_username ();

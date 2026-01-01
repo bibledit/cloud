@@ -62,13 +62,13 @@ std::string notes_comment (Webserver_Request& webserver_request)
   
   int id;
   if (webserver_request.query.count ("id")) 
-    id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+    id = filter::string::convert_to_int (webserver_request.query ["id"]);
   else 
-    id = filter::strings::convert_to_int (webserver_request.post_get("id"));
+    id = filter::string::convert_to_int (webserver_request.post_get("id"));
   
   
   if (webserver_request.post_count("body")) {
-    std::string comment = filter::strings::trim (webserver_request.post_get("body"));
+    std::string comment = filter::string::trim (webserver_request.post_get("body"));
     comment = filter_url_tag_to_plus (comment);
     notes_logic.addComment (id, comment);
     redirect_browser (webserver_request, notes_note_url () + "?id=" + std::to_string (id) + "&temporal=");

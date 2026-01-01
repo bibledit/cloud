@@ -135,8 +135,8 @@ std::vector <int> get_books (const std::string& bible)
   const std::vector <std::string> files = filter_url_scandir (folder);
   std::vector <int> books {};
   for (const auto& book : files) {
-    if (filter::strings::is_numeric (book)) {
-      books.push_back (filter::strings::convert_to_int (book));
+    if (filter::string::is_numeric (book)) {
+      books.push_back (filter::string::convert_to_int (book));
     }
   }
   
@@ -146,7 +146,7 @@ std::vector <int> get_books (const std::string& bible)
     const book_id book_enum = static_cast<book_id>(book_number);
     order.push_back (database::books::get_order_from_id (book_enum));
   }
-  filter::strings::quick_sort (order, books, 0, static_cast<unsigned>(order.size()));
+  filter::string::quick_sort (order, books, 0, static_cast<unsigned>(order.size()));
   
   // Result.
   return books;
@@ -169,7 +169,7 @@ std::vector <int> get_chapters (const std::string& bible, const int book)
   std::vector <int> chapters;
   const std::vector <std::string> files = filter_url_scandir (folder);
   for (const auto& file : files) {
-    if (filter::strings::is_numeric (file)) chapters.push_back (filter::strings::convert_to_int (file));
+    if (filter::string::is_numeric (file)) chapters.push_back (filter::string::convert_to_int (file));
   }
   std::sort (chapters.begin (), chapters.end ());
   return chapters;
@@ -194,7 +194,7 @@ std::string get_chapter (const std::string& bible, const int book, const int cha
     const std::string file = files.at(files.size() - 1);
     std::string data = filter_url_file_get_contents (filter_url_create_path ({folder, file}));
     // Remove trailing new line.
-    data = filter::strings::trim (data);
+    data = filter::string::trim (data);
     return data;
   }
   return std::string();
@@ -208,7 +208,7 @@ int get_chapter_id (const std::string& bible, const int book, const int chapter)
   const std::vector <std::string> files = filter_url_scandir (folder);
   if (!files.empty ()) {
     const std::string file = files.at(files.size() - 1);
-    return filter::strings::convert_to_int (file);
+    return filter::string::convert_to_int (file);
   }
   return 100'000'000;
 }

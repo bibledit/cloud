@@ -86,7 +86,7 @@ TEST_F (opendocument, converting_paragraphs)
   "\n"
   "\n"
   "Paragraph Three\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -100,7 +100,7 @@ TEST_F (opendocument, automatic_paragraph)
   std::string odt = filter_url_file_get_contents (tmp_test_txt);
   std::string standard = ""
   "Should create new paragraph automatically\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -120,7 +120,7 @@ TEST_F (opendocument, basic_note)
   "Text†Note\n"
   "\n"
   ".\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -140,7 +140,7 @@ TEST_F (opendocument, basic_formatted_test_v2)
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (tmp_test_txt);
   std::string standard = "textpronunciationnormal.";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -164,7 +164,7 @@ TEST_F (opendocument, basic_formatted_note_v2)
   "Text𐌰PronunciationNormal\n"
   "\n"
   ".\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -197,7 +197,7 @@ TEST_F (opendocument, embedded_formatted_text)
   EXPECT_EQ (0, ret);
   const std::string odt = filter_url_file_get_contents (tmp_test_txt);
   const std::string standard = "textaddpronormal.";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -234,7 +234,7 @@ TEST_F (opendocument, embedded_formatted_note)
   "text𐌰addpronormal\n"
   "\n"
   ".\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -257,7 +257,7 @@ TEST_F (opendocument, paragraph_formatting)
   "\n"
   "Paragraph with d style at first, then Standard\n"
   "";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -272,7 +272,7 @@ TEST_F (opendocument, converting_apostrophy)
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (tmp_test_txt);
   std::string standard = "One apostrophy ' and two more ''.";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 

@@ -70,7 +70,7 @@ std::string notes_note (Webserver_Request& webserver_request)
   std::string success;
 
   
-  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+  int id = filter::string::convert_to_int (webserver_request.query ["id"]);
   
   
   // When a note is opened, then the passage navigator should go to the passage that belongs to that note.
@@ -91,7 +91,7 @@ std::string notes_note (Webserver_Request& webserver_request)
     if (!passage_focused) {
       int desired_book = passages[0].m_book;
       int desired_chapter = passages[0].m_chapter;
-      int desired_verse = filter::strings::convert_to_int (passages[0].m_verse);
+      int desired_verse = filter::string::convert_to_int (passages[0].m_verse);
       ipc_focus::set_passage (webserver_request, desired_book, desired_chapter, desired_verse);
       navigation_passage::record_history (webserver_request, desired_book, desired_chapter, desired_verse);
     }

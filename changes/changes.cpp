@@ -65,19 +65,19 @@ std::string changes_changes (Webserver_Request& webserver_request)
 {
   // Handle AJAX call to load the summary of a change notification.
   if (webserver_request.query.count ("load")) {
-    const int identifier = filter::strings::convert_to_int (webserver_request.query["load"]);
+    const int identifier = filter::string::convert_to_int (webserver_request.query["load"]);
     std::stringstream block {};
     const Passage passage = database::modifications::getNotificationPassage (identifier);
     const std::string link = filter_passage_link_for_opening_editor_at (passage.m_book, passage.m_chapter, passage.m_verse);
     std::string category = database::modifications::getNotificationCategory (identifier);
     if (category == changes_personal_category ())
-      category = filter::strings::emoji_smiling_face_with_smiling_eyes ();
+      category = filter::string::emoji_smiling_face_with_smiling_eyes ();
     if (category == changes_bible_category ()) 
-      category = filter::strings::emoji_open_book ();
+      category = filter::string::emoji_open_book ();
     std::string modification = database::modifications::getNotificationModification (identifier);
     block << "<div id=" << std::quoted("entry" + std::to_string (identifier)) << + ">\n";
-    block << "<a href=" << std::quoted ("expand") << ">" << filter::strings::emoji_file_folder () << "</a>\n";
-    block << "<a href=" << std::quoted("remove") << ">" << filter::strings::emoji_wastebasket () << "</a>\n";
+    block << "<a href=" << std::quoted ("expand") << ">" << filter::string::emoji_file_folder () << "</a>\n";
+    block << "<a href=" << std::quoted("remove") << ">" << filter::string::emoji_wastebasket () << "</a>\n";
     block << link << "\n";
     block << category << "\n";
     block << modification << "\n";
@@ -88,7 +88,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   // Handle AJAX call to remove a change notification.
   if (webserver_request.post_count("remove")) {
-    const int remove = filter::strings::convert_to_int (webserver_request.post_get("remove"));
+    const int remove = filter::string::convert_to_int (webserver_request.post_get("remove"));
     trash_change_notification (webserver_request, remove);
     database::modifications::deleteNotification (remove);
 #ifdef HAVE_CLIENT
@@ -102,11 +102,11 @@ std::string changes_changes (Webserver_Request& webserver_request)
   // Handle AJAX call to navigate to the passage belonging to the change notification.
   if (webserver_request.post_count("navigate")) {
     const std::string navigate = webserver_request.post_get("navigate");
-    const int id = filter::strings::convert_to_int (navigate);
+    const int id = filter::string::convert_to_int (navigate);
     const Passage passage = database::modifications::getNotificationPassage (id);
     if (passage.m_book) {
-      ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
-      navigation_passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+      ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
+      navigation_passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
     }
     // Set the correct default Bible for the user.
     const std::string bible = database::modifications::getNotificationBible (id);
@@ -285,7 +285,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
     std::vector <int> personal_ids2 = database::modifications::getNotificationTeamIdentifiers (username, user, selectedbible);
     std::string user_and_icon = translate ("user") + " " + category;
     if (category == changes_personal_category ()) {
-      user_and_icon = translate ("me") + " " + filter::strings::emoji_smiling_face_with_smiling_eyes ();
+      user_and_icon = translate ("me") + " " + filter::string::emoji_smiling_face_with_smiling_eyes ();
     }
     if (!personal_ids2.empty () && !bible_ids.empty ()) {
       view.add_iteration ("matching", { std::pair ("user", user), std::pair ("icon", user_and_icon) } );

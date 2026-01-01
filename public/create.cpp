@@ -81,9 +81,9 @@ std::string public_create (Webserver_Request& webserver_request)
 
  
   if (webserver_request.post_count("submit")) {
-    std::string summary = filter::strings::trim (webserver_request.post_get("summary"));
+    std::string summary = filter::string::trim (webserver_request.post_get("summary"));
     if (summary.empty ()) summary = translate ("Feedback");
-    const std::string contents = "<p>" + versetext + "</p>" + filter::strings::trim (webserver_request.post_get("contents"));
+    const std::string contents = "<p>" + versetext + "</p>" + filter::string::trim (webserver_request.post_get("contents"));
     const int identifier = notes_logic.createNote (bible, book, chapter, verse, summary, contents, false);
     // A note created by a public user is made public to all.
     database_notes.set_public (identifier, true);

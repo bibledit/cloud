@@ -143,8 +143,8 @@ std::string client_index (Webserver_Request& webserver_request)
     // Store the address.
     database::config::general::set_server_address (address);
     
-    int port = filter::strings::convert_to_int (config::logic::http_network_port ());
-    if (proceed) port = filter::strings::convert_to_int (webserver_request.post_get("port"));
+    int port = filter::string::convert_to_int (config::logic::http_network_port ());
+    if (proceed) port = filter::string::convert_to_int (webserver_request.post_get("port"));
     if (demo) port = demo_port ();
     if (proceed) if (port == 0) {
       view.set_variable ("error", translate ("Supply a port number"));
@@ -170,7 +170,7 @@ std::string client_index (Webserver_Request& webserver_request)
 
     if (proceed) {
       const std::string response = client_logic_connection_setup (user, md5 (pass));
-      const int iresponse = filter::strings::convert_to_int (response);
+      const int iresponse = filter::string::convert_to_int (response);
       if ((iresponse >= roles::guest) && (iresponse <= roles::admin)) {
         // Enable client mode upon a successful connection.
         client_index_enable_client (webserver_request, user, pass, iresponse);

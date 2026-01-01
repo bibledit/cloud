@@ -95,9 +95,9 @@ std::string manage_accounts (Webserver_Request& webserver_request)
   {
     std::vector <std::string> lines = database::config::general::get_account_creation_times ();
     for (auto line : lines) {
-      std::vector <std::string> bits = filter::strings::explode(line, '|');
+      std::vector <std::string> bits = filter::string::explode(line, '|');
       if (bits.size() != 2) continue;
-      int seconds = filter::strings::convert_to_int(bits[0]);
+      int seconds = filter::string::convert_to_int(bits[0]);
       std::string user = bits[1];
       account_creation_times [user] = seconds;
     }

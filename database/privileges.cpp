@@ -108,7 +108,7 @@ std::string DatabasePrivileges::save (const std::string& username)
     // when changing only boolean values.
     // And then the client would not re-download that file.
     // To use "on" and "off", that solves the issue.
-    const bool b = filter::strings::convert_to_bool (write[i]);
+    const bool b = filter::string::convert_to_bool (write[i]);
     if (b) lines.emplace_back (on ());
     else lines.emplace_back (off ());
   }
@@ -126,7 +126,7 @@ std::string DatabasePrivileges::save (const std::string& username)
   }
   lines.emplace_back (features_end ());
   
-  return filter::strings::implode (lines, "\n");
+  return filter::string::implode (lines, "\n");
 }
 
 
@@ -146,7 +146,7 @@ void DatabasePrivileges::load (const std::string& username, const std::string& d
     sql.execute ();
   }
   
-  const std::vector <std::string> lines = filter::strings::explode (data, '\n');
+  const std::vector <std::string> lines = filter::string::explode (data, '\n');
   bool loading_bibles {false};
   std::string bible_value {};
   int book_value {0};
@@ -167,7 +167,7 @@ void DatabasePrivileges::load (const std::string& username, const std::string& d
     
     if (loading_bibles) {
       if (counter == 1) bible_value = line;
-      if (counter == 2) book_value = filter::strings::convert_to_int (line);
+      if (counter == 2) book_value = filter::string::convert_to_int (line);
       if (counter == 3) {
         write_value = (line == on ());
         set_bible_book (username, bible_value, book_value, write_value);
@@ -176,7 +176,7 @@ void DatabasePrivileges::load (const std::string& username, const std::string& d
     }
     
     if (loading_features) {
-      set_feature (username, filter::strings::convert_to_int (line), true);
+      set_feature (username, filter::string::convert_to_int (line), true);
     }
     
     if (line == bibles_start ()) {
@@ -254,7 +254,7 @@ void DatabasePrivileges::get_bible_book (const std::string& username, const std:
     // Occurs in database: Read access.
     read = true;
     // Take write access from the database field.
-    write = filter::strings::convert_to_bool (result [0]);
+    write = filter::string::convert_to_bool (result [0]);
   }
 }
 
@@ -288,7 +288,7 @@ int DatabasePrivileges::get_bible_book_count ()
   sql.add ("SELECT count(*) FROM bibles;");
   const std::vector <std::string> result = sql.query () ["count(*)"];
   if (result.empty ()) return 0;
-  return filter::strings::convert_to_int (result [0]);
+  return filter::string::convert_to_int (result [0]);
 }
 
 

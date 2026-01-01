@@ -229,7 +229,7 @@ TEST (bibles, safely_store_verse_0_with_a_change)
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
     std::string result = database::bibles::get_chapter (bible, 1, 1);
-    std::string newusfm = filter::strings::replace ("\\p\n\\v 1", "\\p xx\n\\v 1", usfm_separate);
+    std::string newusfm = filter::string::replace ("\\p\n\\v 1", "\\p xx\n\\v 1", usfm_separate);
     EXPECT_EQ (newusfm, result);
   }
   {
@@ -242,7 +242,7 @@ TEST (bibles, safely_store_verse_0_with_a_change)
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
     std::string result = database::bibles::get_chapter (bible, 1, 1);
-    std::string newusfm = filter::strings::replace ("c 1", "c 1x", usfm_separate);
+    std::string newusfm = filter::string::replace ("c 1", "c 1x", usfm_separate);
     EXPECT_EQ (newusfm, result);
   }
 }
@@ -261,7 +261,7 @@ TEST (bibles, safely_store_verse_2_with_a_change)
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
     std::string result = database::bibles::get_chapter (bible, 1, 1);
-    std::string newusfm = filter::strings::replace ("two two two two two two", "two two two two", usfm_separate);
+    std::string newusfm = filter::string::replace ("two two two two two two", "two two two two", usfm_separate);
     EXPECT_EQ (newusfm, result);
   }
   {
@@ -273,7 +273,7 @@ TEST (bibles, safely_store_verse_2_with_a_change)
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
     std::string result = database::bibles::get_chapter (bible, 1, 1);
-    std::string newusfm = filter::strings::replace ("two two two two two two", "two", usfm_separate);
+    std::string newusfm = filter::string::replace ("two two two two two two", "two", usfm_separate);
     EXPECT_EQ (newusfm, result);
   }
 }
@@ -292,7 +292,7 @@ TEST (bibles, safely_store_verse_3_with_a_change)
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
     std::string result = database::bibles::get_chapter (bible, 1, 1);
-    std::string newusfm = filter::strings::replace ("Verse 3", "Verse three", usfm_separate);
+    std::string newusfm = filter::string::replace ("Verse 3", "Verse three", usfm_separate);
     EXPECT_EQ (newusfm, result);
   }
   {
@@ -304,7 +304,7 @@ TEST (bibles, safely_store_verse_3_with_a_change)
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
     std::string result = database::bibles::get_chapter (bible, 1, 1);
-    std::string newusfm = filter::strings::replace ("Verse 3", "Verse three", usfm_separate);
+    std::string newusfm = filter::string::replace ("Verse 3", "Verse three", usfm_separate);
     EXPECT_EQ (newusfm, result);
   }
 }
@@ -355,7 +355,7 @@ TEST (bibles, safely_store_verse_with_too_large_length_difference)
     EXPECT_EQ (true, stored.empty());
     EXPECT_EQ (true, explanation.empty());
     std::string result = database::bibles::get_chapter (bible, 1, 1);
-    std::string standard = filter::strings::replace("two two two two two two", "two two two two two two two two two", usfm_separate);
+    std::string standard = filter::string::replace("two two two two two two", "two two two two two two two two two", usfm_separate);
     EXPECT_EQ (standard, result);
   }
   {
@@ -367,7 +367,7 @@ TEST (bibles, safely_store_verse_with_too_large_length_difference)
     EXPECT_EQ (true, stored.empty());
     EXPECT_EQ (true, explanation.empty());
     std::string result = database::bibles::get_chapter (bible, 1, 1);
-    std::string standard = filter::strings::replace("two two two two two two", "two two two two two two two two two", usfm_separate);
+    std::string standard = filter::string::replace("two two two two two two", "two two two two two two two two two", usfm_separate);
     EXPECT_EQ (standard, result);
   }
   {
@@ -608,7 +608,7 @@ TEST (bibles, safely_store_combined_verse_before_the_p_with_a_change)
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
     const std::string result = database::bibles::get_chapter (bible, 1, 1);
-    const std::string newusfm = filter::strings::replace ("2 and 3", "2 andx 3", usfm_combined);
+    const std::string newusfm = filter::string::replace ("2 and 3", "2 andx 3", usfm_combined);
     EXPECT_EQ (newusfm, result);
   }
   {
@@ -620,7 +620,7 @@ TEST (bibles, safely_store_combined_verse_before_the_p_with_a_change)
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
     const std::string result = database::bibles::get_chapter (bible, 1, 1);
-    const std::string newusfm = filter::strings::replace ("2 and 3", "2 andx 3", usfm_combined);
+    const std::string newusfm = filter::string::replace ("2 and 3", "2 andx 3", usfm_combined);
     EXPECT_EQ (newusfm, result);
   }
 }
@@ -639,7 +639,7 @@ TEST (bibles, safely_store_combined_verse_after_the_p_with_a_change)
     EXPECT_EQ ("", stored);
     EXPECT_EQ ("", explanation);
     std::string result = database::bibles::get_chapter (bible, 1, 1);
-    std::string newusfm = filter::strings::replace ("4 and 5", "4 andx 5", usfm_combined);
+    std::string newusfm = filter::string::replace ("4 and 5", "4 andx 5", usfm_combined);
     EXPECT_EQ (newusfm, result);
   }
   {
@@ -651,7 +651,7 @@ TEST (bibles, safely_store_combined_verse_after_the_p_with_a_change)
     EXPECT_EQ ("", stored);
     EXPECT_EQ ("", explanation);
     std::string result = database::bibles::get_chapter (bible, 1, 1);
-    std::string newusfm = filter::strings::replace ("4 and 5", "4 andx 5", usfm_combined);
+    std::string newusfm = filter::string::replace ("4 and 5", "4 andx 5", usfm_combined);
     EXPECT_EQ (newusfm, result);
   }
 }

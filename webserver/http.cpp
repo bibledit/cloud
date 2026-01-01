@@ -49,7 +49,7 @@ static void remove_cr_lf_at_end(std::string& post);
 bool http_parse_header (std::string header, Webserver_Request& webserver_request)
 {
   // Clean the header line.
-  header = filter::strings::trim(std::move(header));
+  header = filter::string::trim(std::move(header));
 
   // Deal with a header like this: GET /css/stylesheet.css?1.0.1 HTTP/1.1
   // Or like this: POST /session/login?request= HTTP/1.1
@@ -61,7 +61,7 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
   }
   if (is_get_request) {
     std::string query_data{};
-    const std::vector<std::string> get = filter::strings::explode(header, ' ');
+    const std::vector<std::string> get = filter::string::explode(header, ' ');
     if (get.size() >= 2) {
       webserver_request.get = get.at(1);
       // The GET or POST value may be, for example: stylesheet.css?1.0.1.
@@ -84,9 +84,9 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
         if (const size_t pos = query_data.find("#"); pos != std::string::npos) {
           query_data.erase(pos);
         }
-        std::vector<std::string> keys_values = filter::strings::explode(std::move(query_data), '&');
+        std::vector<std::string> keys_values = filter::string::explode(std::move(query_data), '&');
         for (const auto& fragment : keys_values) {
-          std::vector<std::string> key_value = filter::strings::explode(fragment, '=');
+          std::vector<std::string> key_value = filter::string::explode(fragment, '=');
           // Handle situation that only the key is given.
           if (key_value.size() == 1)
             webserver_request.query[key_value.at(0)] = std::string();
@@ -130,7 +130,7 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
 
   // Extract the Content-Length from a header.
   if (header.substr (0, 14) == "Content-Length") {
-    webserver_request.content_length = filter::strings::convert_to_int (header.substr (16));
+    webserver_request.content_length = filter::string::convert_to_int (header.substr (16));
   }
   
   // Extract the ETag from a header.
@@ -201,7 +201,7 @@ void http_assemble_response (Webserver_Request& webserver_request)
   
   // Assemble the Content-Type.
   std::string extension = filter_url_get_extension (webserver_request.get);
-  extension = filter::strings::unicode_string_casefold (extension);
+  extension = filter::string::unicode_string_casefold (extension);
   std::string content_type = filter_url_get_mime_type (extension);
   if (extension == "usfm") content_type = "text/plain";
   if (extension.empty()) content_type = "text/html";
@@ -277,7 +277,7 @@ void http_assemble_response (Webserver_Request& webserver_request)
     // and would have overwritten a cookie with the Secure attribute.
     std::string identifier = webserver_request.session_identifier;
     if (identifier.empty ())
-      identifier = filter::strings::get_new_random_string ();
+      identifier = filter::string::get_new_random_string ();
     std::string cookie = "Session=" + identifier + "; Path=/; Max-Age=2678400; HttpOnly";
     if (webserver_request.secure)
       cookie.append("; SameSite=None; Secure");
@@ -434,11 +434,11 @@ static std::vector<std::pair<std::string,std::string>> parse_application_x_www_f
   std::vector<std::pair<std::string,std::string>> result;
   
   // First explode the data on the ampersand ( & ).
-  const std::vector<std::string> keys_values = filter::strings::explode(post, '&');
+  const std::vector<std::string> keys_values = filter::string::explode(post, '&');
 
   // Next explode each fragment on the equal sign ( = ).
   for (const auto& fragment : keys_values) {
-    const std::vector<std::string> key_value = filter::strings::explode(fragment, '=');
+    const std::vector<std::string> key_value = filter::string::explode(fragment, '=');
     // Handle situation that only the key is given.
     if (key_value.size() == 1)
       result.emplace_back(key_value.at(0), std::string());
@@ -460,15 +460,15 @@ static std::vector<std::pair<std::string,std::string>> parse_text_plain(const st
   std::vector<std::pair<std::string,std::string>> result;
   
   // First explode the data on the carriage return and line feed ( \r\n ).
-  std::vector<std::string> keys_values = filter::strings::explode(post, "\r\n");
+  std::vector<std::string> keys_values = filter::string::explode(post, "\r\n");
   for (auto & key_value : keys_values) {
-    key_value = filter::strings::replace ("\r", "", std::move(key_value));
-    key_value = filter::strings::replace ("\n", "", std::move(key_value));
+    key_value = filter::string::replace ("\r", "", std::move(key_value));
+    key_value = filter::string::replace ("\n", "", std::move(key_value));
   }
   
   // Next explode each fragment on the equal sign ( = ).
   for (const auto& fragment : keys_values) {
-    std::vector<std::string> key_value = filter::strings::explode(fragment, '=');
+    std::vector<std::string> key_value = filter::string::explode(fragment, '=');
     // Handle situation that only the key is given.
     if (key_value.size() == 1)
       result.emplace_back(std::move(key_value.at(0)), std::string());
@@ -507,7 +507,7 @@ void parse_multipart_form_data(std::string post, std::vector<std::pair<std::stri
       const size_t pos = line.find (filename_is);
       if (pos != std::string::npos) {
         line = line.substr (pos + filename_is.size() + 1);
-        line = filter::strings::trim (line);
+        line = filter::string::trim (line);
         line.pop_back ();
         result.emplace_back("filename", line);
       }

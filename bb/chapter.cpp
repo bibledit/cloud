@@ -59,17 +59,17 @@ std::string bible_chapter (Webserver_Request& webserver_request)
   
   // The name of the Bible.
   const std::string bible = access_bible::clamp (webserver_request, webserver_request.query["bible"]);
-  view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
+  view.set_variable ("bible", filter::string::escape_special_xml_characters (bible));
   
   // The book.
-  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
   view.set_variable ("book", std::to_string (book));
   const std::string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
-  view.set_variable ("book_name", filter::strings::escape_special_xml_characters (book_name));
+  view.set_variable ("book_name", filter::string::escape_special_xml_characters (book_name));
   
   // The chapter.
   const std::string chapter = webserver_request.query ["chapter"];
-  view.set_variable ("chapter", filter::strings::escape_special_xml_characters (chapter));
+  view.set_variable ("chapter", filter::string::escape_special_xml_characters (chapter));
   
   // Whether the user has write access to this Bible book.
   if (bool write_access = access_bible::book_write (webserver_request, std::string(), bible, book); write_access) view.enable_zone ("write_access");

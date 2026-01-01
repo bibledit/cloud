@@ -147,7 +147,7 @@ void Checks_Usfm::finalize ()
 {
   // Check on unclosed markers.
   if (open_matching_markers.size () > 0) {
-    add_result (checks::issues::text(checks::issues::issue::unclosed_markers) + ": " + filter::strings::implode (open_matching_markers, " "), display_nothing);
+    add_result (checks::issues::text(checks::issues::issue::unclosed_markers) + ": " + filter::string::implode (open_matching_markers, " "), display_nothing);
   }
 }
 
@@ -168,7 +168,7 @@ void Checks_Usfm::check (const std::string& usfm)
       // Get the current verse number.
       if (usfm_item == R"(\v )") {
         std::string verseCode = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
-        verse_number = filter::strings::convert_to_int (filter::usfm::peek_verse_number (verseCode));
+        verse_number = filter::string::convert_to_int (filter::usfm::peek_verse_number (verseCode));
       }
       
       malformed_verse_number ();
@@ -200,7 +200,7 @@ void Checks_Usfm::malformed_verse_number ()
   if (usfm_item == "\\v ") {
     const std::string code = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
     const std::string cleanVerseNumber = filter::usfm::peek_verse_number (code);
-    std::vector <std::string> v_dirtyVerseNumber = filter::strings::explode (code, ' ');
+    std::vector <std::string> v_dirtyVerseNumber = filter::string::explode (code, ' ');
     std::string dirtyVerseNumber {};
     if (!v_dirtyVerseNumber.empty ()) dirtyVerseNumber = v_dirtyVerseNumber [0];
     if (cleanVerseNumber != dirtyVerseNumber) {
@@ -224,7 +224,7 @@ void Checks_Usfm::new_line_in_usfm (const std::string& usfm)
   if (position != std::string::npos) {
     if (position == 0) position = 1;
     std::string bit = usfm.substr (position - 1, 10);
-    bit = filter::strings::replace ("\n", " ", bit);
+    bit = filter::string::replace ("\n", " ", bit);
     add_result (checks::issues::text(checks::issues::issue::new_line_within_usfm) + ": " + bit, display_nothing);
   }
 }
@@ -233,7 +233,7 @@ void Checks_Usfm::new_line_in_usfm (const std::string& usfm)
 void Checks_Usfm::marker_in_stylesheet ()
 {
   std::string marker = usfm_item.substr (1);
-  marker = filter::strings::trim (marker);
+  marker = filter::string::trim (marker);
   if (!filter::usfm::is_opening_marker (marker)) {
     if (!marker.empty ()) marker = marker.substr (0, marker.length () - 1);
   }
@@ -254,14 +254,14 @@ void Checks_Usfm::malformed_id ()
   if (item == R"(\id)") {
     const std::string code = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
     const std::string sid = code.substr (0, 3);
-    const std::vector <std::string> vid = filter::strings::explode (code, ' ');
+    const std::vector <std::string> vid = filter::string::explode (code, ' ');
     std::string id {};
     if (!vid.empty ()) id = vid [0];
     book_id book = database::books::get_id_from_usfm (id);
     if (book == book_id::_unknown) {
       add_result (checks::issues::text(checks::issues::issue::unknown_id), display_full);
     } else {
-      if (filter::strings::unicode_string_uppercase (id) != id) {
+      if (filter::string::unicode_string_uppercase (id) != id) {
         add_result (checks::issues::text(checks::issues::issue::id_is_not_in_uppercase), display_full);
       }
     }
@@ -271,7 +271,7 @@ void Checks_Usfm::malformed_id ()
 
 void Checks_Usfm::forward_slash (const std::string& usfm)
 {
-  const std::string code = filter::strings::replace ("\n", " ", usfm);
+  const std::string code = filter::string::replace ("\n", " ", usfm);
   size_t pos = code.find ("/");
   std::string bit {};
   if (pos != std::string::npos) {
@@ -296,7 +296,7 @@ void Checks_Usfm::forward_slash (const std::string& usfm)
 void Checks_Usfm::widow_back_slash ()
 {
   std::string marker = usfm_item;
-  marker = filter::strings::trim (marker);
+  marker = filter::string::trim (marker);
   if (marker.length() == 1) {
     add_result (checks::issues::text(checks::issues::issue::widow_backslash), display_current);
   }
@@ -308,7 +308,7 @@ void Checks_Usfm::matching_endmarker ()
   std::string marker = usfm_item;
   // Remove the initial backslash, e.g. '\add' becomes 'add'.
   marker = marker.substr (1);
-  marker = filter::strings::trim (marker);
+  marker = filter::string::trim (marker);
   bool is_opener = filter::usfm::is_opening_marker (marker);
   if (!is_opener) {
     if (!marker.empty ())
@@ -324,9 +324,9 @@ void Checks_Usfm::matching_endmarker ()
     }
   } else {
     if (in_array (marker, open_matching_markers)) {
-      open_matching_markers = filter::strings::array_diff (open_matching_markers, {marker});
+      open_matching_markers = filter::string::array_diff (open_matching_markers, {marker});
     } else {
-      add_result (checks::issues::text(checks::issues::issue::closing_marker_does_not_match_opening_marker) + " " + filter::strings::implode (open_matching_markers, " "), display_current);
+      add_result (checks::issues::text(checks::issues::issue::closing_marker_does_not_match_opening_marker) + " " + filter::string::implode (open_matching_markers, " "), display_current);
     }
   }
 }
@@ -339,7 +339,7 @@ void Checks_Usfm::embedded_marker ()
 
   // Remove the initial backslash, e.g. '\add' becomes 'add'.
   marker = marker.substr (1);
-  marker = filter::strings::trim (marker);
+  marker = filter::string::trim (marker);
 
   const bool isOpener = filter::usfm::is_opening_marker (marker);
 
@@ -370,7 +370,7 @@ void Checks_Usfm::embedded_marker ()
     }
   } else {
     if (in_array (marker, open_embeddable_markers)) {
-      open_embeddable_markers = filter::strings::array_diff (open_embeddable_markers, {marker});
+      open_embeddable_markers = filter::string::array_diff (open_embeddable_markers, {marker});
       if (!open_embeddable_markers.empty ()) {
         checkEmbedding = true;
       }

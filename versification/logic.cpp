@@ -34,7 +34,7 @@ std::vector <std::string> versification_logic_names ()
       // Remove the dot and extension.
       file = file.substr (0, file.length () - 4);
       // Change underscores to spaces for the names.
-      file = filter::strings::replace ("_", " ", file);
+      file = filter::string::replace ("_", " ", file);
       names.push_back (file);
     }
   }
@@ -46,7 +46,7 @@ std::vector <std::string> versification_logic_names ()
 // Return the raw data of default versification system $name.
 std::string versification_logic_data (std::string name)
 {
-  name = filter::strings::replace (" ", "_", name);
+  name = filter::string::replace (" ", "_", name);
   name.append (".txt");
   std::string file = filter_url_create_root_path ({"versification", name});
   return filter_url_file_get_contents (file);

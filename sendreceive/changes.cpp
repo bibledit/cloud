@@ -92,7 +92,7 @@ void sendreceive_changes ()
   
   
   std::string response = client_logic_connection_setup ("", "");
-  int iresponse = filter::strings::convert_to_int (response);
+  int iresponse = filter::string::convert_to_int (response);
   if (iresponse < roles::guest || iresponse > roles::admin) {
     Database_Logs::log (sendreceive_changes_text () + translate("Failure to initiate connection"), roles::translator);
     send_receive_changes_done ();
@@ -115,7 +115,7 @@ void sendreceive_changes ()
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
   std::map <std::string, std::string> post;
-  post ["u"] = filter::strings::bin2hex (user);
+  post ["u"] = filter::string::bin2hex (user);
   post ["p"] = password;
   post ["l"] = std::to_string (webserver_request.database_users ()->get_level (user));
   
@@ -192,13 +192,13 @@ void sendreceive_changes ()
     return;
   }
   {
-    std::vector <std::string> ids2 = filter::strings::explode (response, '\n');
-    for (auto & id : ids2) server_identifiers.push_back (filter::strings::convert_to_int (id));
+    std::vector <std::string> ids2 = filter::string::explode (response, '\n');
+    for (auto & id : ids2) server_identifiers.push_back (filter::string::convert_to_int (id));
   }
 
   
   // Any identifiers on the client, but not on the server, remove them from the client.
-  std::vector <int> remove_identifiers = filter::strings::array_diff (client_identifiers, server_identifiers);
+  std::vector <int> remove_identifiers = filter::string::array_diff (client_identifiers, server_identifiers);
   for (auto & id : remove_identifiers) {
     database::modifications::deleteNotification (id);
     webserver_request.database_config_user ()->set_change_notifications_checksum ("");
@@ -207,7 +207,7 @@ void sendreceive_changes ()
 
   
   // Any identifiers on the server, but not on the client, download them from the server.
-  std::vector <int> download_identifiers = filter::strings::array_diff (server_identifiers, client_identifiers);
+  std::vector <int> download_identifiers = filter::string::array_diff (server_identifiers, client_identifiers);
   for (auto & id : download_identifiers) {
     sendreceive_changes_kick_watchdog ();
     Database_Logs::log (sendreceive_changes_text () + "Downloading notification: " + std::to_string (id), roles::translator);
@@ -219,7 +219,7 @@ void sendreceive_changes ()
     }
     else {
       // The server has put all bits together, one bit per line.
-      std::vector <std::string> lines = filter::strings::explode (response, '\n');
+      std::vector <std::string> lines = filter::string::explode (response, '\n');
       std::string category;
       if (!lines.empty ()) {
         category = lines [0];
@@ -232,17 +232,17 @@ void sendreceive_changes ()
       }
       int book = 0;
       if (!lines.empty ()) {
-        book = filter::strings::convert_to_int (lines [0]);
+        book = filter::string::convert_to_int (lines [0]);
         lines.erase (lines.begin ());
       }
       int chapter = 0;
       if (!lines.empty ()) {
-        chapter = filter::strings::convert_to_int (lines [0]);
+        chapter = filter::string::convert_to_int (lines [0]);
         lines.erase (lines.begin ());
       }
       int verse = 0;
       if (!lines.empty ()) {
-        verse = filter::strings::convert_to_int (lines [0]);
+        verse = filter::string::convert_to_int (lines [0]);
         lines.erase (lines.begin ());
       }
       std::string oldtext;

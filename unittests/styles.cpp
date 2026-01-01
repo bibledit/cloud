@@ -98,7 +98,7 @@ TEST_F (styles, create_css)
       if (pos2 == std::string::npos)
         css.clear();
       else {
-        bits.emplace_back(filter::strings::trim(css.substr(pos, pos2)));
+        bits.emplace_back(filter::string::trim(css.substr(pos, pos2)));
         css.erase(0, pos2 + 1);
       }
     }
@@ -139,7 +139,7 @@ TEST_F (styles, create_css)
     styles_css.generate ();
     constexpr const char* exports_css{"exports.css"};
     const auto css = chopup(styles_css.css());
-    const auto standard = chopup(filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"}))));
+    const auto standard = chopup(filter::string::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"}))));
     for (const auto& bit : standard) {
       if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
         save(styles_css.css(), exports_css);
@@ -161,7 +161,7 @@ TEST_F (styles, create_css)
     styles_css.generate ();
     constexpr const char* editor_css{"editor.css"};
     const auto css = chopup(styles_css.css());
-    const auto standard = chopup(filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"}))));
+    const auto standard = chopup(filter::string::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"}))));
     for (const auto& bit : standard) {
       if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
         save(styles_css.css(), editor_css);

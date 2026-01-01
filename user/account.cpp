@@ -119,9 +119,9 @@ std::string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
   
   }
 
-  view.set_variable ("username", filter::strings::escape_special_xml_characters (username));
-  view.set_variable ("email", filter::strings::escape_special_xml_characters (email));
-  std::string success_message = filter::strings::implode (success_messages, "\n");
+  view.set_variable ("username", filter::string::escape_special_xml_characters (username));
+  view.set_variable ("email", filter::string::escape_special_xml_characters (email));
+  std::string success_message = filter::string::implode (success_messages, "\n");
   view.set_variable ("success_messages", success_message);
   if (!actions_taken) view.enable_zone ("no_actions_taken");
 

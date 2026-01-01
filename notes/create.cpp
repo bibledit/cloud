@@ -75,20 +75,20 @@ std::string notes_create (Webserver_Request& webserver_request)
   
   
   int book;
-  if (webserver_request.post_count("book")) book = filter::strings::convert_to_int (webserver_request.post_get("book"));
+  if (webserver_request.post_count("book")) book = filter::string::convert_to_int (webserver_request.post_get("book"));
   else book = ipc_focus::get_book (webserver_request);
   int chapter;
-  if (webserver_request.post_count("chapter")) chapter = filter::strings::convert_to_int (webserver_request.post_get("chapter"));
+  if (webserver_request.post_count("chapter")) chapter = filter::string::convert_to_int (webserver_request.post_get("chapter"));
   else chapter = ipc_focus::get_chapter (webserver_request);
   int verse;
-  if (webserver_request.post_count("verse")) verse = filter::strings::convert_to_int (webserver_request.post_get("verse"));
+  if (webserver_request.post_count("verse")) verse = filter::string::convert_to_int (webserver_request.post_get("verse"));
   else verse = ipc_focus::get_verse (webserver_request);
 
   
   if (webserver_request.post_count("summary")) {
-    std::string summary = filter::strings::trim (webserver_request.post_get("summary"));
+    std::string summary = filter::string::trim (webserver_request.post_get("summary"));
     summary = filter_url_tag_to_plus (summary);
-    std::string body = filter::strings::trim (webserver_request.post_get("body"));
+    std::string body = filter::string::trim (webserver_request.post_get("body"));
     body = filter_url_tag_to_plus (body);
     notes_logic.createNote (bible, book, chapter, verse, summary, body, false);
     return std::string();
@@ -104,7 +104,7 @@ std::string notes_create (Webserver_Request& webserver_request)
   // This script can be called from a change notification.
   // It will then create a note based on that change notification.
   if (webserver_request.query.count ("fromchange")) {
-    int fromchange = filter::strings::convert_to_int (webserver_request.query ["fromchange"]);
+    int fromchange = filter::string::convert_to_int (webserver_request.query ["fromchange"]);
     //string bible = database::modifications::getNotificationBible (fromchange);
     std::string summary = translate("Query about a change in the text");
     std::string contents = "<p>" + translate("Old text:") + "</p>";

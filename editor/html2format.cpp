@@ -31,11 +31,11 @@
 void Editor_Html2Format::load (std::string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal spaces.
-  html = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), " ", html);
+  html = filter::string::replace (filter::string::unicode_non_breaking_space_entity (), " ", html);
   
   // The web editor produces <hr> and other elements following the HTML specs,
   // but the pugixml XML parser needs <hr/> and similar elements.
-  html = filter::strings::html2xml (html);
+  html = filter::string::html2xml (html);
   
   std::string xml = "<body>" + html + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
@@ -179,8 +179,8 @@ void Editor_Html2Format::postprocess ()
 
 std::string Editor_Html2Format::update_quill_class (std::string class_name)
 {
-  class_name = filter::strings::replace (quill::class_prefix_block, std::string(), std::move(class_name));
-  class_name = filter::strings::replace (quill::class_prefix_inline, std::string(), std::move(class_name));
+  class_name = filter::string::replace (quill::class_prefix_block, std::string(), std::move(class_name));
+  class_name = filter::string::replace (quill::class_prefix_inline, std::string(), std::move(class_name));
   class_name = quill::underscore_to_hyphen (std::move(class_name));
   return class_name;
 }

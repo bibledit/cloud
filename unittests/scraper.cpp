@@ -182,14 +182,14 @@ TEST (scraper, easy_english_bible)
   {
     const int book {58}; // Hebrews.
     std::string text = resource_logic_easy_english_bible_get (book, 10, 14);
-    text = filter::strings::html2text (text);
+    text = filter::string::html2text (text);
     EXPECT_EQ ("Verse 14 Again, the writer makes it clear that Jesus died once for all time and for all *sin. It is most important that we know and believe that this is true. All who trust in Jesus, God will make holy. Jesus makes them perfect, that is, all that God intended them to be in his plan. Jesus has done all that God said was necessary.", text);
   }
   
   {
     const int book {58}; // Hebrews.
     std::string text = resource_logic_easy_english_bible_get (book, 8, 8);
-    text = filter::strings::html2text (text);
+    text = filter::string::html2text (text);
     size_t pos = text.find ("Verse 8 From verse 8 to the end of verse 12 the author copies words from Jeremiah 31:31-34. He uses these words to show that the old agreement is no longer in operation. The new agreement, that Jesus brought, has taken its place. It was not that there was a fault with the old agreement. The fault was with people, because nobody could obey the agreement.");
     EXPECT_EQ (0, pos);
     pos = text.find ("Most agreements are between two persons or groups.");
@@ -199,7 +199,7 @@ TEST (scraper, easy_english_bible)
   {
     const int book {1}; // Genesis.
     std::string text = resource_logic_easy_english_bible_get (book, 2, 5);
-    text = filter::strings::html2text (text);
+    text = filter::string::html2text (text);
     const size_t pos = text.find ("The plants that man needed for his food were not growing. There were two reasons for this.");
     EXPECT_EQ (8, pos);
   }
@@ -207,7 +207,7 @@ TEST (scraper, easy_english_bible)
   {
     const int book {2}; // Exodus.
     std::string text = resource_logic_easy_english_bible_get (book, 20, 9);
-    text = filter::strings::html2text (text);
+    text = filter::string::html2text (text);
     const size_t pos = text.find ("At the beginning of time, God rested on the 7th day.");
     EXPECT_EQ (451, pos);
   }
@@ -215,7 +215,7 @@ TEST (scraper, easy_english_bible)
   {
     const int book {5}; // Deuteronomy.
     std::string text = resource_logic_easy_english_bible_get (book, 1, 2);
-    text = filter::strings::html2text (text);
+    text = filter::string::html2text (text);
     const size_t pos = text.find ("The journey from Horeb to Kadesh-Barnea would take 11 days.");
     EXPECT_EQ (9, pos);
   }
@@ -223,7 +223,7 @@ TEST (scraper, easy_english_bible)
   {
     const int book {7}; // Judges
     std::string text = resource_logic_easy_english_bible_get (book, 3, 12);
-    text = filter::strings::html2text (text);
+    text = filter::string::html2text (text);
     const size_t pos = text.find ("There the writer says that God uses those that are nothing.");
     EXPECT_EQ (1679, pos);
   }
@@ -231,7 +231,7 @@ TEST (scraper, easy_english_bible)
   {
     const int book {19}; // Psalms
     std::string text = resource_logic_easy_english_bible_get (book, 3, 6);
-    text = filter::strings::html2text (text);
+    text = filter::string::html2text (text);
     const size_t pos = text.find (" The LORD answered David when he prayed.");
     EXPECT_EQ (36, pos);
   }
@@ -239,7 +239,7 @@ TEST (scraper, easy_english_bible)
   {
     const int book {54}; // 1 Timothy.
     std::string text = resource_logic_easy_english_bible_get (book, 5, 3);
-    text = filter::strings::html2text (text);
+    text = filter::string::html2text (text);
     const size_t pos = text.find ("Widows need help and care.");
     EXPECT_EQ (8, pos);
   }
@@ -251,7 +251,7 @@ TEST (scraper, easy_english_bible)
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
-    const std::vector <int> books = database_versifications.getBooks (filter::strings::english());
+    const std::vector <int> books = database_versifications.getBooks (filter::string::english());
     for (auto book : books) {
       //if (book < 10) continue;
       //if (book > 9) continue;
@@ -259,18 +259,18 @@ TEST (scraper, easy_english_bible)
       std::cout << book << std::endl;
       int total_passage_counter = 0;
       int empty_passage_counter = 0;
-      std::vector <int> chapters = database_versifications.getChapters (filter::strings::english(), book);
+      std::vector <int> chapters = database_versifications.getChapters (filter::string::english(), book);
       for (auto chapter : chapters) {
         if (chapter == 0) continue;
-        std::vector <int> verses = database_versifications.getVerses (filter::strings::english(), book, chapter);
+        std::vector <int> verses = database_versifications.getVerses (filter::string::english(), book, chapter);
         for (auto verse : verses) {
           if (verse == 0) continue;
           total_passage_counter++;
           std::string text = resource_logic_easy_english_bible_get (book, chapter, verse);
-          text = filter::strings::html2text (text);
+          text = filter::string::html2text (text);
           if (text.empty()) {
             empty_passage_counter++;
-            //cout << filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)) << std::endl;
+            //cout << filter_passage_display (book, chapter, filter::string::convert_to_string (verse)) << std::endl;
           }
         }
       }
@@ -672,27 +672,27 @@ TEST (scraper, studylight_albert_barnet)
   
   constexpr auto isaiah {23};
   text = resource_logic_study_light_get (resource, isaiah, 10, 14);
-  text = filter::strings::html2text (text);
+  text = filter::string::html2text (text);
   EXPECT_EQ (361, text.find("parent bird"));
   
   constexpr auto daniel {27};
   text = resource_logic_study_light_get (resource, daniel, 10, 14);
-  text = filter::strings::html2text (text);
+  text = filter::string::html2text (text);
   EXPECT_EQ (293, text.find("For yet the vision is for many days"));
   
   constexpr auto first_thessalonians {52};
   text = resource_logic_study_light_get (resource, first_thessalonians, 1, 4);
-  text = filter::strings::html2text (text);
+  text = filter::string::html2text (text);
   EXPECT_EQ (83, text.find("beloved of God, your election"));
   
   constexpr auto second_thessalonians {53};
   text = resource_logic_study_light_get (resource, second_thessalonians, 1, 4);
-  text = filter::strings::html2text (text);
+  text = filter::string::html2text (text);
   EXPECT_EQ (354, text.find("You have shownunwavering confidence in God in your afflictions"));
   
   constexpr auto hebrews {58};
   text = resource_logic_study_light_get (resource, hebrews, 10, 14);
-  text = filter::strings::html2text (text);
+  text = filter::string::html2text (text);
   EXPECT_EQ (2917, text.find("τους ἁγιαζομενους"));
   EXPECT_EQ (3678, text.find("By one offering Christ hath forever justifiedsuch as are purged or cleansed by it"));
 }
@@ -704,7 +704,7 @@ TEST (scraper, studylight_thomas_constable)
   constexpr auto hebrews {58};
   std::string text {};
   text = resource_logic_study_light_get (resource, hebrews, 10, 14);
-  text = filter::strings::html2text (text);
+  text = filter::string::html2text (text);
   EXPECT_EQ (2011, text.find("accomplishment of our high priest"));
   EXPECT_EQ (2485, text.find("distinctive features of the high priestly office of the Son"));
   EXPECT_EQ (3151, text.find("The one sacrifice of Christ"));
@@ -721,13 +721,13 @@ TEST (scraper, net_bible)
   const char* net_bible {resource_external_net_bible_name()};
   {
     std::string result = resource_external_cloud_fetch_cache_extract (net_bible, hebrews, 2, 3);
-    result = filter::strings::html2text (std::move(result));
+    result = filter::string::html2text (std::move(result));
     EXPECT_THAT(result, Not(HasSubstr("Cloudflare")));
     EXPECT_THAT(result, HasSubstr("It was first communicated through the Lord"));
   }
   {
     std::string result = resource_external_cloud_fetch_cache_extract (net_bible, hebrews, 2, 4);
-    result = filter::strings::html2text (std::move(result));
+    result = filter::string::html2text (std::move(result));
     EXPECT_THAT(result, HasSubstr("various miracles and gifts of the Holy Spirit")); // Canonical text.
     EXPECT_THAT(result, HasSubstr("and distributions of the Holy Spirit")); // Footnote.
   }

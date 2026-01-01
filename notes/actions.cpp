@@ -68,12 +68,12 @@ std::string notes_actions (Webserver_Request& webserver_request)
   int level = webserver_request.session_logic()->get_level ();
 
   
-  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
-  if (!id) id = filter::strings::convert_to_int (webserver_request.post_get("val1"));
+  int id = filter::string::convert_to_int (webserver_request.query ["id"]);
+  if (!id) id = filter::string::convert_to_int (webserver_request.post_get("val1"));
 
   
   std::string checkbox = webserver_request.post_get("checkbox");
-  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+  bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
 
 
   if (webserver_request.query.count ("unsubscribe")) {
@@ -181,10 +181,10 @@ std::string notes_actions (Webserver_Request& webserver_request)
   
 #ifdef HAVE_CLOUD
   view.enable_zone ("cloud");
-  view.set_variable ("public", filter::strings::get_checkbox_status (database_notes.get_public (id)));
+  view.set_variable ("public", filter::string::get_checkbox_status (database_notes.get_public (id)));
 #endif
   // Roles of translator or higher can edit the public visibility of a note.
-  if (level < roles::translator) view.set_variable(filter::strings::get_disabled(), filter::strings::get_disabled());
+  if (level < roles::translator) view.set_variable(filter::string::get_disabled(), filter::string::get_disabled());
 
   
   view.set_variable ("success", success);

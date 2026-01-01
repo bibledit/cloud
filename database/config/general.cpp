@@ -76,21 +76,21 @@ static void set_value (const char * key, const std::string& value)
 
 static bool get_boolean_value (const char * key, bool default_value)
 {
-  const std::string value = get_value (key, filter::strings::convert_to_string (default_value).c_str());
-  return filter::strings::convert_to_bool (value);
+  const std::string value = get_value (key, filter::string::convert_to_string (default_value).c_str());
+  return filter::string::convert_to_bool (value);
 }
 
 
 static void set_boolean_value (const char * key, bool value)
 {
-  set_value (key, filter::strings::convert_to_string (value).c_str());
+  set_value (key, filter::string::convert_to_string (value).c_str());
 }
 
 
 static int get_integer_value (const char * key, int default_value)
 {
   const std::string value = get_value (key, std::to_string (default_value).c_str());
-  return filter::strings::convert_to_int (value);
+  return filter::string::convert_to_int (value);
 }
 
 
@@ -103,13 +103,13 @@ static void set_integer_value (const char * key, int value)
 static std::vector <std::string> get_list (const char * key)
 {
   const std::string contents = get_value (key, "");
-  return filter::strings::explode (contents, '\n');
+  return filter::string::explode (contents, '\n');
 }
 
 
 static void set_list (const char * key, const std::vector <std::string>& values)
 {
-  const std::string value = filter::strings::implode (values, "\n");
+  const std::string value = filter::string::implode (values, "\n");
   set_value (key, value);
 }
 

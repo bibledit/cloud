@@ -81,7 +81,7 @@ void checks_run (std::string bible)
   std::string disregards = database::config::bible::get_sentence_structure_disregards (bible);
   checks_sentences.enter_disregards (disregards);
   checks_sentences.enter_names (database::config::bible::get_sentence_structure_names (bible));
-  std::vector <std::string> within_sentence_paragraph_markers = filter::strings::explode (database::config::bible::get_sentence_structure_within_sentence_markers (bible), ' ');
+  std::vector <std::string> within_sentence_paragraph_markers = filter::string::explode (database::config::bible::get_sentence_structure_within_sentence_markers (bible), ' ');
   bool check_books_versification = database::config::bible::get_check_books_versification (bible);
   bool check_chapters_verses_versification = database::config::bible::get_check_chaptes_verses_versification (bible);
   bool check_well_formed_usfm = database::config::bible::get_check_well_formed_usfm (bible);
@@ -89,18 +89,18 @@ void checks_run (std::string bible)
   bool check_missing_punctuation_end_verse = database::config::bible::get_check_missing_punctuation_end_verse (bible);
   bool check_patterns = database::config::bible::get_check_patterns (bible);
   std::string s_checking_patterns = database::config::bible::get_checking_patterns (bible);
-  std::vector <std::string> checking_patterns = filter::strings::explode (s_checking_patterns, '\n');
+  std::vector <std::string> checking_patterns = filter::string::explode (s_checking_patterns, '\n');
   bool check_matching_pairs = database::config::bible::get_check_matching_pairs (bible);
   std::vector <std::pair <std::string, std::string> > matching_pairs;
   {
     const std::string fragment = database::config::bible::get_matching_pairs (bible);
-    std::vector <std::string> pairs = filter::strings::explode (fragment, ' ');
+    std::vector <std::string> pairs = filter::string::explode (fragment, ' ');
     for (auto& pair : pairs) {
-      pair = filter::strings::trim (pair);
-      const size_t length = filter::strings::unicode_string_length (pair);
+      pair = filter::string::trim (pair);
+      const size_t length = filter::string::unicode_string_length (pair);
       if (length == 2) {
-        const std::string opener = filter::strings::unicode_string_substr (pair, 0, 1);
-        const std::string closer = filter::strings::unicode_string_substr (pair, 1, 1);
+        const std::string opener = filter::string::unicode_string_substr (pair, 0, 1);
+        const std::string closer = filter::string::unicode_string_substr (pair, 1, 1);
         matching_pairs.push_back ({opener, closer});
       }
     }
@@ -160,7 +160,7 @@ void checks_run (std::string bible)
           checks::space::double_space_usfm (bible, book, chapter, verse, verseUsfm);
         }
         if (check_valid_utf8_text) {
-          if (!filter::strings::unicode_string_is_valid (verseUsfm)) {
+          if (!filter::string::unicode_string_is_valid (verseUsfm)) {
             const std::string msg = "Invalid UTF-8 Unicode in verse text";
             database::check::record_output (bible, book, chapter, verse, msg);
           }
@@ -249,7 +249,7 @@ void checks_run (std::string bible)
   for (const auto & hit : hits) {
     if (hit.bible == bible) {
       const std::string passage = filter_passage_display_inline ({Passage ("", hit.book, hit.chapter, std::to_string (hit.verse))});
-      const std::string data = filter::strings::escape_special_xml_characters (hit.data);
+      const std::string data = filter::string::escape_special_xml_characters (hit.data);
       const std::string result = "<p>" + passage + " " + data + "</p>";
       emailBody.push_back (result);
     }
@@ -271,7 +271,7 @@ void checks_run (std::string bible)
   // Send email to users with access to the Bible and a subscription to the notification.
   if (!emailBody.empty ()) {
     const std::string subject = translate("Bible Checks") + " " + bible;
-    const std::string body = filter::strings::implode (emailBody, "\n");
+    const std::string body = filter::string::implode (emailBody, "\n");
     std::vector <std::string> users = webserver_request.database_users ()->get_users ();
     for (const auto& user : users) {
       if (webserver_request.database_config_user()->get_user_bible_checks_notification (user)) {

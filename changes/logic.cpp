@@ -139,8 +139,8 @@ void changes_clear_notifications_user (std::string jobid, std::string username)
   int total_cleared {0};
   
   // Feedback.
-  database_jobs.set_percentage (filter::strings::convert_to_int (jobid), 0);
-  database_jobs.set_progress (filter::strings::convert_to_int (jobid), translate ("Total:") + " " + std::to_string (identifiers.size()));
+  database_jobs.set_percentage (filter::string::convert_to_int (jobid), 0);
+  database_jobs.set_progress (filter::string::convert_to_int (jobid), translate ("Total:") + " " + std::to_string (identifiers.size()));
 
 
   // The amount of notifications it clears in the next iteration.
@@ -149,14 +149,14 @@ void changes_clear_notifications_user (std::string jobid, std::string username)
     cleared_count_in_one_go = database::modifications::clearNotificationsUser (username);
     total_cleared += cleared_count_in_one_go;
     if (!identifiers.empty ()) {
-      database_jobs.set_percentage (filter::strings::convert_to_int (jobid), 100 * total_cleared / static_cast<int> (identifiers.size()));
+      database_jobs.set_percentage (filter::string::convert_to_int (jobid), 100 * total_cleared / static_cast<int> (identifiers.size()));
     }
   } while (cleared_count_in_one_go);
   
   Webserver_Request request;
   request.database_config_user ()->set_user_change_notifications_checksum (username, "");
   
-  database_jobs.set_result (filter::strings::convert_to_int (jobid), translate ("Ready clearing change notifications"));
+  database_jobs.set_result (filter::string::convert_to_int (jobid), translate ("Ready clearing change notifications"));
   
   Database_Logs::log (translate ("Ready clearing change notifications") + " " + username);
 }

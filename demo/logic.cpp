@@ -245,7 +245,7 @@ void demo_create_sample_bible ()
     size_t pos = file.find(demo_sample_bible_name());
     if (pos == std::string::npos) {
       std::string filename = "Sample";
-      file = filter::strings::replace(filename, demo_sample_bible_name(), file);
+      file = filter::string::replace(filename, demo_sample_bible_name(), file);
     }
     // Proceed with the path.
     file = filter_url_create_root_path ({file});
@@ -279,7 +279,7 @@ void demo_prepare_sample_bible ()
       // Read the USFM and clean it up.
       file = filter_url_create_path ({directory, file});
       std::string usfm = filter_url_file_get_contents (file);
-      usfm = filter::strings::collapse_whitespace (usfm);
+      usfm = filter::string::collapse_whitespace (usfm);
       // Import the USFM into the sample Bible.
       std::vector <filter::usfm::BookChapterData> book_chapter_data = filter::usfm::usfm_import (usfm, stylesv2::standard_sheet ());
       for (const auto & data : book_chapter_data) {

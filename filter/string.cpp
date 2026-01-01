@@ -84,7 +84,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <errno.h>
 
 
-namespace filter::strings {
+namespace filter::string {
 
 
 // Split a string on a delimiter.
@@ -214,15 +214,13 @@ std::string convert_to_string (const float f, const int precision)
 
 int convert_to_int (const std::string& s)
 {
-  int i {atoi (s.c_str())};
-  return i;
+  return atoi (s.c_str());
 }
 
 
 int convert_to_int (const float f)
 {
-  int i {static_cast<int> (round(f))};
-  return i;
+  return static_cast<int> (round(f));
 }
 
 
@@ -275,7 +273,7 @@ std::u16string convert_to_u16string (const std::string& s)
 }
 
 
-// A C++ equivalent for PHP's filter::strings::array_unique function.
+// A C++ equivalent for PHP's filter::string::array_unique function.
 std::vector <std::string> array_unique (const std::vector <std::string>& values)
 {
   std::vector <std::string> result;
@@ -290,7 +288,7 @@ std::vector <std::string> array_unique (const std::vector <std::string>& values)
 }
 
 
-// A C++ equivalent for PHP's filter::strings::array_unique function.
+// A C++ equivalent for PHP's filter::string::array_unique function.
 std::vector <int> array_unique (const std::vector <int>& values)
 {
   std::vector <int> result;
@@ -333,7 +331,7 @@ std::vector <int> array_diff (const std::vector <int>& from, const std::vector <
 }
 
 
-// A C++ equivalent for PHP's filter::strings::trim function.
+// A C++ equivalent for PHP's filter::string::trim function.
 std::string trim (const std::string& s)
 {
   if (s.length () == 0) return s;
@@ -346,7 +344,7 @@ std::string trim (const std::string& s)
 }
 
 
-// A C++ equivalent for PHP's filter::strings::ltrim function.
+// A C++ equivalent for PHP's filter::string::ltrim function.
 std::string ltrim (const std::string& s)
 {
   if (s.length () == 0) return s;
@@ -402,11 +400,11 @@ bool is_numeric (const std::string& s)
 // ' : &apos;
 std::string escape_special_xml_characters (std::string s)
 {
-  s = filter::strings::replace ("&", "&amp;", s);
-  s = filter::strings::replace (R"(")", "&quot;", s);
-  s = filter::strings::replace ("'", "&apos;", s);
-  s = filter::strings::replace ("<", "&lt;", s);
-  s = filter::strings::replace (">", "&gt;", s);
+  s = filter::string::replace ("&", "&amp;", s);
+  s = filter::string::replace (R"(")", "&quot;", s);
+  s = filter::string::replace ("'", "&apos;", s);
+  s = filter::string::replace ("<", "&lt;", s);
+  s = filter::string::replace (">", "&gt;", s);
   return s;
 }
 
@@ -414,11 +412,11 @@ std::string escape_special_xml_characters (std::string s)
 // This unescapes the five special XML characters.
 std::string unescape_special_xml_characters (std::string s)
 {
-  s = filter::strings::replace ("&quot;", R"(")", s);
-  s = filter::strings::replace ("&amp;", "&", s);
-  s = filter::strings::replace ("&apos;", "'", s);
-  s = filter::strings::replace ("&lt;", "<", s);
-  s = filter::strings::replace ("&gt;", ">", s);
+  s = filter::string::replace ("&quot;", R"(")", s);
+  s = filter::string::replace ("&amp;", "&", s);
+  s = filter::string::replace ("&apos;", "'", s);
+  s = filter::string::replace ("&lt;", "<", s);
+  s = filter::string::replace ("&gt;", ">", s);
   return s;
 }
 
@@ -426,11 +424,11 @@ std::string unescape_special_xml_characters (std::string s)
 // Converts other types of spaces to standard spaces.
 std::string any_space_to_standard_space (std::string s)
 {
-  s = filter::strings::replace (unicode_non_breaking_space_entity (), " ", s);
-  s = filter::strings::replace (non_breaking_space_u00A0 (), " ", s);
-  s = filter::strings::replace (en_space_u2002 (), " ", s);
-  s = filter::strings::replace (figure_space_u2007 (), " ", s);
-  s = filter::strings::replace (narrow_non_breaking_space_u202F (), " ", s);
+  s = filter::string::replace (unicode_non_breaking_space_entity (), " ", s);
+  s = filter::string::replace (non_breaking_space_u00A0 (), " ", s);
+  s = filter::string::replace (en_space_u2002 (), " ", s);
+  s = filter::string::replace (figure_space_u2007 (), " ", s);
+  s = filter::string::replace (narrow_non_breaking_space_u202F (), " ", s);
   return s;
 }
 
@@ -551,26 +549,26 @@ std::string unicode_string_substr (std::string s, size_t pos, size_t len)
 // Equivalent to PHP's mb_strpos function.
 size_t unicode_string_strpos (const std::string& haystack, const std::string& needle, const size_t offset)
 {
-  const int haystack_length = static_cast<int>( filter::strings::unicode_string_length (haystack));
-  const int needle_length = static_cast<int>( filter::strings::unicode_string_length (needle));
+  const int haystack_length = static_cast<int>( filter::string::unicode_string_length (haystack));
+  const int needle_length = static_cast<int>( filter::string::unicode_string_length (needle));
   for (int pos = static_cast<int>(offset); pos <= haystack_length - needle_length; pos++) {
-    const std::string substring = filter::strings::unicode_string_substr (haystack, static_cast <size_t> (pos), static_cast <size_t> (needle_length));
+    const std::string substring = filter::string::unicode_string_substr (haystack, static_cast <size_t> (pos), static_cast <size_t> (needle_length));
     if (substring == needle) return static_cast <size_t> (pos);
   }
   return std::string::npos;
 }
 
 
-// Case-insensitive version of "filter::strings::unicode_string_strpos".
+// Case-insensitive version of "filter::string::unicode_string_strpos".
 size_t unicode_string_strpos_case_insensitive (std::string haystack, std::string needle, size_t offset)
 {
-  haystack = filter::strings::unicode_string_casefold (haystack);
-  needle = filter::strings::unicode_string_casefold (needle);
+  haystack = filter::string::unicode_string_casefold (haystack);
+  needle = filter::string::unicode_string_casefold (needle);
   
-  const int haystack_length = static_cast<int>( filter::strings::unicode_string_length (haystack));
-  const int needle_length = static_cast<int>( filter::strings::unicode_string_length (needle));
+  const int haystack_length = static_cast<int>( filter::string::unicode_string_length (haystack));
+  const int needle_length = static_cast<int>( filter::string::unicode_string_length (needle));
   for (int pos = static_cast<int>(offset); pos <= haystack_length - needle_length; pos++) {
-    const std::string substring = filter::strings::unicode_string_substr (haystack, static_cast<size_t> (pos), static_cast<size_t> (needle_length));
+    const std::string substring = filter::string::unicode_string_substr (haystack, static_cast<size_t> (pos), static_cast<size_t> (needle_length));
     if (substring == needle) return static_cast<size_t>(pos);
   }
   return std::string::npos;
@@ -595,10 +593,10 @@ std::string unicode_string_casefold (const std::string& s)
   // Do the case folding.
   try {
     // The UTF8 processor works with one Unicode point at a time.
-    size_t string_length = filter::strings::unicode_string_length (s);
+    size_t string_length = filter::string::unicode_string_length (s);
     for (unsigned int pos = 0; pos < string_length; pos++) {
       // Get one UTF-8 character.
-      const std::string character = filter::strings::unicode_string_substr (s, pos, 1);
+      const std::string character = filter::string::unicode_string_substr (s, pos, 1);
       // Convert it to a Unicode point.
       const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *> (character.c_str ());
       utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (character.length ());
@@ -642,10 +640,10 @@ std::string unicode_string_uppercase (const std::string& s)
   std::string uppercase {};
   try {
     // The UTF8 processor works with one Unicode point at a time.
-    const size_t string_length = filter::strings::unicode_string_length (s);
+    const size_t string_length = filter::string::unicode_string_length (s);
     for (unsigned int pos = 0; pos < string_length; pos++) {
       // Get one UTF-8 character.
-      const std::string character = filter::strings::unicode_string_substr (s, pos, 1);
+      const std::string character = filter::string::unicode_string_substr (s, pos, 1);
       // Convert it to a Unicode point.
       const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *> (character.c_str ());
       utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (character.length ());
@@ -680,7 +678,7 @@ std::string unicode_string_transliterate (const std::string& s)
 {
   std::string transliteration {};
   try {
-    const size_t string_length = filter::strings::unicode_string_length (s);
+    const size_t string_length = filter::string::unicode_string_length (s);
     for (unsigned int pos = 0; pos < string_length; pos++) {
       const std::string character {unicode_string_substr (s, pos, 1)};
       const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *> (character.c_str ());
@@ -731,7 +729,7 @@ bool unicode_string_is_punctuation (std::string s)
   try {
     if (s.empty ()) return false;
     // Be sure to take only one character.
-    s = filter::strings::unicode_string_substr (s, 0, 1);
+    s = filter::string::unicode_string_substr (s, 0, 1);
     // Convert the string to a Unicode point.
     const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *>(s.c_str ());
     const utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (s.length ());
@@ -761,7 +759,7 @@ int unicode_string_convert_to_codepoint (std::string s)
   if (!s.empty ()) {
     try {
       // Be sure to take only one character.
-      s = filter::strings::unicode_string_substr (s, 0, 1);
+      s = filter::string::unicode_string_substr (s, 0, 1);
       // Convert the string to a Unicode point.
       const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *>(s.c_str ());
       const utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (s.length ());
@@ -780,17 +778,17 @@ std::string unicode_string_str_replace (const std::string& search, const std::st
   // The needle to look for should not be empty.
   if (!search.empty ()) {
     // Do the replacing.
-    const size_t searchlength = filter::strings::unicode_string_length (search);
-    size_t offposition = filter::strings::unicode_string_strpos (subject, search);
+    const size_t searchlength = filter::string::unicode_string_length (search);
+    size_t offposition = filter::string::unicode_string_strpos (subject, search);
     while (offposition != std::string::npos) {
       std::string subject_before {};
       // Due to the nature of the substr finder, it needs special handling for search position zero.
-      if (offposition != 0) subject_before = filter::strings::unicode_string_substr (subject, 0, offposition);
+      if (offposition != 0) subject_before = filter::string::unicode_string_substr (subject, 0, offposition);
       // Continue with the splitting and joining.
-      const std::string subject_after = filter::strings::unicode_string_substr (subject, offposition + searchlength, subject.length());
+      const std::string subject_after = filter::string::unicode_string_substr (subject, offposition + searchlength, subject.length());
       subject = subject_before + replace + subject_after;
       // Prepare for next iteration.
-      offposition = filter::strings::unicode_string_strpos (subject, search, offposition + filter::strings::unicode_string_length (replace));
+      offposition = filter::string::unicode_string_strpos (subject, search, offposition + filter::string::unicode_string_length (replace));
     }
   }
   // Ready.
@@ -957,9 +955,9 @@ std::string html2text (std::string html)
     text.append (html.substr (0, pos));
     html = html.substr (pos + 1);
     // Certain tags start new lines.
-    const std::string tag1 {filter::strings::unicode_string_casefold (html.substr (0, 1))};
-    const std::string tag2 {filter::strings::unicode_string_casefold (html.substr (0, 2))};
-    const std::string tag3 {filter::strings::unicode_string_casefold (html.substr (0, 3))};
+    const std::string tag1 {filter::string::unicode_string_casefold (html.substr (0, 1))};
+    const std::string tag2 {filter::string::unicode_string_casefold (html.substr (0, 2))};
+    const std::string tag3 {filter::string::unicode_string_casefold (html.substr (0, 3))};
     if  ((tag1 == "p")
          || (tag3 == "div")
          || (tag2 == "li")
@@ -986,12 +984,12 @@ std::string html2text (std::string html)
   text.append (html);
   
   // Replace xml entities with their text.
-  text = filter::strings::unescape_special_xml_characters (text);
+  text = filter::string::unescape_special_xml_characters (text);
   
   while (text.find ("\n\n") != std::string::npos) {
-    text = filter::strings::replace ("\n\n", "\n", text);
+    text = filter::string::replace ("\n\n", "\n", text);
   }
-  text = filter::strings::trim (text);
+  text = filter::string::trim (text);
   return text;
 }
 
@@ -1024,11 +1022,11 @@ std::string extract_email (std::string input)
 // On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:
 std::string extract_body (const std::string& input, std::string year, std::string sender)
 {
-  const std::vector <std::string> inputlines {filter::strings::explode (input, '\n')};
+  const std::vector <std::string> inputlines {filter::string::explode (input, '\n')};
   if (inputlines.empty ()) return std::string();
   std::vector <std::string> body {};
   for (const auto& line : inputlines) {
-    const std::string trimmed {filter::strings::trim (line)};
+    const std::string trimmed {filter::string::trim (line)};
     if (trimmed.empty()) continue;
     if (trimmed.find (">") == 0) continue;
     if ((!year.empty()) && (!sender.empty())) {
@@ -1040,7 +1038,7 @@ std::string extract_body (const std::string& input, std::string year, std::strin
     }
     body.push_back (line);
   }
-  std::string bodystring = filter::strings::implode (body, "\n");
+  std::string bodystring = filter::string::implode (body, "\n");
   bodystring = trim (bodystring);
   return bodystring;
 }
@@ -1233,8 +1231,8 @@ void quick_sort(std::vector<int>& one, std::vector<unsigned int>& two, unsigned 
     --l;
     quick_swap(one[l], one[beg]);
     quick_swap(two[l], two[beg]);
-    filter::strings::quick_sort(one, two, beg, l);
-    filter::strings::quick_sort(one, two, r, end);
+    filter::string::quick_sort(one, two, beg, l);
+    filter::string::quick_sort(one, two, r, end);
   }
 }
 
@@ -1389,16 +1387,16 @@ std::string markup_words (const std::vector<std::string>& words, std::string tex
   std::vector <std::string> needles {};
   for (const auto& word : words) {
     if (word.empty()) continue;
-    std::vector <std::string> new_needles {filter::strings::search_needles (word, text)};
+    std::vector <std::string> new_needles {filter::string::search_needles (word, text)};
     needles.insert (needles.end(), new_needles.begin(), new_needles.end());
   }
-  needles = filter::strings::array_unique (needles);
+  needles = filter::string::array_unique (needles);
   
   // All the $needles are converted to $markup,
   // which will replace the $needles.
   for (const auto& needle : needles) {
     const std::string markup = "<mark>" + needle + "</mark>";
-    text = filter::strings::replace (needle, markup, text);
+    text = filter::string::replace (needle, markup, text);
   }
   
   // Result.
@@ -1412,13 +1410,13 @@ std::string markup_words (const std::vector<std::string>& words, std::string tex
 std::vector <std::string> search_needles (const std::string& search, const std::string& text)
 {
   std::vector <std::string> needles {};
-  size_t position = filter::strings::unicode_string_strpos_case_insensitive (text, search, 0);
+  size_t position = filter::string::unicode_string_strpos_case_insensitive (text, search, 0);
   while (position != std::string::npos) {
-    const std::string needle = unicode_string_substr (text, position, filter::strings::unicode_string_length (search));
+    const std::string needle = unicode_string_substr (text, position, filter::string::unicode_string_length (search));
     needles.push_back (needle);
-    position = filter::strings::unicode_string_strpos_case_insensitive (text, search, position + 1);
+    position = filter::string::unicode_string_strpos_case_insensitive (text, search, position + 1);
   }
-  needles = filter::strings::array_unique (needles);
+  needles = filter::string::array_unique (needles);
   return needles;
 }
 
@@ -1433,7 +1431,7 @@ int user_identifier (Webserver_Request& webserver_request)
 }
 
 
-// C++ equivalent for PHP's filter::strings::bin2hex function.
+// C++ equivalent for PHP's filter::string::bin2hex function.
 std::string bin2hex (const std::string& bin)
 {
   std::string res {};
@@ -1468,7 +1466,7 @@ std::string hex2bin (const std::string& hex)
 // Tidies up html.
 std::string html_tidy (std::string html)
 {
-  html = filter::strings::replace ("<", "\n<", html);
+  html = filter::string::replace ("<", "\n<", html);
   return html;
 }
 
@@ -1477,10 +1475,10 @@ std::string html_tidy (std::string html)
 std::string html2xml (std::string html)
 {
   // HTML specification: <hr>, XML specification: <hr/>.
-  html = filter::strings::replace ("<hr>", "<hr/>", html);
+  html = filter::string::replace ("<hr>", "<hr/>", html);
   
   // HTML specification: <br>, XML specification: <br/>.
-  html = filter::strings::replace ("<br>", "<br/>", html);
+  html = filter::string::replace ("<br>", "<br/>", html);
   
   return html;
 }
@@ -1752,13 +1750,13 @@ std::string html_get_element (std::string html, std::string element)
  string filter_string_tidy_invalid_html_leaking (std::string html)
  {
  // Everything in the <head> can be left out: It is not relevant.
- filter::strings::replace_between (html, "<head>", "</head>", "");
+ filter::string::replace_between (html, "<head>", "</head>", "");
  
  // Every <script...</script> can be left out: They are irrelevant.
  int counter = 0;
  while (counter < 100) {
  counter++;
- bool replaced = filter::strings::replace_between (html, "<script", "</script>", "");
+ bool replaced = filter::string::replace_between (html, "<script", "</script>", "");
  if (!replaced) break;
  }
  
@@ -1811,9 +1809,9 @@ static std::string substitute_xml_entities_into_text(const std::string& text)
 {
   std::string result {text};
   // Replacing & must come first.
-  result = filter::strings::replace ("&", "&amp;", result);
-  result = filter::strings::replace ("<", "&lt;", result);
-  result = filter::strings::replace (">", "&gt;", result);
+  result = filter::string::replace ("&", "&amp;", result);
+  result = filter::string::replace ("<", "&lt;", result);
+  result = filter::string::replace (">", "&gt;", result);
   // Done.
   return result;
 }
@@ -1824,10 +1822,10 @@ static std::string substitute_xml_entities_into_attributes(const char quote, con
 {
   std::string result {substitute_xml_entities_into_text (text)};
   if (quote == '"') {
-    result = filter::strings::replace("\"","&quot;", result);
+    result = filter::string::replace("\"","&quot;", result);
   }
   else if (quote == '\'') {
-    result = filter::strings::replace("'","&apos;", result);
+    result = filter::string::replace("'","&apos;", result);
   }
   return result;
 }
@@ -1962,7 +1960,7 @@ static std::string pretty_print_contents (GumboNode* node, int lvl, const std::s
       }
       
       if (pp_okay) {
-        val = filter::strings::rtrim(val);
+        val = filter::string::rtrim(val);
       }
       
       if (pp_okay && (contents.length() == 0)) {
@@ -1983,7 +1981,7 @@ static std::string pretty_print_contents (GumboNode* node, int lvl, const std::s
       const std::string childname = get_tag_name(child);
       const std::string childkey = "|" + childname + "|";
       if ((nonbreaking_inline_tags.find(childkey) != std::string::npos) && (contents.length() > 0)) {
-        val = filter::strings::ltrim(val);
+        val = filter::string::ltrim(val);
       }
       
       contents.append(val);
@@ -2054,7 +2052,7 @@ static std::string pretty_print(GumboNode* node, int lvl, const std::string& ind
   std::string contents {pretty_print_contents(node, lvl+1, indent_chars)};
   
   //  if (need_special_handling) {
-  //    contents = filter::strings::rtrim(contents);
+  //    contents = filter::string::rtrim(contents);
   //  }
   
   char last_char = ' ';
@@ -2072,7 +2070,7 @@ static std::string pretty_print(GumboNode* node, int lvl, const std::string& ind
     results.append("\n");
   }
   //  if (inline_like) {
-  //    contents = filter::strings::ltrim(contents);
+  //    contents = filter::string::ltrim(contents);
   //  }
   results.append(contents);
   if (pp_okay && !contents.empty() && (last_char != '\n') && (!inline_like)) {
@@ -2094,13 +2092,13 @@ static std::string pretty_print(GumboNode* node, int lvl, const std::string& ind
 std::string fix_invalid_html_gumbo (std::string html)
 {
   // Everything in the <head> can be left out: It is not relevant.
-  filter::strings::replace_between (html, "<head>", "</head>", std::string());
+  filter::string::replace_between (html, "<head>", "</head>", std::string());
   
   // Every <script...</script> can be left out: They are irrelevant.
   int counter {0};
   while (counter < 100) {
     counter++;
-    const bool replaced = filter::strings::replace_between (html, "<script", "</script>", std::string());
+    const bool replaced = filter::string::replace_between (html, "<script", "</script>", std::string());
     if (!replaced) break;
   }
   
@@ -2186,7 +2184,7 @@ std::string collapse_whitespace (std::string s)
   int iterator {0};
   do {
     count = 0;
-    s = filter::strings::replace ("  ", " ", s, &count);
+    s = filter::string::replace ("  ", " ", s, &count);
     iterator++;
   } while ((count > 0) && iterator < 5);
   return s;
@@ -2200,7 +2198,7 @@ std::string convert_windows1252_to_utf8 (const std::string& input)
   utf8::utf16to8(input.begin(), input.end(), back_inserter(utf8));
   
   // Handle weird conversions.
-  utf8 = filter::strings::replace ("￯﾿ﾽ", "'", utf8);
+  utf8 = filter::string::replace ("￯﾿ﾽ", "'", utf8);
   
   // Pass it to the caller.
   return utf8;
@@ -2261,7 +2259,7 @@ std::string convert_windows1252_to_utf8 (const std::string& input)
   //utf8.assign ((char*)outbuf, outbuf_size - output_bytes_left);
   
   // Handle weird conversions.
-  //utf8 = filter::strings::replace ("ï¿½", "'", utf8);
+  //utf8 = filter::string::replace ("ï¿½", "'", utf8);
   
   // Pass it to the caller.
   //return utf8;

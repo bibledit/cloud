@@ -64,11 +64,11 @@ void sources_abbott_smith_parse_entry_element (pugi::xml_node & node)
   //</entry>
 
   // Get the lemma, and the Strong's number, and the raw XML of the entry's contents.
-  std::string lemma = filter::strings::trim (node.attribute ("lemma").value ());
+  std::string lemma = filter::string::trim (node.attribute ("lemma").value ());
 #ifdef HAVE_ICU
-  lemma = filter::strings::icu_string_normalize (lemma, true, true);
+  lemma = filter::string::icu_string_normalize (lemma, true, true);
 #endif
-  std::string strong = filter::strings::trim (node.attribute ("strong").value ());
+  std::string strong = filter::string::trim (node.attribute ("strong").value ());
   std::stringstream ss;
   for (pugi::xml_node child : node.children()) child.print(ss, "", pugi::format_raw);
   std::string contents = ss.str ();
@@ -81,7 +81,7 @@ void sources_abbott_smith_parse_entry_element (pugi::xml_node & node)
   // It means that a Strong's number is added to the lemma.
   // Such a Strong's number should be parsed too, and put at its proper place in the database.
   // And the lemma should be remove from its attached Strong's number.
-  std::vector <std::string> strongs = filter::strings::explode (lemma, '|');
+  std::vector <std::string> strongs = filter::string::explode (lemma, '|');
   if (strongs.size() >= 2) {
     lemma = strongs[0];
     strongs.erase (strongs.begin());
@@ -91,7 +91,7 @@ void sources_abbott_smith_parse_entry_element (pugi::xml_node & node)
 
   // Store the original lemma, the casefolded lemma, and the Strong's number,
   // together with the entry's raw XML, into the database.
-  std::string lemma_case_folded = filter::strings::unicode_string_casefold (lemma);
+  std::string lemma_case_folded = filter::string::unicode_string_casefold (lemma);
   database::abboth_smith::store (lemma, lemma_case_folded, strong, contents);
   
   // If there's more Strong's numbers in the entry, store those too, but without any lemma.

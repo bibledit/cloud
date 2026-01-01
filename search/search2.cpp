@@ -62,7 +62,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
   
   bool hit_is_set = webserver_request.query.count ("h");
   bool query_is_set = webserver_request.query.count ("q");
-  int identifier = filter::strings::convert_to_int (webserver_request.query ["i"]);
+  int identifier = filter::string::convert_to_int (webserver_request.query ["i"]);
   std::string query = webserver_request.query ["q"];
   std::string hit = webserver_request.query ["h"];
 
@@ -73,8 +73,8 @@ std::string search_search2 (Webserver_Request& webserver_request)
     
     // Retrieve the search parameters from the volatile database.
     std::string query2 = database::temporal::get_value (identifier, "query");
-    //bool casesensitive = filter::strings::convert_to_bool (database::temporal::get_value (identifier, "casesensitive"));
-    bool plaintext = filter::strings::convert_to_bool (database::temporal::get_value (identifier, "plaintext"));
+    //bool casesensitive = filter::string::convert_to_bool (database::temporal::get_value (identifier, "casesensitive"));
+    bool plaintext = filter::string::convert_to_bool (database::temporal::get_value (identifier, "plaintext"));
     
     
     // Get the Bible and passage for this identifier.
@@ -88,15 +88,15 @@ std::string search_search2 (Webserver_Request& webserver_request)
     // Get the plain text or USFM.
     std::string text;
     if (plaintext) {
-      text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
+      text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::string::convert_to_int (verse));
     } else {
-      text = search_logic_get_bible_verse_usfm (bible2, book, chapter, filter::strings::convert_to_int (verse));
+      text = search_logic_get_bible_verse_usfm (bible2, book, chapter, filter::string::convert_to_int (verse));
     }
     
     
     // Format it.
     std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-    text =  filter::strings::markup_words ({query2}, text);
+    text =  filter::string::markup_words ({query2}, text);
     std::string output = "<div>" + link + " " + text + "</div>";
     
     
@@ -115,8 +115,8 @@ std::string search_search2 (Webserver_Request& webserver_request)
     std::string books = webserver_request.query ["b"];
     std::string sharing = webserver_request.query ["s"];
     database::temporal::set_value (identifier, "query", query);
-    database::temporal::set_value (identifier, "casesensitive", filter::strings::convert_to_string (casesensitive));
-    database::temporal::set_value (identifier, "plaintext", filter::strings::convert_to_string (plaintext));
+    database::temporal::set_value (identifier, "casesensitive", filter::string::convert_to_string (casesensitive));
+    database::temporal::set_value (identifier, "plaintext", filter::string::convert_to_string (plaintext));
     
     
     // Deal with case sensitivity.
@@ -172,22 +172,22 @@ std::string search_search2 (Webserver_Request& webserver_request)
       hits.push_back (passage.encode ());
     }
     if (sharing != "load") {
-      std::vector <std::string> loaded_hits = filter::strings::explode (database::temporal::get_value (identifier, "hits"), '\n');
+      std::vector <std::string> loaded_hits = filter::string::explode (database::temporal::get_value (identifier, "hits"), '\n');
       if (sharing == "add") {
         hits.insert (hits.end(), loaded_hits.begin(), loaded_hits.end());
       }
       if (sharing == "remove") {
-        hits = filter::strings::array_diff (loaded_hits, hits);
+        hits = filter::string::array_diff (loaded_hits, hits);
       }
       if (sharing == "intersect") {
         hits = array_intersect (loaded_hits, hits);
       }
-      hits = filter::strings::array_unique (hits);
+      hits = filter::string::array_unique (hits);
     }
 
 
     // Generate one string from the hits.
-    std::string output = filter::strings::implode (hits, "\n");
+    std::string output = filter::string::implode (hits, "\n");
 
 
     // Store search hits in the volatile database.

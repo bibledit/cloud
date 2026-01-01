@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void Database_Logs::log (std::string description, int level)
 {
   // Trim spaces.
-  description = filter::strings::trim (description);
+  description = filter::string::trim (description);
   // Discard empty line.
   if (description.empty()) return;
   // Truncate very long entry.
@@ -47,7 +47,7 @@ void Database_Logs::log (std::string description, int level)
   }
   // Save this logbook entry to a filename with seconds and microseconds.
   std::string seconds = std::to_string (filter::date::seconds_since_epoch ());
-  std::string time = seconds + filter::strings::fill (std::to_string (filter::date::numerical_microseconds ()), 8, '0');
+  std::string time = seconds + filter::string::fill (std::to_string (filter::date::numerical_microseconds ()), 8, '0');
   std::string file = filter_url_create_path ({folder (), time});
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.
@@ -117,7 +117,7 @@ void Database_Logs::rotate ()
     }
     
     // Remove expired entries.
-    int timestamp = filter::strings::convert_to_int (files [i].substr (0, 10));
+    int timestamp = filter::string::convert_to_int (files [i].substr (0, 10));
     if (timestamp < oldtimestamp) {
       filter_url_unlink (path);
       continue;

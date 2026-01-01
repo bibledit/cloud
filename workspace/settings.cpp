@@ -52,7 +52,7 @@ std::string workspace_settings (Webserver_Request& webserver_request)
   webserver_request.database_config_user()->set_active_workspace (name);
   
   if (webserver_request.query.count ("preset")) {
-    int preset = filter::strings::convert_to_int (webserver_request.query ["preset"]);
+    int preset = filter::string::convert_to_int (webserver_request.query ["preset"]);
     workspace_set_urls (webserver_request, workspace_get_default_urls (preset));
     workspace_set_widths (webserver_request, workspace_get_default_widths (preset));
     workspace_set_heights (webserver_request, workspace_get_default_heights (preset));
@@ -80,7 +80,7 @@ std::string workspace_settings (Webserver_Request& webserver_request)
     workspace_set_heights (webserver_request, row_heights);
     // If no "px" or "%" is given, then default to "%".
     // https://github.com/bibledit/cloud/issues/643
-    std::string workspacewidth = filter::strings::trim(webserver_request.post_get("workspacewidth"));
+    std::string workspacewidth = filter::string::trim(webserver_request.post_get("workspacewidth"));
     if (!workspacewidth.empty()) {
       size_t pos_px = workspacewidth.find ("px");
       size_t pos_pct = workspacewidth.find ("%");
@@ -135,7 +135,7 @@ std::string workspace_settings (Webserver_Request& webserver_request)
     std::string sample = "<a href=\"settings?name=##name##&preset=" + std::to_string (i + 1) + "\">" + samples[i] + "</a>";
     samples [i] = sample;
   }
-  view.set_variable ("samples", filter::strings::implode (samples, "\n|\n"));
+  view.set_variable ("samples", filter::string::implode (samples, "\n|\n"));
   
   
   view.set_variable ("help", translate ("See the help below for information about what to enter"));

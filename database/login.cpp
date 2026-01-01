@@ -172,10 +172,10 @@ std::string Database_Login::getUsername (std::string cookie, bool & daily)
   std::map <std::string, std::vector <std::string> > result = sql.query ();
   if (result.empty()) return std::string();
   std::string username = result ["username"][0];
-  int stamp = filter::strings::convert_to_int (result ["timestamp"] [0]);
+  int stamp = filter::string::convert_to_int (result ["timestamp"] [0]);
   if (stamp != timestamp ()) {
     // Touch the timestamp. This occurs once a day.
-    int rowid = filter::strings::convert_to_int (result ["rowid"] [0]);
+    int rowid = filter::string::convert_to_int (result ["rowid"] [0]);
     sql.clear ();
     sql.add ("UPDATE logins SET timestamp =");
     sql.add (timestamp ());
@@ -198,7 +198,7 @@ bool Database_Login::getTouchEnabled (std::string cookie)
   sql.add (cookie);
   sql.add (";");
   std::vector <std::string> result = sql.query () ["touch"];
-  if (!result.empty()) return filter::strings::convert_to_bool (result [0]);
+  if (!result.empty()) return filter::string::convert_to_bool (result [0]);
   return false;
 }
 

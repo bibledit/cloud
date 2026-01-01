@@ -131,7 +131,7 @@ std::vector <int> Database_Sprint::getTasks (const std::string& bible, int year,
   const std::vector <std::string> rowids = sql.query () ["rowid"];
   std::vector <int> ids;
   for (const auto& id : rowids) {
-    ids.push_back (filter::strings::convert_to_int (id));
+    ids.push_back (filter::string::convert_to_int (id));
   }
   return ids;
 }
@@ -170,7 +170,7 @@ int Database_Sprint::getComplete (int id)
   sql.add (";");
   const std::vector <std::string> complete = sql.query () ["complete"];
   if (!complete.empty ())
-    return filter::strings::convert_to_int (complete.at(0));
+    return filter::string::convert_to_int (complete.at(0));
   return 0;
 }
 
@@ -238,9 +238,9 @@ std::vector <Database_Sprint_Item> Database_Sprint::getHistory (const std::strin
   const std::vector <std::string> completes = result ["complete"];
   for (unsigned int i = 0; i < days.size(); i++) {
     Database_Sprint_Item item = Database_Sprint_Item ();
-    item.day = filter::strings::convert_to_int (days [i]);
-    item.tasks = filter::strings::convert_to_int (tasks [i]);
-    item.complete = filter::strings::convert_to_int (completes [i]);
+    item.day = filter::string::convert_to_int (days [i]);
+    item.tasks = filter::string::convert_to_int (tasks [i]);
+    item.complete = filter::string::convert_to_int (completes [i]);
     history.push_back (item);
   }
   return history;

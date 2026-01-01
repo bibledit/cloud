@@ -57,7 +57,7 @@ static int get_id (SqliteDatabase& sql, const char* table_row, const std::string
       sql.add (";");
       const std::vector <std::string> result = sql.query () ["rowid"];
       if (!result.empty ())
-        id = filter::strings::convert_to_int (result [0]);
+        id = filter::string::convert_to_int (result [0]);
     }
     if (!id) {
       // The rowid was not found: Insert the word into the table.
@@ -98,7 +98,7 @@ static std::string get_item (const char * item, int rowid)
     const std::vector <std::string> result = sql.query () [item];
     rowid = 0;
     if (!result.empty ()) 
-      rowid = filter::strings::convert_to_int (result.at(0));
+      rowid = filter::string::convert_to_int (result.at(0));
   }
 
   // Retrieve the requested value from the sub table.
@@ -409,7 +409,7 @@ std::vector <int> books ()
   const std::vector <std::string> result = sql.query () ["book"];
   std::vector <int> books;
   for (const auto& b : result)
-    books.push_back (filter::strings::convert_to_int (b));
+    books.push_back (filter::string::convert_to_int (b));
   return books;
 }
 
@@ -423,7 +423,7 @@ std::vector <int> chapters (const int book)
   const std::vector <std::string> result = sql.query () ["chapter"];
   std::vector <int> chapters;
   for (const auto& c : result)
-    chapters.push_back (filter::strings::convert_to_int (c));
+    chapters.push_back (filter::string::convert_to_int (c));
   return chapters;
 }
 
@@ -439,7 +439,7 @@ std::vector <int> verses (const int book, const int chapter)
   const std::vector <std::string> result = sql.query () ["verse"];
   std::vector <int> verses;
   for (const auto& v : result)
-    verses.push_back (filter::strings::convert_to_int (v));
+    verses.push_back (filter::string::convert_to_int (v));
   return verses;
 }
 
@@ -457,7 +457,7 @@ std::vector <int> rowids (const int book, const int chapter, const int verse)
   const std::vector <std::string> result = sql.query () ["rowid"];
   std::vector <int> rowids;
   for (const auto& rowid : result) 
-    rowids.push_back (filter::strings::convert_to_int (rowid));
+    rowids.push_back (filter::string::convert_to_int (rowid));
   return rowids;
 }
 

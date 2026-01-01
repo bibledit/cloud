@@ -73,16 +73,16 @@ std::string workspace_organize (Webserver_Request& webserver_request)
   
   // Re-ordering workspaces.
   if (webserver_request.query.count ("up")) {
-    const size_t item = static_cast<size_t>(filter::strings::convert_to_int (webserver_request.query ["up"]));
+    const size_t item = static_cast<size_t>(filter::string::convert_to_int (webserver_request.query ["up"]));
     std::vector <std::string> workspaces = workspace_get_names (webserver_request);
-    filter::strings::array_move_up_down (workspaces, item, true);
+    filter::string::array_move_up_down (workspaces, item, true);
     workspace_reorder (webserver_request, workspaces);
     success = translate ("The workspace was moved up");
   }
   if (webserver_request.query.count ("down")) {
-    const size_t item = static_cast<size_t>(filter::strings::convert_to_int (webserver_request.query ["down"]));
+    const size_t item = static_cast<size_t>(filter::string::convert_to_int (webserver_request.query ["down"]));
     std::vector <std::string> workspaces = workspace_get_names (webserver_request);
-    filter::strings::array_move_up_down (workspaces, item, false);
+    filter::string::array_move_up_down (workspaces, item, false);
     workspace_reorder (webserver_request, workspaces);
     success = translate ("The workspace was moved down");
   }
@@ -167,11 +167,11 @@ std::string workspace_organize (Webserver_Request& webserver_request)
       pugi::xml_node span_node = p_node.append_child("span");
       span_node.text().set(text.c_str());
     };
-    add_operation("?remove=" + workspace, translate("Delete workspace"), filter::strings::emoji_wastebasket());
+    add_operation("?remove=" + workspace, translate("Delete workspace"), filter::string::emoji_wastebasket());
     add_text(" | ");
-    add_operation("?up=" + std::to_string(i), translate("Move workspace up"), filter::strings::unicode_black_up_pointing_triangle());
+    add_operation("?up=" + std::to_string(i), translate("Move workspace up"), filter::string::unicode_black_up_pointing_triangle());
     add_text(" | ");
-    add_operation("?down=" + std::to_string(i), translate("Move workspace down"), filter::strings::unicode_black_down_pointing_triangle());
+    add_operation("?down=" + std::to_string(i), translate("Move workspace down"), filter::string::unicode_black_down_pointing_triangle());
     add_text(" | ");
     add_operation("settings?name=" + workspace, translate("Edit workspace"), " ✎ ");
     add_text(" | ");

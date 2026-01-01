@@ -64,8 +64,8 @@ std::string notes_edit (Webserver_Request& webserver_request)
   
   int identifier;
   const char * identifier_label = "identifier";
-  if (webserver_request.query.count (identifier_label)) identifier = filter::strings::convert_to_int (webserver_request.query [identifier_label]);
-  else identifier = filter::strings::convert_to_int (webserver_request.post_get(identifier_label));
+  if (webserver_request.query.count (identifier_label)) identifier = filter::string::convert_to_int (webserver_request.query [identifier_label]);
+  else identifier = filter::string::convert_to_int (webserver_request.post_get(identifier_label));
   if (identifier) view.set_variable (identifier_label, std::to_string (identifier));
   
   
@@ -73,14 +73,14 @@ std::string notes_edit (Webserver_Request& webserver_request)
     // Save note.
     std::string noteData = webserver_request.post_get("data");
     if (database_notes.identifier_exists (identifier)) {
-      std::vector <std::string> lines = filter::strings::explode (noteData, '\n');
+      std::vector <std::string> lines = filter::string::explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {
-        lines[i] = filter::strings::trim (lines[i]);
+        lines[i] = filter::string::trim (lines[i]);
         size_t pos = lines[i].find (">");
         if (pos != std::string::npos) lines[i].erase (0, pos + 1);
         if (lines[i].length () >= 6) lines[i].erase (lines[i].length () - 6);
       }
-      noteData = filter::strings::implode (lines, "\n");
+      noteData = filter::string::implode (lines, "\n");
       notes_logic.setContent (identifier, noteData);
       const std::string url = filter_url_build_http_query(notes_note_url(), {{"id", std::to_string (identifier)}});
       // View the updated note.
@@ -94,10 +94,10 @@ std::string notes_edit (Webserver_Request& webserver_request)
     if (database_notes.identifier_exists (identifier)) {
       std::string noteData = database_notes.get_contents (identifier);
       bool editable = false;
-      std::vector <std::string> lines = filter::strings::explode (noteData, '\n');
+      std::vector <std::string> lines = filter::string::explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {
 
-        lines[i] = filter::strings::trim (lines[i]);
+        lines[i] = filter::string::trim (lines[i]);
         
         // Retrieve possible username from the line.
         // This is the pattern of a line with a username.
@@ -107,7 +107,7 @@ std::string notes_edit (Webserver_Request& webserver_request)
         std::string username;
         {
           // Splitting on space should yield two bits.
-          std::vector <std::string> bits = filter::strings::explode (lines[i], ' ');
+          std::vector <std::string> bits = filter::string::explode (lines[i], ' ');
           if (bits.size () == 2) {
             // First bit should contain the <p> and optionally the <b>.
             if (bits[0].find ("<p>") == 0) {
@@ -127,7 +127,7 @@ std::string notes_edit (Webserver_Request& webserver_request)
                   if (pos != std::string::npos) {
                     bits[1].erase (pos, 1);
                     // Now deal with the data consisting of two slashes and three numbers.
-                    std::vector <std::string> date = filter::strings::explode (bits[1], '/');
+                    std::vector <std::string> date = filter::string::explode (bits[1], '/');
                     if (date.size () == 3) {
                       username = bits[0];
                     }
@@ -153,7 +153,7 @@ std::string notes_edit (Webserver_Request& webserver_request)
         
       }
       
-      noteData = filter::strings::implode (lines, "\n");
+      noteData = filter::string::implode (lines, "\n");
       
       view.set_variable ("noteblock", noteData);
     }

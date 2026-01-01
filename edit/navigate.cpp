@@ -46,8 +46,8 @@ bool edit_navigate_acl (Webserver_Request& webserver_request)
 std::string edit_navigate (Webserver_Request& webserver_request)
 {
   const std::string bible = webserver_request.query ["bible"];
-  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
+  const int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
 
   
   // At first the browser used the DOM Range interface to get the offset of the caret.
@@ -55,7 +55,7 @@ std::string edit_navigate (Webserver_Request& webserver_request)
   // not relative to the main editor element.
   // Therefore a pure Javascript implementation was Googled for and implemented.
   // This provides the offset of the caret relative to the <div id="editor">.
-  const size_t offset = static_cast<size_t> (filter::strings::convert_to_int (webserver_request.query ["offset"]));
+  const size_t offset = static_cast<size_t> (filter::string::convert_to_int (webserver_request.query ["offset"]));
 
   
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);

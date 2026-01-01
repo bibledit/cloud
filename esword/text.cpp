@@ -44,13 +44,13 @@ Esword_Text::Esword_Text (std::string bible)
 
 void Esword_Text::flushCache ()
 {
-  std::string text = filter::strings::trim (currentText);
+  std::string text = filter::string::trim (currentText);
   if (!text.empty ()) {
     std::string unicode;
-    size_t length = filter::strings::unicode_string_length (text);
+    size_t length = filter::string::unicode_string_length (text);
     for (size_t pos = 0; pos < length; pos++) {
-      std::string s = filter::strings::unicode_string_substr (text, pos, 1);
-      int codepoint = filter::strings::unicode_string_convert_to_codepoint (s);
+      std::string s = filter::string::unicode_string_substr (text, pos, 1);
+      int codepoint = filter::string::unicode_string_convert_to_codepoint (s);
       unicode.append ("\\u" + std::to_string (codepoint) + "?");
     }
     int book = currentBook;

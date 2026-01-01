@@ -84,15 +84,15 @@ resource_record resource_table [] =
 {
   { "Statenbijbel GBS", "Dutch Traditional", "Dutch Traditional", BIBLE, & resource_external_get_statenbijbel_gbs },
   { "Statenbijbel Plus GBS", "Dutch Traditional", "Dutch Traditional", BIBLE, & resource_external_get_statenbijbel_plus_gbs },
-  { "King James Version GBS", filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_king_james_version_gbs },
-  { "King James Version Plus GBS", filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_king_james_version_plus_gbs },
-  { resource_external_biblehub_interlinear_name (), filter::strings::english (), filter::strings::english (), ORIGINAL, & resource_external_get_biblehub_interlinear },
-  { "Scrivener Greek", filter::strings::english (), filter::strings::english (), ORIGINAL, & resource_external_get_biblehub_scrivener },
-  { "Westminster Hebrew", filter::strings::english (), filter::strings::english (), ORIGINAL, & resource_external_get_biblehub_westminster },
-  { resource_external_net_bible_name (), filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_net_bible },
-  { "Blue Letter Bible", filter::strings::english (), filter::strings::english (), ORIGINAL, & resource_external_get_blue_letter_bible },
-  { resource_external_elberfelder_bibel_name(), filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_elberfelder_bibel },
-  { resource_logic_easy_english_bible_name (), filter::strings::english (), filter::strings::english (), BIBLE, & resource_logic_easy_english_bible_get },
+  { "King James Version GBS", filter::string::english (), filter::string::english (), BIBLE, & resource_external_get_king_james_version_gbs },
+  { "King James Version Plus GBS", filter::string::english (), filter::string::english (), BIBLE, & resource_external_get_king_james_version_plus_gbs },
+  { resource_external_biblehub_interlinear_name (), filter::string::english (), filter::string::english (), ORIGINAL, & resource_external_get_biblehub_interlinear },
+  { "Scrivener Greek", filter::string::english (), filter::string::english (), ORIGINAL, & resource_external_get_biblehub_scrivener },
+  { "Westminster Hebrew", filter::string::english (), filter::string::english (), ORIGINAL, & resource_external_get_biblehub_westminster },
+  { resource_external_net_bible_name (), filter::string::english (), filter::string::english (), BIBLE, & resource_external_get_net_bible },
+  { "Blue Letter Bible", filter::string::english (), filter::string::english (), ORIGINAL, & resource_external_get_blue_letter_bible },
+  { resource_external_elberfelder_bibel_name(), filter::string::english (), filter::string::english (), BIBLE, & resource_external_get_elberfelder_bibel },
+  { resource_logic_easy_english_bible_name (), filter::string::english (), filter::string::english (), BIBLE, & resource_logic_easy_english_bible_get },
 };
 
 
@@ -147,7 +147,7 @@ std::string gbs_basic_processor (std::string url, int verse)
   // * Starting from that line, add several more lines, enough to cover the whole verse.
   // * Load the resulting block of text into pugixml.
 
-  std::vector <std::string> lines = filter::strings::explode(html, '\n');
+  std::vector <std::string> lines = filter::string::explode(html, '\n');
   std::string html_fragment {};
   
   // Example verse container within the html:
@@ -206,7 +206,7 @@ std::string gbs_basic_processor (std::string url, int verse)
   div_node.traverse (walker);
   for (size_t i {0}; i < walker.texts.size(); i++) {
     if (i) text.append (" ");
-    text.append (filter::strings::trim(walker.texts[i]));
+    text.append (filter::string::trim(walker.texts[i]));
   }
   
   // Done.
@@ -314,7 +314,7 @@ std::string gbs_plus_processor (std::string url, int book, [[maybe_unused]] int 
   // * Starting from that line, add several more lines, enough to cover the whole verse.
   // * Load the resulting block of text into pugixml.
   
-  std::vector <std::string> lines {filter::strings::explode(html, '\n')};
+  std::vector <std::string> lines {filter::string::explode(html, '\n')};
   std::string html_fragment {};
   
   // Example verse container within the html:
@@ -376,12 +376,12 @@ std::string gbs_plus_processor (std::string url, int book, [[maybe_unused]] int 
   div_node.traverse (walker);
   for (size_t i {0}; i < walker.texts.size(); i++) {
     if (i) text.append (" ");
-    text.append (filter::strings::trim(walker.texts[i]));
+    text.append (filter::string::trim(walker.texts[i]));
   }
   
   // Get the raw annotations html.
   std::string annotation_info {div_node.attribute("onclick").value()};
-  std::vector <std::string> bits {filter::strings::explode(annotation_info, '\'')};
+  std::vector <std::string> bits {filter::string::explode(annotation_info, '\'')};
   if (bits.size() >= 13) {
     std::string annotation_url {"https://bijbel-statenvertaling.com/includes/ajax/kanttekening.php"};
     std::map <std::string, std::string> post {};
@@ -395,7 +395,7 @@ std::string gbs_plus_processor (std::string url, int book, [[maybe_unused]] int 
     std::string error {};
     std::string annotation_html {filter_url_http_post (annotation_url, std::string(), post, error, false, false, {})};
     if (error.empty()) {
-      annotation_html = filter::strings::fix_invalid_html_gumbo (annotation_html);
+      annotation_html = filter::string::fix_invalid_html_gumbo (annotation_html);
       pugi::xml_document annotation_document {};
       annotation_document.load_string (annotation_html.c_str());
       std::string selector2 {"//body"};
@@ -407,7 +407,7 @@ std::string gbs_plus_processor (std::string url, int book, [[maybe_unused]] int 
       body_node.traverse (annotation_walker);
       for (auto fragment : annotation_walker.texts) {
         text.append(" ");
-        text.append (filter::strings::trim(fragment));
+        text.append (filter::string::trim(fragment));
       }
     } else {
       text.append("<br>");
@@ -430,7 +430,7 @@ std::string bibleserver_processor (std::string directory, int book, int chapter,
   std::string error;
   std::string text = resource_logic_web_or_cache_get (url, error);
   
-  text = filter::strings::html_tidy (std::move(text));
+  text = filter::string::html_tidy (std::move(text));
   
   // The canonical text starts after the second, that is, the last occurrence of "</header>".
   for (int i {0}; i < 3; i++) {
@@ -442,17 +442,17 @@ std::string bibleserver_processor (std::string directory, int book, int chapter,
   }
   
   // Remove footnotes.
-  filter::strings::replace_between(text, "<sup", "</sup>", std::string());
+  filter::string::replace_between(text, "<sup", "</sup>", std::string());
 
   // Removing cross references was not done just now because it was not that simple.
-//  filter::strings::replace_between(tidy, "<a", "</a>", std::string());
+//  filter::string::replace_between(tidy, "<a", "</a>", std::string());
 
   // Remove some weird cruft.
-  text = filter::strings::replace("<!--[-->", "", std::move(text));
-  text = filter::strings::replace("<!---->", "", std::move(text));
+  text = filter::string::replace("<!--[-->", "", std::move(text));
+  text = filter::string::replace("<!---->", "", std::move(text));
 
   // No new lines anymore.
-  text = filter::strings::replace("\n", "", std::move(text));
+  text = filter::string::replace("\n", "", std::move(text));
 
   // The canonical text ends at the location of this string: <footer
   if (const size_t pos = text.find("<footer"); pos != std::string::npos)
@@ -672,8 +672,8 @@ std::string resource_external_get_biblehub_interlinear (int book, int chapter, i
   // Get the html from the server, and tidy it up.
   std::string error;
   std::string html = resource_logic_web_or_cache_get (url, error);
-  std::string tidy = filter::strings::html_tidy (std::move(html));
-  std::vector <std::string> tidied = filter::strings::explode (std::move(tidy), '\n');
+  std::string tidy = filter::string::html_tidy (std::move(html));
+  std::vector <std::string> tidied = filter::string::explode (std::move(tidy), '\n');
   
   std::vector <std::string> filtered_lines;
   
@@ -695,17 +695,17 @@ std::string resource_external_get_biblehub_interlinear (int book, int chapter, i
     }
   }
   
-  html = filter::strings::implode (filtered_lines, "\n");
+  html = filter::string::implode (filtered_lines, "\n");
   
-  html = filter::strings::replace ("/abbrev.htm", "https://biblehub.com/abbrev.htm", std::move(html));
-  html = filter::strings::replace ("/hebrew/", "https://biblehub.com/hebrew/", std::move(html));
-  html = filter::strings::replace ("/hebrewparse.htm", "https://biblehub.com/hebrewparse.htm", std::move(html));
-  html = filter::strings::replace ("/greek/", "https://biblehub.com/greek/", std::move(html));
-  html = filter::strings::replace ("/grammar/", "https://biblehub.com/grammar/", std::move(html));
-  //html = filter::strings::replace ("height=\"165\"", "", html);
-  html = filter::strings::replace ("height=\"160\"", "", std::move(html));
-  html = filter::strings::replace ("height=\"145\"", "", std::move(html));
-  html = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity () + filter::strings::unicode_non_breaking_space_entity (), filter::strings::unicode_non_breaking_space_entity (), std::move(html));
+  html = filter::string::replace ("/abbrev.htm", "https://biblehub.com/abbrev.htm", std::move(html));
+  html = filter::string::replace ("/hebrew/", "https://biblehub.com/hebrew/", std::move(html));
+  html = filter::string::replace ("/hebrewparse.htm", "https://biblehub.com/hebrewparse.htm", std::move(html));
+  html = filter::string::replace ("/greek/", "https://biblehub.com/greek/", std::move(html));
+  html = filter::string::replace ("/grammar/", "https://biblehub.com/grammar/", std::move(html));
+  //html = filter::string::replace ("height=\"165\"", "", html);
+  html = filter::string::replace ("height=\"160\"", "", std::move(html));
+  html = filter::string::replace ("height=\"145\"", "", std::move(html));
+  html = filter::string::replace (filter::string::unicode_non_breaking_space_entity () + filter::string::unicode_non_breaking_space_entity (), filter::string::unicode_non_breaking_space_entity (), std::move(html));
   
   // Stylesheet for using web fonts,
   // because installing fonts on some tablets is very hard.
@@ -735,8 +735,8 @@ std::string resource_external_get_biblehub_scrivener (int book, int chapter, int
   // Get the html from the server, and tidy it up.
   std::string error;
   std::string html = resource_logic_web_or_cache_get (url, error);
-  std::string tidy = filter::strings::html_tidy (std::move(html));
-  const std::vector <std::string> tidied = filter::strings::explode (std::move(tidy), '\n');
+  std::string tidy = filter::string::html_tidy (std::move(html));
+  const std::vector <std::string> tidied = filter::string::explode (std::move(tidy), '\n');
 
   html.clear ();
   int hits = 0;
@@ -786,8 +786,8 @@ std::string resource_external_get_biblehub_westminster (int book, int chapter, i
   // Get the html from the server, and tidy it up.
   std::string error;
   std::string html = resource_logic_web_or_cache_get (url, error);
-  std::string tidy = filter::strings::html_tidy (std::move(html));
-  const std::vector <std::string> tidied = filter::strings::explode (std::move(tidy), '\n');
+  std::string tidy = filter::string::html_tidy (std::move(html));
+  const std::vector <std::string> tidied = filter::string::explode (std::move(tidy), '\n');
   
   html.clear ();
   int hits = 0;
@@ -814,7 +814,7 @@ std::string resource_external_get_biblehub_westminster (int book, int chapter, i
   if (html.empty ()) return html;
   
   // Change class "heb" to "hebrew", because that is what Bibledit uses for all Hebrew text.
-  html = filter::strings::replace ("heb", "hebrew", std::move(html));
+  html = filter::string::replace ("heb", "hebrew", std::move(html));
   
   
   // Stylesheet for using web fonts,
@@ -895,7 +895,7 @@ std::string resource_external_get_net_bible (const int book, const int chapter, 
     // The html obtained above is not well-formed.
     // It cannot be loaded as an XML document without errors and missing text.
     // Therefore the html is tidied first.
-    text = filter::strings::fix_invalid_html_tidy(std::move(text));
+    text = filter::string::fix_invalid_html_tidy(std::move(text));
   }
   
   // Parse the canonical text into an XML document.
@@ -916,7 +916,7 @@ std::string resource_external_get_net_bible (const int book, const int chapter, 
   // If the name of the book has a space, like in "1 John", then replace this with an underscore.
   {
     std::string text_id = "netText_" + bookname + "_" + std::to_string(chapter) + "_" + std::to_string(verse);
-    text_id = filter::strings::replace (" ", "_", std::move(text_id));
+    text_id = filter::string::replace (" ", "_", std::move(text_id));
     const std::string selector = "//span[@id='" + text_id + "']";
     pugi::xpath_node_set nodeset = text_doc.select_nodes(selector.c_str());
     //if (!nodeset.empty())
@@ -924,7 +924,7 @@ std::string resource_external_get_net_bible (const int book, const int chapter, 
     for (const auto span: nodeset) {
       std::stringstream ss {};
       span.node().print (ss, "", pugi::format_raw);
-      output.append(filter::strings::unescape_special_xml_characters(std::move(ss).str()));
+      output.append(filter::string::unescape_special_xml_characters(std::move(ss).str()));
     }
   }
 
@@ -992,7 +992,7 @@ std::string resource_external_get_net_bible (const int book, const int chapter, 
     // Or like: noteSuper_7_3_John_1
     // So split it on the underscores and take the second value in the array.
     // In this case it is the "1".
-    const auto bits = filter::strings::explode (id, '_');
+    const auto bits = filter::string::explode (id, '_');
     if (bits.size() < 4) {
       output.append("<p>Note not found<p>");
       continue;
@@ -1004,7 +1004,7 @@ std::string resource_external_get_net_bible (const int book, const int chapter, 
       const auto div = span.node().parent().parent();
       std::stringstream ss {};
       div.print (ss, "", pugi::format_raw);
-      output.append(filter::strings::unescape_special_xml_characters(std::move(ss).str()));
+      output.append(filter::string::unescape_special_xml_characters(std::move(ss).str()));
     }
   }
 
@@ -1099,7 +1099,7 @@ std::vector <std::string> resource_external_get_bibles ()
 // Returns the versification for the resource.
 std::string resource_external_versification (std::string name)
 {
-  std::string versification = filter::strings::english ();
+  std::string versification = filter::string::english ();
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     std::string resource = resource_table [i].name;
     if (name == resource) {
@@ -1113,7 +1113,7 @@ std::string resource_external_versification (std::string name)
 // Returns the versification for the resource.
 std::string resource_external_mapping (std::string name)
 {
-  std::string versification = filter::strings::english ();
+  std::string versification = filter::string::english ();
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     std::string resource = resource_table [i].name;
     if (name == resource) {

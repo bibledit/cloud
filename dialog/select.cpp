@@ -61,7 +61,7 @@ static std::string remove_comment_from_code (std::string code)
 {
   // Code with a comment may look like this:
   /* Code */
-  filter::strings::replace_between (code, "/*", "*/", std::string());
+  filter::string::replace_between (code, "/*", "*/", std::string());
   return code;
 }
 
@@ -76,7 +76,7 @@ std::string ajax(const Settings& settings)
   // The script should be a module because that defers execution till the document has been loaded.
   std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/selectajax.js"}));
   javascript = remove_comment_from_code (std::move(javascript));
-  javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
+  javascript = filter::string::replace("identification", settings.identification, std::move(javascript));
   
   pugi::xml_node script_node = document.append_child("script");
   script_node.append_attribute("type") = "module";
@@ -89,7 +89,7 @@ std::string ajax(const Settings& settings)
   // Update the html with the parameters to append to the POST request.
   std::string html = html_ss.str();
   const std::string url = filter_url_build_http_query(settings.url, settings.parameters);
-  html = filter::strings::replace("URL", url, std::move(html));
+  html = filter::string::replace("URL", url, std::move(html));
 
   return html;
 }
@@ -125,7 +125,7 @@ std::string form(const Settings& settings, const Form& form)
   if (form.auto_submit) {
     std::string javascript = filter_url_file_get_contents(filter_url_create_root_path({"dialog/selectform.js"}));
     javascript = remove_comment_from_code (std::move(javascript));
-    javascript = filter::strings::replace("identification", settings.identification, std::move(javascript));
+    javascript = filter::string::replace("identification", settings.identification, std::move(javascript));
     pugi::xml_node script_node = document.append_child("script");
     script_node.append_attribute("type") = "module";
     script_node.text().set(javascript.c_str());

@@ -54,10 +54,10 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
   for (const auto & element : texts) {
     int verse = element.first;
     std::string text = element.second;
-    size_t length = filter::strings::unicode_string_length (text);
+    size_t length = filter::string::unicode_string_length (text);
     for (size_t pos = 0; pos < length; pos++) {
       
-      const std::string character = filter::strings::unicode_string_substr (text, pos, 1);
+      const std::string character = filter::string::unicode_string_substr (text, pos, 1);
       
       if (in_array (character, openers)) {
         verses.push_back (verse);

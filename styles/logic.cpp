@@ -274,7 +274,7 @@ Variant property_to_variant (const Property property)
 std::ostream& operator<<(std::ostream& os, const Parameter& parameter)
 {
   if (std::holds_alternative<bool>(parameter))
-    os << filter::strings::convert_to_string(std::get<bool>(parameter));
+    os << filter::string::convert_to_string(std::get<bool>(parameter));
   if (std::holds_alternative<int>(parameter))
     os << std::get<int>(parameter);
   if (std::holds_alternative<std::string>(parameter))

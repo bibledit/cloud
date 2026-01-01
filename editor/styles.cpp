@@ -44,7 +44,7 @@ std::string Editor_Styles::get_recently_used (Webserver_Request& webserver_reque
   
   // The recent styles.
   const std::string s_styles = webserver_request.database_config_user()->get_recently_applied_styles ();
-  const std::vector <std::string> styles = filter::strings::explode (s_styles, ' ');
+  const std::vector <std::string> styles = filter::string::explode (s_styles, ' ');
   std::string fragment = translate("Select style") + ": ";
   for (const auto& marker : styles) {
     if (!fragment.empty())
@@ -111,7 +111,7 @@ std::string Editor_Styles::get_all (Webserver_Request& webserver_request)
   lines.push_back (" ");
   lines.push_back (R"(<a href="cancel">[)" + translate("cancel") + "]</a>");
   
-  const std::string html = filter::strings::implode (lines, "\n");
+  const std::string html = filter::string::implode (lines, "\n");
   
   return html;
 }
@@ -121,7 +121,7 @@ void Editor_Styles::record_usage (Webserver_Request& webserver_request, const st
 {
   if (style.empty()) return;
   std::string s_styles = webserver_request.database_config_user()->get_recently_applied_styles ();
-  std::vector <std::string> styles = filter::strings::explode (s_styles, ' ');
+  std::vector <std::string> styles = filter::string::explode (s_styles, ' ');
   // Erase the style.
   styles.erase (remove (styles.begin(), styles.end(), style), styles.end());
   // Add the style to he front of the vector.
@@ -130,7 +130,7 @@ void Editor_Styles::record_usage (Webserver_Request& webserver_request, const st
   if (styles.size () > 8) {
     styles.pop_back ();
   }
-  s_styles = filter::strings::implode (styles, " ");
+  s_styles = filter::string::implode (styles, " ");
   webserver_request.database_config_user()->set_recently_applied_styles (s_styles);
 }
 

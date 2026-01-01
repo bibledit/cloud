@@ -168,7 +168,7 @@ TEST_F (filter_text, extract)
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", "", odt);
+  odt = filter::string::replace ("  ", "", odt);
   const std::string standard = R"(
 Header4
 
@@ -184,7 +184,7 @@ Header4 ②
 
 This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2.
 )";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -215,7 +215,7 @@ TEST_F (filter_text, new_page_between_books)
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", "", odt);
+  odt = filter::string::replace ("  ", "", odt);
   std::string standard = ""
   "Genesis\n"
   "\n"
@@ -239,7 +239,7 @@ TEST_F (filter_text, new_page_between_books)
   "\n"
   "Text Matthew 2\n"
   "\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
   EXPECT_EQ ((std::vector<std::string>{"Matthew 2:0 Unknown marker \\xxx, formatting error: Unknown markup"}), filter_text.fallout);
   EXPECT_EQ ((std::vector<std::string>{"Genesis 0:0 Text encoding: \\ide XYZ", "Matthew 2:0 Comment: \\rem Comment"}), filter_text.info);
 }
@@ -261,7 +261,7 @@ TEST_F (filter_text, books_odt_headers)
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", "", odt);
+  odt = filter::string::replace ("  ", "", odt);
   const std::string standard = ""
   "Ruth\n"
   "\n"
@@ -287,7 +287,7 @@ TEST_F (filter_text, books_odt_headers)
   "\n"
   "Peter, an apostle of Jesus Christ, to the chosen ones who are living as foreigners in the Dispersion in Pontus, Galatia, Cappadocia, Asia, and Bithynia,\n"
   "\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -311,7 +311,7 @@ TEST_F (filter_text, transform_verse_numbers)
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", "", odt);
+  odt = filter::string::replace ("  ", "", odt);
   std::string standard = ""
   "Genesis\n"
   "\n"
@@ -320,7 +320,7 @@ TEST_F (filter_text, transform_verse_numbers)
   "Paragraph One. 2 Verse Two.\n"
   "\n"
   "3 Verse Three. 4 Verse Four. 5 Verse Five.\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -339,7 +339,7 @@ TEST_F (filter_text, footnotes_xrefs_1)
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", "", odt);
+  odt = filter::string::replace ("  ", "", odt);
   const std::string standard = ""
   "Genesis\n"
   "\n"
@@ -355,7 +355,7 @@ TEST_F (filter_text, footnotes_xrefs_1)
   "\n"
   ", text3.3Test: Heb. Note at the very end.\n"
   "\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -381,7 +381,7 @@ TEST_F (filter_text, footnotes_xrefs_new_chapters)
 \v 5 Note 5\f + \ft Note 5.\f*.
 \v 6 Note 6\f + \ft Note 6.\f*.
 )";
-  usfm = filter::strings::trim (usfm);
+  usfm = filter::string::trim (usfm);
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
@@ -390,7 +390,7 @@ TEST_F (filter_text, footnotes_xrefs_new_chapters)
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", "", odt);
+  odt = filter::string::replace ("  ", "", odt);
   const std::string standard = R"(
 Genesis
 
@@ -430,7 +430,7 @@ Xref 4aXref 4.
 
 .
 )";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -446,7 +446,7 @@ TEST_F (filter_text, transform_published_verse_numbers)
 \v 3 \vp ၃။\vp* ကိုယ်တော်က သင်တို့သွားရမည့်လမ်းခရီးအတွက် မည်သည့်အရာကိုမျှ ယူဆောင်မသွားကြလေနှင့်။ တောင်ဝှေး၊ လွယ်အိတ်၊  စားစရာနှင့် ငွေကြေးတို့ကို သယ်ဆောင်မသွားကြနှင့်။ ဝတ်ရုံကိုလည်း နှစ်ထည်ယူမသွားလေနှင့်။-
 \v 4 \vp ၄။\vp* မည်သည့်အိမ်ကိုမဆို သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍ ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
 )";
-  usfm = filter::strings::trim (usfm);
+  usfm = filter::string::trim (usfm);
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
@@ -464,7 +464,7 @@ Genesis 1
 
 ကိုယ်တော်သည် တမန်တော် တစ်ဆယ့်နှစ်ပါးတို့ကို အတူတကွခေါ်ပြီးလျှင် နတ်ဆိုးအပေါင်းတို့ကို နှင်ထုတ်နိုင်ရန်နှင့် အနာရောဂါများကို ပျောက်ကင်းစေနိုင်ရန် တန်ခိုးအာဏာတို့ကို သူတို့အား ပေးတော်မူ၏။- ၂။ ထို့နောက် ကိုယ်တော်သည် ဘုရားသခင်၏ နိုင်ငံတော်အကြောင်းကို ဟောပြောရန်နှင့် ဖျားနာသူများကို ကုသ ပျောက်ကင်းစေရန် သူတို့ကို စေလွှတ်တော်မူ၏။- ၃။ ကိုယ်တော်က သင်တို့သွားရမည့်လမ်းခရီးအတွက် မည်သည့်အရာကိုမျှ ယူဆောင်မသွားကြလေနှင့်။ တောင်ဝှေး၊ လွယ်အိတ်၊  စားစရာနှင့် ငွေကြေးတို့ကို သယ်ဆောင်မသွားကြနှင့်။ ဝတ်ရုံကိုလည်း နှစ်ထည်ယူမသွားလေနှင့်။- ၄။ မည်သည့်အိမ်ကိုမဆို သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍ ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
 )";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -486,7 +486,7 @@ TEST_F (filter_text, vp_no_space_after_v)
 1
 A Verse text.
 )";
-  EXPECT_EQ (filter::strings::trim (standard), output);
+  EXPECT_EQ (filter::string::trim (standard), output);
 }
 
 
@@ -548,7 +548,7 @@ TEST_F (filter_text, clear_text_export_2)
   "1 Chapter 1, verse one. 2 Verse two.\n"
   "2\n"
   "1 Chapter 2, verse one. 2 Verse two.\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (output));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (output));
   EXPECT_EQ (std::string(), notes);
 }
 
@@ -795,7 +795,7 @@ TEST_F (filter_text, embedded_character_styles_to_html_1)
   R"(<span class="add nd">Lord</span>)"
   "<span>.</span>"
   "</p>\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (html));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (html));
 }
 
 
@@ -813,7 +813,7 @@ TEST_F (filter_text, embedded_character_styles_to_html_2)
   filter_text.run (stylesv2::standard_sheet ());
   const std::string html = filter_text.html_text_standard->get_inner_html ();
   const std::string standard = R"(<p class="p"><span class="dropcaps">1</span><span>I will sing </span><span class="add">to the </span><span class="add nd">Lord</span><span class="add"> God</span><span>.</span></p>)";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (html));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (html));
 }
 
 
@@ -853,7 +853,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_1)
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", "", odt);
+  odt = filter::string::replace ("  ", "", odt);
   std::string standard = ""
   "Genesis\n"
   "\n"
@@ -862,7 +862,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_1)
   "1\n"
   "\n"
   "I will sing to the Lord.\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -884,7 +884,7 @@ TEST_F (filter_text, generate_text_note_citations)
   "Genesis\n"
   "\n"
   "1 Text 1a text1 text1.";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -905,7 +905,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_2)
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", "", odt);
+  odt = filter::string::replace ("  ", "", odt);
   const std::string standard =
   "Genesis\n"
   "\n"
@@ -914,7 +914,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_2)
   "1\n"
   "\n"
   "I will sing to the Lord God.\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -935,7 +935,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_3)
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", "", odt);
+  odt = filter::string::replace ("  ", "", odt);
   std::string standard =
   "Genesis\n"
   "\n"
@@ -944,7 +944,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_3)
   "1\n"
   "\n"
   "I will sing to the Lord.\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -990,7 +990,7 @@ TEST_F (filter_text, chapter_label_in_chapter_zero)
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", "", odt);
+  odt = filter::string::replace ("  ", "", odt);
   const std::string standard = R"(
 Genesis
 
@@ -1006,7 +1006,7 @@ Chapter 2
 
 2 Jesus came to save the people.
     )";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -1060,7 +1060,7 @@ TEST_F (filter_text, chapter_label_in_chapters)
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
-  odt = filter::strings::replace ("  ", std::string(), odt);
+  odt = filter::string::replace ("  ", std::string(), odt);
   const std::string standard = R"(
 Genesis
 
@@ -1076,7 +1076,7 @@ Chapter Two
 
 2 Jesus came to save the people.
     )";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -1168,7 +1168,7 @@ TEST_F (filter_text, incorrect_vp_markup)
 )";
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
-  filter_text.add_usfm_code (filter::strings::trim(usfm));
+  filter_text.add_usfm_code (filter::string::trim(usfm));
   filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   const int ret = odf2txt (text_odt, text_txt);
@@ -1182,7 +1182,7 @@ Unknown 1
 
 B Jesus is the son of God.
 )";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
 }
 
 
@@ -1194,7 +1194,7 @@ TEST_F (filter_text, invalid_utf8_input)
   std::string invalid_utf8_usfm = filter_url_file_get_contents (path);
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
-  filter_text.add_usfm_code (filter::strings::trim(invalid_utf8_usfm));
+  filter_text.add_usfm_code (filter::string::trim(invalid_utf8_usfm));
   filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   int ret = odf2txt (text_odt, text_txt);
@@ -1250,7 +1250,7 @@ TEST_F (filter_text, convert_image_to_format)
     const int ret = odf2txt (text_odt, text_txt);
     EXPECT_EQ (0, ret);
     std::string odt = filter_url_file_get_contents (text_txt);
-    odt = filter::strings::replace ("  ", "", odt);
+    odt = filter::string::replace ("  ", "", odt);
     const std::string standard = 
     "Unknown 1"
     "\n"
@@ -1267,7 +1267,7 @@ TEST_F (filter_text, convert_image_to_format)
     "\n"
     "\n"
     "2 Verse two.";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+    EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
   }
 }
 
@@ -1418,7 +1418,7 @@ TEST_F (filter_text, usfm_with_all_markers)
     << "The produced text was written to " << tmpfile;
     std::vector<std::string> removals;
     std::vector<std::string> additions;
-    filter_diff_diff (filter::strings::trim(standard_text), filter::strings::trim(text), &removals, &additions);
+    filter_diff_diff (filter::string::trim(standard_text), filter::string::trim(text), &removals, &additions);
     if (!removals.empty())
       ADD_FAILURE() << "First item that the generated text does not have: " << removals.front();
     if (!additions.empty())
@@ -1628,7 +1628,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   ;
 
   const auto make_readable = [] (const auto& html) {
-    return filter::strings::replace ("</p>", "</p>\n", html);
+    return filter::string::replace ("</p>", "</p>\n", html);
   };
 
   if (html != standard_html) {
@@ -1684,7 +1684,7 @@ TEST_F (filter_text, tilde_to_no_break_space)
   EXPECT_EQ (0, ret);
   const std::string odt = filter_url_file_get_contents (text_txt);
   const std::string standard =
-  "text1" + filter::strings::non_breaking_space_u00A0() + "text2 " + filter::strings::non_breaking_space_u00A0() + " text3" "\n"
+  "text1" + filter::string::non_breaking_space_u00A0() + "text2 " + filter::string::non_breaking_space_u00A0() + " text3" "\n"
   "\n"
   ;
   EXPECT_EQ (standard, odt);
@@ -1704,7 +1704,7 @@ TEST_F (filter_text, double_slash_to_soft_hyphen)
   EXPECT_EQ (0, ret);
   const std::string odt = filter_url_file_get_contents (text_txt);
   const std::string standard =
-  "text1" + filter::strings::soft_hyphen_u00AD() + "text2 " + filter::strings::soft_hyphen_u00AD() + " text3" "\n"
+  "text1" + filter::string::soft_hyphen_u00AD() + "text2 " + filter::string::soft_hyphen_u00AD() + " text3" "\n"
   "\n"
   ;
   EXPECT_EQ (standard, odt);

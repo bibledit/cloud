@@ -77,7 +77,7 @@ std::string search_strongs (Webserver_Request& webserver_request)
       searchtext += ")";
     }
     
-    searchtext = filter::strings::trim (searchtext);
+    searchtext = filter::string::trim (searchtext);
     
     return searchtext;
   }
@@ -86,8 +86,8 @@ std::string search_strongs (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("words")) {
     
     std::string s_words {webserver_request.query ["words"]};
-    s_words = filter::strings::trim (s_words);
-    const std::vector <std::string> words {filter::strings::explode (s_words, ' ')};
+    s_words = filter::string::trim (s_words);
+    const std::vector <std::string> words {filter::string::explode (s_words, ' ')};
     
     // Include items if there are no more search hits than 30% of the total number of verses in the KJV.
     const size_t maxcount = static_cast<size_t> (round (0.3 * 31102));
@@ -127,7 +127,7 @@ std::string search_strongs (Webserver_Request& webserver_request)
       i_passages.push_back (i_passage);
       counts.push_back (count);
     }
-    filter::strings::quick_sort (counts, i_passages, 0, static_cast<unsigned int>(counts.size()));
+    filter::string::quick_sort (counts, i_passages, 0, static_cast<unsigned int>(counts.size()));
     reverse (i_passages.begin(), i_passages.end());
 
     // Output the passage identifiers to the browser.
@@ -141,7 +141,7 @@ std::string search_strongs (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("id")) {
-    const int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+    const int id = filter::string::convert_to_int (webserver_request.query ["id"]);
     
     // Get the and passage for this identifier.
     const Passage passage = filter_integer_to_passage (id);
@@ -150,7 +150,7 @@ std::string search_strongs (Webserver_Request& webserver_request)
     const std::string verse = passage.m_verse;
     
     // Get the plain text.
-    const std::string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
+    const std::string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::string::convert_to_int (verse));
     
     // Format it.
     const std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

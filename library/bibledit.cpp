@@ -431,8 +431,8 @@ const char * bibledit_get_reference_for_accordance ()
   // Accordance expects a verse reference in the English versification system.
   std::vector <Passage> passages;
   Database_Mappings database_mappings;
-  if ((versification != filter::strings::english()) && !versification.empty ()) {
-    passages = database_mappings.translate (versification, filter::strings::english (), book, chapter, verse);
+  if ((versification != filter::string::english()) && !versification.empty ()) {
+    passages = database_mappings.translate (versification, filter::string::english (), book, chapter, verse);
   } else {
     passages.push_back (Passage ("", book, chapter, std::to_string(verse)));
   }
@@ -443,7 +443,7 @@ const char * bibledit_get_reference_for_accordance ()
   chapter = passages[0].m_chapter;
   std::string verse_s = passages[0].m_verse;
   std::string usfm_id = database::books::get_usfm_from_id (static_cast<book_id>(book));
-  reference = usfm_id + " " + std::to_string(chapter) + ":" + filter::strings::convert_to_string (verse_s);
+  reference = usfm_id + " " + std::to_string(chapter) + ":" + filter::string::convert_to_string (verse_s);
 
   // Return the reference.
   return reference.c_str ();
@@ -467,13 +467,13 @@ void bibledit_put_reference_from_accordance (const char * reference)
   
   // Interpret the passage from Accordance, e.g. MAT 1:1.
   // Accordance broadcasts for instance, 2 Corinthians 9:2, as "2CO 9:2".
-  std::vector<std::string> book_rest = filter::strings::explode (reference, ' ');
+  std::vector<std::string> book_rest = filter::string::explode (reference, ' ');
   if (book_rest.size() != 2) return;
   int book = static_cast<int>(database::books::get_id_from_usfm (book_rest[0]));
-  std::vector <std::string> chapter_verse = filter::strings::explode(book_rest[1], ':');
+  std::vector <std::string> chapter_verse = filter::string::explode(book_rest[1], ':');
   if (chapter_verse.size() != 2) return;
-  int chapter = filter::strings::convert_to_int(chapter_verse[0]);
-  int verse = filter::strings::convert_to_int(chapter_verse[1]);
+  int chapter = filter::string::convert_to_int(chapter_verse[0]);
+  int verse = filter::string::convert_to_int(chapter_verse[1]);
 
   // Get the active Bible and its versification system.
   Database_Config_User database_config_user (webserver_request);
@@ -483,8 +483,8 @@ void bibledit_put_reference_from_accordance (const char * reference)
   // Accordance expects a verse reference in the English versification system.
   std::vector <Passage> passages;
   Database_Mappings database_mappings;
-  if ((versification != filter::strings::english()) && !versification.empty ()) {
-    passages = database_mappings.translate (filter::strings::english (), versification, book, chapter, verse);
+  if ((versification != filter::string::english()) && !versification.empty ()) {
+    passages = database_mappings.translate (filter::string::english (), versification, book, chapter, verse);
   } else {
     passages.push_back (Passage ("", book, chapter, std::to_string(verse)));
   }

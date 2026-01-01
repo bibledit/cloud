@@ -136,7 +136,7 @@ unsigned int search_id (const std::string& subject)
   for (const auto& id : ids) {
     const size_t pos = subject.find (id);
     if (pos != std::string::npos) {
-      return static_cast<unsigned>(filter::strings::convert_to_int (id));
+      return static_cast<unsigned>(filter::string::convert_to_int (id));
     }
   }
   return 0;

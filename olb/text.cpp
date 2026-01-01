@@ -34,7 +34,7 @@ OnlineBible_Text::OnlineBible_Text ()
 
 void OnlineBible_Text::storeData ()
 {
-  if (lineLoaded) output.push_back (filter::strings::trim (currentLine));
+  if (lineLoaded) output.push_back (filter::string::trim (currentLine));
   currentLine.clear();
   lineLoaded = false;
 }
@@ -84,6 +84,6 @@ void OnlineBible_Text::close_current_note ()
 void OnlineBible_Text::save (std::string name)
 {
   storeData ();
-  std::string data = filter::strings::implode (output, "\n");
+  std::string data = filter::string::implode (output, "\n");
   filter_url_file_put_contents (name, data);
 }

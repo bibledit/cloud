@@ -95,19 +95,19 @@ static void set_value (const std::string& bible, const char * key, const std::st
 
 static bool get_boolean_value (const std::string& bible, const char * key, bool default_value)
 {
-  return filter::strings::convert_to_bool (get_value (bible, key, filter::strings::convert_to_string (default_value).c_str()));
+  return filter::string::convert_to_bool (get_value (bible, key, filter::string::convert_to_string (default_value).c_str()));
 }
 
 
 static void set_boolean_value (const std::string& bible, const char * key, bool value)
 {
-  set_value (bible, key, filter::strings::convert_to_string (value));
+  set_value (bible, key, filter::string::convert_to_string (value));
 }
 
 
 static int get_integer_value (const std::string& bible, const char * key, int default_value)
 {
-  return filter::strings::convert_to_int (get_value (bible, key, std::to_string (default_value).c_str()));
+  return filter::string::convert_to_int (get_value (bible, key, std::to_string (default_value).c_str()));
 }
 
 
@@ -574,7 +574,7 @@ void set_export_stylesheet (const std::string& bible, const std::string& value)
 constexpr const auto versification_system_key {"versification-system"};
 std::string get_versification_system (const std::string& bible)
 {
-  return get_value (bible, versification_system_key, filter::strings::english ());
+  return get_value (bible, versification_system_key, filter::string::english ());
 }
 void set_versification_system (const std::string& bible, const std::string& value)
 {

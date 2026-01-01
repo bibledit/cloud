@@ -53,8 +53,8 @@ void sources_hebrewlexicon_parse ()
           std::string element = (char *) xmlTextReaderName(reader);
           if (element == "w") {
             std::string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
-            target = filter::strings::replace (xmlns, "", target);
-            target = filter::strings::trim (target);
+            target = filter::string::replace (xmlns, "", target);
+            target = filter::string::trim (target);
             database_hebrewlexicon.setaug (aug, target);
             aug.clear ();
             target.clear ();
@@ -88,15 +88,15 @@ void sources_hebrewlexicon_parse ()
           std::string element = (char *) xmlTextReaderName(reader);
           if (element == "entry") {
             std::string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
-            definition = filter::strings::replace (xmlns, "", definition);
-            definition = filter::strings::convert_xml_character_entities_to_characters (definition);
-            std::vector <std::string> lines = filter::strings::explode (definition, '\n');
+            definition = filter::string::replace (xmlns, "", definition);
+            definition = filter::string::convert_xml_character_entities_to_characters (definition);
+            std::vector <std::string> lines = filter::string::explode (definition, '\n');
             for (auto & line : lines) {
               if (line.find ("</status>") != std::string::npos) line.clear ();
-              line = filter::strings::trim (line);
+              line = filter::string::trim (line);
             }
-            definition = filter::strings::implode (lines, "\n");
-            definition = filter::strings::trim (definition);
+            definition = filter::string::implode (lines, "\n");
+            definition = filter::string::trim (definition);
             database_hebrewlexicon.setbdb (id, definition);
             id.clear ();
             definition.clear ();
@@ -134,8 +134,8 @@ void sources_hebrewlexicon_parse ()
           std::string element = (char *) xmlTextReaderName(reader);
           if (element == "entry") {
             std::string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
-            bdb = filter::strings::replace (xmlns, "", bdb);
-            bdb = filter::strings::trim (bdb);
+            bdb = filter::string::replace (xmlns, "", bdb);
+            bdb = filter::string::trim (bdb);
             database_hebrewlexicon.setmap (id, bdb);
             id.clear ();
             bdb.clear ();
@@ -169,10 +169,10 @@ void sources_hebrewlexicon_parse ()
           std::string element = (char *) xmlTextReaderName(reader);
           if (element == "entry") {
             std::string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
-            definition = filter::strings::replace (xmlns, "", definition);
-            definition = filter::strings::convert_xml_character_entities_to_characters (definition);
-            definition = filter::strings::replace ("'", "''", definition);
-            definition = filter::strings::trim (definition);
+            definition = filter::string::replace (xmlns, "", definition);
+            definition = filter::string::convert_xml_character_entities_to_characters (definition);
+            definition = filter::string::replace ("'", "''", definition);
+            definition = filter::string::trim (definition);
             database_hebrewlexicon.setstrong (id, definition);
             id.clear ();
             definition.clear ();
@@ -207,7 +207,7 @@ void sources_hebrewlexicon_parse ()
         {
           std::string element = (char *) xmlTextReaderName(reader);
           if (element == "POS") {
-            name = filter::strings::unicode_string_casefold (name);
+            name = filter::string::unicode_string_casefold (name);
             database_hebrewlexicon.setpos (code, name);
             code.clear ();
             name.clear ();

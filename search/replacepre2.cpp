@@ -68,28 +68,28 @@ std::string search_replacepre2 (Webserver_Request& webserver_request)
   // Get the plain text or the USFM.
   std::string text;
   if (searchplain) {
-    text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
+    text = search_logic_get_bible_verse_text (bible, book, chapter, filter::string::convert_to_int (verse));
   } else {
-    text = search_logic_get_bible_verse_usfm (bible, book, chapter, filter::strings::convert_to_int (verse));
+    text = search_logic_get_bible_verse_usfm (bible, book, chapter, filter::string::convert_to_int (verse));
   }
   
   // Clickable passage.
   std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
   
   
-  std::string oldtext = filter::strings::markup_words ({searchfor}, text);
+  std::string oldtext = filter::string::markup_words ({searchfor}, text);
   
 
   std::string newtext (text);
   if (casesensitive) {
-    newtext = filter::strings::replace (searchfor, replacewith, newtext);
+    newtext = filter::string::replace (searchfor, replacewith, newtext);
   } else {
-    std::vector <std::string> needles = filter::strings::search_needles (searchfor, text);
+    std::vector <std::string> needles = filter::string::search_needles (searchfor, text);
     for (auto & needle : needles) {
-      newtext = filter::strings::replace (needle, replacewith, newtext);
+      newtext = filter::string::replace (needle, replacewith, newtext);
     }
   }
-  if (replacewith != "") newtext = filter::strings::markup_words ({replacewith}, newtext);
+  if (replacewith != "") newtext = filter::string::markup_words ({replacewith}, newtext);
   
   
   // Check whether the user has write access to the book.
@@ -101,7 +101,7 @@ std::string search_replacepre2 (Webserver_Request& webserver_request)
   std::string output;
   output.append ("<div id=\"" + id + "\">\n");
   output.append ("<p>");
-  if (write) output.append ("<a href=\"replace\"> ✔ </a> <a href=\"delete\">" + filter::strings::emoji_wastebasket () + "</a> ");
+  if (write) output.append ("<a href=\"replace\"> ✔ </a> <a href=\"delete\">" + filter::string::emoji_wastebasket () + "</a> ");
   output.append (link);
   output.append ("</p>\n");
   output.append ("<p>" + oldtext + "</p>\n");

@@ -62,11 +62,11 @@ std::string edit_index (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
-    const int switchbook = filter::strings::convert_to_int (webserver_request.query ["switchbook"]);
-    const int switchchapter = filter::strings::convert_to_int (webserver_request.query ["switchchapter"]);
+    const int switchbook = filter::string::convert_to_int (webserver_request.query ["switchbook"]);
+    const int switchchapter = filter::string::convert_to_int (webserver_request.query ["switchchapter"]);
     int switchverse = 1;
     if (webserver_request.query.count ("switchverse")) 
-      switchverse = filter::strings::convert_to_int (webserver_request.query ["switchverse"]);
+      switchverse = filter::string::convert_to_int (webserver_request.query ["switchverse"]);
     ipc_focus::set_passage (webserver_request, switchbook, switchchapter, switchverse);
     navigation_passage::record_history (webserver_request, switchbook, switchchapter, switchverse);
   }
@@ -183,7 +183,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   
   
   // Whether to enable spell check.
-  view.set_variable ("spellcheck", filter::strings::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
+  view.set_variable ("spellcheck", filter::string::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
 
   
   page.append (view.render ("edit", "index"));

@@ -55,10 +55,10 @@ TEST(database, config_general)
 TEST(database, config_bible)
 {
   std::string value = database::config::bible::get_versification_system ("phpunit");
-  EXPECT_EQ (filter::strings::english (), value);
+  EXPECT_EQ (filter::string::english (), value);
   
   value = database::config::bible::get_versification_system ("x");
-  EXPECT_EQ (filter::strings::english (), value);
+  EXPECT_EQ (filter::string::english (), value);
 
   database::config::bible::set_versification_system ("phpunit", "VersificatioN");
   value = database::config::bible::get_versification_system ("phpunit");

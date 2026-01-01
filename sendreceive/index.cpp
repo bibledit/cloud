@@ -73,7 +73,7 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
     if (config_globals_syncing_files)     bits.push_back (translate ("Files"));
     if (config_globals_syncing_resources) bits.push_back (translate ("Resources"));
     if (bits.empty ()) return std::string();
-    std::string status = translate ("Sending and receiving:") + " " + filter::strings::implode (bits, ", ") + " ...";
+    std::string status = translate ("Sending and receiving:") + " " + filter::string::implode (bits, ", ") + " ...";
     return status;
   }
   
@@ -117,12 +117,12 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
   
   
   std::string checkbox = webserver_request.post_get("checkbox");
-  bool checked = filter::strings::convert_to_bool (webserver_request.post_get("checked"));
+  bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
   if (checkbox == "repeatbible") {
     database::config::bible::set_repeat_send_receive (bible, checked);
     return std::string();
   }
-  view.set_variable ("repeatbible", filter::strings::get_checkbox_status (database::config::bible::get_repeat_send_receive (bible)));
+  view.set_variable ("repeatbible", filter::string::get_checkbox_status (database::config::bible::get_repeat_send_receive (bible)));
   
     
   if (sendreceive_git_repository_linked (bible)) {
@@ -177,7 +177,7 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("repeatsync")) {
-    int repeatsync = filter::strings::convert_to_int (webserver_request.query["repeatsync"]);
+    int repeatsync = filter::string::convert_to_int (webserver_request.query["repeatsync"]);
     // Clamp the values.
     if (repeatsync < 0) repeatsync = 0;
     if (repeatsync > 2) repeatsync = 2;
@@ -197,7 +197,7 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
   std::vector <std::string> bibles = Paratext_Logic::enabledBibles ();
   if (!bibles.empty ()) {
     view.enable_zone ("paratexton");
-    view.set_variable ("paratextbibles", filter::strings::implode (bibles, ", "));
+    view.set_variable ("paratextbibles", filter::string::implode (bibles, ", "));
   } else {
     view.enable_zone ("paratextoff");
   }

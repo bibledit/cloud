@@ -118,7 +118,7 @@ std::string system_index (Webserver_Request& webserver_request)
     std::string input = webserver_request.post_get("timezone");
     input = filter::string::replace ("UTC", std::string(), input);
     int input_timezone = filter::string::convert_to_int (input);
-    input_timezone = filter::string::clip (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
+    input_timezone = std::clamp (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
     database::config::general::set_timezone (input_timezone);
   }
   // Set the time zone offset in the GUI.

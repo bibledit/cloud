@@ -169,7 +169,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
     std::string assignee = webserver_request.query["assign"];
     const std::string& user = webserver_request.session_logic ()->get_username ();
     std::vector <std::string> assignees = database_noteassignment.assignees (user);
-    if (in_array (assignee, assignees)) {
+    if (filter::string::in_array (assignee, assignees)) {
       for (auto identifier : identifiers) {
         if (!database_notes.is_assigned (identifier, assignee)) {
           notes_logic.assignUser (identifier, assignee);

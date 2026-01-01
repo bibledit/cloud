@@ -164,7 +164,7 @@ void filter_git_sync_bible_to_git (std::string bible, std::string repository)
     if (filter_url_is_dir (path)) {
       int book = static_cast<int>(database::books::get_id_from_english (bookname));
       if (book) {
-        if (in_array (book, books)) {
+        if (filter::string::in_array (book, books)) {
           // Book exists in the database: Check the chapters.
           std::vector <int> chapters = database::bibles::get_chapters (bible, book);
           std::vector <std::string> chapterfiles = filter_url_scandir (filter_url_create_path ({repository, bookname}));
@@ -175,7 +175,7 @@ void filter_git_sync_bible_to_git (std::string bible, std::string repository)
                 int chapter = filter::string::convert_to_int (chaptername);
                 std::string filename = filter_url_create_path ({repository, bookname, chaptername, "data"});
                 if (file_or_dir_exists (filename)) {
-                  if (!in_array (chapter, chapters)) {
+                  if (!filter::string::in_array (chapter, chapters)) {
                     // Chapter does not exist in the database.
                     filter_url_rmdir (filter_url_create_path ({repository, bookname, chaptername}));
                   }
@@ -242,7 +242,7 @@ void filter_git_sync_git_to_bible (std::string repository, std::string bible)
               int chapter = filter::string::convert_to_int (chapterfile);
               std::string filename = filter_url_create_path ({chapterpath, "data"});
               if (file_or_dir_exists (filename)) {
-                if (!in_array (chapter, chapters)) {
+                if (!filter::string::in_array (chapter, chapters)) {
                   // Chapter does not exist in the database: Add it.
                   std::string usfm = filter_url_file_get_contents (filename);
                   bible_logic::store_chapter (bible, book, chapter, usfm);

@@ -163,7 +163,7 @@ std::string notes_select (Webserver_Request& webserver_request)
     }
     const std::vector<std::string> statuses {webserver_request.database_config_user()->get_consultation_notes_status_selectors()};
     for (const auto& [post, status] : possible_statuses) {
-      if (in_array(status, statuses)) {
+      if (filter::string::in_array(status, statuses)) {
         view.set_variable(post, "checked");
       }
     }
@@ -226,7 +226,7 @@ std::string notes_select (Webserver_Request& webserver_request)
     }
     // If the currently selected assignee does not exist in the list of all assignees, then add it to the selector.
     // This will display the assignee the system is selecting notes on.
-    if (!in_array(selected, values)) {
+    if (!filter::string::in_array(selected, values)) {
       values.push_back(selected);
       displayed.push_back(selected);
     }

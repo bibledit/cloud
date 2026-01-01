@@ -92,7 +92,7 @@ std::string resource_translated9edit (Webserver_Request& webserver_request)
         titles.push_back (title);
       }
     }
-    if (in_array (new_resource, titles)) {
+    if (filter::string::in_array (new_resource, titles)) {
       error = translate("This translated resource already exists");
     } else if (new_resource.empty ()) {
       error = translate("Please give a name for the translated resource");

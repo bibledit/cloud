@@ -62,7 +62,7 @@ void upgrade ()
   const std::vector <std::string> columns = sql.query () ["name"];
   
   // Add the column for the username if it's not yet there.
-  if (!in_array (static_cast<std::string> ("username"), columns)) {
+  if (!filter::string::in_array (static_cast<std::string> ("username"), columns)) {
     sql.clear ();
     sql.add ("ALTER TABLE confirm ADD COLUMN username text;");
     sql.execute ();

@@ -148,7 +148,7 @@ std::string resource_cache (Webserver_Request& webserver_request)
   std::vector <std::string> listed_resources = active_resources;
   listed_resources.push_back (horizontal_line);
   for (auto & resource2 : all_resources) {
-    if (!in_array (resource2, listed_resources)) listed_resources.push_back (resource2);
+    if (!filter::string::in_array (resource2, listed_resources)) listed_resources.push_back (resource2);
   }
   
   
@@ -157,7 +157,7 @@ std::string resource_cache (Webserver_Request& webserver_request)
   std::string block;
   for (auto & resource2 : listed_resources) {
     // Skip internal Bibles and dividers.
-    if (in_array (resource2, bibles)) continue;
+    if (filter::string::in_array (resource2, bibles)) continue;
     if (resource_logic_is_divider (resource2)) continue;
     block.append ("<p>");
     if (resource2 == horizontal_line) block.append ("<hr>");

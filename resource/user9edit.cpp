@@ -65,7 +65,7 @@ std::string resource_user9edit (Webserver_Request& webserver_request)
   if (webserver_request.post_count("new")) {
     std::string resource = webserver_request.post_get("entry");
     std::vector <std::string> resources = Database_UserResources::names ();
-    if (in_array (resource, resources)) {
+    if (filter::string::in_array (resource, resources)) {
       error = translate("This user-defined resource already exists");
     } else if (resource.empty ()) {
       error = translate("Please give a name for the user-defined resource");

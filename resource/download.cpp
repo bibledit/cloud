@@ -77,7 +77,7 @@ std::string resource_download (Webserver_Request& webserver_request)
     // Trigger caching the resource.
     // Add the resource to the general configuration to be cached, if it is not already there.
     std::vector <std::string> resources = database::config::general::get_resources_to_cache ();
-    if (!in_array (name, resources)) {
+    if (!filter::string::in_array (name, resources)) {
       resources.push_back (name);
       database::config::general::set_resources_to_cache (resources);
     }
@@ -102,7 +102,7 @@ std::string resource_download (Webserver_Request& webserver_request)
   
   
   if (resource_logic_can_cache (name)) {
-    bool cache = !in_array(name, client_logic_no_cache_resources_get ());
+    bool cache = !filter::string::in_array(name, client_logic_no_cache_resources_get ());
     if (cache) view.enable_zone ("installable");
     else view.enable_zone("nocache");
   } else {

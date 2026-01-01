@@ -47,8 +47,8 @@ void checks_verses::missing_punctuation_at_end (const std::string& bible, int bo
     }
     const size_t text_length = filter::string::unicode_string_length (text);
     const std::string lastCharacter = filter::string::unicode_string_substr (text, text_length - 1, 1);
-    if (in_array (lastCharacter, centermarks)) continue;
-    if (in_array (lastCharacter, endmarks)) continue;
+    if (filter::string::in_array (lastCharacter, centermarks)) continue;
+    if (filter::string::in_array (lastCharacter, endmarks)) continue;
     database::check::record_output (bible, book, chapter, verse, checks::issues::text(checks::issues::issue::no_punctuation_at_end_of_verse) + ": " + lastCharacter);
   }
 }

@@ -111,7 +111,7 @@ void developer_logic_import_changes ()
   const std::string bible = "test";
   Database_Logs::log ("Import changes from " + file_path + " into Bible " + bible);
   const std::vector <std::string> bibles = database::bibles::get_bibles ();
-  if (!in_array(bible, bibles)) {
+  if (!filter::string::in_array(bible, bibles)) {
     Database_Logs::log ("Cannot locate Bible " + bible);
     return;
   }

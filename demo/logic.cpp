@@ -192,7 +192,7 @@ void demo_clean_data ()
   // Check if all the current resource exists in the default.
   std::vector <std::string> defaults = demo_logic_default_resources ();
   for (const auto & name : defaults) {
-    if (!in_array (name, resources)) reset_resources = true;
+    if (!filter::string::in_array (name, resources)) reset_resources = true;
   }
   if (reset_resources) {
     resources = demo_logic_default_resources ();

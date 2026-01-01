@@ -265,12 +265,12 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
   bool isBible = resource_logic_is_bible (resource);
   Database_UsfmResources database_usfmresources;
   std::vector <std::string> local_usfms {database_usfmresources.getResources ()};
-  bool isLocalUsfm = in_array (resource, local_usfms);
+  bool isLocalUsfm = filter::string::in_array (resource, local_usfms);
   std::vector <std::string> remote_usfms {};
 #ifdef HAVE_CLIENT
   remote_usfms = client_logic_usfm_resources_get ();
 #endif
-  bool isRemoteUsfm = in_array (resource, remote_usfms);
+  bool isRemoteUsfm = filter::string::in_array (resource, remote_usfms);
   bool isExternal = resource_logic_is_external (resource);
   bool isLexicon = resource_logic_is_lexicon (resource);
   bool isSword = resource_logic_is_sword (resource);
@@ -515,7 +515,7 @@ std::string resource_logic_get_contents_for_client (std::string resource, int bo
 std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, int book, int chapter, int verse)
 {
   // Whether the client should cache this resource.
-  bool cache = !in_array(resource, client_logic_no_cache_resources_get ());
+  bool cache = !filter::string::in_array(resource, client_logic_no_cache_resources_get ());
   
   // Ensure that the cache for this resource exists on the client.
   if (cache && !database::cache::sql::exists (resource, book)) {
@@ -1313,7 +1313,7 @@ std::string resource_logic_study_light_get (std::string resource, int book, int 
 //    54, // 1 Timothy
 //    58, // Hebrews
 //  };
-//  if (in_array(book, class_lightgrey_book)) {
+//  if (filter::string::in_array(book, class_lightgrey_book)) {
 //    start_key = R"(<div class="tl-lightgrey ptb10">)";
 //  }
 //  pos = html.find(start_key);
@@ -1867,7 +1867,7 @@ void resource_logic_easy_english_bible_handle_verse_marker (const std::string& p
 bool resource_logic_is_bible (std::string resource)
 {
   std::vector <std::string> names = database::bibles::get_bibles ();
-  return in_array (resource, names);
+  return filter::string::in_array (resource, names);
 }
 
 
@@ -1880,21 +1880,21 @@ bool resource_logic_is_usfm (std::string resource)
   Database_UsfmResources database_usfmresources;
   names = database_usfmresources.getResources ();
 #endif
-  return in_array (resource, names);
+  return filter::string::in_array (resource, names);
 }
 
 
 bool resource_logic_is_external (std::string resource)
 {
   std::vector <std::string> names = resource_external_names ();
-  return in_array (resource, names);
+  return filter::string::in_array (resource, names);
 }
 
 
 bool resource_logic_is_lexicon (std::string resource)
 {
   std::vector <std::string> names = lexicon_logic_resource_names ();
-  return in_array (resource, names);
+  return filter::string::in_array (resource, names);
 }
 
 
@@ -1921,15 +1921,15 @@ bool resource_logic_is_divider (std::string resource)
 
 bool resource_logic_is_biblegateway (std::string resource)
 {
-  std::vector <std::string> names = resource_logic_bible_gateway_module_list_get ();
-  return in_array (resource, names);
+  const std::vector <std::string> names = resource_logic_bible_gateway_module_list_get ();
+  return filter::string::in_array (resource, names);
 }
 
 
 bool resource_logic_is_studylight (std::string resource)
 {
-  std::vector <std::string> names = resource_logic_study_light_module_list_get ();
-  return in_array (resource, names);
+  const std::vector <std::string> names = resource_logic_study_light_module_list_get ();
+  return filter::string::in_array (resource, names);
 }
 
 

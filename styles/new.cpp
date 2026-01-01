@@ -87,7 +87,7 @@ std::string styles_new (Webserver_Request& webserver_request)
     else if (base_style.empty()) {
       page.append(assets_page::error (translate("Select an existing style to base the new style on")));
     }
-    else if (in_array(new_style, markers)) {
+    else if (filter::string::in_array(new_style, markers)) {
       page.append(assets_page::error (translate("The style already exists in the stylesheet")));
     }
     else if (!write) {

@@ -52,12 +52,12 @@ void Database_Users::upgrade ()
   SqliteDatabase sql (filename ());
   sql.add ("PRAGMA table_info (users);");
   std::vector <std::string> columns = sql.query () ["name"];
-  if (!in_array (static_cast<std::string> ("ldap"), columns)) {
+  if (!filter::string::in_array (static_cast<std::string> ("ldap"), columns)) {
     sql.clear ();
     sql.add ("ALTER TABLE users ADD COLUMN ldap boolean;");
     sql.execute ();
   }
-  if (!in_array (static_cast<std::string> ("disabled"), columns)) {
+  if (!filter::string::in_array (static_cast<std::string> ("disabled"), columns)) {
     sql.clear ();
     sql.add ("ALTER TABLE users ADD COLUMN disabled boolean;");
     sql.execute ();

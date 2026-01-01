@@ -379,7 +379,7 @@ std::string get_verse_text (std::string usfm, int verse_number)
       if (verses.size () != 1) hit = false;
       if (hit) result.push_back (line);
     } else {
-      if (in_array (verse_number, verses)) {
+      if (filter::string::in_array (verse_number, verses)) {
         // Desired verse found.
         hit = true;
       } else if (verses.size () == 1) {
@@ -814,7 +814,7 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
     Database_Logs::log (explanation + ": " + usfm);
     return translate ("Missing verse number");
   }
-  if (!in_array (verse, save_verses)) {
+  if (!filter::string::in_array (verse, save_verses)) {
     std::vector <std::string> vss;
     for (auto vs : save_verses)
       vss.push_back (std::to_string(vs));

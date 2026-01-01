@@ -240,7 +240,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
     std::vector <std::string> active_resources_2 = webserver_request.database_config_user()->get_active_resources ();
     for (auto & resource : active_resources_2) {
       if (resource_logic_can_cache (resource)) {
-        if (!in_array (resource, installing_resources)) {
+        if (!filter::string::in_array (resource, installing_resources)) {
           installing_resources.push_back (resource);
           database::config::general::set_resources_to_cache (installing_resources);
         }

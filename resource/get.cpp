@@ -93,7 +93,7 @@ std::string resource_get (Webserver_Request& webserver_request)
       std::vector <int> verses_before;
       if (context_before > 0) {
         for (int ch = chapter - 1; ch <= chapter; ch++) {
-          if (in_array (ch, chapters)) {
+          if (filter::string::in_array (ch, chapters)) {
             std::vector <int> verses = database_versifications.getVerses (versification, book, ch);
             for (size_t vs = 0; vs < verses.size (); vs++) {
               int vs2 = verses [vs];
@@ -125,7 +125,7 @@ std::string resource_get (Webserver_Request& webserver_request)
       std::vector <int> verses_after;
       if (context_after > 0) {
         for (int ch = chapter; ch <= chapter + 1; ch++) {
-          if (in_array (ch, chapters)) {
+          if (filter::string::in_array (ch, chapters)) {
             std::vector <int> verses = database_versifications.getVerses (versification, book, ch);
             for (size_t vs = 0; vs < verses.size (); vs++) {
               int vs2 = verses [vs];

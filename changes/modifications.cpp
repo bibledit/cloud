@@ -119,7 +119,7 @@ void changes_process_identifiers (Webserver_Request& webserver_request,
             bool receive {true};
             try {
               const std::vector <std::string>& bibles = bibles_per_user.at(recipient);
-              receive = in_array(bible, bibles);
+              receive = filter::string::in_array(bible, bibles);
             } catch (...) {}
             if (!receive) continue;
             // Store the notification.
@@ -305,7 +305,7 @@ void changes_modifications ()
           bool receive {true};
           try {
             const std::vector <std::string> & user_bibles = notification_bibles_per_user.at(user);
-            receive = in_array(bible, user_bibles);
+            receive = filter::string::in_array(bible, user_bibles);
           } catch (...) {}
           if (receive) {
             changeNotificationUsers.push_back (user);

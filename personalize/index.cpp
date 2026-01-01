@@ -70,13 +70,13 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // Accept values for allowed relative changes for the four Bible text editors.
   if (webserver_request.post_count("chapterpercentage")) {
     int chapterpercentage = filter::string::convert_to_int (webserver_request.post_get("chapterpercentage"));
-    chapterpercentage = clip (chapterpercentage, 10, 100);
+    chapterpercentage = filter::string::clip (chapterpercentage, 10, 100);
     webserver_request.database_config_user ()->set_editing_allowed_difference_chapter (chapterpercentage);
     return std::string();
   }
   if (webserver_request.post_count("versepercentage")) {
     int versepercentage = filter::string::convert_to_int (webserver_request.post_get("versepercentage"));
-    versepercentage = clip (versepercentage, 10, 100);
+    versepercentage = filter::string::clip (versepercentage, 10, 100);
     webserver_request.database_config_user ()->set_editing_allowed_difference_verse (versepercentage);
     return std::string();
   }
@@ -114,7 +114,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // so that the page displays the new font sizes immediately.
   if (webserver_request.post_count("fontsizegeneral")) {
     int fontsizegeneral = filter::string::convert_to_int (webserver_request.post_get("fontsizegeneral"));
-    fontsizegeneral = clip (fontsizegeneral, 50, 300);
+    fontsizegeneral = filter::string::clip (fontsizegeneral, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       webserver_request.database_config_user ()->set_general_font_size (fontsizegeneral);
     }
@@ -122,7 +122,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   }
   if (webserver_request.post_count("fontsizemenu")) {
     int fontsizemenu = filter::string::convert_to_int (webserver_request.post_get("fontsizemenu"));
-    fontsizemenu = clip (fontsizemenu, 50, 300);
+    fontsizemenu = filter::string::clip (fontsizemenu, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       webserver_request.database_config_user ()->set_menu_font_size (fontsizemenu);
     }
@@ -150,7 +150,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // Font size for the Bible editors.
   if (webserver_request.post_count("fontsizeeditors")) {
     int fontsizeeditors = filter::string::convert_to_int (webserver_request.post_get("fontsizeeditors"));
-    fontsizeeditors = clip (fontsizeeditors, 50, 300);
+    fontsizeeditors = filter::string::clip (fontsizeeditors, 50, 300);
     webserver_request.database_config_user ()->set_bible_editors_font_size (fontsizeeditors);
     styles_sheets_create_all ();
     return std::string();
@@ -161,7 +161,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // Font size for the resources.
   if (webserver_request.post_count("fontsizeresources")) {
     int fontsizeresources = filter::string::convert_to_int (webserver_request.post_get("fontsizeresources"));
-    fontsizeresources = clip (fontsizeresources, 50, 300);
+    fontsizeresources = filter::string::clip (fontsizeresources, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       webserver_request.database_config_user ()->set_resources_font_size (fontsizeresources);
     }
@@ -173,7 +173,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // Font size for Hebrew resources.
   if (webserver_request.post_count("fontsizehebrew")) {
     int fontsizehebrew = filter::string::convert_to_int (webserver_request.post_get("fontsizehebrew"));
-    fontsizehebrew = clip (fontsizehebrew, 50, 300);
+    fontsizehebrew = filter::string::clip (fontsizehebrew, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       webserver_request.database_config_user ()->set_hebrew_font_size (fontsizehebrew);
     }
@@ -185,7 +185,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // Font size for Greek resources.
   if (webserver_request.post_count("fontsizegreek")) {
     int fontsizegreek = filter::string::convert_to_int (webserver_request.post_get("fontsizegreek"));
-    fontsizegreek = clip (fontsizegreek, 50, 300);
+    fontsizegreek = filter::string::clip (fontsizegreek, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       webserver_request.database_config_user ()->set_greek_font_size (fontsizegreek);
     }
@@ -197,7 +197,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // Vertical caret position in chapter editors.
   if (webserver_request.post_count("caretposition")) {
     int caretposition = filter::string::convert_to_int (webserver_request.post_get("caretposition"));
-    caretposition = clip (caretposition, 20, 80);
+    caretposition = filter::string::clip (caretposition, 20, 80);
     webserver_request.database_config_user ()->set_vertical_caret_position (caretposition);
     return std::string();
   }
@@ -215,7 +215,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // Workspace menu fade-out delay.
   if (webserver_request.post_count("workspacefadeoutdelay")) {
     int workspacefadeoutdelay = filter::string::convert_to_int (webserver_request.post_get("workspacefadeoutdelay"));
-    workspacefadeoutdelay = clip (workspacefadeoutdelay, 0, 100);
+    workspacefadeoutdelay = filter::string::clip (workspacefadeoutdelay, 0, 100);
     webserver_request.database_config_user ()->set_workspace_menu_fadeout_delay (workspacefadeoutdelay);
     return std::string();
   }

@@ -54,7 +54,7 @@ std::string editusfm_offset (Webserver_Request& webserver_request)
   std::vector <int> verses = filter::usfm::offset_to_versenumber (usfm, offset);
   // Only update navigation in case the verse differs.
   // This avoids unnecessary focus operations in the clients.
-  if (!in_array (ipc_focus::get_verse (webserver_request), verses)) {
+  if (!filter::string::in_array (ipc_focus::get_verse (webserver_request), verses)) {
     if (!verses.empty ()) {
       ipc_focus::set_passage (webserver_request, book, chapter, verses[0]);
     }

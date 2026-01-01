@@ -77,7 +77,7 @@ std::string checks_suppress (Webserver_Request& webserver_request)
   for (const auto & suppression : suppressions) {
     std::string bible = suppression.bible;
     // Only display entries for Bibles the user has write access to.
-    if (in_array (bible, bibles)) {
+    if (filter::string::in_array (bible, bibles)) {
       int id = suppression.rowid;
       bible = filter::string::escape_special_xml_characters (bible);
       const std::string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, std::to_string (suppression.verse))});

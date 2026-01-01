@@ -241,7 +241,7 @@ void Checks_Usfm::marker_in_stylesheet ()
     if (!marker.empty ()) marker = marker.substr (1);
   }
   if (marker.empty()) return;
-  if (in_array (marker, markers_stylesheet)) return;
+  if (filter::string::in_array (marker, markers_stylesheet)) return;
   add_result (checks::issues::text(checks::issues::issue::marker_not_in_stylesheet), Checks_Usfm::display_current);
 }
 
@@ -314,16 +314,16 @@ void Checks_Usfm::matching_endmarker ()
     if (!marker.empty ())
       marker.pop_back();
   }
-  if (!in_array (marker, markers_requiring_endmarkers))
+  if (!filter::string::in_array (marker, markers_requiring_endmarkers))
     return;
   if (is_opener) {
-    if (in_array (marker, open_matching_markers)) {
+    if (filter::string::in_array (marker, open_matching_markers)) {
       add_result (checks::issues::text(checks::issues::issue::repeating_opening_marker), Checks_Usfm::display_current);
     } else {
       open_matching_markers.push_back (marker);
     }
   } else {
-    if (in_array (marker, open_matching_markers)) {
+    if (filter::string::in_array (marker, open_matching_markers)) {
       open_matching_markers = filter::string::array_diff (open_matching_markers, {marker});
     } else {
       add_result (checks::issues::text(checks::issues::issue::closing_marker_does_not_match_opening_marker) + " " + filter::string::implode (open_matching_markers, " "), display_current);
@@ -349,7 +349,7 @@ void Checks_Usfm::embedded_marker ()
   }
   
   // If the marker is not relevant for this check, bail out.
-  if (!in_array (marker, embeddable_markers)) return;
+  if (!filter::string::in_array (marker, embeddable_markers)) return;
   
   // Checking method is as follows:
   // If there's no open embeddable markers, then the '+' sign is not needed.
@@ -362,14 +362,14 @@ void Checks_Usfm::embedded_marker ()
   
   bool checkEmbedding = false;
   if (isOpener) {
-    if (!in_array (marker, open_embeddable_markers)) {
+    if (!filter::string::in_array (marker, open_embeddable_markers)) {
       if (!open_embeddable_markers.empty ()) {
         checkEmbedding = true;
       }
       open_embeddable_markers.push_back (marker);
     }
   } else {
-    if (in_array (marker, open_embeddable_markers)) {
+    if (filter::string::in_array (marker, open_embeddable_markers)) {
       open_embeddable_markers = filter::string::array_diff (open_embeddable_markers, {marker});
       if (!open_embeddable_markers.empty ()) {
         checkEmbedding = true;
@@ -604,12 +604,12 @@ void Checks_Usfm::note ()
   // If the current item is opening markup ...
   if (!current_is_opener) return;
   // ... and not requiring an endmarker ...
-  if (in_array(current_marker, markers_requiring_endmarkers)) return;
+  if (filter::string::in_array(current_marker, markers_requiring_endmarkers)) return;
   // then the following item should be one of these:
   // - a text item
   if (next_is_text) return;
   // - a marker requiring an endmarker, like e.g. \add
-  if (in_array(next_marker, markers_requiring_endmarkers)) return;
+  if (filter::string::in_array(next_marker, markers_requiring_endmarkers)) return;
 
   // It has not passed the text for a correctly formatted note.
   // So add a message.

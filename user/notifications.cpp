@@ -157,7 +157,7 @@ std::string user_notifications (Webserver_Request& webserver_request)
   for (const auto& assignee : all_assignees) {
     std::map <std::string, std::string> values;
     values ["user"] = assignee;
-    values ["assign"] = filter::string::get_checkbox_status (in_array (assignee, current_assignees));
+    values ["assign"] = filter::string::get_checkbox_status (filter::string::in_array (assignee, current_assignees));
     view.add_iteration ("autoassign", values);
   }
   
@@ -217,7 +217,7 @@ std::string user_notifications (Webserver_Request& webserver_request)
     for (const auto& bible : bibles) {
       std::map <std::string, std::string> values;
       values ["bible"] = bible;
-      values ["checked"] = filter::string::get_checkbox_status (in_array (bible, currentbibles));
+      values ["checked"] = filter::string::get_checkbox_status (filter::string::in_array (bible, currentbibles));
       view.add_iteration ("changenotificationbible", values);
     }
   }

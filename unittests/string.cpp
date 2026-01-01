@@ -100,61 +100,37 @@ TEST (filter, string)
     EXPECT_EQ (reference, output);
   }
 
-  // Test filter::string::array_diff, a C++ equivalent for PHP's filter::string::array_diff function.
+  // Test filter::string::array_diff. // Todo
   {
-    std::vector <std::string> reference;
-    reference.push_back ("aaa");
-    reference.push_back ("zzz");
-    reference.push_back ("b");
-    std::vector <std::string> from;
-    from.push_back ("aaa");
-    from.push_back ("bbb");
-    from.push_back ("ccc");
-    from.push_back ("zzz");
-    from.push_back ("b");
-    from.push_back ("x");
-    std::vector <std::string> against;
-    against.push_back ("bbb");
-    against.push_back ("ccc");
-    against.push_back ("x");
-    std::vector <std::string> output = filter::string::array_diff (from, against);
-    EXPECT_EQ (reference, output);
+    const std::vector <std::string> from       { "aaa", "bbb", "ccc", "zzz", "b", "x" };
+    const std::vector <std::string> against    {        "bbb", "ccc",             "x" };
+    const std::vector <std::string> difference { "aaa",               "zzz", "b"      };
+    const std::vector <std::string> output = filter::string::array_diff (from, against);
+    EXPECT_EQ (output, difference);
   }
 
-  // Test filter::string::array_diff, a C++ equivalent for PHP's filter::string::array_diff function.
+  // Test filter::string::array_diff. // Todo
   {
-    std::vector <int> reference;
-    reference.push_back (111);
-    reference.push_back (999);
-    reference.push_back (2);
-    std::vector <int> from;
-    from.push_back (111);
-    from.push_back (222);
-    from.push_back (333);
-    from.push_back (999);
-    from.push_back (2);
-    from.push_back (8);
-    std::vector <int> against;
-    against.push_back (222);
-    against.push_back (333);
-    against.push_back (8);
-    std::vector <int> output = filter::string::array_diff (from, against);
-    EXPECT_EQ (reference, output);
+    const std::vector <int> from       { 111, 222, 333, 999, 2, 8 };
+    const std::vector <int> against    {      222, 333,         8 };
+    const std::vector <int> difference { 111,           999, 2    };
+    const std::vector <int> output = filter::string::array_diff (from, against);
+    EXPECT_EQ (output, difference);
   }
 
-  // Test for array_intersect, a C++ equivalent for PHP's array_intersect function.
+  // Test for filter::string::array_intersect, a C++ equivalent for PHP's filter::string::array_intersect function.
   {
     std::vector <int> one;
     std::vector <int> two;
     one = {1};
     two = {2};
-    EXPECT_EQ (std::vector <int>{}, array_intersect (one, two));
+    EXPECT_EQ (std::vector <int>{}, filter::string::array_intersect (one, two));
     one = {1, 2, 3};
     two = {2, 3, 4};
-    EXPECT_EQ ((std::vector <int>{2, 3}), array_intersect (one, two));
+    EXPECT_EQ ((std::vector <int>{2, 3}), filter::string::array_intersect (one, two));
     one = {1, 2, 3, 4, 5};
     two = {2, 3, 4};
-    EXPECT_EQ ((std::vector <int>{2, 3, 4}), array_intersect (one, two));
+    EXPECT_EQ ((std::vector <int>{2, 3, 4}), filter::string::array_intersect (one, two));
   }
   
   // Test hex2bin and filter::string::bin2hex as equivalents to PHP's functions.
@@ -219,15 +195,15 @@ TEST (filter, string)
   {
     std::vector <std::string> haystack = {"needle"};
     std::string needle = "needle";
-    EXPECT_EQ (true, in_array (needle, haystack));
+    EXPECT_EQ (true, filter::string::in_array (needle, haystack));
     needle.clear ();
-    EXPECT_EQ (false, in_array (needle, haystack));
+    EXPECT_EQ (false, filter::string::in_array (needle, haystack));
     haystack.clear ();
-    EXPECT_EQ (false, in_array (needle, haystack));
+    EXPECT_EQ (false, filter::string::in_array (needle, haystack));
     needle = "needle";
-    EXPECT_EQ (false, in_array (needle, haystack));
-    EXPECT_EQ (true, in_array (1, {1, 2, 3}));
-    EXPECT_EQ (false, in_array (1, {2, 3}));
+    EXPECT_EQ (false, filter::string::in_array (needle, haystack));
+    EXPECT_EQ (true, filter::string::in_array (1, {1, 2, 3}));
+    EXPECT_EQ (false, filter::string::in_array (1, {2, 3}));
   }
 
   // Test random number generator.

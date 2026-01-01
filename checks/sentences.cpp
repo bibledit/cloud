@@ -104,7 +104,7 @@ void Checks_Sentences::check (const std::map <int, std::string> & texts)
     for (size_t i = 0; i < count; i++) {
       character = filter::string::unicode_string_substr (text, i, 1);
       // Skip characters to be disregarded.
-      if (in_array (character, m_disregards)) continue;
+      if (filter::string::in_array (character, m_disregards)) continue;
       // Store verse numbers and characters.
       verse_numbers.push_back (verse);
       characters.push_back (character);
@@ -202,10 +202,10 @@ void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_st
     }
     
     // Check that the paragraph starts with a capital.
-    is_capital = in_array (character2, m_capitals);
+    is_capital = filter::string::in_array (character2, m_capitals);
     if (!is_capital) {
       const std::string& paragraph_marker = paragraph_start_markers [p];
-      if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
+      if (!filter::string::in_array (paragraph_marker, within_sentence_paragraph_markers)) {
         std::string context = verses_paragraph.begin()->second;
         context = filter::string::unicode_string_substr (context, 0, 15);
         checking_results.push_back (std::pair (verse, checks::issues::text(checks::issues::issue::paragraph_does_not_start_with_a_capital) + ": " + context));
@@ -230,7 +230,7 @@ void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_st
     }
     
     // Check that the paragraph ends with correct punctuation.
-    is_end_mark = in_array (character2, this->m_end_marks) || in_array (previous_character, this->m_end_marks);
+    is_end_mark = filter::string::in_array (character2, this->m_end_marks) || filter::string::in_array (previous_character, this->m_end_marks);
     if (!is_end_mark) {
       // If the next paragraph starts with a marker that indicates it should not necessarily be capitalized,
       // then the current paragraph may have punctuation that would be incorrect otherwise.
@@ -239,7 +239,7 @@ void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_st
       if (p2 < paragraph_start_markers.size ()) {
         next_paragraph_marker = paragraph_start_markers [p2];
       }
-      if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
+      if (next_paragraph_marker.empty () || (!filter::string::in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
         std::string context = verses_paragraph.rbegin()->second;
         const size_t length = filter::string::unicode_string_length (character2);
         if (length >= 15) {
@@ -320,24 +320,24 @@ void Checks_Sentences::analyze_characters ()
     space_position = current_position;
   }
   
-  is_capital = in_array (character, m_capitals);
+  is_capital = filter::string::in_array (character, m_capitals);
   if (is_capital) {
     capital_position = current_position;
   }
   
-  is_small_letter = in_array (character, m_small_letters);
+  is_small_letter = filter::string::in_array (character, m_small_letters);
   if (is_small_letter) {
     small_letter_position = current_position;
   }
   
-  is_end_mark = in_array (character, m_end_marks);
+  is_end_mark = filter::string::in_array (character, m_end_marks);
   if (is_end_mark) {
     end_mark_position = current_position;
     previous_mark_position = punctuation_mark_position;
     punctuation_mark_position = current_position;
   }
   
-  is_center_mark = in_array (character, m_center_marks);
+  is_center_mark = filter::string::in_array (character, m_center_marks);
   if (is_center_mark) {
     center_mark_position = current_position;
     previous_mark_position = punctuation_mark_position;

@@ -39,7 +39,7 @@ void export_index ()
   std::string directory = export_logic::main_directory ();
   std::vector <std::string> files = filter_url_scandir (directory);
   for (auto & file : files) {
-    if (in_array (file, bibles)) continue;
+    if (filter::string::in_array (file, bibles)) continue;
     filter_url_rmdir (filter_url_create_path ({directory, file}));
     Database_Logs::log ("Removing exported Bible " + file, roles::translator);
   }

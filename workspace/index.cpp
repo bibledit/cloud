@@ -64,7 +64,7 @@ std::string workspace_index (Webserver_Request& webserver_request)
   // Check that the active workspace exists, else set the first available workspace as the active one.
   {
     const std::string workspace = webserver_request.database_config_user ()->get_active_workspace ();
-    if (!in_array (workspace, workspaces)) {
+    if (!filter::string::in_array (workspace, workspaces)) {
       if (!workspaces.empty ()) {
         webserver_request.database_config_user ()->set_active_workspace (workspaces [0]);
       }

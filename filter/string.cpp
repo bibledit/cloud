@@ -303,34 +303,6 @@ std::vector <int> array_unique (const std::vector <int>& values)
 }
 
 
-// Returns items in "from" which are not present in "against".
-std::vector <std::string> array_diff (const std::vector <std::string>& from, const std::vector <std::string>& against)
-{
-  std::vector <std::string> result {};
-  std::set <std::string> against2 (against.begin (), against.end ());
-  for (unsigned int i = 0; i < from.size (); i++) {
-    if (against2.find (from[i]) == against2.end ()) {
-      result.push_back ((from[i]));
-    }
-  }
-  return result;
-}
-
-
-// Returns items in "from" which are not present in "against".
-std::vector <int> array_diff (const std::vector <int>& from, const std::vector <int>& against)
-{
-  std::vector <int> result {};
-  std::set <int> against2 (against.begin (), against.end ());
-  for (unsigned int i = 0; i < from.size (); i++) {
-    if (against2.find (from[i]) == against2.end ()) {
-      result.push_back ((from[i]));
-    }
-  }
-  return result;
-}
-
-
 // A C++ equivalent for PHP's filter::string::trim function.
 std::string trim (const std::string& s)
 {

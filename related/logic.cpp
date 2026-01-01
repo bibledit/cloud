@@ -61,7 +61,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
         std::string verse = reference.attribute ("verse").value ();
         std::vector <int> verses;
         if (filter::usfm::handle_verse_range (verse, verses)) {
-          match = in_array (filter::string::convert_to_int (input_verse), verses);
+          match = filter::string::in_array (filter::string::convert_to_int (input_verse), verses);
         } else {
           match = (verse == input_verse);
         }
@@ -82,7 +82,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
               Passage passage (std::string(), static_cast<int>(related_book), related_chapter, std::to_string (related_verse));
               int i = filter_passage_to_integer (passage);
               // No duplicate passages to be included.
-              if (!in_array (i, passages)) {
+              if (!filter::string::in_array (i, passages)) {
                 passages.push_back (i);
               }
             }

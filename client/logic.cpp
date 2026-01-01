@@ -256,7 +256,7 @@ void client_logic_no_cache_resources_save (std::vector<std::string> resources)
 void client_logic_no_cache_resource_add (std::string name)
 {
   std::vector <std::string> resources = client_logic_no_cache_resources_get();
-  if (in_array(name, resources)) return;
+  if (filter::string::in_array(name, resources)) return;
   resources.push_back(name);
   client_logic_no_cache_resources_save(resources);
 }
@@ -265,7 +265,7 @@ void client_logic_no_cache_resource_add (std::string name)
 void client_logic_no_cache_resource_remove (std::string name)
 {
   std::vector <std::string> resources = client_logic_no_cache_resources_get();
-  if (!in_array(name, resources)) return;
+  if (!filter::string::in_array(name, resources)) return;
   resources = filter::string::array_diff(resources, {name});
   client_logic_no_cache_resources_save(resources);
 }

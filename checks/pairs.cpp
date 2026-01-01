@@ -59,12 +59,12 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
       
       const std::string character = filter::string::unicode_string_substr (text, pos, 1);
       
-      if (in_array (character, openers)) {
+      if (filter::string::in_array (character, openers)) {
         verses.push_back (verse);
         opened.push_back (character);
       }
       
-      if (in_array (character, closers)) {
+      if (filter::string::in_array (character, closers)) {
         
         const std::string opener = match (character, pairs);
         bool mismatch = false;

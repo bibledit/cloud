@@ -343,7 +343,7 @@ std::string get_mouse_navigator (Webserver_Request& webserver_request, const std
   if (!bible.empty()) {
     const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
     const std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
-    if (!in_array (verse, verses)) {
+    if (!filter::string::in_array (verse, verses)) {
       if (!verses.empty()) verse = verses.at(0);
       else verse = 1;
       passage_clipped = true;
@@ -681,7 +681,7 @@ std::string get_keyboard_navigator (Webserver_Request& webserver_request, const 
   if (!bible.empty()) {
     const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
     const std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
-    if (!in_array (verse, verses)) {
+    if (!filter::string::in_array (verse, verses)) {
       if (!verses.empty()) verse = verses.at(0);
       else verse = 1;
       passage_clipped = true;
@@ -742,7 +742,7 @@ void interpret_keyboard_navigator (Webserver_Request& webserver_request, std::st
   if (!bible.empty()) {
     const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
     const std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
-    if (!in_array (verse, verses)) {
+    if (!filter::string::in_array (verse, verses)) {
       if (!verses.empty()) verse = verses.at(0);
       else verse = 1;
     }

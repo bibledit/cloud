@@ -53,7 +53,7 @@ void Database_Navigation::upgrade ()
   // If there's no column for focus group yet, add it, and if so, delete all data for ease of use.
   sql.add ("PRAGMA table_info (navigation);");
   const std::vector <std::string> columns = sql.query () ["name"];
-  if (!in_array (static_cast<std::string> ("focusgroup"), columns)) {
+  if (!filter::string::in_array (static_cast<std::string> ("focusgroup"), columns)) {
     sql.clear ();
     sql.add ("ALTER TABLE navigation ADD COLUMN focusgroup integer;");
     sql.execute ();

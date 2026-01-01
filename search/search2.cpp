@@ -180,7 +180,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
         hits = filter::string::array_diff (loaded_hits, hits);
       }
       if (sharing == "intersect") {
-        hits = array_intersect (loaded_hits, hits);
+        hits = filter::string::array_intersect (loaded_hits, hits);
       }
       hits = filter::string::array_unique (hits);
     }

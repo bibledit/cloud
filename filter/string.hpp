@@ -22,6 +22,9 @@
 #include <config/libraries.h>
 
 
+namespace filter::string {
+
+
 // Return the intersection of two containers.
 template <typename T>
 std::vector <T> array_intersect (std::vector <T> a, std::vector <T> b)
@@ -50,3 +53,18 @@ template <typename T>
 T clip (const T& n, const T& lower, const T& upper) {
   return std::max<T> (lower, std::min<T> (n, upper));
 }
+
+
+// Returns items in "from" which are not present in "against".
+template <typename T>
+std::vector<T> array_diff (const std::vector<T>& from, const std::vector<T>& against) {
+  std::vector <T> result {};
+  for (const auto& item : from) {
+    if (std::find(against.cbegin(), against.cend(), item) == against.cend())
+      result.push_back(item);
+  }
+  return result;
+}
+
+
+} // Namespace.

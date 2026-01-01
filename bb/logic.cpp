@@ -923,10 +923,10 @@ void bible_logic::optional_merge_irregularity_email (const std::string& bible, i
     filter_diff_diff (ancestor_verse_usfm, edited_verse_usfm, &user_removals, &user_additions);
     filter_diff_diff (ancestor_verse_usfm, merged_verse_usfm, &merged_removals, &merged_additions);
     for (const auto& user_removal : user_removals) {
-      if (!in_array (user_removal, merged_removals)) anomaly_found = true;
+      if (!filter::string::in_array (user_removal, merged_removals)) anomaly_found = true;
     }
     for (const auto& user_addition : user_additions) {
-      if (!in_array (user_addition, merged_additions)) anomaly_found = true;
+      if (!filter::string::in_array (user_addition, merged_additions)) anomaly_found = true;
     }
     if (!anomaly_found) continue;
     Filter_Text filter_text_ancestor = Filter_Text (bible);

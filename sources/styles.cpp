@@ -258,7 +258,7 @@ void sources_styles_parse ()
     
     // Check whether the marker in usfm.sty exists in C++.
     if (style_definitions.count (paratext_marker) == 0) {
-      if (in_array (paratext_marker, non_existing_markers)) continue;
+      if (filter::string::in_array (paratext_marker, non_existing_markers)) continue;
       std::cout << "Marker " << paratext_marker << " exists in usfm.sty but not in Bibledit" << std::endl;
       non_existing_markers.push_back (paratext_marker);
       continue;

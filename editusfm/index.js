@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
   usfmeditor.addEventListener("paste", function (event) {
     usfmEditorChanged(event);
     var clipboardData = event.clipboardData || window.clipboardData;
-    var pastedText = filter::string::clipboardData.getData('Text');
+    var pastedText = clipboardData.getData('Text');
     event.preventDefault();
     event.stopPropagation();
     document.execCommand ("insertHTML", false, pastedText);

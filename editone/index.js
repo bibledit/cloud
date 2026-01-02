@@ -1395,7 +1395,7 @@ function HandlePaste (e)
 
   // Get pasted data via clipboard API.
   var clipboardData = e.clipboardData || window.clipboardData;
-  var pastedData = filter::string::clipboardData.getData('Text');
+  var pastedData = clipboardData.getData('Text');
 
   // Inserting the text from the clipboard immediately into the editor does not work.
   // The work-around is to store data about where and what to paste.

@@ -168,7 +168,14 @@ void setup_wait_till_main_folders_present ()
   bool present {true};
   do {
     present = true;
-    std::vector <std::string> folders = {"dyncss", database_logic_databases (), "databases/config/general", "logbook", "bibles", "processes"};
+    const std::vector<std::string> folders = {
+      "dyncss",
+      database_logic_databases(),
+      "databases/config/general",
+      "logbook",
+      "bibles",
+      "processes"
+    };
     for (const auto & folder : folders) {
       const std::string path = filter_url_create_root_path ({folder});
       if (!file_or_dir_exists (path)) {
@@ -176,7 +183,7 @@ void setup_wait_till_main_folders_present ()
       }
     }
     if (!present)
-      std::this_thread::sleep_for (std::chrono::milliseconds (300));
+      std::this_thread::sleep_for(std::chrono::milliseconds(300));
   } while (!present);
 }
 

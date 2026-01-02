@@ -41,7 +41,7 @@ std::string locale_logic_month (int month)
     case 10: return translate ("October");
     case 11: return translate ("November");
     case 12: return translate ("December");
-    default: translate ("Month") + " " + std::to_string (month);
+    default: return translate ("Month") + " " + std::to_string (month);
   }
   return std::string();
 }

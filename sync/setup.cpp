@@ -40,6 +40,7 @@ std::string sync_setup (Webserver_Request& webserver_request)
   const std::string password_hash = webserver_request.query ["pass"];
 
   constexpr const char* unrecognized_credentials {"Server does not recognize the credentials"};
+  constexpr const char* require_secure {"Server requires a secure connection"};
 
   // Check the username presented by the client.
   if (!webserver_request.database_users ()->username_exists (username)) {
@@ -78,7 +79,7 @@ std::string sync_setup (Webserver_Request& webserver_request)
       ss << "Rejecting insecure client login with username " << std::quoted(username) << " - client should upgrade its Cloud connection to https";
       Database_Logs::log(std::move(ss).str());
     }
-    return std::string();
+    return require_secure;
   }
   
   // Return the user level to the client.

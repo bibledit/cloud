@@ -254,32 +254,8 @@ std::string session_signup ([[maybe_unused]] Webserver_Request& webserver_reques
         initial_body = output.str ();
       }
 
-      // Set the role of the new signing up user, it is set as member if no
-      // default has been set by an administrator.
-      const int role = database::config::general::get_default_new_user_access_level ();
-
+      constexpr const int role = static_cast<int>(roles::member);
       const std::string query = database_users.add_userQuery (user, pass, role, mail);
-
-      // Set default privileges on new signing up user.
-      const std::set <std::string> defusers = access_logic::default_privilege_usernames ();
-      const std::vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
-      auto default_username = next(defusers.begin(), role + 1);
-      for (const auto& privilege : privileges) {
-        const bool state = DatabasePrivileges::get_feature (*default_username, privilege);
-        DatabasePrivileges::set_feature (user, privilege, state);
-      }
-
-      const bool deletenotes = webserver_request.database_config_user ()->get_privilege_delete_consultation_notes_for_user (*default_username);
-      const bool useadvancedmode = webserver_request.database_config_user ()->get_privilege_use_advanced_mode_for_user (*default_username);
-      const bool editstylesheets = webserver_request.database_config_user ()->get_privilege_set_stylesheets_for_user (*default_username);
-
-      if (deletenotes) webserver_request.database_config_user ()->set_privilege_delete_consultation_notes_for_user (user, 1);
-      if (useadvancedmode) webserver_request.database_config_user ()->set_privilege_use_advanced_mode_for_user (user, 1);
-      if (editstylesheets) webserver_request.database_config_user ()->set_privilege_set_stylesheets_for_user (user, 1);
-
-      if (webserver_request.database_config_user ()->get_privilege_delete_consultation_notes_for_user (*default_username)) webserver_request.database_config_user ()->set_privilege_delete_consultation_notes_for_user (user, 1);
-      if (webserver_request.database_config_user ()->get_privilege_use_advanced_mode_for_user (*default_username)) webserver_request.database_config_user ()->set_privilege_use_advanced_mode_for_user (user, 1);
-      if (webserver_request.database_config_user ()->get_privilege_set_stylesheets_for_user (*default_username)) webserver_request.database_config_user ()->set_privilege_set_stylesheets_for_user (user, 1);
 
       // Create the contents for the confirmation email
       // that will be sent after the account has been verified.

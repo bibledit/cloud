@@ -35,7 +35,7 @@ public:
   std::string add_userQuery (std::string user, std::string password, int level, std::string email);
   std::string getEmailToUser (std::string email);
   std::string get_email (std::string user);
-  bool usernameExists (std::string user);
+  bool username_exists (std::string user);
   bool emailExists (std::string email);
   int get_level (std::string user);
   void set_level (std::string user, int level);

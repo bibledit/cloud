@@ -83,8 +83,8 @@ TEST (database, users1)
   EXPECT_EQ (email, database_users.get_email (username));
   EXPECT_EQ (std::string(), database_users.get_email ("wrong username"));
   
-  EXPECT_TRUE (database_users.usernameExists (username));
-  EXPECT_FALSE (database_users.usernameExists ("invalid username"));
+  EXPECT_TRUE (database_users.username_exists (username));
+  EXPECT_FALSE (database_users.username_exists ("invalid username"));
   
   EXPECT_TRUE (database_users.emailExists (email));
   EXPECT_FALSE (database_users.emailExists ("invalid email"));
@@ -97,7 +97,7 @@ TEST (database, users1)
   EXPECT_EQ (level, database_users.get_level (username));
   
   database_users.removeUser (username);
-  EXPECT_FALSE (database_users.usernameExists (username));
+  EXPECT_FALSE (database_users.username_exists (username));
   
   EXPECT_EQ (" UPDATE users SET email =  'email@site.nl'  WHERE username =  'unit test'  ; ", database_users.updateEmailQuery (username, email));
 }

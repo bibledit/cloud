@@ -44,7 +44,7 @@ void user_logic_optional_ldap_authentication (Webserver_Request& webserver_reque
     int role;
     ldap_logic_fetch (user, pass, ldap_okay, email, role, true);
     if (ldap_okay) {
-      if (webserver_request.database_users ()->usernameExists (user)) {
+      if (webserver_request.database_users ()->username_exists (user)) {
         // Verify and/or update the fields for the user in the local database.
         if (webserver_request.database_users ()->get_md5 (user) != md5 (pass)) {
           webserver_request.database_users ()->set_password (user, pass);
@@ -67,15 +67,17 @@ void user_logic_optional_ldap_authentication (Webserver_Request& webserver_reque
 }
 
 
-int user_logic_login_failure_time = 0;
+int user_logic_login_failure_time {0};
 
 
 bool user_logic_login_failure_check_okay ()
 {
   // No time set yet: OK.
-  if (!user_logic_login_failure_time) return true;
+  if (!user_logic_login_failure_time)
+    return true;
   // A login failure was recorded during this very second: Check fails.
-  if (user_logic_login_failure_time == filter::date::seconds_since_epoch ()) return false;
+  if (user_logic_login_failure_time == filter::date::seconds_since_epoch ())
+    return false;
   // Default: OK.
   return true;
 }

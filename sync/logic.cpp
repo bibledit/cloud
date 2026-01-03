@@ -76,7 +76,7 @@ bool Sync_Logic::credentials_okay ()
   int level = filter::string::convert_to_int (m_webserver_request.post_get("l"));
   
   // Check all credentials.
-  bool user_ok = m_webserver_request.database_users ()->usernameExists (username);
+  bool user_ok = m_webserver_request.database_users ()->username_exists (username);
   if (!user_ok) Database_Logs::log ("Non existing user: " + username, roles::manager);
   bool pass_ok = (password == m_webserver_request.database_users ()->get_md5 (username));
   if (!pass_ok) Database_Logs::log ("Incorrect password: " + password, roles::manager);

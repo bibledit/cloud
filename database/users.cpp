@@ -175,7 +175,7 @@ std::string Database_Users::get_email (std::string user)
 
 
 // Returns true if the username exists in the database.
-bool Database_Users::usernameExists (std::string user)
+bool Database_Users::username_exists (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE username =");

@@ -88,7 +88,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
   // Check on username only, without password or level.
   std::string user = filter::string::hex2bin (webserver_request.post_get("u"));
   if ((action == Sync_Logic::notes_get_total) || (action == Sync_Logic::notes_get_identifiers)) {
-    if (!webserver_request.database_users ()->usernameExists (user)) {
+    if (!webserver_request.database_users ()->username_exists (user)) {
       Database_Logs::log ("A client passes a non-existing user " + user, roles::manager);
       return std::string();
     }

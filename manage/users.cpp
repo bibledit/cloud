@@ -87,7 +87,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   }
   if (webserver_request.post_count("new")) {
     const std::string user = webserver_request.post_get("entry");
-    if (webserver_request.database_users ()->usernameExists (user)) {
+    if (webserver_request.database_users ()->username_exists (user)) {
       page += assets_page::error (translate("User already exists"));
     } else {
       const std::string password{user};

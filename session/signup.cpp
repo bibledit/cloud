@@ -221,7 +221,7 @@ std::string session_signup ([[maybe_unused]] Webserver_Request& webserver_reques
     }
     Database_Users database_users;
     if (form_is_valid) {
-      if (database_users.usernameExists (user)) {
+      if (database_users.username_exists (user)) {
         const std::string message = translate("The username that you have chosen has already been taken.") + " " + translate("Please choose another one.");
         view.set_variable ("error_message", message);
         form_is_valid = false;

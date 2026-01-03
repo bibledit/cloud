@@ -152,7 +152,7 @@ void demo_clean_data ()
     std::pair (session_admin_credentials (), roles::admin)
   };
   for (const auto & element : users) {
-    if (!webserver_request.database_users ()->usernameExists (element.first)) {
+    if (!webserver_request.database_users ()->username_exists (element.first)) {
       webserver_request.database_users ()->add_user(element.first, element.first, element.second, "");
     }
     webserver_request.database_users ()->set_level (element.first, element.second);

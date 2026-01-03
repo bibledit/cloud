@@ -153,7 +153,6 @@ libbibledit_a_SOURCES = \
 	user/logic.cpp \
 	manage/index.cpp \
 	manage/users.cpp \
-	manage/accounts.cpp \
 	manage/exports.cpp \
 	manage/write.cpp \
 	manage/privileges.cpp \

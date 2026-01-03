@@ -100,7 +100,7 @@ TEST (filter, string)
     EXPECT_EQ (reference, output);
   }
 
-  // Test filter::string::array_diff. // Todo
+  // Test filter::string::array_diff.
   {
     const std::vector <std::string> from       { "aaa", "bbb", "ccc", "zzz", "b", "x" };
     const std::vector <std::string> against    {        "bbb", "ccc",             "x" };
@@ -109,7 +109,7 @@ TEST (filter, string)
     EXPECT_EQ (output, difference);
   }
 
-  // Test filter::string::array_diff. // Todo
+  // Test filter::string::array_diff.
   {
     const std::vector <int> from       { 111, 222, 333, 999, 2, 8 };
     const std::vector <int> against    {      222, 333,         8 };

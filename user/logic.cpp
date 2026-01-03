@@ -95,16 +95,8 @@ void user_logic_login_failure_clear ()
 }
 
 
-void user_logic_store_account_creation (std::string username)
-{
-  std::vector <std::string> account_creation_times = database::config::general::get_account_creation_times ();
-  std::string account_creation_time = std::to_string (filter::date::seconds_since_epoch()) + "|" + username;
-  account_creation_times.push_back(account_creation_time);
-  database::config::general::set_account_creation_times(account_creation_times);
-}
-
-
-void user_logic_delete_account (std::string user, std::string role, std::string email, std::string & feedback)
+void user_logic_delete_account (std::string user, std::string role, std::string email,
+                                std::string & feedback)
 {
   feedback = "Deleted user " + user + " with role " + role + " and email " + email;
   Database_Logs::log (feedback, roles::admin);
@@ -129,14 +121,4 @@ void user_logic_delete_account (std::string user, std::string role, std::string 
   // Remove note assignments for clients for this user.
   Database_NoteAssignment database_noteassignment;
   database_noteassignment.remove (user);
-  // Remove the account creation time.
-  std::vector <std::string> updated;
-  std::vector <std::string> existing = database::config::general::get_account_creation_times ();
-  for (auto line : existing) {
-    std::vector <std::string> bits = filter::string::explode(line, '|');
-    if (bits.size() != 2) continue;
-    if (bits[1] == user) continue;
-    updated.push_back(line);
-  }
-  database::config::general::set_account_creation_times(updated);
 }

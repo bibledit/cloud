@@ -93,7 +93,6 @@ std::string manage_users (Webserver_Request& webserver_request)
       const std::string password{user};
       constexpr const int role = static_cast<int>(roles::member);
       webserver_request.database_users ()->add_user(user, password, role, "");
-      user_logic_store_account_creation (user);
       user_updated = true;
       page += assets_page::success (translate("User created"));
     }

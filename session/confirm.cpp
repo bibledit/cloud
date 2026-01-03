@@ -76,8 +76,6 @@ std::string session_confirm ([[maybe_unused]] Webserver_Request& webserver_reque
       // Store web site's base URL.
       const std::string site_url = get_base_url (webserver_request);
       database::config::general::set_site_url (site_url);
-      // Store account creation time.
-      user_logic_store_account_creation (webserver_request.session_logic ()->get_username ());
     }
 
   }

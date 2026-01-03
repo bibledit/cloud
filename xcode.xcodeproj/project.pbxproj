@@ -106,9 +106,6 @@
 		CA40E47328A91E7300E0A563 /* translated9edit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = translated9edit.html; sourceTree = "<group>"; };
 		CA40E47428A91E7300E0A563 /* translated1edit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = translated1edit.html; sourceTree = "<group>"; };
 		CA40E47528A91E7300E0A563 /* translated1edit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = translated1edit.h; sourceTree = "<group>"; };
-		CA47750C260FC71F001F50DD /* accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accounts.h; sourceTree = "<group>"; };
-		CA47750D260FC720001F50DD /* accounts.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = accounts.html; sourceTree = "<group>"; };
-		CA47750E260FC720001F50DD /* accounts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = accounts.cpp; sourceTree = "<group>"; };
 		CA47880B2EEA0AFF003097A7 /* nav.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nav.js; sourceTree = "<group>"; };
 		CA47B2C925E8D957001370A4 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CA4AB3E32CB05EFC00071E3E /* scraper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scraper.cpp; sourceTree = "<group>"; };
@@ -3629,9 +3626,6 @@
 		CADE3EFC24F17473003165BB /* manage */ = {
 			isa = PBXGroup;
 			children = (
-				CA47750C260FC71F001F50DD /* accounts.h */,
-				CA47750E260FC720001F50DD /* accounts.cpp */,
-				CA47750D260FC720001F50DD /* accounts.html */,
 				CAA056BD2E35510A008A7EBA /* bibles.h */,
 				CAA056BE2E35510A008A7EBA /* bibles.cpp */,
 				CAA056BF2E35510A008A7EBA /* bibles.html */,

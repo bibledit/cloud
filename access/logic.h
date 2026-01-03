@@ -50,6 +50,4 @@ bool privilege_set_stylesheets (Webserver_Request& webserver_request, std::strin
 void user_level (Webserver_Request& webserver_request, std::string& user, int& level);
 void create_client_files ();
 
-std::set <std::string> default_privilege_usernames ();
-
 }

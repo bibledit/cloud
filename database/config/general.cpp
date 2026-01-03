@@ -585,17 +585,6 @@ void set_default_active_resources (const std::vector <std::string>& values)
 }
 
 
-constexpr const auto account_creation_times_key {"account-creation-times"};
-std::vector <std::string> get_account_creation_times ()
-{
-  return get_list (account_creation_times_key);
-}
-void set_account_creation_times (const std::vector <std::string>& values)
-{
-  set_list (account_creation_times_key, values);
-}
-
-
 constexpr const auto keep_resources_cache_for_long_key {"keep-resources-cache-for-long"};
 bool get_keep_resources_cache_for_long ()
 {
@@ -604,17 +593,6 @@ bool get_keep_resources_cache_for_long ()
 void set_keep_resources_cache_for_long (bool value)
 {
   set_boolean_value (keep_resources_cache_for_long_key, value);
-}
-
-
-constexpr const auto default_new_user_access_level_key {"default-new-user-access-level"};
-int get_default_new_user_access_level ()
-{
-  return get_integer_value (default_new_user_access_level_key, roles::member);
-}
-void set_default_new_user_access_level (int value)
-{
-  set_integer_value (default_new_user_access_level_key, value);
 }
 
 

@@ -143,14 +143,8 @@ void set_translated_resources (const std::vector <std::string>& values);
 std::vector <std::string> get_default_active_resources ();
 void set_default_active_resources (const std::vector <std::string>& values);
 
-std::vector <std::string> get_account_creation_times ();
-void set_account_creation_times (const std::vector <std::string>& values);
-
 bool get_keep_resources_cache_for_long ();
 void set_keep_resources_cache_for_long (bool value);
-
-int get_default_new_user_access_level ();
-void set_default_new_user_access_level (int value);
 
 bool get_keep_osis_content_in_sword_resources ();
 void set_keep_osis_content_in_sword_resources (bool value);

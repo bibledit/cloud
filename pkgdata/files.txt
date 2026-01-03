@@ -356,7 +356,6 @@
 /logbook/gitflag
 /man
 /manage
-/manage/accounts.html
 /manage/bibles.html
 /manage/exports.html
 /manage/index.html

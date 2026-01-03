@@ -143,10 +143,4 @@ void create_client_files ()
 }
 
 
-std::set <std::string> default_privilege_usernames ()
-{
-  return {"defaultguest", "defaultmember", "defaultconsultant", "defaulttranslator", "defaultmanager"};
-}
-
-
 }

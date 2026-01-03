@@ -755,7 +755,7 @@ std::string save_is_safe (Webserver_Request& webserver_request,
 std::string safely_store_chapter (Webserver_Request& webserver_request,
                                   const std::string& bible, int book, int chapter, const std::string& usfm, std::string & explanation)
 {
-  // Check if Bible is given. Todo test.
+  // Check if Bible is given.
   if (bible.empty ()) {
     explanation = "The Bible is not given";
     Database_Logs::log (explanation + ": " + usfm);
@@ -795,7 +795,7 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
                                 const std::string& bible, int book, int chapter, int verse, std::string usfm,
                                 std::string & explanation, bool quill)
 {
-  // Check if Bible is given. Todo test.
+  // Check if Bible is given.
   if (bible.empty ()) {
     explanation = "The Bible is not given";
     Database_Logs::log (explanation + ": " + usfm);

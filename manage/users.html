@@ -37,20 +37,4 @@
 <!-- #ENDZONE accounts -->
 </ul>
 
-<!-- #BEGINZONE admin_settings -->
-<h3>translate("Common Settings")</h3>
-<p>
-  <label for="defaultacl">translate("New user default access level:")</label>
-  ##defaultacl##
-</p>
-
-<br>
-<p>translate("Change default privileges for:")</p>
-<a href="privileges?user=defaultguest">translate("Guest")</a>
-<a href="privileges?user=defaultmember">translate("Member")</a>
-<a href="privileges?user=defaultconsultant">translate("Consultant")</a>
-<a href="privileges?user=defaulttranslator">translate("Translator")</a>
-<a href="privileges?user=defaultmanager">translate("Manager")</a>
-<!-- #ENDZONE admin_settings -->
-
 <br>

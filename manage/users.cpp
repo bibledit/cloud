@@ -79,25 +79,6 @@ std::string manage_users (Webserver_Request& webserver_request)
   constexpr const char* level_identification {"level"};
 
 
-  // The default new user role.
-  {
-    constexpr const char* identification {"defaultacl"};
-    if (webserver_request.post_count(identification)) {
-      const std::string value {webserver_request.post_get(identification)};
-      const int defaultacl = filter::string::convert_to_int (value);
-      database::config::general::set_default_new_user_access_level(defaultacl);
-      return std::string();
-    }
-    dialog::select::Settings settings {
-      .identification = identification,
-      .values = { std::to_string(roles::guest), std::to_string(roles::member) },
-      .displayed = { roles::english(roles::guest), roles::english(roles::member) },
-      .selected = std::to_string (database::config::general::get_default_new_user_access_level()),
-    };
-    view.set_variable(identification, dialog::select::ajax(settings));
-  }
-
-  
   // New user creation.
   if (webserver_request.query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("users", translate("Please enter a name for the new user"), "", "new", "");
@@ -105,38 +86,13 @@ std::string manage_users (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post_count("new")) {
-    std::string user = webserver_request.post_get("entry");
+    const std::string user = webserver_request.post_get("entry");
     if (webserver_request.database_users ()->usernameExists (user)) {
       page += assets_page::error (translate("User already exists"));
     } else {
-
-      // Set the role of the new created user, it is set as member if no
-      // default has been set by an administrator.
-      int role = database::config::general::get_default_new_user_access_level ();
-      webserver_request.database_users ()->add_user(user, user, role, "");
-
-      // Set default privileges on new created user.
-      std::set <std::string> defusers = access_logic::default_privilege_usernames ();
-      std::vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
-      auto default_username = next(defusers.begin(), static_cast<long>(role + 1));
-      for (auto & privilege : privileges) {
-        bool state = DatabasePrivileges::get_feature (*default_username, privilege);
-        DatabasePrivileges::set_feature (user, privilege, state);
-      }
-
-      const bool deletenotes = webserver_request.database_config_user ()->get_privilege_delete_consultation_notes_for_user (*default_username);
-      const bool useadvancedmode = webserver_request.database_config_user ()->get_privilege_use_advanced_mode_for_user (*default_username);
-      const bool editstylesheets = webserver_request.database_config_user ()->get_privilege_set_stylesheets_for_user (*default_username);
-
-      if (deletenotes)
-        webserver_request.database_config_user ()->set_privilege_delete_consultation_notes_for_user (user, 1);
-      if (useadvancedmode)
-        webserver_request.database_config_user ()->set_privilege_use_advanced_mode_for_user (user, 1);
-      if (editstylesheets)
-        webserver_request.database_config_user ()->set_privilege_set_stylesheets_for_user (user, 1);
-
-      page += assets_page::error (*default_username);
-
+      const std::string password{user};
+      constexpr const int role = static_cast<int>(roles::member);
+      webserver_request.database_users ()->add_user(user, password, role, "");
       user_logic_store_account_creation (user);
       user_updated = true;
       page += assets_page::success (translate("User created"));
@@ -369,8 +325,6 @@ std::string manage_users (Webserver_Request& webserver_request)
   if (!ldap_on) {
     view.enable_zone ("local");
   }
-
-  if (webserver_request.session_logic()->get_level () == roles::highest) view.enable_zone ("admin_settings");
 
   page.append(view.render("manage", "users"));
 

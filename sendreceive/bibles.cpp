@@ -92,9 +92,9 @@ void sendreceive_bibles ()
   
   
   std::string response = client_logic_connection_setup ("", "");
-  int iresponse = filter::string::convert_to_int (response);
-  if (iresponse < roles::guest || iresponse > roles::admin) {
-    Database_Logs::log (sendreceive_bibles_text () + translate("Failure to initiate connection"), roles::translator);
+  if (const int iresponse = filter::string::convert_to_int(response);
+      iresponse < roles::guest || iresponse > roles::admin) {
+    Database_Logs::log (sendreceive_bibles_text () + response, roles::translator);
     send_receive_bibles_done ();
     return;
   }

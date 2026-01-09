@@ -83,9 +83,9 @@ void sendreceive_settings ()
   Sync_Logic sync_logic (webserver_request);
 
   std::string response = client_logic_connection_setup ("", "");
-  int iresponse = filter::string::convert_to_int (response);
-  if (iresponse < roles::guest || iresponse > roles::admin) {
-    Database_Logs::log (translate("Failure sending and receiving Settings"), roles::translator);
+  if (const int iresponse = filter::string::convert_to_int (response);
+      iresponse < roles::guest || iresponse > roles::admin) {
+    Database_Logs::log (translate("Failure sending and receiving Settings") + ": " + response, roles::translator);
     sendreceive_settings_done ();
     return;
   }

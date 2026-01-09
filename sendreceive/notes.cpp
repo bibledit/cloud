@@ -107,9 +107,9 @@ bool sendreceive_notes_upload ()
   
   
   std::string response = client_logic_connection_setup ("", "");
-  int iresponse = filter::string::convert_to_int (response);
-  if (iresponse < roles::guest || iresponse > roles::admin) {
-    Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), roles::translator);
+  if (const int iresponse = filter::string::convert_to_int (response);
+      iresponse < roles::guest || iresponse > roles::admin) {
+    Database_Logs::log (sendreceive_notes_text () + response, roles::translator);
     return false;
   }
   
@@ -324,9 +324,9 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   
   std::string response = client_logic_connection_setup ("", "");
-  int iresponse = filter::string::convert_to_int (response);
-  if (iresponse < roles::guest || iresponse > roles::admin) {
-    Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), roles::translator);
+  if (const int iresponse = filter::string::convert_to_int (response);
+      iresponse < roles::guest || iresponse > roles::admin) {
+    Database_Logs::log (sendreceive_notes_text () + response, roles::translator);
     return false;
   }
   

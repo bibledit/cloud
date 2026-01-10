@@ -184,12 +184,13 @@ TEST (http, parse_post)
         http_parse_post (content, webserver_request);
         const container standard_new {
           {"filename", "00_test1.txt"},
-          {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
+          {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1."},
           {"upload", "Upload"}
         };
         EXPECT_EQ (webserver_request.post, standard_new);
       }
     }
+    
     {
       // Test a multiple-file upload.
       const std::string content = filter_url_file_get_contents(test_path + "http-post-2.txt");
@@ -198,11 +199,11 @@ TEST (http, parse_post)
       http_parse_post (content, webserver_request);
       const container standard {
         {"filename", "00_test1.txt"},
-        {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1.\n"},
+        {"data", "Contents for test1.\nLine one 1.\nLine two 1.\nLine three 1."},
         {"filename", "00_test2.txt"},
-        {"data", "Contents for test2.\nLine one 2.\nLine two 2.\nLine three 2.\n"},
+        {"data", "Contents for test2.\nLine one 2.\nLine two 2.\nLine three 2."},
         {"filename", "00_test3.txt"},
-        {"data", "Contents for test3.\nLine one 3.\nLine two 3.\nLine three 3.\n"},
+        {"data", "Contents for test3.\nLine one 3.\nLine two 3.\nLine three 3."},
         {"upload", "Upload"}
       };
       EXPECT_EQ (webserver_request.post, standard);

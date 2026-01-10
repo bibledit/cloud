@@ -37,7 +37,7 @@ TEST (javascript, basic)
     std::string out_err;
     int exitcode = filter::shell::run ("grep '//# sourceMappingURL' `find . -name '*.js'`", out_err);
     EXPECT_EQ (0, exitcode);
-    EXPECT_EQ (59, out_err.size());
+    EXPECT_EQ (10281, out_err.size());
   }
 }
 

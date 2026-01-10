@@ -40,5 +40,4 @@ void demo_create_sample_bible ();
 void demo_prepare_sample_bible ();
 void demo_create_sample_notes (Webserver_Request& webserver_request);
 std::string demo_workspace ();
-void demo_create_sample_workspaces (Webserver_Request& webserver_request);
 std::vector <std::string> demo_logic_default_resources ();

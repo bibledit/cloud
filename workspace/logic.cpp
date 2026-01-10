@@ -156,7 +156,7 @@ void workspace_create_defaults (Webserver_Request& webserver_request)
   std::string workspace = webserver_request.database_config_user()->get_active_workspace ();
 
   // Create or update the default workspaces.
-  std::vector <std::string> names = workspace_get_default_names ();
+  const std::vector <std::string> names = workspace_get_default_names ();
   for (unsigned int i = 0; i < names.size (); i++) {
     webserver_request.database_config_user()->set_active_workspace (names [i]);
     int bench = static_cast<int>(i + 1);

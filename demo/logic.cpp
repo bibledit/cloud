@@ -115,22 +115,23 @@ void demo_clean_data ()
   Webserver_Request webserver_request {};
   
   
-  // Set user to the demo credentials (admin).
+  // Set the username to the demo credentials (admin).
   // This is the user who is always logged-in in a demo installation.
-  webserver_request.session_logic ()->set_username (session_admin_credentials ());
-  
+  const auto webserver_request_set_admin_user = [&] {
+    webserver_request.session_logic ()->set_username (session_admin_credentials ());
+  };
+  webserver_request_set_admin_user();
   
   // Delete empty stylesheet that may have been there.
-  database::styles::revoke_write_access ("", stylesv2::standard_sheet ());
-  database::styles::delete_sheet ("");
-  styles_sheets_create_all ();
+  database::styles::revoke_write_access (std::string(), stylesv2::standard_sheet());
+  database::styles::delete_sheet(std::string());
+  styles_sheets_create_all();
   
   
   // Set both stylesheets to "Standard" for all Bibles.
-  std::vector <std::string> bibles = database::bibles::get_bibles ();
-  for (const auto & bible : bibles) {
-    database::config::bible::set_export_stylesheet (bible, stylesv2::standard_sheet ());
-    database::config::bible::set_editor_stylesheet (bible, stylesv2::standard_sheet ());
+  for (const auto& bible : database::bibles::get_bibles()) {
+    database::config::bible::set_export_stylesheet(bible, stylesv2::standard_sheet());
+    database::config::bible::set_editor_stylesheet(bible, stylesv2::standard_sheet());
   }
   
   
@@ -138,12 +139,12 @@ void demo_clean_data ()
   setup_generate_versification_databases ();
 
   
-  // Set the site language to "Default"
-  database::config::general::set_site_language (std::string());
+  // Set the site language to the default language (English).
+  database::config::general::set_site_language(std::string());
 
 
   // Ensure the default users are there.
-  std::map <std::string, int> users = {
+  const std::map<std::string, int> users_roles {
     std::pair ("guest", roles::guest),
     std::pair ("member", roles::member),
     std::pair ("consultant", roles::consultant),
@@ -151,35 +152,40 @@ void demo_clean_data ()
     std::pair ("manager", roles::manager),
     std::pair (session_admin_credentials (), roles::admin)
   };
-  for (const auto & element : users) {
-    if (!webserver_request.database_users ()->username_exists (element.first)) {
-      webserver_request.database_users ()->add_user(element.first, element.first, element.second, "");
+  for (const auto& [user, role] : users_roles) {
+    if (!webserver_request.database_users()->username_exists (user)) {
+      const auto password{user};
+      webserver_request.database_users()->add_user(user, password, role, std::string());
     }
-    webserver_request.database_users ()->set_level (element.first, element.second);
+    webserver_request.database_users()->set_level(user, role);
   }
+  webserver_request_set_admin_user();
   
   
   // Create / update sample Bible.
-  if (config::logic::default_bibledit_configuration ()) {
-    demo_create_sample_bible ();
+  if (config::logic::default_bibledit_configuration()) {
+    demo_create_sample_bible();
   }
 
 
   // Create sample notes.
-  if (config::logic::default_bibledit_configuration ()) {
-    demo_create_sample_notes (webserver_request);
+  if (config::logic::default_bibledit_configuration()) {
+    demo_create_sample_notes(webserver_request);
   }
 
 
-  // Create samples for the workspaces.
+  // Create samples for the workspaces and clean up excessive workspaces.
   if (config::logic::default_bibledit_configuration ()) {
-    demo_create_sample_workspaces (webserver_request);
+    for (const auto name : workspace_get_names(webserver_request, false)) {
+      workspace_delete(webserver_request, name);
+    }
+    workspace_create_defaults(webserver_request);
   }
   
   
   // Set navigator to John 3:16.
   if (config::logic::default_bibledit_configuration ()) {
-    ipc_focus::set_passage (webserver_request, 43, 3, 16);
+    ipc_focus::set_passage (webserver_request, static_cast<int>(book_id::_john), 3, 16);
   }
 
 
@@ -201,7 +207,7 @@ void demo_clean_data ()
   
   
   // No flipped basic <> advanded mode.
-  webserver_request.database_config_user ()->set_basic_interface_mode (false);
+  webserver_request.database_config_user ()->set_basic_interface_mode(false);
 }
 
 
@@ -359,45 +365,6 @@ void demo_create_sample_notes (Webserver_Request& webserver_request)
 std::string demo_workspace ()
 {
   return "Translation";
-}
-
-
-void demo_create_sample_workspaces (Webserver_Request& webserver_request)
-{
-  std::map <int, std::string> urls {};
-  std::map <int, std::string> widths {};
-  for (int i = 0; i < 15; i++) {
-    std::string url {};
-    std::string width {};
-    if (i == 0) {
-      url = editusfm_index_url ();
-      width = "45%";
-    }
-    if (i == 1) {
-      url = resource_index_url ();
-      width = "45%";
-    }
-    urls [i] = url;
-    widths [i] = width;
-  }
-  std::map <int, std::string> row_heights = {
-    std::pair (0, "90%"),
-    std::pair (1, ""),
-    std::pair (2, "")
-  };
-  
-  webserver_request.database_config_user()->set_active_workspace ("USFM");
-  workspace_set_urls (webserver_request, urls);
-  workspace_set_widths (webserver_request, widths);
-  workspace_set_heights (webserver_request, row_heights);
-  
-  urls[0] = editone_index_url ();
-  urls[1] = resource_index_url ();
-  
-  webserver_request.database_config_user()->set_active_workspace (demo_workspace ());
-  workspace_set_urls (webserver_request, urls);
-  workspace_set_widths (webserver_request, widths);
-  workspace_set_heights (webserver_request, row_heights);
 }
 
 

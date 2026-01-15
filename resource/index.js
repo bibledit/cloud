@@ -51,6 +51,7 @@ var resourceChapter;
 var resourceVerse;
 var resourceDoing;
 var resourceAborting = false;
+var resourceError = false;
 
 
 function navigationNewPassage ()
@@ -124,10 +125,17 @@ function resourceGetOne ()
   })
   .catch((error) => {
     console.log(error);
+    resourceError = true;
     if (!resourceAborting) resourceDoing--;
   })
   .finally(() => {
-    if (!resourceAborting) setTimeout (resourceGetOne, 10);
+    if (!resourceAborting) {
+      // Normally fetch next resources in quick sequence.
+      // In case of an error, wait shortly before retrying.
+      const milliseconds = resourceError ? 500 : 10;
+      setTimeout (resourceGetOne, milliseconds);
+    }
+    resourceError = false;
   });
 }
 

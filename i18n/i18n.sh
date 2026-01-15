@@ -29,10 +29,6 @@ TMP=/tmp/bibledit-i18n
 echo Working directory $TMP
 
 
-echo Include the sid IP address
-source ~/scr/sid-ip
-
-
 echo Synchronizing source files to working directory.
 mkdir -p $TMP
 rsync -a --delete $SRC/ $TMP/
@@ -116,29 +112,29 @@ echo Pull translations from launchpad.net.
 #cd dev/launchpad/po
 
 #rm -f .DS_Store
-ssh $DEBIANSID 'cd launchpad/po && bzr pull lp:~teusbenschop/bibledit/translations'
+#ssh $DEBIANSID 'cd launchpad/po && bzr pull lp:~teusbenschop/bibledit/translations'
 
 
 echo Synchronize translations to Bibledit.
 #cd
 #cd dev/launchpad/po
-scp "$DEBIANSID:launchpad/po/*.po" ~/dev/cloud/locale
+#scp "$DEBIANSID:launchpad/po/*.po" ~/dev/cloud/locale
 
 
 echo Push new translatable messages to Launchpad.
-#cd
-#cd dev/launchpad/pot
-scp /tmp/bibledit.pot $DEBIANSID:launchpad/pot
-ssh $DEBIANSID "cd launchpad/pot && bzr add bibledit.pot"
-ssh $DEBIANSID "cd launchpad/pot && bzr commit --message updated_bibledit.pot"
-ssh $DEBIANSID "cd launchpad/pot && bzr push"
+cd
+cd dev/launchpad/pot
+cp /tmp/bibledit.pot .
+git add bibledit.pot
+git commit -a -m "updated bibledit.pot"
+git push
 
 
 echo Clean up.
 # Remove dates so they don't appear as daily changes.
-sed -i.bak '/POT-Creation-Date/d' ~/dev/cloud/locale/*.po ~/dev/cloud/locale/bibledit.pot
-sed -i.bak '/X-Launchpad-Export-Date/d' ~/dev/cloud/locale/*.po ~/dev/cloud/locale/bibledit.pot
-rm ~/dev/cloud/locale/*.bak
+#sed -i.bak '/POT-Creation-Date/d' ~/dev/cloud/locale/*.po ~/dev/cloud/locale/bibledit.pot
+#sed -i.bak '/X-Launchpad-Export-Date/d' ~/dev/cloud/locale/*.po ~/dev/cloud/locale/bibledit.pot
+#rm ~/dev/cloud/locale/*.bak
 # Remove temporal .pot.
 # rm /tmp/bibledit.pot
 

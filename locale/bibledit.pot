@@ -8,6 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-14 20:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -266,9 +267,6 @@ msgid "Watchdog timeout"
 msgstr ""
 
 msgid "Recreate damaged modifications database"
-msgstr ""
-
-msgid "Failure to initiate connection"
 msgstr ""
 
 msgid "No user found"
@@ -685,36 +683,6 @@ msgstr ""
 msgid "Bible Checks"
 msgstr ""
 
-msgid "Double space:"
-msgstr ""
-
-msgid "Space before a comma"
-msgstr ""
-
-msgid "Space before a semicolon"
-msgstr ""
-
-msgid "Space before a colon"
-msgstr ""
-
-msgid "Space before a full stop"
-msgstr ""
-
-msgid "Space before a question mark"
-msgstr ""
-
-msgid "Space before an exclamation mark"
-msgstr ""
-
-msgid "Space at the end of the verse"
-msgstr ""
-
-msgid "Space before final note markup"
-msgstr ""
-
-msgid "Space before final cross reference markup"
-msgstr ""
-
 msgid ""
 "Should be followed by a no-break space rather than a plain space in French"
 msgstr ""
@@ -784,6 +752,33 @@ msgid "Unknown character"
 msgstr ""
 
 msgid "Double space"
+msgstr ""
+
+msgid "Space before a comma"
+msgstr ""
+
+msgid "Space before a semicolon"
+msgstr ""
+
+msgid "Space before a colon"
+msgstr ""
+
+msgid "Space before a full stop"
+msgstr ""
+
+msgid "Space before a question mark"
+msgstr ""
+
+msgid "Space before an exclamation mark"
+msgstr ""
+
+msgid "Space at the end of the verse"
+msgstr ""
+
+msgid "Space before final note markup"
+msgstr ""
+
+msgid "Space before final cross reference markup"
 msgstr ""
 
 msgid "Unclosed markers"
@@ -1089,7 +1084,7 @@ msgstr ""
 msgid "Workspace"
 msgstr ""
 
-msgid "Edit verse"
+msgid "Read"
 msgstr ""
 
 msgid "Bibledit"
@@ -1566,6 +1561,69 @@ msgstr ""
 msgid "Select notes"
 msgstr ""
 
+msgid "the current verse"
+msgstr ""
+
+msgid "the current chapter"
+msgstr ""
+
+msgid "the current book"
+msgstr ""
+
+msgid "any passage"
+msgstr ""
+
+msgid "at any time"
+msgstr ""
+
+msgid "during the last 30 days"
+msgstr ""
+
+msgid "during the last 7 days"
+msgstr ""
+
+msgid "since yesterday"
+msgstr ""
+
+msgid "today"
+msgstr ""
+
+msgid "any time"
+msgstr ""
+
+msgid "a day"
+msgstr ""
+
+msgid "two days"
+msgstr ""
+
+msgid "a week"
+msgstr ""
+
+msgid "a month"
+msgstr ""
+
+msgid "a year"
+msgstr ""
+
+msgid "any Bible"
+msgstr ""
+
+msgid "anyone"
+msgstr ""
+
+msgid "do not care about this"
+msgstr ""
+
+msgid "notes I am subscribed to"
+msgstr ""
+
+msgid "Any"
+msgstr ""
+
+msgid "Specific text or words:"
+msgstr ""
+
 msgid "Search text saved"
 msgstr ""
 
@@ -1707,10 +1765,10 @@ msgstr ""
 msgid "Cannot save: Needs Unicode"
 msgstr ""
 
-msgid "Login"
+msgid "Edit verse"
 msgstr ""
 
-msgid "Read"
+msgid "Login"
 msgstr ""
 
 msgid "User resources"
@@ -1735,9 +1793,6 @@ msgid "Search Bible for Strong's number"
 msgstr ""
 
 msgid "Search Bible for similar Hebrew or Greek words"
-msgstr ""
-
-msgid "Print"
 msgstr ""
 
 msgid "Planning"
@@ -2997,10 +3052,10 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-msgid "Drag the list of workspaces into the desired order."
+msgid "Click 🗑 to remove the workspace."
 msgstr ""
 
-msgid "Click 🗑 to remove the workspace."
+msgid "Click ▲ or ▼ to put the workspaces into the desired order."
 msgstr ""
 
 msgid "Click ✎ to edit the workspace."
@@ -3960,82 +4015,22 @@ msgstr ""
 msgid "Select notes that refer to:"
 msgstr ""
 
-msgid "any passage"
-msgstr ""
-
-msgid "the current verse"
-msgstr ""
-
-msgid "the current chapter"
-msgstr ""
-
-msgid "the current book"
-msgstr ""
-
 msgid "Select notes that have been edited:"
-msgstr ""
-
-msgid "at any time"
-msgstr ""
-
-msgid "during the last 30 days"
-msgstr ""
-
-msgid "during the last 7 days"
-msgstr ""
-
-msgid "since yesterday"
-msgstr ""
-
-msgid "today"
 msgstr ""
 
 msgid "Select notes that have not been edited for:"
 msgstr ""
 
-msgid "any time"
-msgstr ""
-
-msgid "a day"
-msgstr ""
-
-msgid "two days"
-msgstr ""
-
-msgid "a week"
-msgstr ""
-
-msgid "a month"
-msgstr ""
-
-msgid "a year"
-msgstr ""
-
 msgid "Select notes that have a certain status:"
-msgstr ""
-
-msgid "Any"
 msgstr ""
 
 msgid "Select notes that belong to:"
 msgstr ""
 
-msgid "any Bible"
-msgstr ""
-
-msgid "Select notes that have been assigned to somebody:"
-msgstr ""
-
-msgid "do not care about this"
-msgstr ""
-
-msgid "Currently looking for notes assigned to:"
+msgid "Select notes that have been assigned to:"
 msgstr ""
 
 msgid "Select notes by subscription:"
-msgstr ""
-
-msgid "notes I am subscribed to"
 msgstr ""
 
 msgid "Select notes that have a severity of:"
@@ -4044,25 +4039,10 @@ msgstr ""
 msgid "Select notes that contain text:"
 msgstr ""
 
-msgid "Specific text or words:"
-msgstr ""
-
 msgid "Number of notes selected:"
 msgstr ""
 
-msgid "Passage inclusion:"
-msgstr ""
-
-msgid "Do not include the passage text"
-msgstr ""
-
 msgid "Include the passage text"
-msgstr ""
-
-msgid "Text inclusion:"
-msgstr ""
-
-msgid "Do not include the note text"
 msgstr ""
 
 msgid "Include the note text"
@@ -4235,38 +4215,6 @@ msgstr ""
 msgid "Enable JavaScript to work with Bibledit"
 msgstr ""
 
-msgid "Accounts"
-msgstr ""
-
-msgid "Username"
-msgstr ""
-
-msgid "Days"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Email"
-msgstr ""
-
-msgid "This lists several user accounts and their properties."
-msgstr ""
-
-msgid "You can see how long ago a user account has been opened."
-msgstr ""
-
-msgid "Deleting a user will also send an email to the user."
-msgstr ""
-
-msgid ""
-"If the user's personal Bible was changed, it will send a link where the user "
-"can download that Bible."
-msgstr ""
-
-msgid "Return to the users page."
-msgstr ""
-
 msgid "Exports"
 msgstr ""
 
@@ -4397,6 +4345,15 @@ msgstr ""
 msgid "There are more export formats through the BibleMultiConverter."
 msgstr ""
 
+msgid "Username"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
 msgid "Privileges"
 msgstr ""
 
@@ -4422,30 +4379,6 @@ msgid "Normally users register their own account."
 msgstr ""
 
 msgid "You can manage the accounts."
-msgstr ""
-
-msgid "Common Settings"
-msgstr ""
-
-msgid "New user default access level:"
-msgstr ""
-
-msgid "Change default privileges for:"
-msgstr ""
-
-msgid "Guest"
-msgstr ""
-
-msgid "Member"
-msgstr ""
-
-msgid "Consultant"
-msgstr ""
-
-msgid "Translator"
-msgstr ""
-
-msgid "Manager"
 msgstr ""
 
 msgid "You can set the privileges for the user."
@@ -4503,7 +4436,10 @@ msgstr ""
 msgid "Give the user access to a Bible"
 msgstr ""
 
-msgid "Resource categories"
+msgid "Add a Resource"
+msgstr ""
+
+msgid "Look for the desired Resource below, and click on it to add it."
 msgstr ""
 
 msgid "Bibles within Bibledit"
@@ -4665,27 +4601,6 @@ msgstr ""
 msgid ""
 "Connect to Bibledit Cloud to have access to the full range of available "
 "resources."
-msgstr ""
-
-msgid "Print Resources"
-msgstr ""
-
-msgid "Resources to print:"
-msgstr ""
-
-msgid "Print from"
-msgstr ""
-
-msgid "chapter"
-msgstr ""
-
-msgid "verse"
-msgstr ""
-
-msgid "Print to"
-msgstr ""
-
-msgid "Generate the document."
 msgstr ""
 
 msgid "Convert Bible to USFM Resource"
@@ -6636,7 +6551,7 @@ msgstr ""
 msgid "Bibledit software"
 msgstr ""
 
-msgid "Copyright (©) 2003-2025 Teus Benschop."
+msgid "Copyright (©) 2003-2026 Teus Benschop."
 msgstr ""
 
 msgid ""
@@ -8798,6 +8713,14 @@ msgstr ""
 msgid "If you would like this assistance, post a message to:"
 msgstr ""
 
+msgid "Bibledit can also be embedded as an external website in NextCloud."
+msgstr ""
+
+msgid ""
+"To enable login in Bibledit, embed it via the secure https protocol, not via "
+"http."
+msgstr ""
+
 msgid "Security"
 msgstr ""
 
@@ -9179,6 +9102,31 @@ msgid "Some pages display one or more clickable passages."
 msgstr ""
 
 msgid "Clicking them updates the Passage Navigator."
+msgstr ""
+
+msgid "Normally the Bible editors and the Resources show the same passage."
+msgstr ""
+
+msgid "This is because they use the same focus group number 0."
+msgstr ""
+
+msgid ""
+"If one Bible editor should show another passage than another Bible editor, "
+"then use different focus groups for both Bible editors."
+msgstr ""
+
+msgid "This can be done in a web browser in Bibledit Cloud."
+msgstr ""
+
+msgid "Example URL for a Bible editor that uses focus group 2:"
+msgstr ""
+
+msgid "http://website.org:8080/editone/index?focusgroup=2"
+msgstr ""
+
+msgid ""
+"A focus group can be added in the URL for the three Bible editors, the "
+"Resources, the Workspaces."
 msgstr ""
 
 msgid "Username or email address:"
@@ -11306,12 +11254,6 @@ msgstr ""
 msgid "No files in this folder"
 msgstr ""
 
-msgid "Cannot remove the last user"
-msgstr ""
-
-msgid "Cannot remove the last administrator"
-msgstr ""
-
 msgid "Please enter a name for the new user"
 msgstr ""
 
@@ -11319,6 +11261,12 @@ msgid "User already exists"
 msgstr ""
 
 msgid "User created"
+msgstr ""
+
+msgid "Cannot remove the last user"
+msgstr ""
+
+msgid "Cannot remove the last administrator"
 msgstr ""
 
 msgid "Cannot remove the demo admin"
@@ -11462,6 +11410,9 @@ msgstr ""
 msgid "Text content differs too much"
 msgstr ""
 
+msgid "Missing Bible"
+msgstr ""
+
 msgid "Saving chapter"
 msgstr ""
 
@@ -11481,6 +11432,21 @@ msgid "Saving verse"
 msgstr ""
 
 msgid "Administrator"
+msgstr ""
+
+msgid "Manager"
+msgstr ""
+
+msgid "Translator"
+msgstr ""
+
+msgid "Consultant"
+msgstr ""
+
+msgid "Member"
+msgstr ""
+
+msgid "Guest"
 msgstr ""
 
 msgid "A translator added chapter"
@@ -11607,9 +11573,6 @@ msgid "installed"
 msgstr ""
 
 msgid "to be updated"
-msgstr ""
-
-msgid "The document is being created..."
 msgstr ""
 
 msgid "You do not have write access to this resource"

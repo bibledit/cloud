@@ -69,7 +69,7 @@ function navigationNewPassage ()
   }
   if (resourceBook == undefined) return;
   resourceAborting = true;
-  resourceAbortController.abort();
+  resourceAbortController.abort("New passage: Abort getting resources for previous passage");
   resourceAbortController = new AbortController();
   resourceDoing = 0;
   resourceAborting = false;
@@ -103,20 +103,22 @@ function resourceGetOne ()
     var line = document.querySelector("#line" + this.resourceDoing);
     var name = document.querySelector("#name" + this.resourceDoing);
     if (response == "") {
-      line.hidden = true;
-      name.hidden = true;
+      if (line) line.hidden = true;
+      if (name) name.hidden = true;
     } else {
-      line.hidden = false;
-      name.hidden = false;
+      if (line) line.hidden = false;
+      if (name) name.hidden = false;
       if (response.charAt (0) == "$") {
-        name.hidden = true;
+        if (name) name.hidden = true;
         response = response.substring (1);
       }
       var content = document.querySelector("#content" + this.resourceDoing);
       var reload = document.querySelector("#reload");
-      reload.innerHTML = response;
-      if (content.innerHTML != reload.innerHTML) {
-        content.innerHTML = response;
+      if (reload) reload.innerHTML = response;
+      if (content) {
+        if (content.innerHTML != reload.innerHTML) {
+          content.innerHTML = response;
+        }
       }
     }
     navigationSetup ();

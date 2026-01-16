@@ -91,7 +91,8 @@ std::string bible_book (Webserver_Request& webserver_request)
       dialog_yes.add_query ("deletechapter", deletechapter);
       page += dialog_yes.run ();
       return page;
-    } if (confirm == "yes") {
+    }
+    if (confirm == "yes") {
       if (write_access) bible_logic::delete_chapter (bible, book, filter::string::convert_to_int (deletechapter));
     }
   }

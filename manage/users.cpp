@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/switch.h>
 #include <ldap/logic.h>
 #include <user/logic.h>
+#include <dialog/yes.h>
 
 
 std::string manage_users_url ()
@@ -106,21 +107,31 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   // Delete a user.
   if (webserver_request.query.count ("delete")) {
-    std::string role = roles::text (object_user_level);
-    std::string email = webserver_request.database_users ()->get_email (object_username);
-    std::vector <std::string> users = webserver_request.database_users ()->get_users ();
-    std::vector <std::string> administrators = webserver_request.database_users ()->getAdministrators ();
-    if (users.size () == 1) {
-      page += assets_page::error (translate("Cannot remove the last user"));
-    } else if ((object_user_level >= roles::admin) && (administrators.size () == 1)) {
-      page += assets_page::error (translate("Cannot remove the last administrator"));
-    } else if (config::logic::demo_enabled () && (object_username ==  session_admin_credentials ())) {
-      page += assets_page::error (translate("Cannot remove the demo admin"));
-    } else {
-      std::string message;
-      user_logic_delete_account (object_username, role, email, message);
-      user_updated = true;
-      page += assets_page::success (message);
+    const std::string confirm = webserver_request.query ["confirm"];
+    if (confirm.empty()) {
+      Dialog_Yes dialog_yes = Dialog_Yes ("users", translate("Would you like to delete this user?"));
+      dialog_yes.add_query ("user", object_username);
+      dialog_yes.add_query ("delete", std::string ());
+      page += dialog_yes.run ();
+      return page;
+    }
+    if (confirm == "yes") {
+      std::string role = roles::text (object_user_level);
+      std::string email = webserver_request.database_users ()->get_email (object_username);
+      std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+      std::vector <std::string> administrators = webserver_request.database_users ()->getAdministrators ();
+      if (users.size () == 1) {
+        page += assets_page::error (translate("Cannot remove the last user"));
+      } else if ((object_user_level >= roles::admin) && (administrators.size () == 1)) {
+        page += assets_page::error (translate("Cannot remove the last administrator"));
+      } else if (config::logic::demo_enabled () && (object_username ==  session_admin_credentials ())) {
+        page += assets_page::error (translate("Cannot remove the demo admin"));
+      } else {
+        std::string message;
+        user_logic_delete_account (object_username, role, email, message);
+        user_updated = true;
+        page += assets_page::success (message);
+      }
     }
   }
   

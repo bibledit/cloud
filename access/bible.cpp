@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/privileges.h>
 #include <client/logic.h>
 #include <filter/roles.h>
+#include <filter/string.h>
 
 
 namespace access_bible {
@@ -173,18 +174,15 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
 }
 
 
-// Returns an array of Bibles the user has read access to.
+// Returns a list of Bibles the user has read access to.
 // If no user is given, it takes the currently logged-in user.
-std::vector <std::string> bibles (Webserver_Request& webserver_request, std::string user)
+std::vector<std::string> bibles (Webserver_Request& webserver_request, std::string user)
 {
-  std::vector <std::string> allbibles = database::bibles::get_bibles ();
-  std::vector <std::string> bibles {};
-  for (const auto& bible : allbibles) {
-    if (read (webserver_request, bible, user)) {
-      bibles.push_back (bible);
-    }
-  }
-  return bibles;
+  const auto has_read_access = [&](const auto& bible) {
+    return read (webserver_request, bible, user);
+  };
+  auto r = database::bibles::get_bibles() | std::views::filter(has_read_access);
+  return filter::string::range2vector(r);
 }
 
 

@@ -60,4 +60,12 @@ std::vector<T> array_diff (const std::vector<T>& from, const std::vector<T>& aga
 }
 
 
+// Takes a range and materializes it into a vector.
+auto range2vector(auto&& r) {
+  std::vector<std::ranges::range_value_t<decltype(r)>> v;
+  std::ranges::copy(r, std::back_inserter(v));
+  return v;
+}
+
+
 } // Namespace.

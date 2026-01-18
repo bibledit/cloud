@@ -68,15 +68,15 @@ std::string checks_index (Webserver_Request& webserver_request)
   Assets_View view {};
   
 
-  if (webserver_request.query.count ("approve")) {
-    const int approve = filter::string::convert_to_int (webserver_request.query["approve"]);
+  if (webserver_request.query.count("approve")) {
+    const int approve = filter::string::convert_to_int(webserver_request.query["approve"]);
     database::check::approve (approve);
     view.set_variable ("success", translate("The entry was suppressed."));
   }
   
                         
-  if (webserver_request.query.count ("delete")) {
-    const int id = filter::string::convert_to_int (webserver_request.query["delete"]);
+  if (webserver_request.query.count("delete")) {
+    const int id = filter::string::convert_to_int(webserver_request.query["delete"]);
     database::check::delete_id (id);
     view.set_variable ("success", translate("The entry was deleted for just now."));
   }
@@ -88,14 +88,13 @@ std::string checks_index (Webserver_Request& webserver_request)
 
   
   // Get the Bibles the user has write-access to.
-  std::vector <std::string> bibles {};
+  std::vector<std::string> bibles {};
   {
-    const std::vector <std::string>& all_bibles = database::bibles::get_bibles ();
-    for (const auto& bible : all_bibles) {
-      if (access_bible::write (webserver_request, bible)) {
-        bibles.push_back (bible);
-      }
-    }
+    const auto has_write_access = [&](const auto& bible) {
+      return access_bible::write(webserver_request, bible);
+    };
+    auto range = database::bibles::get_bibles() | std::views::filter(has_write_access);
+    bibles = filter::string::range2vector(range);
   }
 
   

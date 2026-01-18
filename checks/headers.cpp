@@ -20,20 +20,19 @@
 #include <checks/headers.h>
 #include <filter/string.h>
 #include <database/check.h>
+#include <database/books.h>
 #include <locale/translate.h>
 #include <checks/issues.h>
 
 
 void checks_headers::no_punctuation_at_end (const std::string& bible, int book, int chapter,
-                                            const std::map <int, std::string>& headings,
+                                            const std::map<int,std::string>& headings,
                                             const std::string& centermarks, const std::string& endmarks)
 {
-  for (const auto & element : headings) {
-    const int verse = element.first;
-    const std::string heading = element.second;
+  for (const auto& [verse, heading] : headings) {
     // Full stops often occur in the inspired headings of many Psalms in verse 0.
     // Skip these.
-    if ((book == 19) && (verse == 0))
+    if ((book == static_cast<int>(book_id::_psalms)) and (verse == 0))
       continue;
     std::string last_character {};
     if (!heading.empty ())

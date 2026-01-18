@@ -28,10 +28,9 @@ namespace checks::logic {
 
 void start_all ()
 {
-  const std::vector <std::string>& bibles = database::bibles::get_bibles ();
+  const std::vector<std::string>& bibles = database::bibles::get_bibles ();
   for (const auto& bible : bibles) {
-    const bool enabled = database::config::bible::get_daily_checks_enabled (bible);
-    if (enabled)
+    if (database::config::bible::get_daily_checks_enabled(bible))
       start (bible);
   }
 }
@@ -41,9 +40,6 @@ void start (const std::string& bible)
 {
   tasks_logic_queue (task::check_bible, {bible});
 }
-
-
-std::string text (const issue issue);
 
 
 } // Namespace.

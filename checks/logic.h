@@ -26,11 +26,4 @@ namespace checks::logic {
 void start_all ();
 void start (const std::string & bible);
 
-enum class issue {
-  
-};
-
-std::string text (const issue issue);
-
-
 } // Namespace.

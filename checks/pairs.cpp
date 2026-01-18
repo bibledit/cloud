@@ -29,7 +29,7 @@
 void checks_pairs::run (const std::string& bible, int book, int chapter,
                         const std::map <int, std::string> & texts,
                         const std::vector <std::pair <std::string, std::string>>& pairs,
-                        bool french_citation_style)
+                        bool french_citation_style) // Todo C++20 bookmark
 {
   // This holds the opener characters of the pairs which were opened in the text.
   // For example, it may hold the "[".
@@ -43,9 +43,9 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
   std::vector <std::string> closers {};
   for (const auto& element : pairs) {
     const std::string opener = element.first;
-    if (french_citation_style && (opener == checks_french::left_guillemet ())) continue;
+    if (french_citation_style && (opener == checks_french::left_guillemet)) continue;
     const std::string closer = element.second;
-    if (french_citation_style && (opener == checks_french::right_guillemet ())) continue;
+    if (french_citation_style && (opener == checks_french::right_guillemet)) continue;
     openers.push_back (opener);
     closers.push_back (closer);
   }

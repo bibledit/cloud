@@ -137,17 +137,14 @@ std::string changes_change (Webserver_Request& webserver_request)
    
   
   // Sort them, most recent notes first.
-  std::vector<int> timestamps {};
-  const auto note2timestamp = [&database_notes] (const int note) {
-    return database_notes.get_modified(note);
-  };
-  std::transform(notes.cbegin(), notes.cend(), std::back_inserter(timestamps), note2timestamp);
-  {
-    std::vector<std::pair<int&, int&>> tied;
-    const auto tie = [](int& timestamp, int& note){ return std::tie(timestamp, note); };
-    std::transform(timestamps.begin(), timestamps.end(), notes.begin(), std::back_inserter(tied), tie);
-    std::ranges::sort(tied, std::ranges::greater());
+  std::vector <int> timestamps {};
+  for (const auto note : notes) {
+    const int timestap = database_notes.get_modified (note);
+    timestamps.push_back (timestap);
   }
+  filter::string::quick_sort (timestamps, notes, 0, static_cast<unsigned int>(notes.size ()));
+  std::reverse (notes.begin(), notes.end());
+  
   
   // Whether there's a live notes editor available.
   const bool live_notes_editor = Ipc_Notes::alive (webserver_request, false);

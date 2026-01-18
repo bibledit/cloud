@@ -88,7 +88,7 @@ std::string changes_manage (Webserver_Request& webserver_request)
   std::vector <std::string> users = access_user::assignees (webserver_request);
   for (const auto& user : users) {
     std::string any_bible {};
-    const std::vector <int> ids = database::modifications::getNotificationIdentifiers (user, any_bible);
+    const std::vector<int> ids = database::modifications::getNotificationIdentifiers(user, any_bible);
     if (!ids.empty ()) {
       notifications = true;
       std::map <std::string, std::string> values {};

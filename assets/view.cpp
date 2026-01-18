@@ -83,13 +83,11 @@ std::string Assets_View::render (const std::string& tpl1, const std::string& tpl
   Flate flate;
 
   // Copy the variables and zones and iterations to the engine.
-  std::map <std::string, std::string>::iterator iter1 {};
-  for (iter1 = m_variables.begin (); iter1 != m_variables.end(); ++iter1) {
-    flate.set_variable (iter1->first, iter1->second);
+  for (auto iter = m_variables.cbegin(); iter != m_variables.cend(); ++iter) {
+    flate.set_variable (iter->first, iter->second);
   }
-  std::map <std::string, bool>::iterator iter2{};
-  for (iter2 = m_zones.begin (); iter2 != m_zones.end(); ++iter2) {
-    flate.enable_zone (iter2->first);
+  for (auto iter = m_zones.cbegin(); iter != m_zones.cend(); ++iter) {
+    flate.enable_zone (iter->first);
   }
   flate.iterations = m_iterations;
 

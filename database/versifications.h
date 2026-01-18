@@ -34,7 +34,7 @@ public:
   int getID (const std::string& name);
   int createSystem (const std::string& name);
   std::vector <std::string> getSystems ();
-  std::vector <Passage> getBooksChaptersVerses (const std::string& name);
+  std::vector <Passage> get_books_chapters_verses (const std::string& name);
   std::vector <int> getBooks (const std::string& name);
   std::vector <int> getChapters (const std::string& name, int book, bool include0 = false);
   std::vector <int> getVerses (const std::string& name, int book, int chapter);

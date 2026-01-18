@@ -67,10 +67,10 @@ std::string changes_interlinks (Webserver_Request& webserver_request, std::strin
   std::vector <std::string> labels {};
   
   // Handle situation that the user has permission to view the changes.
-  if (changes_changes_acl (webserver_request)) {
+  if (changes_changes_acl(webserver_request)) {
     
     // Handle situation that the user is not currently displaying the changes.
-    if (changes_changes_url () != my_url) {
+    if (changes_changes_url() != my_url) {
       urls.push_back (changes_changes_url ());
       labels.push_back (translate ("View"));
     }
@@ -125,7 +125,7 @@ std::string changes_interlinks (Webserver_Request& webserver_request, std::strin
 }
 
 
-void changes_clear_notifications_user (std::string jobid, std::string username)
+void changes_clear_notifications_user(std::string jobid, std::string username)
 {
   Database_Logs::log (translate ("Start clearing change notifications") + " " + username);
   
@@ -133,7 +133,7 @@ void changes_clear_notifications_user (std::string jobid, std::string username)
 
   // Get the total amount of change notifications to clear for the user.
   std::string any_bible {};
-  std::vector <int> identifiers = database::modifications::getNotificationIdentifiers (username, any_bible);
+  std::vector<int> identifiers = database::modifications::getNotificationIdentifiers(username, any_bible);
   
   // Total notes cleared.
   int total_cleared {0};

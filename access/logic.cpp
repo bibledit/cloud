@@ -133,13 +133,11 @@ void user_level (Webserver_Request& webserver_request, std::string& user, int& l
 
 void create_client_files ()
 {
-  Database_Users database_users;
-  std::vector <std::string> users = database_users.get_users ();
-  for (const auto& user : users) {
-    // Only maintain the privilege file if it does not yet exist,
-    // to avoid unnecessary downloads by the clients.
+  const Database_Users database_users;
+  const auto create_files = [](const auto& user) {
     database_privileges_client_create (user, false);
-  }
+  };
+  std::ranges::for_each(database_users.get_users(), create_files);
 }
 
 

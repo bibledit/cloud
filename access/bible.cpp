@@ -44,30 +44,35 @@ bool read (Webserver_Request& webserver_request, const std::string& bible, std::
 #ifdef HAVE_CLOUD
 
   // Get the level, that is the role, of the given user.
-  int role_level { 0 };
-  if (user.empty ()) {
-    // Current user.
-    user = webserver_request.session_logic ()->get_username ();
-    role_level = webserver_request.session_logic ()->get_level ();
-  } else {
-    // Take level belonging to user.
-    role_level = webserver_request.database_users ()->get_level (user);
-  }
-
-  // Managers and higher have read access.
+  const auto get_role = [&] () {
+    int role_level { 0 };
+    if (user.empty ()) {
+      // Current user.
+      user = webserver_request.session_logic ()->get_username ();
+      role_level = webserver_request.session_logic ()->get_level ();
+    } else {
+      // Take level belonging to user.
+      role_level = webserver_request.database_users ()->get_level (user);
+    }
+    return role_level;
+  };
+  const int role_level = get_role();
+  
+  // Managers and higher roles have read access.
   if (role_level >= roles::manager) {
     return true;
   }
 
   // Read privileges for the user.
-  auto [ read, write ] = DatabasePrivileges::get_bible (user, bible);
-  if (read) {
+  if (const auto [ read, write ] = DatabasePrivileges::get_bible (user, bible);
+      read) {
     return true;
   }
 
   // No Bibles assigned: Consultant can view any Bible.
   if (role_level >= roles::consultant) {
-    if (const int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
+    if (const int privileges_count = DatabasePrivileges::get_bible_book_count ();
+        privileges_count == 0) {
       return true;
     }
   }
@@ -90,30 +95,35 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
   }
 #endif
 
-  int level {0};
-  if (user.empty ()) {
-    user = webserver_request.session_logic ()->get_username ();
-    level = webserver_request.session_logic ()->get_level ();
-  }
-  if (level == 0) {
-    // Take level belonging to user.
-    level = webserver_request.database_users ()->get_level (user);
-  }
+  const auto get_level = [&] () {
+    int level {0};
+    if (user.empty ()) {
+      user = webserver_request.session_logic ()->get_username ();
+      level = webserver_request.session_logic ()->get_level ();
+    }
+    if (level == 0) {
+      // Take level belonging to user.
+      level = webserver_request.database_users ()->get_level (user);
+    }
+    return level;
+  };
+  const int level = get_level();
   
-  // Managers and higher always have write access.
+  // Managers and higher roles always have write access.
   if (level >= roles::manager) {
     return true;
   }
   
   // Read the privileges for the user.
-  auto [ read, write ] = DatabasePrivileges::get_bible (user, bible);
+  const auto [ read, write ] = DatabasePrivileges::get_bible (user, bible);
   if (write) {
     return true;
   }
   
   // No Bibles assigned: Translator can write to any bible.
   if (level >= roles::translator) {
-    if (const int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
+    if (const int privileges_count = DatabasePrivileges::get_bible_book_count ();
+        privileges_count == 0) {
       return true;
     }
   }
@@ -139,15 +149,19 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
 #endif
 
   // Get the user level (role).
-  int level {0};
-  if (user.empty ()) {
-    user = webserver_request.session_logic ()->get_username ();
-    level = webserver_request.session_logic ()->get_level ();
-  }
-  if (level == 0) {
-    // Take level belonging to user.
-    level = webserver_request.database_users ()->get_level (user);
-  }
+  const auto get_level = [&] () {
+    int level {0};
+    if (user.empty ()) {
+      user = webserver_request.session_logic ()->get_username ();
+      level = webserver_request.session_logic ()->get_level ();
+    }
+    if (level == 0) {
+      // Take level belonging to user.
+      level = webserver_request.database_users ()->get_level (user);
+    }
+    return level;
+  };
+  const int level = get_level();
 
   // Managers and higher always have write access.
   if (level >= roles::manager) {
@@ -155,16 +169,20 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
   }
 
   // Read the privileges for the user.
-  bool read {false};
-  bool write {false};
-  DatabasePrivileges::get_bible_book (user, bible, book, read, write);
-  if (write) {
+  const auto get_write_access = [&] () {
+    bool read {false};
+    bool write {false};
+    DatabasePrivileges::get_bible_book (user, bible, book, read, write);
+    return write;
+  };
+  if (get_write_access()) {
     return true;
   }
 
   // No Bibles assigned: Translator can write to any bible.
   if (level >= roles::translator) {
-    if (const int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
+    if (const int privileges_count = DatabasePrivileges::get_bible_book_count ();
+        privileges_count == 0) {
       return true;
     }
   }
@@ -192,9 +210,10 @@ std::vector<std::string> bibles (Webserver_Request& webserver_request, std::stri
 std::string clamp (Webserver_Request& webserver_request, std::string bible)
 {
   if (!read (webserver_request, bible)) {
-    bible = std::string();
-    std::vector <std::string> bibles = access_bible::bibles (webserver_request);
-    if (!bibles.empty ()) bible = bibles [0];
+    bible.clear();
+    const std::vector<std::string> bibles = access_bible::bibles (webserver_request);
+    if (!bibles.empty())
+      bible = bibles.front();
     webserver_request.database_config_user ()->set_bible (bible);
   }
   return bible;

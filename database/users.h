@@ -43,7 +43,7 @@ public:
   std::vector <std::string> getAdministrators ();
   std::string updateEmailQuery (std::string user, std::string email);
   void updateUserEmail (std::string user, std::string email);
-  std::vector <std::string> get_users ();
+  std::vector <std::string> get_users () const;
   std::string get_md5 (std::string user);
   void execute (std::string sqlfragment);
   void set_ldap (std::string user, bool on);
@@ -51,5 +51,5 @@ public:
   void set_enabled (std::string user, bool on);
   bool get_enabled (std::string user);
 private:
-  const char * filename ();
+  const char * filename () const;
 };

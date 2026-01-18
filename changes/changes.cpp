@@ -147,13 +147,13 @@ std::string changes_changes (Webserver_Request& webserver_request)
 
   
   // Remove a user's personal changes notifications and their matching change notifications in the Bible.
-  const std::string matching = webserver_request.query ["matching"];
-  if (!matching.empty ()) {
-    std::vector <int> ids = database::modifications::clearNotificationMatches (username, matching, changes_bible_category (), selectedbible);
+  if (const std::string matching = webserver_request.query ["matching"];
+      !matching.empty ()) {
+    const std::vector<int> ids = database::modifications::clearNotificationMatches(username, matching, changes_bible_category(), selectedbible);
 #ifdef HAVE_CLIENT
     // Client records deletions for sending to the Cloud.
     for (const auto id : ids) {
-      webserver_request.database_config_user ()->add_removed_change (id);
+      webserver_request.database_config_user()->add_removed_change(id);
     }
 #endif
     // Clear checksum cache.
@@ -162,22 +162,22 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   
   // Remove all the personal change notifications.
-  if (webserver_request.query.count ("personal")) {
-    std::vector <int> ids = database::modifications::getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible);
+  if (webserver_request.query.count("personal")) {
+    const std::vector<int> ids = database::modifications::getNotificationTeamIdentifiers (username, changes_personal_category(), selectedbible);
     for (const auto id : ids) {
-      trash_change_notification (webserver_request, id);
-      database::modifications::deleteNotification (id);
+      trash_change_notification(webserver_request, id);
+      database::modifications::deleteNotification(id);
 #ifdef HAVE_CLIENT
-      webserver_request.database_config_user ()->add_removed_change (id);
+      webserver_request.database_config_user()->add_removed_change(id);
 #endif
-      webserver_request.database_config_user ()->set_change_notifications_checksum ("");
+      webserver_request.database_config_user()->set_change_notifications_checksum("");
     }
   }
   
   
   // Remove all the Bible change notifications.
-  if (webserver_request.query.count ("bible")) {
-    std::vector <int> ids = database::modifications::getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible);
+  if (webserver_request.query.count("bible")) {
+    const std::vector<int> ids = database::modifications::getNotificationTeamIdentifiers(username, changes_bible_category(), selectedbible);
     for (const auto id : ids) {
       trash_change_notification (webserver_request, id);
       database::modifications::deleteNotification (id);
@@ -192,7 +192,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   // Remove all the change notifications made by a certain user.
   if (webserver_request.query.count ("dismiss")) {
     const std::string user = webserver_request.query ["dismiss"];
-    std::vector <int> ids = database::modifications::getNotificationTeamIdentifiers (username, user, selectedbible);
+    const std::vector<int> ids = database::modifications::getNotificationTeamIdentifiers(username, user, selectedbible);
     for (auto id : ids) {
       trash_change_notification (webserver_request, id);
       database::modifications::deleteNotification (id);
@@ -205,8 +205,8 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   
   // Read the identifiers, optionally sorted on author (that is, category).
-  bool sort_on_author = webserver_request.database_config_user ()->get_order_changes_by_author ();
-  const std::vector <int> notification_ids = database::modifications::getNotificationIdentifiers (username, selectedbible, sort_on_author);
+  bool sort_on_author = webserver_request.database_config_user()->get_order_changes_by_author ();
+  const std::vector<int> notification_ids = database::modifications::getNotificationIdentifiers(username, selectedbible, sort_on_author);
   // Send the identifiers to the browser for download there.
   std::string pendingidentifiers {};
   for (const auto id : notification_ids) {

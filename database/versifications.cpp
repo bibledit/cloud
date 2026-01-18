@@ -127,7 +127,7 @@ void Database_Versifications::input (const std::string& contents, const std::str
 std::string Database_Versifications::output (const std::string& name)
 {
   std::vector <std::string> lines;
-  std::vector <Passage> versification_data = getBooksChaptersVerses (name);
+  std::vector <Passage> versification_data = get_books_chapters_verses (name);
   for (Passage & passage : versification_data) {
     std::string line = database::books::get_english_from_id (static_cast<book_id>(passage.m_book));
     line.append (" ");
@@ -218,7 +218,7 @@ std::vector <std::string> Database_Versifications::getSystems ()
 
 
 // Returns the books, chapters, verses for the given versification system.
-std::vector <Passage> Database_Versifications::getBooksChaptersVerses (const std::string& name)
+std::vector <Passage> Database_Versifications::get_books_chapters_verses (const std::string& name)
 {
   std::vector <Passage> data;
   const int id = getID (name);

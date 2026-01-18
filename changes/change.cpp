@@ -121,38 +121,35 @@ std::string changes_change (Webserver_Request& webserver_request)
   const std::vector<std::string> bibles {access_bible::bibles (webserver_request)};
   
   
-  // Get notes for the passage.
-  Database_Notes::Selector selector {
+  // Get the consultation notes for the passage.
+  // Remove the ones marked for deletion.
+  const Database_Notes::Selector selector {
     .bibles = bibles,
     .book = passage.m_book,
     .chapter = passage.m_chapter,
     .verse = filter::string::convert_to_int (passage.m_verse),
     .passage_selector = Database_Notes::PassageSelector::current_verse,
   };
-  std::vector<int> notes = database_notes.select_notes(selector);
-  
-  // Remove the ones marked for deletion.
-  {
-    std::vector <int> notes2;
-    for (const auto note : notes) {
-      if (!database_notes.is_marked_for_deletion (note)) {
-        notes2.push_back (note);
-      }
-    }
-    notes = std::move(notes2);
-  }
+  const auto marked4delete = [&database_notes] (const auto note) {
+    return !database_notes.is_marked_for_deletion(note);
+  };
+  std::vector<int> notes = filter::string::range2vector(database_notes.select_notes(selector) | std::views::filter(marked4delete));
+   
   
   // Sort them, most recent notes first.
-  std::vector <int> timestamps {};
-  for (const auto note : notes) {
-    const int timestap = database_notes.get_modified (note);
-    timestamps.push_back (timestap);
+  std::vector<int> timestamps {};
+  const auto note2timestamp = [&database_notes] (const int note) {
+    return database_notes.get_modified(note);
+  };
+  std::transform(notes.cbegin(), notes.cend(), std::back_inserter(timestamps), note2timestamp);
+  {
+    std::vector<std::pair<int&, int&>> tied;
+    const auto tie = [](int& timestamp, int& note){ return std::tie(timestamp, note); };
+    std::transform(timestamps.begin(), timestamps.end(), notes.begin(), std::back_inserter(tied), tie);
+    std::ranges::sort(tied, std::ranges::greater());
   }
-  filter::string::quick_sort (timestamps, notes, 0, static_cast <unsigned int> (notes.size ()));
-  std::reverse (notes.begin(), notes.end());
   
-  
-  // Whether there"s a live notes editor available.
+  // Whether there's a live notes editor available.
   const bool live_notes_editor = Ipc_Notes::alive (webserver_request, false);
   if (live_notes_editor)
     view.enable_zone ("alive");

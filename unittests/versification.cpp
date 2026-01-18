@@ -451,7 +451,7 @@ TEST (database, versifications)
     EXPECT_EQ (std::vector <int>{0}, verses);
     
     // Books Chapters Verses.
-    std::vector <Passage> data = database_versifications.getBooksChaptersVerses (filter::string::english ());
+    std::vector <Passage> data = database_versifications.get_books_chapters_verses (filter::string::english ());
     EXPECT_EQ (1189, static_cast<int>(data.size()));
     EXPECT_EQ ("31", data [0].m_verse);
     
@@ -483,7 +483,7 @@ TEST (database, versifications)
     database_versifications.input (input, "phpunit");
     int id = database_versifications.getID ("phpunit");
     EXPECT_EQ (1000, id);
-    std::vector <Passage> data = database_versifications.getBooksChaptersVerses ("phpunit");
+    std::vector <Passage> data = database_versifications.get_books_chapters_verses ("phpunit");
     EXPECT_EQ (2, static_cast<int> (data.size ()));
     EXPECT_EQ ("25", data [1].m_verse);
     std::string output = database_versifications.output ("phpunit");

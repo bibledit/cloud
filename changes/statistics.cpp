@@ -30,10 +30,6 @@
 #include <database/statistics.h>
 
 
-// Internal function declarations.
-void changes_statistics_add (Assets_View& view, const std::string& date, int count);
-
-
 std::string changes_statistics_url ()
 {
   return "changes/statistics";
@@ -43,17 +39,6 @@ std::string changes_statistics_url ()
 bool changes_statistics_acl (Webserver_Request& webserver_request)
 {
   return roles::access_control (webserver_request, roles::consultant);
-}
-
-
-void changes_statistics_add (Assets_View& view, const std::string& date, int count)
-{
-  if (count) {
-    std::map <std::string, std::string> values;
-    values ["date"] = date;
-    values ["count"] = std::to_string (count);
-    view.add_iteration ("statistics", values);
-  }
 }
 
 
@@ -76,7 +61,18 @@ std::string changes_statistics ([[maybe_unused]] Webserver_Request& webserver_re
   if (user == everyone) user.clear ();
 
   
-  std::vector <std::pair <int, int>> changes = Database_Statistics::get_changes (user);
+  const auto changes_statistics_add = [&view] (const std::string& date, int count)
+  {
+    if (count) {
+      std::map <std::string, std::string> values;
+      values ["date"] = date;
+      values ["count"] = std::to_string (count);
+      view.add_iteration ("statistics", values);
+    }
+  };
+
+  
+  const std::vector<std::pair<int,int>> changes = Database_Statistics::get_changes (user);
   std::string last_date {};
   int last_count {0};
   for (const auto& element : changes) {
@@ -85,13 +81,13 @@ std::string changes_statistics ([[maybe_unused]] Webserver_Request& webserver_re
     if (date == last_date) {
       last_count += count;
     } else {
-      changes_statistics_add (view, last_date, last_count);
+      changes_statistics_add(last_date, last_count);
       last_date = date;
       last_count = count;
     }
   }
   if (last_count) {
-    changes_statistics_add (view, last_date, last_count);
+    changes_statistics_add(last_date, last_count);
   }
 
   

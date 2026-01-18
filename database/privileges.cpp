@@ -450,7 +450,9 @@ void database_privileges_client_create (const std::string& user, bool force)
   // The path to the file with privileges for the $user.
   std::string path = database_privileges_client_path (user);
   
-  // Without $force, if the file exists, we're done.
+  // Only maintain the privilege file if it does not yet exist,
+  // to avoid unnecessary downloads by the clients.
+  // So without $force, if the file exists, we're done.
   if (!force) {
     if (file_or_dir_exists (path)) return;
   }

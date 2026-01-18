@@ -268,7 +268,7 @@ void Database_Users::updateUserEmail (std::string user, std::string email)
 
 
 // Return an array with the available users.
-std::vector <std::string> Database_Users::get_users ()
+std::vector <std::string> Database_Users::get_users () const
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users;");
@@ -355,7 +355,7 @@ bool Database_Users::get_enabled (std::string user)
 
 
 // The filename of the database.
-const char * Database_Users::filename ()
+const char * Database_Users::filename () const
 {
   return "users";
 }

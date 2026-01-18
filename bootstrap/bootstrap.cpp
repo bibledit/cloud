@@ -272,13 +272,13 @@ void bootstrap_index (Webserver_Request& webserver_request)
   // Serve graphics, stylesheets, JavaScript, fonts, and so on.
   // Use direct streaming for low memory usage.
   if (   (extension == "ico")
-      || (filter_url_is_image (extension))
-      || (extension == "css")
-      || (extension == "js")
-      || (fonts::logic::is_font (extension))
-      || (extension == "sh")
-      || (extension == "map")
-      || (extension == "webmanifest")
+      or (filter_url_is_image (extension))
+      or (extension == "css")
+      or (extension == "js")
+      or (fonts::logic::is_font (extension))
+      or (extension == "sh")
+      or (extension == "map")
+      or (extension == "webmanifest")
       ) {
     http_stream_file (webserver_request, true);
     return;

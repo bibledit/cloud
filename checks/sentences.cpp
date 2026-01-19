@@ -24,7 +24,7 @@
 #include <checks/issues.h>
 
 
-void Checks_Sentences::enter_capitals (const std::string& capitals)
+void Checks_Sentences::enter_capitals (const std::string& capitals) // Todo C++20 bookmark
 {
   m_capitals = filter::string::explode (capitals, ' ');
 }

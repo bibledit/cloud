@@ -59,25 +59,25 @@ void checks_run (std::string bible)
   Database_Logs::log ("Check " + bible + ": Start", roles::translator);
   
   
-  database::check::delete_output (bible);
+  database::check::delete_output(bible);
   
   
-  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_export_stylesheet(bible);
   
   
-  bool check_double_spaces_usfm = database::config::bible::get_check_double_spaces_usfm (bible);
-  bool check_full_stop_in_headings = database::config::bible::get_check_full_stop_in_headings (bible);
-  bool check_space_before_punctuation = database::config::bible::get_check_space_before_punctuation (bible);
-  bool check_space_before_final_note_marker = database::config::bible::get_check_space_before_final_note_marker (bible);
-  bool check_sentence_structure = database::config::bible::get_check_sentence_structure (bible);
-  bool check_paragraph_structure = database::config::bible::get_check_paragraph_structure (bible);
+  bool check_double_spaces_usfm = database::config::bible::get_check_double_spaces_usfm(bible);
+  bool check_full_stop_in_headings = database::config::bible::get_check_full_stop_in_headings(bible);
+  bool check_space_before_punctuation = database::config::bible::get_check_space_before_punctuation(bible);
+  bool check_space_before_final_note_marker = database::config::bible::get_check_space_before_final_note_marker(bible);
+  bool check_sentence_structure = database::config::bible::get_check_sentence_structure(bible);
+  bool check_paragraph_structure = database::config::bible::get_check_paragraph_structure(bible);
   Checks_Sentences checks_sentences;
-  checks_sentences.enter_capitals (database::config::bible::get_sentence_structure_capitals (bible));
-  checks_sentences.enter_small_letters (database::config::bible::get_sentence_structure_small_letters (bible));
-  std::string end_marks = database::config::bible::get_sentence_structure_end_punctuation (bible);
-  checks_sentences.enter_end_marks (end_marks);
-  std::string center_marks = database::config::bible::get_sentence_structure_middle_punctuation (bible);
-  checks_sentences.enter_center_marks (center_marks);
+  checks_sentences.enter_capitals(database::config::bible::get_sentence_structure_capitals(bible));
+  checks_sentences.enter_small_letters(database::config::bible::get_sentence_structure_small_letters(bible));
+  std::string end_marks = database::config::bible::get_sentence_structure_end_punctuation(bible);
+  checks_sentences.enter_end_marks(end_marks);
+  std::string center_marks = database::config::bible::get_sentence_structure_middle_punctuation(bible);
+  checks_sentences.enter_center_marks(center_marks);
   std::string disregards = database::config::bible::get_sentence_structure_disregards (bible);
   checks_sentences.enter_disregards (disregards);
   checks_sentences.enter_names (database::config::bible::get_sentence_structure_names (bible));
@@ -94,9 +94,9 @@ void checks_run (std::string bible)
   std::vector <std::pair <std::string, std::string> > matching_pairs;
   {
     const std::string fragment = database::config::bible::get_matching_pairs (bible);
-    std::vector <std::string> pairs = filter::string::explode (fragment, ' ');
+    std::vector<std::string> pairs = filter::string::explode (fragment, ' ');
     for (auto& pair : pairs) {
-      pair = filter::string::trim (pair);
+      pair = filter::string::trim(pair);
       const size_t length = filter::string::unicode_string_length (pair);
       if (length == 2) {
         const std::string opener = filter::string::unicode_string_substr (pair, 0, 1);
@@ -244,43 +244,43 @@ void checks_run (std::string bible)
   
   
   // Create an email with the checking results for this bible.
-  std::vector <std::string> emailBody;
+  std::vector <std::string> email_body;
   std::vector <database::check::Hit> hits = database::check::get_hits ();
-  for (const auto & hit : hits) {
+  for (const auto& hit : hits) {
     if (hit.bible == bible) {
-      const std::string passage = filter_passage_display_inline ({Passage ("", hit.book, hit.chapter, std::to_string (hit.verse))});
-      const std::string data = filter::string::escape_special_xml_characters (hit.data);
+      const std::string passage = filter_passage_display_inline({Passage ("", hit.book, hit.chapter, std::to_string (hit.verse))});
+      const std::string data = filter::string::escape_special_xml_characters(hit.data);
       const std::string result = "<p>" + passage + " " + data + "</p>";
-      emailBody.push_back (result);
+      email_body.push_back(result);
     }
   }
   
   
   // Add a link to the online checking results.
-  if (!emailBody.empty ()) {
+  if (!email_body.empty ()) {
     const std::string siteUrl = config::logic::site_url (webserver_request);
     std::stringstream body1 {};
     body1 << "<p><a href=" << std::quoted (siteUrl + checks_index_url ()) << ">" << translate("Checking results online") << "</a></p>";
-    emailBody.push_back (body1.str());
+    email_body.push_back (body1.str());
     std::stringstream body2 {};
     body2 << "<p><a href=" << std::quoted(siteUrl + checks_settings_url ()) << ">" << translate ("Settings") << "</a></p>";
-    emailBody.push_back (body2.str());
+    email_body.push_back (body2.str());
   }
   
   
   // Send email to users with access to the Bible and a subscription to the notification.
-  if (!emailBody.empty ()) {
+  if (!email_body.empty ()) {
     const std::string subject = translate("Bible Checks") + " " + bible;
-    const std::string body = filter::string::implode (emailBody, "\n");
-    std::vector <std::string> users = webserver_request.database_users ()->get_users ();
-    for (const auto& user : users) {
-      if (webserver_request.database_config_user()->get_user_bible_checks_notification (user)) {
-        if (access_bible::read (webserver_request, bible, user)) {
-          if (!client_logic_client_enabled ()) {
-            email::schedule (user, subject, body);
-          }
-        }
-      }
+    const std::string body = filter::string::implode (email_body, "\n");
+    const auto mail4user = [&] (const auto& user) {
+      if (webserver_request.database_config_user()->get_user_bible_checks_notification (user))
+        if (access_bible::read (webserver_request, bible, user))
+          if (!client_logic_client_enabled())
+            return true;
+      return false;
+    };
+    for (const auto& user : webserver_request.database_users()->get_users() | std::views::filter(mail4user)) {
+      email::schedule (user, subject, body);
     }
   }
   

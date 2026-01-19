@@ -27,9 +27,9 @@
 
 
 void checks_pairs::run (const std::string& bible, int book, int chapter,
-                        const std::map <int, std::string> & texts,
-                        const std::vector <std::pair <std::string, std::string>>& pairs,
-                        bool french_citation_style) // Todo C++20 bookmark
+                        const std::map<int,std::string>& texts,
+                        const std::vector<std::pair<std::string,std::string>>& pairs,
+                        bool french_citation_style)
 {
   // This holds the opener characters of the pairs which were opened in the text.
   // For example, it may hold the "[".
@@ -39,38 +39,34 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
   // Containers with the openers and the closers.
   // If the check on the French citation style is active,
   // skip the French guillemets.
-  std::vector <std::string> openers {};
-  std::vector <std::string> closers {};
-  for (const auto& element : pairs) {
-    const std::string opener = element.first;
-    if (french_citation_style && (opener == checks_french::left_guillemet)) continue;
-    const std::string closer = element.second;
-    if (french_citation_style && (opener == checks_french::right_guillemet)) continue;
+  std::vector<std::string> openers {};
+  std::vector<std::string> closers {};
+  for (const auto& [opener, closer] : pairs) {
+    if (french_citation_style and (opener == checks_french::left_guillemet)) continue;
+    if (french_citation_style and (opener == checks_french::right_guillemet)) continue;
     openers.push_back (opener);
     closers.push_back (closer);
   }
 
   // Go through the verses with their texts.
-  for (const auto & element : texts) {
-    int verse = element.first;
-    std::string text = element.second;
-    size_t length = filter::string::unicode_string_length (text);
+  for (const auto& [verse, text] : texts) {
+    size_t length = filter::string::unicode_string_length(text);
     for (size_t pos = 0; pos < length; pos++) {
       
       const std::string character = filter::string::unicode_string_substr (text, pos, 1);
       
-      if (filter::string::in_array (character, openers)) {
-        verses.push_back (verse);
-        opened.push_back (character);
+      if (filter::string::in_array(character, openers)) {
+        verses.push_back(verse);
+        opened.push_back(character);
       }
       
-      if (filter::string::in_array (character, closers)) {
+      if (filter::string::in_array(character, closers)) {
         
         const std::string opener = match (character, pairs);
         bool mismatch = false;
-        if (opened.empty ()) {
+        if (opened.empty()) {
           mismatch = true;
-        } else if (opened.back () == opener) {
+        } else if (opened.back() == opener) {
           verses.pop_back ();
           opened.pop_back ();
         } else {
@@ -89,9 +85,9 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
   
   // Report unclosed openers.
   for (size_t i = 0; i < verses.size (); i++) {
-    int verse = verses [i];
-    const std::string opener = opened [i];
-    const std::string closer = match (opener, pairs);
+    const int verse = verses.at(i);
+    const std::string opener = opened.at(i);
+    const std::string closer = match(opener, pairs);
     const std::string fragment1 = checks::issues::text(checks::issues::issue::opening_character);
     const std::string fragment2 = checks::issues::text(checks::issues::issue::without_its_matching_closing_character);
     std::stringstream message {};
@@ -101,7 +97,8 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
 }
 
 
-std::string checks_pairs::match (const std::string & character, const std::vector <std::pair <std::string, std::string>>& pairs)
+std::string checks_pairs::match (const std::string& character,
+                                 const std::vector<std::pair<std::string,std::string>>& pairs)
 {
   for (const auto& element : pairs) {
     if (character == element.first) return element.second;

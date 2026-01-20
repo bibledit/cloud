@@ -32,9 +32,8 @@ void double_space_usfm (const std::string& bible, int book, int chapter, int ver
 {
   const size_t pos = data.find ("  ");
   if (pos != std::string::npos) {
-    int start = static_cast<int>(pos) - 10;
-    if (start < 0) start = 0;
-    const std::string fragment = data.substr (static_cast <size_t> (start), 20);
+    const int start = std::clamp(static_cast<int>(pos) - 10, 0, static_cast<int>(pos));
+    const std::string fragment = data.substr (static_cast <size_t>(start), 20);
     database::check::record_output (bible, book, chapter, verse, checks::issues::text(checks::issues::issue::double_space) + ": ... " + fragment + " ...");
   }
 }
@@ -42,9 +41,7 @@ void double_space_usfm (const std::string& bible, int book, int chapter, int ver
 
 void space_before_punctuation (const std::string& bible, int book, int chapter, const std::map <int, std::string> & texts)
 {
-  for (const auto & element : texts) {
-    const int verse = element.first;
-    const std::string text = element.second;
+  for (const auto& [verse, text] : texts) {
     if (text.find (" ,") != std::string::npos) {
       database::check::record_output (bible, book, chapter, verse, checks::issues::text(checks::issues::issue::space_before_a_comma));
     }
@@ -69,12 +66,11 @@ void space_before_punctuation (const std::string& bible, int book, int chapter, 
 
 void space_end_verse (const std::string& bible, int book, int chapter, const std::string& usfm)
 {
-  std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
-  for (auto verse : verses) {
+  std::vector<int> verses = filter::usfm::get_verse_numbers(usfm);
+  for (const int verse : verses) {
     if (!verse) continue;
     std::string text = filter::usfm::get_verse_text (usfm, verse);
-    const std::vector <std::string> items = filter::usfm::get_markers_and_text (text);
-    for (const auto & item : items) {
+    for (const auto& item : filter::usfm::get_markers_and_text(text)) {
       if (filter::usfm::is_usfm_marker (item)) {
         text = filter::string::replace (item, "", text);
       }

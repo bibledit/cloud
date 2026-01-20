@@ -24,7 +24,7 @@
 #include <checks/issues.h>
 
 
-void Checks_Sentences::enter_capitals (const std::string& capitals) // Todo C++20 bookmark
+void Checks_Sentences::enter_capitals (const std::string& capitals)
 {
   m_capitals = filter::string::explode (capitals, ' ');
 }
@@ -58,8 +58,7 @@ void Checks_Sentences::enter_names (std::string names)
 {
   m_names.clear ();
   names = filter::string::replace ("\n", " ", names);
-  std::vector <std::string> names2 = filter::string::explode (names, ' ');
-  for (auto name : names2) {
+  for (auto name : filter::string::explode (names,' ')) {
     if (!name.empty()) {
       // Limit the length to the left of the suffix in the test.
       name = filter::string::unicode_string_substr (name, 0, 11);
@@ -84,23 +83,21 @@ void Checks_Sentences::initialize ()
 }
 
 
-void Checks_Sentences::check (const std::map <int, std::string> & texts)
+void Checks_Sentences::check(const std::map<int,std::string>& texts)
 {
-  std::vector <int> verse_numbers {};
-  std::vector <std::string> characters {};
+  std::vector<int> verse_numbers {};
+  std::vector<std::string> characters {};
   int iterations {0};
-  for (const auto & element : texts) {
-    int verse = element.first;
-    std::string text = element.second;
+  for (const auto& [verse, text] : texts) {
     // For the second and subsequent verse_numbers, add a space to the text,
     // because this is what is supposed to happen in USFM.
-    if (iterations > 0) {
+    if (iterations) {
       verse_numbers.push_back (verse);
       characters.push_back (" ");
-      full_text += " ";
+      full_text.append(" ");
     }
     // Split the UTF-8 text into characters and add them to the arrays of verse_numbers / characters.
-    size_t count = filter::string::unicode_string_length (text);
+    const size_t count = filter::string::unicode_string_length(text);
     for (size_t i = 0; i < count; i++) {
       character = filter::string::unicode_string_substr (text, i, 1);
       // Skip characters to be disregarded.
@@ -189,7 +186,7 @@ void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_st
   for (unsigned int p = 0; p < verses_paragraphs.size (); p++) {
     
     // Container with verse numbers and the whole paragraph.
-    const std::map <int, std::string> & verses_paragraph = verses_paragraphs [p];
+    const std::map <int,std::string>& verses_paragraph = verses_paragraphs.at(p);
     
     // Skip empty container.
     if (verses_paragraph.empty ()) continue;

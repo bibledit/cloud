@@ -58,25 +58,26 @@ void compare_compare (const std::string& bible, const std::string& compare, cons
   {
     std::stringstream ss {};
     ss << translate("Bible") << " " << std::quoted(bible) << " " << translate ("has been compared with") << " " << std::quoted(compare) << ".";
-    result.push_back (ss.str());
+    result.push_back(std::move(ss).str());
   }
   result.push_back (translate("Additions are in bold.") + " " + translate ("Removed words are in strikethrough."));
   result.push_back (std::string());
   
   
   // Get the combined distinct books in both Bibles / Resources.
-  const std::vector <int> bible_books = database::bibles::get_books (bible);
-  const std::vector <int> compare_books = database::bibles::get_books (compare);
-  const std::vector <int> resource_books = database_usfmresources.getBooks (compare);
-  std::vector <int> books;
-  {
-    std::set <int> bookset;
-    bookset.insert (bible_books.begin(), bible_books.end());
-    bookset.insert (compare_books.begin(), compare_books.end());
-    bookset.insert (resource_books.begin(), resource_books.end());
-    books.assign (bookset.begin(), bookset.end ());
-    std::sort (books.begin(), books.end());
-  }
+  const std::vector<int> bible_books = database::bibles::get_books (bible);
+  const std::vector<int> compare_books = database::bibles::get_books (compare);
+  const std::vector<int> resource_books = database_usfmresources.getBooks (compare);
+  const auto combined_distinct_books = [&]() {
+    std::set<int>bookset;
+    bookset.insert(bible_books.cbegin(), bible_books.cend());
+    bookset.insert(compare_books.cbegin(), compare_books.cend());
+    bookset.insert(resource_books.cbegin(), resource_books.cend());
+    std::vector<int> books(bookset.cbegin(), bookset.cend());
+    std::ranges::sort(books);
+    return books;
+  };
+  const std::vector<int>books{combined_distinct_books()};
   
   
   // Results of comparison of raw USFM.
@@ -92,7 +93,7 @@ void compare_compare (const std::string& bible, const std::string& compare, cons
   
   
   for (const auto& book : books) {
-
+    
     
     const std::string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
     database_jobs.set_progress (job_id, book_name);
@@ -116,18 +117,19 @@ void compare_compare (const std::string& bible, const std::string& compare, cons
     
     
     // Get the combined distinct chapters in both Bibles / Resources.
-    const std::vector <int> bible_chapters = database::bibles::get_chapters (bible, book);
-    const std::vector <int> compare_chapters = database::bibles::get_chapters (compare, book);
-    const std::vector <int> resource_chapters = database_usfmresources.getChapters (compare, book);
-    std::vector <int> chapters;
-    {
-      std::set <int> chapterset;
-      chapterset.insert (bible_chapters.begin(), bible_chapters.end());
-      chapterset.insert (compare_chapters.begin(), compare_chapters.end());
-      chapterset.insert (resource_chapters.begin(), resource_chapters.end());
-      chapters.assign (chapterset.begin(), chapterset.end ());
-      std::sort (chapters.begin(), chapters.end());
-    }
+    const std::vector<int> bible_chapters = database::bibles::get_chapters(bible, book);
+    const std::vector<int> compare_chapters = database::bibles::get_chapters(compare, book);
+    const std::vector<int> resource_chapters = database_usfmresources.getChapters(compare, book);
+    const auto combined_distinct_chapters = [&] () {
+      std::set<int> chapterset;
+      chapterset.insert(bible_chapters.cbegin(), bible_chapters.cend());
+      chapterset.insert(compare_chapters.cbegin(), compare_chapters.cend());
+      chapterset.insert(resource_chapters.cbegin(), resource_chapters.cend());
+      std::vector<int> chapters(chapterset.cbegin(), chapterset.cend ());
+      std::ranges::sort(chapters);
+      return chapters;
+    };
+    const std::vector<int> chapters {combined_distinct_chapters()};
 
 
     for (const auto& chapter : chapters) {
@@ -164,17 +166,18 @@ void compare_compare (const std::string& bible, const std::string& compare, cons
       
       
       // Get the sorted combined set of distinct verses in the chapter of the Bible and of the USFM to compare with.
-      std::vector <int> verses {};
-      {
-        const std::vector <int> bible_verse_numbers = filter::usfm::get_verse_numbers (bible_chapter_usfm);
-        const std::vector <int> compare_verse_numbers = filter::usfm::get_verse_numbers (compare_chapter_usfm);
-        std::set <int> verse_set {};
-        verse_set.insert (bible_verse_numbers.begin(), bible_verse_numbers.end());
-        verse_set.insert (compare_verse_numbers.begin(), compare_verse_numbers.end());
-        verses.assign (verse_set.begin(), verse_set.end ());
-        std::sort (verses.begin(), verses.end());
-      }
-      
+      const auto combined_distinct_verses = [&] () {
+        const std::vector<int> bible_verse_numbers = filter::usfm::get_verse_numbers (bible_chapter_usfm);
+        const std::vector<int> compare_verse_numbers = filter::usfm::get_verse_numbers (compare_chapter_usfm);
+        std::set<int> verse_set {};
+        verse_set.insert(bible_verse_numbers.cbegin(), bible_verse_numbers.cend());
+        verse_set.insert(compare_verse_numbers.cbegin(), compare_verse_numbers.cend());
+        std::vector<int> verses(verse_set.cbegin(), verse_set.cend ());
+        std::ranges::sort(verses);
+        return verses;
+      };
+      const std::vector<int> verses{combined_distinct_verses()};
+
       
       for (const int& verse : verses) {
  

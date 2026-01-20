@@ -31,14 +31,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace config::logic {
 
 
-const char * config_folder ()
+const char* config_folder()
 {
   return "config";
 }
 
 
 // Returns the Bibledit version number.
-const char * version ()
+const char* version()
 {
   return VERSION;
 }
@@ -48,8 +48,8 @@ const char * version ()
 void load_settings ()
 {
   // Read the setting whether to log network connections.
-  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "log-network"});
-  config_globals_log_network = file_or_dir_exists (path);
+  const std::string path = filter_url_create_root_path({config::logic::config_folder(), "log-network"});
+  config_globals_log_network = file_or_dir_exists(path);
 }
 
 

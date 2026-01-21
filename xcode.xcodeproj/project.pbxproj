@@ -17,6 +17,7 @@
 		CA10382825279F940021AF25 /* html2format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = html2format.h; path = editor/html2format.h; sourceTree = SOURCE_ROOT; };
 		CA10382A2527A4010021AF25 /* html2format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = html2format.cpp; sourceTree = "<group>"; };
 		CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmimetic.0.dylib; path = ../../../../usr/local/lib/libmimetic.0.dylib; sourceTree = "<group>"; };
+		CA10BFDA2F200F770024061A /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CA11A9BF2DC2A80200F144C7 /* definitions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = definitions.hpp; sourceTree = "<group>"; };
 		CA11C1D82DD8EAEA00EFA0BE /* quill.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = quill.cpp; sourceTree = "<group>"; };
 		CA11C1D92DD8EAEA00EFA0BE /* quill.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quill.h; sourceTree = "<group>"; };
@@ -3777,9 +3778,10 @@
 		CADE3FB424F17488003165BB /* personalize */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3FBD24F17488003165BB /* index.cpp */,
 				CADE3FB524F17488003165BB /* index.h */,
+				CADE3FBD24F17488003165BB /* index.cpp */,
 				CADE3FB724F17488003165BB /* index.html */,
+				CA10BFDA2F200F770024061A /* index.js */,
 			);
 			path = personalize;
 			sourceTree = "<group>";

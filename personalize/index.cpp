@@ -63,26 +63,8 @@ std::string personalize_index (Webserver_Request& webserver_request)
   Assets_View view{};
 
   
-  std::string checkbox = webserver_request.post_get("checkbox");
-  bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
-
-
-  // Accept values for allowed relative changes for the four Bible text editors.
-  if (webserver_request.post_count("chapterpercentage")) {
-    int chapterpercentage = filter::string::convert_to_int (webserver_request.post_get("chapterpercentage"));
-    chapterpercentage = std::clamp (chapterpercentage, 10, 100);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_chapter (chapterpercentage);
-    return std::string();
-  }
-  if (webserver_request.post_count("versepercentage")) {
-    int versepercentage = filter::string::convert_to_int (webserver_request.post_get("versepercentage"));
-    versepercentage = std::clamp (versepercentage, 10, 100);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (versepercentage);
-    return std::string();
-  }
-
-  
   // Deal with the theme selector.
+  // Do that before the page is built so the new theme is visible right away.
   {
     constexpr const char* identification {"theme"};
     int theme = webserver_request.database_config_user ()->get_current_theme();
@@ -103,53 +85,45 @@ std::string personalize_index (Webserver_Request& webserver_request)
     dialog::select::Form form { .auto_submit = true };
     view.set_variable(identification, dialog::select::form(settings, form));
   }
+  
 
+  Assets_Header header = Assets_Header (translate("Preferences"), webserver_request);
+  header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  std::string page = header.run ();
 
-  std::string page;
   std::string success;
   std::string error;
 
-
-  // Store new font sizes before displaying the header,
-  // so that the page displays the new font sizes immediately.
-  if (webserver_request.post_count("fontsizegeneral")) {
-    int fontsizegeneral = filter::string::convert_to_int (webserver_request.post_get("fontsizegeneral"));
-    fontsizegeneral = std::clamp (fontsizegeneral, 50, 300);
-    if (config::logic::default_bibledit_configuration ()) {
-      webserver_request.database_config_user ()->set_general_font_size (fontsizegeneral);
-    }
-    return std::string();
-  }
-  if (webserver_request.post_count("fontsizemenu")) {
-    int fontsizemenu = filter::string::convert_to_int (webserver_request.post_get("fontsizemenu"));
-    fontsizemenu = std::clamp (fontsizemenu, 50, 300);
-    if (config::logic::default_bibledit_configuration ()) {
-      webserver_request.database_config_user ()->set_menu_font_size (fontsizemenu);
-    }
-    return std::string();
-  }
   
-  
-  Assets_Header header = Assets_Header (translate("Preferences"), webserver_request);
-  header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
-  page = header.run ();
+  const std::string checkbox = webserver_request.post_get("checkbox");
+  const bool checked = filter::string::convert_to_bool (webserver_request.post_get("checked"));
+  const std::string input_id = webserver_request.post_get("identifier");
+  const std::string input_val = webserver_request.post_get("value");
 
   
   // Font size for everything.
-  if (config::logic::default_bibledit_configuration ()) {
-    view.set_variable ("fontsizegeneral", std::to_string (webserver_request.database_config_user ()->get_general_font_size ()));
+  if (input_id == "fontsizegeneral") {
+    int fontsizegeneral = filter::string::convert_to_int (input_val);
+    fontsizegeneral = std::clamp (fontsizegeneral, 50, 300);
+    webserver_request.database_config_user ()->set_general_font_size (fontsizegeneral);
+    return filter::string::get_reload();
   }
-
+  view.set_variable ("fontsizegeneral", std::to_string (webserver_request.database_config_user ()->get_general_font_size ()));
+  
   
   // Font size for the menu.
-  if (config::logic::default_bibledit_configuration ()) {
-    view.set_variable ("fontsizemenu", std::to_string (webserver_request.database_config_user ()->get_menu_font_size ()));
+  if (input_id == "fontsizemenu") {
+    int fontsizemenu = filter::string::convert_to_int (input_val);
+    fontsizemenu = std::clamp (fontsizemenu, 50, 300);
+    webserver_request.database_config_user ()->set_menu_font_size (fontsizemenu);
+    return filter::string::get_reload();
   }
+  view.set_variable ("fontsizemenu", std::to_string (webserver_request.database_config_user ()->get_menu_font_size ()));
   
-  
+
   // Font size for the Bible editors.
-  if (webserver_request.post_count("fontsizeeditors")) {
-    int fontsizeeditors = filter::string::convert_to_int (webserver_request.post_get("fontsizeeditors"));
+  if (input_id == "fontsizeeditors") {
+    int fontsizeeditors = filter::string::convert_to_int (input_val);
     fontsizeeditors = std::clamp (fontsizeeditors, 50, 300);
     webserver_request.database_config_user ()->set_bible_editors_font_size (fontsizeeditors);
     styles_sheets_create_all ();
@@ -159,69 +133,78 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   
   // Font size for the resources.
-  if (webserver_request.post_count("fontsizeresources")) {
-    int fontsizeresources = filter::string::convert_to_int (webserver_request.post_get("fontsizeresources"));
+  if (input_id == "fontsizeresources") {
+    int fontsizeresources = filter::string::convert_to_int (input_val);
     fontsizeresources = std::clamp (fontsizeresources, 50, 300);
-    if (config::logic::default_bibledit_configuration ()) {
-      webserver_request.database_config_user ()->set_resources_font_size (fontsizeresources);
-    }
+    webserver_request.database_config_user ()->set_resources_font_size (fontsizeresources);
     return std::string();
   }
   view.set_variable ("fontsizeresources", std::to_string (webserver_request.database_config_user ()->get_resources_font_size ()));
   
-  
+
   // Font size for Hebrew resources.
-  if (webserver_request.post_count("fontsizehebrew")) {
-    int fontsizehebrew = filter::string::convert_to_int (webserver_request.post_get("fontsizehebrew"));
+  if (input_id == "fontsizehebrew") {
+    int fontsizehebrew = filter::string::convert_to_int (input_val);
     fontsizehebrew = std::clamp (fontsizehebrew, 50, 300);
-    if (config::logic::default_bibledit_configuration ()) {
-      webserver_request.database_config_user ()->set_hebrew_font_size (fontsizehebrew);
-    }
+    webserver_request.database_config_user ()->set_hebrew_font_size (fontsizehebrew);
     return std::string();
   }
   view.set_variable ("fontsizehebrew", std::to_string (webserver_request.database_config_user ()->get_hebrew_font_size ()));
   
   
   // Font size for Greek resources.
-  if (webserver_request.post_count("fontsizegreek")) {
-    int fontsizegreek = filter::string::convert_to_int (webserver_request.post_get("fontsizegreek"));
+  if (input_id == "fontsizegreek") {
+    int fontsizegreek = filter::string::convert_to_int (input_val);
     fontsizegreek = std::clamp (fontsizegreek, 50, 300);
-    if (config::logic::default_bibledit_configuration ()) {
-      webserver_request.database_config_user ()->set_greek_font_size (fontsizegreek);
-    }
+    webserver_request.database_config_user ()->set_greek_font_size (fontsizegreek);
     return std::string();
   }
   view.set_variable ("fontsizegreek", std::to_string (webserver_request.database_config_user ()->get_greek_font_size ()));
   
   
   // Vertical caret position in chapter editors.
-  if (webserver_request.post_count("caretposition")) {
-    int caretposition = filter::string::convert_to_int (webserver_request.post_get("caretposition"));
+  if (input_id == "caretposition") {
+    int caretposition = filter::string::convert_to_int (input_val);
     caretposition = std::clamp (caretposition, 20, 80);
     webserver_request.database_config_user ()->set_vertical_caret_position (caretposition);
     return std::string();
   }
   view.set_variable ("caretposition", std::to_string (webserver_request.database_config_user ()->get_vertical_caret_position ()));
-  
 
+  
   // Whether to display bread crumbs.
   if (checkbox == "breadcrumbs") {
     webserver_request.database_config_user ()->set_display_breadcrumbs (checked);
     return filter::string::get_reload ();
   }
   view.set_variable ("breadcrumbs", filter::string::get_checkbox_status (webserver_request.database_config_user ()->get_display_breadcrumbs ()));
-
+  
   
   // Workspace menu fade-out delay.
-  if (webserver_request.post_count("workspacefadeoutdelay")) {
-    int workspacefadeoutdelay = filter::string::convert_to_int (webserver_request.post_get("workspacefadeoutdelay"));
+  if (input_id == "workspacefadeoutdelay") {
+    int workspacefadeoutdelay = filter::string::convert_to_int (input_val);
     workspacefadeoutdelay = std::clamp (workspacefadeoutdelay, 0, 100);
     webserver_request.database_config_user ()->set_workspace_menu_fadeout_delay (workspacefadeoutdelay);
     return std::string();
   }
   view.set_variable ("workspacefadeoutdelay", std::to_string (webserver_request.database_config_user ()->get_workspace_menu_fadeout_delay ()));
-
   
+  
+  // Accept values for allowed relative changes for the Bible text editors.
+  if (webserver_request.post_count("chapterpercentage")) {
+    int chapterpercentage = filter::string::convert_to_int (webserver_request.post_get("chapterpercentage"));
+    chapterpercentage = std::clamp (chapterpercentage, 10, 100);
+    webserver_request.database_config_user ()->set_editing_allowed_difference_chapter (chapterpercentage);
+    return std::string();
+  }
+  if (webserver_request.post_count("versepercentage")) {
+    int versepercentage = filter::string::convert_to_int (webserver_request.post_get("versepercentage"));
+    versepercentage = std::clamp (versepercentage, 10, 100);
+    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (versepercentage);
+    return std::string();
+  }
+
+
   // Permissable relative changes in the two to four Bible editors.
   view.set_variable ("chapterpercentage", std::to_string (webserver_request.database_config_user ()->get_editing_allowed_difference_chapter ()));
   view.set_variable ("versepercentage", std::to_string (webserver_request.database_config_user ()->get_editing_allowed_difference_verse ()));

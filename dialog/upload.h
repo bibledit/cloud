@@ -26,7 +26,6 @@ class Dialog_Upload
 {
 public:
   Dialog_Upload (std::string url, std::string question);
-  ~Dialog_Upload ();
   Dialog_Upload(const Dialog_Upload&) = delete;
   Dialog_Upload operator=(const Dialog_Upload&) = delete;
   void add_upload_query (std::string parameter, std::string value);

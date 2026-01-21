@@ -26,7 +26,6 @@ class Dialog_Books
 {
 public:
   Dialog_Books (std::string url, std::string header, std::string info_top, std::string info_bottom, std::string action, std::vector <int> inclusions, std::vector <int> exclusions);
-  ~Dialog_Books ();
   Dialog_Books (const Dialog_Books&) = delete;
   Dialog_Books operator=(const Dialog_Books&) = delete;
   void add_query (std::string parameter, std::string value);

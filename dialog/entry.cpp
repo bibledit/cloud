@@ -43,11 +43,6 @@ Dialog_Entry::Dialog_Entry (std::string url, std::string question, std::string v
 }
 
 
-Dialog_Entry::~Dialog_Entry ()
-{
-}
-
-
 void Dialog_Entry::add_query (std::string parameter, std::string value)
 {
   base_url = filter_url_build_http_query(base_url, {{parameter, value}});

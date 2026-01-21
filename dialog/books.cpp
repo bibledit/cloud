@@ -42,11 +42,6 @@ Dialog_Books::Dialog_Books (std::string url, std::string header, std::string inf
 }
 
 
-Dialog_Books::~Dialog_Books ()
-{
-}
-
-
 // Add "parameter" and "value" to be added in the base query, or base url.
 // If any $query is passed, if Cancel is clicked in this dialog, it should go go back
 // to the original caller page  with the $query added.

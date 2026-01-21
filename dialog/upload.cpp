@@ -33,11 +33,6 @@ Dialog_Upload::Dialog_Upload (std::string url, std::string question)
 }
 
 
-Dialog_Upload::~Dialog_Upload ()
-{
-}
-
-
 // Adds a query to the URL for going to the page on clicking Upload.
 void Dialog_Upload::add_upload_query (std::string parameter, std::string value)
 {

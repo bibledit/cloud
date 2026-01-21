@@ -26,7 +26,6 @@ class Dialog_Entry
 {
 public:
   Dialog_Entry (std::string url, std::string question, std::string value, std::string submit, std::string help);
-  ~Dialog_Entry ();
   Dialog_Entry(const Dialog_Entry&) = delete;
   Dialog_Entry operator=(const Dialog_Entry&) = delete;
   void add_query (std::string parameter, std::string value);

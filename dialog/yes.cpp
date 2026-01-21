@@ -33,11 +33,6 @@ Dialog_Yes::Dialog_Yes (std::string url, std::string question)
 }
 
 
-Dialog_Yes::~Dialog_Yes ()
-{
-}
-
-
 // Adds a query to the URL for going to the page on clicking Cancel or Yes.
 void Dialog_Yes::add_query (std::string parameter, std::string value)
 {

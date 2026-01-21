@@ -26,7 +26,6 @@ class Dialog_Color
 {
 public:
   Dialog_Color (std::string url, std::string question);
-  ~Dialog_Color ();
   Dialog_Color(const Dialog_Color&) = delete;
   Dialog_Color operator=(const Dialog_Color&) = delete;
   void add_query (std::string parameter, std::string value);

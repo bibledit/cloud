@@ -139,12 +139,12 @@ std::string notes_notes (Webserver_Request& webserver_request)
         raw_status = filter::string::unicode_string_casefold (raw_status);
         raw_status = filter::string::replace (" ", "", raw_status);
         std::string css_class;
-        if (raw_status == "new") css_class = Filter_Css::distinction_set_notes (0);
-        else if (raw_status == "pending") css_class = Filter_Css::distinction_set_notes (1);
-        else if (raw_status == "inprogress") css_class = Filter_Css::distinction_set_notes (2);
-        else if (raw_status == "done") css_class = Filter_Css::distinction_set_notes (3);
-        else if (raw_status == "reopened") css_class = Filter_Css::distinction_set_notes (4);
-        else css_class = Filter_Css::distinction_set_notes (5);
+        if (raw_status == "new") css_class = filter::css::distinction_set_notes (0);
+        else if (raw_status == "pending") css_class = filter::css::distinction_set_notes (1);
+        else if (raw_status == "inprogress") css_class = filter::css::distinction_set_notes (2);
+        else if (raw_status == "done") css_class = filter::css::distinction_set_notes (3);
+        else if (raw_status == "reopened") css_class = filter::css::distinction_set_notes (4);
+        else css_class = filter::css::distinction_set_notes (5);
         if (!css_class.empty()) status_text.insert (0, R"(<span class=")" + css_class + R"(">)");
         status_text.append ("</span>");
       }

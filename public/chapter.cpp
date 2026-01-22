@@ -53,7 +53,7 @@ std::string public_chapter (Webserver_Request& webserver_request)
   
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new HtmlText (bible);
-  filter_text.html_text_standard->custom_class = Filter_Css::getClass (bible);
+  filter_text.html_text_standard->custom_class = filter::css::getClass (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesheet);
 

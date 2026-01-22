@@ -182,36 +182,36 @@ TEST_F (styles, css_properties)
 {
   // Direction.
   {
-    EXPECT_EQ ("checked", Filter_Css::directionUnspecified (100));
-    EXPECT_EQ ("", Filter_Css::directionUnspecified (101));
+    EXPECT_EQ ("checked", filter::css::directionUnspecified (100));
+    EXPECT_EQ ("", filter::css::directionUnspecified (101));
     
-    EXPECT_EQ ("checked", Filter_Css::directionLeftToRight (101));
-    EXPECT_EQ ("", Filter_Css::directionLeftToRight (102));
+    EXPECT_EQ ("checked", filter::css::directionLeftToRight (101));
+    EXPECT_EQ ("", filter::css::directionLeftToRight (102));
     
-    EXPECT_EQ ("checked", Filter_Css::directionRightToLeft (102));
-    EXPECT_EQ ("", Filter_Css::directionRightToLeft (103));
+    EXPECT_EQ ("checked", filter::css::directionRightToLeft (102));
+    EXPECT_EQ ("", filter::css::directionRightToLeft (103));
     
-    EXPECT_EQ (0, Filter_Css::directionValue (""));
-    EXPECT_EQ (1, Filter_Css::directionValue ("ltr"));
-    EXPECT_EQ (2, Filter_Css::directionValue ("rtl"));
+    EXPECT_EQ (0, filter::css::directionValue (""));
+    EXPECT_EQ (1, filter::css::directionValue ("ltr"));
+    EXPECT_EQ (2, filter::css::directionValue ("rtl"));
   }
 
   // Writing Mode.
   {
-    EXPECT_EQ ("checked", Filter_Css::writingModeUnspecified (102));
-    EXPECT_EQ ("", Filter_Css::writingModeUnspecified (112));
+    EXPECT_EQ ("checked", filter::css::writingModeUnspecified (102));
+    EXPECT_EQ ("", filter::css::writingModeUnspecified (112));
     
-    EXPECT_EQ ("checked", Filter_Css::writingModeTopBottomLeftRight (112));
-    EXPECT_EQ ("", Filter_Css::writingModeTopBottomLeftRight (122));
+    EXPECT_EQ ("checked", filter::css::writingModeTopBottomLeftRight (112));
+    EXPECT_EQ ("", filter::css::writingModeTopBottomLeftRight (122));
     
-    EXPECT_EQ ("checked", Filter_Css::writingModeTopBottomRightLeft (122));
-    EXPECT_EQ ("", Filter_Css::writingModeTopBottomRightLeft (132));
+    EXPECT_EQ ("checked", filter::css::writingModeTopBottomRightLeft (122));
+    EXPECT_EQ ("", filter::css::writingModeTopBottomRightLeft (132));
     
-    EXPECT_EQ ("checked", Filter_Css::writingModeBottomTopLeftRight (132));
-    EXPECT_EQ ("", Filter_Css::writingModeBottomTopLeftRight (142));
+    EXPECT_EQ ("checked", filter::css::writingModeBottomTopLeftRight (132));
+    EXPECT_EQ ("", filter::css::writingModeBottomTopLeftRight (142));
     
-    EXPECT_EQ ("checked", Filter_Css::writingModeBottomTopRightLeft (142));
-    EXPECT_EQ ("", Filter_Css::writingModeBottomTopRightLeft (152));
+    EXPECT_EQ ("checked", filter::css::writingModeBottomTopRightLeft (142));
+    EXPECT_EQ ("", filter::css::writingModeBottomTopRightLeft (152));
   }
 }
 
@@ -222,14 +222,14 @@ TEST_F (styles, get_css)
   std::string css {};
   std::string standard {};
   
-  css = Filter_Css::get_css ("class", std::string(), 0);
+  css = filter::css::get_css ("class", std::string(), 0);
   standard =
   ".class\n"
   "{\n"
   "}";
   EXPECT_EQ (standard, css);
   
-  css = Filter_Css::get_css ("class", std::string(), 101);
+  css = filter::css::get_css ("class", std::string(), 101);
   standard =
   ".class\n"
   "{\n"
@@ -237,7 +237,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = Filter_Css::get_css ("class", std::string(), 102);
+  css = filter::css::get_css ("class", std::string(), 102);
   standard =
   ".class\n"
   "{\n"
@@ -245,7 +245,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = Filter_Css::get_css ("class", std::string(), 110);
+  css = filter::css::get_css ("class", std::string(), 110);
   standard =
   ".class\n"
   "{\n"
@@ -253,7 +253,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = Filter_Css::get_css ("CLass", std::string(), 130);
+  css = filter::css::get_css ("CLass", std::string(), 130);
   standard =
   ".CLass\n"
   "{\n"
@@ -261,7 +261,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = Filter_Css::get_css ("CLass", std::string(), 1322);
+  css = filter::css::get_css ("CLass", std::string(), 1322);
   standard =
   ".CLass\n"
   "{\n"
@@ -270,7 +270,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = Filter_Css::get_css ("Class", "sherif", 0);
+  css = filter::css::get_css ("Class", "sherif", 0);
   standard =
   ".Class\n"
   "{\n"
@@ -278,7 +278,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = Filter_Css::get_css ("Class", "sherif", 102);
+  css = filter::css::get_css ("Class", "sherif", 102);
   standard =
   ".Class\n"
   "{\n"
@@ -287,7 +287,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = Filter_Css::get_css ("classs", "../font.ttf", 0);
+  css = filter::css::get_css ("classs", "../font.ttf", 0);
   standard =
   "@font-face\n"
   "{\n"
@@ -305,7 +305,7 @@ TEST_F (styles, get_css)
 // Getting the custom class.
 TEST_F (styles, get_custom_class)
 {
-  const std::string custom_class = Filter_Css::getClass ("ആഈഘലറ");
+  const std::string custom_class = filter::css::getClass ("ആഈഘലറ");
   EXPECT_EQ ("customf86528", custom_class);
 }
 

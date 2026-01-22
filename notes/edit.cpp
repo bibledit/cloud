@@ -143,7 +143,7 @@ std::string notes_edit (Webserver_Request& webserver_request)
         if (editable) {
           lines[i].insert (0, R"(<div contenteditable="true">)");
         } else {
-          lines[i].insert (0, "<div " + filter_css_grey_background () + ">");
+          lines[i].insert (0, "<div " + filter::css::grey_background () + ">");
         }
         lines[i].append ("</div>");
         

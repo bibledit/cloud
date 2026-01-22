@@ -264,11 +264,11 @@ std::string Assets_Header::run ()
 
   int current_theme_index = m_webserver_request.database_config_user ()->get_current_theme ();
   // Add the theme color css class selector name on the body element,..
-  m_view->set_variable ("body_theme_color", Filter_Css::theme_picker (current_theme_index, 0));
+  m_view->set_variable ("body_theme_color", filter::css::theme_picker (current_theme_index, 0));
   // ..workspacewrapper div element..
-  m_view->set_variable ("workspace_theme_color", Filter_Css::theme_picker (current_theme_index, 4));
+  m_view->set_variable ("workspace_theme_color", filter::css::theme_picker (current_theme_index, 4));
   // ..and as a variable for JavaScript.
-  m_view->set_variable ("themecolorfortabs", Filter_Css::theme_picker (current_theme_index, 1));
+  m_view->set_variable ("themecolorfortabs", filter::css::theme_picker (current_theme_index, 1));
 
   if (m_webserver_request.database_config_user ()->get_display_breadcrumbs ()) {
     if (!m_bread_crumbs.empty ()) {

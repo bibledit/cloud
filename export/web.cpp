@@ -100,7 +100,7 @@ void export_web_book (std::string bible, int book, bool log)
     
     // Interlinked web data for one chapter.
     filter_text_chapter.html_text_linked = new HtmlText (translate("Bible"));
-    filter_text_chapter.html_text_linked->custom_class = Filter_Css::getClass (bible);
+    filter_text_chapter.html_text_linked->custom_class = filter::css::getClass (bible);
     
     // Create breadcrumbs and navigator for the chapter.
     Html_Header html_header = Html_Header (*filter_text_chapter.html_text_linked);

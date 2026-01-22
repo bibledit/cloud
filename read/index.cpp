@@ -127,16 +127,16 @@ std::string read_index (Webserver_Request& webserver_request)
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 
-  std::string cls = Filter_Css::getClass (bible);
+  std::string cls = filter::css::getClass (bible);
   std::string font = fonts::logic::get_text_font (bible);
   int current_theme_index = webserver_request.database_config_user ()->get_current_theme ();
   int direction = database::config::bible::get_text_direction (bible);
   int lineheight = database::config::bible::get_line_height (bible);
   int letterspacing = database::config::bible::get_letter_spacing (bible);
-  view.set_variable ("editor_theme_color", Filter_Css::theme_picker (current_theme_index, 2));
-  view.set_variable ("active_editor_theme_color", Filter_Css::theme_picker (current_theme_index, 3));
+  view.set_variable ("editor_theme_color", filter::css::theme_picker (current_theme_index, 2));
+  view.set_variable ("active_editor_theme_color", filter::css::theme_picker (current_theme_index, 3));
   view.set_variable ("custom_class", cls);
-  view.set_variable ("custom_css", Filter_Css::get_css (cls,
+  view.set_variable ("custom_css", filter::css::get_css (cls,
                                                        fonts::logic::get_font_path (font),
                                                        direction,
                                                        lineheight,

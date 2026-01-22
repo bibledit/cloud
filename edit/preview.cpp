@@ -80,13 +80,13 @@ std::string edit_preview (Webserver_Request& webserver_request)
   // If needed, change Bible to one it has read access to.
   bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
 
-  std::string cls = Filter_Css::getClass (bible);
+  std::string cls = filter::css::getClass (bible);
   std::string font = fonts::logic::get_text_font (bible);
   int direction = database::config::bible::get_text_direction (bible);
   int lineheight = database::config::bible::get_line_height (bible);
   int letterspacing = database::config::bible::get_letter_spacing (bible);
   view.set_variable ("custom_class", cls);
-  view.set_variable ("custom_css", Filter_Css::get_css (cls,
+  view.set_variable ("custom_css", filter::css::get_css (cls,
                                                        fonts::logic::get_font_path (font),
                                                        direction,
                                                        lineheight,

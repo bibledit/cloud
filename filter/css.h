@@ -21,34 +21,34 @@
 
 #include <config/libraries.h>
 
-class Filter_Css
-{
-public:
-  static std::string directionUnspecified (int value);
-  static std::string directionLeftToRight (int value);
-  static std::string directionRightToLeft (int value);
-  static std::string ltr ();
-  static std::string rtl ();
-  static int directionValue (std::string direction);
-  static std::string writingModeUnspecified (int value);
-  static std::string writingModeTopBottomLeftRight (int value);
-  static std::string writingModeTopBottomRightLeft (int value);
-  static std::string writingModeBottomTopLeftRight (int value);
-  static std::string writingModeBottomTopRightLeft (int value);
-  static std::string tb_lr ();
-  static std::string tb_rl ();
-  static std::string bt_lr ();
-  static std::string bt_rl ();
-  static int writingModeValue (std::string mode);
-  static std::string getClass (std::string bible);
-  static std::string get_css (std::string class_, std::string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
-  static void distinction_set_basic ();
-  static std::string distinction_set_light (int itemstyleindex);
-  static std::string distinction_set_dark (int itemstyleindex);
-  static std::string distinction_set_redblue_light (int itemstyleindex);
-  static std::string distinction_set_redblue_dark (int itemstyleindex);
-  static std::string distinction_set_notes (int itemstyleindex);
-  static std::string theme_picker (int themestyleindex, int itemstyleindex);
-};
+namespace filter::css {
 
-std::string filter_css_grey_background ();
+std::string directionUnspecified (int value);
+std::string directionLeftToRight (int value);
+std::string directionRightToLeft (int value);
+std::string ltr ();
+std::string rtl ();
+int directionValue (std::string direction);
+std::string writingModeUnspecified (int value);
+std::string writingModeTopBottomLeftRight (int value);
+std::string writingModeTopBottomRightLeft (int value);
+std::string writingModeBottomTopLeftRight (int value);
+std::string writingModeBottomTopRightLeft (int value);
+std::string tb_lr ();
+std::string tb_rl ();
+std::string bt_lr ();
+std::string bt_rl ();
+int writingModeValue (std::string mode);
+std::string getClass (std::string bible);
+std::string get_css (std::string class_, std::string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
+void distinction_set_basic ();
+std::string distinction_set_light (int itemstyleindex);
+std::string distinction_set_dark (int itemstyleindex);
+std::string distinction_set_redblue_light (int itemstyleindex);
+std::string distinction_set_redblue_dark (int itemstyleindex);
+std::string distinction_set_notes (int itemstyleindex);
+std::string theme_picker (int themestyleindex, int itemstyleindex);
+std::string grey_background ();
+
+}
+

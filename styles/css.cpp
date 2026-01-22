@@ -335,12 +335,12 @@ void Styles_Css::add_editor_styles ()
 
 void Styles_Css::customize (const std::string& bible)
 {
-  std::string cls = Filter_Css::getClass (bible);
+  std::string cls = filter::css::getClass (bible);
   std::string font = fonts::logic::get_text_font (bible);
   bool uploaded_font = fonts::logic::font_exists (font);
   font = fonts::logic::get_font_path (font);
   int direction = database::config::bible::get_text_direction (bible);
-  std::string css = Filter_Css::get_css (cls, font, direction);
+  std::string css = filter::css::get_css (cls, font, direction);
   if (uploaded_font) css = filter::string::replace ("../fonts/", "", css);
   m_code.push_back (css);
 }

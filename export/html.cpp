@@ -75,7 +75,7 @@ void export_html_book (const std::string& bible, const int book, const bool log)
   
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new HtmlText (translate("Bible"));
-  filter_text.html_text_standard->custom_class = Filter_Css::getClass (bible);
+  filter_text.html_text_standard->custom_class = filter::css::getClass (bible);
   if (database::config::bible::get_export_html_notes_on_hover(bible)) {
     filter_text.html_text_standard->have_popup_notes();
   }

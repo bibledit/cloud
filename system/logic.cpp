@@ -101,7 +101,7 @@ void system_logic_produce_bibles_file (int jobid)
   
   
   // Pack the contents of all the Bibles into one tarball.
-  std::string error = filter_archive_microtar_pack (tarball, directory, files);
+  std::string error = filter::archive::microtar_pack (tarball, directory, files);
   
   
   // Ready, provide info about how to download the file, or about the error.
@@ -133,7 +133,7 @@ void system_logic_import_bibles_file (std::string tarball)
   // Unpack the tarball into a directory.
   std::string directory = filter_url_tempfile ();
   filter_url_mkdir (directory);
-  std::string error= filter_archive_microtar_unpack (tarball, directory);
+  std::string error= filter::archive::microtar_unpack (tarball, directory);
   if (!error.empty ()) {
     Database_Logs::log ("Importing Bibles failure: " + error);
     return;
@@ -225,7 +225,7 @@ void system_logic_produce_notes_file (int jobid)
   
 
   // Pack the contents of all the Bibles into one tarball.
-  std::string error = filter_archive_microtar_pack (tarball, directory, files);
+  std::string error = filter::archive::microtar_pack (tarball, directory, files);
 
   
   // Ready, provide info about how to download the file, or about the error.
@@ -258,7 +258,7 @@ void system_logic_import_notes_file (std::string tarball)
   std::string directory = filter_url_create_root_path ({"consultations"});
   
   // Unpack the tarball into the directory.
-  std::string error= filter_archive_microtar_unpack (tarball, directory);
+  std::string error= filter::archive::microtar_unpack (tarball, directory);
   if (!error.empty ()) {
     Database_Logs::log ("Importing Consultation Notes failure: " + error);
     return;
@@ -351,7 +351,7 @@ void system_logic_produce_resources_file (int jobid)
   tarball_counter++;
   database_jobs.set_percentage (jobid, 100 * tarball_counter / tarball_count);
   database_jobs.set_progress (jobid, translate ("All"));
-  std::string error = filter_archive_microtar_pack (tarball, directory, resources);
+  std::string error = filter::archive::microtar_pack (tarball, directory, resources);
 
   
   // Create one tarball per resource.
@@ -362,7 +362,7 @@ void system_logic_produce_resources_file (int jobid)
     database_jobs.set_percentage (jobid, 100 * tarball_counter / tarball_count);
     database_jobs.set_progress (jobid, resource_name);
     std::string resource_tarball = filter_url_create_root_path ({system_logic_resources_file_name (resource_name)});
-    error += filter_archive_microtar_pack (resource_tarball, directory, v_resources);
+    error += filter::archive::microtar_pack (resource_tarball, directory, v_resources);
   }
   
   
@@ -417,7 +417,7 @@ void system_logic_import_resources_file (std::string tarball)
   // Unpack the tarball into a directory.
   std::string directory = filter_url_tempfile ();
   filter_url_mkdir (directory);
-  std::string error= filter_archive_microtar_unpack (tarball, directory);
+  std::string error= filter::archive::microtar_unpack (tarball, directory);
   if (!error.empty ()) {
     Database_Logs::log ("Importing Resources failure: " + error);
     return;

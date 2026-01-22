@@ -162,7 +162,7 @@ TEST (filter, archive)
     // Test decompression.
     std::string folder = filter::archive::untar_gzip (tarball);
     EXPECT_EQ (true, file_or_dir_exists (folder));
-    folder = filter_archive_uncompress (tarball);
+    folder = filter::archive::decompress (tarball);
     EXPECT_EQ (true, file_or_dir_exists (folder));
     EXPECT_EQ (9000, filter_url_filesize (folder + "/testarchive1"));
     // Test that unzipping garbage returns NULL.
@@ -178,21 +178,21 @@ TEST (filter, archive)
     int exitcode;
 
     // Fail to open empty tarball.
-    result = filter_archive_microtar_pack ("", "", {});
+    result = filter::archive::microtar_pack ("", "", {});
     EXPECT_EQ ("could not open", result);
     
     // Fail to unpack empty tarball.
     folder = filter_url_tempfile ();
-    result = filter_archive_microtar_unpack ("", folder);
+    result = filter::archive::microtar_unpack ("", folder);
     EXPECT_EQ ("could not open", result);
     
     // Pack files into a tarball.
-    result = filter_archive_microtar_pack (tarball, directory, files12);
+    result = filter::archive::microtar_pack (tarball, directory, files12);
     EXPECT_EQ ("", result);
     
     // Unpack the tarball created just before.
     folder = filter_url_tempfile ();
-    result = filter_archive_microtar_unpack (tarball, folder);
+    result = filter::archive::microtar_unpack (tarball, folder);
     EXPECT_EQ ("", result);
 
     // Check the untarred files.
@@ -209,12 +209,12 @@ TEST (filter, archive)
     for (auto & path : paths) {
       path.erase (0, directory.length () + 1);
     }
-    result = filter_archive_microtar_pack (tarball, directory, paths);
+    result = filter::archive::microtar_pack (tarball, directory, paths);
     EXPECT_EQ ("", result);
     
     // Unpack the tarball with the deep directory structure.
     folder = filter_url_tempfile ();
-    result = filter_archive_microtar_unpack (tarball, folder);
+    result = filter::archive::microtar_unpack (tarball, folder);
     EXPECT_EQ ("", result);
 
     // Check the unpacked result.

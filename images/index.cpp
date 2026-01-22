@@ -65,7 +65,7 @@ std::string images_index (Webserver_Request& webserver_request)
     const std::string data = webserver_request.post_get("data");
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);
-      const bool background_import = filter_archive_is_archive (file);
+      const bool background_import = filter::archive::is_archive (file);
       std::string extension = filter_url_get_extension (file);
       extension = filter::string::unicode_string_casefold (extension);
       if (background_import) {

@@ -54,9 +54,9 @@ void images_logic_import_images (std::string path)
     }
 
     // Uncompress archives.
-    else if (filter_archive_is_archive (path)) {
+    else if (filter::archive::is_archive (path)) {
       Database_Logs::log ("Unpacking archive " + basename);
-      std::string folder = filter_archive_uncompress (path);
+      std::string folder = filter::archive::decompress (path);
       filter_url_recursive_scandir (folder, paths);
     }
    

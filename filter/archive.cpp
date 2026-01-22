@@ -320,27 +320,16 @@ std::string untar_gzip (std::string file)
 }
 
 
-
-
-
-
-
-
-
-
-} // Namespace.
-
-
-// Uncompresses a known archive identified by $file.
+// Decompresses a known archive identified by $file.
 // Returns the path to the folder it created.
-std::string filter_archive_uncompress (std::string file)
+std::string decompress (std::string file)
 {
-  const int type = filter_archive_is_archive(file);
+  const int type = is_archive(file);
   if (type == 1) {
-    return filter::archive::untar_gzip (file);
+    return untar_gzip (file);
   }
   if (type == 2) {
-    return filter::archive::unzip (file);
+    return unzip (file);
   }
   return std::string();
 }
@@ -348,7 +337,7 @@ std::string filter_archive_uncompress (std::string file)
 
 // Returns 0 if it is not an archive that Bibledit supports.
 // Else returns 1, 2, 3... depending on the type of archive.
-int filter_archive_is_archive (std::string file)
+int is_archive (std::string file)
 {
   // Tar (.tar) archives, including those compressed with gzip (.tar.gz, .tgz), bzip (.tar.bz, .tbz), bzip2 (.tar.bz2, .tbz2), compress (.tar.Z, .taz), lzop (.tar.lzo, .tzo) and lzma (.tar.lzma)
   // Zip archives (.zip)
@@ -372,7 +361,7 @@ int filter_archive_is_archive (std::string file)
 
 
 // Create a tarball at $tarpath with input $files from $directory.
-std::string filter_archive_microtar_pack (std::string tarpath, std::string directory, std::vector <std::string> files)
+std::string microtar_pack (std::string tarpath, std::string directory, std::vector <std::string> files)
 {
   mtar_t tar;
   int res;
@@ -411,7 +400,7 @@ std::string filter_archive_microtar_pack (std::string tarpath, std::string direc
 
 
 // Unpack the tarball at $tarpath and store the individual files at $outputpath.
-std::string filter_archive_microtar_unpack (std::string tarball, std::string directory)
+std::string microtar_unpack (std::string tarball, std::string directory)
 {
   mtar_t tar;
   mtar_header_t h;
@@ -430,7 +419,7 @@ std::string filter_archive_microtar_unpack (std::string tarball, std::string dir
   
   // Create directory if needed.
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
-
+  
   // Unpack all files and save them.
   for (auto file : files) {
     // Find the file's information.
@@ -455,7 +444,12 @@ std::string filter_archive_microtar_unpack (std::string tarball, std::string dir
   // Close archive.
   res = mtar_close(&tar);
   if (res != MTAR_ESUCCESS) return mtar_strerror (res);
-
+  
   // Done, hallelujah :)
   return std::string();
 }
+
+
+} // Namespace.
+
+

@@ -32,9 +32,9 @@ std::string unzip_miniz_internal (std::string zipfile);
 std::string tar_gzip_file (std::string filename);
 std::string tar_gzip_folder (std::string folder);
 std::string untar_gzip (std::string file);
+std::string decompress (std::string file);
+int is_archive (std::string file);
+std::string microtar_pack (std::string tarball, std::string directory, std::vector <std::string> files);
+std::string microtar_unpack (std::string tarball, std::string directory);
 
 }
-std::string filter_archive_uncompress (std::string file);
-int filter_archive_is_archive (std::string file);
-std::string filter_archive_microtar_pack (std::string tarball, std::string directory, std::vector <std::string> files);
-std::string filter_archive_microtar_unpack (std::string tarball, std::string directory);

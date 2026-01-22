@@ -21,15 +21,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-std::string filter_archive_zip_folder (std::string folder);
-std::string filter_archive_zip_folder_shell_internal (std::string folder);
-std::string filter_archive_zip_folder_miniz_internal (std::string folder);
-std::string filter_archive_unzip (std::string file);
-std::string filter_archive_unzip_shell_internal (std::string file);
-std::string filter_archive_unzip_miniz_internal (std::string zipfile);
-std::string filter_archive_tar_gzip_file (std::string filename);
-std::string filter_archive_tar_gzip_folder (std::string folder);
-std::string filter_archive_untar_gzip (std::string file);
+namespace filter::archive {
+
+std::string zip_folder (std::string folder);
+std::string zip_folder_shell_internal (std::string folder);
+std::string zip_folder_miniz_internal (std::string folder);
+std::string unzip (std::string file);
+std::string unzip_shell_internal (std::string file);
+std::string unzip_miniz_internal (std::string zipfile);
+std::string tar_gzip_file (std::string filename);
+std::string tar_gzip_folder (std::string folder);
+std::string untar_gzip (std::string file);
+
+}
 std::string filter_archive_uncompress (std::string file);
 int filter_archive_is_archive (std::string file);
 std::string filter_archive_microtar_pack (std::string tarball, std::string directory, std::vector <std::string> files);

@@ -100,7 +100,7 @@ void export_usfm (std::string bible, bool log)
   
   // Compress USFM files into one zip file.
   filter_url_unlink (zippath);
-  std::string archive = filter_archive_zip_folder (usfmDirectoryFull);
+  std::string archive = filter::archive::zip_folder (usfmDirectoryFull);
   filter_url_rename (archive, zippath);
   
   

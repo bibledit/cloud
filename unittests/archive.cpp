@@ -67,7 +67,7 @@ TEST (filter, archive)
   // Test zip entire folder.
   {
     // Zip existing folder through the shell.
-    std::string zipfile = filter_archive_zip_folder_shell_internal (directory);
+    std::string zipfile = filter::archive::zip_folder_shell_internal (directory);
     EXPECT_EQ (true, file_or_dir_exists (zipfile));
     int size = filter_url_filesize (zipfile);
     int min = 3328;
@@ -76,97 +76,97 @@ TEST (filter, archive)
     if (size > max) EXPECT_EQ ("Should be no larger than " + std::to_string (max) + " bytes", std::to_string (size));
 
     // Zip existing folder through the miniz library.
-    zipfile = filter_archive_zip_folder_miniz_internal (directory);
+    zipfile = filter::archive::zip_folder_miniz_internal (directory);
     EXPECT_EQ (true, file_or_dir_exists (zipfile));
     size = filter_url_filesize (zipfile);
     if (size < 2433) EXPECT_EQ ("Should be at least 2433 bytes", std::to_string(size));
     if (size > 2445) EXPECT_EQ ("Should be no larger than 2445 bytes", std::to_string(size));
 
     // Zipping non-existing folder through the shell fails.
-    zipfile = filter_archive_zip_folder_shell_internal ("xxx");
+    zipfile = filter::archive::zip_folder_shell_internal ("xxx");
     EXPECT_EQ ("", zipfile);
 
     // Zipping non-existing folder through the miniz library fails.
-    zipfile = filter_archive_zip_folder_miniz_internal ("xxx");
+    zipfile = filter::archive::zip_folder_miniz_internal ("xxx");
     EXPECT_EQ ("", zipfile);
   }
   
   // Test unzip through the shell.
   {
     // Create zip file through the shell.
-    std::string zipfile = filter_archive_zip_folder_shell_internal (directory);
+    std::string zipfile = filter::archive::zip_folder_shell_internal (directory);
     // Test unzip through shell.
-    std::string folder = filter_archive_unzip_shell_internal (zipfile);
+    std::string folder = filter::archive::unzip_shell_internal (zipfile);
     EXPECT_EQ (true, file_or_dir_exists (zipfile));
     EXPECT_EQ (9000, filter_url_filesize (folder + "/testarchive1"));
     // Test that unzipping a non-existing zipfile returns nothing.
-    folder = filter_archive_unzip_shell_internal ("xxxxx");
+    folder = filter::archive::unzip_shell_internal ("xxxxx");
     EXPECT_EQ ("", folder);
   }
   
   // Test unzip through the miniz library.
   {
     // Create a zipfile with test data through the shell.
-    std::string zipfile = filter_archive_zip_folder_shell_internal (directory);
+    std::string zipfile = filter::archive::zip_folder_shell_internal (directory);
     // Unzip it through miniz and then check it.
-    std::string folder = filter_archive_unzip_miniz_internal (zipfile);
+    std::string folder = filter::archive::unzip_miniz_internal (zipfile);
     EXPECT_EQ (false, folder.empty ());
     std::string out_err;
     int result = filter::shell::run ("diff -r " + directory + " " + folder, out_err);
     EXPECT_EQ ("", out_err);
     EXPECT_EQ (0, result);
     // Test that unzipping a non-existing file returns nothing.
-    folder = filter_archive_unzip_miniz_internal ("xxxxx");
+    folder = filter::archive::unzip_miniz_internal ("xxxxx");
     EXPECT_EQ ("", folder);
   }
   
   // Test unzipping OpenDocument file through the miniz library.
   {
     std::string zipfile = filter_url_create_root_path ({"odf", "template.odt"});
-    std::string folder = filter_archive_unzip_miniz_internal (zipfile);
+    std::string folder = filter::archive::unzip_miniz_internal (zipfile);
     EXPECT_EQ (false, folder.empty ());
   }
 
   // Test tar gzip file.
   {
     // Test gzipped tarball compression.
-    std::string tarball = filter_archive_tar_gzip_file (path1);
+    std::string tarball = filter::archive::tar_gzip_file (path1);
     EXPECT_EQ (true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
     int min = 155;
     int max = 181;
     if ((size < min) || (size > max)) EXPECT_EQ ("between " + std::to_string (min) + " and " + std::to_string (max), std::to_string (size));
     // Test that compressing a non-existing file returns NULL.
-    tarball = filter_archive_tar_gzip_file ("xxxxx");
+    tarball = filter::archive::tar_gzip_file ("xxxxx");
     EXPECT_EQ ("", tarball);
   }
   
   // Test tar gzip folder.
   {
     // Test compress.
-    std::string tarball = filter_archive_tar_gzip_folder (directory);
+    std::string tarball = filter::archive::tar_gzip_folder (directory);
     EXPECT_EQ (true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
     int min = 615;
     int max = 634;
     if ((size < min) || (size > max)) EXPECT_EQ ("between " + std::to_string (min) + " and " + std::to_string (max), std::to_string (size));
     // Test that compressing a non-existing folder returns nothing.
-    //tarball = filter_archive_tar_gzip_folder (directory + "/x");
+    //tarball = filter::archive::tar_gzip_folder (directory + "/x");
     //EXPECT_EQ ("", tarball);
   }
   
   // Test untargz.
   {
     // Create tarball.
-    std::string tarball = filter_archive_tar_gzip_file (path1);
+    std::string tarball = filter::archive::tar_gzip_file (path1);
     // Test decompression.
-    std::string folder = filter_archive_untar_gzip (tarball);
+    std::string folder = filter::archive::untar_gzip (tarball);
     EXPECT_EQ (true, file_or_dir_exists (folder));
     folder = filter_archive_uncompress (tarball);
     EXPECT_EQ (true, file_or_dir_exists (folder));
     EXPECT_EQ (9000, filter_url_filesize (folder + "/testarchive1"));
     // Test that unzipping garbage returns NULL.
-    folder = filter_archive_untar_gzip ("xxxxx");
+    folder = filter::archive::untar_gzip ("xxxxx");
     EXPECT_EQ ("", folder);
   }
   

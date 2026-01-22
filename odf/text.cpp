@@ -41,7 +41,7 @@ odf_text::odf_text (std::string bible)
 
   // Unpack the .odt template.
   std::string template_odf = filter_url_create_root_path ({"odf", "template.odt"});
-  unpacked_odt_folder = filter_archive_unzip (template_odf);
+  unpacked_odt_folder = filter::archive::unzip (template_odf);
   filter_url_rmdir (filter_url_create_path ({unpacked_odt_folder, "Configurations2"}));
   // Create the Pictures folder.
   // pictures_folder = filter_url_create_path (unpackedOdtFolder, "Pictures");
@@ -1224,7 +1224,7 @@ void odf_text::save (std::string name)
   filter_url_file_put_contents (styles_xml_path, styles_xml.str ());
 
   // Save the OpenDocument file.
-  std::string zippedfile = filter_archive_zip_folder (unpacked_odt_folder);
+  std::string zippedfile = filter::archive::zip_folder (unpacked_odt_folder);
   filter_url_file_put_contents (name, filter_url_file_get_contents (zippedfile));
   filter_url_unlink (zippedfile);
 }

@@ -804,9 +804,6 @@
 /system/index.js
 /tasks
 /tasks/holder
-/tbsx
-/tbsx/example.txt
-/tbsx/specs.html
 /text
 /tidy
 /tidy/0readme.txt

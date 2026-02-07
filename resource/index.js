@@ -114,7 +114,10 @@ function resourceGetOne ()
         const returned_resource = response.substring(0, underscore_idx)
         response = response.substring(underscore_idx + 1);
         if (response.charAt(0) == "$") {
-          if (name) name.hidden = true;
+          if (name) {
+            name.hidden = true;
+            name.innerHTML = "";
+          }
           response = response.substring (1);
         }
         var content = document.querySelector("#content" + returned_resource);

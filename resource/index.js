@@ -90,7 +90,6 @@ function resourceGetOne ()
   const url = "get?" + new URLSearchParams([ ["resource", resourceDoing], ["book", resourceBook], ["chapter", resourceChapter], ["verse", resourceVerse] ]).toString()
   fetch(url, {
     method: "GET",
-    resourceDoing: resourceDoing,
     signal: resourceAbortController.signal
   })
   .then((response) => {
@@ -100,24 +99,31 @@ function resourceGetOne ()
     return response.text();
   })
   .then((response) => {
-    var line = document.querySelector("#line" + this.resourceDoing);
-    var name = document.querySelector("#name" + this.resourceDoing);
+    var line = document.querySelector("#line" + resourceDoing);
+    var name = document.querySelector("#name" + resourceDoing);
     if (response == "") {
       if (line) line.hidden = true;
       if (name) name.hidden = true;
     } else {
       if (line) line.hidden = false;
       if (name) name.hidden = false;
-      if (response.charAt (0) == "$") {
-        if (name) name.hidden = true;
-        response = response.substring (1);
-      }
-      var content = document.querySelector("#content" + this.resourceDoing);
-      var reload = document.querySelector("#reload");
-      if (reload) reload.innerHTML = response;
-      if (content) {
-        if (content.innerHTML != reload.innerHTML) {
-          content.innerHTML = response;
+      // The response includes the resource number prefixed.
+      // Use that to store the response in the correct container.
+      var underscore_idx = response.indexOf("_");
+      if (underscore_idx >= 0) {
+        const returned_resource = response.substring(0, underscore_idx)
+        response = response.substring(underscore_idx + 1);
+        if (response.charAt(0) == "$") {
+          if (name) name.hidden = true;
+          response = response.substring (1);
+        }
+        var content = document.querySelector("#content" + returned_resource);
+        var reload = document.querySelector("#reload");
+        if (reload) reload.innerHTML = response;
+        if (content) {
+          if (content.innerHTML != reload.innerHTML) {
+            content.innerHTML = response;
+          }
         }
       }
     }

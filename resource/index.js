@@ -99,20 +99,20 @@ function resourceGetOne ()
     return response.text();
   })
   .then((response) => {
-    var line = document.querySelector("#line" + resourceDoing);
-    var name = document.querySelector("#name" + resourceDoing);
-    if (response == "") {
-      if (line) line.hidden = true;
-      if (name) name.hidden = true;
-    } else {
-      if (line) line.hidden = false;
-      if (name) name.hidden = false;
-      // The response includes the resource number prefixed.
-      // Use that to store the response in the correct container.
-      var underscore_idx = response.indexOf("_");
-      if (underscore_idx >= 0) {
-        const returned_resource = response.substring(0, underscore_idx)
-        response = response.substring(underscore_idx + 1);
+    // The response includes the resource number prefixed.
+    // Use that to operate on the correct containers.
+    var underscore_idx = response.indexOf("_");
+    if (underscore_idx >= 0) {
+      const returned_resource = response.substring(0, underscore_idx)
+      response = response.substring(underscore_idx + 1);
+      var line = document.querySelector("#line" + returned_resource);
+      var name = document.querySelector("#name" + returned_resource);
+      if (response.length == 0) {
+        if (line) line.hidden = true;
+        if (name) name.hidden = true;
+      } else {
+        if (line) line.hidden = false;
+        if (name) name.hidden = false;
         if (response.charAt(0) == "$") {
           if (name) {
             name.hidden = true;

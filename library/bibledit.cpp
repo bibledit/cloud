@@ -496,3 +496,9 @@ void bibledit_put_reference_from_accordance (const char * reference)
   std::string verse_s = passages[0].m_verse;
   ipc_focus::set_passage (webserver_request, book, chapter, verse);
 }
+
+
+bool bibledit_internal_server_is_up(const int port)
+{
+  return filter_url_port_can_connect ("localhost", port);
+}

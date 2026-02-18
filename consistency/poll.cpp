@@ -40,7 +40,7 @@ bool consistency_poll_acl (Webserver_Request& webserver_request)
 std::string consistency_poll (Webserver_Request& webserver_request)
 {
   const int id = filter::string::convert_to_int (webserver_request.query ["id"]);
-  Consistency_Logic consistency_logic = Consistency_Logic (webserver_request, id);
+  const Consistency_Logic consistency_logic(webserver_request, id);
   const std::string response = consistency_logic.response ();
   if (response != database::temporal::get_value (id, "response")) {
     database::temporal::set_value (id, "response", response);

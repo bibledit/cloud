@@ -27,10 +27,11 @@ class Consistency_Logic
 {
 public:
   Consistency_Logic (Webserver_Request& webserver_request, int id);
-  std::string response ();
+  std::string response() const;
 private:
   Webserver_Request& m_webserver_request;
   int m_id {0};
-  std::string verseText (std::string resource, int book, int chapter, int verse);
-  std::string omit_verse_text (std::string input);
+  std::string verse_text (const std::string& resource,
+                          const int book, const int chapter, const int verse) const;
+  std::string omit_verse_text (const std::string& input) const;
 };

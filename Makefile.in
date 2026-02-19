@@ -468,7 +468,7 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/webview.$(OBJEXT) unittests/javascript.$(OBJEXT) \
 	unittests/merge.$(OBJEXT) unittests/html2format.$(OBJEXT) \
 	unittests/bibleimages.$(OBJEXT) unittests/image.$(OBJEXT) \
-	unittests/scraper.$(OBJEXT)
+	unittests/scraper.$(OBJEXT) unittests/consistency.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -810,16 +810,17 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/cache.Po unittests/$(DEPDIR)/checks.Po \
 	unittests/$(DEPDIR)/checksum.Po unittests/$(DEPDIR)/client.Po \
 	unittests/$(DEPDIR)/config.Po unittests/$(DEPDIR)/confirm.Po \
-	unittests/$(DEPDIR)/date.Po unittests/$(DEPDIR)/dev.Po \
-	unittests/$(DEPDIR)/diff.Po unittests/$(DEPDIR)/editone.Po \
-	unittests/$(DEPDIR)/etcbc4.Po unittests/$(DEPDIR)/export.Po \
-	unittests/$(DEPDIR)/flate.Po unittests/$(DEPDIR)/folders.Po \
-	unittests/$(DEPDIR)/git.Po unittests/$(DEPDIR)/html.Po \
-	unittests/$(DEPDIR)/html2format.Po unittests/$(DEPDIR)/http.Po \
-	unittests/$(DEPDIR)/image.Po unittests/$(DEPDIR)/ipc.Po \
-	unittests/$(DEPDIR)/javascript.Po unittests/$(DEPDIR)/jobs.Po \
-	unittests/$(DEPDIR)/json.Po unittests/$(DEPDIR)/kjv.Po \
-	unittests/$(DEPDIR)/ldap.Po unittests/$(DEPDIR)/lexicon.Po \
+	unittests/$(DEPDIR)/consistency.Po unittests/$(DEPDIR)/date.Po \
+	unittests/$(DEPDIR)/dev.Po unittests/$(DEPDIR)/diff.Po \
+	unittests/$(DEPDIR)/editone.Po unittests/$(DEPDIR)/etcbc4.Po \
+	unittests/$(DEPDIR)/export.Po unittests/$(DEPDIR)/flate.Po \
+	unittests/$(DEPDIR)/folders.Po unittests/$(DEPDIR)/git.Po \
+	unittests/$(DEPDIR)/html.Po unittests/$(DEPDIR)/html2format.Po \
+	unittests/$(DEPDIR)/http.Po unittests/$(DEPDIR)/image.Po \
+	unittests/$(DEPDIR)/ipc.Po unittests/$(DEPDIR)/javascript.Po \
+	unittests/$(DEPDIR)/jobs.Po unittests/$(DEPDIR)/json.Po \
+	unittests/$(DEPDIR)/kjv.Po unittests/$(DEPDIR)/ldap.Po \
+	unittests/$(DEPDIR)/lexicon.Po \
 	unittests/$(DEPDIR)/localization.Po unittests/$(DEPDIR)/log.Po \
 	unittests/$(DEPDIR)/login.Po unittests/$(DEPDIR)/mail.Po \
 	unittests/$(DEPDIR)/md5.Po unittests/$(DEPDIR)/memory.Po \
@@ -1721,7 +1722,8 @@ unittest_SOURCES = \
 	unittests/html2format.cpp \
 	unittests/bibleimages.cpp \
 	unittests/image.cpp \
-	unittests/scraper.cpp
+	unittests/scraper.cpp \
+	unittests/consistency.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -3650,6 +3652,8 @@ unittests/image.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/scraper.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/consistency.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -4298,6 +4302,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/client.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/config.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/confirm.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/consistency.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/date.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/dev.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/diff.Po@am__quote@ # am--include-marker
@@ -5489,6 +5494,7 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/client.Po
 	-rm -f unittests/$(DEPDIR)/config.Po
 	-rm -f unittests/$(DEPDIR)/confirm.Po
+	-rm -f unittests/$(DEPDIR)/consistency.Po
 	-rm -f unittests/$(DEPDIR)/date.Po
 	-rm -f unittests/$(DEPDIR)/dev.Po
 	-rm -f unittests/$(DEPDIR)/diff.Po
@@ -6165,6 +6171,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/client.Po
 	-rm -f unittests/$(DEPDIR)/config.Po
 	-rm -f unittests/$(DEPDIR)/confirm.Po
+	-rm -f unittests/$(DEPDIR)/consistency.Po
 	-rm -f unittests/$(DEPDIR)/date.Po
 	-rm -f unittests/$(DEPDIR)/dev.Po
 	-rm -f unittests/$(DEPDIR)/diff.Po

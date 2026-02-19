@@ -1835,6 +1835,7 @@
 		CADE475824F17BF4003165BB /* cloud-macos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "cloud-macos.entitlements"; sourceTree = "<group>"; };
 		CADE475924F17CF0003165BB /* libmimetic.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmimetic.0.dylib; path = ../../../../opt/local/lib/libmimetic.0.dylib; sourceTree = "<group>"; };
 		CADE475B24F17D04003165BB /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = ../../../../opt/local/lib/libcurl.dylib; sourceTree = "<group>"; };
+		CADECDB32F46EFB2003369FC /* consistency.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = consistency.cpp; sourceTree = "<group>"; };
 		CAE406FD2D134B4E005A9142 /* usfm-html.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "usfm-html.cpp"; sourceTree = "<group>"; };
 		CAE622C92E5B865700BD7CAA /* flate4.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = flate4.html; sourceTree = "<group>"; };
 		CAEB953F27909FDD00F0F093 /* libraries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libraries.h; sourceTree = "<group>"; };
@@ -4362,6 +4363,7 @@
 				CADE42DD24F174BD003165BB /* client.cpp */,
 				CADE442A24F174BE003165BB /* config.cpp */,
 				CADE42EF24F174BD003165BB /* confirm.cpp */,
+				CADECDB32F46EFB2003369FC /* consistency.cpp */,
 				CADE42ED24F174BD003165BB /* date.cpp */,
 				CADE444A24F174BE003165BB /* dev.cpp */,
 				CADE44C624F174BF003165BB /* diff.cpp */,

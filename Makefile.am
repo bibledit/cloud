@@ -633,8 +633,8 @@ unittest_SOURCES = \
 	unittests/html2format.cpp \
 	unittests/bibleimages.cpp \
 	unittests/image.cpp \
-	unittests/scraper.cpp
-
+	unittests/scraper.cpp \
+	unittests/consistency.cpp
 unittest_LDADD = libbibledit.a
 
 generate_SOURCES = \

@@ -385,7 +385,7 @@ function oneverseEditorLoadNonEditable ()
 // 2. The given number of characters were inserted, and...
 // 3. The given number of characters were deleted.
 // With 2-byte UTF-16 characters, one character is given as a "1" in the lists.
-// With 4-byte UTF-16 characters, one characters is represented by a "2" in the lists.
+// With 4-byte UTF-16 characters, one character is represented by a "2" in the lists.
 var oneverseEditorChangeOffsets = [];
 var oneverseEditorChangeInserts = [];
 var oneverseEditorChangeDeletes = [];
@@ -587,12 +587,19 @@ function oneversePositionCaretTimeout ()
 
 function oneverseScrollVerseIntoView ()
 {
-  var oneeditor = document.querySelector("#oneeditor");
-  oneeditor.scrollIntoView({
-    behavior: 'smooth',
-    block: 'center',
-    inline: 'center'
+  var workspacewrapper = document.querySelector("#workspacewrapper")
+  var oneeditor = document.querySelector("#oneeditor")
+  var verseTop = oneeditor.getBoundingClientRect().top
+  var workspaceHeight = workspacewrapper.clientHeight;
+  var currentScrollTop = workspacewrapper.scrollTop;
+  var scrollTo = verseTop - (workspaceHeight * verticalCaretPosition / 100) + currentScrollTop;
+  workspacewrapper.scroll({
+    top: scrollTo,
+    behavior: "auto",
   });
+  // Behaviour "smooth" fails to work on Android.
+  // See https://github.com/bibledit/cloud/issues/1076
+  // Behaviour "auto" works on Android.
 }
 
 

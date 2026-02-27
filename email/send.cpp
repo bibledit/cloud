@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <filter/date.h>
+#include <filter/mail.h>
 #ifdef HAVE_CLOUD
 #include <curl/curl.h>
 #endif
@@ -174,10 +175,10 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // If all went well, it returns an empty string.
 // In case of failure, it returns the error message.
 std::string send ([[maybe_unused]] std::string to_mail,
-                        std::string to_name,
-                        std::string subject,
-                        std::string body,
-                        [[maybe_unused]] bool verbose)
+                  std::string to_name,
+                  std::string subject,
+                  std::string body,
+                  [[maybe_unused]] bool verbose)
 {
   // Truncate huge emails because libcurl crashes on it.
   const size_t length = body.length();
@@ -230,18 +231,27 @@ std::string send ([[maybe_unused]] std::string to_mail,
   payload_text.clear();
   std::string payload;
   payload = "Date: " + std::to_string (filter::date::numerical_year (seconds)) + "/" + std::to_string (filter::date::numerical_month (seconds)) + "/" + std::to_string (filter::date::numerical_month_day (seconds)) + " " + std::to_string (filter::date::numerical_hour (seconds)) + ":" + std::to_string (filter::date::numerical_minute (seconds)) + "\n";
-  payload_text.push_back (payload);
-  payload = "To: <" + to_mail + "> " + to_name + "\n";
-  payload_text.push_back (payload);
-  payload = "From: <" + from_mail + "> " + from_name + "\n";
-  payload_text.push_back (payload);
+  payload_text.push_back (std::move(payload));
+  const auto generate_address_line = [] (const char* header,
+                                         const std::string& name,
+                                         const std::string& mail) {
+    std::stringstream ss{};
+    ss << header << ":";
+    ss << " " << std::quoted(filter_mail_address_name(name));
+    ss << " " << "<" << mail << ">";
+    return std::move(ss).str();
+  };
+  payload = generate_address_line("To", to_name, to_mail) + "\n";
+  payload_text.push_back (std::move(payload));
+  payload = generate_address_line("From", from_name, from_mail) + "\n";
+  payload_text.push_back (std::move(payload));
   std::string site = from_mail;
   size_t pos = site.find ("@");
   if (pos != std::string::npos) site = site.substr (pos);
   payload = "Message-ID: <" + md5 (std::to_string (filter::string::rand (0, 1000000))) + site + ">\n";
-  payload_text.push_back (payload);
+  payload_text.push_back (std::move(payload));
   payload = "Subject: " + subject + "\n";
-  payload_text.push_back (payload);
+  payload_text.push_back (std::move(payload));
   payload_text.push_back ("Mime-version: 1.0\n");
   payload_text.push_back (R"(Content-Type: multipart/alternative; boundary="------------010001060501040600060905")");
   // Empty line to divide headers from body, see RFC5322.

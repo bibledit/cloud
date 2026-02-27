@@ -180,4 +180,34 @@ void filter_mail_dissect (std::string message, std::string & from, std::string &
 }
 
 
+std::string filter_mail_address_name (std::string name) // Todo
+{
+  // Allowed characters in the To: and From: headers.
+  // Letters: a-z, A-Z.
+  // Digits: 0-9.
+  // Symbols: ! # $ % & ' * + - / = ? ^ _ { | } ~`.
+  // Dot (.): Allowed, but cannot be the first or last character,
+  //          and cannot appear consecutively (e.g., user..name@example.com is invalid).
+  // Quoted Strings: If the local part is enclosed in quotes, spaces and other characters are permitted, though rarely used.
+  // To make the filter easy, allow only letters, digits, underscores and spaces.
+  // See https://www.rfc-editor.org/rfc/rfc5322.txt
+  // more specifically https://datatracker.ietf.org/doc/html/rfc5322#section-3.4
+  const auto allowed = [](const char c) {
+    // Put the checks in an order likely optimized for speed.
+    if (c >= 'a' and c <= 'z')
+      return true;
+    if (c >= 'A' and c <= 'Z')
+      return true;
+    if (c == ' ')
+      return true;
+    if (c >= '0' and c <= '9')
+      return true;
+    return false;
+  };
+  std::string output;
+  std::ranges::copy_if(name, std::back_inserter(output), allowed);
+  return output;
+}
+
+
 #endif

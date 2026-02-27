@@ -191,6 +191,15 @@ TEST (filter, mail)
       EXPECT_EQ (contents, plaintext);
     }
   }
+
+  // Test cleaning up the name in the To: and From: headers.
+  {
+    EXPECT_EQ(filter_mail_address_name("Ab1 "), "Ab1 ");
+    EXPECT_EQ(filter_mail_address_name(R"(a"b)"), "ab");
+    EXPECT_EQ(filter_mail_address_name("a.b"), "ab");
+    EXPECT_EQ(filter_mail_address_name("äëaBC"), "aBC");
+    EXPECT_EQ(filter_mail_address_name("א"), "");
+  }
 #endif
 }
 

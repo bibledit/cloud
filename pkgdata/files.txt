@@ -1083,5 +1083,6 @@
 /webserver
 /workspace
 /workspace/index.html
+/workspace/index.js
 /workspace/organize.html
 /workspace/settings.html

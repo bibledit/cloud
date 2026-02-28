@@ -59,3 +59,4 @@
 </div>
 <!-- #ENDZONE height3 -->
 </div>
+<script type="text/javascript" src="index.js?##VERSION##"></script>

@@ -101,6 +101,7 @@
 		CA314CD32662298D00EF8CE3 /* delay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = delay.h; sourceTree = "<group>"; };
 		CA37D368293D2EC50065795A /* 00readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 00readme.txt; sourceTree = "<group>"; };
 		CA3AF3182E0857BC0034F559 /* certificates.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = certificates.sh; sourceTree = "<group>"; };
+		CA408AF12F53351500C1FFF4 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CA40E47028A91E7200E0A563 /* translated9edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translated9edit.cpp; sourceTree = "<group>"; };
 		CA40E47128A91E7200E0A563 /* translated1edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translated1edit.cpp; sourceTree = "<group>"; };
 		CA40E47228A91E7200E0A563 /* translated9edit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = translated9edit.h; sourceTree = "<group>"; };
@@ -4750,16 +4751,17 @@
 		CADE452F24F174C1003165BB /* workspace */ = {
 			isa = PBXGroup;
 			children = (
-				CADE454524F174C1003165BB /* index.cpp */,
 				CADE453024F174C1003165BB /* index.h */,
+				CADE454524F174C1003165BB /* index.cpp */,
 				CADE453224F174C1003165BB /* index.html */,
-				CADE453524F174C1003165BB /* logic.cpp */,
+				CA408AF12F53351500C1FFF4 /* index.js */,
 				CADE453824F174C1003165BB /* logic.h */,
-				CADE453624F174C1003165BB /* organize.cpp */,
+				CADE453524F174C1003165BB /* logic.cpp */,
 				CADE453A24F174C1003165BB /* organize.h */,
+				CADE453624F174C1003165BB /* organize.cpp */,
 				CADE453724F174C1003165BB /* organize.html */,
-				CADE454424F174C1003165BB /* settings.cpp */,
 				CADE453424F174C1003165BB /* settings.h */,
+				CADE454424F174C1003165BB /* settings.cpp */,
 				CADE453C24F174C1003165BB /* settings.html */,
 			);
 			path = workspace;

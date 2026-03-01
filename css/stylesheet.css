@@ -1011,14 +1011,6 @@ input#cancel,
 
 /* END OF THEME SPECIFIC STYLING */
 
-#breadcrumbs:not(:empty) {
-  margin: .2em 0;
-  padding: .2em 0;
-  border-top: 2px dotted #aaa;
-}
-.dark-background #breadcrumbs:not(:empty) a {
-  color: #efefef;
-}
 .menu-basic a {
   border-style: solid;
   text-decoration: none!important;

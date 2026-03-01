@@ -72,7 +72,6 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   
   Assets_Header header = Assets_Header (translate("Edit USFM"), webserver_request);
   header.set_navigator ();
-  header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   header.notify_on ();
   header.set_focus_group(ipc_focus::get_focus_group(webserver_request));
   page = header.run ();

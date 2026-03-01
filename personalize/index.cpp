@@ -88,7 +88,6 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
 
   Assets_Header header = Assets_Header (translate("Preferences"), webserver_request);
-  header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   std::string page = header.run ();
 
   std::string success;
@@ -170,16 +169,8 @@ std::string personalize_index (Webserver_Request& webserver_request)
     return std::string();
   }
   view.set_variable ("caretposition", std::to_string (webserver_request.database_config_user ()->get_vertical_caret_position ()));
+  
 
-  
-  // Whether to display bread crumbs.
-  if (checkbox == "breadcrumbs") {
-    webserver_request.database_config_user ()->set_display_breadcrumbs (checked);
-    return filter::string::get_reload ();
-  }
-  view.set_variable ("breadcrumbs", filter::string::get_checkbox_status (webserver_request.database_config_user ()->get_display_breadcrumbs ()));
-  
-  
   // Workspace menu fade-out delay.
   if (input_id == "workspacefadeoutdelay") {
     int workspacefadeoutdelay = filter::string::convert_to_int (input_val);

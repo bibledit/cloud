@@ -175,8 +175,6 @@ public:
   int get_vertical_caret_position () const;
   void set_current_theme (int index) const;
   int get_current_theme () const;
-  bool get_display_breadcrumbs () const;
-  void set_display_breadcrumbs (bool value) const;
   void set_workspace_menu_fadeout_delay (int value) const;
   int get_workspace_menu_fadeout_delay () const;
   int get_editing_allowed_difference_chapter () const;

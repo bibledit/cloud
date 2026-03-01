@@ -1082,17 +1082,6 @@ void Database_Config_User::set_current_theme (int index) const
 }
 
 
-constexpr const auto display_breadcrumbs_key {"display-breadcrumbs"};
-bool Database_Config_User::get_display_breadcrumbs () const
-{
-  return get_boolean_value (display_breadcrumbs_key, false);
-}
-void Database_Config_User::set_display_breadcrumbs (bool value) const
-{
-  set_boolean_value (display_breadcrumbs_key, value);
-}
-
-
 constexpr const auto workspace_menu_fadeout_delay_key {"workspace-menu-fadeout-delay"};
 int Database_Config_User::get_workspace_menu_fadeout_delay () const
 {

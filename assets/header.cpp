@@ -108,13 +108,6 @@ void Assets_Header::set_fading_menu (const std::string& html)
 }
 
 
-// Add one breadcrumb $item with $text.
-void Assets_Header::add_bread_crumb (const std::string& item, const std::string& text)
-{
-  m_bread_crumbs.push_back (std::pair (item, text));
-}
-
-
 void Assets_Header::set_focus_group(const int focus_group)
 {
   m_focus_group = focus_group;
@@ -269,30 +262,6 @@ std::string Assets_Header::run ()
   m_view->set_variable ("workspace_theme_color", filter::css::theme_picker (current_theme_index, 4));
   // ..and as a variable for JavaScript.
   m_view->set_variable ("themecolorfortabs", filter::css::theme_picker (current_theme_index, 1));
-
-  if (m_webserver_request.database_config_user ()->get_display_breadcrumbs ()) {
-    if (!m_bread_crumbs.empty ()) {
-      // No bread crumbs in basic mode.
-      // The crumbs would be incorrect anyway, because they show the trail of advanced mode.
-      if (!config::logic::basic_mode (m_webserver_request)) {
-        std::stringstream track {};
-        track << "<a href=" << std::quoted(index_index_url ()) << ">";
-        track << menu_logic_menu_text ("") << "</a>";
-        for (const auto& crumb : m_bread_crumbs) {
-          track << " » ";
-          if (!crumb.first.empty ()) {
-            track << "<a href=" << std::quoted("/" + menu_logic_menu_url (crumb.first)) << ">";
-          }
-          track << crumb.second;
-          if (!crumb.first.empty ()) {
-            track << "</a>";
-          }
-        }
-        m_view->enable_zone("breadcrumbs");
-        m_view->set_variable ("breadcrumbs", track.str());
-      }
-    }
-  }
 
   m_view->set_variable ("focus_group", std::to_string(m_focus_group));
   

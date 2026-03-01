@@ -166,7 +166,6 @@ std::string search_similar (Webserver_Request& webserver_request)
   
   Assets_Header header = Assets_Header (translate("Search"), webserver_request);
   header.set_navigator ();
-  header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   
   Assets_View view;

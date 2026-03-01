@@ -38,7 +38,6 @@ public:
   bool display_topbar ();
   void refresh (int seconds, const std::string& url = "");
   void set_fading_menu (const std::string& html);
-  void add_bread_crumb (const std::string& item, const std::string& text);
   void set_focus_group(const int focus_group);
   std::string run ();
 private:
@@ -50,7 +49,6 @@ private:
   std::string m_included_editor_stylesheet {};
   Webserver_Request& m_webserver_request;
   std::string m_fading_menu {};
-  std::vector <std::pair <std::string, std::string> > m_bread_crumbs {};
   int m_focus_group {0};
 };
 

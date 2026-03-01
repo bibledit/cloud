@@ -19,9 +19,6 @@
 <!-- #ENDZONE display_navigator -->
 ##usermenu##
 <div class="clearfix"></div>
-<!-- #BEGINZONE breadcrumbs -->
-<div id="breadcrumbs">##breadcrumbs##</div>
-<!-- #ENDZONE breadcrumbs -->
 </div>
 <!-- #ENDZONE display_topbar -->
 <script type="text/javascript">const focusGroup = ##focus_group##;</script>

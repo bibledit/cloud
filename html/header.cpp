@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic pop
 
 
-// Class for creating a html Bible header with breadcrumbs and search box.
+// Class for creating a html Bible header with  search box.
 
 
 Html_Header::Html_Header (HtmlText& html_text):

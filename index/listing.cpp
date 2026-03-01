@@ -79,7 +79,6 @@ bool index_listing_acl (Webserver_Request& webserver_request, std::string url)
 std::string index_listing (Webserver_Request& webserver_request, std::string url)
 {
   std::string page = assets_page::header (translate ("Bibledit"), webserver_request);
-  // No breadcrumbs because the user can arrive here from more than one place.
   Assets_View view;
   url = filter_url_urldecode (url);
   url = filter_url_create_path_web ({std::string(), url});

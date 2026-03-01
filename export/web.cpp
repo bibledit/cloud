@@ -102,7 +102,7 @@ void export_web_book (std::string bible, int book, bool log)
     filter_text_chapter.html_text_linked = new HtmlText (translate("Bible"));
     filter_text_chapter.html_text_linked->custom_class = filter::css::getClass (bible);
     
-    // Create breadcrumbs and navigator for the chapter.
+    // Create navigator for the chapter.
     Html_Header html_header = Html_Header (*filter_text_chapter.html_text_linked);
     html_header.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + std::to_string (chapter));
     std::vector <std::pair <std::string, std::string> > breadcrumbs_navigator;

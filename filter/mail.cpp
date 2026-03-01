@@ -180,7 +180,7 @@ void filter_mail_dissect (std::string message, std::string & from, std::string &
 }
 
 
-std::string filter_mail_address_name (std::string name) // Todo
+std::string filter_mail_address_name (std::string name)
 {
   // Allowed characters in the To: and From: headers.
   // Letters: a-z, A-Z.

@@ -105,25 +105,25 @@ void export_web_book (std::string bible, int book, bool log)
     // Create navigator for the chapter.
     Html_Header html_header = Html_Header (*filter_text_chapter.html_text_linked);
     html_header.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + std::to_string (chapter));
-    std::vector <std::pair <std::string, std::string> > breadcrumbs_navigator;
-    breadcrumbs_navigator.push_back (std::pair (bible, filter_url_html_file_name_bible ()));
-    breadcrumbs_navigator.push_back (std::pair (translate (database::books::get_english_from_id (static_cast<book_id>(book))), filter_url_html_file_name_bible ()));
+    std::vector <std::pair <std::string, std::string> > navigator;
+    navigator.push_back (std::pair (bible, filter_url_html_file_name_bible ()));
+    navigator.push_back (std::pair (translate (database::books::get_english_from_id (static_cast<book_id>(book))), filter_url_html_file_name_bible ()));
     if (!is_first_chapter) {
-      breadcrumbs_navigator.push_back (std::pair ("«", filter_url_html_file_name_bible ("", book, chapter - 1)));
+      navigator.push_back (std::pair ("«", filter_url_html_file_name_bible ("", book, chapter - 1)));
     }
-    breadcrumbs_navigator.push_back (std::pair (std::to_string (chapter), filter_url_html_file_name_bible ("", book)));
+    navigator.push_back (std::pair (std::to_string (chapter), filter_url_html_file_name_bible ("", book)));
     if (!is_last_chapter) {
-      breadcrumbs_navigator.push_back (std::pair ("»", filter_url_html_file_name_bible ("", book, chapter + 1)));
+      navigator.push_back (std::pair ("»", filter_url_html_file_name_bible ("", book, chapter + 1)));
     }
     // Optionally add a link for giving feedback by email.
     if (!feedback_email.empty ()) {
-      breadcrumbs_navigator.push_back (std::pair ("|", ""));
+      navigator.push_back (std::pair ("|", ""));
       std::string subject = translate ("Comment on") + " " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)) + " " + std::to_string (chapter);
       subject = filter::string::replace (" ", "%20", subject);
       std::string link = "mailto:" + feedback_email + "?Subject=" + subject;
-      breadcrumbs_navigator.push_back (std::pair (translate ("Feedback"), link));
+      navigator.push_back (std::pair (translate ("Feedback"), link));
     }
-    html_header.create (breadcrumbs_navigator);
+    html_header.create (navigator);
     
     // Create interlinked html for the chapter.
     filter_text_chapter.run (stylesheet);
@@ -181,7 +181,7 @@ void export_web_index (std::string bible, bool log)
   
   // Main index file.
   HtmlText html_text_rich_bible_index (bible);
-  // On top are the breadcrumbs, starting with a clickable Bible name.
+  // On top is the navigator starting with a clickable Bible name.
   Html_Header htmlHeader = Html_Header (html_text_rich_bible_index);
   htmlHeader.search_back_link (backLinkPath + filter_url_html_file_name_bible (), translate("Go back to Bible"));
   htmlHeader.create ({ std::pair (bible, filter_url_html_file_name_bible ())});

@@ -600,6 +600,15 @@ function oneverseScrollVerseIntoView ()
   // Behaviour "smooth" fails to work on Android.
   // See https://github.com/bibledit/cloud/issues/1076
   // Behaviour "auto" works on Android.
+
+  // The call above to focus the caret scrolls the caret horizontally into view.
+  // Restore the workspace horizontal scrolling position.
+  if (window.location !== window.parent.location) {
+    var scrollLeft = window.sessionStorage.workspaceScrollLeft
+    setTimeout(() => {
+      window.parent.workspacewrapper.scrollLeft = scrollLeft
+    }, 50);
+  }
 }
 
 

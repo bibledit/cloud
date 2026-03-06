@@ -88,12 +88,15 @@ static void changes_process_identifiers (Webserver_Request& webserver_request,
         const std::string old_text = filter_text_old.text_text->get ();
         const std::string new_text = filter_text_new.text_text->get ();
         if (old_text != new_text) {
+          // Enter new lines in the email body.
+          // This avoids this error: 501 Syntax error - line too long.
+          // See https://www.rfc-editor.org/rfc/rfc5322#section-2.1.1
           const std::string modification = filter_diff_diff (old_text, new_text);
-          email += "<div>";
+          email += "<div>\n";
           email += filter_passage_display (book, chapter, std::to_string (verse));
-          email += " ";
+          email += "\n";
           email += modification;
-          email += "</div>";
+          email += "\n</div>\n";
           if (webserver_request.database_config_user()->get_user_user_changes_notifications_online (user)) {
             database::modifications::recordNotification ({user}, changes_personal_category (), bible, book, chapter, verse, old_html, modification, new_html);
           }
@@ -337,7 +340,7 @@ void changes_modifications ()
     
     
     // Storage for body of the email with the changes.
-    std::vector <std::string> email_changes {};
+    std::vector<std::string> email_changes {};
     
     
     // Generate the online change notifications.

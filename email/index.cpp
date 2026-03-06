@@ -107,13 +107,13 @@ std::string email_index (Webserver_Request& webserver_request)
   view.set_variable ("storageport", database::config::general::get_mail_storage_port ());
   
   // Sending email.
-  if (webserver_request.post_get("send") != "") {
-    std::string sendhost = webserver_request.post_get("sendhost");
-    std::string sendauthentication = webserver_request.post_get("sendauthentication");
-    std::string sendusername = webserver_request.post_get("sendusername");
-    std::string sendpassword = webserver_request.post_get("sendpassword");
-    std::string sendsecurity = webserver_request.post_get("sendsecurity");
-    std::string sendport  = webserver_request.post_get("sendport");
+  if (!webserver_request.post_get("send").empty()) {
+    const std::string sendhost = webserver_request.post_get("sendhost");
+    const std::string sendauthentication = webserver_request.post_get("sendauthentication");
+    const std::string sendusername = webserver_request.post_get("sendusername");
+    const std::string sendpassword = webserver_request.post_get("sendpassword");
+    const std::string sendsecurity = webserver_request.post_get("sendsecurity");
+    const std::string sendport  = webserver_request.post_get("sendport");
     database::config::general::set_mail_send_host (sendhost);
     database::config::general::set_mail_send_username (sendusername);
     database::config::general::set_mail_send_password (sendpassword);
@@ -121,7 +121,7 @@ std::string email_index (Webserver_Request& webserver_request)
     std::string send_success  = translate("The details were saved.");
     std::string send_error;
     std::string send_debug;
-    std::string result = email::send (database::config::general::get_site_mail_address(), database::config::general::get_site_mail_name(), "Test", "This is to check sending email.", true);
+    const std::string result = email::send(database::config::general::get_site_mail_address(), database::config::general::get_site_mail_name(), "Test", "This is to check sending email.", true);
     if (result.empty()) {
       send_success.append (" ");
       send_success.append ("For checking sending email, a test email was sent out to the account above:");

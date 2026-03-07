@@ -41,9 +41,10 @@ document.addEventListener("DOMContentLoaded", function(e) {
   });
 
   oneverseBindUnselectable ();
-  
-  var stylebutton = document.querySelector ("#stylebutton");
-  stylebutton.addEventListener("click", oneverseStylesButtonHandler);
+
+  // The style button has a setting whether to be there.
+  // Hence the conditional operator ( ? ).
+  document.querySelector("#stylebutton")?.addEventListener("click", oneverseStylesButtonHandler);
   
   window.addEventListener ("keydown", oneverseWindowKeyHandler);
 
@@ -662,7 +663,10 @@ function oneverseUnselectablePreventDefault(event)
 function oneverseShowResponse (response)
 {
   if (!oneverseEditorWriteAccess) return;
-  document.querySelector ("#stylebutton").hidden = true;
+  var stylebutton = document.querySelector("#stylebutton")
+  if (stylebutton) {
+    stylebutton.hidden = true;
+  }
   document.querySelector ("#nostyles").hidden = true;
   var area = document.querySelector ("#stylesarea");
   area.innerHTML = "";
@@ -676,7 +680,10 @@ function oneverseClearStyles ()
   var area = document.querySelector ("#stylesarea");
   area.classList.remove ('style-of-stylesarea');
   area.innerHTML = "";
-  document.querySelector ("#stylebutton").hidden = false;
+  var stylebutton = document.querySelector("#stylebutton")
+  if (stylebutton) {
+    stylebutton.hidden = false;
+  }
   document.querySelector ("#nostyles").hidden = false;
 }
 

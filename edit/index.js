@@ -42,8 +42,9 @@ document.addEventListener("DOMContentLoaded", function(e) {
   });
 
   editorBindUnselectable ();
-  
-  document.querySelector("#stylebutton").addEventListener("click", function(event) {
+
+  // The style button may be there or not, hence the conditional operator ( ? ).
+  document.querySelector("#stylebutton")?.addEventListener("click", function(event) {
     editorStylesButtonHandler();
   });
   
@@ -866,7 +867,10 @@ function unselectablePreventDefault (event) {
 function editorShowResponse (response)
 {
   if (!editorWriteAccess) return;
-  document.querySelector ("#stylebutton").hidden = true;
+  var stylebutton = document.querySelector("#stylebutton")
+  if (stylebutton) {
+    stylebutton.hidden = true;
+  }
   document.querySelector ("#nostyles").hidden = true;
   var area = document.querySelector ("#stylesarea");
   area.innerHTML = "";
@@ -881,7 +885,10 @@ function editorClearStyles ()
   var area = document.querySelector ("#stylesarea");
   area.classList.remove ('style-of-stylesarea');
   area.innerHTML = "";
-  document.querySelector ("#stylebutton").hidden = false;
+  var stylebutton = document.querySelector("#stylebutton")
+  if (stylebutton) {
+    stylebutton.hidden = false;
+  }
   document.querySelector ("#nostyles").hidden = false;
 }
 

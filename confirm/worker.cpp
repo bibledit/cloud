@@ -61,9 +61,9 @@ static void inform_managers (const std::string& email, const std::string& body)
       newbody.append (translate ("Email address:"));
       newbody.append (" ");
       newbody.append (email);
-      newbody.append (". ");
+      newbody.append (". \n");
       newbody.append (translate ("The following email was sent to this user:"));
-      newbody.append (" ");
+      newbody.append (" \n");
       newbody.append (body);
       email::schedule (mailto, subject, newbody);
     }
@@ -99,7 +99,7 @@ void setup (Webserver_Request& webserver_request,
   std::string confirmation_url = filter_url_build_http_query(site_url + session_confirm_url (), {{"id", std::to_string(confirmation_id)}});
   node.text ().set (confirmation_url.c_str());
   std::stringstream output;
-  document.print (output, "", pugi::format_raw);
+  document.print (output, " ", pugi::format_indent);
   initial_body.append (output.str ());
   email::schedule (mailto, initial_subject, initial_body);
   database::confirm::store (confirmation_id, query, mailto, subsequent_subject, subsequent_body, username);

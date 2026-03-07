@@ -501,7 +501,7 @@ void bible_logic::merge_irregularity_mail (const std::vector <std::string>& user
     
     // Convert the document to a string.
     std::stringstream output {};
-    document.print (output, "", pugi::format_raw);
+    document.print (output, " ", pugi::format_indent);
     const std::string html = output.str ();
     
     // Schedule the mail for sending to the user(s).
@@ -542,7 +542,7 @@ void bible_logic::unsafe_save_mail (std::string subject, const std::string& expl
   
   // Convert the document to a string.
   std::stringstream output {};
-  document.print (output, "", pugi::format_raw);
+  document.print (output, " ", pugi::format_indent);
   const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
@@ -629,9 +629,9 @@ void bible_logic::client_receive_merge_mail (const std::string& bible, int book,
     node.append_buffer (difference.c_str (), difference.size ());
   }
   
-  // Convert the document to a string.
+  // Convert the document to a string. Do indentation to avoid a line too long error.
   std::stringstream output {};
-  document.print (output, "", pugi::format_raw);
+  document.print (output, " ", pugi::format_indent);
   const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
@@ -691,9 +691,9 @@ void bible_logic::client_mail_pending_bible_updates (const std::string& user)
         node = document.append_child ("pre");
         node.text ().set (newusfm.c_str ());
         
-        // Convert the document to a string.
+        // Convert the document to a string with indent, to avoid line-too-long errors.
         std::stringstream output {};
-        document.print (output, "", pugi::format_raw);
+        document.print (output, " ", pugi::format_indent);
         const std::string html = output.str ();
         
         // Schedule the mail for sending to the user.
@@ -768,7 +768,7 @@ void bible_logic::client_no_write_access_mail (const std::string& bible, int boo
   
   // Convert the document to a string.
   std::stringstream output {};
-  document.print (output, "", pugi::format_raw);
+  document.print (output, " ", pugi::format_indent);
   const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
@@ -858,7 +858,7 @@ void bible_logic::recent_save_email (const std::string& bible,
   
   // Convert the document to a string.
   std:: stringstream output {};
-  document.print (output, "", pugi::format_raw);
+  document.print (output, " ", pugi::format_indent);
   const std::string html = output.str ();
 
   // Schedule the mail for sending to the user.
@@ -971,7 +971,7 @@ void bible_logic::optional_merge_irregularity_email (const std::string& bible, i
   
   // Convert the document to a string.
   std::stringstream output {};
-  document.print (output, "", pugi::format_raw);
+  document.print (output, " ", pugi::format_indent);
   const std::string html = output.str ();
 
   // Schedule the mail for sending to the user.

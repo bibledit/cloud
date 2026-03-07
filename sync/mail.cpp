@@ -78,7 +78,7 @@ std::string sync_mail (Webserver_Request& webserver_request)
         client_information.append (webserver_request.remote_address);
         node.text ().set (client_information.c_str());
         std::stringstream output;
-        document.print (output, "", pugi::format_raw);
+        document.print (output, " ", pugi::format_indent);
         client_information = output.str ();
         body.append(client_information);
         

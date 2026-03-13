@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/mail.h>
 #include <filter/url.h>
 #include <filter/mail.h>
+#include <filter/string.h>
 
 
 TEST (database, mail)
@@ -200,6 +201,39 @@ TEST (filter, mail)
     EXPECT_EQ(filter_mail_address_name("äëaBC"), "aBC");
     EXPECT_EQ(filter_mail_address_name("א"), "");
   }
+
+  const auto repeat_till_length = [](const std::string& base, const int length) -> std::string
+  {
+    // It's just for a unit test: Make it easy: Add one.
+    int iterations = length / base.size() + 1;
+    // Reserve space for efficiency.
+    std::string result;
+    result.reserve(iterations * base.size());
+    // Do the repetition.
+    while (iterations--)
+      result.append(base);
+    // Ready.
+    return result;
+  };
+
+  // Test no line length limitation if the body is already short enough or is empty.
+  {
+    EXPECT_TRUE(filter_mail_limit_line_length_rfc5322(std::string(), 10).empty());
+    const std::string body {"body"};
+    EXPECT_EQ(filter_mail_limit_line_length_rfc5322(body, body.length()), body);
+  }
+
+  // Limit email body line length.
+  {
+    const std::string base {"<p>test</p>"};
+    std::string body = filter_mail_limit_line_length_rfc5322(repeat_till_length(base, 30), 10);
+    const auto lines = filter::string::explode(body, '\n');
+    EXPECT_EQ(lines.size(), 7);
+    EXPECT_EQ(lines.at(1), "<p>test");
+    EXPECT_EQ(lines.at(2), "</p>");
+  }
+
+
 #endif
 }
 

@@ -210,4 +210,28 @@ std::string filter_mail_address_name (std::string name)
 }
 
 
+// Limit the length of one line according to RFC5322 section 2.1.1.
+// https://www.rfc-editor.org/rfc/rfc5322#section-2.1.1
+std::string filter_mail_limit_line_length_rfc5322(std::string body, const int length) // Todo
+{
+  // If the html body is not longer than the maximum line length: Ready.
+  if (body.length() <= length)
+    return body;
+
+  // Explode the body into its separate lines, if there are any.
+  std::vector<std::string> lines = filter::string::explode(body, '\n');
+
+  // Check each line on length.
+  // If it's too long, do a bad substitution to insert new lines.
+  for (auto& line : lines) {
+    if (line.length() > length) {
+      line = filter::string::html_tidy(line);
+    }
+  }
+
+  // Implode the lines to get the body again.
+  return filter::string::implode(lines, "\n");
+}
+
+
 #endif

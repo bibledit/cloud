@@ -122,9 +122,9 @@ TEST (database, mail)
 TEST (filter, mail)
 {
 #ifdef HAVE_CLOUD
-  
+
   const std::string datafolder = filter_url_create_root_path ({"unittests", "tests", "emails"});
-  
+
   // Standard mimetic library's test message.
   {
     const std::string msgpath = filter_url_create_path ({datafolder, "email1.msg"});
@@ -137,7 +137,7 @@ TEST (filter, mail)
     EXPECT_EQ ("My picture!", subject);
     EXPECT_EQ (txt, plaintext);
   }
-   
+
   // A plain text message, that is, not a MIME message.
   {
     const std::string msgpath = filter_url_create_path ({datafolder, "email2.msg"});
@@ -150,7 +150,7 @@ TEST (filter, mail)
     EXPECT_EQ ("plain text", subject);
     EXPECT_EQ (txt, plaintext);
   }
-  
+
   // A UTF-8 quoted-printable message.
   {
     const std::string msgpath = filter_url_create_path ({datafolder, "email3.msg"});
@@ -176,7 +176,7 @@ TEST (filter, mail)
     EXPECT_EQ ("Message encoded in base64", subject);
     EXPECT_EQ (txt, plaintext);
   }
-  
+
   // Test the collection of sample mails.
   {
     const std::vector <std::string> files = filter_url_scandir (datafolder);
@@ -223,14 +223,40 @@ TEST (filter, mail)
     EXPECT_EQ(filter_mail_limit_line_length_rfc5322(body, body.length()), body);
   }
 
-  // Limit email body line length.
+  // Test routine running into the maximum iteration count safety mechanism.
   {
-    const std::string base {"<p>test</p>"};
-    std::string body = filter_mail_limit_line_length_rfc5322(repeat_till_length(base, 30), 10);
-    const auto lines = filter::string::explode(body, '\n');
-    EXPECT_EQ(lines.size(), 7);
-    EXPECT_EQ(lines.at(1), "<p>test");
-    EXPECT_EQ(lines.at(2), "</p>");
+    const std::string body(1100, '*');
+    const auto result = filter_mail_limit_line_length_rfc5322(body, 1);
+    int new_line_count = std::count(result.begin(), result.end(), '\n');
+    EXPECT_EQ(new_line_count, 500);
+  }
+
+  // Test routine not inserting new lines if no need for that.
+  {
+    const std::string body {"1234\n5678\n90"};
+    const auto result = filter_mail_limit_line_length_rfc5322(body, 4);
+    EXPECT_EQ(result, body);
+    int new_line_count = std::count(result.begin(), result.end(), '\n');
+    EXPECT_EQ(new_line_count, 2);
+  }
+
+  // Test routine inserting new lines after the ">" character.
+  {
+    const std::string body {"<p>test</p><p>test</p>"};
+    {
+      const std::string result = filter_mail_limit_line_length_rfc5322(body, 6);
+      const std::string standard = "<p>\ntest</p>\n<p>\ntest</p>\n";
+      EXPECT_EQ(result, standard);
+      int new_line_count = std::count(result.begin(), result.end(), '\n');
+      EXPECT_EQ(new_line_count, 4);
+    }
+    {
+      const std::string result = filter_mail_limit_line_length_rfc5322(body, 11);
+      const std::string standard = "<p>test</p>\n<p>test</p>";
+      EXPECT_EQ(result, standard);
+      int new_line_count = std::count(result.begin(), result.end(), '\n');
+      EXPECT_EQ(new_line_count, 1);
+    }
   }
 
 

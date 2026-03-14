@@ -212,25 +212,59 @@ std::string filter_mail_address_name (std::string name)
 
 // Limit the length of one line according to RFC5322 section 2.1.1.
 // https://www.rfc-editor.org/rfc/rfc5322#section-2.1.1
-std::string filter_mail_limit_line_length_rfc5322(std::string body, const int length) // Todo
+// The function does this while focusing on performance.
+std::string filter_mail_limit_line_length_rfc5322(std::string body, const int length)
 {
-  // If the html body is not longer than the maximum line length: Ready.
+  // If the html body length is within the maximum line length: Ready.
   if (body.length() <= length)
     return body;
 
-  // Explode the body into its separate lines, if there are any.
-  std::vector<std::string> lines = filter::string::explode(body, '\n');
+  // Maximum number of iterations allowed: This prevents an infinite loop.
+  int iterations {1000};
 
-  // Check each line on length.
-  // If it's too long, do a bad substitution to insert new lines.
-  for (auto& line : lines) {
-    if (line.length() > length) {
-      line = filter::string::html_tidy(line);
+  // The caret: The location in the html body to work from.
+  size_t caret {0};
+
+  while (iterations--) {
+
+    // Increase the caret with one character: Reasons:
+    // 1. Never search from the same location.
+    // 2. Always move forward.
+    caret++;
+
+    // If the fragment length after the caret is within the maximum length: Ready.
+    if (static_cast<int>(body.length() - caret) < length) {
+      break;
+    }
+
+    // Check whether the next new line after the caret is within the maximum line length.
+    // If so update the state, and go to next iteration.
+    auto nl_pos = body.find("\n", caret);
+    if ((nl_pos - caret) <= length) {
+      caret = nl_pos;
+      continue;
+    }
+
+    // Search for the last ">"
+    // in the range of the caret to the caret plus max line length.
+    // Add a new line after that.
+    // Update the state and go to the next iteration.
+    if (auto gt_pos = body.rfind('>', caret + length);
+        gt_pos != std::string::npos) {
+      body.insert(gt_pos + 1, "\n");
+      caret = gt_pos + 3;
+      continue;
+    }
+
+    // Okay, the ">" was not found: Just add a new line in the body at the range end.
+    {
+      size_t range_end = std::min(caret + length, body.length());
+      body.insert(range_end, "\n");
     }
   }
 
-  // Implode the lines to get the body again.
-  return filter::string::implode(lines, "\n");
+  // Return the possibly updated body.
+  return body;
 }
 
 

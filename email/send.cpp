@@ -61,7 +61,7 @@ void send ()
   Database_Mail database_mail (webserver_request);
   Database_Users database_users;
   
-  std::vector <int> mails = database_mail.getMailsToSend ();
+  const auto mails = database_mail.getMailsToSend ();
   for (auto id : mails) {
     
     // Get all details of the mail.
@@ -103,6 +103,9 @@ void send ()
       config_globals_has_crashed_while_mailing = false;
       continue;
     }
+
+    // Limit the line length in the email body.
+    body = filter_mail_limit_line_length_rfc5322(body);
     
     // Send the email.
     std::string result = email::send (email, username, subject, body);

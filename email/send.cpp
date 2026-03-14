@@ -44,12 +44,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace email {
 
 
+// Ensure only one process sends at any given time.
+std::mutex sending_mutex{};
+
+
 void send ()
 {
   // No more than one email send process to run simultaneously.
-  if (config_globals_mail_send_running) return;
-  config_globals_mail_send_running = true;
-  
+  std::unique_lock lock (sending_mutex, std::defer_lock);
+  if (not lock.try_lock()) {
+    return;
+  }
+
   // The databases involved.
   Webserver_Request webserver_request;
   Database_Mail database_mail (webserver_request);
@@ -132,8 +138,6 @@ void send ()
       }
     }
   }
-  
-  config_globals_mail_send_running = false;
 }
 
 

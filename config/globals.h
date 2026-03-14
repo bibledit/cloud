@@ -29,7 +29,6 @@ extern std::thread * config_globals_http_worker;
 extern std::thread * config_globals_https_worker;
 extern std::thread * config_globals_timer;
 extern bool config_globals_mail_receive_running;
-extern bool config_globals_mail_send_running;
 extern int config_globals_touch_enabled;
 extern int config_globals_timezone_offset_utc;
 extern bool config_globals_change_notifications_available;

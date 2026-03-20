@@ -210,6 +210,9 @@ std::string filter_mail_address_name (std::string name)
 }
 
 
+#endif
+
+
 // Limit the length of one line according to RFC5322 section 2.1.1.
 // https://www.rfc-editor.org/rfc/rfc5322#section-2.1.1
 // The function does this while focusing on performance.
@@ -272,7 +275,7 @@ std::string filter_mail_limit_line_length_rfc5322(std::string body, const int le
 
     // Okay, the ">" or the "<" were not found: If needed:
     // 1. Add a new line in the body at the range end.
-    // 2. Update the state.
+    // 2. Update the caret position.
     if ((body.length() - caret) > length) {
       const size_t range_end = std::min(caret + length, body.length());
       body.insert(range_end, "\n");
@@ -283,6 +286,3 @@ std::string filter_mail_limit_line_length_rfc5322(std::string body, const int le
   // Return the possibly updated body.
   return body;
 }
-
-
-#endif

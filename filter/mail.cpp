@@ -215,14 +215,14 @@ std::string filter_mail_address_name (std::string name)
 // The function does this while focusing on performance.
 std::string filter_mail_limit_line_length_rfc5322(std::string body, const int length)
 {
-  // If the html body length is within the maximum line length: Ready.
+  // If the HTML body length is within the maximum line length: Ready.
   if (body.length() <= length)
     return body;
 
   // Maximum number of iterations allowed: This prevents an infinite loop.
   int iterations {1000};
 
-  // The caret: The location in the html body to work from.
+  // The caret: The location in the HTML body to work from.
   size_t caret {0};
 
   while (iterations--) {
@@ -238,9 +238,9 @@ std::string filter_mail_limit_line_length_rfc5322(std::string body, const int le
     }
 
     // Check whether the next new line after the caret is within the maximum line length.
-    // If so update the state, and go to next iteration.
-    auto nl_pos = body.find("\n", caret);
-    if ((nl_pos - caret) <= length) {
+    // If so update the caret position and go to next iteration.
+    if (const auto nl_pos = body.find('\n', caret);
+        (nl_pos - caret) <= length) {
       caret = nl_pos;
       continue;
     }
@@ -248,18 +248,35 @@ std::string filter_mail_limit_line_length_rfc5322(std::string body, const int le
     // Search for the last ">"
     // in the range of the caret to the caret plus max line length.
     // Add a new line after that.
-    // Update the state and go to the next iteration.
+    // Update the caret positon and go to the next iteration.
     if (auto gt_pos = body.rfind('>', caret + length);
-        gt_pos != std::string::npos) {
+        gt_pos != std::string::npos and gt_pos > caret)
+    {
       body.insert(gt_pos + 1, "\n");
-      caret = gt_pos + 3;
+      caret = gt_pos + 1;
       continue;
     }
 
-    // Okay, the ">" was not found: Just add a new line in the body at the range end.
+    // The last ">" was not found.
+    // Now look at the last "<"
+    // in the range of the caret to the caret plus max line length.
+    // Add a new line before that.
+    // Update the caret position and go to the next iteration.
+    if (auto st_pos = body.rfind('<', caret + length);
+        st_pos != std::string::npos and st_pos > caret)
     {
-      size_t range_end = std::min(caret + length, body.length());
+      body.insert(st_pos, "\n");
+      caret = st_pos + 1;
+      continue;
+    }
+
+    // Okay, the ">" or the "<" were not found: If needed:
+    // 1. Add a new line in the body at the range end.
+    // 2. Update the state.
+    if ((body.length() - caret) > length) {
+      const size_t range_end = std::min(caret + length, body.length());
       body.insert(range_end, "\n");
+      caret = range_end;
     }
   }
 

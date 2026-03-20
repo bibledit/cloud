@@ -202,20 +202,6 @@ TEST (filter, mail)
     EXPECT_EQ(filter_mail_address_name("א"), "");
   }
 
-  const auto repeat_till_length = [](const std::string& base, const int length) -> std::string
-  {
-    // It's just for a unit test: Make it easy: Add one.
-    int iterations = length / base.size() + 1;
-    // Reserve space for efficiency.
-    std::string result;
-    result.reserve(iterations * base.size());
-    // Do the repetition.
-    while (iterations--)
-      result.append(base);
-    // Ready.
-    return result;
-  };
-
   // Test no line length limitation if the body is already short enough or is empty.
   {
     EXPECT_TRUE(filter_mail_limit_line_length_rfc5322(std::string(), 10).empty());
@@ -227,8 +213,8 @@ TEST (filter, mail)
   {
     const std::string body(1100, '*');
     const auto result = filter_mail_limit_line_length_rfc5322(body, 1);
-    int new_line_count = std::count(result.begin(), result.end(), '\n');
-    EXPECT_EQ(new_line_count, 500);
+    int new_line_count = std::ranges::count(result, '\n');
+    EXPECT_EQ(new_line_count, 1000);
   }
 
   // Test routine not inserting new lines if no need for that.
@@ -236,7 +222,7 @@ TEST (filter, mail)
     const std::string body {"1234\n5678\n90"};
     const auto result = filter_mail_limit_line_length_rfc5322(body, 4);
     EXPECT_EQ(result, body);
-    int new_line_count = std::count(result.begin(), result.end(), '\n');
+    int new_line_count = std::ranges::count(result, '\n');
     EXPECT_EQ(new_line_count, 2);
   }
 
@@ -245,18 +231,28 @@ TEST (filter, mail)
     const std::string body {"<p>test</p><p>test</p>"};
     {
       const std::string result = filter_mail_limit_line_length_rfc5322(body, 6);
-      const std::string standard = "<p>\ntest</p>\n<p>\ntest</p>\n";
+      const std::string standard = "<p>\ntest\n</p><p>\ntest\n</p>";
       EXPECT_EQ(result, standard);
-      int new_line_count = std::count(result.begin(), result.end(), '\n');
+      int new_line_count = std::ranges::count(result, '\n');
       EXPECT_EQ(new_line_count, 4);
     }
     {
       const std::string result = filter_mail_limit_line_length_rfc5322(body, 11);
-      const std::string standard = "<p>test</p>\n<p>test</p>";
+      const std::string standard = "<p>test</p>\n<p>test</p>\n";
       EXPECT_EQ(result, standard);
-      int new_line_count = std::count(result.begin(), result.end(), '\n');
-      EXPECT_EQ(new_line_count, 1);
+      int new_line_count = std::ranges::count(result, '\n');
+      EXPECT_EQ(new_line_count, 2);
     }
+  }
+
+  // Test a realistic email whether it cuts it up into lines properly.
+  {
+    const std::string path = filter_url_create_root_path ({"unittests", "tests", "email_long_1.txt"});
+    const std::string body = filter_url_file_get_contents (path);
+    const std::string result = filter_mail_limit_line_length_rfc5322(body);
+    const int line_count = std::ranges::count(result, '\n');
+    EXPECT_EQ(line_count, 45);
+    EXPECT_EQ(result.length(), 22282);
   }
 
 

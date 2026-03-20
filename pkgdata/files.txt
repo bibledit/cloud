@@ -978,6 +978,7 @@
 /unittests/tests/editone06verse4suffix.usfm
 /unittests/tests/editor.css
 /unittests/tests/editor_roundtrip_1.txt
+/unittests/tests/email_long_1.txt
 /unittests/tests/emails
 /unittests/tests/emails/blueball.png
 /unittests/tests/emails/email1.msg

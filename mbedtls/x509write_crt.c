@@ -46,10 +46,6 @@ void mbedtls_x509write_crt_init(mbedtls_x509write_cert *ctx)
 
 void mbedtls_x509write_crt_free(mbedtls_x509write_cert *ctx)
 {
-    if (ctx == NULL) {
-        return;
-    }
-
     mbedtls_asn1_free_named_data_list(&ctx->subject);
     mbedtls_asn1_free_named_data_list(&ctx->issuer);
     mbedtls_asn1_free_named_data_list(&ctx->extensions);
@@ -84,14 +80,12 @@ void mbedtls_x509write_crt_set_issuer_key(mbedtls_x509write_cert *ctx,
 int mbedtls_x509write_crt_set_subject_name(mbedtls_x509write_cert *ctx,
                                            const char *subject_name)
 {
-    mbedtls_asn1_free_named_data_list(&ctx->subject);
     return mbedtls_x509_string_to_names(&ctx->subject, subject_name);
 }
 
 int mbedtls_x509write_crt_set_issuer_name(mbedtls_x509write_cert *ctx,
                                           const char *issuer_name)
 {
-    mbedtls_asn1_free_named_data_list(&ctx->issuer);
     return mbedtls_x509_string_to_names(&ctx->issuer, issuer_name);
 }
 

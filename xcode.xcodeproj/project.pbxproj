@@ -237,6 +237,8 @@
 		CA84204428A03C39006EEA23 /* google.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = google.h; sourceTree = "<group>"; };
 		CA85CA3C2E19A01E00EDFA5F /* selectajax.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = selectajax.js; sourceTree = "<group>"; };
 		CA889AB3288310600071B46D /* warnings.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = warnings.sh; sourceTree = "<group>"; };
+		CA8E7D502F6EEEF3009769C1 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		CA8E7D512F6EEEF3009769C1 /* version.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = version.c; sourceTree = "<group>"; };
 		CA9D18992D1CE61900094422 /* temporal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = temporal.h; sourceTree = "<group>"; };
 		CA9D189A2D1CE61900094422 /* temporal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = temporal.cpp; sourceTree = "<group>"; };
 		CA9D18A42D1DCC8F00094422 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
@@ -3499,9 +3501,11 @@
 				CAD8ED092C3972A8006DF2D6 /* build_info.h */,
 				CA1E933D2C845FE90063C62E /* entropy_poll.c */,
 				CAD8ED0A2C3972D4006DF2D6 /* mbedtls_config.h */,
-				CAD8ED0B2C3978BA006DF2D6 /* net_sockets.c */,
 				CAD8ED0C2C397957006DF2D6 /* net_sockets.h */,
+				CAD8ED0B2C3978BA006DF2D6 /* net_sockets.c */,
 				CAD8ED0D2C397CED006DF2D6 /* ssl.h */,
+				CA8E7D502F6EEEF3009769C1 /* version.h */,
+				CA8E7D512F6EEEF3009769C1 /* version.c */,
 			);
 			path = mbedtls;
 			sourceTree = "<group>";

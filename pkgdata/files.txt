@@ -470,6 +470,8 @@
 /mapping/Vulgate.txt
 /mbedtls
 /mbedtls/0readme.txt
+/mbedtls.old
+/mbedtls.old/0readme.txt
 /menu
 /microtar
 /microtar/LICENSE
@@ -589,6 +591,7 @@
 /processes
 /processes/gitflag
 /psa
+/psa.old
 /public
 /public/comment.html
 /public/create.html

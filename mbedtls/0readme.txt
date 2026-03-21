@@ -31,20 +31,21 @@ After looking at all of them, the winner is Mbed TLS.
 
 Integrate it with the Bibledit library as follows:
 * Copy the current working version of mbedtls to folder mbedtls.old for fallback.
+* Copy the current working version of PSA to folder psa.old for fallback.
 * Download the source tarball and unpack it.
 * Copy the unpackaged source library/*.c to folder mbedtls in Bibledit.
 * Copy the unpackaged source library/*.h to folder mbedtls in Bibledit.
 * Copy the unpacked source include/mbedtls/*.h to folder mbedtls in Bibledit.
-* Copy the unpacked folder include/mbedtls/psa to the root folder in Bibledit (not to folder mbedtls).
+* Copy the unpacked folder include/psa to the root folder in Bibledit (not to folder mbedtls).
 * Put all mbedtls/*.c in Bibledit into Makefile.am in Bibledit.
 
-Example code of SSL/TLS handshake, server, client, and so on, is in the source code of mbed TLS.
+Example code of SSL/TLS handshake, server, client, and so on, is in the source code of Mbed TLS.
 
-To use the library in a threaded environment, define the following in config.h:
+To use the library in a threaded environment, define the following in mbedtls_config.h:
 MBEDTLS_THREADING_C
 MBEDTLS_THREADING_PTHREAD
 
-To disable assembler, undefine the following in config.h:
+To disable assembler, undefine the following in mbedtls_config.h:
 MBEDTLS_HAVE_ASM
 MBEDTLS_AESNI_C
 MBEDTLS_PADLOCK_C

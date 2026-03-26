@@ -19,6 +19,7 @@
 
 #include <filter/mail.h>
 #include <filter/string.h>
+#undef min
 
 
 #ifdef HAVE_CLOUD

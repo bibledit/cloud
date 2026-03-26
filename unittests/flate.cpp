@@ -21,6 +21,7 @@
 #ifdef HAVE_GTEST
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
+#pragma GCC diagnostic ignored "-Wcharacter-conversion"
 #include "gtest/gtest.h"
 #pragma GCC diagnostic pop
 #include <unittests/utilities.h>

@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_GTEST
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
+#pragma GCC diagnostic ignored "-Wcharacter-conversion"
 #include "gtest/gtest.h"
 #include <gmock/gmock.h>
 #pragma GCC diagnostic pop

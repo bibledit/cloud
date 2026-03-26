@@ -22,6 +22,7 @@
 #include <unittests/utilities.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
+#pragma GCC diagnostic ignored "-Wcharacter-conversion"
 #include "gtest/gtest.h"
 #pragma GCC diagnostic pop
 #include <webserver/webserver.h>

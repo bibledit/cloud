@@ -53,7 +53,14 @@ document.addEventListener("DOMContentLoaded", function(e) {
   usfmeditor.addEventListener("keydown", function (event) {
     usfmHandleKeyDown(event);
   });
-  window.addEventListener("unload", usfmEditorUnload);
+  document.addEventListener("visibilitychange", (event) => {
+    if (document.visibilityState == "hidden") {
+      usfmEditorSaveChapter (true);
+    }
+  })
+  window.addEventListener("pagehide", (event) => {
+    usfmEditorSaveChapter (true);
+  })
   usfmIdPollerOn ();
   if (usfmEditorWriteAccess) usfmeditor.focus ();
   window.addEventListener("focus", usfmWindowFocused);
@@ -200,12 +207,6 @@ function usfmEditorLoadChapter ()
     .finally(() => {
     });
   }
-}
-
-
-function usfmEditorUnload ()
-{
-  usfmEditorSaveChapter (true);
 }
 
 

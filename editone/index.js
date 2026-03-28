@@ -35,10 +35,16 @@ document.addEventListener("DOMContentLoaded", function(e) {
   visualVerseEditorInitializeLoad ();
 
   navigationNewPassage ();
-  
-  window.addEventListener("unload", function (event) {
-    oneverseEditorForceSaveVerse();
-  });
+
+  document.addEventListener("visibilitychange", (event) => {
+    if (document.visibilityState == "hidden") {
+      oneverseUpdateExecute(true)
+    }
+  })
+
+  window.addEventListener("pagehide", (event) => {
+    oneverseUpdateExecute(true)
+  })
 
   oneverseBindUnselectable ();
 
@@ -1121,7 +1127,7 @@ function oneverseCoordinatingTimeout ()
   }
   else if (oneverseUpdateTrigger) {
     oneverseUpdateTrigger = false;
-    oneverseUpdateExecute ();
+    oneverseUpdateExecute (false);
   }
   else if (oneverseReloadNonEditableFlag) {
     oneverseReloadNonEditableFlag = false;
@@ -1161,7 +1167,7 @@ var editorHtmlAtStartOfUpdate = null;
 var useShadowQuill = false;
 
 
-function oneverseUpdateExecute ()
+function oneverseUpdateExecute (synchronous)
 {
   // Determine whether the conditions for an editor update are all met.
   var goodToGo = true;
@@ -1203,6 +1209,7 @@ function oneverseUpdateExecute ()
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams([ ["bible", oneverseBible], ["book", oneverseBook], ["chapter", oneverseChapter], ["verse", oneverseVerseLoaded], ["loaded", encodedLoadedHtml], ["edited", encodedEditedHtml], ["checksum1", checksum1], ["checksum2", checksum2], ["id", verseEditorUniqueID] ]).toString(),
+    keepalive: synchronous, // Optionally make call synchronous.
   })
   .then((response) => {
     if (!response.ok) {

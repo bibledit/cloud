@@ -37,9 +37,15 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
   navigationNewPassage ();
   
-  window.addEventListener("unload", function(event) {
+  document.addEventListener("visibilitychange", (event) => {
+    if (document.visibilityState == "hidden") {
+      edit2SaveChapter();
+    }
+  })
+
+  window.addEventListener("pagehide", (event) => {
     edit2SaveChapter();
-  });
+  })
 
   editorBindUnselectable ();
 

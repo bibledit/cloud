@@ -39,12 +39,12 @@ document.addEventListener("DOMContentLoaded", function(e) {
   
   document.addEventListener("visibilitychange", (event) => {
     if (document.visibilityState == "hidden") {
-      editSaveChapter();
+      editSaveChapter(true);
     }
   })
 
   window.addEventListener("pagehide", (event) => {
-    editSaveChapter();
+    editSaveChapter(true);
   })
 
   editorBindUnselectable ();
@@ -180,7 +180,7 @@ function navigationNewPassage ()
   }
   
   if ((editorNavigationBook != editorLoadedBook) || (editorNavigationChapter != editorLoadedChapter)) {
-    editSaveChapter ();
+    editSaveChapter (false);
     editorLoadChapter ();
   } else {
     editorScheduleCaretPositioning ();
@@ -284,7 +284,7 @@ function editorLoadChapter ()
 }
 
 
-function editSaveChapter ()
+function editSaveChapter (synchronous)
 {
   editorStatus ("");
   if (editorSaving) {
@@ -307,6 +307,7 @@ function editSaveChapter ()
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams([["bible", editorLoadedBible], ["book", editorLoadedBook], ["chapter", editorLoadedChapter], ["html", encodedHtml], ["checksum", checksum], ["id", chapterEditorUniqueID]]).toString(),
+    keepalive: synchronous, // Optionally make call synchronous.
   })
   .then((response) => {
     if (!response.ok) {
@@ -321,7 +322,7 @@ function editSaveChapter ()
     editorStatus (editorChapterRetrying);
     editorReferenceText = "";
     edit2ContentChanged ();
-    editSaveChapter ();
+    editSaveChapter (false);
   })
   .finally(() => {
     editorSaving = false;

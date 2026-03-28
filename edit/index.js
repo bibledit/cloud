@@ -39,12 +39,12 @@ document.addEventListener("DOMContentLoaded", function(e) {
   
   document.addEventListener("visibilitychange", (event) => {
     if (document.visibilityState == "hidden") {
-      edit2SaveChapter();
+      editSaveChapter();
     }
   })
 
   window.addEventListener("pagehide", (event) => {
-    edit2SaveChapter();
+    editSaveChapter();
   })
 
   editorBindUnselectable ();
@@ -180,7 +180,7 @@ function navigationNewPassage ()
   }
   
   if ((editorNavigationBook != editorLoadedBook) || (editorNavigationChapter != editorLoadedChapter)) {
-    edit2SaveChapter ();
+    editSaveChapter ();
     editorLoadChapter ();
   } else {
     editorScheduleCaretPositioning ();
@@ -284,7 +284,7 @@ function editorLoadChapter ()
 }
 
 
-function edit2SaveChapter ()
+function editSaveChapter ()
 {
   editorStatus ("");
   if (editorSaving) {
@@ -321,7 +321,7 @@ function edit2SaveChapter ()
     editorStatus (editorChapterRetrying);
     editorReferenceText = "";
     edit2ContentChanged ();
-    edit2SaveChapter ();
+    editSaveChapter ();
   })
   .finally(() => {
     editorSaving = false;

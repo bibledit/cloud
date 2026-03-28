@@ -42,7 +42,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
     })
   }
   
-  window.addEventListener ("unload", resourceUnload);
+  document.addEventListener("visibilitychange", (event) => {
+    if (document.visibilityState == "hidden") {
+      resourceSavePosition ();
+    }
+  })
+  window.addEventListener("pagehide", (event) => {
+    resourceSavePosition ();
+  })
 });
 
 
@@ -171,7 +178,7 @@ function resourceSwipeRight (event)
 }
 
 
-function resourceUnload ()
+function resourceSavePosition ()
 {
   var position = document.querySelector("#workspacewrapper").scrollTop;
   fetch("unload", {

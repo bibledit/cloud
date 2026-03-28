@@ -16,8 +16,17 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 document.addEventListener("DOMContentLoaded", function(e) {
-  notesPoll ();
-  window.addEventListener("unload", notesUnload);
+  notesPoll ()
+  document.addEventListener("visibilitychange", (event) => {
+    if (document.visibilityState == "hidden") {
+      notesUnload()
+    } else {
+      notesPoll()
+    }
+  })
+  window.addEventListener("pagehide", (event) => {
+    notesUnload()
+  })
 });
 
 

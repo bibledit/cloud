@@ -45,13 +45,13 @@ bool notes_poll_acl (Webserver_Request& webserver_request)
 
 std::string notes_poll (Webserver_Request& webserver_request)
 {
-  std::string action = webserver_request.query ["action"];
+  const std::string action = webserver_request.query ["action"];
   if (action == "alive") {
     Ipc_Notes::alive (webserver_request, true, true);
-    int identifier = Ipc_Notes::get (webserver_request);
+    const int identifier = Ipc_Notes::get (webserver_request);
     if (identifier) {
       Ipc_Notes::erase (webserver_request);
-      std::string url = "note?id=" + std::to_string (identifier);
+      const std::string url = "note?id=" + std::to_string (identifier);
       return url;
     }
   } else if (action == "unload") {

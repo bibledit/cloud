@@ -21,3 +21,4 @@ server
 configure~
 libbibledit.a.*
 pkgdata/.*
+/build

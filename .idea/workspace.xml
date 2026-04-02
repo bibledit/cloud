@@ -17,7 +17,7 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="laboratory" targetName="bibledit" />
+      <config projectName="bibledit" targetName="bibledit" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -27,8 +27,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="efaa48b4-37ac-447e-847b-f38b137d9ccb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/filter/mail.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/filter/mail.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/filter/string.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/filter/string.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +91,7 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="bibledit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="laboratory" TARGET_NAME="bibledit" CONFIG_NAME="Debug">
+    <configuration name="bibledit" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="bibledit" TARGET_NAME="bibledit" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -252,6 +254,8 @@
       <workItem from="1775142692248" duration="10000" />
       <workItem from="1775142953387" duration="1922000" />
       <workItem from="1775146277782" duration="69000" />
+      <workItem from="1775146582337" duration="144000" />
+      <workItem from="1775150981300" duration="4578000" />
     </task>
     <servers />
   </component>

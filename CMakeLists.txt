@@ -1,32 +1,70 @@
-# https://cmake.org/cmake/help/v3.31/guide/tutorial/index.html
+# Copyright (©) 2003-2026 Teus Benschop.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 # Set the minimum CMake version required.
 cmake_minimum_required(VERSION 3.31)
 
+# Print info.
+message(STATUS "Processing ${CMAKE_CURRENT_SOURCE_DIR}")
+
+
 
 # Start a project by setting the project name and version.
-project(laboratory
-        VERSION 1.2.3
-)
+project(bibledit VERSION 5.1.043)
 
-
-# Print info.
-message("-- Processing ${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(laboratory_VERSION "${laboratory_VERSION_MAJOR}.${laboratory_VERSION_MINOR}.${laboratory_VERSION_PATCH}")
-message("-- Software version ${laboratory_VERSION}")
+message(STATUS "Bibledit version ${bibledit_VERSION}")
 
 # Print the install prefix.
-message ("-- Install prefix ${CMAKE_INSTALL_PREFIX}")
+message (STATUS "Install prefix ${CMAKE_INSTALL_PREFIX}")
 # Set it during install: $ cmake --install . --prefix "/path"
+
+
+# Finding executables.
+find_program(GZIP gzip REQUIRED)
+message(STATUS "Found ${GZIP}")
+
+find_program(GUNZIP gunzip REQUIRED)
+message(STATUS "Found ${GUNZIP}")
+
+find_program(TAR tar REQUIRED)
+message(STATUS "Found ${TAR}")
+
+find_program(ZIP zip REQUIRED)
+message(STATUS "Found ${ZIP}")
+
+find_program(UNZIP unzip REQUIRED)
+message(STATUS "Found ${UNZIP}")
+
+find_program(INSTALLMGR installmgr)
+message(STATUS "Found ${INSTALLMGR}")
+
+find_program(DIATHEKE diatheke)
+message(STATUS "Found ${DIATHEKE}")
+
+
 
 
 # Set compiler warnings for this directory and everything below.
 add_compile_options(-Wall -Wextra -Wpedantic)
 
 
-# Make a variable default onal ON or OFF.
+# Make a variable default ON or OFF.
 option(USE_LIBRARY1 "Use library 1" ON)
 # Default is ON. Set it off: $ cmake .. -DUSE_LIBRARY1=OFF
 
@@ -630,10 +668,8 @@ link_directories(build)
 find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(LIBCURL REQUIRED libcurl>=7.20.0)
+message(STATUS "Found libcurl ${LIBCURL_VERSION}")
 
-if(LIBCURL_FOUND)
-#    message("-- Libcurl found")
-endif()
 
 target_link_libraries(bibledit ${LIBCURL_LIBRARIES})
 target_include_directories(bibledit PUBLIC ${LIBCURL_INCLUDE_DIRS})

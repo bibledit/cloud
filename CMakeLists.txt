@@ -1,0 +1,660 @@
+# https://cmake.org/cmake/help/v3.31/guide/tutorial/index.html
+
+
+# Set the minimum CMake version required.
+cmake_minimum_required(VERSION 3.31)
+
+
+# Start a project by setting the project name and version.
+project(laboratory
+        VERSION 1.2.3
+)
+
+
+# Print info.
+message("-- Processing ${CMAKE_CURRENT_SOURCE_DIR}")
+
+set(laboratory_VERSION "${laboratory_VERSION_MAJOR}.${laboratory_VERSION_MINOR}.${laboratory_VERSION_PATCH}")
+message("-- Software version ${laboratory_VERSION}")
+
+# Print the install prefix.
+message ("-- Install prefix ${CMAKE_INSTALL_PREFIX}")
+# Set it during install: $ cmake --install . --prefix "/path"
+
+
+# Set compiler warnings for this directory and everything below.
+add_compile_options(-Wall -Wextra -Wpedantic)
+
+
+# Make a variable default onal ON or OFF.
+option(USE_LIBRARY1 "Use library 1" ON)
+# Default is ON. Set it off: $ cmake .. -DUSE_LIBRARY1=OFF
+
+
+# Write all variables to config.h.
+configure_file(config.h.in ${PROJECT_SOURCE_DIR}/config.h)
+
+
+# The C++ standard to use, and it is mandatory.
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
+
+
+# Build the "bibledit" library, the kernel of the system.
+add_library(bibledit STATIC
+        library/bibledit.cpp
+        library/locks.c
+        webserver/webserver.cpp
+        webserver/http.cpp
+        webserver/request.cpp
+        bootstrap/bootstrap.cpp
+        filter/url.cpp
+        filter/string.cpp
+        filter/roles.cpp
+        filter/md5.cpp
+        filter/usfm.cpp
+        filter/archive.cpp
+        filter/text.cpp
+        filter/passage.cpp
+        filter/quill.cpp
+        filter/css.cpp
+        filter/git.cpp
+        filter/html.cpp
+        filter/diff.cpp
+        filter/shell.cpp
+        filter/merge.cpp
+        filter/date.cpp
+        filter/memory.cpp
+        filter/webview.cpp
+        filter/mail.cpp
+        filter/note.cpp
+        filter/number.cpp
+        flate/flate.cpp
+        assets/view.cpp
+        assets/page.cpp
+        assets/header.cpp
+        assets/external.cpp
+        index/index.cpp
+        index/listing.cpp
+        config/globals.cpp
+        menu/logic.cpp
+        menu/index.cpp
+        locale/translate.cpp
+        locale/logic.cpp
+        database/config/general.cpp
+        database/config/bible.cpp
+        database/config/user.cpp
+        database/users.cpp
+        database/logs.cpp
+        database/sqlite.cpp
+        database/styles.cpp
+        database/bibles.cpp
+        database/books.cpp
+        database/bibleactions.cpp
+        database/check.cpp
+        database/localization.cpp
+        database/confirm.cpp
+        database/ipc.cpp
+        database/jobs.cpp
+        database/kjv.cpp
+        database/logic.cpp
+        database/oshb.cpp
+        database/sblgnt.cpp
+        database/sprint.cpp
+        database/mail.cpp
+        database/navigation.cpp
+        database/usfmresources.cpp
+        database/mappings.cpp
+        database/noteactions.cpp
+        database/versifications.cpp
+        database/modifications.cpp
+        database/notes.cpp
+        database/temporal.cpp
+        database/maintenance.cpp
+        database/state.cpp
+        database/noteassignment.cpp
+        database/strong.cpp
+        database/morphgnt.cpp
+        database/etcbc4.cpp
+        database/hebrewlexicon.cpp
+        database/cache.cpp
+        database/login.cpp
+        database/privileges.cpp
+        database/git.cpp
+        database/userresources.cpp
+        database/statistics.cpp
+        database/sample.cpp
+        session/logic.cpp
+        session/login.cpp
+        session/logout.cpp
+        session/password.cpp
+        session/signup.cpp
+        session/switch.cpp
+        setup/index.cpp
+        setup/logic.cpp
+        journal/index.cpp
+        journal/logic.cpp
+        styles/logic.cpp
+        styles/indexm.cpp
+        styles/new.cpp
+        styles/sheetm.cpp
+        styles/view.cpp
+        styles/css.cpp
+        styles/sheets.cpp
+        text/text.cpp
+        esword/text.cpp
+        olb/text.cpp
+        html/text.cpp
+        html/header.cpp
+        odf/text.cpp
+        timer/index.cpp
+        tasks/logic.cpp
+        tasks/run.cpp
+        config/logic.cpp
+        bb/logic.cpp
+        bb/manage.cpp
+        bb/settings.cpp
+        bb/book.cpp
+        bb/chapter.cpp
+        bb/import_run.cpp
+        bb/import.cpp
+        bb/order.cpp
+        bb/css.cpp
+        notes/logic.cpp
+        notes/actions.cpp
+        notes/note.cpp
+        notes/status-1.cpp
+        notes/assign-1.cpp
+        notes/notes.cpp
+        notes/status-n.cpp
+        notes/assign-n.cpp
+        notes/click.cpp
+        notes/poll.cpp
+        notes/summary.cpp
+        notes/bb-1.cpp
+        notes/comment.cpp
+        notes/select.cpp
+        notes/unassign-n.cpp
+        notes/bb-n.cpp
+        notes/create.cpp
+        notes/severity-1.cpp
+        notes/verses.cpp
+        notes/bulk.cpp
+        notes/edit.cpp
+        notes/index.cpp
+        notes/severity-n.cpp
+        trash/handler.cpp
+        help/index.cpp
+        confirm/worker.cpp
+        email/index.cpp
+        email/send.cpp
+        email/receive.cpp
+        user/notifications.cpp
+        user/account.cpp
+        user/logic.cpp
+        manage/index.cpp
+        manage/users.cpp
+        manage/exports.cpp
+        manage/write.cpp
+        manage/privileges.cpp
+        manage/bibles.cpp
+        system/index.cpp
+        system/logic.cpp
+        collaboration/index.cpp
+        collaboration/link.cpp
+        collaboration/settings.cpp
+        search/rebibles.cpp
+        search/renotes.cpp
+        access/user.cpp
+        access/bible.cpp
+        access/logic.cpp
+        dialog/entry.cpp
+        dialog/select.cpp
+        dialog/yes.cpp
+        dialog/color.cpp
+        dialog/books.cpp
+        dialog/upload.cpp
+        fonts/logic.cpp
+        versification/index.cpp
+        versification/system.cpp
+        versification/logic.cpp
+        book/create.cpp
+        compare/index.cpp
+        compare/compare.cpp
+        jobs/index.cpp
+        editone/index.cpp
+        editone/load.cpp
+        editone/save.cpp
+        editone/verse.cpp
+        editone/logic.cpp
+        editone/update.cpp
+        navigation/passage.cpp
+        navigation/update.cpp
+        navigation/poll.cpp
+        navigation/paratext.cpp
+        ipc/focus.cpp
+        ipc/notes.cpp
+        checksum/logic.cpp
+        editusfm/focus.cpp
+        editusfm/index.cpp
+        editusfm/load.cpp
+        editusfm/offset.cpp
+        editusfm/save.cpp
+        editor/styles.cpp
+        editor/html2usfm.cpp
+        editor/usfm2html.cpp
+        editor/select.cpp
+        editor/html2format.cpp
+        editor/id.cpp
+        editor/style.cpp
+        edit/edit.cpp
+        edit/id.cpp
+        edit/index.cpp
+        edit/load.cpp
+        edit/save.cpp
+        edit/styles.cpp
+        edit/logic.cpp
+        edit/preview.cpp
+        edit/position.cpp
+        edit/navigate.cpp
+        edit/update.cpp
+        search/all.cpp
+        search/index.cpp
+        search/replace.cpp
+        search/getids.cpp
+        search/replacepre.cpp
+        search/replacego.cpp
+        search/search2.cpp
+        search/replace2.cpp
+        search/replacepre2.cpp
+        search/getids2.cpp
+        search/replacego2.cpp
+        search/similar.cpp
+        search/strongs.cpp
+        search/strong.cpp
+        search/originals.cpp
+        tmp/tmp.cpp
+        workspace/index.cpp
+        workspace/logic.cpp
+        workspace/settings.cpp
+        workspace/organize.cpp
+        sendreceive/logic.cpp
+        sendreceive/index.cpp
+        sendreceive/sendreceive.cpp
+        sendreceive/settings.cpp
+        sendreceive/bibles.cpp
+        sendreceive/notes.cpp
+        sendreceive/changes.cpp
+        sendreceive/files.cpp
+        sendreceive/resources.cpp
+        demo/logic.cpp
+        client/index.cpp
+        client/logic.cpp
+        sync/logic.cpp
+        sync/setup.cpp
+        sync/settings.cpp
+        sync/bibles.cpp
+        sync/usfmresources.cpp
+        sync/notes.cpp
+        sync/changes.cpp
+        sync/files.cpp
+        sync/resources.cpp
+        sync/mail.cpp
+        resource/index.cpp
+        resource/organize.cpp
+        resource/logic.cpp
+        resource/get.cpp
+        resource/external.cpp
+        resource/bb2resource.cpp
+        resource/convert2resource.cpp
+        resource/convert2bible.cpp
+        resource/manage.cpp
+        resource/download.cpp
+        resource/sword.cpp
+        resource/select.cpp
+        resource/cache.cpp
+        resource/user9edit.cpp
+        resource/user1edit.cpp
+        resource/user9view.cpp
+        resource/user1view.cpp
+        resource/bbgateway.cpp
+        resource/studylight.cpp
+        resource/unload.cpp
+        jsonxx/jsonxx.cpp
+        mapping/index.cpp
+        mapping/map.cpp
+        statistics/statistics.cpp
+        changes/change.cpp
+        changes/changes.cpp
+        changes/logic.cpp
+        changes/manage.cpp
+        changes/modifications.cpp
+        changes/statistics.cpp
+        sprint/burndown.cpp
+        sprint/index.cpp
+        checks/run.cpp
+        checks/headers.cpp
+        checks/index.cpp
+        checks/issues.cpp
+        checks/logic.cpp
+        checks/sentences.cpp
+        checks/settings.cpp
+        checks/settingspatterns.cpp
+        checks/settingssentences.cpp
+        checks/space.cpp
+        checks/suppress.cpp
+        checks/usfm.cpp
+        checks/verses.cpp
+        checks/versification.cpp
+        checks/pairs.cpp
+        checks/settingspairs.cpp
+        checks/french.cpp
+        consistency/index.cpp
+        consistency/input.cpp
+        consistency/logic.cpp
+        consistency/poll.cpp
+        export/esword.cpp
+        export/html.cpp
+        export/index.cpp
+        export/info.cpp
+        export/logic.cpp
+        export/odt.cpp
+        export/onlinebible.cpp
+        export/textusfm.cpp
+        export/usfm.cpp
+        export/web.cpp
+        webbb/search.cpp
+        developer/index.cpp
+        developer/logic.cpp
+        paratext/logic.cpp
+        paratext/index.cpp
+        personalize/index.cpp
+        lexicon/logic.cpp
+        lexicon/definition.cpp
+        sources/etcbc4.cpp
+        sources/kjv.cpp
+        sources/morphhb.cpp
+        sources/morphgnt.cpp
+        sources/hebrewlexicon.cpp
+        sources/oshb.cpp
+        sword/logic.cpp
+        pugixml/pugixml.cpp
+        pugixml/utils.cpp
+        public/index.cpp
+        public/logic.cpp
+        public/login.cpp
+        public/chapter.cpp
+        public/notes.cpp
+        public/new.cpp
+        public/create.cpp
+        public/note.cpp
+        public/comment.cpp
+        utf8proc/utf8proc.c
+        search/logic.cpp
+        mbedtls/aes.c
+        mbedtls/aesce.c
+        mbedtls/aesni.c
+        mbedtls/aria.c
+        mbedtls/asn1parse.c
+        mbedtls/asn1write.c
+        mbedtls/base64.c
+        mbedtls/bignum.c
+        mbedtls/bignum_core.c
+        mbedtls/bignum_mod.c
+        mbedtls/bignum_mod_raw.c
+        mbedtls/block_cipher.c
+        mbedtls/camellia.c
+        mbedtls/ccm.c
+        mbedtls/chacha20.c
+        mbedtls/chachapoly.c
+        mbedtls/cipher.c
+        mbedtls/cipher_wrap.c
+        mbedtls/cmac.c
+        mbedtls/constant_time.c
+        mbedtls/ctr_drbg.c
+        mbedtls/debug.c
+        mbedtls/des.c
+        mbedtls/dhm.c
+        mbedtls/ecdh.c
+        mbedtls/ecdsa.c
+        mbedtls/ecjpake.c
+        mbedtls/ecp.c
+        mbedtls/ecp_curves.c
+        mbedtls/ecp_curves_new.c
+        mbedtls/entropy.c
+        mbedtls/entropy_poll.c
+        mbedtls/error.c
+        mbedtls/gcm.c
+        mbedtls/hkdf.c
+        mbedtls/hmac_drbg.c
+        mbedtls/lmots.c
+        mbedtls/lms.c
+        mbedtls/md.c
+        mbedtls/md5.c
+        mbedtls/memory_buffer_alloc.c
+        mbedtls/mps_reader.c
+        mbedtls/mps_trace.c
+        mbedtls/net_sockets.c
+        mbedtls/nist_kw.c
+        mbedtls/oid.c
+        mbedtls/padlock.c
+        mbedtls/pem.c
+        mbedtls/pk.c
+        mbedtls/pk_ecc.c
+        mbedtls/pk_wrap.c
+        mbedtls/pkcs12.c
+        mbedtls/pkcs5.c
+        mbedtls/pkcs7.c
+        mbedtls/pkparse.c
+        mbedtls/pkwrite.c
+        mbedtls/platform.c
+        mbedtls/platform_util.c
+        mbedtls/poly1305.c
+        mbedtls/psa_crypto.c
+        mbedtls/psa_crypto_aead.c
+        mbedtls/psa_crypto_cipher.c
+        mbedtls/psa_crypto_client.c
+        mbedtls/psa_crypto_driver_wrappers_no_static.c
+        mbedtls/psa_crypto_ecp.c
+        mbedtls/psa_crypto_ffdh.c
+        mbedtls/psa_crypto_hash.c
+        mbedtls/psa_crypto_mac.c
+        mbedtls/psa_crypto_pake.c
+        mbedtls/psa_crypto_rsa.c
+        mbedtls/psa_crypto_se.c
+        mbedtls/psa_crypto_slot_management.c
+        mbedtls/psa_crypto_storage.c
+        mbedtls/psa_its_file.c
+        mbedtls/psa_util.c
+        mbedtls/ripemd160.c
+        mbedtls/rsa.c
+        mbedtls/rsa_alt_helpers.c
+        mbedtls/sha1.c
+        mbedtls/sha256.c
+        mbedtls/sha3.c
+        mbedtls/sha512.c
+        mbedtls/ssl_cache.c
+        mbedtls/ssl_ciphersuites.c
+        mbedtls/ssl_client.c
+        mbedtls/ssl_cookie.c
+        mbedtls/ssl_debug_helpers_generated.c
+        mbedtls/ssl_msg.c
+        mbedtls/ssl_ticket.c
+        mbedtls/ssl_tls.c
+        mbedtls/ssl_tls12_client.c
+        mbedtls/ssl_tls12_server.c
+        mbedtls/ssl_tls13_client.c
+        mbedtls/ssl_tls13_generic.c
+        mbedtls/ssl_tls13_keys.c
+        mbedtls/ssl_tls13_server.c
+        mbedtls/threading.c
+        mbedtls/timing.c
+        mbedtls/version.c
+        mbedtls/version_features.c
+        mbedtls/x509.c
+        mbedtls/x509_create.c
+        mbedtls/x509_crl.c
+        mbedtls/x509_crt.c
+        mbedtls/x509_csr.c
+        mbedtls/x509write.c
+        mbedtls/x509write_crt.c
+        mbedtls/x509write_csr.c
+        related/logic.cpp
+        sqlite/sqlite3.c
+        ldap/logic.cpp
+        rss/logic.cpp
+        rss/feed.cpp
+        microtar/microtar.c
+        miniz/miniz.c
+        read/index.cpp
+        read/load.cpp
+        read/verse.cpp
+        resource/divider.cpp
+        session/confirm.cpp
+        sources/abbott-smith.cpp
+        database/abbottsmith.cpp
+        resource/comparative9edit.cpp
+        resource/comparative1edit.cpp
+        resource/translated9edit.cpp
+        resource/translated1edit.cpp
+        developer/delay.cpp
+        images/index.cpp
+        images/view.cpp
+        images/fetch.cpp
+        images/logic.cpp
+        database/bibleimages.cpp
+        filter/image.cpp
+        mimetic098/header.cxx
+        mimetic098/contentid.cxx
+        mimetic098/contenttransferencoding.cxx
+        mimetic098/contentdisposition.cxx
+        mimetic098/contentdescription.cxx
+        mimetic098/mimeversion.cxx
+        mimetic098/contenttype.cxx
+        mimetic098/version.cxx
+        mimetic098/fieldparam.cxx
+        mimetic098/mimeentity.cxx
+        mimetic098/strutils.cxx
+        mimetic098/body.cxx
+        mimetic098/utils.cxx
+        mimetic098/rfc822/field.cxx
+        mimetic098/rfc822/header.cxx
+        mimetic098/rfc822/message.cxx
+        mimetic098/rfc822/addresslist.cxx
+        mimetic098/rfc822/fieldvalue.cxx
+        mimetic098/rfc822/mailbox.cxx
+        mimetic098/rfc822/messageid.cxx
+        mimetic098/rfc822/datetime.cxx
+        mimetic098/rfc822/group.cxx
+        mimetic098/rfc822/mailboxlist.cxx
+        mimetic098/rfc822/address.cxx
+        mimetic098/os/utils.cxx
+        mimetic098/os/file_iterator.cxx
+        mimetic098/os/mmfile.cxx
+        mimetic098/codec/base64.cxx
+        system/googletranslate.cpp
+        filter/google.cpp
+        tidy/access.c
+        tidy/alloc.c
+        tidy/attrdict.c
+        tidy/attrs.c
+        tidy/buffio.c
+        tidy/charsets.c
+        tidy/clean.c
+        tidy/config.c
+        tidy/entities.c
+        tidy/fileio.c
+        tidy/gdoc.c
+        tidy/istack.c
+        tidy/language.c
+        tidy/lexer.c
+        tidy/mappedio.c
+        tidy/message.c
+        tidy/messageobj.c
+        tidy/parser.c
+        tidy/pprint.c
+        tidy/sprtf.c
+        tidy/streamio.c
+        tidy/tagask.c
+        tidy/tags.c
+        tidy/tidylib.c
+        tidy/tmbstr.c
+        tidy/utf8.c
+        gumbo/attribute.c
+        gumbo/char_ref.c
+        gumbo/error.c
+        gumbo/parser.c
+        gumbo/string_buffer.c
+        gumbo/string_piece.c
+        gumbo/tag.c
+        gumbo/tokenizer.c
+        gumbo/utf8.c
+        gumbo/util.c
+        gumbo/vector.c
+)
+
+
+# The include directories for the Bibledit kernel.
+target_include_directories(bibledit PUBLIC
+        .
+)
+
+
+# (Conditionally) build a static library from the given sources.
+#if(USE_LIBRARY1)
+#add_library(library1 STATIC
+#        library1/code.cpp
+#)
+#endif()
+#add_library(library2 STATIC
+#        library2/code.cpp
+#)
+
+# Where to look for the built libraries.
+link_directories(build)
+
+
+# Create an executable based on the specified sources.
+#add_executable(laboratory
+#        main.cpp
+#)
+
+
+# The include directories for the cmake target.
+#target_include_directories(laboratory PUBLIC
+#        .
+#)
+
+
+# Finding libraries.
+find_package(PkgConfig REQUIRED)
+
+pkg_check_modules(LIBCURL REQUIRED libcurl>=7.20.0)
+
+if(LIBCURL_FOUND)
+#    message("-- Libcurl found")
+endif()
+
+target_link_libraries(bibledit ${LIBCURL_LIBRARIES})
+target_include_directories(bibledit PUBLIC ${LIBCURL_INCLUDE_DIRS})
+target_compile_options(bibledit PUBLIC ${LIBCURL_CFLAGS_OTHER})
+
+#Todo read and apply this:
+#https://stackoverflow.com/questions/29191855/what-is-the-proper-way-to-use-pkg-config-from-cmake
+
+
+
+# The target is conditionally linked against the given libraries.
+#if(USE_LIBRARY1)
+#target_link_libraries(laboratory
+#        library1
+#)
+#endif()
+#target_link_libraries(laboratory
+#        library2
+#)
+
+
+# Installation.
+#install(TARGETS laboratory DESTINATION bin)
+

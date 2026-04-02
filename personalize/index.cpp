@@ -182,16 +182,14 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   
   // Accept values for allowed relative changes for the Bible text editors.
-  if (webserver_request.post_count("chapterpercentage")) {
-    int chapterpercentage = filter::string::convert_to_int (webserver_request.post_get("chapterpercentage"));
-    chapterpercentage = std::clamp (chapterpercentage, 10, 100);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_chapter (chapterpercentage);
+  if (input_id == "chapterpercentage") {
+    const int chapterpercentage = std::clamp(filter::string::convert_to_int(input_val), 10, 100);
+    webserver_request.database_config_user()->set_editing_allowed_difference_chapter (chapterpercentage);
     return std::string();
   }
-  if (webserver_request.post_count("versepercentage")) {
-    int versepercentage = filter::string::convert_to_int (webserver_request.post_get("versepercentage"));
-    versepercentage = std::clamp (versepercentage, 10, 100);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (versepercentage);
+  if (input_id == "versepercentage") {
+    const int versepercentage = std::clamp(filter::string::convert_to_int(input_val), 10, 100);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (versepercentage);
     return std::string();
   }
 

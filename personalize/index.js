@@ -16,6 +16,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+const chapterpercentage = "chapterpercentage"
+const versepercentage = "versepercentage"
 const identifiers = [
   "fontsizegeneral",
   "fontsizemenu",
@@ -25,8 +27,8 @@ const identifiers = [
   "fontsizegreek",
   "caretposition",
   "workspacefadeoutdelay",
-  "chapterpercentage",
-  "versepercentage",
+  chapterpercentage,
+  versepercentage,
 ];
 
 
@@ -44,6 +46,12 @@ document.addEventListener("DOMContentLoaded", function()
 function handleChange (event) {
   const identifier = event.target.id;
   const value = event.target.value;
+  if (identifier == chapterpercentage) {
+    document.getElementById("chapterpercentageval").innerHTML = value
+  }
+  if (identifier == versepercentage) {
+    document.getElementById("versepercentageval").innerHTML = value
+  }
   fetch("", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },

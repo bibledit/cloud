@@ -28,49 +28,28 @@ project(bibledit VERSION 5.1.043)
 
 
 set(laboratory_VERSION "${laboratory_VERSION_MAJOR}.${laboratory_VERSION_MINOR}.${laboratory_VERSION_PATCH}")
-message(STATUS "Bibledit version ${bibledit_VERSION}")
 
-# Print the install prefix.
-message (STATUS "Install prefix ${CMAKE_INSTALL_PREFIX}")
+
+# Handle the install prefix.
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "/usr")
+endif()
+option(CMAKE_INSTALL_PREFIX "Install prefix" "/usr")
 # Set it during install: $ cmake --install . --prefix "/path"
-
+# Set it during configure: $ cmake .. -DCMAKE_INSTALL_PREFIX=/usr
 
 # Finding executables.
 find_program(GZIP gzip REQUIRED)
-message(STATUS "Found ${GZIP}")
-
 find_program(GUNZIP gunzip REQUIRED)
-message(STATUS "Found ${GUNZIP}")
-
 find_program(TAR tar REQUIRED)
-message(STATUS "Found ${TAR}")
-
 find_program(ZIP zip REQUIRED)
-message(STATUS "Found ${ZIP}")
-
 find_program(UNZIP unzip REQUIRED)
-message(STATUS "Found ${UNZIP}")
-
 find_program(INSTALLMGR installmgr)
-message(STATUS "Found ${INSTALLMGR}")
-
 find_program(DIATHEKE diatheke)
-message(STATUS "Found ${DIATHEKE}")
-
-
 
 
 # Set compiler warnings for this directory and everything below.
 add_compile_options(-Wall -Wextra -Wpedantic)
-
-
-# Make a variable default ON or OFF.
-option(USE_LIBRARY1 "Use library 1" ON)
-# Default is ON. Set it off: $ cmake .. -DUSE_LIBRARY1=OFF
-
-
-# Write all variables to config.h.
-configure_file(config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
 
 # The C++ standard to use, and it is mandatory.
@@ -638,55 +617,128 @@ target_include_directories(bibledit PUBLIC
 )
 
 
-# (Conditionally) build a static library from the given sources.
-#if(USE_LIBRARY1)
-#add_library(library1 STATIC
-#        library1/code.cpp
-#)
-#endif()
-#add_library(library2 STATIC
-#        library2/code.cpp
-#)
-
 # Where to look for the built libraries.
 link_directories(build)
 
 
-# Create an executable based on the specified sources.
-#add_executable(laboratory
-#        main.cpp
-#)
-
-
-# The include directories for the cmake target.
-#target_include_directories(laboratory PUBLIC
-#        .
-#)
-
-
-# Finding libraries.
+# Finding and using libraries.
 find_package(PkgConfig REQUIRED)
+include(CheckIncludeFile)
 
 pkg_check_modules(LIBCURL REQUIRED libcurl>=7.20.0)
-message(STATUS "Found libcurl ${LIBCURL_VERSION}")
-
-
 target_link_libraries(bibledit ${LIBCURL_LIBRARIES})
 target_include_directories(bibledit PUBLIC ${LIBCURL_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${LIBCURL_CFLAGS_OTHER})
+check_include_file(curl/curl.h, INCLUDE_CURL_H)
+
+pkg_check_modules(OPENSSL REQUIRED openssl>=0.9.0)
+target_link_libraries(bibledit ${OPENSSL_LIBRARIES})
+target_include_directories(bibledit PUBLIC ${OPENSSL_INCLUDE_DIRS})
+target_compile_options(bibledit PUBLIC ${OPENSSL_CFLAGS_OTHER})
+
+pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.9.0)
+target_link_libraries(bibledit ${LIBXML2_LIBRARIES})
+target_include_directories(bibledit PUBLIC ${LIBXML2_INCLUDE_DIRS})
+target_compile_options(bibledit PUBLIC ${LIBXML2_CFLAGS_OTHER})
+
+pkg_check_modules(ICU icu-i18n>=60.0)
+if (ICU_FOUND)
+    set(HAVE_ICU ON)
+    target_link_libraries(bibledit ${ICU_LIBRARIES})
+    target_include_directories(bibledit PUBLIC ${ICU_INCLUDE_DIRS})
+    target_compile_options(bibledit PUBLIC ${ICU_CFLAGS_OTHER})
+endif ()
+
+pkg_check_modules(MBEDTLS mbedtls)
+if (MBEDTLS_FOUND)
+    set(HAVE_LIBMBEDTLS ON)
+    target_link_libraries(bibledit ${MBEDTLS_LIBRARIES})
+    target_include_directories(bibledit PUBLIC ${MBEDTLS_INCLUDE_DIRS})
+    target_compile_options(bibledit PUBLIC ${MBEDTLS_CFLAGS_OTHER})
+endif ()
+
+pkg_check_modules(UTF8PROC mbedtls)
+if (UTF8PROC_FOUND)
+    set(HAVE_UTF8PROC ON)
+    target_link_libraries(bibledit ${UTF8PROC_LIBRARIES})
+    target_include_directories(bibledit PUBLIC ${UTF8PROC_INCLUDE_DIRS})
+    target_compile_options(bibledit PUBLIC ${UTF8PROC_CFLAGS_OTHER})
+endif ()
+
+pkg_check_modules(TIDY REQUIRED tidy>=5.4.0)
+target_link_libraries(bibledit ${TIDY_LIBRARIES})
+target_include_directories(bibledit PUBLIC ${TIDY_INCLUDE_DIRS})
+target_compile_options(bibledit PUBLIC ${TIDY_CFLAGS_OTHER})
+
+pkg_check_modules(PUGIXML pugixml>=1.10)
+if (PUGIXML_FOUND)
+    set(HAVE_PUGIXML ON)
+    target_link_libraries(bibledit ${PUGIXML_LIBRARIES})
+    target_include_directories(bibledit PUBLIC ${PUGIXML_INCLUDE_DIRS})
+    target_compile_options(bibledit PUBLIC ${PUGIXML_CFLAGS_OTHER})
+endif ()
+
+pkg_check_modules(GTEST gtest>=1.10.0)
+if (GTEST_FOUND)
+    set(HAVE_GTEST ON)
+    target_link_libraries(bibledit ${GTEST_LIBRARIES})
+    target_include_directories(bibledit PUBLIC ${GTEST_INCLUDE_DIRS})
+    target_compile_options(bibledit PUBLIC ${GTEST_CFLAGS_OTHER})
+endif ()
+
+# Whether to use GTK for the client edition.
+option(USE_GTK "Use GTK" OFF)
+# Default is OFF. Set it on: $ cmake .. -DUSE_GTK=ON
+
+if (USE_GTK)
+
+    pkg_check_modules(GTK REQUIRED gtk+-3.0)
+    target_link_libraries(bibledit ${GTK_LIBRARIES})
+    target_include_directories(bibledit PUBLIC ${GTK_INCLUDE_DIRS})
+    target_compile_options(bibledit PUBLIC ${GTK_CFLAGS_OTHER})
+
+    pkg_check_modules(WEBKIT2GTK REQUIRED webkit2gtk-4.1)
+    target_link_libraries(bibledit ${WEBKIT2GTK_LIBRARIES})
+    target_include_directories(bibledit PUBLIC ${WEBKIT2GTK_INCLUDE_DIRS})
+    target_compile_options(bibledit PUBLIC ${WEBKIT2GTK_CFLAGS_OTHER})
+
+endif ()
 
 
-# The target is conditionally linked against the given libraries.
-#if(USE_LIBRARY1)
-#target_link_libraries(laboratory
-#        library1
-#)
-#endif()
-#target_link_libraries(laboratory
-#        library2
-#)
 
 
-# Installation.
-#install(TARGETS laboratory DESTINATION bin)
+check_include_file(libproc.h, HAVE_LIBPROC)
+check_include_file(execinfo.h, HAVE_EXECINFO)
+check_include_file(mach/mach.h, HAVE_MACH_MACH)
 
+set(PACKAGE_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/bibledit")
+
+set(PACKAGE_PREFIX_DIR "${CMAKE_INSTALL_PREFIX}")
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(COMPILERGCC ON)
+endif()
+if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    set(COMPILERCLANG ON)
+endif()
+
+
+option(HAVE_WINDOWS "Compile for Windows" OFF)
+if (HAVE_WINDOWS)
+    set(WIN32 ON)
+endif ()
+option(HAVE_ANDROID "Compile for Android" OFF)
+option(HAVE_MACOS "Compile for macOS" OFF)
+option(HAVE_LINUX "Compile for Linux" OFF)
+option(HAVE_IOS "Compile for iOS" OFF)
+
+message(STATUS "Bibledit ${bibledit_VERSION} configuration summary")
+message(STATUS "Install prefix   (cmake -DCMAKE_INSTALL_PREFIX=path)  ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "Windows          (cmake -DHAVE_WINDOWS=ON)            ${HAVE_WINDOWS}")
+message(STATUS "Android          (cmake -DHAVE_ANDROID=ON)            ${HAVE_ANDROID}")
+message(STATUS "macOS            (cmake -DHAVE_MACOS=ON)              ${HAVE_MACOS}")
+message(STATUS "Linux            (cmake -DHAVE_LINUX=ON)              ${HAVE_LINUX}")
+message(STATUS "iOS              (cmake -DHAVE_IOS=ON)                ${HAVE_IOS}")
+
+# Write the variables in the template to config.h.
+configure_file(cmake_config.h.in ${PROJECT_SOURCE_DIR}/config.h)

@@ -31,32 +31,29 @@ namespace access_bible {
 
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
-bool read (Webserver_Request& webserver_request, const std::string& bible, std::string user)
+bool read ([[maybe_unused]] Webserver_Request& webserver_request,
+    [[maybe_unused]] const std::string& bible,
+    [[maybe_unused]] std::string user)
 {
   // Client: User has access to all Bibles.
 #ifdef HAVE_CLIENT
-  (void) webserver_request;
-  (void) bible;
-  (void) user;
   return true;
 #endif
 
 #ifdef HAVE_CLOUD
 
   // Get the level, that is the role, of the given user.
-  const auto get_role = [&] () {
-    int role_level { 0 };
+  const auto get_role_level = [&]
+  {
     if (user.empty ()) {
       // Current user.
       user = webserver_request.session_logic ()->get_username ();
-      role_level = webserver_request.session_logic ()->get_level ();
-    } else {
-      // Take level belonging to user.
-      role_level = webserver_request.database_users ()->get_level (user);
+      return webserver_request.session_logic ()->get_level ();
     }
-    return role_level;
+    // Take level belonging to user.
+    return webserver_request.database_users ()->get_level (user);
   };
-  const int role_level = get_role();
+  const int role_level = get_role_level();
   
   // Managers and higher roles have read access.
   if (role_level >= roles::manager) {
@@ -95,7 +92,8 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
   }
 #endif
 
-  const auto get_level = [&] () {
+  const auto get_level = [&]
+  {
     int level {0};
     if (user.empty ()) {
       user = webserver_request.session_logic ()->get_username ();
@@ -115,8 +113,8 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
   }
   
   // Read the privileges for the user.
-  const auto [ read, write ] = DatabasePrivileges::get_bible (user, bible);
-  if (write) {
+  if (const auto [ read, write ] = DatabasePrivileges::get_bible (user, bible);
+      write) {
     return true;
   }
   
@@ -137,7 +135,7 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
 // If no user is given, it takes the currently logged-in user.
 // If the user has read-only access to even one book of the $bible,
 // then the user is considered not to have write access to the entire $bible.
-bool book_write (Webserver_Request& webserver_request, std::string user, const std::string& bible, int book)
+bool book_write (Webserver_Request& webserver_request, std::string user, const std::string& bible, const int book)
 {
 #ifdef HAVE_CLIENT
   // Client: When not yet connected to the Cloud, the user has access to the book.
@@ -149,7 +147,7 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
 #endif
 
   // Get the user level (role).
-  const auto get_level = [&] () {
+  const auto get_level = [&] {
     int level {0};
     if (user.empty ()) {
       user = webserver_request.session_logic ()->get_username ();
@@ -169,7 +167,8 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
   }
 
   // Read the privileges for the user.
-  const auto get_write_access = [&] () {
+  const auto get_write_access = [&]
+  {
     bool read {false};
     bool write {false};
     DatabasePrivileges::get_bible_book (user, bible, book, read, write);
@@ -211,8 +210,8 @@ std::string clamp (Webserver_Request& webserver_request, std::string bible)
 {
   if (!read (webserver_request, bible)) {
     bible.clear();
-    const std::vector<std::string> bibles = access_bible::bibles (webserver_request);
-    if (!bibles.empty())
+    if (const std::vector<std::string> bibles = access_bible::bibles (webserver_request);
+        !bibles.empty())
       bible = bibles.front();
     webserver_request.database_config_user ()->set_bible (bible);
   }
@@ -227,8 +226,8 @@ std::tuple<bool, bool> any (Webserver_Request& webserver_request)
 {
   bool read {false};
   bool write {false};
-  std::vector <std::string> bibles = database::bibles::get_bibles ();
-  for (const auto& bible : bibles) {
+  for (const std::vector<std::string> bibles = database::bibles::get_bibles ();
+      const auto& bible : bibles) {
     if (access_bible::read (webserver_request, bible)) read = true;
     if (access_bible::write (webserver_request, bible)) write = true;
   }

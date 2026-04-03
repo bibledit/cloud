@@ -675,10 +675,6 @@ target_link_libraries(bibledit ${LIBCURL_LIBRARIES})
 target_include_directories(bibledit PUBLIC ${LIBCURL_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${LIBCURL_CFLAGS_OTHER})
 
-#Todo read and apply this:
-#https://stackoverflow.com/questions/29191855/what-is-the-proper-way-to-use-pkg-config-from-cmake
-
-
 
 # The target is conditionally linked against the given libraries.
 #if(USE_LIBRARY1)

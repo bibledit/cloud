@@ -701,6 +701,14 @@ add_executable(unittest
 target_link_libraries(unittest bibledit)
 
 
+# The generator executable.
+add_executable(generate
+        executable/generate.cpp
+        sources/styles.cpp
+)
+target_link_libraries(generate bibledit)
+
+
 # The include directories for all items
 include_directories(bibledit PUBLIC
         .
@@ -721,6 +729,7 @@ target_compile_options(bibledit PUBLIC ${LIBCURL_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${LIBCURL_LIBRARY_DIRS})
 target_link_libraries(server ${LIBCURL_LIBRARIES})
 target_link_libraries(unittest ${LIBCURL_LIBRARIES})
+target_link_libraries(generate ${LIBCURL_LIBRARIES})
 check_include_file(curl/curl.h, INCLUDE_CURL_H)
 
 pkg_check_modules(OPENSSL REQUIRED openssl>=0.9.0)
@@ -729,6 +738,7 @@ target_compile_options(bibledit PUBLIC ${OPENSSL_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_link_libraries(server ${OPENSSL_LIBRARIES})
 target_link_libraries(unittest ${OPENSSL_LIBRARIES})
+target_link_libraries(generate ${OPENSSL_LIBRARIES})
 
 pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.9.0)
 target_include_directories(bibledit PUBLIC ${LIBXML2_INCLUDE_DIRS})
@@ -736,6 +746,7 @@ target_compile_options(bibledit PUBLIC ${LIBXML2_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${LIBXML2_LIBRARY_DIRS})
 target_link_libraries(server ${LIBXML2_LIBRARIES})
 target_link_libraries(unittest ${LIBXML2_LIBRARIES})
+target_link_libraries(generate ${LIBXML2_LIBRARIES})
 
 pkg_check_modules(ICU icu-i18n>=60.0)
 if (ICU_FOUND)
@@ -746,6 +757,7 @@ if (ICU_FOUND)
     # The pkg-config does not give all libraries needed: Add one manually.
     target_link_libraries(server ${ICU_LIBRARIES} icuuc)
     target_link_libraries(unittest ${ICU_LIBRARIES} icuuc)
+    target_link_libraries(generate ${ICU_LIBRARIES} icuuc)
 endif ()
 
 pkg_check_modules(MBEDTLS mbedtls)
@@ -756,6 +768,7 @@ if (MBEDTLS_FOUND)
     target_link_directories(bibledit PUBLIC ${MBEDTLS_LIBRARY_DIRS})
     target_link_libraries(server ${MBEDTLS_LIBRARIES})
     target_link_libraries(unittest ${MBEDTLS_LIBRARIES})
+    target_link_libraries(generate ${MBEDTLS_LIBRARIES})
 endif ()
 
 pkg_check_modules(UTF8PROC mbedtls)
@@ -766,6 +779,7 @@ if (UTF8PROC_FOUND)
     target_link_directories(bibledit PUBLIC ${UTF8PROC_LIBRARY_DIRS})
     target_link_libraries(server ${UTF8PROC_LIBRARIES})
     target_link_libraries(unittest ${UTF8PROC_LIBRARIES})
+    target_link_libraries(generate ${UTF8PROC_LIBRARIES})
 endif ()
 
 pkg_check_modules(TIDY REQUIRED tidy>=5.4.0)
@@ -774,6 +788,7 @@ target_compile_options(bibledit PUBLIC ${TIDY_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${TIDY_LIBRARY_DIRS})
 target_link_libraries(server ${TIDY_LIBRARIES})
 target_link_libraries(unittest ${TIDY_LIBRARIES})
+target_link_libraries(generate ${TIDY_LIBRARIES})
 
 pkg_check_modules(PUGIXML pugixml>=1.10)
 if (PUGIXML_FOUND)
@@ -783,6 +798,7 @@ if (PUGIXML_FOUND)
     target_link_directories(bibledit PUBLIC ${PUGIXML_LIBRARY_DIRS})
     target_link_libraries(server ${PUGIXML_LIBRARIES})
     target_link_libraries(unittest ${PUGIXML_LIBRARIES})
+    target_link_libraries(generate ${PUGIXML_LIBRARIES})
 endif ()
 
 pkg_check_modules(GTEST gtest>=1.10.0)
@@ -850,17 +866,11 @@ message(STATUS "iOS              (cmake -DHAVE_IOS=ON)                ${HAVE_IOS
 # Write the variables in the template to config.h.
 configure_file(cmake_config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
+# Installation.
+install(TARGETS server DESTINATION bin)
 
 
-#bin_PROGRAMS = unittest generate
-#
-#
-#generate_SOURCES = \
-#executable/generate.cpp \
-#sources/styles.cpp
-#
-#generate_LDADD = libbibledit.a
-#
+# Todo handle the Makefile.am code below in some way for CMake.
 #AM_CFLAGS = -g
 #AM_CFLAGS += $(OPENSSL_CFLAGS)
 #
@@ -876,16 +886,7 @@ configure_file(cmake_config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 #endif
 #if COMPILERCLANG
 #endif
-#AM_CXXFLAGS += $(CURL_CFLAGS)
-#AM_CXXFLAGS += $(OPENSSL_CFLAGS)
-#AM_CXXFLAGS += $(GTK_CFLAGS)
-#AM_CXXFLAGS += $(WEBKIT2GTK_CFLAGS)
-#AM_CXXFLAGS += $(ICU_CFLAGS)
-#AM_CXXFLAGS += $(XML2_CFLAGS)
-#AM_CXXFLAGS += $(UTF8PROC_CFLAGS)
 ## AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
-#AM_CXXFLAGS += $(PUGIXML_CFLAGS)
-#AM_CXXFLAGS += $(GTEST_CFLAGS)
 #
 #if MACFLAGS
 ## Building Bibledit for macOS for two architectures
@@ -897,16 +898,6 @@ configure_file(cmake_config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 #endif
 #
 #LIBS = -Wall -lpthread -L. -g -rdynamic -ldl
-#LIBS += $(CURL_LIBS)
-#LIBS += $(OPENSSL_LIBS)
-#LIBS += $(GTK_LIBS)
-#LIBS += $(WEBKIT2GTK_LIBS)
-#LIBS += $(ICU_LIBS) -licuuc
-#LIBS += $(XML2_LIBS)
-#LIBS += $(UTF8PROC_LIBS)
-## LIBS += $(TIDY_LIBS)
-#LIBS += $(PUGIXML_LIBS)
-#LIBS += $(GTEST_LIBS)
 #
 ## The core library compiles and embeds the mbedtls library.
 ## On Debian this gives a lintian error:

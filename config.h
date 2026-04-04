@@ -16,6 +16,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#pragma once
+
 #define VERSION_MAJOR 5
 #define VERSION_MINOR 1
 #define VERSION_PATCH 043

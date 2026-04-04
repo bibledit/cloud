@@ -16,13 +16,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <navigation/update.h>
 #include <filter/roles.h>
 #include <filter/string.h>
-#include <webserver/request.h>
-#include <navigation/passage.h>
-#include <database/books.h>
 #include <ipc/focus.h>
+#include <navigation/passage.h>
+#include <navigation/update.h>
+#include <webserver/request.h>
 
 
 std::string navigation_update_url ()
@@ -39,7 +38,7 @@ bool navigation_update_acl (Webserver_Request& webserver_request)
 
 std::string navigation_update (Webserver_Request& webserver_request)
 {
-  // It used to take the Bible from the Bible variable stored in Javascript.
+  // It used to take the Bible from the Bible variable stored in JavaScript.
   // But then, when switching from a Bible that has the NT only, to a Bible that has OT and NT,
   // the navigator would only show the NT books.
   // Now, by taking the Bible from the database, it will show the books of the last selected Bible.
@@ -47,8 +46,7 @@ std::string navigation_update (Webserver_Request& webserver_request)
   const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
   const int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
   const int verse = filter::string::convert_to_int (webserver_request.query ["verse"]);
-  [[maybe_unused]] const int focus_group = ipc_focus::get_focus_group(webserver_request); // Todo check its usage.
-  
+
   
   // Build the keyboard navigation fragment.
   if (webserver_request.query.count ("keyboard")) {
@@ -185,6 +183,6 @@ std::string navigation_update (Webserver_Request& webserver_request)
     }
   }
   
-  // Build the navigation html fragment.
+  // Build the navigation HTML fragment.
   return navigation_passage::get_mouse_navigator (webserver_request, bible);
 }

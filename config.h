@@ -1,115 +1,40 @@
-/* config.h.  Generated from config.h.in by configure.  */
-/* config.h.in.  Generated from configure.ac by autoheader.  */
+/*
+Copyright (©) 2003-2026 Teus Benschop.
 
-/* Define whether to compile for Android */
-/* #undef HAVE_ANDROID */
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
 
-/* define if the compiler supports basic C++20 syntax */
-#define HAVE_CXX20 1
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-/* Define whether execinfo.h is present */
-#define HAVE_EXECINFO 1
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
 
-/* Define whether GTest is available */
-#define HAVE_GTEST 1
-
-/* Define whether ICU is available */
-#define HAVE_ICU 1
-
-/* Define to 1 if you have the <inttypes.h> header file. */
-#define HAVE_INTTYPES_H 1
-
-/* Define whether to compile for iOS */
-/* #undef HAVE_IOS */
-
-/* Define to 1 if you have the 'mbedtls' library (-lmbedtls). */
-/* #undef HAVE_LIBMBEDTLS */
-
-/* Define whether libproc.h is present */
-#define HAVE_LIBPROC 1
-
-/* Define whether to compile for Linux */
-/* #undef HAVE_LINUX */
-
-/* Define whether mach/mach.h is present */
-#define HAVE_MACH_MACH 1
-
-/* Define whether to compile for macOS */
-/* #undef HAVE_MACOS */
-
-/* Define whether pthread.h is present */
-#define HAVE_PTHREAD 1
-
-/* Define whether pugixml is available */
-#define HAVE_PUGIXML 1
-
-/* Define to 1 if you have the <stdint.h> header file. */
-#define HAVE_STDINT_H 1
-
-/* Define to 1 if you have the <stdio.h> header file. */
-#define HAVE_STDIO_H 1
-
-/* Define to 1 if you have the <stdlib.h> header file. */
-#define HAVE_STDLIB_H 1
-
-/* Define to 1 if you have the <strings.h> header file. */
-#define HAVE_STRINGS_H 1
-
-/* Define to 1 if you have the <string.h> header file. */
-#define HAVE_STRING_H 1
-
-/* Define to 1 if you have the <sys/stat.h> header file. */
-#define HAVE_SYS_STAT_H 1
-
-/* Define whether sys/sysctl.h is present */
-#define HAVE_SYS_SYSCTL 1
-
-/* Define to 1 if you have the <sys/types.h> header file. */
-#define HAVE_SYS_TYPES_H 1
-
-/* Define to 1 if you have the <unistd.h> header file. */
-#define HAVE_UNISTD_H 1
-
-/* Define whether utf8proc is available */
-#define HAVE_UTF8PROC 1
-
-/* Define whether to compile on Windows */
-/* #undef HAVE_WINDOWS */
-
-/* Name of package */
-#define PACKAGE "bibledit"
-
-/* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "https://bibledit.org"
-
-/* Package data directory */
-#define PACKAGE_DATA_DIR "/usr/share/bibledit"
-
-/* Define to the full name of this package. */
-#define PACKAGE_NAME "bibledit"
-
-/* Package prefix directory */
-#define PACKAGE_PREFIX_DIR "NONE"
-
-/* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 5.1.043"
-
-/* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "bibledit"
-
-/* Define to the home page for this package. */
-#define PACKAGE_URL ""
-
-/* Define to the version of this package. */
-#define PACKAGE_VERSION "5.1.043"
-
-/* Define to 1 if all of the C89 standard headers exist (not just the ones
-   required in a freestanding environment). This macro is provided for
-   backward compatibility; new code need not use it. */
-#define STDC_HEADERS 1
-
-/* Version number of package */
+#define VERSION_MAJOR 5
+#define VERSION_MINOR 1
+#define VERSION_PATCH 043
 #define VERSION "5.1.043"
-
-/* Define whether to compile on Windows */
+#define HAVE_LIBMBEDTLS
+/* #undef HAVE_LIBPROC */
+/* #undef HAVE_EXECINFO */
+/* #undef HAVE_MACH_MACH */
+#define HAVE_ICU
+#define HAVE_UTF8PROC
+#define HAVE_PUGIXML
+#define HAVE_GTEST
+#define PACKAGE_DATA_DIR "/usr/share/bibledit"
+#define PACKAGE_PREFIX_DIR "/usr"
+/* #undef COMPILERGCC */
+#define COMPILERCLANG
+/* #undef HAVE_WINDOWS */
 /* #undef WIN32 */
+/* #undef HAVE_ANDROID */
+/* #undef HAVE_MACOS */
+/* #undef HAVE_LINUX */
+/* #undef HAVE_IOS */

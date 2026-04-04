@@ -55,9 +55,6 @@ bool editusfm_index_acl (Webserver_Request& webserver_request)
 
 std::string editusfm_index (Webserver_Request& webserver_request)
 {
-  [[maybe_unused]] const bool touch = webserver_request.session_logic ()->get_touch_enabled (); // Todo check its usage.
-
-  
   if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
     const std::string switchbook = webserver_request.query ["switchbook"];
     const std::string switchchapter = webserver_request.query ["switchchapter"];

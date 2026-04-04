@@ -61,8 +61,6 @@ bool editone_index_acl (Webserver_Request& webserver_request)
 
 std::string editone_index (Webserver_Request& webserver_request)
 {
-  [[maybe_unused]]const bool touch = webserver_request.session_logic ()->get_touch_enabled ();// Todo check its usage.
-  
   if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
     const int switchbook = filter::string::convert_to_int (webserver_request.query ["switchbook"]);
     const int switchchapter = filter::string::convert_to_int (webserver_request.query ["switchchapter"]);

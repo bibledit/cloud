@@ -54,7 +54,7 @@ bool edit_preview_acl (Webserver_Request& webserver_request)
 
 std::string edit_preview (Webserver_Request& webserver_request)
 {
-  const bool touch = webserver_request.session_logic ()->get_touch_enabled ();
+  [[maybe_unused]] const bool touch = webserver_request.session_logic ()->get_touch_enabled (); // Todo check its usage.
   const bool timeout = webserver_request.query.count ("timeout");
   const std::string caller = webserver_request.query ["caller"];
   std::string bible = webserver_request.query ["bible"];

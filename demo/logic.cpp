@@ -176,7 +176,7 @@ void demo_clean_data ()
 
   // Create samples for the workspaces and clean up excessive workspaces.
   if (config::logic::default_bibledit_configuration ()) {
-    for (const auto name : workspace_get_names(webserver_request, false)) {
+    for (const auto& name : workspace_get_names(webserver_request, false)) {
       workspace_delete(webserver_request, name);
     }
     workspace_create_defaults(webserver_request);

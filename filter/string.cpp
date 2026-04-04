@@ -54,6 +54,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #pragma clang diagnostic ignored "-Wold-style-cast"
 #pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
+#pragma clang diagnostic ignored "-Wunnecessary-virtual-specifier"
 #include <unicode/ustdio.h>
 #include <unicode/normlzr.h>
 #include <unicode/utypes.h>

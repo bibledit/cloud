@@ -58,7 +58,7 @@ bool edit_index_acl (Webserver_Request& webserver_request)
 
 std::string edit_index (Webserver_Request& webserver_request)
 {
-  const bool touch = webserver_request.session_logic ()->get_touch_enabled ();
+  [[maybe_unused]] const bool touch = webserver_request.session_logic ()->get_touch_enabled (); // Todo check usage.
 
   
   if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {

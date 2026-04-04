@@ -43,7 +43,7 @@ int get_focus_group(const Webserver_Request& webserver_request)
 // If the container is too small, it gets filled up with book/chapter/verse number 1.
 static void store_value_for_focus_group(std::vector<int>& values, const int group, const int value)
 {
-  while (values.size() <= group)
+  while (static_cast<int>(values.size()) <= group)
     values.push_back(1);
   values.at(group) = value;
 }
@@ -79,7 +79,7 @@ int get_book (Webserver_Request& webserver_request)
   // The focus group number.
   const int group {get_focus_group(webserver_request)};
   const auto books = webserver_request.database_config_user()->get_focused_books();
-  if (group < books.size())
+  if (group < static_cast<int>(books.size()))
     return books.at(group);
   // Default book.
   return 1;
@@ -92,7 +92,7 @@ int get_chapter (Webserver_Request& webserver_request)
   // The focus group number.
   const int group {get_focus_group(webserver_request)};
   const auto chapters = webserver_request.database_config_user()->get_focused_chapters();
-  if (group < chapters.size())
+  if (group < static_cast<int>(chapters.size()))
     return chapters.at(group);
   // Default chapter.
   return 1;
@@ -105,7 +105,7 @@ int get_verse (Webserver_Request& webserver_request)
   // The focus group number.
   const int group {get_focus_group(webserver_request)};
   const auto verses = webserver_request.database_config_user()->get_focused_verses();
-  if (group < verses.size())
+  if (group < static_cast<int>(verses.size()))
     return verses.at(group);
   // Default verse.
   return 1;

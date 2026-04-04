@@ -50,7 +50,7 @@ bool resource_index_acl (Webserver_Request& webserver_request)
 
 std::string resource_index (Webserver_Request& webserver_request)
 {
-  const bool touch = webserver_request.session_logic ()->get_touch_enabled ();
+  [[maybe_unused]] const bool touch = webserver_request.session_logic ()->get_touch_enabled (); // Todo check usage.
 
   
   std::string page;

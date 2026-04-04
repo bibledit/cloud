@@ -47,7 +47,7 @@ std::string navigation_update (Webserver_Request& webserver_request)
   const int book = filter::string::convert_to_int (webserver_request.query ["book"]);
   const int chapter = filter::string::convert_to_int (webserver_request.query ["chapter"]);
   const int verse = filter::string::convert_to_int (webserver_request.query ["verse"]);
-  const int focus_group = ipc_focus::get_focus_group(webserver_request);
+  [[maybe_unused]] const int focus_group = ipc_focus::get_focus_group(webserver_request); // Todo check its usage.
   
   
   // Build the keyboard navigation fragment.

@@ -611,8 +611,15 @@ add_library(bibledit STATIC
 )
 
 
-# The include directories for the Bibledit kernel.
-target_include_directories(bibledit PUBLIC
+# The Bibledit executable.
+add_executable(server
+        executable/bibledit.cpp
+)
+target_link_libraries(server bibledit)
+
+
+# The include directories for all items
+include_directories(bibledit PUBLIC
         .
 )
 
@@ -626,64 +633,74 @@ find_package(PkgConfig REQUIRED)
 include(CheckIncludeFile)
 
 pkg_check_modules(LIBCURL REQUIRED libcurl>=7.20.0)
-target_link_libraries(bibledit ${LIBCURL_LIBRARIES})
+target_link_libraries(server ${LIBCURL_LIBRARIES})
 target_include_directories(bibledit PUBLIC ${LIBCURL_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${LIBCURL_CFLAGS_OTHER})
+target_link_directories(bibledit PUBLIC ${LIBCURL_LIBRARY_DIRS})
 check_include_file(curl/curl.h, INCLUDE_CURL_H)
 
 pkg_check_modules(OPENSSL REQUIRED openssl>=0.9.0)
-target_link_libraries(bibledit ${OPENSSL_LIBRARIES})
+target_link_libraries(server ${OPENSSL_LIBRARIES})
 target_include_directories(bibledit PUBLIC ${OPENSSL_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${OPENSSL_CFLAGS_OTHER})
+target_link_directories(bibledit PUBLIC ${OPENSSL_LIBRARY_DIRS})
 
 pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.9.0)
-target_link_libraries(bibledit ${LIBXML2_LIBRARIES})
+target_link_libraries(server ${LIBXML2_LIBRARIES})
 target_include_directories(bibledit PUBLIC ${LIBXML2_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${LIBXML2_CFLAGS_OTHER})
+target_link_directories(bibledit PUBLIC ${LIBXML2_LIBRARY_DIRS})
 
 pkg_check_modules(ICU icu-i18n>=60.0)
 if (ICU_FOUND)
     set(HAVE_ICU ON)
-    target_link_libraries(bibledit ${ICU_LIBRARIES})
+    # The pkg-config does not give all libraries needed: Add one manually.
+    target_link_libraries(server ${ICU_LIBRARIES} icuuc)
     target_include_directories(bibledit PUBLIC ${ICU_INCLUDE_DIRS})
     target_compile_options(bibledit PUBLIC ${ICU_CFLAGS_OTHER})
+    target_link_directories(bibledit PUBLIC ${ICU_LIBRARY_DIRS})
 endif ()
 
 pkg_check_modules(MBEDTLS mbedtls)
 if (MBEDTLS_FOUND)
     set(HAVE_LIBMBEDTLS ON)
-    target_link_libraries(bibledit ${MBEDTLS_LIBRARIES})
+    target_link_libraries(server ${MBEDTLS_LIBRARIES})
     target_include_directories(bibledit PUBLIC ${MBEDTLS_INCLUDE_DIRS})
     target_compile_options(bibledit PUBLIC ${MBEDTLS_CFLAGS_OTHER})
+    target_link_directories(bibledit PUBLIC ${MBEDTLS_LIBRARY_DIRS})
 endif ()
 
 pkg_check_modules(UTF8PROC mbedtls)
 if (UTF8PROC_FOUND)
     set(HAVE_UTF8PROC ON)
-    target_link_libraries(bibledit ${UTF8PROC_LIBRARIES})
+    target_link_libraries(server ${UTF8PROC_LIBRARIES})
     target_include_directories(bibledit PUBLIC ${UTF8PROC_INCLUDE_DIRS})
     target_compile_options(bibledit PUBLIC ${UTF8PROC_CFLAGS_OTHER})
+    target_link_directories(bibledit PUBLIC ${UTF8PROC_LIBRARY_DIRS})
 endif ()
 
 pkg_check_modules(TIDY REQUIRED tidy>=5.4.0)
-target_link_libraries(bibledit ${TIDY_LIBRARIES})
+target_link_libraries(server ${TIDY_LIBRARIES})
 target_include_directories(bibledit PUBLIC ${TIDY_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${TIDY_CFLAGS_OTHER})
+target_link_directories(bibledit PUBLIC ${TIDY_LIBRARY_DIRS})
 
 pkg_check_modules(PUGIXML pugixml>=1.10)
 if (PUGIXML_FOUND)
     set(HAVE_PUGIXML ON)
-    target_link_libraries(bibledit ${PUGIXML_LIBRARIES})
+    target_link_libraries(server ${PUGIXML_LIBRARIES})
     target_include_directories(bibledit PUBLIC ${PUGIXML_INCLUDE_DIRS})
     target_compile_options(bibledit PUBLIC ${PUGIXML_CFLAGS_OTHER})
+    target_link_directories(bibledit PUBLIC ${PUGIXML_LIBRARY_DIRS})
 endif ()
 
 pkg_check_modules(GTEST gtest>=1.10.0)
 if (GTEST_FOUND)
     set(HAVE_GTEST ON)
-    target_link_libraries(bibledit ${GTEST_LIBRARIES})
+    target_link_libraries(server ${GTEST_LIBRARIES})
     target_include_directories(bibledit PUBLIC ${GTEST_INCLUDE_DIRS})
     target_compile_options(bibledit PUBLIC ${GTEST_CFLAGS_OTHER})
+    target_link_directories(bibledit PUBLIC ${GTEST_LIBRARY_DIRS})
 endif ()
 
 # Whether to use GTK for the client edition.
@@ -693,18 +710,18 @@ option(USE_GTK "Use GTK" OFF)
 if (USE_GTK)
 
     pkg_check_modules(GTK REQUIRED gtk+-3.0)
-    target_link_libraries(bibledit ${GTK_LIBRARIES})
+    target_link_libraries(server ${GTK_LIBRARIES})
     target_include_directories(bibledit PUBLIC ${GTK_INCLUDE_DIRS})
     target_compile_options(bibledit PUBLIC ${GTK_CFLAGS_OTHER})
+    target_link_directories(bibledit PUBLIC ${GTK_LIBRARY_DIRS})
 
     pkg_check_modules(WEBKIT2GTK REQUIRED webkit2gtk-4.1)
-    target_link_libraries(bibledit ${WEBKIT2GTK_LIBRARIES})
+    target_link_libraries(server ${WEBKIT2GTK_LIBRARIES})
     target_include_directories(bibledit PUBLIC ${WEBKIT2GTK_INCLUDE_DIRS})
     target_compile_options(bibledit PUBLIC ${WEBKIT2GTK_CFLAGS_OTHER})
+    target_link_directories(bibledit PUBLIC ${WEBKIT2GTK_LIBRARY_DIRS})
 
 endif ()
-
-
 
 
 check_include_file(libproc.h, HAVE_LIBPROC)
@@ -721,7 +738,6 @@ endif()
 if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
     set(COMPILERCLANG ON)
 endif()
-
 
 option(HAVE_WINDOWS "Compile for Windows" OFF)
 if (HAVE_WINDOWS)
@@ -742,3 +758,178 @@ message(STATUS "iOS              (cmake -DHAVE_IOS=ON)                ${HAVE_IOS
 
 # Write the variables in the template to config.h.
 configure_file(cmake_config.h.in ${PROJECT_SOURCE_DIR}/config.h)
+
+
+
+#bin_PROGRAMS = server unittest generate
+#
+#server_LDADD = libbibledit.a
+#
+#unittest_SOURCES = \
+#unittests/unittest.cpp \
+#unittests/utilities.cpp \
+#unittests/sqlite.cpp \
+#unittests/session.cpp \
+#unittests/folders.cpp \
+#unittests/flate.cpp \
+#unittests/checksum.cpp \
+#unittests/bibles.cpp \
+#unittests/usfm-html.cpp \
+#unittests/workspaces.cpp \
+#unittests/client.cpp \
+#unittests/versification.cpp \
+#unittests/usfm.cpp \
+#unittests/verses.cpp \
+#unittests/paratext.cpp \
+#unittests/search.cpp \
+#unittests/json.cpp \
+#unittests/related.cpp \
+#unittests/editone.cpp \
+#unittests/http.cpp \
+#unittests/memory.cpp \
+#unittests/tasks.cpp \
+#unittests/rss.cpp \
+#unittests/roles.cpp \
+#unittests/md5.cpp \
+#unittests/string.cpp \
+#unittests/users.cpp \
+#unittests/date.cpp \
+#unittests/export.cpp \
+#unittests/html.cpp \
+#unittests/archive.cpp \
+#unittests/odf.cpp \
+#unittests/text.cpp \
+#unittests/url.cpp \
+#unittests/passage.cpp \
+#unittests/styles.cpp \
+#unittests/diff.cpp \
+#unittests/git.cpp \
+#unittests/ipc.cpp \
+#unittests/shell.cpp \
+#unittests/ldap.cpp \
+#unittests/dev.cpp \
+#unittests/sample.cpp \
+#unittests/config.cpp \
+#unittests/log.cpp \
+#unittests/books.cpp \
+#unittests/checks.cpp \
+#unittests/localization.cpp \
+#unittests/confirm.cpp \
+#unittests/jobs.cpp \
+#unittests/kjv.cpp \
+#unittests/oshb.cpp \
+#unittests/sblgnt.cpp \
+#unittests/sprint.cpp \
+#unittests/mail.cpp \
+#unittests/navigation.cpp \
+#unittests/resources.cpp \
+#unittests/notes.cpp \
+#unittests/modifications.cpp \
+#unittests/volatile.cpp \
+#unittests/state.cpp \
+#unittests/strong.cpp \
+#unittests/morphgnt.cpp \
+#unittests/etcbc4.cpp \
+#unittests/lexicon.cpp \
+#unittests/cache.cpp \
+#unittests/login.cpp \
+#unittests/privileges.cpp \
+#unittests/statistics.cpp \
+#unittests/webview.cpp \
+#unittests/javascript.cpp \
+#unittests/merge.cpp \
+#unittests/html2format.cpp \
+#unittests/bibleimages.cpp \
+#unittests/image.cpp \
+#unittests/scraper.cpp \
+#unittests/consistency.cpp
+#unittest_LDADD = libbibledit.a
+#
+#generate_SOURCES = \
+#executable/generate.cpp \
+#sources/styles.cpp
+#
+#generate_LDADD = libbibledit.a
+#
+#AM_CFLAGS = -g
+#AM_CFLAGS += $(OPENSSL_CFLAGS)
+#
+## Compiling on some systems may treat warnings as errors.
+## Pass a flag to the compiler to treat a warning not as an error
+#AM_CXXFLAGS = -fno-var-tracking -g -Wno-error
+#if COMPILERWARNINGS
+#AM_CFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wno-pragmas
+#AM_CXXFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra-semi -Wfloat-equal -Wformat=2 -Wmissing-include-dirs -Wmissing-noreturn -Wnull-dereference -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wsign-promo -Wsuggest-override -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunused-but-set-parameter -Wunused-macros -Wunused-parameter -Wvla -Wzero-as-null-pointer-constant -Wmismatched-tags
+#if COMPILERGCC
+#AM_CXXFLAGS += -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-cond -Wformat-overflow=2 -Wlogical-op -Wnoexcept -Wno-non-template-friend -Wrestrict -Wstrict-null-sentinel -Wuseless-cast -Wcomma-subscript -Wredundant-tags -Wvolatile
+#endif
+#endif
+#if COMPILERCLANG
+#endif
+#AM_CXXFLAGS += $(CURL_CFLAGS)
+#AM_CXXFLAGS += $(OPENSSL_CFLAGS)
+#AM_CXXFLAGS += $(GTK_CFLAGS)
+#AM_CXXFLAGS += $(WEBKIT2GTK_CFLAGS)
+#AM_CXXFLAGS += $(ICU_CFLAGS)
+#AM_CXXFLAGS += $(XML2_CFLAGS)
+#AM_CXXFLAGS += $(UTF8PROC_CFLAGS)
+## AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
+#AM_CXXFLAGS += $(PUGIXML_CFLAGS)
+#AM_CXXFLAGS += $(GTEST_CFLAGS)
+#
+#if MACFLAGS
+## Building Bibledit for macOS for two architectures
+## due to the switch from macOS from the x86_64 to the arm64 architecture.
+## Additionally it uses the includes and libraries from the macOS SDK.
+## Generate the macOS SDK path: $ xcrun --show-sdk-path
+#AM_CXXFLAGS += -mmacosx-version-min=10.10 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -arch x86_64 -arch arm64
+#AM_CFLAGS += -mmacosx-version-min=10.10 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -arch x86_64 -arch arm64
+#endif
+#
+#LIBS = -Wall -lpthread -L. -g -rdynamic -ldl
+#LIBS += $(CURL_LIBS)
+#LIBS += $(OPENSSL_LIBS)
+#LIBS += $(GTK_LIBS)
+#LIBS += $(WEBKIT2GTK_LIBS)
+#LIBS += $(ICU_LIBS) -licuuc
+#LIBS += $(XML2_LIBS)
+#LIBS += $(UTF8PROC_LIBS)
+## LIBS += $(TIDY_LIBS)
+#LIBS += $(PUGIXML_LIBS)
+#LIBS += $(GTEST_LIBS)
+#
+## The core library compiles and embeds the mbedtls library.
+## On Debian this gives a lintian error:
+## E: bibledit: embedded-library usr/bin/bibledit: mbedtls
+## Solve this on Debian by omitting that library from the core,
+## and by linking to the mbed TLS library provided by the system.
+## For other platforms, the library remains in the core.
+## debian LIBS += -lmbedtls -lmbedcrypto -lmbedx509
+#
+#EXTRA_DIST = a* bb bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w*
+#
+#dist-hook:
+#rm -rf `find $(distdir) -name *.o`
+#rm -rf `find $(distdir) -name *.a`
+#rm -rf `find $(distdir) -name autom4te.cache`
+#rm -f $(distdir)/server
+#rm -f $(distdir)/unittest
+#rm -rf `find $(distdir) -name .dirstamp`
+#rm -rf `find $(distdir) -name .deps`
+#rm -rf `find $(distdir) -name *~`
+#rm -f $(distdir)/config.h
+#rm -f $(distdir)/config.log
+#rm -f $(distdir)/config.status
+#
+#CLEANFILES = bibledit*.gz *~
+#
+#all-local:
+#pkgdata/create.sh
+#
+#install-data-hook:
+#$(srcdir)/pkgdata/install.sh $(srcdir) $(DESTDIR) $(pkgdatadir)
+#
+#uninstall-local:
+#rm -rf $(DESTDIR)$(pkgdatadir)/*
+#
+#man_MANS = man/bibledit.1 man/bibledit-cloud.1

@@ -17,15 +17,11 @@
  */
 
 
-#include <editor/html2format.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <filter/usfm.h>
-#include <locale/translate.h>
-#include <styles/logic.h>
 #include <database/logs.h>
-#include <pugixml/utils.h>
+#include <editor/html2format.h>
 #include <filter/quill.h>
+#include <filter/string.h>
+#include <pugixml/utils.h>
 
 
 void Editor_Html2Format::load (std::string html)
@@ -36,8 +32,8 @@ void Editor_Html2Format::load (std::string html)
   // The web editor produces <hr> and other elements following the HTML specs,
   // but the pugixml XML parser needs <hr/> and similar elements.
   html = filter::string::html2xml (html);
-  
-  std::string xml = "<body>" + html + "</body>";
+
+  const std::string xml = "<body>" + html + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
   // See https://pugixml.org/docs/manual.html for more information.
   // It is not enough to only parse with parse_ws_pcdata_single, it really needs parse_ws_pcdata.

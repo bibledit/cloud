@@ -20,7 +20,6 @@
 #pragma once
 
 #include <config/libraries.h>
-#include <database/styles.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"
@@ -41,7 +40,7 @@ public:
   std::vector <std::string> texts {};
   std::vector <std::string> formats {};
 private:
-  pugi::xml_document document {}; // DOMDocument holding the html.
+  pugi::xml_document document {}; // DOMDocument holding the HTML.
   void preprocess ();
   void postprocess ();
   void process ();

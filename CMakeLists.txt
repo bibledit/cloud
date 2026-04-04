@@ -618,6 +618,89 @@ add_executable(server
 target_link_libraries(server bibledit)
 
 
+# The unit test executable
+add_executable(unittest
+        unittests/unittest.cpp
+        unittests/utilities.cpp
+        unittests/sqlite.cpp
+        unittests/session.cpp
+        unittests/folders.cpp
+        unittests/flate.cpp
+        unittests/checksum.cpp
+        unittests/bibles.cpp
+        unittests/usfm-html.cpp
+        unittests/workspaces.cpp
+        unittests/client.cpp
+        unittests/versification.cpp
+        unittests/usfm.cpp
+        unittests/verses.cpp
+        unittests/paratext.cpp
+        unittests/search.cpp
+        unittests/json.cpp
+        unittests/related.cpp
+        unittests/editone.cpp
+        unittests/http.cpp
+        unittests/memory.cpp
+        unittests/tasks.cpp
+        unittests/rss.cpp
+        unittests/roles.cpp
+        unittests/md5.cpp
+        unittests/string.cpp
+        unittests/users.cpp
+        unittests/date.cpp
+        unittests/export.cpp
+        unittests/html.cpp
+        unittests/archive.cpp
+        unittests/odf.cpp
+        unittests/text.cpp
+        unittests/url.cpp
+        unittests/passage.cpp
+        unittests/styles.cpp
+        unittests/diff.cpp
+        unittests/git.cpp
+        unittests/ipc.cpp
+        unittests/shell.cpp
+        unittests/ldap.cpp
+        unittests/dev.cpp
+        unittests/sample.cpp
+        unittests/config.cpp
+        unittests/log.cpp
+        unittests/books.cpp
+        unittests/checks.cpp
+        unittests/localization.cpp
+        unittests/confirm.cpp
+        unittests/jobs.cpp
+        unittests/kjv.cpp
+        unittests/oshb.cpp
+        unittests/sblgnt.cpp
+        unittests/sprint.cpp
+        unittests/mail.cpp
+        unittests/navigation.cpp
+        unittests/resources.cpp
+        unittests/notes.cpp
+        unittests/modifications.cpp
+        unittests/volatile.cpp
+        unittests/state.cpp
+        unittests/strong.cpp
+        unittests/morphgnt.cpp
+        unittests/etcbc4.cpp
+        unittests/lexicon.cpp
+        unittests/cache.cpp
+        unittests/login.cpp
+        unittests/privileges.cpp
+        unittests/statistics.cpp
+        unittests/webview.cpp
+        unittests/javascript.cpp
+        unittests/merge.cpp
+        unittests/html2format.cpp
+        unittests/bibleimages.cpp
+        unittests/image.cpp
+        unittests/scraper.cpp
+        unittests/consistency.cpp
+)
+target_link_libraries(unittest bibledit)
+
+
 # The include directories for all items
 include_directories(bibledit PUBLIC
         .
@@ -636,20 +719,23 @@ pkg_check_modules(LIBCURL REQUIRED libcurl>=7.20.0)
 target_include_directories(bibledit PUBLIC ${LIBCURL_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${LIBCURL_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${LIBCURL_LIBRARY_DIRS})
-check_include_file(curl/curl.h, INCLUDE_CURL_H)
 target_link_libraries(server ${LIBCURL_LIBRARIES})
+target_link_libraries(unittest ${LIBCURL_LIBRARIES})
+check_include_file(curl/curl.h, INCLUDE_CURL_H)
 
 pkg_check_modules(OPENSSL REQUIRED openssl>=0.9.0)
 target_include_directories(bibledit PUBLIC ${OPENSSL_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${OPENSSL_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_link_libraries(server ${OPENSSL_LIBRARIES})
+target_link_libraries(unittest ${OPENSSL_LIBRARIES})
 
 pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.9.0)
 target_include_directories(bibledit PUBLIC ${LIBXML2_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${LIBXML2_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${LIBXML2_LIBRARY_DIRS})
 target_link_libraries(server ${LIBXML2_LIBRARIES})
+target_link_libraries(unittest ${LIBXML2_LIBRARIES})
 
 pkg_check_modules(ICU icu-i18n>=60.0)
 if (ICU_FOUND)
@@ -659,6 +745,7 @@ if (ICU_FOUND)
     target_link_directories(bibledit PUBLIC ${ICU_LIBRARY_DIRS})
     # The pkg-config does not give all libraries needed: Add one manually.
     target_link_libraries(server ${ICU_LIBRARIES} icuuc)
+    target_link_libraries(unittest ${ICU_LIBRARIES} icuuc)
 endif ()
 
 pkg_check_modules(MBEDTLS mbedtls)
@@ -668,6 +755,7 @@ if (MBEDTLS_FOUND)
     target_compile_options(bibledit PUBLIC ${MBEDTLS_CFLAGS_OTHER})
     target_link_directories(bibledit PUBLIC ${MBEDTLS_LIBRARY_DIRS})
     target_link_libraries(server ${MBEDTLS_LIBRARIES})
+    target_link_libraries(unittest ${MBEDTLS_LIBRARIES})
 endif ()
 
 pkg_check_modules(UTF8PROC mbedtls)
@@ -677,6 +765,7 @@ if (UTF8PROC_FOUND)
     target_compile_options(bibledit PUBLIC ${UTF8PROC_CFLAGS_OTHER})
     target_link_directories(bibledit PUBLIC ${UTF8PROC_LIBRARY_DIRS})
     target_link_libraries(server ${UTF8PROC_LIBRARIES})
+    target_link_libraries(unittest ${UTF8PROC_LIBRARIES})
 endif ()
 
 pkg_check_modules(TIDY REQUIRED tidy>=5.4.0)
@@ -684,6 +773,7 @@ target_include_directories(bibledit PUBLIC ${TIDY_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${TIDY_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${TIDY_LIBRARY_DIRS})
 target_link_libraries(server ${TIDY_LIBRARIES})
+target_link_libraries(unittest ${TIDY_LIBRARIES})
 
 pkg_check_modules(PUGIXML pugixml>=1.10)
 if (PUGIXML_FOUND)
@@ -692,6 +782,7 @@ if (PUGIXML_FOUND)
     target_compile_options(bibledit PUBLIC ${PUGIXML_CFLAGS_OTHER})
     target_link_directories(bibledit PUBLIC ${PUGIXML_LIBRARY_DIRS})
     target_link_libraries(server ${PUGIXML_LIBRARIES})
+    target_link_libraries(unittest ${PUGIXML_LIBRARIES})
 endif ()
 
 pkg_check_modules(GTEST gtest>=1.10.0)
@@ -700,7 +791,7 @@ if (GTEST_FOUND)
     target_include_directories(bibledit PUBLIC ${GTEST_INCLUDE_DIRS})
     target_compile_options(bibledit PUBLIC ${GTEST_CFLAGS_OTHER})
     target_link_directories(bibledit PUBLIC ${GTEST_LIBRARY_DIRS})
-    target_link_libraries(server ${GTEST_LIBRARIES})
+    target_link_libraries(unittest ${GTEST_LIBRARIES})
 endif ()
 
 # Whether to use GTK for the client edition.
@@ -761,89 +852,8 @@ configure_file(cmake_config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
 
 
-#bin_PROGRAMS = server unittest generate
+#bin_PROGRAMS = unittest generate
 #
-#server_LDADD = libbibledit.a
-#
-#unittest_SOURCES = \
-#unittests/unittest.cpp \
-#unittests/utilities.cpp \
-#unittests/sqlite.cpp \
-#unittests/session.cpp \
-#unittests/folders.cpp \
-#unittests/flate.cpp \
-#unittests/checksum.cpp \
-#unittests/bibles.cpp \
-#unittests/usfm-html.cpp \
-#unittests/workspaces.cpp \
-#unittests/client.cpp \
-#unittests/versification.cpp \
-#unittests/usfm.cpp \
-#unittests/verses.cpp \
-#unittests/paratext.cpp \
-#unittests/search.cpp \
-#unittests/json.cpp \
-#unittests/related.cpp \
-#unittests/editone.cpp \
-#unittests/http.cpp \
-#unittests/memory.cpp \
-#unittests/tasks.cpp \
-#unittests/rss.cpp \
-#unittests/roles.cpp \
-#unittests/md5.cpp \
-#unittests/string.cpp \
-#unittests/users.cpp \
-#unittests/date.cpp \
-#unittests/export.cpp \
-#unittests/html.cpp \
-#unittests/archive.cpp \
-#unittests/odf.cpp \
-#unittests/text.cpp \
-#unittests/url.cpp \
-#unittests/passage.cpp \
-#unittests/styles.cpp \
-#unittests/diff.cpp \
-#unittests/git.cpp \
-#unittests/ipc.cpp \
-#unittests/shell.cpp \
-#unittests/ldap.cpp \
-#unittests/dev.cpp \
-#unittests/sample.cpp \
-#unittests/config.cpp \
-#unittests/log.cpp \
-#unittests/books.cpp \
-#unittests/checks.cpp \
-#unittests/localization.cpp \
-#unittests/confirm.cpp \
-#unittests/jobs.cpp \
-#unittests/kjv.cpp \
-#unittests/oshb.cpp \
-#unittests/sblgnt.cpp \
-#unittests/sprint.cpp \
-#unittests/mail.cpp \
-#unittests/navigation.cpp \
-#unittests/resources.cpp \
-#unittests/notes.cpp \
-#unittests/modifications.cpp \
-#unittests/volatile.cpp \
-#unittests/state.cpp \
-#unittests/strong.cpp \
-#unittests/morphgnt.cpp \
-#unittests/etcbc4.cpp \
-#unittests/lexicon.cpp \
-#unittests/cache.cpp \
-#unittests/login.cpp \
-#unittests/privileges.cpp \
-#unittests/statistics.cpp \
-#unittests/webview.cpp \
-#unittests/javascript.cpp \
-#unittests/merge.cpp \
-#unittests/html2format.cpp \
-#unittests/bibleimages.cpp \
-#unittests/image.cpp \
-#unittests/scraper.cpp \
-#unittests/consistency.cpp
-#unittest_LDADD = libbibledit.a
 #
 #generate_SOURCES = \
 #executable/generate.cpp \

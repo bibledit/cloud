@@ -117,7 +117,7 @@ int main ()
 #ifndef HAVE_WINDOWS
   {
     // The following works on Linux but not on macOS:
-    char *linkname = static_cast<char *> (malloc (256));
+    auto linkname = static_cast<char *> (malloc (256));
     memset (linkname, 0, 256); // valgrind uninitialized value(s)
     [[maybe_unused]] auto result = readlink ("/proc/self/exe", linkname, 256);
     webroot = filter_url_dirname (linkname);
@@ -142,7 +142,7 @@ int main ()
     // char buf[MAX_PATH] = { 0 };
     // DWORD ret = GetModuleFileNameA(nullptr, buf, MAX_PATH);
     // While developing, the .exe runs in folder Debug or Release, and not in the expected folder.
-    // Therefore it's better to take the path of the current directory.
+    // Therefore, it's better to take the path of the current directory.
     wchar_t buffer[MAX_PATH];
     GetCurrentDirectory (MAX_PATH, buffer);
     char chars[MAX_PATH];
@@ -156,20 +156,21 @@ int main ()
   {
     // Get home folder and working directory.
     std::string home_folder;
-    const char * home_env_ptr = getenv ("HOME");
-    if (home_env_ptr) home_folder = home_env_ptr;
-    std::string workingdirectory;
+    if (const char* home_env_ptr = getenv("HOME"); home_env_ptr)
+      home_folder = home_env_ptr;
+    std::string working_directory;
     char cwd [MAXPATHLEN];
-    if (getcwd(cwd, sizeof(cwd)) != nullptr) workingdirectory = cwd;
+    if (getcwd(cwd, sizeof(cwd)) != nullptr)
+      working_directory = cwd;
     // If the web root folder, derived from the binary, is the same as the current directory,
     // it means that the binary is started from a Cloud installation in user space.
     // The web root folder is okay as it is.
-    if (webroot != workingdirectory) {
+    if (webroot != working_directory) {
       // If the web root is the home folder, it should be updated,
       // because it is undesirable to have all the data in the home folder.
       // If the web root is the package prefix, it should be updated,
       // because it now runs the binary installed in /usr/bin.
-      if ((webroot == home_folder) || (webroot.find (PACKAGE_PREFIX_DIR) == 0)) {
+      if (webroot == home_folder || (webroot.find (PACKAGE_PREFIX_DIR) == 0)) {
         // Update web root to ~/bibledit or ~/bibledit-cloud.
         webroot = filter_url_create_path ({home_folder, filter_url_basename (PACKAGE_DATA_DIR)});
       }

@@ -17,20 +17,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <assets/header.h>
-#include <filter/css.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <config/globals.h>
-#include <locale/translate.h>
 #include <access/bible.h>
-#include <navigation/passage.h>
-#include <menu/logic.h>
-#include <index/index.h>
-#include <webserver/request.h>
-#include <database/config/general.h>
+#include <assets/header.h>
 #include <database/config/bible.h>
-#include <database/cache.h>
+#include <database/config/general.h>
+#include <filter/css.h>
+#include <filter/string.h>
+#include <menu/logic.h>
+#include <navigation/passage.h>
+#include <webserver/request.h>
 
 
 Assets_Header::Assets_Header (const std::string& title, Webserver_Request& webserver_request) :
@@ -65,7 +60,7 @@ void Assets_Header::set_stylesheet ()
 {
   const std::string bible = m_webserver_request.database_config_user()->get_bible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
-  m_included_stylesheet = std::move(stylesheet);
+  m_included_stylesheet = stylesheet;
 }
 
 
@@ -74,15 +69,15 @@ void Assets_Header::set_editor_stylesheet ()
 {
   const std::string bible = m_webserver_request.database_config_user()->get_bible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
-  m_included_editor_stylesheet = std::move(stylesheet);
+  m_included_editor_stylesheet = stylesheet;
 }
 
 
 // Whether to display the topbar.
-bool Assets_Header::display_topbar ()
+bool Assets_Header::display_topbar () const
 {
   // If the topbar is in the query: Don't display the top bar.
-  if (m_webserver_request.query.count ("topbar")) {
+  if (m_webserver_request.query.contains ("topbar")) {
     return false;
   }
   // Display the topbar.
@@ -119,7 +114,7 @@ std::string Assets_Header::run ()
 {
   std::string page {};
   
-  // Include the software version number in the stylesheet and javascript URL
+  // Include the software version number in the stylesheet and JavaScript URL
   // to refresh the browser's cache after a software upgrade.
   m_view->set_variable("VERSION", config::logic::version ());
 
@@ -144,10 +139,8 @@ std::string Assets_Header::run ()
   }
 
   const bool basic_mode = config::logic::basic_mode (m_webserver_request);
-  std::string basicadvanced {};
-  if (basic_mode) basicadvanced = "basic";
-  else basicadvanced = "advanced";
-  m_view->set_variable ("basicadvanced", basicadvanced);
+  const std::string basic_advanced = basic_mode ? "basic" : "advanced";
+  m_view->set_variable ("basicadvanced", basic_advanced);
 
   if (display_topbar ()) {
     m_view->enable_zone ("display_topbar");
@@ -169,7 +162,7 @@ std::string Assets_Header::run ()
     if (item.empty ())
       if (m_webserver_request.database_config_user ()->get_main_menu_always_visible ()) {
         main_menu_always_on = true;
-        // Add the main menu status as a Javascript variable.
+        // Add the main menu status as a JavaScript variable.
         m_view->set_variable ("mainmenualwayson", filter::string::convert_to_string (main_menu_always_on));
 			}
     if ((item == "main") || main_menu_always_on) {
@@ -256,11 +249,11 @@ std::string Assets_Header::run ()
   }
 
   int current_theme_index = m_webserver_request.database_config_user ()->get_current_theme ();
-  // Add the theme color css class selector name on the body element,..
+  // Add the theme color CSS class selector name on the body element.
   m_view->set_variable ("body_theme_color", filter::css::theme_picker (current_theme_index, 0));
-  // ..workspacewrapper div element..
+  // Add the workspacewrapper div element.
   m_view->set_variable ("workspace_theme_color", filter::css::theme_picker (current_theme_index, 4));
-  // ..and as a variable for JavaScript.
+  // Add set it as a variable for JavaScript.
   m_view->set_variable ("themecolorfortabs", filter::css::theme_picker (current_theme_index, 1));
 
   m_view->set_variable ("focus_group", std::to_string(m_focus_group));

@@ -24,6 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Webserver_Request;
 
 std::string assets_external_url ();
-std::string assets_external (Webserver_Request& webserver_request);
+std::string assets_external (const Webserver_Request& webserver_request);
 
 std::string assets_external_logic_link_addon ();

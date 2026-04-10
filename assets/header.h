@@ -35,10 +35,10 @@ public:
   void set_navigator ();
   void set_stylesheet ();
   void set_editor_stylesheet ();
-  bool display_topbar ();
+  bool display_topbar () const;
   void refresh (int seconds, const std::string& url = "");
   void set_fading_menu (const std::string& html);
-  void set_focus_group(const int focus_group);
+  void set_focus_group(int focus_group);
   std::string run ();
 private:
   Assets_View * m_view {nullptr};

@@ -28,13 +28,13 @@ std::string assets_external_url ()
 }
 
 
-std::string assets_external (Webserver_Request& webserver_request)
+std::string assets_external (const Webserver_Request& webserver_request)
 {
   // Whether a URL was POSTed, that is, whether it was clicked by the user.
   std::string href = webserver_request.post_get("href");
   if (!href.empty ()) {
     config_globals_external_url = webserver_request.post_get("href");
-    return std::string();
+    return {};
   }
 
   // Wait for some time till a URL is available.
@@ -54,6 +54,7 @@ std::string assets_external (Webserver_Request& webserver_request)
 }
 
 
+// ReSharper disable once CppDFAConstantFunctionResult
 std::string assets_external_logic_link_addon ()
 {
   // Open an external link in an external browser on most clients.
@@ -61,5 +62,7 @@ std::string assets_external_logic_link_addon ()
 #ifdef HAVE_CLOUD
   return R"(target="_blank")";
 #endif
+#ifndef HAVE_CLOUD
   return R"(class="external")";
+#endif
 }

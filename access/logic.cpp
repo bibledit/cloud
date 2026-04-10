@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <access/logic.h>
 #include <filter/string.h>
-#include <filter/url.h>
 #include <filter/roles.h>
 #include <database/privileges.h>
 #include <webserver/request.h>
@@ -133,11 +132,12 @@ void user_level (Webserver_Request& webserver_request, std::string& user, int& l
 
 void create_client_files ()
 {
-  const Database_Users database_users;
-  const auto create_files = [](const auto& user) {
-    database_privileges_client_create (user, false);
-  };
-  std::ranges::for_each(database_users.get_users(), create_files);
+    constexpr Database_Users database_users;
+    const auto create_files = [](const auto& user)
+    {
+        database_privileges_client_create(user, false);
+    };
+    std::ranges::for_each(database_users.get_users(), create_files);
 }
 
 

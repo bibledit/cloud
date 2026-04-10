@@ -19,15 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <access/user.h>
 #include <webserver/request.h>
-#include <access/bible.h>
-#include <filter/roles.h>
 #include <filter/string.h>
 
 
 // This function returns users assigned to the logged-in user.
 std::vector<std::string> access_user::assignees (Webserver_Request& webserver_request)
 {
-  const int mylevel = webserver_request.session_logic()->get_level();
+  const int my_level = webserver_request.session_logic()->get_level();
   
   // Get sorted list of users.
   std::vector<std::string> users = webserver_request.database_users()->get_users();
@@ -35,7 +33,7 @@ std::vector<std::string> access_user::assignees (Webserver_Request& webserver_re
 
   // The filter: Assignees should have a level less than or equal to my level.
   const auto filter_level = [&] (const auto& user) {
-    return webserver_request.database_users()->get_level(user) <= mylevel;
+    return webserver_request.database_users()->get_level(user) <= my_level;
   };
   auto range = users | std::views::filter(filter_level);
   return filter::string::range2vector(range);

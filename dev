@@ -10,7 +10,7 @@ make --jobs=10
 if [ $? -ne 0 ]; then exit; fi
 
 echo Copy everything to working location
-rsync -av --exclude="*.a" --exclude="*.gz" . ~/work/bibledit/dev
+rsync -av --exclude="*.a" --exclude="*.gz" --exclude="cmake-build-debug" --exclude="build" . ~/work/bibledit/dev
 if [ $? -ne 0 ]; then exit; fi
 
 echo Start bibledit

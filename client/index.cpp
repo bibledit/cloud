@@ -51,10 +51,11 @@ bool client_index_acl (Webserver_Request& webserver_request)
 
 void client_index_remove_all_users (Webserver_Request& webserver_request)
 {
-  const std::vector <std::string> existing_users {webserver_request.database_users()->get_users ()};
-  for (const auto& existing_user : existing_users) {
-    webserver_request.database_users()->removeUser (existing_user);
-  }
+  std::ranges::for_each(webserver_request.database_users()->get_users(),
+                        [&webserver_request](const std::string& existing_user)
+                        {
+                            webserver_request.database_users()->removeUser(existing_user);
+                        });
 }
 
 
@@ -65,14 +66,14 @@ void client_index_enable_client (Webserver_Request& webserver_request, const std
   
   // Remove all users from the database, and add the current one.
   client_index_remove_all_users (webserver_request);
-  webserver_request.database_users ()->add_user (username, password, level, std::string());
+  webserver_request.database_users ()->add_user (username, password, level, {});
   
   // Update the username and the level in the current session.
-  webserver_request.session_logic ()->set_username (username);
-  webserver_request.session_logic ()->get_level (true);
+  webserver_request.session_logic()->set_username(username);
+  webserver_request.session_logic()->get_level(true);
   
   // If there's pending Bible updates, send them off to the user.
-  bible_logic::client_mail_pending_bible_updates (username);
+  bible_logic::client_mail_pending_bible_updates(username);
   
   // Clear all pending note actions and Bible actions and settings updates.
   Database_NoteActions database_noteactions;

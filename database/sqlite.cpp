@@ -17,11 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <database/sqlite.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <database/logs.h>
 #include <database/logic.h>
+#include <database/logs.h>
+#include <database/sqlite.h>
+#include <filter/string.h>
+#include <filter/url.h>
 
 
 /*
@@ -33,27 +33,27 @@ That is a reason against using MySQL on shared hosting.
 A reason for using SQLite is that it is easier to set up.
 No users, no privileges, no server.
 
-Another reason is that a backup of the web space also back ups the SQLite databases,
-provided they are stored in the web space.
+Another reason is that a backup of the webspace also back-ups the SQLite databases,
+provided they are stored in the webspace.
 With MySQL this is hard to do.
 
-Usually with shared hosting, the web space is big, but the MySQL database space is small.
+Usually with shared hosting, the webspace is big, but the MySQL database space is small.
 With a few Bibles, and several notes, plus resources, the MySQL database is full.
-SQLite uses the huge web space that usually come with shared hosting.
-Therefore it can store much more data with the same shared hosting package.
+SQLite uses the huge webspace that usually come with shared hosting.
+Therefore, it can store much more data with the same shared hosting package.
 
 While MySQL is a faster database than SQLite in isolated experiments, 
 on shared hosts it may be different.
-The reasons is that on a shared host, SQLite gets the data in the same process 
+The reason is that on a shared host, SQLite gets the data in the same process
 straight from disk. This works differently for MySQL. In most cases, the shared
-host uses a separate database server. Thus the web server fetches its data
+host uses a separate database server. Thus, the web server fetches its data
 from another host through the network. This introduces some delays.
 For smaller data sets SQLite is much faster in this scenario.
 
 Some often-used databases at times display database errors:
   disk I/O error
   unable to open database file
-It was tried wiether the errors go away when "PRAGMA busy_timeout = 100;"
+It was tried whether the errors go away when "PRAGMA busy_timeout = 100;"
 is executed after opening the database connection. The errors did not go away.
 
 It was tried whether the above errors go away on shared hosting with this command:
@@ -67,12 +67,12 @@ The errors did not go away.
 It was tried whether the above errors go away on shared hosting with this command:
 PRAGMA journal_mode = MEMORY;
 The errors went away, but the database behaved in an inconsistent way.
-It did not keeps its data properly, and did not update it properly.
-The same behaviour was found with:
+It did not keep its data properly, and did not update it properly.
+The same behavior was found with:
 PRAGMA journal_mode = OFF;
 
 It was tried whether setting the environment variable TMPDIR to a directory
-in our own web space would improve SQLite, but this did not improve SQLite.
+in our own webspace would improve SQLite, but this did not improve SQLite.
 However, in other areas it looked as if this did give improvement.
 
 What made a big difference is this:
@@ -111,8 +111,7 @@ namespace database::sqlite {
 sqlite3 * connect_file (const std::string& filename)
 {
   sqlite3 *db {nullptr};
-  const int rc = sqlite3_open (filename.c_str(), &db);
-  if (rc) {
+  if (const int rc = sqlite3_open (filename.c_str(), &db); rc) {
     const char * error = sqlite3_errmsg (db);
     database::sqlite::error (db, "Database " + filename, const_cast<char*>(error));
     return nullptr;
@@ -218,9 +217,9 @@ bool healthy (const std::string& database)
 }
 
 
-// Logs any error on the database connection,
+// Logs any error on the database connection.
 // The error will be prefixed by $prefix.
-void error (sqlite3 * database, const std::string& prefix, char * error)
+void error (sqlite3 * database, const std::string& prefix, const char * error)
 {
   std::string message = prefix;
   if (error) {
@@ -263,9 +262,8 @@ void error (sqlite3 * database, const std::string& prefix, char * error)
 } // Namespace.
 
 
-SqliteReader::SqliteReader (int dummy)
+SqliteReader::SqliteReader (int)
 {
-  if (dummy) {};
 }
 
 
@@ -276,11 +274,11 @@ SqliteReader::~SqliteReader ()
 
 int SqliteReader::callback (void *userdata, int argc, char **argv, char **column_names)
 {
-  SqliteReader * sqlite_reader = static_cast<SqliteReader *> (userdata);
+  auto* sqlite_reader = static_cast<SqliteReader*> (userdata);
   for (int i = 0; i < argc; i++) {
     // Handle nullptr field.
-    if (argv [i] == nullptr) sqlite_reader->result [column_names [i]].push_back ("");
-    else sqlite_reader->result [column_names [i]].push_back (argv[i]);
+    if (argv [i] == nullptr) sqlite_reader->result [column_names [i]].emplace_back("");
+    else sqlite_reader->result [column_names [i]].emplace_back(argv[i]);
   }
   return 0;
 }

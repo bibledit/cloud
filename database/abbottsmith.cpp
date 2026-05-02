@@ -18,9 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <database/abbottsmith.h>
-#include <filter/url.h>
-#include <filter/string.h>
 #include <database/sqlite.h>
+#include <filter/url.h>
 
 
 // This is the database that contains Abbott-Smith's Manual Greek Lexicon.

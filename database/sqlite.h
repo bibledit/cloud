@@ -32,7 +32,7 @@ void exec (sqlite3 * db, const std::string& sql);
 std::map <std::string, std::vector <std::string> > query (sqlite3 * db, const std::string& sql);
 void disconnect (sqlite3 * database);
 bool healthy (const std::string& database);
-void error (sqlite3 * database, const std::string& prefix, char * error);
+void error (sqlite3 * database, const std::string& prefix, const char * error);
 
 }
 

@@ -24,13 +24,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic ignored "-Wcharacter-conversion"
 #include "gtest/gtest.h"
 #pragma GCC diagnostic pop
-#include <unittests/utilities.h>
-#include <database/modifications.h>
-#include <filter/date.h>
-#include <database/state.h>
-#include <database/bibles.h>
 #include <bb/logic.h>
 #include <changes/logic.h>
+#include <database/bibles.h>
+#include <database/modifications.h>
+#include <database/state.h>
+#include <filter/date.h>
+#include <unittests/utilities.h>
+
+
+constexpr auto unittest0 = "unittest0";
+constexpr auto unittest1 = "unittest1";
+constexpr auto unittest2 = "unittest2";
+constexpr auto unittest3 = "unittest3";
+constexpr auto unittest4 = "unittest4";
+constexpr auto unittest5 = "unittest5";
 
 
 TEST (database, modifications_user)
@@ -40,7 +48,7 @@ TEST (database, modifications_user)
     refresh_sandbox (false);
     database::modifications::erase ();
     database::modifications::create ();
-    database::modifications::clearUserUser ("phpunit");
+    database::modifications::clearUserUser (unittest0);
   }
 
   // Usernames
@@ -48,63 +56,63 @@ TEST (database, modifications_user)
     refresh_sandbox (true);
     std::vector <std::string> users = database::modifications::getUserUsernames ();
     EXPECT_EQ (std::vector <std::string>{}, users);
-    database::modifications::recordUserSave ("phpunit1", "bible", 1, 2, 3, "old", 4, "new");
+    database::modifications::recordUserSave (unittest1, "bible", 1, 2, 3, "old", 4, "new");
     users = database::modifications::getUserUsernames ();
-    EXPECT_EQ (std::vector <std::string>{"phpunit1"}, users);
-    database::modifications::recordUserSave ("phpunit2", "bible", 1, 2, 3, "old", 5, "new");
-    database::modifications::recordUserSave ("phpunit3", "bible", 1, 2, 3, "old", 6, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible", 1, 2, 3, "old", 7, "new");
-    database::modifications::recordUserSave ("phpunit2", "bible", 1, 2, 3, "old", 8, "new");
-    database::modifications::recordUserSave ("phpunit3", "bible", 1, 2, 3, "old", 9, "new");
+    EXPECT_EQ (std::vector <std::string>{unittest1}, users);
+    database::modifications::recordUserSave (unittest2, "bible", 1, 2, 3, "old", 5, "new");
+    database::modifications::recordUserSave (unittest3, "bible", 1, 2, 3, "old", 6, "new");
+    database::modifications::recordUserSave (unittest1, "bible", 1, 2, 3, "old", 7, "new");
+    database::modifications::recordUserSave (unittest2, "bible", 1, 2, 3, "old", 8, "new");
+    database::modifications::recordUserSave (unittest3, "bible", 1, 2, 3, "old", 9, "new");
     users = database::modifications::getUserUsernames ();
-    EXPECT_EQ ((std::vector <std::string>{"phpunit1", "phpunit2", "phpunit3"}), users);
+    EXPECT_EQ ((std::vector <std::string>{unittest1, unittest2, unittest3}), users);
   }
 
   // Bibles
   {
     refresh_sandbox (true);
-    std::vector <std::string> bibles = database::modifications::getUserBibles ("phpunit1");
+    std::vector <std::string> bibles = database::modifications::getUserBibles (unittest1);
     EXPECT_EQ (std::vector <std::string>{}, bibles);
-    database::modifications::recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 5, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 6, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 7, "new");
-    bibles = database::modifications::getUserBibles ("phpunit1");
+    database::modifications::recordUserSave (unittest1, "bible1", 1, 2, 3, "old", 4, "new");
+    database::modifications::recordUserSave (unittest1, "bible1", 1, 2, 3, "old", 5, "new");
+    database::modifications::recordUserSave (unittest1, "bible1", 1, 2, 3, "old", 6, "new");
+    database::modifications::recordUserSave (unittest1, "bible1", 1, 2, 3, "old", 7, "new");
+    bibles = database::modifications::getUserBibles (unittest1);
     EXPECT_EQ (std::vector <std::string>{"bible1"}, bibles);
   }
 
   // Books
   {
     refresh_sandbox (true);
-    std::vector <int> books = database::modifications::getUserBooks ("phpunit1", "bible1");
+    std::vector <int> books = database::modifications::getUserBooks (unittest1, "bible1");
     EXPECT_EQ (std::vector <int>{}, books);
-    database::modifications::recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible1", 2, 2, 3, "old", 5, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible1", 3, 2, 3, "old", 6, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible2", 4, 2, 3, "old", 7, "new");
-    books = database::modifications::getUserBooks ("phpunit1", "bible1");
-    EXPECT_EQ ((std::vector <int>{1, 2, 3}), books);
+    database::modifications::recordUserSave (unittest1, "bible1", 1, 2, 3, "old", 4, "new");
+    database::modifications::recordUserSave (unittest1, "bible1", 2, 2, 3, "old", 5, "new");
+    database::modifications::recordUserSave (unittest1, "bible1", 3, 2, 3, "old", 6, "new");
+    database::modifications::recordUserSave (unittest1, "bible2", 4, 2, 3, "old", 7, "new");
+    books = database::modifications::getUserBooks (unittest1, "bible1");
+    EXPECT_EQ ((std::vector{1, 2, 3}), books);
   }
 
   // Chapters
   {
     refresh_sandbox (true);
-    std::vector <int> chapters = database::modifications::getUserChapters ("phpunit1", "bible1", 1);
+    std::vector <int> chapters = database::modifications::getUserChapters (unittest1, "bible1", 1);
     EXPECT_EQ (std::vector <int>{}, chapters);
-    database::modifications::recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible1", 1, 3, 3, "old", 5, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible1", 1, 4, 3, "old", 6, "new");
-    chapters = database::modifications::getUserChapters ("phpunit1", "bible1", 1);
-    EXPECT_EQ ((std::vector <int>{2, 3, 4}), chapters);
+    database::modifications::recordUserSave (unittest1, "bible1", 1, 2, 3, "old", 4, "new");
+    database::modifications::recordUserSave (unittest1, "bible1", 1, 3, 3, "old", 5, "new");
+    database::modifications::recordUserSave (unittest1, "bible1", 1, 4, 3, "old", 6, "new");
+    chapters = database::modifications::getUserChapters (unittest1, "bible1", 1);
+    EXPECT_EQ ((std::vector{2, 3, 4}), chapters);
   }
 
   // Identifiers.
   {
     refresh_sandbox (true);
-    database::modifications::recordUserSave ("phpunit1", "bible", 1, 2, 3, "old", 4, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible", 1, 2, 4, "old", 5, "new");
-    database::modifications::recordUserSave ("phpunit1", "bible", 1, 2, 5, "old", 6, "new");
-    std::vector <database::modifications::id_bundle> identifiers = database::modifications::getUserIdentifiers ("phpunit1", "bible", 1, 2);
+    database::modifications::recordUserSave (unittest1, "bible", 1, 2, 3, "old", 4, "new");
+    database::modifications::recordUserSave (unittest1, "bible", 1, 2, 4, "old", 5, "new");
+    database::modifications::recordUserSave (unittest1, "bible", 1, 2, 5, "old", 6, "new");
+    std::vector <database::modifications::id_bundle> identifiers = database::modifications::getUserIdentifiers (unittest1, "bible", 1, 2);
     EXPECT_EQ (3, static_cast<int>(identifiers.size()));
     EXPECT_EQ (3, identifiers[0].oldid);
     EXPECT_EQ (4, identifiers[0].newid);
@@ -117,13 +125,13 @@ TEST (database, modifications_user)
   // Chapter
   {
     refresh_sandbox (true);
-    database::modifications::recordUserSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
-    database::modifications::recordUserSave ("phpunit1", "bible", 1, 2, 4, "old2", 5, "new2");
-    database::modifications::recordUserSave ("phpunit1", "bible", 1, 2, 5, "old3", 6, "new3");
-    database::modifications::text_bundle chapter = database::modifications::getUserChapter ("phpunit1", "bible", 1, 2, 4);
+    database::modifications::recordUserSave (unittest1, "bible", 1, 2, 3, "old1", 4, "new1");
+    database::modifications::recordUserSave (unittest1, "bible", 1, 2, 4, "old2", 5, "new2");
+    database::modifications::recordUserSave (unittest1, "bible", 1, 2, 5, "old3", 6, "new3");
+    database::modifications::text_bundle chapter = database::modifications::getUserChapter (unittest1, "bible", 1, 2, 4);
     EXPECT_EQ ("old1", chapter.oldtext);
     EXPECT_EQ ("new1", chapter.newtext);
-    chapter = database::modifications::getUserChapter ("phpunit1", "bible", 1, 2, 5);
+    chapter = database::modifications::getUserChapter (unittest1, "bible", 1, 2, 5);
     EXPECT_EQ ("old2", chapter.oldtext);
     EXPECT_EQ ("new2", chapter.newtext);
   }
@@ -131,10 +139,11 @@ TEST (database, modifications_user)
   // Timestamp
   {
     refresh_sandbox (true);
-    database::modifications::recordUserSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
-    int time = database::modifications::getUserTimestamp ("phpunit1", "bible", 1, 2, 4);
-    int currenttime = filter::date::seconds_since_epoch ();
-    if ((time < currenttime - 1) || (time > currenttime + 1)) EXPECT_EQ (currenttime, time);
+    database::modifications::recordUserSave (unittest1, "bible", 1, 2, 3, "old1", 4, "new1");
+    const int time = database::modifications::getUserTimestamp (unittest1, "bible", 1, 2, 4);
+    if (const int current_time = filter::date::seconds_since_epoch ();
+        time < current_time - 1 or time > current_time + 1)
+        EXPECT_EQ (current_time, time);
   }
 }
 
@@ -146,8 +155,8 @@ TEST (database, modifications_team)
     refresh_sandbox (false);
     database::modifications::create ();
     Database_State::create ();
-    database::bibles::create_bible ("phpunit");
-    database::bibles::create_bible ("phpunit2");
+    database::bibles::create_bible (unittest0);
+    database::bibles::create_bible (unittest2);
   }
 
   // Team existence
@@ -155,25 +164,25 @@ TEST (database, modifications_team)
     refresh_sandbox (true);
     database::modifications::create ();
     Database_State::create ();
-    database::bibles::create_bible ("phpunit");
-    database::bibles::create_bible ("phpunit2");
-    
+    database::bibles::create_bible (unittest0);
+    database::bibles::create_bible (unittest2);
+
     // Initially no diff should exist.
-    bool exists = database::modifications::teamDiffExists ("phpunit", 1, 2);
+    bool exists = database::modifications::teamDiffExists (unittest0, 1, 2);
     EXPECT_EQ (false, exists);
-    
+
     // After storing a chapter there should be a diff.
-    bible_logic::store_chapter ("phpunit", 1, 2, "chapter text one");
-    exists = database::modifications::teamDiffExists ("phpunit", 1, 2);
+    bible_logic::store_chapter (unittest0, 1, 2, "chapter text one");
+    exists = database::modifications::teamDiffExists (unittest0, 1, 2);
     EXPECT_EQ (true, exists);
-    
+
     // After storing a chapter for the second time, the diff should still exist.
     bible_logic::store_chapter ("none", 1, 2, "chapter text two");
-    exists = database::modifications::teamDiffExists ("phpunit", 1, 2);
+    exists = database::modifications::teamDiffExists (unittest0, 1, 2);
     EXPECT_EQ (true, exists);
-    
+
     // The diff data should not exist for another chapter.
-    exists = database::modifications::teamDiffExists ("phpunit", 1, 1);
+    exists = database::modifications::teamDiffExists (unittest0, 1, 1);
     EXPECT_EQ (false, exists);
   }
 
@@ -182,28 +191,28 @@ TEST (database, modifications_team)
     refresh_sandbox (true);
     database::modifications::create ();
     Database_State::create ();
-    database::bibles::create_bible ("phpunit");
-    database::bibles::create_bible ("phpunit2");
-    
-    EXPECT_EQ (false, database::modifications::teamDiffExists ("phpunit", 2, 1));
-    EXPECT_EQ (false, database::modifications::teamDiffExists ("phpunit", 2, 2));
-    EXPECT_EQ (false, database::modifications::teamDiffExists ("phpunit", 2, 3));
-    
-    bible_logic::store_chapter ("phpunit", 2, 1, "chapter text");
-    bible_logic::store_chapter ("phpunit", 2, 2, "chapter text");
-    bible_logic::store_chapter ("phpunit", 2, 3, "chapter text");
-    
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 2, 1));
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 2, 2));
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 2, 3));
-    
+    database::bibles::create_bible (unittest0);
+    database::bibles::create_bible (unittest2);
+
+    EXPECT_EQ (false, database::modifications::teamDiffExists (unittest0, 2, 1));
+    EXPECT_EQ (false, database::modifications::teamDiffExists (unittest0, 2, 2));
+    EXPECT_EQ (false, database::modifications::teamDiffExists (unittest0, 2, 3));
+
+    bible_logic::store_chapter (unittest0, 2, 1, "chapter text");
+    bible_logic::store_chapter (unittest0, 2, 2, "chapter text");
+    bible_logic::store_chapter (unittest0, 2, 3, "chapter text");
+
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 2, 1));
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 2, 2));
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 2, 3));
+
     database::modifications::truncateTeams ();
-    
+
     // Test function storeTeamDiffBook.
-    database::modifications::storeTeamDiffBook ("phpunit", 2);
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 2, 1));
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 2, 2));
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 2, 3));
+    database::modifications::storeTeamDiffBook (unittest0, 2);
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 2, 1));
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 2, 2));
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 2, 3));
   }
 
   // Team Bible
@@ -211,29 +220,29 @@ TEST (database, modifications_team)
     refresh_sandbox (true);
     database::modifications::create ();
     Database_State::create ();
-    database::bibles::create_bible ("phpunit");
-    database::bibles::create_bible ("phpunit2");
-    
-    EXPECT_EQ (false, database::modifications::teamDiffExists ("phpunit", 3, 1));
-    EXPECT_EQ (false, database::modifications::teamDiffExists ("phpunit", 4, 1));
-    EXPECT_EQ (false, database::modifications::teamDiffExists ("phpunit", 5, 1));
-    
-    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic::store_chapter ("phpunit", 4, 1, "chapter text");
-    bible_logic::store_chapter ("phpunit", 5, 1, "chapter text");
-    
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 3, 1));
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 4, 1));
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 5, 1));
-    
+    database::bibles::create_bible (unittest0);
+    database::bibles::create_bible (unittest2);
+
+    EXPECT_EQ (false, database::modifications::teamDiffExists (unittest0, 3, 1));
+    EXPECT_EQ (false, database::modifications::teamDiffExists (unittest0, 4, 1));
+    EXPECT_EQ (false, database::modifications::teamDiffExists (unittest0, 5, 1));
+
+    bible_logic::store_chapter (unittest0, 3, 1, "chapter text");
+    bible_logic::store_chapter (unittest0, 4, 1, "chapter text");
+    bible_logic::store_chapter (unittest0, 5, 1, "chapter text");
+
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 3, 1));
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 4, 1));
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 5, 1));
+
     database::modifications::truncateTeams ();
-    
+
     // Test function storeTeamDiffBible. It stores diff data for the whole bible.
-    database::modifications::storeTeamDiffBible ("phpunit");
-    
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 3, 1));
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 4, 1));
-    EXPECT_EQ (true, database::modifications::teamDiffExists ("phpunit", 5, 1));
+    database::modifications::storeTeamDiffBible (unittest0);
+
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 3, 1));
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 4, 1));
+    EXPECT_EQ (true, database::modifications::teamDiffExists (unittest0, 5, 1));
   }
 
   // Team get diff
@@ -241,25 +250,25 @@ TEST (database, modifications_team)
     refresh_sandbox (true);
     database::modifications::create ();
     Database_State::create ();
-    database::bibles::create_bible ("phpunit");
-    database::bibles::create_bible ("phpunit2");
-    
-    std::string diff = database::modifications::getTeamDiff ("phpunit", 1, 1);
+    database::bibles::create_bible (unittest0);
+    database::bibles::create_bible (unittest2);
+
+    std::string diff = database::modifications::getTeamDiff (unittest0, 1, 1);
     EXPECT_EQ ("", diff);
-    
-    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
+
+    bible_logic::store_chapter (unittest0, 3, 1, "chapter text");
     database::modifications::truncateTeams ();
-    bible_logic::store_chapter ("phpunit", 3, 1, "longer chapter text");
-    diff = database::modifications::getTeamDiff ("phpunit", 3, 1);
+    bible_logic::store_chapter (unittest0, 3, 1, "longer chapter text");
+    diff = database::modifications::getTeamDiff (unittest0, 3, 1);
     EXPECT_EQ ("chapter text", diff);
-    
-    diff = database::modifications::getTeamDiff ("phpunit", 1, 2);
+
+    diff = database::modifications::getTeamDiff (unittest0, 1, 2);
     EXPECT_EQ ("", diff);
-    
-    bible_logic::store_chapter ("phpunit", 5, 5, "chapter text");
+
+    bible_logic::store_chapter (unittest0, 5, 5, "chapter text");
     database::modifications::truncateTeams ();
-    bible_logic::store_chapter ("phpunit", 5, 5, "longer chapter text");
-    diff = database::modifications::getTeamDiff ("phpunit", 5, 5);
+    bible_logic::store_chapter (unittest0, 5, 5, "longer chapter text");
+    diff = database::modifications::getTeamDiff (unittest0, 5, 5);
     EXPECT_EQ ("chapter text", diff);
   }
 
@@ -268,21 +277,21 @@ TEST (database, modifications_team)
     refresh_sandbox (true);
     database::modifications::create ();
     Database_State::create ();
-    database::bibles::create_bible ("phpunit");
-    database::bibles::create_bible ("phpunit2");
-    
-    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
-    bible_logic::store_chapter ("phpunit", 3, 5, "chapter text");
-    
-    std::vector <int> chapters = database::modifications::getTeamDiffChapters ("phpunit", 1);
-    EXPECT_EQ (std::vector <int>{}, chapters);
-    
-    chapters = database::modifications::getTeamDiffChapters ("phpunit", 3);
-    EXPECT_EQ ((std::vector <int>{1, 3, 5}), chapters);
-    
-    chapters = database::modifications::getTeamDiffChapters ("phpunit2", 3);
-    EXPECT_EQ (std::vector <int>{}, chapters);
+    database::bibles::create_bible (unittest0);
+    database::bibles::create_bible (unittest2);
+
+    bible_logic::store_chapter (unittest0, 3, 1, "chapter text");
+    bible_logic::store_chapter (unittest0, 3, 3, "chapter text");
+    bible_logic::store_chapter (unittest0, 3, 5, "chapter text");
+
+    std::vector <int> chapters = database::modifications::getTeamDiffChapters (unittest0, 1);
+    EXPECT_TRUE (chapters.empty());
+
+    chapters = database::modifications::getTeamDiffChapters (unittest0, 3);
+    EXPECT_EQ ((std::vector{1, 3, 5}), chapters);
+
+    chapters = database::modifications::getTeamDiffChapters (unittest2, 3);
+    EXPECT_TRUE (chapters.empty());
   }
 
   // Team diff Bible
@@ -290,23 +299,23 @@ TEST (database, modifications_team)
     refresh_sandbox (true);
     database::modifications::create ();
     Database_State::create ();
-    database::bibles::create_bible ("phpunit");
-    database::bibles::create_bible ("phpunit2");
-    
-    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
-    bible_logic::store_chapter ("phpunit", 3, 5, "chapter text");
-    
+    database::bibles::create_bible (unittest0);
+    database::bibles::create_bible (unittest2);
+
+    bible_logic::store_chapter (unittest0, 3, 1, "chapter text");
+    bible_logic::store_chapter (unittest0, 3, 3, "chapter text");
+    bible_logic::store_chapter (unittest0, 3, 5, "chapter text");
+
     std::vector <std::string> bibles = database::modifications::getTeamDiffBibles ();
-    EXPECT_EQ (std::vector <std::string>{"phpunit"}, bibles);
-    
-    database::modifications::deleteTeamDiffBible ("phpunit2");
-    
+    EXPECT_EQ (std::vector <std::string>{unittest0}, bibles);
+
+    database::modifications::deleteTeamDiffBible (unittest2);
+
     bibles = database::modifications::getTeamDiffBibles ();
-    EXPECT_EQ (std::vector <std::string>{"phpunit"}, bibles);
-    
-    database::modifications::deleteTeamDiffBible ("phpunit");
-    
+    EXPECT_EQ (std::vector <std::string>{unittest0}, bibles);
+
+    database::modifications::deleteTeamDiffBible (unittest0);
+
     bibles = database::modifications::getTeamDiffBibles ();
     EXPECT_EQ (std::vector <std::string>{}, bibles);
   }
@@ -316,20 +325,20 @@ TEST (database, modifications_team)
     refresh_sandbox (true);
     database::modifications::create ();
     Database_State::create ();
-    database::bibles::create_bible ("phpunit");
-    database::bibles::create_bible ("phpunit2");
-    
-    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
-    bible_logic::store_chapter ("phpunit", 3, 5, "chapter text");
-    
-    std::vector <int> chapters = database::modifications::getTeamDiffChapters ("phpunit", 3);
-    EXPECT_EQ ((std::vector <int>{1, 3, 5}), chapters);
-    
-    database::modifications::deleteTeamDiffChapter ("phpunit", 3, 1);
-    
-    chapters = database::modifications::getTeamDiffChapters ("phpunit", 3);
-    EXPECT_EQ ((std::vector <int>{3, 5}), chapters);
+    database::bibles::create_bible (unittest0);
+    database::bibles::create_bible (unittest2);
+
+    bible_logic::store_chapter (unittest0, 3, 1, "chapter text");
+    bible_logic::store_chapter (unittest0, 3, 3, "chapter text");
+    bible_logic::store_chapter (unittest0, 3, 5, "chapter text");
+
+    std::vector <int> chapters = database::modifications::getTeamDiffChapters (unittest0, 3);
+    EXPECT_EQ ((std::vector{1, 3, 5}), chapters);
+
+    database::modifications::deleteTeamDiffChapter (unittest0, 3, 1);
+
+    chapters = database::modifications::getTeamDiffChapters (unittest0, 3);
+    EXPECT_EQ ((std::vector{3, 5}), chapters);
   }
 
   // Team diff book
@@ -337,18 +346,18 @@ TEST (database, modifications_team)
     refresh_sandbox (true);
     database::modifications::create ();
     Database_State::create ();
-    database::bibles::create_bible ("phpunit");
-    database::bibles::create_bible ("phpunit2");
-    
-    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
-    bible_logic::store_chapter ("phpunit", 4, 5, "chapter text");
-    
-    std::vector <int> books = database::modifications::getTeamDiffBooks ("phpunit");
-    EXPECT_EQ ((std::vector <int>{3, 4}), books);
-    
-    books = database::modifications::getTeamDiffBooks ("phpunit2");
-    EXPECT_EQ (std::vector <int>{}, books);
+    database::bibles::create_bible (unittest0);
+    database::bibles::create_bible (unittest2);
+
+    bible_logic::store_chapter (unittest0, 3, 1, "chapter text");
+    bible_logic::store_chapter (unittest0, 3, 3, "chapter text");
+    bible_logic::store_chapter (unittest0, 4, 5, "chapter text");
+
+    std::vector <int> books = database::modifications::getTeamDiffBooks (unittest0);
+    EXPECT_EQ ((std::vector{3, 4}), books);
+
+    books = database::modifications::getTeamDiffBooks (unittest2);
+    EXPECT_TRUE (books.empty());
   }
 
   // Get team diff count
@@ -356,20 +365,20 @@ TEST (database, modifications_team)
     refresh_sandbox (true);
     database::modifications::create ();
     Database_State::create ();
-    database::bibles::create_bible ("phpunit");
-    database::bibles::create_bible ("phpunit2");
-    
-    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic::store_chapter ("phpunit2", 3, 3, "chapter text");
-    bible_logic::store_chapter ("phpunit2", 3, 5, "chapter text");
-    
-    int count = database::modifications::getTeamDiffCount ("phpunit");
+    database::bibles::create_bible (unittest0);
+    database::bibles::create_bible (unittest2);
+
+    bible_logic::store_chapter (unittest0, 3, 1, "chapter text");
+    bible_logic::store_chapter (unittest2, 3, 3, "chapter text");
+    bible_logic::store_chapter (unittest2, 3, 5, "chapter text");
+
+    int count = database::modifications::getTeamDiffCount (unittest0);
     EXPECT_EQ (1, count);
-    
-    count = database::modifications::getTeamDiffCount ("phpunit2");
+
+    count = database::modifications::getTeamDiffCount (unittest2);
     EXPECT_EQ (2, count);
-    
-    count = database::modifications::getTeamDiffCount ("phpunit3");
+
+    count = database::modifications::getTeamDiffCount (unittest3);
     EXPECT_EQ (0, count);
   }
 }
@@ -377,41 +386,42 @@ TEST (database, modifications_team)
 
 TEST (database, modifications_notifications)
 {
-  std::string any_user = "";
-  std::string any_bible = "";
-  
+  std::string any_user;
+  std::string any_bible;
+
   // Basics.
   {
-    refresh_sandbox (true);
-    database::modifications::create ();
-    std::vector <int> ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
-    for (auto id : ids) {
-      database::modifications::deleteNotification (id);
-    }
+      refresh_sandbox(true);
+      database::modifications::create();
+      std::ranges::for_each(database::modifications::getNotificationIdentifiers(any_user, any_bible),
+                            [](const int id)
+                            {
+                                database::modifications::deleteNotification(id);
+                            });
   }
 
   // Trim.
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    
+
     // Record two entries.
-    database::modifications::recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest1, unittest2}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     std::vector <int> ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
-    EXPECT_EQ ((std::vector <int>{1, 2}), ids);
-    
+    EXPECT_EQ ((std::vector{1, 2}), ids);
+
     // After trimming the two entries should still be there.
     database::modifications::indexTrimAllNotifications ();
     ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
-    EXPECT_EQ ((std::vector <int>{1, 2}), ids);
-    
+    EXPECT_EQ ((std::vector{1, 2}), ids);
+
     // Set the time back, re-index, filter::string::trim, and check one entry's gone.
     database::modifications::indexTrimAllNotifications ();
     database::modifications::notificationUpdateTime (1, filter::date::seconds_since_epoch () - 7776001);
     database::modifications::indexTrimAllNotifications ();
     ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
-    EXPECT_EQ (std::vector <int>{2}, ids);
+    EXPECT_EQ (std::vector{2}, ids);
   }
 
   // Next identifier.
@@ -420,7 +430,7 @@ TEST (database, modifications_notifications)
     database::modifications::create ();
     int identifier = database::modifications::getNextAvailableNotificationIdentifier ();
     EXPECT_EQ (1, identifier);
-    database::modifications::recordNotification ({"phpunit1"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest1}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     identifier = database::modifications::getNextAvailableNotificationIdentifier ();
     EXPECT_EQ (2, identifier);
     database::modifications::deleteNotification (1);
@@ -432,43 +442,43 @@ TEST (database, modifications_notifications)
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    
+
     // Start with no identifiers.
     std::vector <int> ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ (std::vector <int>{}, ids);
-    
+
     // Record three notifications and reindex.
-    database::modifications::recordNotification ({"phpunit1", "phpunit2"}, "C", "bible1", 1, 2, 3, "old1", "mod1", "new1");
-    database::modifications::recordNotification ({"phpunit2", "phpunit3"}, "B", "bible2", 4, 5, 6, "old2", "mod2", "new2");
-    database::modifications::recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "bible1", 7, 8, 9, "old3", "mod3", "new3");
+    database::modifications::recordNotification ({unittest1, unittest2}, "C", "bible1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest2, unittest3}, "B", "bible2", 4, 5, 6, "old2", "mod2", "new2");
+    database::modifications::recordNotification ({unittest3, unittest4}, changes_bible_category (), "bible1", 7, 8, 9, "old3", "mod3", "new3");
     database::modifications::indexTrimAllNotifications ();
-    
+
     // There should be six notifications now: Two users per recordNotification call.
     ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ ((std::vector <int>{1, 2, 3, 4, 5, 6}), ids);
 
     // Test sorting the notifications on category.
     ids = database::modifications::getNotificationIdentifiers (any_user, any_bible, true);
-    EXPECT_EQ ((std::vector <int>{3, 4, 5, 6, 1, 2}), ids);
+    EXPECT_EQ ((std::vector{3, 4, 5, 6, 1, 2}), ids);
 
     // Test notifications per user.
-    ids = database::modifications::getNotificationIdentifiers ("phpunit1", "");
-    EXPECT_EQ (std::vector <int>{1}, ids);
-    ids = database::modifications::getNotificationIdentifiers ("phpunit3", "");
-    EXPECT_EQ ((std::vector <int>{4, 5}), ids);
-    
+    ids = database::modifications::getNotificationIdentifiers (unittest1, "");
+    EXPECT_EQ (std::vector{1}, ids);
+    ids = database::modifications::getNotificationIdentifiers (unittest3, "");
+    EXPECT_EQ ((std::vector{4, 5}), ids);
+
     // Test notifications per Bible.
     ids = database::modifications::getNotificationIdentifiers ("", "bible1");
-    EXPECT_EQ ((std::vector <int>{1, 2, 5, 6}), ids);
+    EXPECT_EQ ((std::vector{1, 2, 5, 6}), ids);
     ids = database::modifications::getNotificationIdentifiers ("", "bible2");
-    EXPECT_EQ ((std::vector <int>{3, 4}), ids);
-    
+    EXPECT_EQ ((std::vector{3, 4}), ids);
+
     // Test distinct Bibles.
     std::vector <std::string> bibles = database::modifications::getNotificationDistinctBibles ();
     EXPECT_EQ ((std::vector <std::string>{"bible1", "bible2"}), bibles);
-    bibles = database::modifications::getNotificationDistinctBibles ("phpunit5");
+    bibles = database::modifications::getNotificationDistinctBibles (unittest5);
     EXPECT_EQ (std::vector <std::string>{}, bibles);
-    bibles = database::modifications::getNotificationDistinctBibles ("phpunit1");
+    bibles = database::modifications::getNotificationDistinctBibles (unittest1);
     EXPECT_EQ (std::vector <std::string>{"bible1"}, bibles);
   }
 
@@ -476,13 +486,14 @@ TEST (database, modifications_notifications)
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    
+
     int timestamp = database::modifications::getNotificationTimeStamp (0);
-    int currenttime = filter::date::seconds_since_epoch ();
-    if ((timestamp < currenttime) || (timestamp > currenttime + 1)) EXPECT_EQ (currenttime, timestamp);
-    
+    int current_time = filter::date::seconds_since_epoch ();
+    if ((timestamp < current_time) || (timestamp > current_time + 1))
+        EXPECT_EQ (current_time, timestamp);
+
     int time = filter::date::seconds_since_epoch () - 21600;
-    database::modifications::recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest0}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     timestamp = database::modifications::getNotificationTimeStamp (1);
     if ((timestamp < time) || (timestamp > time + 1)) EXPECT_EQ (time, timestamp);
@@ -492,7 +503,7 @@ TEST (database, modifications_notifications)
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    database::modifications::recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest0}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     std::string category = database::modifications::getNotificationCategory (1);
     EXPECT_EQ ("A", category);
@@ -504,7 +515,7 @@ TEST (database, modifications_notifications)
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    database::modifications::recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest0}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     std::string bible = database::modifications::getNotificationBible (1);
     EXPECT_EQ ("1", bible);
@@ -516,7 +527,7 @@ TEST (database, modifications_notifications)
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    database::modifications::recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest0}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     Passage passage = database::modifications::getNotificationPassage (1);
     EXPECT_EQ (1, passage.m_book);
@@ -527,12 +538,12 @@ TEST (database, modifications_notifications)
     EXPECT_EQ (0, passage.m_chapter);
     EXPECT_EQ ("", passage.m_verse);
   }
-  
+
   // Old text.
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    database::modifications::recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest0}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     std::string old = database::modifications::getNotificationOldText (1);
     EXPECT_EQ ("old1", old);
@@ -544,7 +555,7 @@ TEST (database, modifications_notifications)
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    database::modifications::recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest0}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     std::string modification = database::modifications::getNotificationModification (1);
     EXPECT_EQ ("mod1", modification);
@@ -556,29 +567,29 @@ TEST (database, modifications_notifications)
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    database::modifications::recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest0}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
-    std::string newtext = database::modifications::getNotificationNewText (1);
-    EXPECT_EQ ("new1", newtext);
-    newtext = database::modifications::getNotificationNewText (3);
-    EXPECT_EQ ("", newtext);
+    std::string new_text = database::modifications::getNotificationNewText (1);
+    EXPECT_EQ ("new1", new_text);
+    new_text = database::modifications::getNotificationNewText (3);
+    EXPECT_EQ ("", new_text);
   }
 
   // Clear user.
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    database::modifications::recordNotification ({"phpunit1", "phpunit2", "phpunit3"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest1, unittest2, unittest3}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     std::vector <int> ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ (3, static_cast <int>(ids.size ()));
-    
-    database::modifications::clearNotificationsUser ("phpunit2");
-    
+
+    database::modifications::clearNotificationsUser (unittest2);
+
     ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ (2, static_cast <int>(ids.size ()));
-    
-    ids = database::modifications::getNotificationIdentifiers ("phpunit2", "");
+
+    ids = database::modifications::getNotificationIdentifiers (unittest2, "");
     EXPECT_EQ (0, static_cast <int>(ids.size ()));
   }
 
@@ -586,12 +597,12 @@ TEST (database, modifications_notifications)
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    database::modifications::recordNotification ({"phpunit"}, changes_personal_category (), "1", 2, 3, 4, "old1", "mod1", "new1");
-    database::modifications::recordNotification ({"phpunit"}, "T", "1", 2, 3, 4, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest0}, changes_personal_category (), "1", 2, 3, 4, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest0}, "T", "1", 2, 3, 4, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     std::vector <int> ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ (2, static_cast <int>(ids.size ()));
-    database::modifications::clearNotificationMatches ("phpunit", changes_personal_category (), "T");
+    database::modifications::clearNotificationMatches (unittest0, changes_personal_category (), "T");
     database::modifications::indexTrimAllNotifications ();
     ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ (0, static_cast <int>(ids.size ()));
@@ -601,17 +612,17 @@ TEST (database, modifications_notifications)
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    database::modifications::recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
-    database::modifications::recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
-    database::modifications::recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
+    database::modifications::recordNotification ({unittest1, unittest2}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::recordNotification ({unittest2, unittest1}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
+    database::modifications::recordNotification ({unittest3, unittest4}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
     database::modifications::indexTrimAllNotifications ();
-    std::vector <int> ids = database::modifications::getNotificationTeamIdentifiers ("phpunit1", "A");
+    std::vector <int> ids = database::modifications::getNotificationTeamIdentifiers (unittest1, "A");
     EXPECT_EQ (std::vector <int>{1}, ids);
-    ids = database::modifications::getNotificationTeamIdentifiers ("phpunit1", changes_bible_category ());
+    ids = database::modifications::getNotificationTeamIdentifiers (unittest1, changes_bible_category ());
     EXPECT_EQ (std::vector <int>{4}, ids);
-    ids = database::modifications::getNotificationTeamIdentifiers ("phpunit1", changes_bible_category (), "1");
+    ids = database::modifications::getNotificationTeamIdentifiers (unittest1, changes_bible_category (), "1");
     EXPECT_EQ (std::vector <int>{4}, ids);
-    ids = database::modifications::getNotificationTeamIdentifiers ("phpunit1", changes_bible_category (), "2");
+    ids = database::modifications::getNotificationTeamIdentifiers (unittest1, changes_bible_category (), "2");
     EXPECT_EQ (std::vector <int>{}, ids);
   }
 
@@ -619,8 +630,8 @@ TEST (database, modifications_notifications)
   {
     refresh_sandbox (true);
     database::modifications::create ();
-    database::modifications::storeClientNotification (3, "phpunit", "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
-    database::modifications::storeClientNotification (5, "phpunit", "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::storeClientNotification (3, unittest0, "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
+    database::modifications::storeClientNotification (5, unittest0, "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
     std::vector <int> ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ ((std::vector <int>{3, 5}), ids);
   }

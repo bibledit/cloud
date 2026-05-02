@@ -53,6 +53,7 @@
 /client
 /client/index.html
 /cloud-macos.entitlements
+/CMakeLists.txt
 /collaboration
 /collaboration/index.html
 /collaboration/link.html
@@ -311,7 +312,6 @@
 /html
 /i18n
 /i18n/i18n.sh
-/.idea
 /images
 /images/gitflag
 /images/index.html

@@ -40,6 +40,9 @@ sed -i.bak '/\.hpp$/d' pkgdata/files.txt
 # No git repository data.
 sed -i.bak '/\.git/d' pkgdata/files.txt
 
+# No editor artifacts.
+sed -i.bak '/\.idea/d' pkgdata/files.txt
+
 # No build artifacts.
 sed -i.bak '/\.deps/d' pkgdata/files.txt
 sed -i.bak '/\.dirstamp/d' pkgdata/files.txt
@@ -52,6 +55,8 @@ sed -i.bak '/~$/d' pkgdata/files.txt
 sed -i.bak '/\.o-/d' pkgdata/files.txt
 sed -i.bak '/bibledit-cloud/d' pkgdata/files.txt
 sed -i.bak '/^\/bibledit$/d' pkgdata/files.txt
+sed -i.bak '/cmake-build-debug/d' pkgdata/files.txt
+sed -i.bak '/^\/build/d' pkgdata/files.txt
 
 # Do not install license files.
 # This fixes the lintian warning:

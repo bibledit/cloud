@@ -642,65 +642,65 @@ void bible_logic::client_receive_merge_mail (const std::string& bible, int book,
 // This emails pending Bible updates to the user.
 void bible_logic::client_mail_pending_bible_updates (const std::string& user)
 {
-  // Iterate over all the actions stored for all Bible data ready for sending to the Cloud.
-  const std::vector <std::string> bibles = database::bible_actions::get_bibles ();
-  for (const auto& bible : bibles) {
-    // Skip the Sample Bible, for less clutter.
-    if (bible == demo_sample_bible_name ()) continue;
-    const std::vector <int> books = database::bible_actions::get_books (bible);
-    for (const int book : books) {
-      const std::vector <int> chapters = database::bible_actions::get_chapters (bible, book);
-      for (const int chapter : chapters) {
-        
-        // Get old and new USFM for this chapter.
-        const std::string oldusfm = database::bible_actions::get_usfm (bible, book, chapter);
-        const std::string newusfm = database::bibles::get_chapter (bible, book, chapter);
-        // If old USFM and new USFM are the same, or the new USFM is empty, skip it.
-        if (newusfm == oldusfm) continue;
-        if (newusfm.empty ()) continue;
+    // Iterate over all the actions stored for all Bible data ready for sending to the Cloud.
+    std::ranges::for_each(database::bible_actions::get_bibles(), [&](const std::string& bible)
+    {
+        // Skip the Sample Bible, for less clutter.
+        if (bible == demo_sample_bible_name()) return;
+        std::ranges::for_each(database::bible_actions::get_books(bible), [&](const int book)
+        {
+            std::ranges::for_each(database::bible_actions::get_chapters(bible, book), [&](const int chapter)
+            {
+                // Get old and new USFM for this chapter.
+                const std::string old_usfm = database::bible_actions::get_usfm(bible, book, chapter);
+                const std::string new_usfm = database::bibles::get_chapter(bible, book, chapter);
+                // If the old and the new USFM are the same, or the new USFM is empty, skip it.
+                if (new_usfm == old_usfm) return;
+                if (new_usfm.empty()) return;
 
-        // Add the passage to the subject.
-        std::string subject = "Discarded text update";
-        subject.append (" | " + filter_passage_display (book, chapter, std::string()));
-        
-        // Create the body of the email.
-        pugi::xml_document document {};
-        pugi::xml_node node {};
-        node = document.append_child ("h3");
-        node.text ().set (subject.c_str());
-        
-        // Add some information for the user.
-        node = document.append_child ("p");
-        std::string information {};
-        information.append (translate ("You have now connected to Bibledit Cloud."));
-        information.append (" ");
-        information.append (translate ("While you were disconnected from Bibledit Cloud, you made some changes in the Bible text on your device."));
-        information.append (" ");
-        information.append (translate ("These changes will not be saved to Bibledit Cloud."));
-        information.append (" ");
-        information.append (translate ("The unsaved text is below."));
-        node.text ().set (information.c_str());
-        
-        // Add the passage.
-        node = document.append_child ("p");
-        std::string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
-        node.text ().set (location.c_str ());
-        
-        // Add the text.
-        document.append_child ("br");
-        node = document.append_child ("pre");
-        node.text ().set (newusfm.c_str ());
-        
-        // Convert the document to a string with indent, to avoid line-too-long errors.
-        std::stringstream output {};
-        document.print (output, " ", pugi::format_indent);
-        const std::string html = output.str ();
-        
-        // Schedule the mail for sending to the user.
-        email::schedule (user, subject, html);
-      }
-    }
-  }
+                // Add the passage to the subject.
+                std::string subject = "Discarded text update";
+                subject.append(" | " + filter_passage_display(book, chapter, {}));
+
+                // Create the body of the email.
+                pugi::xml_document document{};
+                pugi::xml_node node{};
+                node = document.append_child("h3");
+                node.text().set(subject.c_str());
+
+                // Add some information for the user.
+                node = document.append_child("p");
+                std::string information{};
+                information.append(translate("You have now connected to Bibledit Cloud."));
+                information.append(" ");
+                information.append(translate(
+                    "While you were disconnected from Bibledit Cloud, you made some changes in the Bible text on your device."));
+                information.append(" ");
+                information.append(translate("These changes will not be saved to Bibledit Cloud."));
+                information.append(" ");
+                information.append(translate("The unsaved text is below."));
+                node.text().set(information.c_str());
+
+                // Add the passage.
+                node = document.append_child("p");
+                const std::string location = bible + " " + filter_passage_display(book, chapter, "") + ".";
+                node.text().set(location.c_str());
+
+                // Add the text.
+                document.append_child("br");
+                node = document.append_child("pre");
+                node.text().set(new_usfm.c_str());
+
+                // Convert the document to a string with indentation: This avoids line-too-long errors.
+                std::stringstream output{};
+                document.print(output, " ", pugi::format_indent);
+                const std::string html = std::move(output).str();
+
+                // Schedule the mail for sending to the user.
+                email::schedule(user, subject, html);
+            });
+        });
+    });
 }
 
 

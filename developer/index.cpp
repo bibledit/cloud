@@ -52,10 +52,10 @@ bool developer_index_acl (Webserver_Request& webserver_request)
 
 std::string developer_index (Webserver_Request& webserver_request)
 {
-  if (webserver_request.query.count ("log")) {
+  if (webserver_request.query.contains ("log")) {
     std::string message = webserver_request.query ["log"];
     std::cerr << message << std::endl;
-    return std::string();
+    return {};
   }
   
   std::string page {};

@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <developer/delay.h>
 #include <filter/roles.h>
-#include <filter/url.h>
-#include <config/globals.h>
 
 
 const char * developer_delay_url ()
@@ -29,13 +27,13 @@ const char * developer_delay_url ()
 }
 
 
-bool developer_delay_acl ([[maybe_unused]] Webserver_Request& webserver_request)
+bool developer_delay_acl ()
 {
   return true;
 }
 
 
-std::string developer_delay ([[maybe_unused]] Webserver_Request& webserver_request)
+std::string developer_delay ()
 {
   // Here is a delay routine that waits multiple seconds before sending the reponse.
   // The purpose is to test timeouts of the website live monitors.

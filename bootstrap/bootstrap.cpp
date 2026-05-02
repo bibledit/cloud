@@ -1178,8 +1178,8 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
 
-  if ((url == developer_delay_url ()) && developer_delay_acl (webserver_request)) {
-    webserver_request.reply = developer_delay (webserver_request);
+  if ((url == developer_delay_url ()) && developer_delay_acl ()) {
+    webserver_request.reply = developer_delay ();
     return;
   }
 

@@ -76,9 +76,9 @@ void client_index_enable_client (Webserver_Request& webserver_request, const std
   bible_logic::client_mail_pending_bible_updates(username);
   
   // Clear all pending note actions and Bible actions and settings updates.
-  Database_NoteActions database_noteactions;
-  database_noteactions.clear ();
-  database_noteactions.create ();
+  Database_NoteActions database_note_actions;
+  database_note_actions.clear ();
+  database_note_actions.create ();
   database::bible_actions::clear ();
   database::bible_actions::create ();
   webserver_request.session_logic ()->set_username (username);
@@ -103,7 +103,7 @@ std::string client_index (Webserver_Request& webserver_request)
 {
   Assets_View view {};
   
-  if (webserver_request.query.count ("disable")) {
+  if (webserver_request.query.contains ("disable")) {
     client_logic_enable_client (false);
     client_index_remove_all_users (webserver_request);
     database::config::general::set_repeat_send_receive (0);
@@ -113,33 +113,32 @@ std::string client_index (Webserver_Request& webserver_request)
   }
   
   bool connect = webserver_request.post_count("connect");
-  bool demo = webserver_request.query.count ("demo");
-  if (connect || demo) {
+  bool demo = webserver_request.query.contains ("demo");
+  if (connect or demo) {
 
     bool proceed {true};
     
-    std::string address {};
-    if (proceed) address = webserver_request.post_get("address");
+    std::string address = webserver_request.post_get("address");
     if (demo) address = demo_address ();
     // If there's not something like "http" in the server address, then add it.
     if (address.find ("http") == std::string::npos)
       address = filter_url_set_scheme (address, false);
-    if (proceed) {
-      // Get schema, host and port.
-      std::string scheme {};
-      std::string host {};
-      int port {0};
-      filter_url_get_scheme_host_port (address, scheme, host, port);
-      // If no address given, then that's an error.
-      if (proceed) if (host.empty()) {
-        view.set_variable ("error", translate ("Supply an internet address"));
-        proceed = false;
-      }
-      // If the user entered a port number here too, then that's an error.
-      if (proceed) if (port > 0) {
-        view.set_variable ("error", translate ("Remove the port number from the internet address"));
-        proceed = false;
-      }
+    {
+        // Get schema, host and port.
+        std::string scheme{};
+        std::string host{};
+        int port{0};
+        filter_url_get_scheme_host_port(address, scheme, host, port);
+        // If no address given, then that's an error.
+        if (host.empty()) {
+            view.set_variable("error", translate("Supply an internet address"));
+            proceed = false;
+        }
+        // If the user entered a port number here too, then that's an error.
+        if (proceed and port > 0) {
+            view.set_variable("error", translate("Remove the port number from the internet address"));
+            proceed = false;
+        }
     }
     // Store the address.
     database::config::general::set_server_address (address);
@@ -147,7 +146,7 @@ std::string client_index (Webserver_Request& webserver_request)
     int port = filter::string::convert_to_int (config::logic::http_network_port ());
     if (proceed) port = filter::string::convert_to_int (webserver_request.post_get("port"));
     if (demo) port = demo_port ();
-    if (proceed) if (port == 0) {
+    if (proceed and port == 0) {
       view.set_variable ("error", translate ("Supply a port number"));
       proceed = false;
     }
@@ -171,10 +170,10 @@ std::string client_index (Webserver_Request& webserver_request)
 
     if (proceed) {
       const std::string response = client_logic_connection_setup (user, md5 (pass));
-      const int iresponse = filter::string::convert_to_int (response);
-      if ((iresponse >= roles::guest) && (iresponse <= roles::admin)) {
+      const int int_response = filter::string::convert_to_int (response);
+      if ((int_response >= roles::guest) and (int_response <= roles::admin)) {
         // Enable client mode upon a successful connection.
-        client_index_enable_client (webserver_request, user, pass, iresponse);
+        client_index_enable_client (webserver_request, user, pass, int_response);
         // Feedback.
         view.set_variable ("success", translate("Connection is okay."));
       } else {
@@ -204,17 +203,16 @@ std::string client_index (Webserver_Request& webserver_request)
 
   view.set_variable ("external", assets_external_logic_link_addon ());
 
-  if (webserver_request.query.count ("info")) {
+  if (webserver_request.query.contains ("info")) {
     view.enable_zone ("info");
   }
-  
-  const bool basic_mode {config::logic::basic_mode (webserver_request)};
-  if (basic_mode) view.enable_zone("basicmode");
+
+  if (config::logic::basic_mode(webserver_request)) view.enable_zone("basicmode");
   
   std::string page {};
 
   // Since the role of the user may change after a successful connection to the server,
-  // the menu generation in the header should be postponed till when the actual role is known.
+  // the menu generation in the header should be postponed till the actual role is known.
   page = assets_page::header (translate ("Server"), webserver_request);
   
   page += view.render ("client", "index");

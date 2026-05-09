@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
+#include "database/bibles.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"
@@ -40,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <tasks/logic.h>
 #include <rss/feed.h>
+#include <webserver/request.h>
 
 
 #ifdef HAVE_CLOUD

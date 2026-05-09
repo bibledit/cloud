@@ -20,17 +20,13 @@
 #include <collaboration/link.h>
 #include <assets/view.h>
 #include <assets/page.h>
-#include <assets/header.h>
-#include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/git.h>
 #include <filter/url.h>
-#include <filter/shell.h>
 #include <locale/translate.h>
-#include <access/bible.h>
 #include <database/config/bible.h>
-#include <database/config/general.h>
 #include <database/jobs.h>
+#include <webserver/request.h>
 
 
 void collaboration_link ([[maybe_unused]] const std::string& object,

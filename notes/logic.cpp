@@ -17,25 +17,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <notes/logic.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <filter/date.h>
-#include <database/notes.h>
+#include <access/bible.h>
+#include <client/logic.h>
+#include <database/books.h>
+#include <database/logs.h>
 #include <database/noteactions.h>
 #include <database/noteassignment.h>
-#include <database/logs.h>
+#include <database/notes.h>
 #include <database/config/general.h>
-#include <database/books.h>
-#include <trash/handler.h>
-#include <locale/translate.h>
-#include <client/logic.h>
-#include <sync/logic.h>
-#include <notes/note.h>
-#include <workspace/index.h>
-#include <access/bible.h>
 #include <email/send.h>
-
+#include <filter/date.h>
+#include <filter/string.h>
+#include <locale/translate.h>
+#include <notes/logic.h>
+#include <notes/note.h>
+#include <sync/logic.h>
+#include <trash/handler.h>
+#include <webserver/request.h>
+#include <workspace/index.h>
 
 Notes_Logic::Notes_Logic (Webserver_Request& webserver_request):
 m_webserver_request (webserver_request)

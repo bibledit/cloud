@@ -18,36 +18,35 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <bb/logic.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <filter/roles.h>
-#include <filter/git.h>
-#include <filter/diff.h>
-#include <filter/usfm.h>
-#include <filter/text.h>
-#include <filter/date.h>
-#include <database/bibles.h>
-#include <database/modifications.h>
-#include <database/bibleactions.h>
-#include <database/logs.h>
-#include <database/versifications.h>
-#include <database/books.h>
-#include <database/config/general.h>
-#include <database/cache.h>
-#include <database/privileges.h>
-#include <database/config/bible.h>
+#include <book/create.h>
 #include <client/logic.h>
+#include <database/bibleactions.h>
+#include <database/bibles.h>
+#include <database/books.h>
+#include <database/cache.h>
+#include <database/logs.h>
+#include <database/modifications.h>
+#include <database/privileges.h>
+#include <database/versifications.h>
+#include <database/config/bible.h>
+#include <database/config/general.h>
 #include <demo/logic.h>
-#include <sync/resources.h>
-#include <sword/logic.h>
+#include <developer/logic.h>
+#include <editor/html2format.h>
+#include <email/send.h>
+#include <filter/date.h>
+#include <filter/diff.h>
+#include <filter/git.h>
+#include <filter/roles.h>
+#include <filter/string.h>
+#include <filter/text.h>
+#include <filter/url.h>
+#include <filter/usfm.h>
+#include <locale/translate.h>
 #include <resource/logic.h>
 #include <search/logic.h>
-#include <locale/translate.h>
-#include <email/send.h>
-#include <developer/logic.h>
-#include <locale/translate.h>
-#include <editor/html2format.h>
-#include <book/create.h>
+#include <sword/logic.h>
+#include "webserver/request.h"
 
 
 void bible_logic::store_chapter (const std::string& bible, int book, int chapter, const std::string& usfm)

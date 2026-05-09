@@ -24,12 +24,13 @@
 #include <filter/merge.h>
 #include <database/logs.h>
 #include <database/books.h>
-#include <database/jobs.h>
 #include <database/git.h>
 #include <database/config/general.h>
 #include <bb/logic.h>
 #include <locale/translate.h>
 #include <rss/logic.h>
+#include "database/bibles.h"
+#include "database/users.h"
 
 
 #ifdef HAVE_CLOUD

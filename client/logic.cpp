@@ -17,11 +17,11 @@
  */
 
 
+#include "session/logic.h"
 #include <client/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/roles.h>
-#include <filter/md5.h>
 #include <database/config/general.h>
 #include <database/users.h>
 #include <database/usfmresources.h>

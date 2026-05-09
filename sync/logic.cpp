@@ -24,16 +24,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/date.h>
 #include <database/notes.h>
-#include <database/noteactions.h>
-#include <database/mail.h>
 #include <database/logs.h>
-#include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/usfmresources.h>
 #include <database/modifications.h>
 #include <config/globals.h>
-#include <trash/handler.h>
 #include <user/logic.h>
+#include <webserver/request.h>
 
 
 class Webserver_Request;

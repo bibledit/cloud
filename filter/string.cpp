@@ -39,7 +39,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/md5.h>
 #include <filter/date.h>
-#include <database/config/general.h>
 #include <database/logs.h>
 #ifdef HAVE_UTF8PROC
 #include <utf8proc.h>
@@ -82,7 +81,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma clang diagnostic pop
 #endif
 #include <stdio.h>
-#include <errno.h>
+#include <webserver/request.h>
 
 
 namespace filter::string {

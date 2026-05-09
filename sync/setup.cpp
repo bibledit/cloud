@@ -17,15 +17,12 @@
  */
 
 
-#include <sync/setup.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <filter/roles.h>
-#include <database/config/general.h>
-#include <database/users.h>
 #include <database/logs.h>
+#include <filter/string.h>
 #include <sync/logic.h>
+#include <sync/setup.h>
 #include <user/logic.h>
+#include <webserver/request.h>
 
 
 std::string sync_setup_url ()

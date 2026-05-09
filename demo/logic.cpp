@@ -17,36 +17,34 @@
  */
 
 
-#include <demo/logic.h>
-#include <filter/md5.h>
-#include <filter/roles.h>
-#include <filter/usfm.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <filter/shell.h>
-#include <database/config/general.h>
-#include <database/config/bible.h>
+#include "session/logic.h"
+#include <bb/logic.h>
+#include <client/logic.h>
+#include <database/books.h>
 #include <database/logs.h>
 #include <database/notes.h>
 #include <database/sample.h>
-#include <database/books.h>
-#include <locale/translate.h>
-#include <client/logic.h>
-#include <styles/logic.h>
-#include <styles/sheets.h>
-#include <locale/logic.h>
-#include <bb/logic.h>
-#include <editusfm/index.h>
-#include <editone/index.h>
-#include <resource/index.h>
-#include <resource/external.h>
-#include <resource/logic.h>
-#include <workspace/logic.h>
+#include <database/config/bible.h>
+#include <database/config/general.h>
+#include <demo/logic.h>
+#include <filter/md5.h>
+#include <filter/roles.h>
+#include <filter/shell.h>
+#include <filter/string.h>
+#include <filter/url.h>
+#include <filter/usfm.h>
 #include <ipc/focus.h>
 #include <lexicon/logic.h>
+#include <locale/logic.h>
+#include <locale/translate.h>
+#include <resource/external.h>
+#include <resource/logic.h>
 #include <search/logic.h>
-#include <book/create.h>
 #include <setup/logic.h>
+#include <styles/logic.h>
+#include <styles/sheets.h>
+#include <workspace/logic.h>
+#include <webserver/request.h>
 
 
 /*

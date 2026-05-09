@@ -17,9 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <menu/logic.h>
-#include <menu/index.h>
-#include <system/index.h>
+#include <bb/logic.h>
 #include <bb/manage.h>
 #include <changes/changes.h>
 #include <changes/manage.h>
@@ -30,75 +28,72 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <collaboration/index.h>
 #include <config/globals.h>
 #include <consistency/index.h>
-#include <database/config/general.h>
 #include <database/userresources.h>
-#include <database/cache.h>
+#include <database/config/general.h>
 #include <developer/index.h>
-#include <edit/index.h>
 #include <edit/index.h>
 #include <editone/index.h>
 #include <editusfm/index.h>
 #include <email/index.h>
-#include <filter/string.h>
 #include <filter/roles.h>
+#include <filter/string.h>
+#include <filter/url.h>
 #include <index/index.h>
 #include <index/listing.h>
 #include <journal/index.h>
+#include <ldap/logic.h>
 #include <locale/translate.h>
 #include <manage/exports.h>
 #include <manage/users.h>
 #include <mapping/index.h>
+#include <menu/index.h>
+#include <menu/logic.h>
 #include <notes/index.h>
-#include <notes/select.h>
 #include <paratext/index.h>
 #include <personalize/index.h>
+#include <public/index.h>
+#include <public/logic.h>
+#include <resource/bbgateway.h>
+#include <resource/cache.h>
 #include <resource/index.h>
 #include <resource/manage.h>
+#include <resource/studylight.h>
 #include <resource/sword.h>
-#include <resource/cache.h>
 #include <resource/user9edit.h>
 #include <resource/user9view.h>
-#include <resource/bbgateway.h>
-#include <resource/studylight.h>
-#include <search/index.h>
-#include <search/replace.h>
-#include <search/search2.h>
-#include <search/replace2.h>
 #include <search/all.h>
-#include <search/similar.h>
-#include <search/strongs.h>
-#include <search/strong.h>
+#include <search/index.h>
 #include <search/originals.h>
+#include <search/replace.h>
+#include <search/replace2.h>
+#include <search/search2.h>
+#include <search/similar.h>
+#include <search/strong.h>
+#include <search/strongs.h>
 #include <sendreceive/index.h>
 #include <session/login.h>
 #include <session/logout.h>
 #include <sprint/index.h>
 #include <styles/indexm.h>
+#include <system/index.h>
 #include <user/account.h>
 #include <user/notifications.h>
 #include <versification/index.h>
 #include <workspace/index.h>
 #include <workspace/logic.h>
-#include <workspace/logic.h>
-#include <workspace/logic.h>
 #include <workspace/organize.h>
-#include <workspace/organize.h>
-#include <public/index.h>
-#include <public/logic.h>
-#include <filter/url.h>
-#include <bb/logic.h>
-#include <ldap/logic.h>
 #pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wuseless-cast"
 #include <jsonxx/jsonxx.h>
 #pragma GCC diagnostic pop
-#include <read/index.h>
 #include <filter/css.h>
+#include <images/index.h>
+#include <read/index.h>
 #include <resource/comparative9edit.h>
 #include <resource/translated9edit.h>
-#include <images/index.h>
+#include <webserver/request.h>
 
 
 std::string menu_logic_href (std::string href)

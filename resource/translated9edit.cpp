@@ -27,7 +27,6 @@
 #include <filter/url.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
-#include <menu/logic.h>
 #include <dialog/entry.h>
 #include <dialog/yes.h>
 #include <database/config/general.h>
@@ -44,6 +43,7 @@
 #pragma GCC diagnostic pop
 #include <resource/translated1edit.h>
 #include <client/logic.h>
+#include <webserver/request.h>
 
 
 std::string resource_translated9edit_url ()

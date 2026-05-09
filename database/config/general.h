@@ -117,7 +117,7 @@ int get_unreceived_bible_data_time ();
 void set_unreceived_bible_data_time (int value);
 
 bool get_author_in_rss_feed ();
-void set_uuthor_in_rss_feed (bool value);
+void set_author_in_rss_feed (bool value);
 
 bool get_just_connected_to_cloud ();
 void set_just_connected_to_cloud (bool value);
@@ -131,7 +131,7 @@ bool get_disable_selection_popup_chrome_os ();
 void set_disable_selection_popup_chrome_os (bool value);
 
 std::string get_notes_verse_separator ();
-void set_notes_verse_separator (const std::string& url);
+void set_notes_verse_separator (const std::string& value);
 
 std::vector <std::string> get_comparative_resources ();
 void set_comparative_resources (const std::vector <std::string>& values);

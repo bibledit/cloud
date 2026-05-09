@@ -111,7 +111,7 @@ void developer_logic_import_changes ()
     if (char* home = getenv("HOME"); home)
         home_path = home;
     const std::string file_path = filter_url_create_path({home_path, "Desktop", "changes.usfm"});
-    constexpr std::string bible = "test";
+    const std::string bible = "test";
     Database_Logs::log("Import changes from " + file_path + " into Bible " + bible);
     if (not std::ranges::count(database::bibles::get_bibles(), bible))
     {

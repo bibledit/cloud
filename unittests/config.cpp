@@ -23,15 +23,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic ignored "-Wcharacter-conversion"
 #include "gtest/gtest.h"
 #pragma GCC diagnostic pop
-#include <unittests/utilities.h>
-#include <database/config/general.h>
-#include <database/config/bible.h>
-#include <filter/string.h>
-#include <filter/date.h>
-#include <filter/url.h>
-#include <database/state.h>
 #include <database/login.h>
+#include <database/state.h>
+#include <database/config/bible.h>
+#include <database/config/general.h>
 #include <demo/logic.h>
+#include <filter/date.h>
+#include <filter/string.h>
+#include <filter/url.h>
+#include <unittests/utilities.h>
+#include "webserver/request.h"
 
 
 TEST(database, config_general)
@@ -55,30 +56,46 @@ TEST(database, config_general)
 
 TEST(database, config_bible)
 {
-  std::string value = database::config::bible::get_versification_system ("phpunit");
-  EXPECT_EQ (filter::string::english (), value);
-  
-  value = database::config::bible::get_versification_system ("x");
-  EXPECT_EQ (filter::string::english (), value);
+    {
+        const std::string value = database::config::bible::get_versification_system("phpunit");
+        EXPECT_EQ(filter::string::english (), value);
+    }
+    {
+        const std::string value = database::config::bible::get_versification_system("x");
+        EXPECT_EQ(filter::string::english (), value);
+    }
+    {
+        database::config::bible::set_versification_system("phpunit", "Versification");
+        const std::string value = database::config::bible::get_versification_system("phpunit");
+        EXPECT_EQ("Versification", value);
+    }
 
-  database::config::bible::set_versification_system ("phpunit", "VersificatioN");
-  value = database::config::bible::get_versification_system ("phpunit");
-  EXPECT_EQ ("VersificatioN", value);
-
-  // Check default value for Bible.
-  std::string bible = "A Bible";
-  std::string standard = ", ;";
-  std::string suffix = " suffix";
-  value = database::config::bible::get_sentence_structure_middle_punctuation (bible);
-  EXPECT_EQ (standard, value);
-  // Change value and check it.
-  database::config::bible::set_sentence_structure_middle_punctuation (bible, standard + suffix);
-  value = database::config::bible::get_sentence_structure_middle_punctuation (bible);
-  EXPECT_EQ (standard + suffix, value);
-  // Remove that Bible and check that the value is back to default.
-  database::config::bible::remove (bible);
-  value = database::config::bible::get_sentence_structure_middle_punctuation (bible);
-  EXPECT_EQ (standard, value);
+    // Check default value for Bible.
+    {
+        std::string bible = "A Bible";
+        std::string standard = ", ;";
+        std::string suffix = " suffix";
+        std::string value = database::config::bible::get_sentence_structure_middle_punctuation(bible);
+        EXPECT_EQ(standard, value);
+        // Change value and check it.
+        database::config::bible::set_sentence_structure_middle_punctuation(bible, standard + suffix);
+        value = database::config::bible::get_sentence_structure_middle_punctuation(bible);
+        EXPECT_EQ(standard + suffix, value);
+        // Remove that Bible and check that the value is back to default.
+        database::config::bible::remove(bible);
+        value = database::config::bible::get_sentence_structure_middle_punctuation(bible);
+        EXPECT_EQ(standard, value);
+    }
+    // Tet a boolean value.
+    {
+        const bool value = database::config::bible::get_export_web_during_night ("test");
+        EXPECT_FALSE(value);
+    }
+    // Test an integer value.
+    {
+        const int value = database::config::bible::get_repeat_send_receive ("test");
+        EXPECT_EQ (value, 0);
+    }
 }
 
 

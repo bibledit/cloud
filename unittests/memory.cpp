@@ -160,7 +160,7 @@ TEST (DISABLED_memory, basic)
     database::config::bible::set_check_sentence_structure (bible, true);
     database::config::bible::set_check_paragraph_structure (bible, true);
     database::config::bible::set_check_books_versification (bible, true);
-    database::config::bible::set_check_chaptes_verses_versification (bible, true);
+    database::config::bible::set_check_chapters_verses_versification (bible, true);
     database::config::bible::set_check_well_formed_usfm (bible, true);
     database::config::bible::set_check_missing_punctuation_end_verse (bible, true);
     database::config::bible::set_check_patterns (bible, true);

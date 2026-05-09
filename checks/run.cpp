@@ -83,7 +83,7 @@ void checks_run (std::string bible)
   checks_sentences.enter_names (database::config::bible::get_sentence_structure_names (bible));
   std::vector <std::string> within_sentence_paragraph_markers = filter::string::explode (database::config::bible::get_sentence_structure_within_sentence_markers (bible), ' ');
   bool check_books_versification = database::config::bible::get_check_books_versification (bible);
-  bool check_chapters_verses_versification = database::config::bible::get_check_chaptes_verses_versification (bible);
+  bool check_chapters_verses_versification = database::config::bible::get_check_chapters_verses_versification (bible);
   bool check_well_formed_usfm = database::config::bible::get_check_well_formed_usfm (bible);
   Checks_Usfm checks_usfm = Checks_Usfm (bible);
   bool check_missing_punctuation_end_verse = database::config::bible::get_check_missing_punctuation_end_verse (bible);

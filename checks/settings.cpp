@@ -134,9 +134,9 @@ std::string checks_settings (Webserver_Request& webserver_request)
   
   
   if (checkbox == "chaptersversesversification") {
-    database::config::bible::set_check_chaptes_verses_versification (bible, checked);
+    database::config::bible::set_check_chapters_verses_versification (bible, checked);
   }
-  view.set_variable ("chaptersversesversification", filter::string::get_checkbox_status (database::config::bible::get_check_chaptes_verses_versification (bible)));
+  view.set_variable ("chaptersversesversification", filter::string::get_checkbox_status (database::config::bible::get_check_chapters_verses_versification (bible)));
                       
                       
   if (checkbox == "wellformedusfm") {

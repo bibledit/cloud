@@ -86,46 +86,44 @@ TEST(database, config_general)
 
 TEST(database, config_bible)
 {
-    {
-        const std::string value = database::config::bible::get_versification_system("phpunit");
-        EXPECT_EQ(filter::string::english (), value);
-    }
-    {
-        const std::string value = database::config::bible::get_versification_system("x");
-        EXPECT_EQ(filter::string::english (), value);
-    }
-    {
-        database::config::bible::set_versification_system("phpunit", "Versification");
-        const std::string value = database::config::bible::get_versification_system("phpunit");
-        EXPECT_EQ("Versification", value);
-    }
+    using namespace database::config::bible;
+
+    // Test get/set string.
+    EXPECT_EQ(get_versification_system("phpunit"), filter::string::english ());
+    EXPECT_EQ(get_versification_system("x"), filter::string::english ());
+    set_versification_system("phpunit", "Versification");
+    EXPECT_EQ(get_versification_system("phpunit"), "Versification");
+    EXPECT_EQ(get_editor_stylesheet("b"), "Standard");
 
     // Check default value for Bible.
     {
         std::string bible = "A Bible";
         std::string standard = ", ;";
         std::string suffix = " suffix";
-        std::string value = database::config::bible::get_sentence_structure_middle_punctuation(bible);
+        std::string value = get_sentence_structure_middle_punctuation(bible);
         EXPECT_EQ(standard, value);
         // Change value and check it.
-        database::config::bible::set_sentence_structure_middle_punctuation(bible, standard + suffix);
-        value = database::config::bible::get_sentence_structure_middle_punctuation(bible);
+        set_sentence_structure_middle_punctuation(bible, standard + suffix);
+        value = get_sentence_structure_middle_punctuation(bible);
         EXPECT_EQ(standard + suffix, value);
         // Remove that Bible and check that the value is back to default.
         database::config::bible::remove(bible);
-        value = database::config::bible::get_sentence_structure_middle_punctuation(bible);
+        value = get_sentence_structure_middle_punctuation(bible);
         EXPECT_EQ(standard, value);
     }
-    // Tet a boolean value.
-    {
-        const bool value = database::config::bible::get_export_web_during_night("test");
-        EXPECT_FALSE(value);
-    }
-    // Test an integer value.
-    {
-        const int value = database::config::bible::get_repeat_send_receive("test");
-        EXPECT_EQ(value, 0);
-    }
+
+    // Test get/set/default of boolean value.
+    EXPECT_FALSE(get_export_web_during_night("test"));
+    set_export_web_during_night("test", true);
+    EXPECT_TRUE(get_export_web_during_night("test"));
+    EXPECT_TRUE(get_public_feedback_enabled("b"));
+    EXPECT_FALSE(get_read_from_git("b"));
+
+    // Test get/set/default of integer value.
+    EXPECT_EQ(get_line_height("b"), 100);
+    set_line_height("b", 200);
+    EXPECT_EQ(get_line_height("b"), 200);
+    EXPECT_EQ(get_repeat_send_receive("test"), 0);
 }
 
 
@@ -149,7 +147,7 @@ TEST(database, config_user)
     {
         EXPECT_EQ(std::vector<int>{}, request.database_config_user ()->get_updated_settings ());
 
-        std::vector<int> standard1 = {123, 456};
+        std::vector standard1 = {123, 456};
         request.database_config_user()->set_updated_settings(standard1);
         EXPECT_EQ(standard1, request.database_config_user ()->get_updated_settings ());
 
@@ -158,7 +156,7 @@ TEST(database, config_user)
         EXPECT_EQ(standard1, request.database_config_user ()->get_updated_settings ());
 
         request.database_config_user()->remove_updated_setting(456);
-        std::vector<int> standard2 = {123, 789};
+        std::vector standard2 = {123, 789};
         EXPECT_EQ(standard2, request.database_config_user ()->get_updated_settings ());
     }
 
@@ -179,8 +177,8 @@ TEST(database, config_user)
         std::string filename = filter_url_create_path({
             testing_directory, "databases", "config", "user", "username", "sprint-month"
         });
-        struct stat foo;
-        utimbuf new_times;
+        struct stat foo{};
+        utimbuf new_times{};
         stat(filename.c_str(), &foo);
         new_times.actime = filter::date::seconds_since_epoch() - (2 * 24 * 3600) - 10;
         new_times.modtime = filter::date::seconds_since_epoch() - (2 * 24 * 3600) - 10;

@@ -145,19 +145,19 @@ TEST(database, config_user)
 
     // Testing setList, getList, plus add/removeUpdatedSetting.
     {
-        EXPECT_EQ(std::vector<int>{}, request.database_config_user ()->get_updated_settings ());
+        EXPECT_TRUE(request.database_config_user()->get_updated_settings().empty());
 
-        std::vector standard1 = {123, 456};
-        request.database_config_user()->set_updated_settings(standard1);
-        EXPECT_EQ(standard1, request.database_config_user ()->get_updated_settings ());
+        std::vector standard = {123, 456};
+        request.database_config_user()->set_updated_settings(standard);
+        EXPECT_EQ(standard, request.database_config_user()->get_updated_settings());
 
         request.database_config_user()->add_updated_setting(789);
-        standard1.push_back(789);
-        EXPECT_EQ(standard1, request.database_config_user ()->get_updated_settings ());
+        standard.push_back(789);
+        EXPECT_EQ(standard, request.database_config_user()->get_updated_settings());
 
         request.database_config_user()->remove_updated_setting(456);
-        std::vector standard2 = {123, 789};
-        EXPECT_EQ(standard2, request.database_config_user ()->get_updated_settings ());
+        standard.erase(std::ranges::find(standard, 456));
+        EXPECT_EQ(request.database_config_user()->get_updated_settings(), standard);
     }
 
     // Testing the Sprint month and trimming it.

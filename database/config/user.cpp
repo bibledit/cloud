@@ -17,26 +17,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <database/config/user.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <filter/roles.h>
-#include <session/logic.h>
-#include <database/users.h>
-#include <database/styles.h>
-#include <webserver/request.h>
-#include <demo/logic.h>
-#include <styles/logic.h>
-#include <filter/date.h>
 #include <database/logic.h>
-#include <database/config/general.h>
-#include <locale/logic.h>
+#include <database/styles.h>
+#include <database/users.h>
+#include <database/config/user.h>
+#include <demo/logic.h>
+#include <filter/date.h>
+#include <filter/roles.h>
+#include <filter/string.h>
+#include <filter/url.h>
+#include <session/logic.h>
+#include <webserver/request.h>
 
 
 // Cache values in memory for better speed.
 // The speed improvement comes from reading a value from disk only once,
 // and after that to read the value straight from the memory cache.
-static std::map <std::string, std::string> database_config_user_cache;
+static std::map <std::string, std::string> cache;
 
 
 Database_Config_User::Database_Config_User (Webserver_Request& webserver_request):
@@ -48,20 +45,20 @@ m_webserver_request (webserver_request)
 // Functions for getting and setting values or lists of values follow here:
 
 
-std::string Database_Config_User::file (const std::string& user) const
+std::string Database_Config_User::file (const std::string& user)
 {
   return filter_url_create_root_path ({database_logic_databases (), "config", "user", user});
 }
 
 
-std::string Database_Config_User::file (const std::string& user, const char * key) const
+std::string Database_Config_User::file (const std::string& user, const char * key)
 {
   return filter_url_create_path ({file (user), key});
 }
 
 
 // The key in the cache for this setting.
-std::string Database_Config_User::mapkey (const std::string& user, const char * key) const
+std::string Database_Config_User::map_key (const std::string& user, const char * key)
 {
   return user + key;
 }
@@ -88,12 +85,12 @@ int Database_Config_User::get_numeric_value (const char * key, int default_value
 }
 
 
-std::string Database_Config_User::get_value_for_user (const std::string& user, const char * key, const char * default_value) const
+std::string Database_Config_User::get_value_for_user (const std::string& user, const char * key, const char * default_value)
 {
   // Check the memory cache. If it is there, read it from the memory cache.
-  const std::string cachekey = mapkey (user, key);
-  if (database_config_user_cache.count (cachekey)) {
-    return database_config_user_cache.at (cachekey);
+  const std::string cache_key = map_key (user, key);
+  if (cache.contains (cache_key)) {
+    return cache.at(cache_key);
   }
   // Read from file.
   std::string value;
@@ -103,20 +100,20 @@ std::string Database_Config_User::get_value_for_user (const std::string& user, c
   else 
     value = default_value;
   // Cache it: Improved speed next time getting this value.
-  database_config_user_cache.insert_or_assign (cachekey, value);
+  cache.insert_or_assign (cache_key, value);
   // Done.
   return value;
 }
 
 
-bool Database_Config_User::get_boolean_value_for_user (const std::string& user, const char * key, bool default_value) const
+bool Database_Config_User::get_boolean_value_for_user (const std::string& user, const char * key, bool default_value)
 {
   const auto value {get_value_for_user (user, key, filter::string::convert_to_string (default_value).c_str())};
   return filter::string::convert_to_bool (value);
 }
 
 
-int Database_Config_User::get_numeric_value_for_user (const std::string& user, const char * key, int default_value) const
+int Database_Config_User::get_numeric_value_for_user (const std::string& user, const char * key, int default_value)
 {
   const auto value {get_value_for_user (user, key, std::to_string (default_value).c_str())};
   return filter::string::convert_to_int (value);
@@ -142,10 +139,10 @@ void Database_Config_User::set_numeric_value (const char * key, int value) const
 }
 
 
-void Database_Config_User::set_value_for_user (const std::string& user, const char * key, const std::string& value) const
+void Database_Config_User::set_value_for_user (const std::string& user, const char * key, const std::string& value)
 {
   // Store in memory cache.
-  database_config_user_cache [mapkey (user, key)] = value;
+  cache [map_key (user, key)] = value;
   // Store on disk.
   const std::string filename {file (user, key)};
   const std::string directory {filter_url_dirname (filename)};
@@ -155,7 +152,7 @@ void Database_Config_User::set_value_for_user (const std::string& user, const ch
 }
 
 
-void Database_Config_User::set_boolean_value_for_user (const std::string& user, const char * key, bool value) const
+void Database_Config_User::set_boolean_value_for_user (const std::string& user, const char * key, bool value)
 {
   set_value_for_user (user, key, filter::string::convert_to_string (value));
 }
@@ -168,12 +165,12 @@ std::vector <std::string> Database_Config_User::get_list (const char * key) cons
 }
 
 
-std::vector <std::string> Database_Config_User::get_list_for_user (const std::string& user, const char * key) const
+std::vector <std::string> Database_Config_User::get_list_for_user (const std::string& user, const char * key)
 {
   // Check whether value is in cache.
-  const std::string cachekey = mapkey (user, key);
-  if (database_config_user_cache.count (cachekey)) {
-    const std::string value = database_config_user_cache [cachekey];
+  const std::string cachekey = map_key (user, key);
+  if (cache.count (cachekey)) {
+    const std::string value = cache [cachekey];
     return filter::string::explode (value, '\n');
   }
   // Read setting from disk.
@@ -181,7 +178,7 @@ std::vector <std::string> Database_Config_User::get_list_for_user (const std::st
   if (file_or_dir_exists (filename)) {
     const std::string value = filter_url_file_get_contents (filename);
     // Cache it in memory.
-    database_config_user_cache [cachekey] = value;
+    cache [cachekey] = value;
     // Done.
     return filter::string::explode (value, '\n');
   }
@@ -197,7 +194,7 @@ void Database_Config_User::set_list (const char * key, const std::vector <std::s
 }
 
 
-void Database_Config_User::set_list_for_user (const std::string& user, const char * key, const std::vector <std::string>& values) const
+void Database_Config_User::set_list_for_user (const std::string& user, const char * key, const std::vector <std::string>& values)
 {
   // Store it on disk.
   const std::string filename = file (user, key);
@@ -207,8 +204,8 @@ void Database_Config_User::set_list_for_user (const std::string& user, const cha
   const std::string value = filter::string::implode (values, "\n");
   filter_url_file_put_contents (filename, value);
   // Put it in the memory cache.
-  const std::string cachekey = mapkey (user, key);
-  database_config_user_cache [cachekey] = value;
+  const std::string cachekey = map_key (user, key);
+  cache [cachekey] = value;
 }
 
 
@@ -249,7 +246,7 @@ void Database_Config_User::trim () const
         filename = file (user, sprint_year_key ());
         filter_url_unlink (filename);
         // Clear cache.
-        database_config_user_cache.clear ();
+        cache.clear ();
       }
     }
   }
@@ -263,14 +260,14 @@ void Database_Config_User::remove (const std::string& username) const
   const std::string folder = file (username);
   filter_url_rmdir (folder);
   // Clear cache.
-  database_config_user_cache.clear ();
+  cache.clear ();
 }
 
 
 // Clear the settings cache.
 void Database_Config_User::clear_cache () const
 {
-  database_config_user_cache.clear ();
+  cache.clear ();
 }
 
 

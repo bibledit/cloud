@@ -180,8 +180,8 @@ TEST(database, config_user)
         struct stat foo{};
         utimbuf new_times{};
         stat(filename.c_str(), &foo);
-        new_times.actime = filter::date::seconds_since_epoch() - (2 * 24 * 3600) - 10;
-        new_times.modtime = filter::date::seconds_since_epoch() - (2 * 24 * 3600) - 10;
+        new_times.actime =  filter::date::seconds_since_epoch() - 2 * 24 * 3600 - 10;
+        new_times.modtime = filter::date::seconds_since_epoch() - 2 * 24 * 3600 - 10;
         utime(filename.c_str(), &new_times);
         request.database_config_user()->trim();
         EXPECT_EQ(month, request.database_config_user ()->get_sprint_month ());

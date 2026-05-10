@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace database::config::general {
 // Cache values in memory for better speed.
-// The speed improvement is supposed to come from reading a value from disk only once,
+// The speed improvement is expected to come from reading a value from disk only once,
 // and after that to read the value straight from the memory cache.
 static std::map<std::string, std::string> cache;
 
@@ -40,38 +40,50 @@ static std::string file(const char* key)
     return filter_url_create_root_path({database_logic_databases(), "config", "general", key});
 }
 
+// Type constraints.
+template <typename T>
+concept is_string = std::is_same_v<T, std::string>;
+template <typename T>
+concept is_bool = std::is_same_v<T, bool>;
+template <typename T>
+concept is_int = std::is_same_v<T, int>;
+template <typename T>
+concept is_vector_string = std::is_same_v<T, std::vector<std::string>>;
+
+// Concept for the type of setting to get or set.
+template <typename T>
+concept is_setting = is_string<T> or is_bool<T> or is_int<T> or is_vector_string<T>;
 
 template <typename T>
-concept is_string_bool_int = std::is_same_v<T, std::string> or std::is_same_v<T, bool> or std::is_same_v<T, int>;
-
-
-template <typename T>
-requires is_string_bool_int<T>
-static T get_value(const char* key, const T& default_value)
+requires is_setting<T>
+static T get_value(const char* key, const char* default_value)
 {
-    const auto get_value_internal = [key](const std::string& default_val)
+    const auto get_string_value = [key, default_value]
     {
         // Check the memory cache.
         if (cache.contains(key))
             return cache.at(key);
-        // Get value from disk.
+        // Get value from disk or default.
         std::string value;
         if (const std::string filename = file(key); file_or_dir_exists(filename))
             value = filter_url_file_get_contents(filename);
         else
-            value = default_val;
+            value = default_value;
         // Cache it.
         cache[key] = value;
         // Done.
         return value;
     };
 
+    std::string value = get_string_value();
     if constexpr (std::is_same_v<T, std::string>)
-        return get_value_internal(default_value);
+        return value;
     else if constexpr (std::is_same_v<T, bool>)
-        return filter::string::convert_to_bool(get_value_internal(filter::string::convert_to_string(default_value)));
+        return filter::string::convert_to_bool(value);
     else if constexpr (std::is_same_v<T, int>)
-        return filter::string::convert_to_int(get_value_internal(std::to_string(default_value)));
+        return filter::string::convert_to_int(value);
+    else if constexpr (std::is_same_v<T, std::vector<std::string>>)
+        return filter::string::explode(value, '\n');
     else
         static_assert(false, "Not implemented");
     return T{};
@@ -79,10 +91,10 @@ static T get_value(const char* key, const T& default_value)
 
 
 template <typename T>
-requires is_string_bool_int<T>
+requires is_setting<T>
 static void set_value(const char* key, const T& value)
 {
-    const auto set_value_internal = [key] (const std::string& val)
+    const auto set_string_value = [key] (const std::string& val)
     {
         // Store in memory cache.
         cache[key] = val;
@@ -92,27 +104,15 @@ static void set_value(const char* key, const T& value)
     };
 
     if constexpr (std::is_same_v<T, std::string>)
-        set_value_internal(value);
+        set_string_value(value);
     else if constexpr (std::is_same_v<T, bool>)
-        set_value_internal(filter::string::convert_to_string(value));
+        set_string_value(filter::string::convert_to_string(value));
     else if constexpr (std::is_same_v<T, int>)
-        set_value_internal(std::to_string(value));
+        set_string_value(std::to_string(value));
+    else if constexpr (std::is_same_v<T, std::vector<std::string>>)
+        set_value<std::string>(key, filter::string::implode(value, "\n"));
     else
         static_assert(false, "Not implemented");
-}
-
-
-static std::vector<std::string> get_list(const char* key)
-{
-    const std::string contents = get_value(key, std::string());
-    return filter::string::explode(contents, '\n');
-}
-
-
-static void set_list(const char* key, const std::vector<std::string>& values)
-{
-    const std::string value = filter::string::implode(values, "\n");
-    set_value<std::string>(key, value);
 }
 
 
@@ -123,7 +123,7 @@ constexpr auto site_mail_name_key{"site-mail-name"};
 
 std::string get_site_mail_name()
 {
-    return get_value<std::string>(site_mail_name_key, std::string("Cloud"));
+    return get_value<std::string>(site_mail_name_key, "Cloud");
 }
 
 void set_site_mail_name(const std::string& value)
@@ -136,7 +136,7 @@ constexpr auto site_mail_address_key{"site-mail-address"};
 
 std::string get_site_mail_address()
 {
-    return get_value<std::string>(site_mail_address_key, std::string());
+    return get_value<std::string>(site_mail_address_key, "");
 }
 
 void set_site_mail_address(const std::string& value)
@@ -149,7 +149,7 @@ constexpr auto mail_storage_host_key{"mail-storage-host"};
 
 std::string get_mail_storage_host()
 {
-    return get_value<std::string>(mail_storage_host_key, std::string());
+    return get_value<std::string>(mail_storage_host_key, "");
 }
 
 void set_mail_storage_host(const std::string& value)
@@ -162,7 +162,7 @@ constexpr auto mail_storage_username_key{"mail-storage-username"};
 
 std::string get_mail_storage_username()
 {
-    return get_value<std::string>(mail_storage_username_key, std::string());
+    return get_value<std::string>(mail_storage_username_key, "");
 }
 
 void set_mail_storage_username(const std::string& value)
@@ -175,7 +175,7 @@ constexpr auto mail_storage_password_key{"mail-storage-password"};
 
 std::string get_mail_storage_password()
 {
-    return get_value<std::string>(mail_storage_password_key, std::string());
+    return get_value<std::string>(mail_storage_password_key, "");
 }
 
 void set_mail_storage_password(const std::string& value)
@@ -188,7 +188,7 @@ constexpr auto mail_storage_protocol_key{"mail-storage-protocol"};
 
 std::string get_mail_storage_protocol()
 {
-    return get_value<std::string>(mail_storage_protocol_key, std::string());
+    return get_value<std::string>(mail_storage_protocol_key, "");
 }
 
 void set_mail_storage_protocol(const std::string& value)
@@ -201,7 +201,7 @@ constexpr auto mail_storage_port_key{"mail-storage-port"};
 
 std::string get_mail_storage_port()
 {
-    return get_value<std::string>(mail_storage_port_key, std::string());
+    return get_value<std::string>(mail_storage_port_key, "");
 }
 
 void set_mail_storage_port(const std::string& value)
@@ -214,7 +214,7 @@ constexpr auto mail_send_host_key{"mail-send-host"};
 
 std::string get_mail_send_host()
 {
-    return get_value<std::string>(mail_send_host_key, std::string());
+    return get_value<std::string>(mail_send_host_key, "");
 }
 
 void set_mail_send_host(const std::string& value)
@@ -227,7 +227,7 @@ constexpr auto mail_send_username_key{"mail-send-username"};
 
 std::string get_mail_send_username()
 {
-    return get_value<std::string>(mail_send_username_key, std::string());
+    return get_value<std::string>(mail_send_username_key, "");
 }
 
 void set_mail_send_username(const std::string& value)
@@ -240,7 +240,7 @@ constexpr auto mail_send_password_key{"mail-send-password"};
 
 std::string get_mail_send_password()
 {
-    return get_value<std::string>(mail_send_password_key, std::string());
+    return get_value<std::string>(mail_send_password_key, "");
 }
 
 void set_mail_send_password(const std::string& value)
@@ -253,7 +253,7 @@ constexpr auto mail_send_port_key{"mail-send-port"};
 
 std::string get_mail_send_port()
 {
-    return get_value<std::string>(mail_send_port_key, std::string());
+    return get_value<std::string>(mail_send_port_key, "");
 }
 
 void set_mail_send_port(const std::string& value)
@@ -266,7 +266,7 @@ constexpr auto timer_minute_key{"timer-minute"};
 
 std::string get_timer_minute()
 {
-    return get_value<std::string>(timer_minute_key, std::string());
+    return get_value<std::string>(timer_minute_key, "");
 }
 
 void set_timer_minute(const std::string& value)
@@ -284,7 +284,7 @@ int get_timezone()
     if (config_globals_timezone_offset_utc < MINIMUM_TIMEZONE
         or config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE)
     {
-        return get_value<int>(timezone_key, 0);
+        return get_value<int>(timezone_key, "0");
     }
     // Else take variable as set in the configuration.
     return config_globals_timezone_offset_utc;
@@ -311,7 +311,7 @@ std::string get_site_url()
     return url;
 #else
     // Get the URL that was set upon login.
-    return get_value<std::string>(site_url_key, std::string());
+    return get_value<std::string>(site_url_key, "");
 #endif
 }
 
@@ -329,7 +329,7 @@ std::string get_site_language()
     // It means not to localize the interface.
     // Since the default messages are all in English,
     // the default language for the interface will be English.
-    return get_value<std::string>(general_site_language_key, std::string());
+    return get_value<std::string>(general_site_language_key, "");
 }
 
 void set_site_language(const std::string& value)
@@ -342,7 +342,7 @@ constexpr auto client_mode_key{"client-mode"};
 
 bool get_client_mode()
 {
-    return get_value<bool>(client_mode_key, false);
+    return get_value<bool>(client_mode_key, "");
 }
 
 void set_client_mode(const bool value)
@@ -355,7 +355,7 @@ constexpr auto server_address_key{"server-address"};
 
 std::string get_server_address()
 {
-    return get_value<std::string>(server_address_key, std::string());
+    return get_value<std::string>(server_address_key, "");
 }
 
 void set_server_address(const std::string& value)
@@ -368,7 +368,7 @@ constexpr auto server_port_key{"server-port"};
 
 int get_server_port()
 {
-    return get_value<int>(server_port_key, 8080);
+    return get_value<int>(server_port_key, "8080");
 }
 
 void set_server_port(const int value)
@@ -381,7 +381,7 @@ constexpr auto repeat_send_receive_key{"repeat-send-receive"};
 
 int get_repeat_send_receive()
 {
-    return get_value<int>(repeat_send_receive_key, 0);
+    return get_value<int>(repeat_send_receive_key, "");
 }
 
 void set_repeat_send_receive(const int value)
@@ -394,7 +394,7 @@ constexpr auto last_send_receive_key{"last-send-receive"};
 
 int get_last_send_receive()
 {
-    return get_value<int>(last_send_receive_key, 0);
+    return get_value<int>(last_send_receive_key, "0");
 }
 
 void set_last_send_receive(const int value)
@@ -407,7 +407,7 @@ constexpr auto installed_interface_version_key{"installed-interface-version"};
 
 std::string get_installed_interface_version()
 {
-    return get_value<std::string>(installed_interface_version_key, std::string());
+    return get_value<std::string>(installed_interface_version_key, "");
 }
 
 void set_installed_interface_version(const std::string& value)
@@ -420,7 +420,7 @@ constexpr auto installed_database_version_key{"installed-database-version"};
 
 std::string getInstalledDatabaseVersion()
 {
-    return get_value<std::string>(installed_database_version_key, std::string());
+    return get_value<std::string>(installed_database_version_key, "");
 }
 
 void setInstalledDatabaseVersion(const std::string& value)
@@ -433,7 +433,7 @@ constexpr auto just_started_key{"just-started"};
 
 bool getJustStarted()
 {
-    return get_value<bool>(just_started_key, false);
+    return get_value<bool>(just_started_key, "");
 }
 
 void setJustStarted(const bool value)
@@ -446,7 +446,7 @@ constexpr auto paratext_projects_folder_key{"paratext-projects-folder"};
 
 std::string get_paratext_projects_folder()
 {
-    return get_value<std::string>(paratext_projects_folder_key, std::string());
+    return get_value<std::string>(paratext_projects_folder_key, "");
 }
 
 void set_paratext_projects_folder(const std::string& value)
@@ -460,7 +460,7 @@ constexpr auto sync_key_key{"sync-key"};
 
 std::string get_sync_key()
 {
-    return get_value<std::string>(sync_key_key, std::string());
+    return get_value<std::string>(sync_key_key, "");
 }
 
 void set_sync_key(const std::string& key)
@@ -473,7 +473,7 @@ constexpr auto last_menu_click_key{"last-menu-click"};
 
 std::string get_last_menu_click()
 {
-    return get_value<std::string>(last_menu_click_key, std::string());
+    return get_value<std::string>(last_menu_click_key, "");
 }
 
 void set_last_menu_click(const std::string& url)
@@ -489,12 +489,12 @@ constexpr auto resources_to_cache_key{"resources-to-cache"};
 
 std::vector<std::string> get_resources_to_cache()
 {
-    return get_list(resources_to_cache_key);
+    return get_value<std::vector<std::string>>(resources_to_cache_key, "");
 }
 
 void set_resources_to_cache(const std::vector<std::string>& values)
 {
-    set_list(resources_to_cache_key, values);
+    set_value<std::vector<std::string>>(resources_to_cache_key, values);
 }
 
 
@@ -502,7 +502,7 @@ constexpr auto index_notes_key{"index-notes"};
 
 bool getIndexNotes()
 {
-    return get_value<bool>(index_notes_key, false);
+    return get_value<bool>(index_notes_key, "");
 }
 
 void setIndexNotes(const bool value)
@@ -515,7 +515,7 @@ constexpr auto index_bibles_key{"index-bibles"};
 
 bool get_index_bibles()
 {
-    return get_value<bool>(index_bibles_key, false);
+    return get_value<bool>(index_bibles_key, "");
 }
 
 void set_index_bibles(const bool value)
@@ -528,7 +528,7 @@ constexpr auto unsent_bible_data_time_key{"unsent-bible-data-time"};
 
 int get_unsent_bible_data_time()
 {
-    return get_value<int>(unsent_bible_data_time_key, 0);
+    return get_value<int>(unsent_bible_data_time_key, "");
 }
 
 void set_unsent_bible_data_time(const int value)
@@ -541,7 +541,7 @@ constexpr auto unreceived_bible_data_time_key{"unreceived-bible-data-time"};
 
 int get_unreceived_bible_data_time()
 {
-    return get_value<int>(unreceived_bible_data_time_key, 0);
+    return get_value<int>(unreceived_bible_data_time_key, "");
 }
 
 void set_unreceived_bible_data_time(const int value)
@@ -554,7 +554,7 @@ constexpr auto author_in_rss_feed_key{"author-in-rss-feed"};
 
 bool get_author_in_rss_feed()
 {
-    return get_value<bool>(author_in_rss_feed_key, false);
+    return get_value<bool>(author_in_rss_feed_key, "");
 }
 
 void set_author_in_rss_feed(const bool value)
@@ -567,7 +567,7 @@ constexpr auto just_connected_to_cloud_key{"just-connected-to-cloud"};
 
 bool get_just_connected_to_cloud()
 {
-    return get_value<bool>(just_connected_to_cloud_key, false);
+    return get_value<bool>(just_connected_to_cloud_key, "");
 }
 
 void set_just_connected_to_cloud(const bool value)
@@ -580,7 +580,7 @@ constexpr auto menu_in_tabbed_view_on_key{"menu-in-tabbed-view-on"};
 
 bool get_menu_in_tabbed_view_on()
 {
-    return get_value<bool>(menu_in_tabbed_view_on_key, true);
+    return get_value<bool>(menu_in_tabbed_view_on_key, "true");
 }
 
 void set_menu_in_tabbed_view_on(const bool value)
@@ -593,7 +593,7 @@ constexpr auto menu_in_tabbed_view_json_key{"menu-in-tabbed-view-json"};
 
 std::string get_menu_in_tabbed_view_json()
 {
-    return get_value<std::string>(menu_in_tabbed_view_json_key, std::string());
+    return get_value<std::string>(menu_in_tabbed_view_json_key, "");
 }
 
 void set_menu_in_tabbed_view_json(const std::string& value)
@@ -606,7 +606,7 @@ constexpr auto disable_selection_popup_chrome_os_key{"disable-selection-popup-ch
 
 bool get_disable_selection_popup_chrome_os()
 {
-    return get_value<bool>(disable_selection_popup_chrome_os_key, false);
+    return get_value<bool>(disable_selection_popup_chrome_os_key, "");
 }
 
 void set_disable_selection_popup_chrome_os(const bool value)
@@ -620,7 +620,7 @@ constexpr auto notes_verse_separator_key{"notes-verse-separator"};
 std::string get_notes_verse_separator()
 {
     // The colon is the default value. See https://github.com/bibledit/cloud/issues/509
-    return get_value<std::string>(notes_verse_separator_key, std::string(":"));
+    return get_value<std::string>(notes_verse_separator_key, ":");
 }
 
 void set_notes_verse_separator(const std::string& value)
@@ -633,12 +633,12 @@ constexpr auto comparative_resources_key{"comparative-resources"};
 
 std::vector<std::string> get_comparative_resources()
 {
-    return get_list(comparative_resources_key);
+    return get_value<std::vector<std::string>>(comparative_resources_key, "");
 }
 
 void set_comparative_resources(const std::vector<std::string>& values)
 {
-    set_list(comparative_resources_key, values);
+    set_value<std::vector<std::string>>(comparative_resources_key, values);
 }
 
 
@@ -646,12 +646,12 @@ constexpr auto translated_resources_key{"translated-resources"};
 
 std::vector<std::string> get_translated_resources()
 {
-    return get_list(translated_resources_key);
+    return get_value<std::vector<std::string>>(translated_resources_key, "");
 }
 
 void set_translated_resources(const std::vector<std::string>& values)
 {
-    set_list(translated_resources_key, values);
+    set_value<std::vector<std::string>>(translated_resources_key, values);
 }
 
 
@@ -659,12 +659,12 @@ constexpr auto default_active_resources_key{"default-active-resources"};
 
 std::vector<std::string> get_default_active_resources()
 {
-    return get_list(default_active_resources_key);
+    return get_value<std::vector<std::string>>(default_active_resources_key, "");
 }
 
 void set_default_active_resources(const std::vector<std::string>& values)
 {
-    set_list(default_active_resources_key, values);
+    set_value<std::vector<std::string>>(default_active_resources_key, values);
 }
 
 
@@ -672,7 +672,7 @@ constexpr auto keep_resources_cache_for_long_key{"keep-resources-cache-for-long"
 
 bool get_keep_resources_cache_for_long()
 {
-    return get_value<bool>(keep_resources_cache_for_long_key, false);
+    return get_value<bool>(keep_resources_cache_for_long_key, "");
 }
 
 void set_keep_resources_cache_for_long(const bool value)
@@ -685,7 +685,7 @@ constexpr auto keep_osis_content_in_sword_resources_key{"keep-osis-content-in-sw
 
 bool get_keep_osis_content_in_sword_resources()
 {
-    return get_value<bool>(keep_osis_content_in_sword_resources_key, false);
+    return get_value<bool>(keep_osis_content_in_sword_resources_key, "");
 }
 
 void set_keep_osis_content_in_sword_resources(const bool value)

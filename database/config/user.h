@@ -28,9 +28,9 @@ class Database_Config_User
 {
 public:
   Database_Config_User (Webserver_Request& webserver_request);
-  void trim () const;
-  void remove (const std::string& username) const;
-  void clear_cache () const;
+  static void trim ();
+  static void remove (const std::string& username);
+  static void clear_cache ();
   std::string get_bible () const;
   void set_bible (const std::string& bible) const;
   bool get_subscribe_to_consultation_notes_edited_by_me () const;
@@ -57,7 +57,7 @@ public:
   int get_consultation_notes_non_edit_selector () const;
   void set_consultation_notes_non_edit_selector (int value) const;
   std::vector <std::string> get_consultation_notes_status_selectors () const;
-  void set_consultation_notes_status_selectors (std::vector <std::string> values) const;
+  void set_consultation_notes_status_selectors (const std::vector <std::string>& values) const;
   std::string get_consultation_notes_bible_selector () const;
   void set_consultation_notes_bible_selector (const std::string& value) const;
   std::string get_consultation_notes_assignment_selector () const;
@@ -241,27 +241,15 @@ public:
   void set_show_navigation_arrows(bool value) const;
 private:
   Webserver_Request& m_webserver_request;
-  static std::string file (const std::string& user);
-  static std::string file (const std::string& user, const char * key) ;
-  static std::string map_key (const std::string& user, const char * key) ;
   std::string get_value (const char * key, const char * default_value) const;
   bool get_boolean_value (const char * key, bool default_value) const;
   int get_numeric_value (const char * key, int default_value) const;
-  static std::string get_value_for_user (const std::string& user, const char * key, const char * default_value) ;
-  static bool get_boolean_value_for_user (const std::string& user, const char * key, bool default_value) ;
-  static int get_numeric_value_for_user (const std::string& user, const char * key, int default_value) ;
   void set_value (const char * key, const std::string& value) const;
   void set_boolean_value (const char * key, bool value) const;
   void set_numeric_value (const char * key, int value) const;
-  static void set_value_for_user (const std::string& user, const char * key, const std::string& value) ;
-  static void set_boolean_value_for_user (const std::string& user, const char * key, bool value) ;
   std::vector <std::string> get_list (const char * key) const;
-  static std::vector <std::string> get_list_for_user (const std::string& user, const char * key) ;
   void set_list (const char * key, const std::vector <std::string>& values) const;
-  static void set_list_for_user (const std::string& user, const char * key, const std::vector <std::string>& values) ;
   std::vector <int> get_numeric_list (const char * key) const;
   void set_numeric_list (const char * key, const std::vector <int>& values) const;
-  static const char * sprint_month_key ();
-  static const char * sprint_year_key ();
   bool default_bible_checks_notification () const;
 };

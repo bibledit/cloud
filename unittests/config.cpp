@@ -44,7 +44,7 @@ TEST(database, config_general)
     // Test set/get std::string and default value.
     EXPECT_EQ("Cloud", get_site_mail_name ());
     {
-        constexpr const char* cloud {"cloud"};
+        constexpr auto cloud {"cloud"};
         set_site_mail_name(cloud);
         EXPECT_EQ(cloud, get_site_mail_name ());
     }
@@ -138,8 +138,8 @@ TEST(database, config_user)
     Database_Users database_users;
     database_users.create();
     database_users.upgrade();
-    std::string username = "username";
-    std::string password = "password";
+    constexpr std::string username = "username";
+    constexpr std::string password = "password";
     database_users.add_user(username, password, 5, "");
     request.session_logic()->attempt_login(username, password, true);
 
@@ -188,9 +188,9 @@ TEST(database, config_user)
     }
 
     // Test boolean setting.
-    EXPECT_EQ(false, request.database_config_user ()->get_subscribe_to_consultation_notes_edited_by_me ());
+    EXPECT_FALSE(request.database_config_user ()->get_subscribe_to_consultation_notes_edited_by_me ());
     request.database_config_user()->set_subscribe_to_consultation_notes_edited_by_me(true);
-    EXPECT_EQ(true, request.database_config_user ()->get_subscribe_to_consultation_notes_edited_by_me ());
+    EXPECT_TRUE(request.database_config_user ()->get_subscribe_to_consultation_notes_edited_by_me ());
 
     // Test integer setting.
     EXPECT_EQ(1, request.database_config_user ()->get_consultation_notes_passage_selector ());
@@ -219,15 +219,15 @@ TEST(database, config_user)
     // Test setting privileges for a user, and the user retrieving them.
     {
         // Privilege is on by default.
-        EXPECT_EQ(true, request.database_config_user ()->get_privilege_use_advanced_mode ());
+        EXPECT_TRUE(request.database_config_user ()->get_privilege_use_advanced_mode ());
         // Privilege is on for another user also.
         std::string anotheruser = "anotheruser";
-        EXPECT_EQ(true, request.database_config_user ()->get_privilege_use_advanced_mode_for_user (anotheruser));
+        EXPECT_TRUE(request.database_config_user ()->get_privilege_use_advanced_mode_for_user (anotheruser));
         // Set it off for the other user.
         request.database_config_user()->set_privilege_use_advanced_mode_for_user(anotheruser, false);
-        EXPECT_EQ(false, request.database_config_user ()->get_privilege_use_advanced_mode_for_user (anotheruser));
+        EXPECT_FALSE(request.database_config_user ()->get_privilege_use_advanced_mode_for_user (anotheruser));
         // The privilege is still on for the current user.
-        EXPECT_EQ(true, request.database_config_user ()->get_privilege_use_advanced_mode ());
+        EXPECT_TRUE(request.database_config_user ()->get_privilege_use_advanced_mode ());
     }
 
     // Filter allowed journal entries.

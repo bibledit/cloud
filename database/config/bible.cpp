@@ -60,6 +60,7 @@ static std::string map_key(const std::string& bible, const char* key)
 template <typename T>
 concept is_string_bool_int = std::is_same_v<T, std::string> or std::is_same_v<T, bool> or std::is_same_v<T, int>;
 
+
 template <typename T>
 requires is_string_bool_int<T>
 static T get_value(const std::string& bible, const char* key, const char* default_value)

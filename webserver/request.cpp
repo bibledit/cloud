@@ -35,29 +35,25 @@ Webserver_Request::Webserver_Request()
 
 Webserver_Request::~Webserver_Request()
 {
-    if (session_logic_instance)
-        delete session_logic_instance;
-    if (database_config_user_instance)
-        delete database_config_user_instance;
-    if (database_users_instance)
-        delete database_users_instance;
-    if (database_ipc_instance)
-        delete database_ipc_instance;
+    delete session_logic_instance;
+    delete database_config_user_instance;
+    delete database_users_instance;
+    delete database_ipc_instance;
 }
 
 
 int Webserver_Request::post_count(const std::string& key) const
 {
-    return std::ranges::count_if(post, [&key](const auto& element) { return element.first == key; });
+    return static_cast<int>(std::ranges::count_if(post, [&key](const auto& element) { return element.first == key; }));
 }
 
 
 std::string Webserver_Request::post_get(const std::string& key) const
 {
-    for (const auto& element : post)
-        if (element.first == key)
-            return element.second;
-    return std::string();
+    for (const auto& [first, value] : post)
+        if (key == first)
+            return value;
+    return {};
 }
 
 

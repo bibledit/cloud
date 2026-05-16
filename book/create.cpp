@@ -89,8 +89,8 @@ bool book_create (const std::string & bible, const book_id book, const int chapt
     feedback.push_back(translate("No chapters have been created"));
     return false;
   }
-  const auto filter = [](const std::string& existing, const int chapter) {
-    return existing + " " + std::to_string(chapter);
+  const auto filter = [](const std::string& existing, const int created_ch) {
+    return existing + " " + std::to_string(created_ch);
   };
   const std::string created = std::accumulate(chapters_created.cbegin(), chapters_created.cend(), std::string(), filter);
   feedback.push_back(translate("The following chapters have been created:") + created);

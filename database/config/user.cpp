@@ -280,11 +280,11 @@ void Database_Config_User::clear_cache()
 std::string Database_Config_User::get_bible() const
 {
     std::string bible = get_value("bible", "");
-    // _if the _bible does not exist, take the first one available.
-    std::vector<std::string> bibles = database::bibles::get_bibles();
-    if (std::ranges::find(bibles, bible) == bibles.end())
+    // If the _bible does not exist, take the first one available.
+    if (std::vector<std::string> bibles = database::bibles::get_bibles();
+        std::ranges::find(bibles, bible) == bibles.end())
     {
-        // _there may not even be a first _bible: _create sample _bible.
+        // There may not even be a first Bible: Create sample Bible.
         if (bibles.empty())
         {
             bible = demo_sample_bible_name();

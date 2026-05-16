@@ -26,6 +26,8 @@
 #include <filter/usfm.h>
 #include <webserver/request.h>
 
+#include "filter/passage.h"
+
 
 // Internal function declarations.
 static void developer_logic_import_changes_save (const std::string& bible, int book, int chapter, int verse, std::string& text);

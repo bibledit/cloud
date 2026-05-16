@@ -31,6 +31,8 @@
 #include <menu/logic.h>
 #include <bb/manage.h>
 
+#include "filter/passage.h"
+
 
 std::string bible_order_url ()
 {

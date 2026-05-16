@@ -33,6 +33,8 @@
 #include <sendreceive/logic.h>
 #include <access/bible.h>
 
+#include "filter/passage.h"
+
 
 std::string checks_suppress_url ()
 {

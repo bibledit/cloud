@@ -34,6 +34,8 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <checks/settings.h>
+
+#include "filter/passage.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"

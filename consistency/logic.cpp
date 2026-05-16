@@ -28,6 +28,8 @@
 #include <access/bible.h>
 #include <locale/translate.h>
 
+#include "filter/passage.h"
+
 
 Consistency_Logic::Consistency_Logic (Webserver_Request& webserver_request, const int id) :
 m_webserver_request (webserver_request), m_id (id) { }

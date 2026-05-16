@@ -33,6 +33,8 @@
 #include <dialog/select.h>
 #include <menu/logic.h>
 
+#include "database/bibles.h"
+
 
 std::string collaboration_index_url ()
 {

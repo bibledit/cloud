@@ -17,6 +17,8 @@
  */
 
 
+#include "database/styles.h"
+
 #include <editor/styles.h>
 #include <filter/string.h>
 #include <filter/url.h>

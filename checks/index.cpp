@@ -35,6 +35,7 @@
 #include <menu/logic.h>
 #include <checks/settings.h>
 
+#include "database/bibles.h"
 #include "filter/passage.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"

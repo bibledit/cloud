@@ -27,6 +27,8 @@
 #include <database/config/bible.h>
 #include <config/logic.h>
 
+#include "database/bibles.h"
+
 
 std::string public_chapter_url ()
 {

@@ -37,6 +37,8 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 
+#include "database/styles.h"
+
 
 std::string styles_indexm_url ()
 {

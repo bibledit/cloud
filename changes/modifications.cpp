@@ -43,6 +43,8 @@
 #include <styles/css.h>
 #include <email/send.h>
 
+#include "database/bibles.h"
+
 
 // Helper function.
 // $user: The user whose changes are being processed.

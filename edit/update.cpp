@@ -43,6 +43,8 @@
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
 
+#include "database/bibles.h"
+
 
 std::string edit_update_url ()
 {

@@ -46,6 +46,9 @@
 #include <workspace/logic.h>
 #include <webserver/request.h>
 
+#include "database/bibles.h"
+#include "database/styles.h"
+
 
 /*
  

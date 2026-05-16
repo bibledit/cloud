@@ -37,6 +37,8 @@
 #include <read/index.h>
 #include <config/logic.h>
 
+#include "database/bibles.h"
+
 
 std::string public_create_url ()
 {

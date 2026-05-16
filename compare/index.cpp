@@ -33,6 +33,8 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <bb/manage.h>
+
+#include "database/bibles.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"

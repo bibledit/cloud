@@ -36,6 +36,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <workspace/index.h>
 
+#include "database/bibles.h"
+
 Notes_Logic::Notes_Logic (Webserver_Request& webserver_request):
 m_webserver_request (webserver_request)
 {

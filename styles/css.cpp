@@ -28,6 +28,8 @@
 #include <fonts/logic.h>
 #include <filter/quill.h>
 
+#include "database/styles.h"
+
 
 Styles_Css::Styles_Css (const std::string& stylesheet)
 {

@@ -38,6 +38,8 @@
 #include <menu/logic.h>
 #include <demo/logic.h>
 #include <search/logic.h>
+
+#include "database/bibles.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"

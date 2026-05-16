@@ -21,6 +21,8 @@
 #include <webserver/request.h>
 #include <database/config/bible.h>
 
+#include "database/bibles.h"
+
 
 std::vector <std::string> public_logic_bibles ()
 {

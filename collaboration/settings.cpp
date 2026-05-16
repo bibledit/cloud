@@ -22,12 +22,9 @@
 #include <assets/page.h>
 #include <assets/header.h>
 #include <filter/roles.h>
-#include <filter/string.h>
-#include <filter/git.h>
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <access/bible.h>
 #include <database/config/bible.h>
 #include <database/jobs.h>
 #include <collaboration/link.h>

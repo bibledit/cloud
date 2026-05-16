@@ -40,6 +40,8 @@
 #include <styles/indexm.h>
 #include <assets/external.h>
 
+#include "database/styles.h"
+
 
 std::string styles_view_url ()
 {

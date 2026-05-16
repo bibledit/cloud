@@ -32,6 +32,8 @@
 #include <ipc/focus.h>
 #include <access/logic.h>
 
+#include "database/bibles.h"
+
 
 std::string notes_notes_url ()
 {

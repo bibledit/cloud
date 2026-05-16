@@ -47,6 +47,8 @@
 #include <sendreceive/logic.h>
 #include <rss/logic.h>
 
+#include "database/bibles.h"
+
 
 void checks_run (std::string bible)
 {

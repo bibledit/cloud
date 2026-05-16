@@ -25,6 +25,8 @@
 #include <ipc/focus.h>
 #include <access/bible.h>
 
+#include "database/bibles.h"
+
 
 std::string editusfm_focus_url ()
 {

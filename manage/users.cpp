@@ -45,6 +45,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <user/logic.h>
 #include <dialog/yes.h>
 
+#include "database/bibles.h"
+
 
 std::string manage_users_url ()
 {

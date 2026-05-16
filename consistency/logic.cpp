@@ -28,6 +28,7 @@
 #include <access/bible.h>
 #include <locale/translate.h>
 
+#include "database/bibles.h"
 #include "filter/passage.h"
 
 

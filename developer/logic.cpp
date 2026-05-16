@@ -26,6 +26,7 @@
 #include <filter/usfm.h>
 #include <webserver/request.h>
 
+#include "database/bibles.h"
 #include "filter/passage.h"
 
 

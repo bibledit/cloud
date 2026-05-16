@@ -35,6 +35,8 @@
 #include <styles/indexm.h>
 #include <database/logic.h>
 
+#include "database/styles.h"
+
 
 std::string styles_new_url ()
 {

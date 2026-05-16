@@ -32,6 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/users.h>
 #include <database/privileges.h>
 
+#include "database/bibles.h"
+
 
 std::string manage_write_url ()
 {

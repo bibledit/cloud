@@ -33,6 +33,7 @@
 #include <sendreceive/logic.h>
 #include <access/bible.h>
 
+#include "database/bibles.h"
 #include "filter/passage.h"
 
 

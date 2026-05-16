@@ -37,6 +37,8 @@
 #include <menu/logic.h>
 #include <access/logic.h>
 
+#include "database/bibles.h"
+
 
 std::string notes_create_url ()
 {

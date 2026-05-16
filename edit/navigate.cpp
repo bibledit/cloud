@@ -27,6 +27,8 @@
 #include <access/bible.h>
 #include <database/config/bible.h>
 
+#include "database/bibles.h"
+
 
 std::string edit_navigate_url ()
 {

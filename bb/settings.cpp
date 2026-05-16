@@ -47,6 +47,9 @@
 #include <system/index.h>
 #include <rss/logic.h>
 #include <access/logic.h>
+
+#include "database/bibles.h"
+#include "database/styles.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"

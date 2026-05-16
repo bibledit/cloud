@@ -17,6 +17,8 @@
  */
 
 
+#include "database/bibles.h"
+
 #include <manage/bibles.h>
 #include <assets/view.h>
 #include <assets/page.h>

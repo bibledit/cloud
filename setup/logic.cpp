@@ -50,6 +50,9 @@
 #include <tasks/logic.h>
 #include <database/logic.h>
 
+#include "database/bibles.h"
+#include "database/styles.h"
+
 
 void setup_conditionally (const char * package)
 {
@@ -264,7 +267,7 @@ void setup_initialize_data ()
   // but executed right away.
   // This led to very long app first-run times on low power devices.
   // The installation times were so long that user were tempted to think
-  // that the install process was stuck.
+  // that the installation process was stuck.
   // To make installation fast, the creation of the sample Bible is now done in the background.
   const std::vector <std::string> bibles = database::bibles::get_bibles ();
   if (bibles.empty ()) {

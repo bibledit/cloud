@@ -31,6 +31,8 @@
 #include <client/logic.h>
 #include <email/send.h>
 
+#include "database/bibles.h"
+
 
 // This function runs the sprint burndown history logger for $bible.
 // If no $bible is passed, it will do all Bibles.

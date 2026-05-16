@@ -36,6 +36,8 @@
 #include <menu/logic.h>
 #include <styles/indexm.h>
 #include <database/logic.h>
+
+#include "database/styles.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"

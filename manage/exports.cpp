@@ -41,6 +41,8 @@
 #include <styles/logic.h>
 #include <webserver/request.h>
 
+#include "database/styles.h"
+
 
 const char * manage_exports_url ()
 {

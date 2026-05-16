@@ -40,7 +40,7 @@
 #include <locale/translate.h>
 #include <developer/logic.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 static std::mutex filter_diff_mutex;

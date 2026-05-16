@@ -39,7 +39,7 @@
 #include <client/logic.h>
 #include <config/globals.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string resource_cache_url ()

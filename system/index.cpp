@@ -47,7 +47,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/index.h>
 #include <client/logic.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string system_index_url ()

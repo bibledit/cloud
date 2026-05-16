@@ -27,7 +27,7 @@
 #include <database/ipc.h>
 #include <access/bible.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string editor_id_url ()

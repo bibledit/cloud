@@ -29,7 +29,7 @@
 #include <locale/translate.h>
 #include <ipc/focus.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"

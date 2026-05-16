@@ -30,7 +30,7 @@
 #include <edit/logic.h>
 #include <database/config/bible.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string editone_load_url ()

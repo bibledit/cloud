@@ -27,7 +27,7 @@
 #include <access/bible.h>
 #include <database/config/bible.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string edit_position_url ()

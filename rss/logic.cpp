@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
-#include "database/bibles.h"
+#include <database/bibles.h>
 #include "filter/passage.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"

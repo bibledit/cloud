@@ -40,7 +40,7 @@
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string editone_save_url ()

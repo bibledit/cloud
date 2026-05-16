@@ -25,7 +25,7 @@
 #include <edit/logic.h>
 #include <access/bible.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string editusfm_load_url ()

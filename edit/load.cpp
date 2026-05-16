@@ -31,7 +31,7 @@
 #include <filter/quill.h>
 #include <database/config/bible.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string edit_load_url ()

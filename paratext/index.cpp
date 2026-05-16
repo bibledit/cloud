@@ -33,7 +33,7 @@
 #include <tasks/logic.h>
 #include <journal/index.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string paratext_index_url ()

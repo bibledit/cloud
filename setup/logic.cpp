@@ -50,7 +50,7 @@
 #include <tasks/logic.h>
 #include <database/logic.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 #include "database/styles.h"
 
 

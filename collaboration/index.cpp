@@ -21,6 +21,7 @@
 #include <assets/page.h>
 #include <assets/view.h>
 #include <collaboration/index.h>
+#include <database/bibles.h>
 #include <database/config/bible.h>
 #include <dialog/select.h>
 #include <filter/git.h>
@@ -29,7 +30,6 @@
 #include <filter/url.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
-#include "database/bibles.h"
 
 
 std::string collaboration_index_url ()
@@ -76,12 +76,12 @@ std::string collaboration_index (Webserver_Request& webserver_request)
     view.enable_zone ("objectactive");
 
 
-  const std::string& repositoryfolder = filter_git_directory (object);
+  const std::string& repository_folder = filter_git_directory (object);
 
   
   if (webserver_request.query.contains ("disable")) {
     database::config::bible::set_remote_repository_url (object, "");
-    filter_url_rmdir (repositoryfolder);
+    filter_url_rmdir (repository_folder);
   }
   const std::string& url = database::config::bible::get_remote_repository_url (object);
   view.set_variable ("url", url);
@@ -99,9 +99,9 @@ std::string collaboration_index (Webserver_Request& webserver_request)
   // And the standard error output is needed in case of failures.
   // So the following is used instead.
   if (!object.empty ()) {
-    std::string statusoutput, statuserror;
-    filter::shell::run (repositoryfolder, filter::shell::get_executable(filter::shell::Executable::git), {"status"}, &statusoutput, &statuserror);
-    view.set_variable ("status", statusoutput + " " + statuserror);
+    std::string status_output, status_error;
+    filter::shell::run (repository_folder, filter::shell::get_executable(filter::shell::Executable::git), {"status"}, &status_output, &status_error);
+    view.set_variable ("status", status_output + " " + status_error);
   }
 
   

@@ -40,7 +40,7 @@
 #include <config/globals.h>
 #include <workspace/logic.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string edit_index_url ()

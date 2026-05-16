@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logic.h>
 #include <webserver/request.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 // Cache values in memory for better speed.

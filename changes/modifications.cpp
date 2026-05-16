@@ -43,7 +43,7 @@
 #include <styles/css.h>
 #include <email/send.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 // Helper function.

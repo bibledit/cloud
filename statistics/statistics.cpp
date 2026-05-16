@@ -32,7 +32,7 @@
 #include <changes/changes.h>
 #include <email/send.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 void statistics_statistics ()

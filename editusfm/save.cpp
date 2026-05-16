@@ -37,7 +37,7 @@
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string editusfm_save_url ()

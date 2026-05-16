@@ -50,7 +50,7 @@
 #include <database/logic.h>
 #include <pugixml/utils.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 /*

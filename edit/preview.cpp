@@ -36,7 +36,7 @@
 #include <bb/logic.h>
 #include <editor/usfm2html.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string edit_preview_url ()

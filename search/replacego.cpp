@@ -33,7 +33,7 @@
 #include <search/logic.h>
 #include <access/bible.h>
 
-#include "database/bibles.h"
+#include <database/bibles.h>
 
 
 std::string search_replacego_url ()

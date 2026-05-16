@@ -20,87 +20,80 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-Webserver_Request::Webserver_Request ()
+Webserver_Request::Webserver_Request()
 {
-  secure = false;
-  get = "/index";
-  is_post = false;
-  user_agent.assign ("Browser/1.0");
-  accept_language = "en-US";
-  content_length = 0;
-  response_code = 200;
-  resend_cookie = false;
+    secure = false;
+    get = "/index";
+    is_post = false;
+    user_agent.assign("Browser/1.0");
+    accept_language = "en-US";
+    content_length = 0;
+    response_code = 200;
+    resend_cookie = false;
 }
 
 
-Webserver_Request::~Webserver_Request ()
+Webserver_Request::~Webserver_Request()
 {
-  if (session_logic_instance) 
-    delete session_logic_instance;
-  if (database_config_user_instance) 
-    delete database_config_user_instance;
-  if (database_users_instance) 
-    delete database_users_instance;
-  if (database_ipc_instance)
-    delete database_ipc_instance;
+    if (session_logic_instance)
+        delete session_logic_instance;
+    if (database_config_user_instance)
+        delete database_config_user_instance;
+    if (database_users_instance)
+        delete database_users_instance;
+    if (database_ipc_instance)
+        delete database_ipc_instance;
 }
 
 
 int Webserver_Request::post_count(const std::string& key) const
 {
-  int count {0};
-  for (const auto& element : post) {
-    if (element.first == key)
-      count++;
-  }
-  return count;
+    return std::ranges::count_if(post, [&key](const auto& element) { return element.first == key; });
 }
 
 
 std::string Webserver_Request::post_get(const std::string& key) const
 {
-  for (const auto& element : post)
-    if (element.first == key)
-      return element.second;
-  return std::string();
+    for (const auto& element : post)
+        if (element.first == key)
+            return element.second;
+    return std::string();
 }
 
 
 // Returns a pointer to a live Session_Logic object.
-Session_Logic * Webserver_Request::session_logic ()
+Session_Logic* Webserver_Request::session_logic()
 {
-  // Single live object during the entire web request.
-  if (!session_logic_instance) 
-    session_logic_instance = new Session_Logic (*this);
-  return session_logic_instance;
+    // Single live object during the entire web request.
+    if (!session_logic_instance)
+        session_logic_instance = new Session_Logic(*this);
+    return session_logic_instance;
 }
 
 
 // Returns a pointer to a live Database_Config_User object.
-Database_Config_User * Webserver_Request::database_config_user ()
+Database_Config_User* Webserver_Request::database_config_user()
 {
-  // Single live object during the entire web request.
-  if (!database_config_user_instance) 
-    database_config_user_instance = new Database_Config_User (*this);
-  return database_config_user_instance;
+    // Single live object during the entire web request.
+    if (!database_config_user_instance)
+        database_config_user_instance = new Database_Config_User(*this);
+    return database_config_user_instance;
 }
 
 
 // Returns a pointer to a live Database_Users object.
-Database_Users * Webserver_Request::database_users ()
+Database_Users* Webserver_Request::database_users()
 {
-  // Single live object during the entire web request.
-  if (!database_users_instance) 
-    database_users_instance = new Database_Users ();
-  return database_users_instance;
+    // Single live object during the entire web request.
+    if (!database_users_instance)
+        database_users_instance = new Database_Users();
+    return database_users_instance;
 }
 
 
-Database_Ipc * Webserver_Request::database_ipc ()
+Database_Ipc* Webserver_Request::database_ipc()
 {
-  if (!database_ipc_instance) 
-    database_ipc_instance = new Database_Ipc (*this);
-  return database_ipc_instance;
+    if (!database_ipc_instance)
+        database_ipc_instance = new Database_Ipc(*this);
+    return database_ipc_instance;
 }
-
-

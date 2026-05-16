@@ -29,10 +29,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <database/git.h>
 #include <database/login.h>
+#include <database/bibles.h>
 #include <filter/url.h>
 #include <filter/git.h>
 #include <filter/shell.h>
-#include <filter/string.h>
 #include <filter/date.h>
 
 

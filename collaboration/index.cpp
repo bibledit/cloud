@@ -17,22 +17,18 @@
  */
 
 
-#include <collaboration/index.h>
-#include <assets/view.h>
-#include <assets/page.h>
 #include <assets/header.h>
-#include <filter/roles.h>
-#include <filter/string.h>
-#include <filter/git.h>
-#include <filter/url.h>
-#include <filter/shell.h>
-#include <webserver/request.h>
-#include <locale/translate.h>
-#include <access/bible.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <collaboration/index.h>
 #include <database/config/bible.h>
 #include <dialog/select.h>
-#include <menu/logic.h>
-
+#include <filter/git.h>
+#include <filter/roles.h>
+#include <filter/shell.h>
+#include <filter/url.h>
+#include <locale/translate.h>
+#include <webserver/request.h>
 #include "database/bibles.h"
 
 

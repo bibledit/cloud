@@ -40,6 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/versifications.h>
 #include <database/check.h>
+#include <database/bibles.h>
 #include <checks/run.h>
 #include <export/usfm.h>
 #include <export/textusfm.h>

@@ -24,11 +24,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic ignored "-Wcharacter-conversion"
 #include "gtest/gtest.h"
 #pragma GCC diagnostic pop
-#include <unittests/utilities.h>
 #include <checksum/logic.h>
+#include <database/bibles.h>
 #include <database/state.h>
-#include <webserver/request.h>
 #include <filter/md5.h>
+#include <unittests/utilities.h>
+#include <webserver/request.h>
 
 
 TEST (checksum, basic)

@@ -24,18 +24,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace dialog::select {
 
 struct Settings {
-  // The key of the value to be POSTed, and the Flate double hash value to place the html and Javascript into.
-  const char* identification;
+  // The key of the value to be POSTed, and the Flate double hash value to place the HTML and JavaScript into.
+  const char* identification {nullptr};
   // The values for the <select> element.
-  std::vector<std::string> values;
+  std::vector<std::string> values {};
   // The displayed values for the <select> element. May be left empty.
-  std::vector<std::string> displayed;
+  std::vector<std::string> displayed {};
   // If any value is to be selected as the default.
   const std::optional<std::string> selected {std::nullopt};
   // The URL where to POST to.
-  const std::string url;
+  const std::string url {};
   // The query parameters to be added to the POSTed URL, like url?key=value
-  const std::vector<std::pair<std::string,std::string>> parameters;
+  const std::vector<std::pair<std::string,std::string>> parameters {};
   // Whether the <select> element is to be disabled.
   bool disabled {false};
   // The tooltip on the selector.

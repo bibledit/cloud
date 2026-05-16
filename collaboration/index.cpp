@@ -47,7 +47,7 @@ bool collaboration_index_acl (Webserver_Request& webserver_request)
 std::string collaboration_index (Webserver_Request& webserver_request)
 {
   std::string page {};
-  Assets_Header header = Assets_Header (translate("Repository"), webserver_request);
+  auto header = Assets_Header (translate("Repository"), webserver_request);
   page = header.run ();
   Assets_View view;
 
@@ -58,7 +58,7 @@ std::string collaboration_index (Webserver_Request& webserver_request)
   // The selected Bible to set collaboration up for.
   std::string object = webserver_request.query ["object"];
   {
-    constexpr const char* identification {"selectbible"};
+    constexpr auto identification {"selectbible"};
     if (webserver_request.post_count(identification)) {
       object = webserver_request.post_get(identification);
     }
@@ -79,7 +79,7 @@ std::string collaboration_index (Webserver_Request& webserver_request)
   const std::string& repositoryfolder = filter_git_directory (object);
 
   
-  if (webserver_request.query.count ("disable")) {
+  if (webserver_request.query.contains ("disable")) {
     database::config::bible::set_remote_repository_url (object, "");
     filter_url_rmdir (repositoryfolder);
   }

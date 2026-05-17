@@ -17,66 +17,68 @@
  */
 
 
-#include <collaboration/settings.h>
-#include <assets/view.h>
-#include <assets/page.h>
 #include <assets/header.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <collaboration/link.h>
+#include <collaboration/settings.h>
+#include <database/jobs.h>
+#include <database/config/bible.h>
 #include <filter/roles.h>
 #include <filter/url.h>
-#include <webserver/request.h>
-#include <locale/translate.h>
-#include <database/config/bible.h>
-#include <database/jobs.h>
-#include <collaboration/link.h>
-#include <tasks/logic.h>
 #include <jobs/index.h>
+#include <locale/translate.h>
+#include <tasks/logic.h>
+#include <webserver/request.h>
 
 
-std::string collaboration_settings_url ()
+std::string collaboration_settings_url()
 {
-  return "collaboration/settings";
+    return "collaboration/settings";
 }
 
 
-bool collaboration_settings_acl (Webserver_Request& webserver_request)
+bool collaboration_settings_acl(Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::admin);
+    return roles::access_control(webserver_request, roles::admin);
 }
 
 
-std::string collaboration_settings (Webserver_Request& webserver_request)
+std::string collaboration_settings(Webserver_Request& webserver_request)
 {
-  std::string page;
-  Assets_Header header = Assets_Header (translate("Collaboration"), webserver_request);
-  page = header.run ();
-  Assets_View view;
-  
-  
-  std::string object = webserver_request.query ["object"];
-  view.set_variable ("object", object);
+    std::string page;
+    auto header = Assets_Header(translate("Collaboration"), webserver_request);
+    page = header.run();
+    Assets_View view;
 
-  
-  if (webserver_request.post_count("url")) {
-    if (!object.empty ()) {
-      std::string url = webserver_request.post_get("url");
-      database::config::bible::set_remote_repository_url (object, url);
-      std::string source = webserver_request.post_get("source");
-      std::string readwrite = webserver_request.post_get("readwrite");
-      database::config::bible::set_read_from_git (object, readwrite == "sendreceive");
-      Database_Jobs database_jobs = Database_Jobs ();
-      int jobId = database_jobs.get_new_id ();
-      database_jobs.set_level (jobId, roles::admin);
-      database_jobs.set_start (jobId, collaboration_link_header ());
-      tasks_logic_queue (task::link_git_repository, {object, std::to_string (jobId), source});
-      redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string (jobId));
-      return std::string();
+
+    std::string object = webserver_request.query["object"];
+    view.set_variable("object", object);
+
+
+    if (webserver_request.post_count("url"))
+    {
+        if (!object.empty())
+        {
+            std::string url = webserver_request.post_get("url");
+            database::config::bible::set_remote_repository_url(object, url);
+            std::string source = webserver_request.post_get("source");
+            std::string readwrite = webserver_request.post_get("readwrite");
+            database::config::bible::set_read_from_git(object, readwrite == "sendreceive");
+            auto database_jobs = Database_Jobs();
+            const int job_id = database_jobs.get_new_id();
+            database_jobs.set_level(job_id, roles::admin);
+            database_jobs.set_start(job_id, collaboration_link_header());
+            tasks_logic_queue(task::link_git_repository, {object, std::to_string(job_id), source});
+            redirect_browser(webserver_request, jobs_index_url() + "?id=" + std::to_string(job_id));
+            return {};
+        }
     }
-  }
-  std::string url = database::config::bible::get_remote_repository_url (object);
-  view.set_variable ("url", url);
-  
-  
-  page += view.render ("collaboration", "settings");
-  page += assets_page::footer ();
-  return page;
+    std::string url = database::config::bible::get_remote_repository_url(object);
+    view.set_variable("url", url);
+
+
+    page += view.render("collaboration", "settings");
+    page += assets_page::footer();
+    return page;
 }

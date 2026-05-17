@@ -44,7 +44,7 @@ Webserver_Request::~Webserver_Request()
 
 int Webserver_Request::post_count(const std::string& key) const
 {
-    return static_cast<int>(std::ranges::count_if(post, [&key](const auto& element) { return element.first == key; }));
+    return static_cast<int>(std::ranges::count(post, key, &std::pair<std::string,std::string>::first));
 }
 
 

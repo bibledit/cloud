@@ -17,237 +17,249 @@
  */
 
 
-#include <compare/compare.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <filter/roles.h>
-#include <filter/usfm.h>
-#include <filter/text.h>
-#include <filter/diff.h>
-#include <filter/passage.h>
-#include <webserver/request.h>
-#include <locale/translate.h>
 #include <access/bible.h>
-#include <tasks/logic.h>
+#include <compare/compare.h>
+#include <database/bibles.h>
+#include <database/books.h>
 #include <database/jobs.h>
 #include <database/logs.h>
-#include <database/bibles.h>
 #include <database/usfmresources.h>
-#include <database/books.h>
 #include <database/config/bible.h>
-#include <jobs/index.h>
+#include <filter/diff.h>
+#include <filter/passage.h>
+#include <filter/roles.h>
+#include <filter/string.h>
+#include <filter/text.h>
+#include <filter/usfm.h>
+#include <locale/translate.h>
 
 
 // Compare the $bible with another Bible, passed through $compare.
-void compare_compare (const std::string& bible, const std::string& compare, const int job_id)
+void compare_compare(const std::string& bible, const std::string& compare, const int job_id)
 {
-  Database_Logs::log (translate("Comparing Bibles") + " " + bible + " " + translate ("and") + " " + compare, roles::consultant);
+    Database_Logs::log(translate("Comparing Bibles") + " " + bible + " " + translate("and") + " " + compare,
+                       roles::consultant);
 
-  
-  Database_Jobs database_jobs = Database_Jobs ();
-  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
 
-  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
-  
+    auto database_jobs = Database_Jobs();
+    auto database_usfm_resources = Database_UsfmResources();
 
-  database_jobs.set_progress (job_id, translate("The Bibles are being compared..."));
-  
+    const std::string stylesheet = database::config::bible::get_export_stylesheet(bible);
 
-  // The results of the comparison. Will be displayed to the user.
-  std::vector <std::string> result;
-  {
-    std::stringstream ss {};
-    ss << translate("Bible") << " " << std::quoted(bible) << " " << translate ("has been compared with") << " " << std::quoted(compare) << ".";
-    result.push_back(std::move(ss).str());
-  }
-  result.push_back (translate("Additions are in bold.") + " " + translate ("Removed words are in strikethrough."));
-  result.push_back (std::string());
-  
-  
-  // Get the combined distinct books in both Bibles / Resources.
-  const std::vector<int> bible_books = database::bibles::get_books (bible);
-  const std::vector<int> compare_books = database::bibles::get_books (compare);
-  const std::vector<int> resource_books = database_usfmresources.getBooks (compare);
-  const auto combined_distinct_books = [&]() {
-    std::set<int>bookset;
-    bookset.insert(bible_books.cbegin(), bible_books.cend());
-    bookset.insert(compare_books.cbegin(), compare_books.cend());
-    bookset.insert(resource_books.cbegin(), resource_books.cend());
-    std::vector<int> books(bookset.cbegin(), bookset.cend());
-    std::ranges::sort(books);
-    return books;
-  };
-  const std::vector<int>books{combined_distinct_books()};
-  
-  
-  // Results of comparison of raw USFM.
-  std::vector <std::string> raw;
-  
-  
-  // Absent books / chapters.
-  std::vector <std::string> absent;
-  
-  
-  // The new verses as in the $bible.
-  std::vector <std::string> new_verses;
-  
-  
-  for (const auto& book : books) {
-    
-    
-    const std::string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
-    database_jobs.set_progress (job_id, book_name);
-    
-    
-    if (std::find (bible_books.begin(), bible_books.end(), book) == bible_books.end()) {
-      std::stringstream ss {};
-      ss << translate("Bible") << " " << std::quoted(bible) << " " << translate ("does not contain") << " " << book_name << ".";
-      absent.push_back (ss.str());
-      continue;
-    }
-    
-    if (std::find (compare_books.begin(), compare_books.end(), book) == compare_books.end()) {
-      if (std::find (resource_books.begin(), resource_books.end(), book) == resource_books.end ()) {
+
+    database_jobs.set_progress(job_id, translate("The Bibles are being compared..."));
+
+
+    // The results of the comparison. Will be displayed to the user.
+    std::vector<std::string> result;
+    {
         std::stringstream ss{};
-        ss << translate("Bible/Resource") << " " << std::quoted(compare) << " " << translate ("does not contain") << " " << book_name << ".";
-        absent.push_back (ss.str());
-        continue;
-      }
+        ss << translate("Bible") << " " << std::quoted(bible) << " " << translate("has been compared with") << " " <<
+            std::quoted(compare) << ".";
+        result.push_back(std::move(ss).str());
     }
-    
-    
-    // Get the combined distinct chapters in both Bibles / Resources.
-    const std::vector<int> bible_chapters = database::bibles::get_chapters(bible, book);
-    const std::vector<int> compare_chapters = database::bibles::get_chapters(compare, book);
-    const std::vector<int> resource_chapters = database_usfmresources.getChapters(compare, book);
-    const auto combined_distinct_chapters = [&] () {
-      std::set<int> chapterset;
-      chapterset.insert(bible_chapters.cbegin(), bible_chapters.cend());
-      chapterset.insert(compare_chapters.cbegin(), compare_chapters.cend());
-      chapterset.insert(resource_chapters.cbegin(), resource_chapters.cend());
-      std::vector<int> chapters(chapterset.cbegin(), chapterset.cend ());
-      std::ranges::sort(chapters);
-      return chapters;
+    result.push_back(translate("Additions are in bold.") + " " + translate("Removed words are in strikethrough."));
+    result.emplace_back("");
+
+
+    // Get the combined distinct books in both Bibles / Resources.
+    const std::vector<int> bible_books = database::bibles::get_books(bible);
+    const std::vector<int> compare_books = database::bibles::get_books(compare);
+    const std::vector<int> resource_books = database_usfm_resources.getBooks(compare);
+    const auto combined_distinct_books = [&]
+    {
+        std::set<int> book_set;
+        book_set.insert(bible_books.cbegin(), bible_books.cend());
+        book_set.insert(compare_books.cbegin(), compare_books.cend());
+        book_set.insert(resource_books.cbegin(), resource_books.cend());
+        std::vector books(book_set.cbegin(), book_set.cend());
+        std::ranges::sort(books);
+        return books;
     };
-    const std::vector<int> chapters {combined_distinct_chapters()};
+    const std::vector books{combined_distinct_books()};
 
 
-    for (const auto& chapter : chapters) {
+    // Results of comparison of raw USFM.
+    std::vector<std::string> raw;
 
-      
-      // Look for, report, and skip missing chapters in the source Bible.
-      if (std::find (bible_chapters.begin(), bible_chapters.end(), chapter) == bible_chapters.end ()) {
-        std::stringstream ss {};
-        ss << translate("Bible") << " " << std::quoted(bible) << " " << translate ("does not contain") << " " << book_name << " " << chapter << ".";
-        absent.push_back (ss.str());
-        continue;
-      }
 
-      
-      // Look for, report, and skip missing chapters in the comparison USFM data.
-      if (std::find (compare_chapters.begin(), compare_chapters.end(), chapter) == compare_chapters.end()) {
-        if (std::find (resource_chapters.begin(), resource_chapters.end(), chapter) == resource_chapters.end()) {
-          std::stringstream ss {};
-          ss << translate("Bible/Resource") << " " << std::quoted(compare) << " " << translate ("does not contain") << " " << book_name << " " << chapter << ".";
-          absent.push_back (ss.str());
-          continue;
+    // Absent books / chapters.
+    std::vector<std::string> absent;
+
+
+    // The new verses as in the $bible.
+    std::vector<std::string> new_verses;
+
+
+    for (const auto& book : books)
+    {
+        const std::string book_name = database::books::get_english_from_id(static_cast<book_id>(book));
+        database_jobs.set_progress(job_id, book_name);
+
+
+        if (std::ranges::find(bible_books, book) == bible_books.end())
+        {
+            std::ostringstream ss{};
+            ss << translate("Bible") << " " << std::quoted(bible) << " " << translate("does not contain") << " " <<
+                book_name << ".";
+            absent.push_back(std::move(ss).str());
+            continue;
         }
-      }
-      
 
-      // Get source and compare USFM, and skip them if they are equal.
-      const std::string bible_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
-      std::string compare_chapter_usfm = database::bibles::get_chapter (compare, book, chapter);
-      if (compare_chapter_usfm.empty()) {
-        compare_chapter_usfm = database_usfmresources.getUsfm (compare, book, chapter);
-      }
-      if (bible_chapter_usfm == compare_chapter_usfm) 
-        continue;
-      
-      
-      // Get the sorted combined set of distinct verses in the chapter of the Bible and of the USFM to compare with.
-      const auto combined_distinct_verses = [&] () {
-        const std::vector<int> bible_verse_numbers = filter::usfm::get_verse_numbers (bible_chapter_usfm);
-        const std::vector<int> compare_verse_numbers = filter::usfm::get_verse_numbers (compare_chapter_usfm);
-        std::set<int> verse_set {};
-        verse_set.insert(bible_verse_numbers.cbegin(), bible_verse_numbers.cend());
-        verse_set.insert(compare_verse_numbers.cbegin(), compare_verse_numbers.cend());
-        std::vector<int> verses(verse_set.cbegin(), verse_set.cend ());
-        std::ranges::sort(verses);
-        return verses;
-      };
-      const std::vector<int> verses{combined_distinct_verses()};
-
-      
-      for (const int& verse : verses) {
- 
-
-        // Get the USFM of verse of the Bible and comparison USFM, and skip it if both are the same.
-        const std::string bible_verse_usfm = filter::usfm::get_verse_text (bible_chapter_usfm, verse);
-        const std::string compare_verse_usfm = filter::usfm::get_verse_text (compare_chapter_usfm, verse);
-        if (bible_verse_usfm == compare_verse_usfm)
-          continue;
-        
-        Filter_Text filter_text_bible = Filter_Text (bible);
-        Filter_Text filter_text_compare = Filter_Text (compare);
-        filter_text_bible.html_text_standard = new HtmlText (std::string());
-        filter_text_compare.html_text_standard = new HtmlText (std::string());
-        filter_text_bible.text_text = new Text_Text ();
-        filter_text_compare.text_text = new Text_Text ();
-        filter_text_bible.add_usfm_code (bible_verse_usfm);
-        filter_text_compare.add_usfm_code (compare_verse_usfm);
-        filter_text_bible.run (stylesheet);
-        filter_text_compare.run (stylesheet);
-        const std::string bible_html = filter_text_bible.html_text_standard->get_inner_html ();
-        const std::string compare_html = filter_text_compare.html_text_standard->get_inner_html ();
-        const std::string bible_text = filter_text_bible.text_text->get ();
-        const std::string compare_text = filter_text_compare.text_text->get ();
-        if (bible_text != compare_text) {
-          const std::string modification = filter_diff_diff (compare_text, bible_text);
-          result.push_back (filter_passage_display (book, chapter, std::to_string (verse)) + " " + modification);
-          new_verses.push_back (filter_passage_display (book, chapter, std::to_string (verse)) + " " + bible_text);
+        if (std::ranges::find(compare_books, book) == compare_books.end())
+        {
+            if (std::ranges::find(resource_books, book) == resource_books.end())
+            {
+                std::ostringstream ss{};
+                ss << translate("Bible/Resource") << " " << std::quoted(compare) << " " << translate("does not contain")
+                    << " " << book_name << ".";
+                absent.push_back(std::move(ss).str());
+                continue;
+            }
         }
-        const std::string modification = filter_diff_diff (compare_verse_usfm, bible_verse_usfm);
-        raw.push_back (filter_passage_display (book, chapter, std::to_string (verse)) + " " + modification);
-      }
-    }
-  }
 
-  
-  // Add the absent books / chapters to the comparison.
-  if (!absent.empty ()) {
-    result.push_back (std::string());
-    result.insert (result.end (), absent.begin(), absent.end());
-  }
 
-  
-  // Add any differences in the raw USFM to the comparison.
-  if (!raw.empty ()) {
-    result.push_back (std::string());
-    result.insert (result.end (), raw.begin(), raw.end());
-  }
- 
-  
-  // Add the text of the new verses, as they are in the $bible.
-  if (!new_verses.empty ()) {
-    result.push_back (std::string());
-    result.push_back (translate("The texts as they are in the Bible") + " " + bible);
-    result.push_back (std::string());
-    result.insert (result.end(), new_verses.begin(), new_verses.end());
-  }
-  
-  
-  // Format and store the result of the comparison.
-  for (auto& line : result) {
-    if (line.empty()) {
-      line = "<br>";
-    } else {
-      line.insert (0, "<p>");
-      line.append ("</p>");
+        // Get the combined distinct chapters in both Bibles / Resources.
+        const std::vector<int> bible_chapters = database::bibles::get_chapters(bible, book);
+        const std::vector<int> compare_chapters = database::bibles::get_chapters(compare, book);
+        const std::vector<int> resource_chapters = database_usfm_resources.getChapters(compare, book);
+        const auto combined_distinct_chapters = [&]
+        {
+            std::set<int> chapter_set;
+            chapter_set.insert(bible_chapters.cbegin(), bible_chapters.cend());
+            chapter_set.insert(compare_chapters.cbegin(), compare_chapters.cend());
+            chapter_set.insert(resource_chapters.cbegin(), resource_chapters.cend());
+            std::vector chapters(chapter_set.cbegin(), chapter_set.cend());
+            std::ranges::sort(chapters);
+            return chapters;
+        };
+
+
+        for (const auto& chapter : combined_distinct_chapters())
+        {
+            // Look for, report, and skip missing chapters in the source Bible.
+            if (std::ranges::find(bible_chapters, chapter) == bible_chapters.end())
+            {
+                std::ostringstream ss{};
+                ss << translate("Bible") << " " << std::quoted(bible) << " " << translate("does not contain") << " " <<
+                    book_name << " " << chapter << ".";
+                absent.push_back(std::move(ss).str());
+                continue;
+            }
+
+
+            // Look for, report, and skip missing chapters in the comparison USFM data.
+            if (std::ranges::find(compare_chapters, chapter) == compare_chapters.end())
+            {
+                if (std::ranges::find(resource_chapters, chapter) == resource_chapters.end())
+                {
+                    std::ostringstream ss{};
+                    ss << translate("Bible/Resource") << " " << std::quoted(compare) << " " <<
+                        translate("does not contain") << " " << book_name << " " << chapter << ".";
+                    absent.push_back(std::move(ss).str());
+                    continue;
+                }
+            }
+
+
+            // Get source and compare USFM, and skip them if they are equal.
+            const std::string bible_chapter_usfm = database::bibles::get_chapter(bible, book, chapter);
+            std::string compare_chapter_usfm = database::bibles::get_chapter(compare, book, chapter);
+            if (compare_chapter_usfm.empty())
+                compare_chapter_usfm = database_usfm_resources.getUsfm(compare, book, chapter);
+            if (bible_chapter_usfm == compare_chapter_usfm)
+                continue;
+
+
+            // Get the sorted combined set of distinct verses in the chapter of the Bible and of the USFM to compare with.
+            const auto combined_distinct_verses = [&]
+            {
+                const std::vector<int> bible_verse_numbers = filter::usfm::get_verse_numbers(bible_chapter_usfm);
+                const std::vector<int> compare_verse_numbers = filter::usfm::get_verse_numbers(compare_chapter_usfm);
+                std::set<int> verse_set{};
+                verse_set.insert(bible_verse_numbers.cbegin(), bible_verse_numbers.cend());
+                verse_set.insert(compare_verse_numbers.cbegin(), compare_verse_numbers.cend());
+                std::vector verses(verse_set.cbegin(), verse_set.cend());
+                std::ranges::sort(verses);
+                return verses;
+            };
+
+
+            for (const int& verse : combined_distinct_verses())
+            {
+                // Get the USFM of verse of the Bible and comparison USFM, and skip it if both are the same.
+                const std::string bible_verse_usfm = filter::usfm::get_verse_text(bible_chapter_usfm, verse);
+                const std::string compare_verse_usfm = filter::usfm::get_verse_text(compare_chapter_usfm, verse);
+                if (bible_verse_usfm == compare_verse_usfm)
+                    continue;
+
+                auto filter_text_bible = Filter_Text(bible);
+                auto filter_text_compare = Filter_Text(compare);
+                filter_text_bible.html_text_standard = new HtmlText({});
+                filter_text_compare.html_text_standard = new HtmlText({});
+                filter_text_bible.text_text = new Text_Text();
+                filter_text_compare.text_text = new Text_Text();
+                filter_text_bible.add_usfm_code(bible_verse_usfm);
+                filter_text_compare.add_usfm_code(compare_verse_usfm);
+                filter_text_bible.run(stylesheet);
+                filter_text_compare.run(stylesheet);
+                const std::string bible_html = filter_text_bible.html_text_standard->get_inner_html();
+                const std::string compare_html = filter_text_compare.html_text_standard->get_inner_html();
+                const std::string bible_text = filter_text_bible.text_text->get();
+                if (const std::string compare_text = filter_text_compare.text_text->get();
+                    bible_text != compare_text)
+                {
+                    const std::string modification = filter_diff_diff(compare_text, bible_text);
+                    result.push_back(filter_passage_display(book, chapter, std::to_string(verse)) + " " + modification);
+                    new_verses.push_back(
+                        filter_passage_display(book, chapter, std::to_string(verse)) + " " + bible_text);
+                }
+                const std::string modification = filter_diff_diff(compare_verse_usfm, bible_verse_usfm);
+                raw.push_back(filter_passage_display(book, chapter, std::to_string(verse)) + " " + modification);
+            }
+        }
     }
-  }
-  database_jobs.set_result (job_id, filter::string::implode (result, "\n"));
-  
-  
-  Database_Logs::log (translate("Comparison is ready"), roles::consultant);
+
+
+    // Add the absent books / chapters to the comparison.
+    if (!absent.empty())
+    {
+        result.emplace_back("");
+        result.insert(result.end(), absent.begin(), absent.end());
+    }
+
+
+    // Add any differences in the raw USFM to the comparison.
+    if (!raw.empty())
+    {
+        result.emplace_back("");
+        result.insert(result.end(), raw.begin(), raw.end());
+    }
+
+
+    // Add the text of the new verses, as they are in the $bible.
+    if (!new_verses.empty())
+    {
+        result.emplace_back("");
+        result.push_back(translate("The texts as they are in the Bible") + " " + bible);
+        result.emplace_back("");
+        result.insert(result.end(), new_verses.begin(), new_verses.end());
+    }
+
+
+    // Format and store the result of the comparison.
+    for (auto& line : result)
+    {
+        if (line.empty())
+            line = "<br>";
+        else
+        {
+            line.insert(0, "<p>");
+            line.append("</p>");
+        }
+    }
+    database_jobs.set_result(job_id, filter::string::implode(result, "\n"));
+
+
+    Database_Logs::log(translate("Comparison is ready"), roles::consultant);
 }

@@ -17,15 +17,15 @@
  */
 
 
-#include <collaboration/link.h>
-#include <assets/view.h>
 #include <assets/page.h>
-#include <filter/string.h>
+#include <assets/view.h>
+#include <collaboration/link.h>
+#include <database/jobs.h>
+#include <database/config/bible.h>
 #include <filter/git.h>
+#include <filter/string.h>
 #include <filter/url.h>
 #include <locale/translate.h>
-#include <database/config/bible.h>
-#include <database/jobs.h>
 #include <webserver/request.h>
 
 
@@ -63,7 +63,7 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
     }
   }
   if (result) {
-    if (!take_me && !take_repo) {
+    if (not take_me && not take_repo) {
       error = translate ("It is unclear which data to copy to where");
       result = false;
     }

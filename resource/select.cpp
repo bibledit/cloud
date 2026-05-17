@@ -125,7 +125,7 @@ std::string resource_select (Webserver_Request& webserver_request)
 #else
     // Cloud takes its locally available USFM resources.
     Database_UsfmResources database_usfmresources;
-    usfm_resources = database_usfmresources.getResources ();
+    usfm_resources = database_usfmresources.get_resources ();
 #endif
     pugi::xml_document document {};
     for (const std::string& name : usfm_resources) {

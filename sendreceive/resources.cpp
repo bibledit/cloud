@@ -111,7 +111,7 @@ void sendreceive_resources ()
   // Erase the two older storage locations that were used to cache resources in earlier versions of Bibledit.
   {
     Database_UsfmResources database_usfmresources;
-    database_usfmresources.deleteResource (resource);
+    database_usfmresources.delete_resource (resource);
   }
 
   Database_Logs::log ("Starting to install resource:" " " + resource, roles::consultant);

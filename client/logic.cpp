@@ -214,7 +214,7 @@ void client_logic_usfm_resources_update ()
   // Clients can access it from there.
   std::string path = client_logic_usfm_resources_path ();
   Database_UsfmResources database_usfmresources {};
-  std::vector <std::string> resources = database_usfmresources.getResources ();
+  std::vector <std::string> resources = database_usfmresources.get_resources ();
   filter_url_file_put_contents (path, filter::string::implode (resources, "\n"));
 }
 

@@ -17,10 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <database/usfmresources.h>
-#include <filter/url.h>
-#include <filter/string.h>
 #include <database/logic.h>
+#include <database/usfmresources.h>
+#include <filter/string.h>
+#include <filter/url.h>
 
 
 // Database resilience: 
@@ -28,101 +28,105 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // That is resilient enough.
 
 
-std::string Database_UsfmResources::mainFolder ()
+static std::string main_folder()
 {
-  return filter_url_create_root_path ({database_logic_databases (), "usfmresources"});
+    return filter_url_create_root_path({database_logic_databases(), "usfmresources"});
 }
 
 
-std::string Database_UsfmResources::resourceFolder (const std::string& name)
+static std::string resource_folder(const std::string& name)
 {
-  return filter_url_create_path ({mainFolder (), name});
+    return filter_url_create_path({main_folder(), name});
 }
 
 
-std::string Database_UsfmResources::bookFolder (const std::string& name, int book)
+static std::string book_folder(const std::string& name, const int book)
 {
-  return filter_url_create_path ({resourceFolder (name), std::to_string (book)});
+    return filter_url_create_path({resource_folder(name), std::to_string(book)});
 }
 
 
-std::string Database_UsfmResources::chapterFile (const std::string& name, int book, int chapter)
+static std::string chapter_file(const std::string& name, const int book, const int chapter)
 {
-  return filter_url_create_path ({bookFolder (name, book), std::to_string (chapter)});
+    return filter_url_create_path({book_folder(name, book), std::to_string(chapter)});
 }
 
 
-std::vector <std::string> Database_UsfmResources::getResources ()
+std::vector<std::string> Database_UsfmResources::get_resources()
 {
-  return filter_url_scandir (mainFolder ());
+    return filter_url_scandir(main_folder());
 }
 
 
-void Database_UsfmResources::deleteResource (const std::string& name)
+void Database_UsfmResources::delete_resource(const std::string& name)
 {
-  std::string path = resourceFolder (name);
-  // If a folder: Delete it.
-  filter_url_rmdir (path);
-  // If a file: Delete it.
-  filter_url_unlink (path);
+    const std::string path = resource_folder(name);
+    // If a folder: Delete it.
+    filter_url_rmdir(path);
+    // If a file: Delete it.
+    filter_url_unlink(path);
 }
 
 
-void Database_UsfmResources::deleteBook (const std::string& name, int book)
+void Database_UsfmResources::delete_book(const std::string& name, const int book)
 {
-  std::string path = bookFolder (name, book);
-  // If a folder: Delete it.
-  filter_url_rmdir (path);
-  // If a file: Delete it.
-  filter_url_unlink (path);
+    const std::string path = book_folder(name, book);
+    // If a folder: Delete it.
+    filter_url_rmdir(path);
+    // If a file: Delete it.
+    filter_url_unlink(path);
 }
 
 
-void Database_UsfmResources::deleteChapter (const std::string& name, int book, int chapter)
+void Database_UsfmResources::delete_chapter(const std::string& name, const int book, const int chapter)
 {
-  filter_url_unlink (chapterFile (name, book, chapter));
+    filter_url_unlink(chapter_file(name, book, chapter));
 }
 
 
-void Database_UsfmResources::storeChapter (const std::string& name, int book, int chapter, const std::string& usfm)
+void Database_UsfmResources::store_chapter(const std::string& name, const int book, const int chapter, const std::string& usfm)
 {
-  std::string file = chapterFile (name, book, chapter);
-  std::string folder = filter_url_dirname (file);
-  if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
-  filter_url_file_put_contents (file, usfm);
+    const std::string file = chapter_file(name, book, chapter);
+    if (const std::string folder = filter_url_dirname(file); not file_or_dir_exists(folder))
+        filter_url_mkdir(folder);
+    filter_url_file_put_contents(file, usfm);
 }
 
 
-std::vector <int> Database_UsfmResources::getBooks (const std::string& name)
+std::vector<int> Database_UsfmResources::get_books(const std::string& name)
 {
-  std::vector <int> books;
-  std::vector <std::string> files = filter_url_scandir (resourceFolder (name));
-  for (auto & book : files) books.push_back (filter::string::convert_to_int (book));
-  sort (books.begin (), books.end());
-  return books;
+    const std::vector<std::string> files = filter_url_scandir(resource_folder(name));
+    std::vector<int> books;
+    books.reserve(files.size());
+    for (auto& book : files)
+        books.push_back(filter::string::convert_to_int(book));
+    std::ranges::sort(books);
+    return books;
 }
 
 
-std::vector <int> Database_UsfmResources::getChapters (const std::string& name, int book)
+std::vector<int> Database_UsfmResources::get_chapters(const std::string& name, const int book)
 {
-  std::vector <int> chapters;
-  std::vector <std::string> folders = filter_url_scandir (bookFolder (name, book));
-  for (auto & chapter : folders) chapters.push_back (filter::string::convert_to_int (chapter));
-  sort (chapters.begin(), chapters.end());
-  return chapters;
+    const std::vector<std::string> folders = filter_url_scandir(book_folder(name, book));
+    std::vector<int> chapters;
+    chapters.reserve(folders.size());
+    for (auto& chapter : folders)
+        chapters.push_back(filter::string::convert_to_int(chapter));
+    std::ranges::sort(chapters);
+    return chapters;
 }
 
 
-std::string Database_UsfmResources::getUsfm (const std::string& name, int book, int chapter)
+std::string Database_UsfmResources::get_usfm(const std::string& name, const int book, const int chapter)
 {
-  std::string file = chapterFile (name, book, chapter);
-  std::string usfm = filter_url_file_get_contents (file);
-  return usfm;
+    const std::string file = chapter_file(name, book, chapter);
+    const std::string usfm = filter_url_file_get_contents(file);
+    return usfm;
 }
 
 
-int Database_UsfmResources::getSize (const std::string& name, int book, int chapter)
+int Database_UsfmResources::get_size(const std::string& name, const int book, const int chapter)
 {
-  std::string file = chapterFile (name, book, chapter);
-  return filter_url_filesize (file);
+    const std::string file = chapter_file(name, book, chapter);
+    return filter_url_filesize(file);
 }

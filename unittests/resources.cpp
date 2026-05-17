@@ -50,7 +50,7 @@ TEST (database, usfmresources)
   {
     refresh_sandbox (false);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    std::vector <std::string> resources = database_usfmresources.getResources ();
+    std::vector <std::string> resources = database_usfmresources.get_resources ();
     bool hit = false;
     for (auto & resource : resources) if (resource == "bibledit") hit = true;
     EXPECT_EQ (false, hit);
@@ -59,8 +59,8 @@ TEST (database, usfmresources)
   {
     refresh_sandbox (true);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "");
-    std::vector <std::string> resources = database_usfmresources.getResources ();
+    database_usfmresources.store_chapter ("bibledit", 2, 3, "");
+    std::vector <std::string> resources = database_usfmresources.get_resources ();
     bool hit = false;
     for (auto & resource : resources) if (resource == "bibledit") hit = true;
     EXPECT_EQ (true, hit);
@@ -69,21 +69,21 @@ TEST (database, usfmresources)
   {
     refresh_sandbox (true);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    std::string usfm = database_usfmresources.getUsfm ("bibledit", 2, 3);
+    database_usfmresources.store_chapter ("bibledit", 2, 3, "usfm");
+    std::string usfm = database_usfmresources.get_usfm ("bibledit", 2, 3);
     EXPECT_EQ ("usfm", usfm);
-    usfm = database_usfmresources.getUsfm ("bibledit", 2, 4);
+    usfm = database_usfmresources.get_usfm ("bibledit", 2, 4);
     EXPECT_EQ ("", usfm);
   }
   // Books
   {
     refresh_sandbox (true);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 3, 4, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
-    const std::vector <int> books = database_usfmresources.getBooks ("bibledit");
+    database_usfmresources.store_chapter ("bibledit", 2, 3, "usfm");
+    database_usfmresources.store_chapter ("bibledit", 3, 4, "usfm");
+    database_usfmresources.store_chapter ("bibledit", 1, 1, "usfm");
+    database_usfmresources.store_chapter ("bibledit", 1, 2, "usfm");
+    const std::vector <int> books = database_usfmresources.get_books ("bibledit");
     const std::vector <int> standard_books {1, 2, 3};
     EXPECT_EQ (standard_books, books);
   }
@@ -91,14 +91,14 @@ TEST (database, usfmresources)
   {
     refresh_sandbox (true);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 3, 4, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
-    database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
-    std::vector <int> chapters = database_usfmresources.getChapters ("bibledit", 1);
+    database_usfmresources.store_chapter ("bibledit", 2, 3, "usfm");
+    database_usfmresources.store_chapter ("bibledit", 3, 4, "usfm");
+    database_usfmresources.store_chapter ("bibledit", 1, 1, "usfm");
+    database_usfmresources.store_chapter ("bibledit", 1, 2, "usfm");
+    std::vector <int> chapters = database_usfmresources.get_chapters ("bibledit", 1);
     const std::vector <int> standard_chapters {1, 2};
     EXPECT_EQ (standard_chapters, chapters);
-    chapters = database_usfmresources.getChapters ("bibledit", 2);
+    chapters = database_usfmresources.get_chapters ("bibledit", 2);
     EXPECT_EQ (std::vector <int>{3}, chapters);
   }
   // Sizes
@@ -106,26 +106,26 @@ TEST (database, usfmresources)
     refresh_sandbox (true);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
     
-    int size = database_usfmresources.getSize ("bibledit", 2, 3);
+    int size = database_usfmresources.get_size ("bibledit", 2, 3);
     EXPECT_EQ (0, size);
     
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    size = database_usfmresources.getSize ("bibledit", 2, 3);
+    database_usfmresources.store_chapter ("bibledit", 2, 3, "usfm");
+    size = database_usfmresources.get_size ("bibledit", 2, 3);
     EXPECT_EQ (4, size);
     
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "chapter");
-    size = database_usfmresources.getSize ("bibledit", 2, 3);
+    database_usfmresources.store_chapter ("bibledit", 2, 3, "chapter");
+    size = database_usfmresources.get_size ("bibledit", 2, 3);
     EXPECT_EQ (7, size);
   }
   // Delete Book
   {
     refresh_sandbox (true);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    std::vector <int> books = database_usfmresources.getBooks ("bibledit");
+    database_usfmresources.store_chapter ("bibledit", 2, 3, "usfm");
+    std::vector <int> books = database_usfmresources.get_books ("bibledit");
     EXPECT_EQ (std::vector <int>{2}, books);
-    database_usfmresources.deleteBook ("bibledit", 2);
-    books = database_usfmresources.getBooks ("bibledit");
+    database_usfmresources.delete_book ("bibledit", 2);
+    books = database_usfmresources.get_books ("bibledit");
     EXPECT_EQ (std::vector <int>{}, books);
   }
 }

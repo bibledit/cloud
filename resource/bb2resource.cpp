@@ -63,7 +63,7 @@ std::string resource_bible2resource (Webserver_Request& webserver_request)
   view.set_variable ("bible", bible);
                       
   
-  const std::vector <std::string> usfm_resources = database_usfmresources.getResources ();
+  const std::vector <std::string> usfm_resources = database_usfmresources.get_resources ();
   if (find (usfm_resources.begin(), usfm_resources.end (), bible) != usfm_resources.end ()) {
     view.set_variable ("error", translate("A USFM Resource with this name already exists"));
   }

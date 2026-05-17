@@ -17,23 +17,19 @@
  */
 
 
-#include <compare/index.h>
-#include <assets/view.h>
+#include <assets/header.h>
 #include <assets/page.h>
+#include <assets/view.h>
+#include <compare/index.h>
+#include <database/jobs.h>
+#include <database/usfmresources.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <webserver/request.h>
-#include <locale/translate.h>
-#include <access/bible.h>
-#include <tasks/logic.h>
-#include <database/jobs.h>
-#include <database/usfmresources.h>
 #include <jobs/index.h>
-#include <assets/header.h>
-#include <menu/logic.h>
-#include <bb/manage.h>
-
+#include <locale/translate.h>
+#include <tasks/logic.h>
+#include <webserver/request.h>
 #include <database/bibles.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
@@ -48,64 +44,64 @@
 #pragma GCC diagnostic pop
 
 
-std::string compare_index_url ()
+std::string compare_index_url()
 {
-  return "compare/index";
+    return "compare/index";
 }
 
 
-bool compare_index_acl (Webserver_Request& webserver_request)
+bool compare_index_acl(Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant);
+    return roles::access_control(webserver_request, roles::consultant);
 }
 
 
-std::string compare_index (Webserver_Request& webserver_request)
+std::string compare_index(Webserver_Request& webserver_request)
 {
-  std::string page{};
-  
-  Assets_Header header = Assets_Header (translate("Compare"), webserver_request);
-  page = header.run ();
-  
-  Assets_View view {};
-  
-  const std::string bible = webserver_request.query ["bible"];
-  view.set_variable ("bible", bible);
-  
-  if (webserver_request.query.count ("compare")) {
-    const std::string compare = webserver_request.query ["compare"];
-    Database_Jobs database_jobs = Database_Jobs ();
-    const int job_id = database_jobs.get_new_id ();
-    database_jobs.set_level (job_id, roles::consultant);
-    tasks_logic_queue (task::compare_usfm, {bible, compare, std::to_string (job_id)});
-    redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string (job_id));
-    return std::string();
-  }
+    auto header = Assets_Header(translate("Compare"), webserver_request);
+    std::string page = header.run();
 
-  // Names of the Bibles and the USFM Resources.
-  std::vector <std::string> names = database::bibles::get_bibles ();
+    Assets_View view{};
 
-  Database_UsfmResources database_usfmresources;
-  const std::vector <std::string> usfm_resources = database_usfmresources.getResources ();
-  names.insert (names.end (), usfm_resources.begin(), usfm_resources.end ());
+    const std::string bible = webserver_request.query["bible"];
+    view.set_variable("bible", bible);
 
-  sort (names.begin (), names.end ());
-  
-  names = filter::string::array_diff (names, {bible});
-  pugi::xml_document document;
-  for (const auto& name : names) {
-    pugi::xml_node li_node = document.append_child("li");
-    pugi::xml_node a_node = li_node.append_child("a");
-    a_node.append_attribute("href") = ("index?bible=" + bible + "&compare=" + name).c_str();
-    a_node.text().set(name.c_str());
-  }
-  std::stringstream ss{};
-  document.print(ss, "", pugi::format_raw);
-  view.set_variable ("bibleblock", ss.str());
+    if (webserver_request.query.contains("compare"))
+    {
+        const std::string compare = webserver_request.query["compare"];
+        auto database_jobs = Database_Jobs();
+        const int job_id = database_jobs.get_new_id();
+        database_jobs.set_level(job_id, roles::consultant);
+        tasks_logic_queue(task::compare_usfm, {bible, compare, std::to_string(job_id)});
+        redirect_browser(webserver_request, jobs_index_url() + "?id=" + std::to_string(job_id));
+        return {};
+    }
 
-  page.append (view.render ("compare", "index"));
-  
-  page.append (assets_page::footer ());
-  
-  return page;
+    // Names of the Bibles and the USFM Resources.
+    std::vector<std::string> names = database::bibles::get_bibles();
+
+    Database_UsfmResources database_usfm_resources;
+    const std::vector<std::string> usfm_resources = database_usfm_resources.get_resources();
+    names.insert(names.end(), usfm_resources.begin(), usfm_resources.end());
+
+    std::ranges::sort(names);
+
+    names = filter::string::array_diff(names, {bible});
+    pugi::xml_document document;
+    for (const auto& name : names)
+    {
+        pugi::xml_node li_node = document.append_child("li");
+        pugi::xml_node a_node = li_node.append_child("a");
+        a_node.append_attribute("href") = ("index?bible=" + bible + "&compare=" + name).c_str();
+        a_node.text().set(name.c_str());
+    }
+    std::ostringstream ss{};
+    document.print(ss, "", pugi::format_raw);
+    view.set_variable("bibleblock", std::move(ss).str());
+
+    page.append(view.render("compare", "index"));
+
+    page.append(assets_page::footer());
+
+    return page;
 }

@@ -24,18 +24,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_UsfmResources
 {
 public:
-  std::vector <std::string> getResources ();
-  void deleteResource (const std::string& name);
-  void deleteBook (const std::string& name, int book);
-  void deleteChapter (const std::string& name, int book, int chapter);
-  void storeChapter (const std::string& name, int book, int chapter, const std::string& usfm);
-  std::vector <int> getBooks (const std::string& name);
-  std::vector <int> getChapters (const std::string& name, int book);
-  std::string getUsfm (const std::string& name, int book, int chapter);
-  int getSize (const std::string& name, int book, int chapter);
-private:
-  std::string mainFolder ();
-  std::string resourceFolder (const std::string& name);
-  std::string bookFolder (const std::string& name, int book);
-  std::string chapterFile (const std::string& name, int book, int chapter);
+    static std::vector<std::string> get_resources();
+    static void delete_resource(const std::string& name);
+    static void delete_book(const std::string& name, int book);
+    static void delete_chapter(const std::string& name, int book, int chapter);
+    static void store_chapter(const std::string& name, int book, int chapter, const std::string& usfm);
+    static std::vector<int> get_books(const std::string& name);
+    static std::vector<int> get_chapters(const std::string& name, int book);
+    static std::string get_usfm(const std::string& name, int book, int chapter);
+    static int get_size(const std::string& name, int book, int chapter);
 };

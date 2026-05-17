@@ -38,17 +38,17 @@ void convert_resource_to_bible (std::string resource)
   
   
   database::bibles::create_bible (resource);
-  std::vector <int> books = database_usfmresources.getBooks (resource);
+  std::vector <int> books = database_usfmresources.get_books (resource);
   for (auto & book : books) {
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     Database_Logs::log (bookname);
-    std::vector <int> chapters = database_usfmresources.getChapters (resource, book);
+    std::vector <int> chapters = database_usfmresources.get_chapters (resource, book);
     for (auto & chapter : chapters) {
-      std::string usfm = database_usfmresources.getUsfm (resource, book, chapter);
+      std::string usfm = database_usfmresources.get_usfm (resource, book, chapter);
       database::bibles::store_chapter (resource, book, chapter, usfm);
     }
   }
-  database_usfmresources.deleteResource (resource);
+  database_usfmresources.delete_resource (resource);
   
   
   // The Cloud updates the list of available USFM resources for the clients.

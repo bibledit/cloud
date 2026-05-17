@@ -52,9 +52,6 @@ bool resource_download_acl (Webserver_Request& webserver_request)
 
 std::string resource_download (Webserver_Request& webserver_request)
 {
-  Database_UsfmResources database_usfmresources;
-  
-  
   std::string page;
   Assets_Header header = Assets_Header (translate("Download resource"), webserver_request);
   page = header.run ();
@@ -87,9 +84,9 @@ std::string resource_download (Webserver_Request& webserver_request)
   
   int count = 0;
   if (count == 0) {
-    std::vector <int> books = database_usfmresources.get_books (name);
+    std::vector <int> books = database::usfm_resources::get_books (name);
     for (auto book : books) {
-      std::vector <int> chapters = database_usfmresources.get_chapters (name, book);
+      std::vector <int> chapters = database::usfm_resources::get_chapters (name, book);
       // Rough average of 20 verses per chapter.
       count += static_cast<int>(20 * chapters.size());
     }

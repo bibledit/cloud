@@ -21,16 +21,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_UsfmResources
-{
-public:
-    static std::vector<std::string> get_resources();
-    static void delete_resource(const std::string& name);
-    static void delete_book(const std::string& name, int book);
-    static void delete_chapter(const std::string& name, int book, int chapter);
-    static void store_chapter(const std::string& name, int book, int chapter, const std::string& usfm);
-    static std::vector<int> get_books(const std::string& name);
-    static std::vector<int> get_chapters(const std::string& name, int book);
-    static std::string get_usfm(const std::string& name, int book, int chapter);
-    static int get_size(const std::string& name, int book, int chapter);
-};
+namespace database::usfm_resources {
+
+std::vector<std::string> get_resources();
+void delete_resource(const std::string& name);
+void delete_book(const std::string& name, int book);
+void delete_chapter(const std::string& name, int book, int chapter);
+void store_chapter(const std::string& name, int book, int chapter, const std::string& usfm);
+std::vector<int> get_books(const std::string& name);
+std::vector<int> get_chapters(const std::string& name, int book);
+std::string get_usfm(const std::string& name, int book, int chapter);
+int get_size(const std::string& name, int book, int chapter);
+
+}

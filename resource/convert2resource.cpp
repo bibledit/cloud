@@ -33,9 +33,6 @@
 
 void convert_bible_to_resource (std::string bible)
 {
-  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-  
-  
   Database_Logs::log (translate("Converting Bible to USFM Resource") + ": " + bible, roles::manager);
   
   
@@ -46,7 +43,7 @@ void convert_bible_to_resource (std::string bible)
     std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto & chapter : chapters) {
       std::string usfm = database::bibles::get_chapter (bible, book, chapter);
-      database_usfmresources.store_chapter (bible, book, chapter, usfm);
+      database::usfm_resources::store_chapter (bible, book, chapter, usfm);
       database::bibles::delete_chapter (bible, book, chapter);
     }
   }

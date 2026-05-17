@@ -48,7 +48,6 @@ std::string sync_usfmresources_url ()
 std::string sync_usfmresources (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic (webserver_request);
-  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
 
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
@@ -66,7 +65,7 @@ std::string sync_usfmresources (Webserver_Request& webserver_request)
   }
   
   else if (action == Sync_Logic::usfmresources_get_resources) {
-    std::vector <std::string> resources = database_usfmresources.get_resources ();
+    std::vector <std::string> resources = database::usfm_resources::get_resources ();
     return filter::string::implode (resources, "\n");
   }
   
@@ -75,7 +74,7 @@ std::string sync_usfmresources (Webserver_Request& webserver_request)
   }
   
   else if (action == Sync_Logic::usfmresources_get_books) {
-    std::vector <int> resource_books = database_usfmresources.get_books (resource);
+    std::vector <int> resource_books = database::usfm_resources::get_books (resource);
     std::vector <std::string> sbooks;
     for (auto & resource_book : resource_books) sbooks.push_back (std::to_string (resource_book));
     return filter::string::implode (sbooks, "\n");    
@@ -86,7 +85,7 @@ std::string sync_usfmresources (Webserver_Request& webserver_request)
   }
   
   else if (action == Sync_Logic::usfmresources_get_chapters) {
-    std::vector <int> res_chapters = database_usfmresources.get_chapters (resource, book);
+    std::vector <int> res_chapters = database::usfm_resources::get_chapters (resource, book);
     std::vector <std::string> s_chapters;
     for (auto & res_chapter : res_chapters) s_chapters.push_back (std::to_string (res_chapter));
     return filter::string::implode (s_chapters, "\n");
@@ -97,7 +96,7 @@ std::string sync_usfmresources (Webserver_Request& webserver_request)
   }
   
   else if (action == Sync_Logic::usfmresources_get_chapter) {
-    return database_usfmresources.get_usfm (resource, book, chapter);
+    return database::usfm_resources::get_usfm (resource, book, chapter);
   }
 
   // Bad request. Delay flood of bad requests.

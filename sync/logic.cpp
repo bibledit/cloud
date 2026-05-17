@@ -174,8 +174,7 @@ std::string Sync_Logic::settings_checksum (const std::vector <std::string> & bib
 std::string Sync_Logic::usfm_resources_checksum ()
 {
   std::vector <std::string> vchecksum;
-  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-  std::vector <std::string> resources = database_usfmresources.get_resources ();
+  std::vector <std::string> resources = database::usfm_resources::get_resources ();
   for (auto & resource : resources) {
     vchecksum.push_back (usfm_resource_checksum (resource));
   }
@@ -189,8 +188,7 @@ std::string Sync_Logic::usfm_resources_checksum ()
 std::string Sync_Logic::usfm_resource_checksum (const std::string& name)
 {
   std::vector <std::string> vchecksum;
-  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-  std::vector <int> books = database_usfmresources.get_books (name);
+  std::vector <int> books = database::usfm_resources::get_books (name);
   for (auto & book : books) {
     vchecksum.push_back (std::to_string (book));
     vchecksum.push_back (usfm_resource_book_checksum (name, book));
@@ -205,8 +203,7 @@ std::string Sync_Logic::usfm_resource_checksum (const std::string& name)
 std::string Sync_Logic::usfm_resource_book_checksum (const std::string& name, int book)
 {
   std::vector <std::string> vchecksum;
-  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-  std::vector <int> chapters = database_usfmresources.get_chapters (name, book);
+  std::vector <int> chapters = database::usfm_resources::get_chapters (name, book);
   for (auto & chapter : chapters) {
     vchecksum.push_back (std::to_string (chapter));
     vchecksum.push_back (usfm_resource_chapter_checksum (name, book, chapter));
@@ -220,8 +217,7 @@ std::string Sync_Logic::usfm_resource_book_checksum (const std::string& name, in
 // Calculates the checksum of USFM resource name book chapter.
 std::string Sync_Logic::usfm_resource_chapter_checksum (const std::string& name, int book, int chapter)
 {
-  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-  int checksum = database_usfmresources.get_size (name, book, chapter);
+  int checksum = database::usfm_resources::get_size (name, book, chapter);
   return std::to_string (checksum);
 }
 

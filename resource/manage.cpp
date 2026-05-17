@@ -55,9 +55,6 @@ std::string resource_manage (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-
-  
   // Delete resource.
   std::string remove = webserver_request.query ["delete"];
   if (remove != "") {
@@ -69,7 +66,7 @@ std::string resource_manage (Webserver_Request& webserver_request)
       return page;
     } if (confirm == "yes") {
       if (access_bible::write (webserver_request, remove)) {
-        database_usfmresources.delete_resource (remove);
+        database::usfm_resources::delete_resource (remove);
         // The Cloud updates the list of available USFM resources for the clients.
         tasks_logic_queue (task::list_usfm_resources);
       } else {
@@ -100,7 +97,7 @@ std::string resource_manage (Webserver_Request& webserver_request)
   }
   
   
-  std::vector <std::string> resources = database_usfmresources.get_resources ();
+  std::vector <std::string> resources = database::usfm_resources::get_resources ();
   std::vector <std::string> resourceblock;
   for (auto & resource : resources) {
     resourceblock.push_back ("<p>");

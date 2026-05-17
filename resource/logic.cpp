@@ -103,8 +103,7 @@ std::vector <std::string> resource_logic_get_names (Webserver_Request& webserver
   names.insert (names.end(), bibles.begin (), bibles.end());
   
   // USFM resources.
-  Database_UsfmResources database_usfmresources {};
-  std::vector <std::string> usfm_resources = database_usfmresources.get_resources ();
+  std::vector <std::string> usfm_resources = database::usfm_resources::get_resources ();
   names.insert (names.end(), usfm_resources.begin(), usfm_resources.end());
   
   // External resources.
@@ -265,8 +264,7 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
 
   // Determine the type of the current resource.
   bool isBible = resource_logic_is_bible (resource);
-  Database_UsfmResources database_usfmresources;
-  std::vector <std::string> local_usfms {database_usfmresources.get_resources ()};
+  std::vector <std::string> local_usfms {database::usfm_resources::get_resources ()};
   bool isLocalUsfm = filter::string::in_array (resource, local_usfms);
   std::vector <std::string> remote_usfms {};
 #ifdef HAVE_CLIENT
@@ -283,7 +281,7 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
     std::string chapter_usfm {};
     if (isBible) 
       chapter_usfm = database::bibles::get_chapter (resource, book, chapter);
-    if (isLocalUsfm) chapter_usfm = database_usfmresources.get_usfm (resource, book, chapter);
+    if (isLocalUsfm) chapter_usfm = database::usfm_resources::get_usfm (resource, book, chapter);
     std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     std::string stylesheet = stylesv2::standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
@@ -461,8 +459,7 @@ std::string resource_logic_get_contents_for_client (std::string resource, int bo
   
   if (is_usfm) {
     // Fetch from database and convert to html.
-    Database_UsfmResources database_usfmresources;
-    std::string chapter_usfm = database_usfmresources.get_usfm (resource, book, chapter);
+    std::string chapter_usfm = database::usfm_resources::get_usfm (resource, book, chapter);
     std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     std::string stylesheet = stylesv2::standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
@@ -1879,8 +1876,7 @@ bool resource_logic_is_usfm (std::string resource)
 #ifdef HAVE_CLIENT
   names = client_logic_usfm_resources_get ();
 #else
-  Database_UsfmResources database_usfmresources;
-  names = database_usfmresources.get_resources ();
+  names = database::usfm_resources::get_resources ();
 #endif
   return filter::string::in_array (resource, names);
 }

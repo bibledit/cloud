@@ -42,7 +42,6 @@ void compare_compare(const std::string& bible, const std::string& compare, const
 
 
     auto database_jobs = Database_Jobs();
-    auto database_usfm_resources = Database_UsfmResources();
 
     const std::string stylesheet = database::config::bible::get_export_stylesheet(bible);
 
@@ -65,7 +64,7 @@ void compare_compare(const std::string& bible, const std::string& compare, const
     // Get the combined distinct books in both Bibles / Resources.
     const std::vector<int> bible_books = database::bibles::get_books(bible);
     const std::vector<int> compare_books = database::bibles::get_books(compare);
-    const std::vector<int> resource_books = database_usfm_resources.get_books(compare);
+    const std::vector<int> resource_books = database::usfm_resources::get_books(compare);
     const auto combined_distinct_books = [&]
     {
         std::set<int> book_set;
@@ -122,7 +121,7 @@ void compare_compare(const std::string& bible, const std::string& compare, const
         // Get the combined distinct chapters in both Bibles / Resources.
         const std::vector<int> bible_chapters = database::bibles::get_chapters(bible, book);
         const std::vector<int> compare_chapters = database::bibles::get_chapters(compare, book);
-        const std::vector<int> resource_chapters = database_usfm_resources.get_chapters(compare, book);
+        const std::vector<int> resource_chapters = database::usfm_resources::get_chapters(compare, book);
         const auto combined_distinct_chapters = [&]
         {
             std::set<int> chapter_set;
@@ -166,7 +165,7 @@ void compare_compare(const std::string& bible, const std::string& compare, const
             const std::string bible_chapter_usfm = database::bibles::get_chapter(bible, book, chapter);
             std::string compare_chapter_usfm = database::bibles::get_chapter(compare, book, chapter);
             if (compare_chapter_usfm.empty())
-                compare_chapter_usfm = database_usfm_resources.get_usfm(compare, book, chapter);
+                compare_chapter_usfm = database::usfm_resources::get_usfm(compare, book, chapter);
             if (bible_chapter_usfm == compare_chapter_usfm)
                 continue;
 

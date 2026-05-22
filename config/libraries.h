@@ -56,20 +56,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // C++ headers.
-#include <iostream>
-#include <sstream>
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <cstring>
 #include <fstream>
+#include <iostream>
+#include <map>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <map>
-#include <cstring>
-#include <algorithm>
 #include <set>
-#include <chrono>
 #include <iomanip>
 #include <stdexcept>
 #include <thread>
-#include <cmath>
 #include <mutex>
 #include <numeric>
 #include <random>
@@ -85,6 +85,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <list>
 #include <variant>
 #include <ranges>
+#include <functional>
 
 
 // Headers dependencies.

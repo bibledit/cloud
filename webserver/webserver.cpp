@@ -17,30 +17,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <webserver/webserver.h>
-#include <webserver/http.h>
 #include <bootstrap/bootstrap.h>
-#include <webserver/request.h>
 #include <config/globals.h>
 #include <database/logs.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <filter/date.h>
+#include <webserver/http.h>
+#include <webserver/request.h>
+#include <webserver/webserver.h>
 #pragma GCC diagnostic push
 #pragma clang diagnostic ignored "-Wc99-extensions"
 #pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
 #pragma clang diagnostic ignored "-Wold-style-cast"
 #pragma clang diagnostic ignored "-Wswitch-enum"
-#include <mbedtls/version.h>
 #include <mbedtls/platform.h>
-#include "mbedtls/entropy.h"
+#include <mbedtls/version.h>
 #include "mbedtls/ctr_drbg.h"
-#include "mbedtls/x509.h"
-#include "mbedtls/ssl.h"
-#include "mbedtls/net_sockets.h"
-#include "mbedtls/error.h"
 #include "mbedtls/debug.h"
+#include "mbedtls/entropy.h"
+#include "mbedtls/error.h"
+#include "mbedtls/net_sockets.h"
+#include "mbedtls/ssl.h"
 #include "mbedtls/ssl_cache.h"
+#include "mbedtls/x509.h"
 #pragma GCC diagnostic pop
 #ifdef HAVE_WINDOWS
 #include <io.h>
@@ -110,309 +109,333 @@ static_assert (false, "MbedTLS version other than 2 or 3");
 //             the buffer to save the data to
 //             the size of the buffer
 // Returns: the number of bytes stored (excluding null).
-static int get_line (const int sock, char *buf, const int size)
+static int get_line(const int sock, char* buf, const int size)
 {
-  int i {0};
-  char character {'\0'};
-  int n {0};
-  while ((i < size - 1) && (character != '\n')) {
-    n = static_cast<int> (::recv (sock, &character, 1, 0));
-    if (n > 0) {
-      if (character == '\r') {
-        n = static_cast<int> (recv (sock, &character, 1, MSG_PEEK));
-        if ((n > 0) && (character == '\n')) {
-          recv (sock, &character, 1, 0);
-        } else {
-          character = '\n';
+    int i{0};
+    char character{'\0'};
+    int n{0};
+    while ((i < size - 1) && (character != '\n'))
+    {
+        n = static_cast<int>(::recv(sock, &character, 1, 0));
+        if (n > 0)
+        {
+            if (character == '\r')
+            {
+                n = static_cast<int>(recv(sock, &character, 1, MSG_PEEK));
+                if (n > 0 and character == '\n')
+                {
+                    recv(sock, &character, 1, 0);
+                }
+                else
+                {
+                    character = '\n';
+                }
+            }
+            buf[i] = character;
+            i++;
         }
-      }
-      buf[i] = character;
-      i++;
-    } else {
-      character = '\n';
+        else
+        {
+            character = '\n';
+        }
     }
-  }
-  buf[i] = '\0';
-  return i;
+    buf[i] = '\0';
+    return i;
 }
 
 
 // This converts an IPv4 address in IPv6 notation to a pure IPv4 notation.
 static void convert_ipv6_notation_to_pure_ipv4_notation (std::string& address)
 {
-  // The client's remote IPv6 address in hexadecimal digits separated by colons.
-  // IPv4 addresses are mapped to IPv6 addresses.
-  // Example IPv4 address: ::ffff:127.0.0.1
-  // Example IPv6 address: ::1
-  // Clean the IP address up so it's a clear IPv4 or IPv6 notation.
-  if (size_t pos = address.find(".");
-      pos != std::string::npos) {
-    pos = address.find_last_of(":");
-    address.erase (0, ++pos);
-  }
+    // The client's remote IPv6 address in hexadecimal digits separated by colons.
+    // IPv4 addresses are mapped to IPv6 addresses.
+    // Example IPv4 address: ::ffff:127.0.0.1
+    // Example IPv6 address: ::1
+    // Clean the IP address up so it's a clear IPv4 or IPv6 notation.
+    if (size_t pos = address.find("."); pos != std::string::npos)
+    {
+        pos = address.find_last_of(":");
+        address.erase(0, ++pos);
+    }
 }
 
 
 // Processes a single request from a web client.
-static void webserver_process_request (const int connfd, const std::string& clientaddress)
+static void webserver_process_request (const int conn_fd, const std::string& client_address)
 {
-  // The environment for this request.
-  // It reference to this object gets passed around from function to function during the entire request.
-  // This provides thread-safety to the request.
-  Webserver_Request request {};
-  
-  // This is the plain http server.
-  request.secure = false;
-  
-  // Store remote client address in the request.
-  request.remote_address = clientaddress;
-  
-  try {
-    if (config_globals_webserver_running) {
-      
-      // Connection health flag.
-      bool connection_healthy {true};
-      
-      // Read the client's request.
-      // With the HTTP protocol it is not possible to read the request till EOF,
-      // because EOF does never come, because the browser keeps the connection open
-      // for receiving the response.
-      // The HTTP protocol works per line.
-      // Read one line of data from the client.
-      // An empty line marks the end of the headers.
-#define BUFFERSIZE 2048
-      int bytes_read {};
-      bool header_parsed {true};
-      char buffer [BUFFERSIZE];
-      // Fix valgrind unitialized value message.
-      memset (&buffer, 0, BUFFERSIZE);
-      do {
-        bytes_read = get_line (connfd, buffer, BUFFERSIZE);
-        if (bytes_read <= 0) connection_healthy = false;
-        // Parse the browser's request's headers.
-        header_parsed = http_parse_header (buffer, request);
-      } while (header_parsed);
+    // The environment for this request.
+    // A reference to this object gets passed around from function to function during the entire request.
+    // This provides thread-safety to the request.
+    Webserver_Request request{};
 
-      if (connection_healthy) {
-        
-        // In the case of a POST request, more data follows: The POST request itself.
-        // The length of that data is indicated in the header's Content-Length line.
-        // Read that data, and parse it.
-        std::string postdata {};
-        if (request.is_post) {
-          bool done_reading {false};
-          int total_bytes_read {0};
-          do {
-            bytes_read = static_cast<int> (recv(connfd, buffer, BUFFERSIZE, 0));
-            for (int i = 0; i < bytes_read; i++) {
-              postdata += buffer [i];
-            }
-            // EOF indicates reading is ready.
-            // An error also indicates that reading is ready.
-            if (bytes_read <= 0) done_reading = true;
-            if (bytes_read < 0) connection_healthy = false;
-            // "Content-Length" bytes read: Done.
-            total_bytes_read += bytes_read;
-            if (total_bytes_read >= request.content_length) done_reading = true;
-          } while (!done_reading);
-          if (total_bytes_read < request.content_length) connection_healthy = false;
-        }
-        
-        if (connection_healthy) {
-          
-          http_parse_post (postdata, request);
+    // This is the plain http server.
+    request.secure = false;
 
-          // Assemble response.
-          bootstrap_index (request);
-          http_assemble_response (request);
-          
-          // Send response to browser.
-          const char * output = request.reply.c_str();
-          // The C function strlen () fails on null characters in the reply, so use string::size() instead.
-          size_t length = request.reply.size ();
-          send (connfd, output, length, 0);
-          
-          // When streaming a file, copy the file's contents straight from disk to the network file descriptor.
-          // Do not load the entire file into memory.
-          // This enables large file transfers on low-memory devices.
-          // Also handle cases that the requested file does not exist.
-          // So the number of bytes read should be larger than zero, not unequal to zero.
-          // In the case of != 0, it falls in an endless loop, because -1 indicates failure.
-          if (!request.stream_file.empty ()) {
-            int filefd =
-#ifdef HAVE_WINDOWS
-            _open
-#else
-            open
-#endif
-            (request.stream_file.c_str(), O_RDONLY);
-            unsigned char streambuffer [1024];
-            int bytecount {};
-            do {
-              bytecount = static_cast<int> (
-#ifdef HAVE_WINDOWS
-              _read
-#else
-              read
-#endif
-              (filefd, streambuffer, 1024));
-              if (bytecount > 0) {
-                [[maybe_unused]] auto sendbytes = send (connfd, reinterpret_cast<const char *> (streambuffer), static_cast<size_t>(bytecount), 0);
-              }
+    // Store remote client address in the request.
+    request.remote_address = client_address;
+
+    try
+    {
+        if (config_globals_webserver_running)
+        {
+            // Connection health flag.
+            bool connection_healthy{true};
+
+            // Read the client's request.
+            // With the HTTP protocol it is not possible to read the request till EOF,
+            // because EOF does never come, because the browser keeps the connection open
+            // for receiving the response.
+            // The HTTP protocol works per line.
+            // Read one line of data from the client.
+            // An empty line marks the end of the headers.
+#define BUFFER_SIZE 2048
+            int bytes_read{};
+            bool header_parsed{true};
+            char buffer[BUFFER_SIZE] = {};
+            do
+            {
+                bytes_read = get_line(conn_fd, buffer, BUFFER_SIZE);
+                if (bytes_read <= 0) connection_healthy = false;
+                // Parse the browser's request's headers.
+                header_parsed = http_parse_header(buffer, request);
             }
-            while (bytecount > 0);
+            while (header_parsed);
+
+            if (connection_healthy)
+            {
+                // In the case of a POST request, more data follows: The POST request itself.
+                // The length of that data is indicated in the header's Content-Length line.
+                // Read that data, and parse it.
+                std::string post_data{};
+                if (request.is_post)
+                {
+                    bool done_reading{false};
+                    int total_bytes_read{0};
+                    do
+                    {
+                        bytes_read = static_cast<int>(recv(conn_fd, buffer, BUFFER_SIZE, 0));
+                        for (int i = 0; i < bytes_read; i++)
+                        {
+                            post_data += buffer[i];
+                        }
+                        // EOF indicates reading is ready.
+                        // An error also indicates that reading is ready.
+                        if (bytes_read <= 0) done_reading = true;
+                        if (bytes_read < 0) connection_healthy = false;
+                        // "Content-Length" bytes read: Done.
+                        total_bytes_read += bytes_read;
+                        if (total_bytes_read >= request.content_length) done_reading = true;
+                    }
+                    while (!done_reading);
+                    if (total_bytes_read < request.content_length) connection_healthy = false;
+                }
+
+                if (connection_healthy)
+                {
+                    http_parse_post(post_data, request);
+
+                    // Assemble response.
+                    bootstrap_index(request);
+                    http_assemble_response(request);
+
+                    // Send response to browser.
+                    const char* output = request.reply.c_str();
+                    // The C function strlen () fails on null characters in the reply, so use string::size() instead.
+                    const size_t length = request.reply.size();
+                    send(conn_fd, output, length, 0);
+
+                    // When streaming a file, copy the file's contents straight from disk to the network file descriptor.
+                    // Do not load the entire file into memory.
+                    // This enables large file transfers on low-memory devices.
+                    // Also handle cases that the requested file does not exist.
+                    // So the number of bytes read should be larger than zero, not unequal to zero.
+                    // In the case of != 0, it falls in an endless loop, because -1 indicates failure.
+                    if (!request.stream_file.empty())
+                    {
+                        int file_fd =
 #ifdef HAVE_WINDOWS
-            _close
+                            _open
 #else
-            close
+                            open
 #endif
-            (filefd);
-          }
+                            (request.stream_file.c_str(), O_RDONLY);
+                        unsigned char stream_buffer[1024];
+                        int byte_count{};
+                        do
+                        {
+                            byte_count = static_cast<int>(
+#ifdef HAVE_WINDOWS
+                                _read
+#else
+                                read
+#endif
+                                (file_fd, stream_buffer, 1024));
+                            if (byte_count > 0)
+                            {
+                                send(conn_fd, stream_buffer, static_cast<size_t>(byte_count), 0);
+                            }
+                        }
+                        while (byte_count > 0);
+#ifdef HAVE_WINDOWS
+                        _close
+#else
+                        close
+#endif
+                            (file_fd);
+                    }
+                }
+            }
         }
-      }
     }
-  } 
-  catch (const std::exception& e) {
-    std::string message ("Internal error: ");
-    message.append (e.what ());
-    Database_Logs::log (message);
-  } 
-  catch (const std::exception* e) {
-    std::string message ("Internal error: ");
-    message.append (e->what ());
-    Database_Logs::log (message);
-  } 
-  catch (...) {
-    Database_Logs::log ("A general internal error occurred");
-  }
-  
-  // Done: Close.
+    catch (const std::exception& e)
+    {
+        std::string message("Internal error: ");
+        message.append(e.what());
+        Database_Logs::log(message);
+    }
+    catch (const std::exception* e)
+    {
+        std::string message("Internal error: ");
+        message.append(e->what());
+        Database_Logs::log(message);
+    }
+    catch (...)
+    {
+        Database_Logs::log("A general internal error occurred");
+    }
+
+    // Done: Close.
 #ifdef HAVE_WINDOWS
-  shutdown (connfd, SD_BOTH);
-  closesocket (connfd);
+    shutdown(conn_fd, SD_BOTH);
+    closesocket(conn_fd);
 #else
-  shutdown (connfd, SHUT_RDWR);
-  close (connfd);
+    shutdown(conn_fd, SHUT_RDWR);
+    close(conn_fd);
 #endif
 }
 
 
 #ifndef HAVE_WINDOWS
 // This http server uses BSD sockets.
-void http_server ()
+void http_server()
 {
-  bool listener_healthy {true};
+    bool listener_healthy{true};
 
-  // Create a listening socket.
-  // This represents an endpoint.
-  // This prepares to accept incoming connections on.
+    // Create a listening socket.
+    // This represents an endpoint.
+    // This prepares to accept incoming connections on.
 #ifdef HAVE_CLIENT
-  // A client listens on IPv4, see also below.
-  const int listenfd = socket (AF_INET, SOCK_STREAM, 0);
+    // A client listens on IPv4, see also below.
+    const int listen_fd = socket(AF_INET, SOCK_STREAM, 0);
 #endif
 #ifdef HAVE_CLOUD
-  // The Cloud listens on address family AF_INET6 for both IPv4 and IPv6.
-  const int listenfd = socket (AF_INET6, SOCK_STREAM, 0);
+    // The Cloud listens on address family AF_INET6 for both IPv4 and IPv6.
+    const int listen_fd = socket(AF_INET6, SOCK_STREAM, 0);
 #endif
-  if (listenfd < 0) {
-    std::string error = "Error opening socket: ";
-    error.append (strerror (errno));
-    std::cerr << error << std::endl;
-    Database_Logs::log (error);
-    listener_healthy = false;
-  }
-
-  // Eliminate "Address already in use" error from bind.
-  // The function is used to allow the local address to  be reused
-  // when the server is restarted before the required wait time expires.
-  int optval {1};
-  int result = setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char *> ( &optval), sizeof (int));
-  if (result != 0) {
-    std::string error = "Error setting socket option: ";
-    error.append (strerror (errno));
-    std::cerr << error << std::endl;
-    Database_Logs::log (error);
-  }
-
-  // The listening socket will be an endpoint for all requests to a port on this host.
-#ifdef HAVE_CLIENT
-  // When configured as a client, it listens on the IPv4 loopback device.
-  // It has been seen on Ubuntu 16.04 that a Bibledit Client would not listen on a IPv6 loopback device.
-  struct sockaddr_in serveraddr;
-  memset (&serveraddr, 0, sizeof (serveraddr));
-  serveraddr.sin_family = AF_INET;
-  serveraddr.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
-  serveraddr.sin_port = htons (filter::string::convert_to_int (config::logic::http_network_port ()));
-#endif
-#ifdef HAVE_CLOUD
-  // When configured as a server it listens on any IPv6 address.
-  sockaddr_in6 serveraddr;
-  memset (&serveraddr, 0, sizeof (serveraddr));
-  serveraddr.sin6_flowinfo = 0;
-  serveraddr.sin6_family = AF_INET6;
-  serveraddr.sin6_addr = in6addr_any;
-  serveraddr.sin6_port = htons (static_cast<uint16_t>(filter::string::convert_to_int (config::logic::http_network_port ())));
-#endif
-  result = ::bind (listenfd, reinterpret_cast<sockaddr *>(&serveraddr), sizeof (serveraddr));
-  if (result != 0) {
-    std::string error = "Error binding server to socket: ";
-    error.append (strerror (errno));
-    std::cerr << error << std::endl;
-    Database_Logs::log (error);
-    listener_healthy = false;
-  }
-
-  // Make it a listening socket ready to queue and accept many connection requests
-  // before the system starts rejecting the incoming requests.
-  result = listen (listenfd, 100);
-  if (result != 0) {
-    std::string error = "Error listening on socket: ";
-    error.append (strerror (errno));
-    std::cerr << error << std::endl;
-    Database_Logs::log (error);
-    listener_healthy = false;
-  }
-
-  // Keep waiting for, accepting, and processing connections.
-  while (listener_healthy && config_globals_webserver_running) {
-
-    // Socket and file descriptor for the client connection.
-    sockaddr_in6 clientaddr6;
-    socklen_t clientlen = sizeof (clientaddr6);
-    int connfd = accept (listenfd, reinterpret_cast<sockaddr *>(&clientaddr6), &clientlen);
-    if (connfd > 0) {
-
-      // Socket receive timeout, plain http.
-      timeval tv;
-      tv.tv_sec = 60;
-      tv.tv_usec = 0;
-      setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
-      
-      // The client's remote IPv6 address in hexadecimal digits separated by colons.
-      // IPv4 addresses are mapped to IPv6 addresses.
-      // Example IPv4 address: ::ffff:127.0.0.1
-      // Example IPv6 address: ::1
-      // Clean the IP address up so it's a clear IPv4 or IPv6 notation.
-      char remote_address[256];
-      inet_ntop (AF_INET6, &clientaddr6.sin6_addr, remote_address, sizeof (remote_address));
-      std::string clientaddress = remote_address;
-      convert_ipv6_notation_to_pure_ipv4_notation (clientaddress);
-
-      // Handle this request in a thread, enabling parallel requests.
-      std::thread request_thread = std::thread (webserver_process_request, connfd, clientaddress);
-      // Detach and delete thread object.
-      request_thread.detach ();
-      
-    } else {
-      std::string error = "Error accepting connection on socket: ";
-      error.append (strerror (errno));
-      std::cerr << error << std::endl;
-      Database_Logs::log (error);
+    if (listen_fd < 0)
+    {
+        std::string error = "Error opening socket: ";
+        error.append(strerror(errno));
+        std::cerr << error << std::endl;
+        Database_Logs::log(error);
+        listener_healthy = false;
     }
-  }
-  
-  // Close listening socket, freeing it for any next server process.
-  close (listenfd);
+
+    // Eliminate "Address already in use" error from bind.
+    // The function is used to allow the local address to  be reused
+    // when the server is restarted before the required wait time expires.
+    int opt_val{1};
+    int result = setsockopt(listen_fd, SOL_SOCKET, SO_REUSEADDR, &opt_val, sizeof(int));
+    if (result != 0)
+    {
+        std::string error = "Error setting socket option: ";
+        error.append(strerror(errno));
+        std::cerr << error << std::endl;
+        Database_Logs::log(error);
+    }
+
+    // The listening socket will be an endpoint for all requests to a port on this host.
+#ifdef HAVE_CLIENT
+    // When configured as a client, it listens on the IPv4 loopback device.
+    // It has been seen on Ubuntu 16.04 that a Bibledit Client would not listen on a IPv6 loopback device.
+    struct sockaddr_in server_addr;
+    memset(&server_addr, 0, sizeof (server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    server_addr.sin_port = htons(filter::string::convert_to_int (config::logic::http_network_port ()));
+#endif
+#ifdef HAVE_CLOUD
+    // When configured as a server it listens on any IPv6 address.
+    sockaddr_in6 server_addr = {};
+    server_addr.sin6_flowinfo = 0;
+    server_addr.sin6_family = AF_INET6;
+    server_addr.sin6_addr = in6addr_any;
+    server_addr.sin6_port = htons(
+        static_cast<uint16_t>(filter::string::convert_to_int (config::logic::http_network_port ())));
+#endif
+    result = ::bind(listen_fd, reinterpret_cast<sockaddr*>(&server_addr), sizeof (server_addr));
+    if (result != 0)
+    {
+        std::string error = "Error binding server to socket: ";
+        error.append(strerror(errno));
+        std::cerr << error << std::endl;
+        Database_Logs::log(error);
+        listener_healthy = false;
+    }
+
+    // Make it a listening socket ready to queue and accept many connection requests
+    // before the system starts rejecting the incoming requests.
+    result = listen(listen_fd, 100);
+    if (result != 0)
+    {
+        std::string error = "Error listening on socket: ";
+        error.append(strerror(errno));
+        std::cerr << error << std::endl;
+        Database_Logs::log(error);
+        listener_healthy = false;
+    }
+
+    // Keep waiting for, accepting, and processing connections.
+    while (listener_healthy && config_globals_webserver_running)
+    {
+        // Socket and file descriptor for the client connection.
+        sockaddr_in6 client_addr6;
+        socklen_t client_len = sizeof (client_addr6);
+        int conn_fd = accept(listen_fd, reinterpret_cast<sockaddr*>(&client_addr6), &client_len);
+        if (conn_fd > 0)
+        {
+            // Socket receive timeout, plain http.
+            timeval tv{};
+            tv.tv_sec = 60;
+            tv.tv_usec = 0;
+            setsockopt(conn_fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+
+            // The client's remote IPv6 address in hexadecimal digits separated by colons.
+            // IPv4 addresses are mapped to IPv6 addresses.
+            // Example IPv4 address: ::ffff:127.0.0.1
+            // Example IPv6 address: ::1
+            // Clean the IP address up so it's a clear IPv4 or IPv6 notation.
+            char remote_address[256];
+            inet_ntop(AF_INET6, &client_addr6.sin6_addr, remote_address, sizeof (remote_address));
+            std::string client_address = remote_address;
+            convert_ipv6_notation_to_pure_ipv4_notation(client_address);
+
+            // Handle this request in a thread, enabling parallel requests.
+            auto request_thread = std::thread(webserver_process_request, conn_fd, client_address);
+            // Detach and delete thread object.
+            request_thread.detach();
+        }
+        else
+        {
+            std::string error = "Error accepting connection on socket: ";
+            error.append(strerror(errno));
+            std::cerr << error << std::endl;
+            Database_Logs::log(error);
+        }
+    }
+
+    // Close listening socket, freeing it for any next server process.
+    close(listen_fd);
 }
 #endif
 
@@ -640,9 +663,9 @@ static void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls
         if (ret < 0) connection_healthy = false;
         if (connection_healthy && header_parsed) {
           char c = static_cast <char> (buffer [0]);
-          // The request contains a carriage return (\r) and a new line feed (\n).
+          // The request contains a carriage return (\r) and a line feed (\n).
           // The traditional order of this is \r\n.
-          // Therefore when a \r is encountered, just disregard it.
+          // Therefore, when a \r is encountered, just disregard it.
           // A \n will follow to mark the end of the header line.
           if (c == '\r') continue;
           // At a new line, parse the received header line.

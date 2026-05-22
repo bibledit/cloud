@@ -40,3 +40,22 @@ public:
 };
 
 void developer_logic_import_changes ();
+
+template <typename T>
+class scoped_timer
+{
+public:
+    explicit scoped_timer() noexcept
+    {
+        m_started_at = std::chrono::time_point_cast<T>(std::chrono::steady_clock::now());
+    }
+
+    ~scoped_timer() noexcept
+    {
+        const auto stopped_at = std::chrono::time_point_cast<T>(std::chrono::steady_clock::now());
+        std::cout << "elapsed " << (stopped_at - m_started_at) << std::endl;
+    }
+
+private:
+    std::chrono::time_point<std::chrono::steady_clock, T> m_started_at;
+};

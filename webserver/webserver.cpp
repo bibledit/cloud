@@ -152,9 +152,9 @@ static void convert_ipv6_notation_to_pure_ipv4_notation (std::string& address)
     // Example IPv4 address: ::ffff:127.0.0.1
     // Example IPv6 address: ::1
     // Clean the IP address up so it's a clear IPv4 or IPv6 notation.
-    if (size_t pos = address.find("."); pos != std::string::npos)
+    if (size_t pos = address.find('.'); pos != std::string::npos)
     {
-        pos = address.find_last_of(":");
+        pos = address.find_last_of(':');
         address.erase(0, ++pos);
     }
 }
@@ -188,13 +188,13 @@ static void webserver_process_request (const int conn_fd, const std::string& cli
             // The HTTP protocol works per line.
             // Read one line of data from the client.
             // An empty line marks the end of the headers.
-#define BUFFER_SIZE 2048
+            constexpr int buffer_size{2048};
             int bytes_read{};
             bool header_parsed{true};
-            char buffer[BUFFER_SIZE] = {};
+            char buffer[buffer_size] = {};
             do
             {
-                bytes_read = get_line(conn_fd, buffer, BUFFER_SIZE);
+                bytes_read = get_line(conn_fd, buffer, buffer_size);
                 if (bytes_read <= 0) connection_healthy = false;
                 // Parse the browser's request's headers.
                 header_parsed = http_parse_header(buffer, request);
@@ -213,7 +213,7 @@ static void webserver_process_request (const int conn_fd, const std::string& cli
                     int total_bytes_read{0};
                     do
                     {
-                        bytes_read = static_cast<int>(recv(conn_fd, buffer, BUFFER_SIZE, 0));
+                        bytes_read = static_cast<int>(recv(conn_fd, buffer, buffer_size, 0));
                         for (int i = 0; i < bytes_read; i++)
                         {
                             post_data += buffer[i];
@@ -252,7 +252,7 @@ static void webserver_process_request (const int conn_fd, const std::string& cli
                     // In the case of != 0, it falls in an endless loop, because -1 indicates failure.
                     if (!request.stream_file.empty())
                     {
-                        int file_fd =
+                        const int file_fd =
 #ifdef HAVE_WINDOWS
                             _open
 #else
@@ -396,7 +396,7 @@ void http_server()
     }
 
     // Keep waiting for, accepting, and processing connections.
-    while (listener_healthy && config_globals_webserver_running)
+    while (listener_healthy and config_globals_webserver_running)
     {
         // Socket and file descriptor for the client connection.
         sockaddr_in6 client_addr6;
@@ -654,8 +654,7 @@ static void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls
         // The HTTP protocol works per line.
         // Read and parse one line of data from the client.
         // An empty line marks the end of the headers.
-        unsigned char buffer [1];
-        memset (&buffer, 0, 1);
+        unsigned char buffer [1] = {};
         ret = mbedtls_ssl_read (&ssl, buffer, 1);
         if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
         if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
@@ -684,12 +683,11 @@ static void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls
         // The POST request itself.
         // The length of that data is indicated in the header's Content-Length line.
         // Read that data.
-        std::string postdata{};
+        std::string post_data{};
         bool done_reading = false;
         int total_bytes_read = 0;
         while (connection_healthy && !done_reading) {
-          unsigned char buffer [1];
-          memset (&buffer, 0, 1);
+          unsigned char buffer [1] = {};
           ret = mbedtls_ssl_read (&ssl, buffer, 1);
           if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
           if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
@@ -697,7 +695,7 @@ static void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls
           if (ret < 0) connection_healthy = false;
           if (connection_healthy && !done_reading) {
             char c = static_cast <char> (buffer [0]);
-            postdata += c;
+            post_data += c;
             total_bytes_read ++;
           }
           // "Content-Length" bytes read: Done.
@@ -706,7 +704,7 @@ static void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls
         if (total_bytes_read < request.content_length) connection_healthy = false;
         // Parse the POSTed data.
         if (connection_healthy) {
-          http_parse_post (postdata, request);
+          http_parse_post (post_data, request);
         }
       }
       
@@ -889,7 +887,7 @@ void https_server ()
   mbedtls_net_init (&listen_fd);
   
   // The SSL configuration for the lifetime of the server.
-  // This is done during initialisation of mbed TLS.
+  // This is done during initialization of mbed TLS.
   mbedtls_ssl_config conf;
   mbedtls_ssl_config_init (&conf);
   
@@ -997,7 +995,7 @@ void https_server ()
     }
 
     // Handle this request in a thread, enabling parallel requests.
-    std::thread request_thread = std::thread (secure_webserver_process_request, &conf, client_fd);
+    auto request_thread = std::thread (secure_webserver_process_request, &conf, client_fd);
     // Detach and delete thread object.
     request_thread.detach ();
   }

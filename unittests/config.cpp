@@ -138,8 +138,8 @@ TEST(database, config_user)
     Database_Users database_users;
     database_users.create();
     database_users.upgrade();
-    constexpr std::string username = "username";
-    constexpr std::string password = "password";
+    const std::string username = "username";
+    const std::string password = "password";
     database_users.add_user(username, password, 5, "");
     request.session_logic()->attempt_login(username, password, true);
 

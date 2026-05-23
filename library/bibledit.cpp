@@ -208,7 +208,10 @@ void bibledit_start_library ()
   
   // Set running flag.
   config_globals_webserver_running = true;
-  
+
+  // Start the thread pool with the workers.
+  start_thread_pool();
+
   // Run the plain web server in a thread.
   config_globals_http_worker = new std::thread (http_server);
   
@@ -313,6 +316,9 @@ void bibledit_stop_library ()
 
   // Clear running flag.
   config_globals_webserver_running = false;
+
+  // Stop the thread pool for the workers.
+  stop_thread_pool();
   
   std::string url, error;
   

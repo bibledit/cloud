@@ -35,6 +35,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <setup/logic.h>
 #include <journal/logic.h>
 
+#include "webserver/webserver.h"
+
 
 // CPU-intensive actions run at night.
 // This keeps the site more responsive during the day.
@@ -99,6 +101,8 @@ void timer_index ()
       // Run the part below once per minute.
       if (minute == previous_minute) continue;
       previous_minute = minute;
+
+      thread_statistics_log();
 
       // Every minute send out queued email.
       if (!tasks_logic_queued (task::send_email))

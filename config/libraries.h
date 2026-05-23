@@ -86,6 +86,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <variant>
 #include <ranges>
 #include <functional>
+#include <queue>
+#include <condition_variable>
 
 
 // Headers dependencies.

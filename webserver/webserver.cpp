@@ -1098,7 +1098,7 @@ void https_server()
 
 
 // Storage for the worker threads
-static std::vector<std::jthread> thread_pool;
+static std::vector<std::thread> thread_pool;
 
 // Queue of tasks.
 static std::queue<std::function<void()>> tasks;
@@ -1162,7 +1162,7 @@ void stop_thread_pool()
     cv.notify_all();
 
     // Join all worker threads to ensure they have completed their tasks.
-    thread_pool.clear();
+    std::ranges::for_each(thread_pool, [](std::thread &t) { t.join(); });
 }
 
 

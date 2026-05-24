@@ -102,8 +102,6 @@ void timer_index ()
       if (minute == previous_minute) continue;
       previous_minute = minute;
 
-      thread_statistics_log();
-
       // Every minute send out queued email.
       if (!tasks_logic_queued (task::send_email))
         tasks_logic_queue (task::send_email);

@@ -99,7 +99,6 @@ static_assert (false, "MbedTLS version other than 2 or 3");
 
 
 static void enqueue_task(std::function<void()> task);
-static void test_task();
 
 // Gets a line from a socket.
 // The line may end with a newline, a carriage return, or a CR-LF combination.
@@ -166,8 +165,6 @@ static void convert_ipv6_notation_to_pure_ipv4_notation (std::string& address)
 // Processes a single request from a web client.
 static void webserver_process_request (const int conn_fd, const std::string& client_address)
 {
-    enqueue_task(test_task);
-
     // The environment for this request.
     // A reference to this object gets passed around from function to function during the entire request.
     // This provides thread-safety to the request.
@@ -582,7 +579,6 @@ void http_server()
 // Processes a single request from a web client.
 static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_net_context client_fd)
 {
-    enqueue_task(test_task);
     // Socket receive timeout, secure https.
 #ifndef HAVE_WINDOWS
     timeval tv;
@@ -1175,17 +1171,3 @@ void enqueue_task(std::function<void()> task)
     }
     cv.notify_one();
 }
-
-
-void thread_statistics_log() // Todo out.
-{
-    Database_Logs::log ("Enqueued tasks: " + std::to_string(enqueued_task_count)
-        + " Executed tasks: " + std::to_string(executed_task_count));
-}
-
-
-void test_task()
-{
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
-    executed_task_count++;
-};

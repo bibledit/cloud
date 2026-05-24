@@ -25,4 +25,3 @@ void http_server ();
 void https_server ();
 void start_thread_pool(const std::size_t num_threads = std::thread::hardware_concurrency());
 void stop_thread_pool();
-void thread_statistics_log();

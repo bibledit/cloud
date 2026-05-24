@@ -32,6 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma clang diagnostic ignored "-Wswitch-enum"
 #include <mbedtls/platform.h>
 #include <mbedtls/version.h>
+
+#include "assets/page.h"
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/debug.h"
 #include "mbedtls/entropy.h"
@@ -163,7 +165,8 @@ static void convert_ipv6_notation_to_pure_ipv4_notation (std::string& address)
 
 
 // Processes a single request from a web client.
-static void webserver_process_request (const int conn_fd, const std::string& client_address)
+// ReSharper disable once CppPassValueParameterByConstReference
+static void webserver_process_request (const int conn_fd, const std::string client_address)
 {
     // The environment for this request.
     // A reference to this object gets passed around from function to function during the entire request.
@@ -422,10 +425,13 @@ void http_server()
             std::string client_address = remote_address;
             convert_ipv6_notation_to_pure_ipv4_notation(client_address);
 
-            // Handle this request in a thread, enabling parallel requests.
-            auto request_thread = std::thread(webserver_process_request, conn_fd, client_address);
-            // Detach and delete thread object.
-            request_thread.detach();
+            // Handle this request in a thread, enabling parallel requests. // Todo
+            //auto request_thread = std::thread(webserver_process_request, conn_fd, client_address);
+            // // Detach and delete thread object.
+            //request_thread.detach();
+
+            // Handle this request via the thread pool, enabling parallel requests. Todo
+            enqueue_task(std::bind(webserver_process_request, conn_fd, client_address));
         }
         else
         {
@@ -1108,10 +1114,6 @@ static std::condition_variable cv;
 // Flag to indicate whether the thread pool should stop.
 static std::atomic stop {false};
 
-// Temporal variables for testing. Todo
-static std::atomic enqueued_task_count{0};
-static std::atomic executed_task_count{0};
-
 void start_thread_pool(const std::size_t num_threads)
 {
     // Creating worker threads.
@@ -1131,10 +1133,9 @@ void start_thread_pool(const std::size_t num_threads)
                         return not tasks.empty() or stop;
                     });
 
-                    // Exit the thread in case the pool is stopped and there are no tasks.
-                    if (stop and tasks.empty()) {
+                    // Exit the thread in case the pool is stopped, disregarding pending http requests.
+                    if (stop)
                         return;
-                    }
 
                     // Get the next task from the queue.
                     task = std::move(tasks.front());
@@ -1158,13 +1159,12 @@ void stop_thread_pool()
     cv.notify_all();
 
     // Join all worker threads to ensure they have completed their tasks.
-    std::ranges::for_each(thread_pool, [](std::thread &t) { t.join(); });
+    std::ranges::for_each(thread_pool, [](std::thread &t){ t.join(); });
 }
 
 
 void enqueue_task(std::function<void()> task)
 {
-    enqueued_task_count++;
     {
         std::unique_lock<std::mutex> lock(mutex);
         tasks.emplace(std::move(task));

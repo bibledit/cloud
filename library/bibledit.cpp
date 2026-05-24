@@ -210,7 +210,7 @@ void bibledit_start_library ()
   config_globals_webserver_running = true;
 
   // Start the thread pool with the workers.
-  start_thread_pool();
+  start_thread_pool(); // Todo determine pool size.
 
   // Run the plain web server in a thread.
   config_globals_http_worker = new std::thread (http_server);
@@ -317,9 +317,16 @@ void bibledit_stop_library ()
   // Clear running flag.
   config_globals_webserver_running = false;
 
-  // Stop the thread pool for the workers.
-  stop_thread_pool();
-  
+#ifndef HAVE_ANDROID
+#ifndef HAVE_IOS
+  // Schedule a timer to exit(0) the program in case the network stack fails to exit the servers.
+  // This should not be done on devices like Android and iOS
+  // because then the app would quit when the user moves the app to the background,
+  // whereas the user expects the app to stay alive in the background.
+  new std::thread (bibledit_last_ditch_forced_exit);
+#endif
+#endif
+
   std::string url, error;
   
   // Connect to the plain webserver to initiate its shutdown mechanism.
@@ -339,24 +346,17 @@ void bibledit_stop_library ()
   }
 #endif
 
+  // Stop the thread pool for the workers.
+  stop_thread_pool();
+
   // Another way of doing the above is to ::raise a signal to each of the listening threads.
   // That signal will unblock the blocking BSD sockets, and so allow the shutdown process to proceed.
   
-#ifndef HAVE_ANDROID
-#ifndef HAVE_IOS
-  // Schedule a timer to exit(0) the program in case the network stack fails to exit the servers.
-  // This should not be done on devices like Android and iOS
-  // because then the app would quit when the user moves the app to the background,
-  // whereas the user expects the app to stay alive in the background.
-  new std::thread (bibledit_last_ditch_forced_exit);
-#endif
-#endif
-
   // Wait till the servers and the timers shut down.
   config_globals_http_worker->join ();
   config_globals_https_worker->join ();
   config_globals_timer->join ();
-  
+
   // Clear memory.
   delete config_globals_http_worker;
   delete config_globals_https_worker;

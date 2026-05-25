@@ -425,12 +425,7 @@ void http_server()
             std::string client_address = remote_address;
             convert_ipv6_notation_to_pure_ipv4_notation(client_address);
 
-            // Handle this request in a thread, enabling parallel requests. // Todo
-            //auto request_thread = std::thread(webserver_process_request, conn_fd, client_address);
-            // // Detach and delete thread object.
-            //request_thread.detach();
-
-            // Handle this request via the thread pool, enabling parallel requests. Todo
+            // Handle this request via the thread pool, enabling parallel requests.
             enqueue_task(std::bind(webserver_process_request, conn_fd, client_address));
         }
         else
@@ -463,7 +458,7 @@ void http_server_acceptor_processor(SOCKET listen_socket)
     socklen_t clientlen = sizeof (clientaddr);
     // The SOCKET in Windows will be closed when it goes out of scope.
     // This is different from a Unix file descriptor.
-    // Therefore there's a difference in web server architecture between them.
+    // Therefore, there's a difference in web server architecture between them.
     SOCKET client_socket = accept(listen_socket, (struct sockaddr*)&clientaddr, &clientlen);
     server_accepting_mutex.lock();
     server_accepting_flag = false;
@@ -564,10 +559,8 @@ void http_server()
         server_accepting_mutex.unlock();
         if (start_acceptor)
         {
-            // Handle waiting for and processing the request in a thread, enabling parallel requests.
-            std::thread request_thread = std::thread(http_server_acceptor_processor, listen_socket);
-            // Detach and delete thread object.
-            request_thread.detach();
+            // Handle this request via the thread pool, enabling parallel requests.
+            enqueue_task(std::bind(http_server_acceptor_processor, listen_socket));
         }
         // Wait shortly before next poll iteration.
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -1072,10 +1065,8 @@ void https_server()
             continue;
         }
 
-        // Handle this request in a thread, enabling parallel requests.
-        auto request_thread = std::thread(secure_webserver_process_request, &conf, client_fd);
-        // Detach and delete thread object.
-        request_thread.detach();
+        // Handle this request via the thread pool, enabling parallel requests.
+        enqueue_task(std::bind(secure_webserver_process_request, &conf, client_fd));
     }
 
     // Wait shortly to give sufficient time to let the connection fail,

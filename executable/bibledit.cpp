@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_EXECINFO
 #include <execinfo.h>
 #endif
+#include <csignal>
 #include <database/logs.h>
 #ifdef HAVE_WINDOWS
 #include <windows.h>
@@ -40,11 +41,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 
-static void sigint_handler([[maybe_unused]] int s)
+static void sigint_handler(int)
 {
-    // When pressing Ctrl-C, the system outputs a "^C".
-    // It is cleaner to write a new line after that.
-    std::cout << std::endl;
     // Initiate server(s) shutdown.
     bibledit_stop_library();
 }
@@ -98,8 +96,8 @@ void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* func
 
 int main()
 {
-    // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
-    signal(SIGINT, sigint_handler);
+    // Install signal handler for Ctrl-C to initiate a clean shutdown.
+    std::signal(SIGINT, sigint_handler);
 
 
 #ifdef HAVE_EXECINFO

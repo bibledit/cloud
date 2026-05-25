@@ -277,7 +277,8 @@ static void webserver_process_request (const int conn_fd, const std::string clie
                                 (file_fd, stream_buffer, 1024));
                             if (byte_count > 0)
                             {
-                                send(conn_fd, stream_buffer, static_cast<size_t>(byte_count), 0);
+                                // ReSharper disable once CppRedundantCastExpression
+                                send (conn_fd, reinterpret_cast<const char *> (stream_buffer), static_cast<size_t>(byte_count), 0);
                             }
                         }
                         while (byte_count > 0);

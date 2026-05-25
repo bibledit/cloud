@@ -427,7 +427,7 @@ void http_server()
             convert_ipv6_notation_to_pure_ipv4_notation(client_address);
 
             // Handle this request via the thread pool, enabling parallel requests.
-            enqueue_task(std::bind(webserver_process_request, conn_fd, client_address));
+            enqueue_task([conn_fd, client_address] { webserver_process_request(conn_fd, client_address); });
         }
         else
         {
@@ -1067,7 +1067,8 @@ void https_server()
         }
 
         // Handle this request via the thread pool, enabling parallel requests.
-        enqueue_task(std::bind(secure_webserver_process_request, &conf, client_fd));
+        const auto conf_ptr = std::addressof(conf);
+        enqueue_task([conf_ptr, client_fd] { secure_webserver_process_request(conf_ptr, client_fd); });
     }
 
     // Wait shortly to give sufficient time to let the connection fail,

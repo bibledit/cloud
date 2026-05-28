@@ -140,7 +140,7 @@ void Flate::process_zones(std::string& rendering) const
     // Limit zone iterations.
     int zone_iteration_count = 0;
     // Start processing zones by locating the first one.
-    constexpr std::string begin_zone("<!-- #BEGINZONE");
+    const std::string begin_zone("<!-- #BEGINZONE");
     size_t position = rendering.find(begin_zone);
     // Iterate through the file contents till all zones have been dealt with.
     while (position != std::string::npos and zone_iteration_count < 1000)

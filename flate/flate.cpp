@@ -216,8 +216,8 @@ void Flate::process_translate(std::string& rendering)
     // Clean up the "translate" (gettext) calls.
     rendering = filter::string::replace("translate (", "translate(", rendering);
     // Gettext markup.
-    constexpr std::string gettext_open = R"(translate(")";
-    constexpr std::string gettext_close = R"("))";
+    const std::string gettext_open = R"(translate(")";
+    const std::string gettext_close = R"("))";
     // Limit number of gettext iterations.
     int max_iterations{1000};
     // Start processing variables by locating the first one.

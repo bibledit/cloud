@@ -24,16 +24,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Flate
 {
 public:
-  void set_variable (std::string key, std::string value);
-  void enable_zone (std::string zone);
-  std::string render (std::string html);
-  void add_iteration (std::string key, std::map <std::string, std::string> value);
-  std::map <std::string, std::vector <std::map <std::string, std::string> > > iterations {};
+    void set_variable(std::string key, std::string value);
+    void enable_zone(const std::string& zone);
+    std::string render(const std::string& html);
+    void add_iteration(std::string key, std::map<std::string, std::string> value);
+    std::map<std::string, std::vector<std::map<std::string, std::string>>> iterations{};
+
 private:
-  std::map <std::string, std::string> variables {};
-  std::map <std::string, bool> zones {};
-  void process_iterations (std::string & rendering);
-  void process_zones (std::string& rendering);
-  void process_variables (std::string& rendering);
-  void process_translate (std::string& rendering);
+    std::map<std::string, std::string> variables{};
+    std::map<std::string, bool> zones{};
+    void process_iterations(std::string& rendering);
+    void process_zones(std::string& rendering) const;
+    void process_variables(std::string& rendering);
+    static void process_translate(std::string& rendering);
 };

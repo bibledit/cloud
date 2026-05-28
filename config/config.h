@@ -24,7 +24,7 @@
 #define HAVE_UPLOAD 1
 
 
-// Maxinum number of simultaneous background tasks.
+// Maximum number of simultaneous background tasks.
 #define MAX_PARALLEL_TASKS 10
 
 
@@ -38,6 +38,10 @@
 
 // Whether it runs the secure webserver.
 #define RUN_SECURE_SERVER 1
+
+
+// Whether it uses a thread pool for handling web requests.
+#define HAVE_THREADPOOL 1
 
 
 #ifdef HAVE_WINDOWS
@@ -68,6 +72,7 @@
 // Testing the std::fileystem in August 2024.
 // Results: 5 out of 6 devices tested had crashes in C++.
 // See https://github.com/bibledit/cloud/issues/952 for more info.
+#undef HAVE_THREADPOOL
 #endif
 
 

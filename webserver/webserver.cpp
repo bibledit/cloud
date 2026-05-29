@@ -1116,12 +1116,17 @@ static std::mutex mutex;
 // Condition variable to signal changes in the state of the tasks queue.
 static std::condition_variable cv;
 
-// Flag to indicate whether the thread pool should stop.
-[[maybe_unused]] static std::atomic stop {false};
+// Flag to indicate whether the thread pool should run.
+static std::atomic run_pool {false};
 
-void start_thread_pool([[maybe_unused]] const std::size_t num_threads)
+void start_thread_pool(const std::size_t num_threads)
 {
 #ifdef HAVE_THREADPOOL
+    // Guard against double starting.
+    if (run_pool)
+        return;
+    // Flag to run.
+    run_pool = true;
     // Creating worker threads.
     for (size_t i = 0; i < num_threads; ++i) {
         thread_pool.emplace_back([] {
@@ -1136,11 +1141,11 @@ void start_thread_pool([[maybe_unused]] const std::size_t num_threads)
                     // Waiting until there is a task to execute or the pool is stopped.
                     // While in .wait it unlocks the mutex on the queue.
                     cv.wait(lock, [] {
-                        return not tasks.empty() or stop;
+                        return not tasks.empty() or not run_pool;
                     });
 
                     // Exit the thread in case the pool is stopped, disregarding pending http requests.
-                    if (stop)
+                    if (not run_pool)
                         return;
 
                     // Get the next task from the queue.
@@ -1160,8 +1165,12 @@ void start_thread_pool([[maybe_unused]] const std::size_t num_threads)
 void stop_thread_pool()
 {
 #ifdef HAVE_THREADPOOL
+    // Guard against double stopping.
+    if (not run_pool)
+        return;
+
     // Indicate stop.
-    stop = true;
+    run_pool = false;
 
     // Notify all threads
     cv.notify_all();

@@ -327,10 +327,10 @@ void bibledit_stop_library()
 #endif
 #endif
 
-    std::string url, error;
+    std::string error;
 
     // Connect to the plain webserver to initiate its shutdown mechanism.
-    url = "http://localhost:";
+    std::string url = "http://localhost:";
     url.append(config::logic::http_network_port());
     filter_url_http_get(url, error, false);
 

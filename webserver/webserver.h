@@ -23,5 +23,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void http_server ();
 void https_server ();
-void start_thread_pool(const std::size_t num_threads = std::thread::hardware_concurrency());
+void start_thread_pool(std::size_t num_threads = std::thread::hardware_concurrency());
 void stop_thread_pool();

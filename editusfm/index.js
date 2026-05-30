@@ -17,73 +17,73 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-var usfmEditorUniqueID = Math.floor (Math.random() * 100000000);
-var touchStartX = 0;
+const usfmEditorUniqueID = Math.floor(Math.random() * 100000000);
+let touchStartX = 0;
 
 
-document.addEventListener("DOMContentLoaded", function(e) {
-  // Make the editor's menu to never scroll out of view.
-  var bar = document.querySelector ("#editorheader");
-  if (bar) {
-    document.querySelector ("#workspacemenu").insertAdjacentHTML('beforeend', bar.outerHTML);
-    bar.remove()
-  }
-
-  navigationNewPassage ();
-  var usfmeditor = document.querySelector ("#usfmeditor");
-  usfmeditor.addEventListener("paste", function (event) {
-    usfmEditorChanged(event);
-    var clipboardData = event.clipboardData || window.clipboardData;
-    var pastedText = clipboardData.getData('Text');
-    event.preventDefault();
-    event.stopPropagation();
-    document.execCommand ("insertHTML", false, pastedText);
-    usfmCaretChanged();
-  });
-  usfmeditor.addEventListener("cut", function (event) {
-    usfmEditorChanged(event);
-    usfmCaretChanged();
-  });
-  usfmeditor.addEventListener("keydown", function (event) {
-    usfmEditorChanged(event);
-  });
-  usfmeditor.addEventListener("click", function (event) {
-    usfmCaretChanged();
-  });
-  usfmeditor.addEventListener("keydown", function (event) {
-    usfmHandleKeyDown(event);
-  });
-  document.addEventListener("visibilitychange", (event) => {
-    if (document.visibilityState == "hidden") {
-      usfmEditorSaveChapter (true);
+document.addEventListener("DOMContentLoaded", function() {
+    // Make the editor's menu to never scroll out of view.
+    {
+        const bar = document.querySelector("#editorheader");
+        if (bar) {
+            document.querySelector("#workspacemenu").insertAdjacentHTML('beforeend', bar.outerHTML);
+            bar.remove()
+        }
     }
-  })
-  window.addEventListener("pagehide", (event) => {
-    usfmEditorSaveChapter (true);
-  })
-  usfmIdPollerOn ();
-  if (usfmEditorWriteAccess) usfmeditor.focus ();
-  window.addEventListener("focus", usfmWindowFocused);
-  
-  if (swipe_operations) {
-    // The minimum distance to swipe is 10% of the screen width.
-    // This is to eliminate small unintended swipes.
-    let minSwipeDistance = parseInt(window.screen.width / 10);
-    
-    document.body.addEventListener('touchstart', event => {
-      touchStartX = event.changedTouches[0].screenX;
+
+    navigationNewPassage();
+    const usfmeditor = document.querySelector("#usfmeditor");
+    usfmeditor.addEventListener("paste", function (event) {
+        usfmEditorChanged(event);
+        const clipboardData = event.clipboardData || window.clipboardData;
+        const pastedText = clipboardData.getData('Text');
+        event.preventDefault();
+        event.stopPropagation();
+        document.execCommand("insertHTML", false, pastedText);
+        usfmCaretChanged();
     });
-    
-    document.body.addEventListener('touchend', event => {
-      let touchEndX = event.changedTouches[0].screenX
-      if (touchEndX < touchStartX - minSwipeDistance) {
-        editusfmSwipeLeft (event);
-      }
-      if (touchEndX > touchStartX + minSwipeDistance) {
-        editusfmSwipeRight (event);
-      }
+    usfmeditor.addEventListener("cut", function (event) {
+        usfmEditorChanged(event);
+        usfmCaretChanged();
+    });
+    usfmeditor.addEventListener("keydown", function (event) {
+        usfmHandleKeyDown(event);
+        usfmEditorChanged(event);
+    });
+    usfmeditor.addEventListener("click", function (event) {
+        usfmCaretChanged();
+    });
+    document.addEventListener("visibilitychange", (event) => {
+        if (document.visibilityState === "hidden") {
+            usfmEditorSaveChapter(true);
+        }
     })
-  }
+    window.addEventListener("pagehide", (event) => {
+        usfmEditorSaveChapter(true);
+    })
+    usfmIdPollerOn();
+    if (usfmEditorWriteAccess) usfmeditor.focus();
+    window.addEventListener("focus", usfmWindowFocused);
+
+    if (swipe_operations) {
+        // The minimum distance to swipe is 10% of the screen width.
+        // This is to eliminate small unintended swipes.
+        let minSwipeDistance = parseInt(window.screen.width / 10);
+
+        document.body.addEventListener('touchstart', event => {
+            touchStartX = event.changedTouches[0].screenX;
+        });
+
+        document.body.addEventListener('touchend', event => {
+            let touchEndX = event.changedTouches[0].screenX
+            if (touchEndX < touchStartX - minSwipeDistance) {
+                editusfmSwipeLeft(event);
+            }
+            if (touchEndX > touchStartX + minSwipeDistance) {
+                editusfmSwipeRight(event);
+            }
+        })
+    }
 });
 
 
@@ -266,14 +266,14 @@ function usfmEditorSaveChapter (sync)
 
 function usfmEditorChanged (event)
 {
-  if (editKeysIgnoreForContentChange (event)) return;
-  usfmEditorStatus (usfmEditorWillSave);
-  usfmEditorTextChanged = true;
-  if (usfmEditorChangedTimeout) {
-    clearTimeout (usfmEditorChangedTimeout);
-  }
-  usfmEditorChangedTimeout = setTimeout (usfmEditorSaveChapter, 1000);
-  //restartCaretClarifier ();
+    if (editKeysIgnoreForContentChange(event)) return;
+    usfmEditorStatus(usfmEditorWillSave);
+    usfmEditorTextChanged = true;
+    if (usfmEditorChangedTimeout) {
+        clearTimeout(usfmEditorChangedTimeout);
+    }
+    usfmEditorChangedTimeout = setTimeout(usfmEditorSaveChapter, 1000);
+    //restartCaretClarifier ();
 }
 
 
@@ -368,8 +368,24 @@ function usfmCaretChanged ()
 
 function usfmHandleKeyDown (event)
 {
-  if (editKeysIgnoreForCaretChange (event)) return;
-  usfmCaretChanged ();
+    // Handle Enter key.
+    // Resolves https://github.com/bibledit/cloud/issues/1086
+    if (event.keyCode === 13) {
+        event.preventDefault()
+        const selection = window.getSelection()
+        const range = selection.getRangeAt(0)
+        // const node = document.getSelection().anchorNode
+        // const pNode = node.parentNode
+        // const tag = pNode.nodeName
+        const el = document.createElement("br");
+        range.deleteContents();
+        range.insertNode(el);
+        range.setStartAfter(el);
+        range.setEndAfter(el);
+    }
+
+    if (editKeysIgnoreForCaretChange(event)) return;
+    usfmCaretChanged();
 }
 
 

@@ -18,16 +18,16 @@
 # Set the minimum CMake version required.
 cmake_minimum_required(VERSION 3.31)
 
+
 # Print info.
 message(STATUS "Processing ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
-
 # Start a project by setting the project name and version.
-project(bibledit VERSION 5.1.043)
+project(bibledit VERSION 5.1.046)
 
 
-set(laboratory_VERSION "${laboratory_VERSION_MAJOR}.${laboratory_VERSION_MINOR}.${laboratory_VERSION_PATCH}")
+set(bibledit_VERSION "${bibledit_VERSION_MAJOR}.${bibledit_VERSION_MINOR}.${bibledit_VERSION_PATCH}")
 
 
 # Handle the install prefix.
@@ -618,88 +618,94 @@ add_executable(server
 target_link_libraries(server bibledit)
 
 
-# The unit test executable
-add_executable(unittest
-        unittests/unittest.cpp
-        unittests/utilities.cpp
-        unittests/sqlite.cpp
-        unittests/session.cpp
-        unittests/folders.cpp
-        unittests/flate.cpp
-        unittests/checksum.cpp
-        unittests/bibles.cpp
-        unittests/usfm-html.cpp
-        unittests/workspaces.cpp
-        unittests/client.cpp
-        unittests/versification.cpp
-        unittests/usfm.cpp
-        unittests/verses.cpp
-        unittests/paratext.cpp
-        unittests/search.cpp
-        unittests/json.cpp
-        unittests/related.cpp
-        unittests/editone.cpp
-        unittests/http.cpp
-        unittests/memory.cpp
-        unittests/tasks.cpp
-        unittests/rss.cpp
-        unittests/roles.cpp
-        unittests/md5.cpp
-        unittests/string.cpp
-        unittests/users.cpp
-        unittests/date.cpp
-        unittests/export.cpp
-        unittests/html.cpp
-        unittests/archive.cpp
-        unittests/odf.cpp
-        unittests/text.cpp
-        unittests/url.cpp
-        unittests/passage.cpp
-        unittests/styles.cpp
-        unittests/diff.cpp
-        unittests/git.cpp
-        unittests/ipc.cpp
-        unittests/shell.cpp
-        unittests/ldap.cpp
-        unittests/dev.cpp
-        unittests/sample.cpp
-        unittests/config.cpp
-        unittests/log.cpp
-        unittests/books.cpp
-        unittests/checks.cpp
-        unittests/localization.cpp
-        unittests/confirm.cpp
-        unittests/jobs.cpp
-        unittests/kjv.cpp
-        unittests/oshb.cpp
-        unittests/sblgnt.cpp
-        unittests/sprint.cpp
-        unittests/mail.cpp
-        unittests/navigation.cpp
-        unittests/resources.cpp
-        unittests/notes.cpp
-        unittests/modifications.cpp
-        unittests/volatile.cpp
-        unittests/state.cpp
-        unittests/strong.cpp
-        unittests/morphgnt.cpp
-        unittests/etcbc4.cpp
-        unittests/lexicon.cpp
-        unittests/cache.cpp
-        unittests/login.cpp
-        unittests/privileges.cpp
-        unittests/statistics.cpp
-        unittests/webview.cpp
-        unittests/javascript.cpp
-        unittests/merge.cpp
-        unittests/html2format.cpp
-        unittests/bibleimages.cpp
-        unittests/image.cpp
-        unittests/scraper.cpp
-        unittests/consistency.cpp
-)
-target_link_libraries(unittest bibledit)
+# Building the unit tests is optional, default is on.
+# Set it off: $ cmake .. -DBUILD_UNITTESTS=OFF
+option(BUILD_UNITTESTS "Build and use the unit tests" ON)
 
+
+# The unit test executable
+if (BUILD_UNITTESTS)
+    add_executable(unittest
+            unittests/unittest.cpp
+            unittests/utilities.cpp
+            unittests/sqlite.cpp
+            unittests/session.cpp
+            unittests/folders.cpp
+            unittests/flate.cpp
+            unittests/checksum.cpp
+            unittests/bibles.cpp
+            unittests/usfm-html.cpp
+            unittests/workspaces.cpp
+            unittests/client.cpp
+            unittests/versification.cpp
+            unittests/usfm.cpp
+            unittests/verses.cpp
+            unittests/paratext.cpp
+            unittests/search.cpp
+            unittests/json.cpp
+            unittests/related.cpp
+            unittests/editone.cpp
+            unittests/http.cpp
+            unittests/memory.cpp
+            unittests/tasks.cpp
+            unittests/rss.cpp
+            unittests/roles.cpp
+            unittests/md5.cpp
+            unittests/string.cpp
+            unittests/users.cpp
+            unittests/date.cpp
+            unittests/export.cpp
+            unittests/html.cpp
+            unittests/archive.cpp
+            unittests/odf.cpp
+            unittests/text.cpp
+            unittests/url.cpp
+            unittests/passage.cpp
+            unittests/styles.cpp
+            unittests/diff.cpp
+            unittests/git.cpp
+            unittests/ipc.cpp
+            unittests/shell.cpp
+            unittests/ldap.cpp
+            unittests/dev.cpp
+            unittests/sample.cpp
+            unittests/config.cpp
+            unittests/log.cpp
+            unittests/books.cpp
+            unittests/checks.cpp
+            unittests/localization.cpp
+            unittests/confirm.cpp
+            unittests/jobs.cpp
+            unittests/kjv.cpp
+            unittests/oshb.cpp
+            unittests/sblgnt.cpp
+            unittests/sprint.cpp
+            unittests/mail.cpp
+            unittests/navigation.cpp
+            unittests/resources.cpp
+            unittests/notes.cpp
+            unittests/modifications.cpp
+            unittests/volatile.cpp
+            unittests/state.cpp
+            unittests/strong.cpp
+            unittests/morphgnt.cpp
+            unittests/etcbc4.cpp
+            unittests/lexicon.cpp
+            unittests/cache.cpp
+            unittests/login.cpp
+            unittests/privileges.cpp
+            unittests/statistics.cpp
+            unittests/webview.cpp
+            unittests/javascript.cpp
+            unittests/merge.cpp
+            unittests/html2format.cpp
+            unittests/bibleimages.cpp
+            unittests/image.cpp
+            unittests/scraper.cpp
+            unittests/consistency.cpp
+    )
+    target_link_libraries(unittest bibledit)
+endif ()
 
 # The generator executable.
 add_executable(generate
@@ -728,7 +734,9 @@ target_include_directories(bibledit PUBLIC ${LIBCURL_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${LIBCURL_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${LIBCURL_LIBRARY_DIRS})
 target_link_libraries(server ${LIBCURL_LIBRARIES})
-target_link_libraries(unittest ${LIBCURL_LIBRARIES})
+if (BUILD_UNITTESTS)
+    target_link_libraries(unittest ${LIBCURL_LIBRARIES})
+endif ()
 target_link_libraries(generate ${LIBCURL_LIBRARIES})
 check_include_file(curl/curl.h, INCLUDE_CURL_H)
 
@@ -737,7 +745,9 @@ target_include_directories(bibledit PUBLIC ${OPENSSL_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${OPENSSL_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${OPENSSL_LIBRARY_DIRS})
 target_link_libraries(server ${OPENSSL_LIBRARIES})
-target_link_libraries(unittest ${OPENSSL_LIBRARIES})
+if (BUILD_UNITTESTS)
+    target_link_libraries(unittest ${OPENSSL_LIBRARIES})
+endif ()
 target_link_libraries(generate ${OPENSSL_LIBRARIES})
 
 pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.9.0)
@@ -745,7 +755,9 @@ target_include_directories(bibledit PUBLIC ${LIBXML2_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${LIBXML2_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${LIBXML2_LIBRARY_DIRS})
 target_link_libraries(server ${LIBXML2_LIBRARIES})
-target_link_libraries(unittest ${LIBXML2_LIBRARIES})
+if (BUILD_UNITTESTS)
+    target_link_libraries(unittest ${LIBXML2_LIBRARIES})
+endif ()
 target_link_libraries(generate ${LIBXML2_LIBRARIES})
 
 pkg_check_modules(ICU icu-i18n>=60.0)
@@ -756,7 +768,9 @@ if (ICU_FOUND)
     target_link_directories(bibledit PUBLIC ${ICU_LIBRARY_DIRS})
     # The pkg-config does not give all libraries needed: Add one manually.
     target_link_libraries(server ${ICU_LIBRARIES} icuuc)
-    target_link_libraries(unittest ${ICU_LIBRARIES} icuuc)
+    if (BUILD_UNITTESTS)
+        target_link_libraries(unittest ${ICU_LIBRARIES} icuuc)
+    endif ()
     target_link_libraries(generate ${ICU_LIBRARIES} icuuc)
 endif ()
 
@@ -767,7 +781,9 @@ if (MBEDTLS_FOUND)
     target_compile_options(bibledit PUBLIC ${MBEDTLS_CFLAGS_OTHER})
     target_link_directories(bibledit PUBLIC ${MBEDTLS_LIBRARY_DIRS})
     target_link_libraries(server ${MBEDTLS_LIBRARIES})
-    target_link_libraries(unittest ${MBEDTLS_LIBRARIES})
+    if (BUILD_UNITTESTS)
+        target_link_libraries(unittest ${MBEDTLS_LIBRARIES})
+    endif ()
     target_link_libraries(generate ${MBEDTLS_LIBRARIES})
 endif ()
 
@@ -778,7 +794,9 @@ if (UTF8PROC_FOUND)
     target_compile_options(bibledit PUBLIC ${UTF8PROC_CFLAGS_OTHER})
     target_link_directories(bibledit PUBLIC ${UTF8PROC_LIBRARY_DIRS})
     target_link_libraries(server ${UTF8PROC_LIBRARIES})
-    target_link_libraries(unittest ${UTF8PROC_LIBRARIES})
+    if (BUILD_UNITTESTS)
+        target_link_libraries(unittest ${UTF8PROC_LIBRARIES})
+    endif ()
     target_link_libraries(generate ${UTF8PROC_LIBRARIES})
 endif ()
 
@@ -787,7 +805,9 @@ target_include_directories(bibledit PUBLIC ${TIDY_INCLUDE_DIRS})
 target_compile_options(bibledit PUBLIC ${TIDY_CFLAGS_OTHER})
 target_link_directories(bibledit PUBLIC ${TIDY_LIBRARY_DIRS})
 target_link_libraries(server ${TIDY_LIBRARIES})
-target_link_libraries(unittest ${TIDY_LIBRARIES})
+if (BUILD_UNITTESTS)
+    target_link_libraries(unittest ${TIDY_LIBRARIES})
+endif ()
 target_link_libraries(generate ${TIDY_LIBRARIES})
 
 pkg_check_modules(PUGIXML pugixml>=1.10)
@@ -797,7 +817,9 @@ if (PUGIXML_FOUND)
     target_compile_options(bibledit PUBLIC ${PUGIXML_CFLAGS_OTHER})
     target_link_directories(bibledit PUBLIC ${PUGIXML_LIBRARY_DIRS})
     target_link_libraries(server ${PUGIXML_LIBRARIES})
-    target_link_libraries(unittest ${PUGIXML_LIBRARIES})
+    if (BUILD_UNITTESTS)
+        target_link_libraries(unittest ${PUGIXML_LIBRARIES})
+    endif ()
     target_link_libraries(generate ${PUGIXML_LIBRARIES})
 endif ()
 
@@ -807,7 +829,9 @@ if (GTEST_FOUND)
     target_include_directories(bibledit PUBLIC ${GTEST_INCLUDE_DIRS})
     target_compile_options(bibledit PUBLIC ${GTEST_CFLAGS_OTHER})
     target_link_directories(bibledit PUBLIC ${GTEST_LIBRARY_DIRS})
-    target_link_libraries(unittest ${GTEST_LIBRARIES})
+    if (BUILD_UNITTESTS)
+        target_link_libraries(unittest ${GTEST_LIBRARIES})
+    endif ()
 endif ()
 
 # Whether to use GTK for the client edition.
@@ -856,6 +880,7 @@ option(HAVE_LINUX "Compile for Linux" OFF)
 option(HAVE_IOS "Compile for iOS" OFF)
 
 message(STATUS "Bibledit ${bibledit_VERSION} configuration summary")
+message(STATUS "Build unit tests (cmake -DBUILD_UNITTESTS=OFF)        ${BUILD_UNITTESTS}")
 message(STATUS "Install prefix   (cmake -DCMAKE_INSTALL_PREFIX=path)  ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "Windows          (cmake -DHAVE_WINDOWS=ON)            ${HAVE_WINDOWS}")
 message(STATUS "Android          (cmake -DHAVE_ANDROID=ON)            ${HAVE_ANDROID}")
@@ -868,69 +893,3 @@ configure_file(cmake_config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
 # Installation.
 install(TARGETS server DESTINATION bin)
-
-
-# Todo handle the Makefile.am code below in some way for CMake.
-#AM_CFLAGS = -g
-#AM_CFLAGS += $(OPENSSL_CFLAGS)
-#
-## Compiling on some systems may treat warnings as errors.
-## Pass a flag to the compiler to treat a warning not as an error
-#AM_CXXFLAGS = -fno-var-tracking -g -Wno-error
-#if COMPILERWARNINGS
-#AM_CFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wno-pragmas
-#AM_CXXFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra-semi -Wfloat-equal -Wformat=2 -Wmissing-include-dirs -Wmissing-noreturn -Wnull-dereference -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wsign-promo -Wsuggest-override -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunused-but-set-parameter -Wunused-macros -Wunused-parameter -Wvla -Wzero-as-null-pointer-constant -Wmismatched-tags
-#if COMPILERGCC
-#AM_CXXFLAGS += -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-cond -Wformat-overflow=2 -Wlogical-op -Wnoexcept -Wno-non-template-friend -Wrestrict -Wstrict-null-sentinel -Wuseless-cast -Wcomma-subscript -Wredundant-tags -Wvolatile
-#endif
-#endif
-#if COMPILERCLANG
-#endif
-## AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
-#
-#if MACFLAGS
-## Building Bibledit for macOS for two architectures
-## due to the switch from macOS from the x86_64 to the arm64 architecture.
-## Additionally it uses the includes and libraries from the macOS SDK.
-## Generate the macOS SDK path: $ xcrun --show-sdk-path
-#AM_CXXFLAGS += -mmacosx-version-min=10.10 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -arch x86_64 -arch arm64
-#AM_CFLAGS += -mmacosx-version-min=10.10 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -arch x86_64 -arch arm64
-#endif
-#
-#LIBS = -Wall -lpthread -L. -g -rdynamic -ldl
-#
-## The core library compiles and embeds the mbedtls library.
-## On Debian this gives a lintian error:
-## E: bibledit: embedded-library usr/bin/bibledit: mbedtls
-## Solve this on Debian by omitting that library from the core,
-## and by linking to the mbed TLS library provided by the system.
-## For other platforms, the library remains in the core.
-## debian LIBS += -lmbedtls -lmbedcrypto -lmbedx509
-#
-#EXTRA_DIST = a* bb bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w*
-#
-#dist-hook:
-#rm -rf `find $(distdir) -name *.o`
-#rm -rf `find $(distdir) -name *.a`
-#rm -rf `find $(distdir) -name autom4te.cache`
-#rm -f $(distdir)/server
-#rm -f $(distdir)/unittest
-#rm -rf `find $(distdir) -name .dirstamp`
-#rm -rf `find $(distdir) -name .deps`
-#rm -rf `find $(distdir) -name *~`
-#rm -f $(distdir)/config.h
-#rm -f $(distdir)/config.log
-#rm -f $(distdir)/config.status
-#
-#CLEANFILES = bibledit*.gz *~
-#
-#all-local:
-#pkgdata/create.sh
-#
-#install-data-hook:
-#$(srcdir)/pkgdata/install.sh $(srcdir) $(DESTDIR) $(pkgdatadir)
-#
-#uninstall-local:
-#rm -rf $(DESTDIR)$(pkgdatadir)/*
-#
-#man_MANS = man/bibledit.1 man/bibledit-cloud.1

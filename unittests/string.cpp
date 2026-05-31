@@ -51,53 +51,21 @@ TEST (filter, string)
     EXPECT_EQ ("a", filter::string::unicode_string_str_replace ("bc", "", "abc"));
   }
 
-  // Test filter::string::array_unique, a C++ equivalent for PHP's filter::string::array_unique function.
+  // Test filter::string::array_unique.
   {
-    std::vector <std::string> reference;
-    reference.push_back ("aaa");
-    reference.push_back ("b");
-    reference.push_back ("zzz");
-    reference.push_back ("x");
-    reference.push_back ("yyy");
-    reference.push_back ("k");
-    std::vector <std::string> input;
-    input.push_back ("aaa");
-    input.push_back ("b");
-    input.push_back ("aaa");
-    input.push_back ("b");
-    input.push_back ("aaa");
-    input.push_back ("zzz");
-    input.push_back ("x");
-    input.push_back ("x");
-    input.push_back ("yyy");
-    input.push_back ("k");
-    input.push_back ("k");
-    std::vector <std::string> output = filter::string::array_unique (input);
+    std::vector<std::string> input{
+        "aaa", "b", "aaa", "b", "aaa", "zzz", "x", "x", "yyy", "k", "k"
+    };
+    const decltype(input) output = filter::string::array_unique(input);
+    const decltype(input) reference { "aaa", "b", "zzz", "x", "yyy", "k" };
     EXPECT_EQ (reference, output);
   }
 
-  // Test filter::string::array_unique, a C++ equivalent for PHP's filter::string::array_unique function.
+  // Test filter::string::array_unique.
   {
-    std::vector <int> reference;
-    reference.push_back (111);
-    reference.push_back (2);
-    reference.push_back (999);
-    reference.push_back (7);
-    reference.push_back (888);
-    reference.push_back (5);
-    std::vector <int> input;
-    input.push_back (111);
-    input.push_back (2);
-    input.push_back (111);
-    input.push_back (2);
-    input.push_back (111);
-    input.push_back (999);
-    input.push_back (7);
-    input.push_back (7);
-    input.push_back (888);
-    input.push_back (5);
-    input.push_back (5);
-    std::vector <int> output = filter::string::array_unique (input);
+    std::vector input { 111, 2, 111, 2, 111, 999, 7, 7, 888, 5, 5 };
+    const decltype(input) output = filter::string::array_unique (input);
+    const decltype(input) reference { 111, 2, 999, 7, 888, 5 };
     EXPECT_EQ (reference, output);
   }
 

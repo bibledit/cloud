@@ -21,50 +21,67 @@
 
 #include <config/libraries.h>
 
-
 namespace filter::string {
 
 
 // Return the intersection of two containers.
 template <typename T>
-std::vector <T> array_intersect (std::vector <T> a, std::vector <T> b)
+std::vector<T> array_intersect(std::vector<T> a, std::vector<T> b)
 {
-  std::vector <T> result;
-  std::set <T> aset (a.begin(), a.end());
-  for (auto & item : b) {
-    if (aset.find (item) != aset.end()) {
-      result.push_back (item);
+    std::vector<T> result;
+    std::set<T> aset(a.begin(), a.end());
+    for (auto& item : b)
+    {
+        if (aset.find(item) != aset.end())
+        {
+            result.push_back(item);
+        }
     }
-  }
-  return result;
+    return result;
 }
 
 
 // Return whether the needle is found in the haystack.
 template <typename T>
-bool in_array (const T & needle, const std::vector <T> & haystack)
+bool in_array(const T& needle, const std::vector<T>& haystack)
 {
-  return (find (haystack.begin(), haystack.end(), needle) != haystack.end());
+    return (find(haystack.begin(), haystack.end(), needle) != haystack.end());
 }
 
 
 // Returns items in "from" which are not present in "against".
 template <typename T>
-std::vector<T> array_diff (const std::vector<T>& from, const std::vector<T>& against) {
-  std::vector <T> result {};
-  for (const auto& item : from) {
-    if (std::find(against.cbegin(), against.cend(), item) == against.cend())
-      result.push_back(item);
-  }
-  return result;
+std::vector<T> array_diff(const std::vector<T>& from, const std::vector<T>& against)
+{
+    std::vector<T> result{};
+    for (const auto& item : from)
+    {
+        if (std::find(against.cbegin(), against.cend(), item) == against.cend())
+            result.push_back(item);
+    }
+    return result;
+}
+
+
+template <typename T>
+std::vector<T> array_unique (const std::vector<T>& values)
+{
+    std::vector<T> result;
+    std::ranges::for_each(values, [&result](const auto& value)
+    {
+        if (std::ranges::find(result, value) == result.cend())
+            result.emplace_back(value);
+    });
+    return result;
 }
 
 
 // Takes a range and materializes it into a vector.
-auto range2vector(auto&& r) {
-  std::vector<std::ranges::range_value_t<decltype(r)>> v;
-  std::ranges::copy(r, std::back_inserter(v));
-  return v;
+auto range2vector(auto&& r)
+{
+    std::vector<std::ranges::range_value_t<decltype(r)>> v;
+    std::ranges::copy(r, std::back_inserter(v));
+    return v;
 }
 
 

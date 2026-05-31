@@ -273,36 +273,6 @@ std::u16string convert_to_u16string (const std::string& s)
 }
 
 
-// A C++ equivalent for PHP's filter::string::array_unique function.
-std::vector <std::string> array_unique (const std::vector <std::string>& values)
-{
-  std::vector <std::string> result;
-  std::set <std::string> unique;
-  for (unsigned int i = 0; i < values.size (); i++) {
-    if (unique.find (values[i]) == unique.end ()) {
-      unique.insert (values[i]);
-      result.push_back ((values[i]));
-    }
-  }
-  return result;
-}
-
-
-// A C++ equivalent for PHP's filter::string::array_unique function.
-std::vector <int> array_unique (const std::vector <int>& values)
-{
-  std::vector <int> result;
-  std::set <int> unique;
-  for (unsigned int i = 0; i < values.size (); i++) {
-    if (unique.find (values[i]) == unique.end ()) {
-      unique.insert (values[i]);
-      result.push_back ((values[i]));
-    }
-  }
-  return result;
-}
-
-
 // A C++ equivalent for PHP's filter::string::trim function.
 std::string trim (const std::string& s)
 {

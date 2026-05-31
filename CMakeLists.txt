@@ -39,8 +39,63 @@ option(CMAKE_INSTALL_PREFIX "Install prefix" "/usr")
 # Set it during configure: $ cmake .. -DCMAKE_INSTALL_PREFIX=/usr
 
 
-# Compiler default options.
-add_compile_options(-g -Wall -Wextra -Wpedantic)
+# Compiler to emit info for the debugger.
+add_compile_options(-g)
+
+
+# Enable compiler warnings.
+add_compile_options(-Wall -Wextra -Wpedantic -Wno-unknown-pragmas -Wno-pragmas)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wshadow>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Warray-bounds>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wcast-align>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wcast-qual>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wconversion>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wctor-dtor-privacy>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wdelete-non-virtual-dtor>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Weffc++>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wextra-semi>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wfloat-equal>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wformat=2>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wmissing-include-dirs>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wmissing-noreturn>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wnull-dereference>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wredundant-decls>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wsign-promo>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wsuggest-override>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wswitch-default>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wswitch-enum>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wundef>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wuninitialized>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wunused-but-set-parameter>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wunused-macros>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wunused-parameter>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wvla>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wzero-as-null-pointer-constant>)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wmismatched-tags>)
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wcatch-value=2>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wconditionally-supported>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wduplicated-branches>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wduplicated-cond>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wformat-overflow=2>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wlogical-op>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wnoexcept>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wno-non-template-friend>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wrestrict>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wstrict-null-sentinel>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wuseless-cast>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wcomma-subscript>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wredundant-tags>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wvolatile>)
+endif()
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+endif()
+
+# Compilers on some systems may treat warnings as errors.
+# Pass a flag to the compiler to treat a warning not as an error.
+add_compile_options(-fno-var-tracking -Wno-error)
 
 
 # Finding executables.
@@ -51,10 +106,6 @@ find_program(ZIP zip REQUIRED)
 find_program(UNZIP unzip REQUIRED)
 find_program(INSTALLMGR installmgr)
 find_program(DIATHEKE diatheke)
-
-
-# Set compiler warnings for this directory and everything below.
-add_compile_options(-Wall -Wextra -Wpedantic)
 
 
 # The C++ standard to use, and it is mandatory.

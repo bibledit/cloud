@@ -30,6 +30,24 @@ project(bibledit VERSION 5.1.046)
 set(bibledit_VERSION "${bibledit_VERSION_MAJOR}.${bibledit_VERSION_MINOR}.${bibledit_VERSION_PATCH}")
 
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(COMPILERGCC ON)
+endif()
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    set(COMPILERCLANG ON)
+endif()
+
+
+option(HAVE_WINDOWS "Compile for Windows" OFF)
+if (HAVE_WINDOWS)
+    set(WIN32 ON)
+endif ()
+option(HAVE_ANDROID "Compile for Android" OFF)
+option(HAVE_MACOS "Compile for macOS" OFF)
+option(HAVE_LINUX "Compile for Linux" OFF)
+option(HAVE_IOS "Compile for iOS" OFF)
+
+
 # Handle the install prefix.
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "/usr")
@@ -74,7 +92,7 @@ add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wunused-parameter>)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wvla>)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wzero-as-null-pointer-constant>)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wmismatched-tags>)
-if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+if (COMPILERGCC)
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wcatch-value=2>)
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wconditionally-supported>)
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wduplicated-branches>)
@@ -90,7 +108,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wredundant-tags>)
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wvolatile>)
 endif()
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+if (COMPILERCLANG)
 endif()
 
 # Compilers on some systems may treat warnings as errors.
@@ -918,22 +936,6 @@ check_include_file(mach/mach.h, HAVE_MACH_MACH)
 set(PACKAGE_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/bibledit")
 
 set(PACKAGE_PREFIX_DIR "${CMAKE_INSTALL_PREFIX}")
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(COMPILERGCC ON)
-endif()
-if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-    set(COMPILERCLANG ON)
-endif()
-
-option(HAVE_WINDOWS "Compile for Windows" OFF)
-if (HAVE_WINDOWS)
-    set(WIN32 ON)
-endif ()
-option(HAVE_ANDROID "Compile for Android" OFF)
-option(HAVE_MACOS "Compile for macOS" OFF)
-option(HAVE_LINUX "Compile for Linux" OFF)
-option(HAVE_IOS "Compile for iOS" OFF)
 
 message(STATUS "Bibledit ${bibledit_VERSION} configuration summary")
 message(STATUS "Build unit tests (cmake -DBUILD_UNITTESTS=OFF)        ${BUILD_UNITTESTS}")

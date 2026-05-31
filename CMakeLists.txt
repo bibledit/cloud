@@ -38,6 +38,11 @@ option(CMAKE_INSTALL_PREFIX "Install prefix" "/usr")
 # Set it during install: $ cmake --install . --prefix "/path"
 # Set it during configure: $ cmake .. -DCMAKE_INSTALL_PREFIX=/usr
 
+
+# Compiler default options.
+add_compile_options(-g -Wall -Wextra -Wpedantic)
+
+
 # Finding executables.
 find_program(GZIP gzip REQUIRED)
 find_program(GUNZIP gunzip REQUIRED)

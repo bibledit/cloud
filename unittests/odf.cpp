@@ -243,7 +243,7 @@ TEST_F (opendocument, paragraph_formatting)
 {
   const stylesv2::Style* d_style = database::styles::get_marker_data (stylesv2::standard_sheet (), "d");
   odf_text odf_text (bible);
-  odf_text.create_paragraph_style (d_style->marker, fontname, d_style->paragraph.value().font_size, d_style->paragraph.value().italic, d_style->paragraph.value().bold, d_style->paragraph.value().underline, d_style->paragraph.value().smallcaps, d_style->paragraph.value().text_alignment, d_style->paragraph.value().space_before, d_style->paragraph.value().space_after, d_style->paragraph.value().left_margin, d_style->paragraph.value().right_margin, d_style->paragraph.value().first_line_indent, true, false);
+  odf_text.create_paragraph_style (d_style->marker, fontname, static_cast<float>(d_style->paragraph.value().font_size), d_style->paragraph.value().italic, d_style->paragraph.value().bold, d_style->paragraph.value().underline, d_style->paragraph.value().smallcaps, d_style->paragraph.value().text_alignment, d_style->paragraph.value().space_before, d_style->paragraph.value().space_after, d_style->paragraph.value().left_margin, d_style->paragraph.value().right_margin, d_style->paragraph.value().first_line_indent, true, false);
   odf_text.new_paragraph ("d");
   odf_text.add_text ("Paragraph with d style");
   odf_text.new_paragraph ("d");

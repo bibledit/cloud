@@ -1666,7 +1666,7 @@ void Filter_Text::create_paragraph_style (const stylesv2::Style* style, bool kee
     const std::string font_name = database::config::bible::get_export_font (m_bible);
     if (style->paragraph) {
       const auto& paragraph = style->paragraph.value();
-      const float font_size = paragraph.font_size;
+      const float font_size = static_cast<float>(paragraph.font_size);
       const stylesv2::TwoState italic = paragraph.italic;
       const stylesv2::TwoState bold = paragraph.bold;
       const stylesv2::TwoState underline = paragraph.underline;
@@ -1732,7 +1732,7 @@ void Filter_Text::apply_drop_caps_to_current_paragraph (int drop_caps_length)
       if (!style->paragraph)
         return;
       const std::string font_name = database::config::bible::get_export_font (m_bible);
-      const float font_size = style->paragraph.value().font_size;
+      const float font_size = static_cast<float>(style->paragraph.value().font_size);
       const auto italic = style->paragraph.value().italic;
       const auto bold = style->paragraph.value().bold;
       const auto underline = style->paragraph.value().underline;
@@ -1773,7 +1773,7 @@ void Filter_Text::put_chapter_number_in_frame (std::string chapter_text)
   // Get the chapter marker, that is \c.
   const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, chapter_marker)};
   // In the unlikely case the chapter style is not valid, take defaults as fallback options.
-  const float font_size = style->paragraph ? style->paragraph.value().font_size : 12;
+  const float font_size = style->paragraph ? static_cast<float>(style->paragraph.value().font_size) : 12.0f;
   const auto italic = style->paragraph ? style->paragraph.value().italic : stylesv2::TwoState::off;
   const auto bold = style->paragraph ? style->paragraph.value().bold : stylesv2::TwoState::off;
   if (odf_text_standard)
@@ -1824,7 +1824,7 @@ void Filter_Text::ensure_note_paragraph_style (std::string marker, const stylesv
     if (!style->paragraph)
       return;
     const std::string font_name = database::config::bible::get_export_font (m_bible);
-    const float font_size = style->paragraph.value().font_size;
+    const float font_size = static_cast<float>(style->paragraph.value().font_size);
     const auto italic = style->paragraph.value().italic;
     const auto bold = style->paragraph.value().bold;
     const auto underline = style->paragraph.value().underline;

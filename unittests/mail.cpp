@@ -207,14 +207,14 @@ TEST (filter, mail)
   {
     EXPECT_TRUE(filter_mail_limit_line_length_rfc5322(std::string(), 10).empty());
     const std::string body {"body"};
-    EXPECT_EQ(filter_mail_limit_line_length_rfc5322(body, body.length()), body);
+    EXPECT_EQ(filter_mail_limit_line_length_rfc5322(body, static_cast<int>(body.length())), body);
   }
 
   // Test routine running into the maximum iteration count safety mechanism.
   {
     const std::string body(1100, '*');
     const auto result = filter_mail_limit_line_length_rfc5322(body, 1);
-    int new_line_count = std::ranges::count(result, '\n');
+    auto new_line_count = std::ranges::count(result, '\n');
     EXPECT_EQ(new_line_count, 1000);
   }
 
@@ -223,7 +223,7 @@ TEST (filter, mail)
     const std::string body {"1234\n5678\n90"};
     const auto result = filter_mail_limit_line_length_rfc5322(body, 4);
     EXPECT_EQ(result, body);
-    int new_line_count = std::ranges::count(result, '\n');
+    auto new_line_count = std::ranges::count(result, '\n');
     EXPECT_EQ(new_line_count, 2);
   }
 
@@ -234,14 +234,14 @@ TEST (filter, mail)
       const std::string result = filter_mail_limit_line_length_rfc5322(body, 6);
       const std::string standard = "<p>\ntest\n</p><p>\ntest\n</p>";
       EXPECT_EQ(result, standard);
-      int new_line_count = std::ranges::count(result, '\n');
+      auto new_line_count = std::ranges::count(result, '\n');
       EXPECT_EQ(new_line_count, 4);
     }
     {
       const std::string result = filter_mail_limit_line_length_rfc5322(body, 11);
       const std::string standard = "<p>test</p>\n<p>test</p>\n";
       EXPECT_EQ(result, standard);
-      int new_line_count = std::ranges::count(result, '\n');
+      auto new_line_count = std::ranges::count(result, '\n');
       EXPECT_EQ(new_line_count, 2);
     }
   }
@@ -251,7 +251,7 @@ TEST (filter, mail)
     const std::string path = filter_url_create_root_path ({"unittests", "tests", "email_long_1.txt"});
     const std::string body = filter_url_file_get_contents (path);
     const std::string result = filter_mail_limit_line_length_rfc5322(body);
-    const int line_count = std::ranges::count(result, '\n');
+    const auto line_count = std::ranges::count(result, '\n');
     EXPECT_EQ(line_count, 45);
     EXPECT_EQ(result.length(), 22282);
   }

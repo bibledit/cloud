@@ -45,7 +45,7 @@ static void store_value_for_focus_group(std::vector<int>& values, const int grou
 {
   while (static_cast<int>(values.size()) <= group)
     values.push_back(1);
-  values.at(group) = value;
+  values.at(static_cast<unsigned>(group)) = value;
 }
 
 // Sets the focused passage.
@@ -80,7 +80,7 @@ int get_book (Webserver_Request& webserver_request)
   const int group {get_focus_group(webserver_request)};
   const auto books = webserver_request.database_config_user()->get_focused_books();
   if (group < static_cast<int>(books.size()))
-    return books.at(group);
+    return books.at(static_cast<unsigned>(group));
   // Default book.
   return 1;
 }
@@ -93,7 +93,7 @@ int get_chapter (Webserver_Request& webserver_request)
   const int group {get_focus_group(webserver_request)};
   const auto chapters = webserver_request.database_config_user()->get_focused_chapters();
   if (group < static_cast<int>(chapters.size()))
-    return chapters.at(group);
+    return chapters.at(static_cast<unsigned>(group));
   // Default chapter.
   return 1;
 }
@@ -106,10 +106,10 @@ int get_verse (Webserver_Request& webserver_request)
   const int group {get_focus_group(webserver_request)};
   const auto verses = webserver_request.database_config_user()->get_focused_verses();
   if (group < static_cast<int>(verses.size()))
-    return verses.at(group);
+    return verses.at(static_cast<unsigned>(group));
   // Default verse.
   return 1;
 }
 
 
-};
+}

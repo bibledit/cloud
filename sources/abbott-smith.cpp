@@ -27,6 +27,7 @@
 #pragma GCC diagnostic ignored "-Wsuggest-override"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #pragma GCC diagnostic ignored "-Wunnecessary-virtual-specifier"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
 #ifndef HAVE_PUGIXML
 #include <pugixml/pugixml.hpp>
 #endif

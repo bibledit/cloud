@@ -103,7 +103,9 @@ void init_string (cstring *s) {
 size_t writefunc(void *ptr, size_t size, size_t nmemb, cstring *s)
 {
   size_t new_len = s->len + size*nmemb;
-  s->ptr = static_cast<char *>(realloc (s->ptr, new_len+1));
+  char *new_ptr = static_cast<char *>(realloc (s->ptr, new_len+1));
+  if (!new_ptr) return 0;
+  s->ptr = new_ptr;
   memcpy(s->ptr+s->len, ptr, size*nmemb);
   s->ptr[new_len] = '\0';
   s->len = new_len;

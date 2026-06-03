@@ -84,7 +84,6 @@ void quick_sort (std::vector <unsigned int>& one, std::vector <bool>& two, unsig
 void quick_sort (std::vector <int>& one, std::vector <unsigned int>& two, unsigned int beg, unsigned int end);
 void quick_sort (std::vector <std::string>& one, std::vector <std::string>& two, unsigned int beg, unsigned int end);
 void quick_sort (std::vector <std::string>& one, std::vector <bool>& two, unsigned int beg, unsigned int end);
-void quick_sort (std::vector <std::string>& one, unsigned int beg, unsigned int end);
 void quick_sort (std::vector <long unsigned int>& one, std::vector <long unsigned int>& two, unsigned int beg, unsigned int end);
 void quick_sort (std::vector <int> & one, std::vector <int> & two, unsigned int beg, unsigned int end);
 std::string number_in_string (const std::string & str);

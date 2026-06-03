@@ -721,12 +721,6 @@ document.getElementById("demo").innerHTML = "Hello JavaScript!";
             EXPECT_EQ(reference, sorted_reference);
         }
         {
-            std::vector<std::string> input { "b", "d", "c", "a" };
-            filter::string::quick_sort (input, 0, 4);
-            const decltype(input) sorted_input { "a", "b", "c", "d" };
-            EXPECT_EQ(input, sorted_input);
-        }
-        {
             std::vector<long unsigned int> input { 1, 3, 2, 0 };
             std::vector<long unsigned int> reference { 2, 4, 3, 1 };
             filter::string::quick_sort (input, reference, 0, 4);

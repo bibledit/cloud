@@ -77,15 +77,6 @@ std::string extract_body (const std::string& input, const std::string year = "",
 std::string get_checkbox_status (const bool enabled);
 std::string get_disabled (const bool disabled = true);
 std::string get_reload ();
-void quick_sort (std::vector <unsigned int>& one, std::vector <std::string>& two, unsigned int beg, unsigned int end);
-void quick_sort (std::vector <std::string>& one, std::vector <unsigned int>& two, unsigned int beg, unsigned int end);
-void quick_sort (std::vector <unsigned int>& one, std::vector <unsigned int>& two, unsigned int beg, unsigned int end);
-void quick_sort (std::vector <unsigned int>& one, std::vector <bool>& two, unsigned int beg, unsigned int end);
-void quick_sort (std::vector <int>& one, std::vector <unsigned int>& two, unsigned int beg, unsigned int end);
-void quick_sort (std::vector <std::string>& one, std::vector <std::string>& two, unsigned int beg, unsigned int end);
-void quick_sort (std::vector <std::string>& one, std::vector <bool>& two, unsigned int beg, unsigned int end);
-void quick_sort (std::vector <long unsigned int>& one, std::vector <long unsigned int>& two, unsigned int beg, unsigned int end);
-void quick_sort (std::vector <int> & one, std::vector <int> & two, unsigned int beg, unsigned int end);
 std::string number_in_string (const std::string & str);
 std::string markup_words (const std::vector <std::string>& words, std::string text);
 std::vector <std::string> search_needles (const std::string& search, const std::string& text);

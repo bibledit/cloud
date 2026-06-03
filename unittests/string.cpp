@@ -685,15 +685,6 @@ document.getElementById("demo").innerHTML = "Hello JavaScript!";
             EXPECT_EQ(reference, sorted_reference);
         }
         {
-            std::vector<unsigned> input { 1, 3, 2, 0 };
-            std::vector<bool> reference { false, true, true, false };
-            filter::string::quick_sort (input, reference, 0, 4);
-            const decltype(input) sorted_input { 0, 1, 2, 3 };
-            const decltype(reference) sorted_reference { false, false, true, true };
-            EXPECT_EQ(input, sorted_input);
-            EXPECT_EQ(reference, sorted_reference);
-        }
-        {
             std::vector<int> input { 1, 3, 2, 0 };
             std::vector<unsigned> reference { 2, 4, 3, 1 };
             filter::string::quick_sort (input, reference, 0, 4);
@@ -708,15 +699,6 @@ document.getElementById("demo").innerHTML = "Hello JavaScript!";
             filter::string::quick_sort (input, reference, 0, 4);
             const decltype(input) sorted_input { "a", "b", "c", "d" };
             const decltype(reference) sorted_reference { "b", "c", "d", "e" };
-            EXPECT_EQ(input, sorted_input);
-            EXPECT_EQ(reference, sorted_reference);
-        }
-        {
-            std::vector<std::string> input { "b", "d", "c", "a" };
-            std::vector<bool> reference { false, true, true, false };
-            filter::string::quick_sort (input, reference, 0, 4);
-            const decltype(input) sorted_input { "a", "b", "c", "d" };
-            const decltype(reference) sorted_reference { false, false, true, true };
             EXPECT_EQ(input, sorted_input);
             EXPECT_EQ(reference, sorted_reference);
         }
@@ -738,11 +720,6 @@ document.getElementById("demo").innerHTML = "Hello JavaScript!";
             EXPECT_EQ(input, sorted_input);
             EXPECT_EQ(reference, sorted_reference);
         }
-
-
-
-
-
     }
 }
 

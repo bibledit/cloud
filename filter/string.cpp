@@ -1007,46 +1007,6 @@ std::string get_reload ()
 }
 
 
-void quick_swap(std::string& a, std::string & b)
-{
-  std::string t {a};
-  a = b;
-  b = t;
-}
-
-
-void quick_swap(unsigned int &a, unsigned int &b)
-{
-  unsigned int t {a};
-  a = b;
-  b = t;
-}
-
-
-void quick_swap(long unsigned int &a, long unsigned int &b)
-{
-  long unsigned int t {a};
-  a = b;
-  b = t;
-}
-
-
-void quick_swap(int &a, int &b)
-{
-  int t {a};
-  a = b;
-  b = t;
-}
-
-
-void quick_swap(bool & a, bool & b)
-{
-  bool t {a};
-  a = b;
-  b = t;
-}
-
-
 // This function is unusual in the sense that it does not sort one container,
 // as the majority of sort functions do, but it accepts two containers.
 // It sorts on the first, and reorders the second container at the same time,
@@ -1062,13 +1022,13 @@ void quick_sort (std::vector <unsigned int>& one, std::vector <std::string>& two
         l++;
       } else {
         --r;
-        quick_swap(one[l], one[r]);
-        quick_swap(two[l], two[r]);
+        std::swap(one[l], one[r]);
+        std::swap(two[l], two[r]);
       }
     }
     --l;
-    quick_swap(one[l], one[beg]);
-    quick_swap(two[l], two[beg]);
+    std::swap(one[l], one[beg]);
+    std::swap(two[l], two[beg]);
     quick_sort(one, two, beg, l);
     quick_sort(one, two, r, end);
   }
@@ -1086,13 +1046,13 @@ void quick_sort(std::vector<std::string>& one, std::vector<unsigned int>& two, u
         l++;
       } else {
         --r;
-        quick_swap(one[l], one[r]);
-        quick_swap(two[l], two[r]);
+        std::swap(one[l], one[r]);
+        std::swap(two[l], two[r]);
       }
     }
     --l;
-    quick_swap(one[l], one[beg]);
-    quick_swap(two[l], two[beg]);
+    std::swap(one[l], one[beg]);
+    std::swap(two[l], two[beg]);
     quick_sort(one, two, beg, l);
     quick_sort(one, two, r, end);
   }
@@ -1110,13 +1070,13 @@ void quick_sort(std::vector<unsigned int>& one, std::vector<unsigned int>& two, 
         l++;
       } else {
         --r;
-        quick_swap(one[l], one[r]);
-        quick_swap(two[l], two[r]);
+        std::swap(one[l], one[r]);
+        std::swap(two[l], two[r]);
       }
     }
     --l;
-    quick_swap(one[l], one[beg]);
-    quick_swap(two[l], two[beg]);
+    std::swap(one[l], one[beg]);
+    std::swap(two[l], two[beg]);
     quick_sort(one, two, beg, l);
     quick_sort(one, two, r, end);
   }
@@ -1134,19 +1094,19 @@ void quick_sort (std::vector<unsigned int>& one, std::vector<bool>& two, unsigne
         l++;
       } else {
         --r;
-        quick_swap(one[l], one[r]);
+        std::swap(one[l], one[r]);
         bool two_l = two[l];
         bool two_r = two[r];
-        quick_swap(two_l, two_r);
+        std::swap(two_l, two_r);
         two[l] = two_l;
         two[r] = two_r;
       }
     }
     --l;
-    quick_swap(one[l], one[beg]);
+    std::swap(one[l], one[beg]);
     bool two_l = two[l];
     bool two_beg = two[beg];
-    quick_swap(two_l, two_beg);
+    std::swap(two_l, two_beg);
     two[l] = two_l;
     two[beg] = two_beg;
     quick_sort(one, two, beg, l);
@@ -1166,13 +1126,13 @@ void quick_sort(std::vector<int>& one, std::vector<unsigned int>& two, unsigned 
         l++;
       } else {
         --r;
-        quick_swap(one[l], one[r]);
-        quick_swap(two[l], two[r]);
+        std::swap(one[l], one[r]);
+        std::swap(two[l], two[r]);
       }
     }
     --l;
-    quick_swap(one[l], one[beg]);
-    quick_swap(two[l], two[beg]);
+    std::swap(one[l], one[beg]);
+    std::swap(two[l], two[beg]);
     filter::string::quick_sort(one, two, beg, l);
     filter::string::quick_sort(one, two, r, end);
   }
@@ -1189,13 +1149,13 @@ void quick_sort(std::vector<std::string>& one, std::vector<std::string>& two, un
         l++;
       } else {
         --r;
-        quick_swap(one[l], one[r]);
-        quick_swap(two[l], two[r]);
+        std::swap(one[l], one[r]);
+        std::swap(two[l], two[r]);
       }
     }
     --l;
-    quick_swap(one[l], one[beg]);
-    quick_swap(two[l], two[beg]);
+    std::swap(one[l], one[beg]);
+    std::swap(two[l], two[beg]);
     quick_sort(one, two, beg, l);
     quick_sort(one, two, r, end);
   }
@@ -1213,19 +1173,19 @@ void quick_sort(std::vector<std::string>& one, std::vector<bool>& two, unsigned 
         l++;
       } else {
         --r;
-        quick_swap(one[l], one[r]);
+        std::swap(one[l], one[r]);
         bool two_l = two[l];
         bool two_r = two[r];
-        quick_swap(two_l, two_r);
+        std::swap(two_l, two_r);
         two[l] = two_l;
         two[r] = two_r;
       }
     }
     --l;
-    quick_swap(one[l], one[beg]);
+    std::swap(one[l], one[beg]);
     bool two_l = two[l];
     bool two_beg = two[beg];
-    quick_swap(two_l, two_beg);
+    std::swap(two_l, two_beg);
     two[l] = two_l;
     two[beg] = two_beg;
     quick_sort(one, two, beg, l);
@@ -1234,7 +1194,7 @@ void quick_sort(std::vector<std::string>& one, std::vector<bool>& two, unsigned 
 }
 
 
-void quick_sort (std::vector<std::string>& one, unsigned int beg, unsigned int end)
+void quick_sort (std::vector<std::string>& one, unsigned int beg, unsigned int end) // Todo use simpler version.
 {
   if (end > beg + 1) {
     std::string piv = one[beg];
@@ -1245,11 +1205,11 @@ void quick_sort (std::vector<std::string>& one, unsigned int beg, unsigned int e
         l++;
       } else {
         --r;
-        quick_swap(one[l], one[r]);
+        std::swap(one[l], one[r]);
       }
     }
     --l;
-    quick_swap(one[l], one[beg]);
+    std::swap(one[l], one[beg]);
     quick_sort(one, beg, l);
     quick_sort(one, r, end);
   }
@@ -1267,13 +1227,13 @@ void quick_sort (std::vector<long unsigned int>& one, std::vector <long unsigned
         l++;
       } else {
         --r;
-        quick_swap(one[l], one[r]);
-        quick_swap(two[l], two[r]);
+        std::swap(one[l], one[r]);
+        std::swap(two[l], two[r]);
       }
     }
     --l;
-    quick_swap(one[l], one[beg]);
-    quick_swap(two[l], two[beg]);
+    std::swap(one[l], one[beg]);
+    std::swap(two[l], two[beg]);
     quick_sort(one, two, beg, l);
     quick_sort(one, two, r, end);
   }
@@ -1291,13 +1251,13 @@ void quick_sort (std::vector<int>& one, std::vector<int>& two, unsigned int beg,
         l++;
       } else {
         --r;
-        quick_swap(one[l], one[r]);
-        quick_swap(two[l], two[r]);
+        std::swap(one[l], one[r]);
+        std::swap(two[l], two[r]);
       }
     }
     --l;
-    quick_swap(one[l], one[beg]);
-    quick_swap(two[l], two[beg]);
+    std::swap(one[l], one[beg]);
+    std::swap(two[l], two[beg]);
     quick_sort(one, two, beg, l);
     quick_sort(one, two, r, end);
   }

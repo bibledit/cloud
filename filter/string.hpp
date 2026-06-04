@@ -87,7 +87,7 @@ auto range2vector(auto&& r)
 
 // This function is unusual in the sense that it does not sort one container,
 // as the majority of sort functions do, but it accepts two containers.
-// It sorts the first, and reorders the second container at the same time,
+// It sorts the first container, and reorders the second container at the same time,
 // following the reordering done in the first container.
 template <typename One, typename Two>
 concept quick_sortable = true

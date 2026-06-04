@@ -90,6 +90,13 @@ auto range2vector(auto&& r)
 // It sorts the first, and reorders the second container at the same time,
 // following the reordering done in the first container.
 template <typename One, typename Two>
+concept quick_sortable = true
+and not std::is_same_v<One, bool>
+and not std::is_same_v<Two, bool>
+and (std::is_integral_v<One> or std::is_same_v<One, std::string>)
+and (std::is_integral_v<Two> or std::is_same_v<Two, std::string>);
+template <typename One, typename Two>
+requires quick_sortable<One, Two>
 void quick_sort(std::vector<One>& one, std::vector<Two>& two, const unsigned int beg, const unsigned int end)
 {
     if (end > beg + 1)

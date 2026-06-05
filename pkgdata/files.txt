@@ -317,7 +317,6 @@
 /images/index.html
 /images/view.html
 /index
-/index.html
 /index/index.html
 /index/listing.html
 /ipc

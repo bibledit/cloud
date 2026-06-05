@@ -1749,7 +1749,6 @@ AM_CXXFLAGS = -fno-var-tracking -g -Wno-error $(am__append_2) \
 # and by linking to the mbed TLS library provided by the system.
 # For other platforms, the library remains in the core.
 # debian LIBS += -lmbedtls -lmbedcrypto -lmbedx509
-EXTRA_DIST = a* bb bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w*
 CLEANFILES = bibledit*.gz *~
 man_MANS = man/bibledit.1 man/bibledit-cloud.1
 all: config.h
@@ -4576,9 +4575,6 @@ distdir-am: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	$(MAKE) $(AM_MAKEFLAGS) \
-	  top_distdir="$(top_distdir)" distdir="$(distdir)" \
-	  dist-hook
 	-test -n "$(am__skip_mode_fix)" \
 	|| find "$(distdir)" -type d ! -perm -755 \
 		-exec chmod u+rwx,go+rx {} \; -o \
@@ -6278,11 +6274,11 @@ uninstall-man: uninstall-man1
 	check check-am clean clean-binPROGRAMS clean-cscope \
 	clean-generic clean-noinstLIBRARIES cscope cscopelist-am ctags \
 	ctags-am dist dist-all dist-bzip2 dist-bzip3 dist-gzip \
-	dist-hook dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
-	dist-zstd distcheck distclean distclean-compile \
-	distclean-generic distclean-hdr distclean-tags distcleancheck \
-	distdir distuninstallcheck dvi dvi-am html html-am info \
-	info-am install install-am install-binPROGRAMS install-data \
+	dist-lzip dist-shar dist-tarZ dist-xz dist-zip dist-zstd \
+	distcheck distclean distclean-compile distclean-generic \
+	distclean-hdr distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-binPROGRAMS install-data \
 	install-data-am install-data-hook install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-man install-man1 \
@@ -6295,19 +6291,6 @@ uninstall-man: uninstall-man1
 
 .PRECIOUS: Makefile
 
-
-dist-hook:
-	rm -rf `find $(distdir) -name *.o`
-	rm -rf `find $(distdir) -name *.a`
-	rm -rf `find $(distdir) -name autom4te.cache`
-	rm -f $(distdir)/server
-	rm -f $(distdir)/unittest
-	rm -rf `find $(distdir) -name .dirstamp`
-	rm -rf `find $(distdir) -name .deps`
-	rm -rf `find $(distdir) -name *~`
-	rm -f $(distdir)/config.h
-	rm -f $(distdir)/config.log
-	rm -f $(distdir)/config.status
 
 all-local:
 	pkgdata/create.sh

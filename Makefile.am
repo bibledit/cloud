@@ -698,21 +698,6 @@ LIBS += $(GTEST_LIBS)
 # For other platforms, the library remains in the core.
 # debian LIBS += -lmbedtls -lmbedcrypto -lmbedx509
 
-EXTRA_DIST = a* bb bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w*
-
-dist-hook:
-	rm -rf `find $(distdir) -name *.o`
-	rm -rf `find $(distdir) -name *.a`
-	rm -rf `find $(distdir) -name autom4te.cache`
-	rm -f $(distdir)/server
-	rm -f $(distdir)/unittest
-	rm -rf `find $(distdir) -name .dirstamp`
-	rm -rf `find $(distdir) -name .deps`
-	rm -rf `find $(distdir) -name *~`
-	rm -f $(distdir)/config.h
-	rm -f $(distdir)/config.log
-	rm -f $(distdir)/config.status
-
 CLEANFILES = bibledit*.gz *~
 
 all-local:

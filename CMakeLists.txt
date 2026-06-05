@@ -960,3 +960,11 @@ configure_file(cmake_config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
 # Installation.
 install(TARGETS server DESTINATION bin)
+
+# Create tarball with target "dist"
+set(ARCHIVE_NAME ${CMAKE_PROJECT_NAME}-${PROJECT_VERSION})
+add_custom_target(dist
+        COMMAND git archive --prefix=${ARCHIVE_NAME}/ HEAD --format=tar.gz ":(exclude).idea" ":(exclude).github" ":(exclude).gitignore" ":(exclude)cloud-macos.entitlements" > ${CMAKE_BINARY_DIR}/${ARCHIVE_NAME}.tar.gz
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        VERBATIM
+)

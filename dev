@@ -20,4 +20,3 @@ rsync -av --exclude="*.a" --exclude="*.gz" --exclude="cmake-build-debug" --exclu
 echo Start bibledit
 cd ~/work/bibledit/dev
 ./server
-

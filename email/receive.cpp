@@ -38,7 +38,7 @@ void receive ()
 {
 #ifdef HAVE_CLOUD
   // Bail out when the mail storage host has not been defined, rather than giving an error message.
-  if (database::config::general::get_mail_storage_host () == "") return;
+  if (database::config::general::get_mail_storage_host ().empty()) return;
   
   // One email receiver runs at a time.
   if (config_globals_mail_receive_running) return;
@@ -48,15 +48,15 @@ void receive ()
   
   // Email count.
   std::string error;
-  int emailcount = email::receive_count (error);
+  const int email_count = receive_count (error);
   // Messages start at number 1 instead of 0.
-  for (int i = 1; i <= emailcount; i++) {
+  for (int i = 1; i <= email_count; i++) {
     
     Webserver_Request webserver_request;
     Notes_Logic notes_logic (webserver_request);
     
     error.clear ();
-    std::string message = email::receive_message (error);
+    const std::string message = receive_message (error);
     if (error.empty ()) {
       
       // Extract "from" and subject, and clean body.
@@ -199,13 +199,12 @@ std::string receive_message (std::string& error)
 #endif
   
 #ifdef HAVE_CLOUD
-  CURL *curl;
   CURLcode res = CURLE_OK;
   
-  cstring s;
+  cstring s{};
   init_string (&s);
   
-  curl = curl_easy_init ();
+  CURL* curl = curl_easy_init();
   
   curl_easy_setopt (curl, CURLOPT_USERNAME, database::config::general::get_mail_storage_username ().c_str());
   curl_easy_setopt (curl, CURLOPT_PASSWORD, database::config::general::get_mail_storage_password ().c_str());

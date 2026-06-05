@@ -1,19 +1,20 @@
 #!/bin/bash
 
 echo Exit immediately if a command exits with a non-zero status
-#set -e
+set -e
 
-export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)
+MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)
+export MACOSX_DEPLOYMENT_TARGET
 
 echo Using CLion CMake directory
-cd cmake-build-debug
+pushd cmake-build-debug
 
 echo Build everything
 cmake --build . --target all -j 14
 
 echo Copy everything to working location
-cp server ~/work/bibledit/dev
-cd ..
+rsync server ~/work/bibledit/dev
+popd
 rsync -av --exclude="*.a" --exclude="*.gz" --exclude="cmake-build-debug" --exclude="build" --exclude=".idea" . ~/work/bibledit/dev
 
 echo Start bibledit

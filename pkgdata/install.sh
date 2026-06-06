@@ -29,7 +29,7 @@ echo -- CMake install prefix: $CMAKE_INSTALL_PREFIX
 echo -- Package data directory: $PKG_DATA_DIR
 echo -- Combined install directory: $COMBINED_INSTALL_DIR
 
-echo -- Installing files to $COMBINED_INSTALL_DIR ...
+echo -- Installing shared package data files to $COMBINED_INSTALL_DIR ...
 
 FILE=$PROJECT_SOURCE_DIR/pkgdata/files.txt
 LINES=`cat $FILE`
@@ -47,4 +47,4 @@ COUNT=$((COUNT + 1))
 fi
 done
 
-echo -- Installed $COUNT files
+echo -- Installed $COUNT shared package data files

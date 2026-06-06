@@ -6,9 +6,13 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
 jobs:
   build:
-
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -16,12 +20,10 @@ jobs:
     - name: apt update
       run: sudo apt update
     - name: apt install
-      run: sudo apt install autotools-dev autoconf autoconf-archive git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev googletest
-    - name: reconfigure
-      run: ./reconfigure
+      run: sudo apt install cmake git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev googletest
     - name: configure
-      run: ./configure
+      run: cmake -B build
     - name: make
-      run: make
+      run: cmake --build build
     - name: test
-      run: ./unittest
+      run: ./build/unittest

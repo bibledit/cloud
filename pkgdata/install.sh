@@ -23,16 +23,16 @@ PROJECT_SOURCE_DIR=$1
 CMAKE_INSTALL_PREFIX=$2
 PKG_DATA_DIR=$3
 COMBINED_INSTALL_DIR=$DESTDIR/$CMAKE_INSTALL_PREFIX/$PKG_DATA_DIR
-echo -- Files source directory: $PROJECT_SOURCE_DIR
-echo -- Destination dir: $DESTDIR
-echo -- CMake install prefix: $CMAKE_INSTALL_PREFIX
-echo -- Package data directory: $PKG_DATA_DIR
-echo -- Combined install directory: $COMBINED_INSTALL_DIR
+echo -- Files source directory: "$PROJECT_SOURCE_DIR"
+echo -- Destination dir: "$DESTDIR"
+echo -- CMake install prefix: "$CMAKE_INSTALL_PREFIX"
+echo -- Package data directory: "$PKG_DATA_DIR"
+echo -- Combined install directory: "$COMBINED_INSTALL_DIR"
 
-echo -- Installing shared package data files to $COMBINED_INSTALL_DIR ...
+echo -- Installing shared package data files to "$COMBINED_INSTALL_DIR" ...
 
 FILE=$PROJECT_SOURCE_DIR/pkgdata/files.txt
-LINES=`cat $FILE`
+LINES=$(cat "$FILE")
 
 COUNT=0
 
@@ -40,9 +40,9 @@ for ITEM in $LINES;
 do
 if [ -d "$PROJECT_SOURCE_DIR/$ITEM" ]
 then
-mkdir -p $COMBINED_INSTALL_DIR/$ITEM
+mkdir -p "$COMBINED_INSTALL_DIR"/"$ITEM"
 else
-cp $PROJECT_SOURCE_DIR/$ITEM $COMBINED_INSTALL_DIR/$ITEM
+cp "$PROJECT_SOURCE_DIR"/"$ITEM" "$COMBINED_INSTALL_DIR"/"$ITEM"
 COUNT=$((COUNT + 1))
 fi
 done

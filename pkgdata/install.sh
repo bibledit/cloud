@@ -16,21 +16,35 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+# Exit script on error.
+set -e
 
-SRCDIR=$1
-DESTDIR=$2
-PKGDATADIR=$3
+PROJECT_SOURCE_DIR=$1
+CMAKE_INSTALL_PREFIX=$2
+PKG_DATA_DIR=$3
+COMBINED_INSTALL_DIR=$DESTDIR/$CMAKE_INSTALL_PREFIX/$PKG_DATA_DIR
+echo -- Files source directory: $PROJECT_SOURCE_DIR
+echo -- Destination dir: $DESTDIR
+echo -- CMake install prefix: $CMAKE_INSTALL_PREFIX
+echo -- Package data directory: $PKG_DATA_DIR
+echo -- Combined install directory: $COMBINED_INSTALL_DIR
 
-FILE=$SRCDIR/pkgdata/files.txt
+echo -- Installing files to $COMBINED_INSTALL_DIR ...
+
+FILE=$PROJECT_SOURCE_DIR/pkgdata/files.txt
 LINES=`cat $FILE`
+
+COUNT=0
 
 for ITEM in $LINES;
 do
-if [ -d "$SRCDIR/$ITEM" ]
+if [ -d "$PROJECT_SOURCE_DIR/$ITEM" ]
 then
-mkdir -p $DESTDIR$PKGDATADIR$ITEM
+mkdir -p $COMBINED_INSTALL_DIR/$ITEM
 else
-echo cp $ITEM $DESTDIR$PKGDATADIR$ITEM
-cp $SRCDIR/$ITEM $DESTDIR$PKGDATADIR$ITEM
+cp $PROJECT_SOURCE_DIR/$ITEM $COMBINED_INSTALL_DIR/$ITEM
+COUNT=$((COUNT + 1))
 fi
 done
+
+echo -- Installed $COUNT files

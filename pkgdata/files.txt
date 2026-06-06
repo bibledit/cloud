@@ -206,7 +206,6 @@
 /demo/96-REVeng-web.usfm
 /demo/copyright.sh
 /demo/readme.txt
-/depcomp
 /dev
 /developer
 /developer/index.html
@@ -265,7 +264,6 @@
 /fonts/Montserrat-SemiBold.ttf
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
-/generate
 /git
 /git/gitflag
 /gumbo
@@ -425,7 +423,6 @@
 /mimetic098/version.cxx
 /miniz
 /miniz/readme.txt
-/missing
 /navigation
 /navigation/nav.js
 /navigation/passage.js
@@ -578,7 +575,6 @@
 /sendreceive
 /sendreceive/index.html
 /sendreceive/index.js
-/server
 /session
 /session/login.html
 /session/login.js
@@ -816,7 +812,6 @@
 /tmp/holder
 /trash
 /trash/holder
-/unittest
 /unittests
 /unittests/scripts
 /unittests/scripts/editor1.py

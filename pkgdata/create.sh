@@ -20,6 +20,8 @@
 # Exit script on error.
 set -e
 
+echo -- Creating pkgdata/files.txt
+
 # Remove unwanted files.
 find . -name ".DS_Store" -delete
 

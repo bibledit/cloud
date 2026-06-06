@@ -960,6 +960,8 @@ configure_file(config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
 # Installation.
 install(TARGETS server DESTINATION bin)
+install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/create.sh)")
+install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/install.sh ${PROJECT_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} share/bibledit)")
 
 # Create tarball with target "dist"
 set(ARCHIVE_NAME ${CMAKE_PROJECT_NAME}-${PROJECT_VERSION})

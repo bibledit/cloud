@@ -24,17 +24,17 @@ message(STATUS "Processing ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
 # Start a project by setting the project name and version.
-project(bibledit VERSION 5.1.046)
+project(bibledit VERSION 5.1.047)
 
 
 set(bibledit_VERSION "${bibledit_VERSION_MAJOR}.${bibledit_VERSION_MINOR}.${bibledit_VERSION_PATCH}")
 
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(COMPILERGCC ON)
+    set(COMPILER_GCC ON)
 endif()
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    set(COMPILERCLANG ON)
+    set(COMPILER_CLANG ON)
 endif()
 
 
@@ -96,7 +96,7 @@ add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wunused-parameter>)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wvla>)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wzero-as-null-pointer-constant>)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wmismatched-tags>)
-if (COMPILERGCC)
+if (COMPILER_GCC)
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wcatch-value=2>)
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wconditionally-supported>)
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wduplicated-branches>)
@@ -112,7 +112,7 @@ if (COMPILERGCC)
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wredundant-tags>)
     add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wvolatile>)
 endif()
-if (COMPILERCLANG)
+if (COMPILER_CLANG)
 endif()
 
 # Compilers on some systems may treat warnings as errors.

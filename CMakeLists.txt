@@ -956,7 +956,7 @@ message(STATUS "Linux            (cmake -DHAVE_LINUX=ON)              ${HAVE_LIN
 message(STATUS "iOS              (cmake -DHAVE_IOS=ON)                ${HAVE_IOS}")
 
 # Write the variables in the template to config.h.
-configure_file(cmake_config.h.in ${PROJECT_SOURCE_DIR}/config.h)
+configure_file(config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
 # Installation.
 install(TARGETS server DESTINATION bin)

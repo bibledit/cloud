@@ -32,8 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #cmakedefine HAVE_GTEST
 #define PACKAGE_DATA_DIR "@PACKAGE_DATA_DIR@"
 #define PACKAGE_PREFIX_DIR "@PACKAGE_PREFIX_DIR@"
-#cmakedefine COMPILERGCC
-#cmakedefine COMPILERCLANG
+#cmakedefine COMPILER_GCC
+#cmakedefine COMPILER_CLANG
 #cmakedefine HAVE_WINDOWS
 #cmakedefine WIN32
 #cmakedefine HAVE_ANDROID

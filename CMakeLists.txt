@@ -699,9 +699,14 @@ add_executable(server
 target_link_libraries(server bibledit)
 
 
-# Building the unit tests is optional, default is on.
+# Default values for building the unit tests:
+# - Cloud configuration: ON
+# - Other configurations: OFF
 # Set it off: $ cmake .. -DBUILD_UNITTESTS=OFF
 option(BUILD_UNITTESTS "Build and use the unit tests" ON)
+if (HAVE_LINUX OR HAVE_WINDOWS OR HAVE_ANDROID OR HAVE_MACOS OR HAVE_IOS)
+    set(BUILD_UNITTESTS OFF)
+endif ()
 
 
 # The unit test executable

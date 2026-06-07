@@ -37,4 +37,4 @@ static gboolean on_window_state_event (GtkWidget *widget, GdkEventWindowState *e
 static gboolean on_timeout (gpointer data);
 static gboolean on_configure (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 void webkit_search (GtkWidget *widget);
-void timer_thread ();
+[[noreturn]] void timer_thread ();

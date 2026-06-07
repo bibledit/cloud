@@ -19,6 +19,8 @@
 
 
 #pragma GCC diagnostic ignored "-Wold-style-cast"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
+#pragma GCC diagnostic ignored "-Wredundant-tags"
 #include <config.h>
 #include <executable/client.h>
 #include <libgen.h>
@@ -59,7 +61,7 @@ int main (int argc, char *argv[])
 {
     application = gtk_application_new("org.bibledit.linux", G_APPLICATION_DEFAULT_FLAGS);
 
-    g_signal_connect(application, "activate", G_CALLBACK(activate), NULL);
+    g_signal_connect(application, "activate", G_CALLBACK(activate), nullptr);
 
     port = bibledit_get_network_port();
 
@@ -124,10 +126,10 @@ void activate (GtkApplication *app)
     {
         const char* pix {"pix"};
         const char* xpm {"bbe48x48.xpm"};
-        gchar* icon_file = g_build_filename(pix, xpm, NULL);
+        gchar* icon_file = g_build_filename(pix, xpm, nullptr);
         if (!g_file_test(icon_file, G_FILE_TEST_EXISTS))
-            icon_file = g_build_filename(PACKAGE_DATA_DIR, pix, xpm, NULL);
-        gtk_window_set_default_icon_from_file(icon_file, NULL);
+            icon_file = g_build_filename(PACKAGE_DATA_DIR, pix, xpm, nullptr);
+        gtk_window_set_default_icon_from_file(icon_file, nullptr);
         g_free(icon_file);
     }
 
@@ -154,34 +156,34 @@ void activate (GtkApplication *app)
 
     // Get window state and size.
     const char* appid = g_application_get_application_id(g_application_get_default());
-    char* file = g_build_filename(g_get_user_cache_dir(), appid, bibledit_window_state_ini, NULL);
+    char* file = g_build_filename(g_get_user_cache_dir(), appid, bibledit_window_state_ini, nullptr);
     GKeyFile* keyfile = g_key_file_new();
-    bool geometry_loaded = g_key_file_load_from_file(keyfile, file, G_KEY_FILE_NONE, NULL);
+    bool geometry_loaded = g_key_file_load_from_file(keyfile, file, G_KEY_FILE_NONE, nullptr);
     if (geometry_loaded)
     {
         bibledit_window_root_x = g_key_file_get_integer(keyfile, bibledit_window_state, bibledit_window_root_x_key,
-                                                        NULL);
+                                                        nullptr);
         bibledit_window_root_y = g_key_file_get_integer(keyfile, bibledit_window_state, bibledit_window_root_y_key,
-                                                        NULL);
-        bibledit_window_width = g_key_file_get_integer(keyfile, bibledit_window_state, bibledit_window_width_key, NULL);
+                                                        nullptr);
+        bibledit_window_width = g_key_file_get_integer(keyfile, bibledit_window_state, bibledit_window_width_key, nullptr);
         bibledit_window_height = g_key_file_get_integer(keyfile, bibledit_window_state, bibledit_window_height_key,
-                                                        NULL);
+                                                        nullptr);
         bibledit_window_maximized = g_key_file_get_boolean(keyfile, bibledit_window_state,
-                                                           bibledit_window_maximized_key, NULL);
+                                                           bibledit_window_maximized_key, nullptr);
         bibledit_window_fullscreen = g_key_file_get_boolean(keyfile, bibledit_window_state,
-                                                            bibledit_window_fullscreen_key, NULL);
+                                                            bibledit_window_fullscreen_key, nullptr);
     }
     g_key_file_unref(keyfile);
     g_free(file);
 
     // Signal handlers.
-    g_signal_connect(window, "configure-event", G_CALLBACK(on_configure), NULL);
-    g_signal_connect(window, "size-allocate", G_CALLBACK(on_window_size_allocate), NULL);
-    g_signal_connect(window, "window-state-event", G_CALLBACK(on_window_state_event), NULL);
-    g_signal_connect(window, "destroy", G_CALLBACK(on_signal_destroy), NULL);
-    g_signal_connect(webview, "key-press-event", G_CALLBACK(on_key_press), NULL);
-    g_signal_connect(context, "download-started", G_CALLBACK(on_download_started), NULL);
-    g_signal_connect(webview, "decide-policy", G_CALLBACK(on_decide_policy), NULL);
+    g_signal_connect(window, "configure-event", G_CALLBACK(on_configure), nullptr);
+    g_signal_connect(window, "size-allocate", G_CALLBACK(on_window_size_allocate), nullptr);
+    g_signal_connect(window, "window-state-event", G_CALLBACK(on_window_state_event), nullptr);
+    g_signal_connect(window, "destroy", G_CALLBACK(on_signal_destroy), nullptr);
+    g_signal_connect(webview, "key-press-event", G_CALLBACK(on_key_press), nullptr);
+    g_signal_connect(context, "download-started", G_CALLBACK(on_download_started), nullptr);
+    g_signal_connect(webview, "decide-policy", G_CALLBACK(on_decide_policy), nullptr);
 
     // Set window size and state before it shows.
     if (geometry_loaded)
@@ -198,7 +200,7 @@ void activate (GtkApplication *app)
     // Do that after a delay so the window gets the chance to settle.
     if (geometry_loaded)
     {
-        g_timeout_add(300, GSourceFunc(on_timeout), NULL);
+        g_timeout_add(300, GSourceFunc(on_timeout), nullptr);
     }
     else
     {
@@ -224,10 +226,10 @@ void on_signal_destroy ([[maybe_unused]] gpointer user_data)
     g_key_file_set_boolean(keyfile, bibledit_window_state, bibledit_window_fullscreen_key, bibledit_window_fullscreen);
 
     const char* appid = g_application_get_application_id(g_application_get_default());
-    char* path = g_build_filename(g_get_user_cache_dir(), appid, NULL);
+    char* path = g_build_filename(g_get_user_cache_dir(), appid, nullptr);
     g_mkdir_with_parents(path, 0700);
-    char* file = g_build_filename(path, bibledit_window_state_ini, NULL);
-    g_key_file_save_to_file(keyfile, file, NULL);
+    char* file = g_build_filename(path, bibledit_window_state_ini, nullptr);
+    g_key_file_save_to_file(keyfile, file, nullptr);
 
     g_free(file);
     g_key_file_unref(keyfile);
@@ -352,9 +354,9 @@ static gboolean on_decide_policy (
 static void on_download_started ([[maybe_unused]] WebKitWebContext *context, WebKitDownload *download, [[maybe_unused]] gpointer user_data)
 {
     // Listen for decide destination
-    g_signal_connect(download, "decide-destination", G_CALLBACK(on_decide_destination), NULL);
+    g_signal_connect(download, "decide-destination", G_CALLBACK(on_decide_destination), nullptr);
     // Listen for download finished.
-    g_signal_connect(download, "finished", G_CALLBACK(on_download_finished), NULL);
+    g_signal_connect(download, "finished", G_CALLBACK(on_download_finished), nullptr);
 }
 
 
@@ -371,7 +373,7 @@ static gboolean on_decide_destination (
     // The result is that the user finds nothing downloaded.
     // To work around this, it here first removes any notes.tar that might have been there.
     // Then downloading it, it works well.
-    gchar* path = g_build_filename(g_get_user_special_dir(G_USER_DIRECTORY_DOWNLOAD), suggested_filename, NULL);
+    gchar* path = g_build_filename(g_get_user_special_dir(G_USER_DIRECTORY_DOWNLOAD), suggested_filename, nullptr);
     unlink(path);
     g_free(path);
     return false;
@@ -401,7 +403,7 @@ void webkit_search (GtkWidget *widget)
     GtkWidget* dialog = gtk_dialog_new_with_buttons("Search", GTK_WINDOW(window), flags,
                                                     "_OK", GTK_RESPONSE_OK,
                                                     "_Cancel", GTK_RESPONSE_CANCEL,
-                                                    NULL);
+                                                    nullptr);
     gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 
@@ -443,7 +445,7 @@ void webkit_search (GtkWidget *widget)
 
 
 // Start an external URL through the default system browser.
-void timer_thread ()
+[[noreturn]] void timer_thread ()
 {
     while (true)
     {
@@ -451,7 +453,7 @@ void timer_thread ()
         const std::string url = bibledit_get_external_url();
         if (not url.empty())
         {
-            g_app_info_launch_default_for_uri(url.c_str(), NULL, NULL);
+            g_app_info_launch_default_for_uri(url.c_str(), nullptr, nullptr);
         }
     }
 }

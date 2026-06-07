@@ -709,11 +709,12 @@ add_executable(server
 target_link_libraries(server bibledit)
 
 
-# The Bibledit Linux client executable.
+# The Bibledit Linux client executable called "bibledit".
 if (HAVE_LINUX)
     add_executable(client
             executable/client.cpp
     )
+    set_target_properties(client PROPERTIES OUTPUT_NAME "bibledit")
     target_link_libraries(client bibledit)
 endif ()
 
@@ -974,7 +975,11 @@ message(STATUS "iOS              (cmake -DHAVE_IOS=ON)                ${HAVE_IOS
 configure_file(config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
 # Installation.
-install(TARGETS server DESTINATION bin)
+if (HAVE_LINUX)
+    install(TARGETS client DESTINATION bin)
+else ()
+    install(TARGETS server DESTINATION bin)
+endif ()
 install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/create.sh)")
 install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/install.sh ${PROJECT_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} share/bibledit)")
 install(FILES man/bibledit.1 TYPE MAN)

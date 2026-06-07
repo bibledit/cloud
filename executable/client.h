@@ -25,9 +25,6 @@
 #include <gtk/gtk.h>
 
 
-using namespace std;
-
-
 int main (int argc, char *argv[]);
 static void activate (GtkApplication *app);
 GtkApplication *application;
@@ -41,5 +38,3 @@ static gboolean on_timeout (gpointer data);
 static gboolean on_configure (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 void webkit_search (GtkWidget *widget);
 void timer_thread ();
-
-

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (©) 2003-2026 Teus Benschop. -->
+<component type="desktop-application">
+  <id>org.bibledit.bibledit</id>
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <name>Bibledit</name>
+  <summary>Bible editor</summary>
+
+  <description>
+    <p>
+      A tool for the Bible translator.
+    </p>
+    <p>
+      Translate Bibles.
+    </p>
+    <p>
+      Edit Bibles.
+    </p>
+    <p>
+      Proofread Bibles.
+    </p>
+    <p>
+      Publish Bibles.
+    </p>
+    <p>
+      Synchronize your data through Bibledit Cloud.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">bibledit.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>The main screen</caption>
+      <image>https://raw.githubusercontent.com/bibledit/linux/master/screenshot-main.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A workspace</caption>
+      <image>https://raw.githubusercontent.com/bibledit/linux/master/screenshot-workspace.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://bibledit.org</url>
+
+  <provides>
+    <binary>bibledit</binary>
+  </provides>
+
+  <releases>
+    <release version="5.0.894" date="2020-06-13">
+      <description>
+        <p>Fixed: Second USFM editor in a workspace does not move the focused verse into view. Fixed: Focused verse in USFM editor jumps to next verse if there's a space at the end of the verse text. The chapter editor honours the setting for the initial vertical position of the cursor. Fixed: The second Bible editor at times was not read-only leading to unexpected caret jumps. A translator can now edit the summary of a consultation note.</p>
+      </description>
+    </release>
+  </releases>
+</component>

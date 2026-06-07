@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Bibledit
+Comment=Bible Editor
+Exec=bibledit
+Icon=bbe512x512
+Terminal=false
+Type=Application
+Categories=GTK;GNOME;Office;
+StartupNotify=true
+NoDisplay=false

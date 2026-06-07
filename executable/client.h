@@ -18,8 +18,7 @@
 */
 
 
-#ifndef INCLUDED_BIBLEDIT_H
-#define INCLUDED_BIBLEDIT_H
+#pragma once
 
 
 #include <cstdlib>
@@ -44,4 +43,3 @@ void webkit_search (GtkWidget *widget);
 void timer_thread ();
 
 
-#endif

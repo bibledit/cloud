@@ -19,12 +19,13 @@
 
 
 #include <config.h>
-#include <executable/bibledit.h>
+#include <executable/client.h>
 #include <libgen.h>
 #include <iostream>
 #include <thread>
 #include "library/bibledit.h"
 #include <webkit2/webkit2.h>
+#include <gtk/gtk.h>
 
 
 gint bibledit_window_root_x = 0;

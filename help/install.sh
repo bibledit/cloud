@@ -251,9 +251,10 @@ rm -f .local/share/applications/"${bibledit}".desktop
 cd
 URL=$(curl -s https://api.github.com/repos/bibledit/linux/releases/latest | grep "browser_download_url.*gz" | cut -d : -f 2,3 | tr -d \")
 TARBALL=$(basename $URL)
-# Don't use quites because globbing is important.
+# Don't use quotes because globbing is important.
 rm -f $TARBALL*
-wget --continue --tries=100 "$URL"
+# Don't use quotes to avoid "Scheme missing" error from wget.
+wget --continue --tries=100 $URL
 if [ $? -ne 0 ]
 then
 echo Failed to download Bibledit

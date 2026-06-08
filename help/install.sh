@@ -45,19 +45,19 @@ bible=bible
 fi
 
 
-SCRIPTPATH=`readlink -f "$0"`
-echo Running script $SCRIPTPATH
+SCRIPT_PATH=$(readlink -f "$0")
+echo Running script "$SCRIPT_PATH"
 
 
 # Some distros cannot run $ su.
-UNAME=`uname -a`
+UNAME=$(uname -a)
 echo -n "Installing ${Bibledit} on "
-echo $UNAME
-RUNSU=1;
+echo "$UNAME"
+RUN_SU=1;
 echo "$UNAME" | grep -q Ubuntu
 EXIT_CODE=$?
 if [ $EXIT_CODE -eq 0 ]; then
-RUNSU=0;
+RUN_SU=0;
 fi
 
 
@@ -91,9 +91,7 @@ echo Installing dependencies through apt...
 # On Debian and derivates it is sufficient to use the --yes switch only.
 # The package manager apt is also found on openSUSE, and there is also needs --assume-yes.
 apt --yes --assume-yes install build-essential
-apt --yes --assume-yes install autoconf
-apt --yes --assume-yes install automake
-apt --yes --assume-yes install autoconf-archive
+apt --yes --assume-yes install cmake
 apt --yes --assume-yes install git
 apt --yes --assume-yes install zip
 apt --yes --assume-yes install pkgconf
@@ -116,10 +114,7 @@ which dnf > /dev/null
 if [ $? -eq 0 ]
 then
 echo Installing dependencies through dnf...
-dnf --assumeyes install autoconf
-dnf --assumeyes install automake
-dnf --assumeyes install autoconf-archive
-dnf --enablerepo=PowerTools --assumeyes install autoconf-archive
+dnf --assumeyes install cmake
 dnf --assumeyes install gcc-c++
 dnf --assumeyes install git
 dnf --assumeyes install zip
@@ -140,9 +135,7 @@ which yum > /dev/null
 if [ $? -eq 0 ]
 then
 echo Installing dependencies through yum...
-yum --assumeyes install autoconf
-yum --assumeyes install automake
-yum --assumeyes install autoconf-archive
+yum --assumeyes install cmake
 yum --assumeyes install gcc-c++
 yum --assumeyes install git
 yum --assumeyes install zip
@@ -165,9 +158,7 @@ which zypper > /dev/null
 if [ $? -eq 0 ]
 then
 echo Installing dependencies through zypper...
-zypper -n --non-interactive --no-gpg-checks install autoconf
-zypper -n --non-interactive --no-gpg-checks install automake
-zypper -n --non-interactive --no-gpg-checks install autoconf-archive
+zypper -n --non-interactive --no-gpg-checks install cmake
 zypper -n --non-interactive --no-gpg-checks install gcc-c++
 zypper -n --non-interactive --no-gpg-checks install git
 zypper -n --non-interactive --no-gpg-checks install zip
@@ -224,14 +215,14 @@ scriptblock
 chmod +x install2.sh
 
 # Conditionally run $ su.
-if [ $RUNSU -ne 0 ]; then
+if [ $RUN_SU -ne 0 ]; then
 echo Please provide the password for the root user and press Enter
 su -c ./install2.sh -- -- "${Bibledit}" "${bibledit}" "${Bible}" "${bible}"
 fi
 
 EXIT_CODE=$?
 # If $ su did not run, run $ sudo.
-if [ $RUNSU -eq 0 ]; then
+if [ $RUN_SU -eq 0 ]; then
 EXIT_CODE=1
 fi
 # If $ su ran, but failed, run $ sudo.
@@ -254,14 +245,15 @@ rm install2.sh
 # Remove any possible local launcher.
 # The reason is that a local launcher takes precendence over a system-wide one.
 cd
-rm -f .local/share/applications/${bibledit}.desktop
+rm -f .local/share/applications/"${bibledit}".desktop
 
 
 cd
-URL=`curl -s https://api.github.com/repos/bibledit/linux/releases/latest | grep "browser_download_url.*gz" | cut -d : -f 2,3 | tr -d \"`
-TARBALL=`basename $URL`
+URL=$(curl -s https://api.github.com/repos/bibledit/linux/releases/latest | grep "browser_download_url.*gz" | cut -d : -f 2,3 | tr -d \")
+TARBALL=$(basename $URL)
+# Don't use quites because globbing is important.
 rm -f $TARBALL*
-wget --continue --tries=100 $URL
+wget --continue --tries=100 "$URL"
 if [ $? -ne 0 ]
 then
 echo Failed to download Bibledit
@@ -270,12 +262,12 @@ fi
 
 
 # Create the directory and unpack the tarball there.
-mkdir -p ${bibledit}
-tar xf $TARBALL -C ${bibledit} --strip-components=1
+mkdir -p "${bibledit}"
+tar xf "$TARBALL" -C "${bibledit}" --strip-components=1
 if [ $? -ne 0 ]
 then
-echo Failed to unpack ${Bibledit}
-rm $TARBALL
+echo Failed to unpack "${Bibledit}"
+rm "$TARBALL"
 exit
 fi
 
@@ -288,19 +280,19 @@ cd ${bibledit}
 find . -name "*.o" -delete
 
 
-echo Changing the program name and installation location to ${bibledit}/${Bibledit}
-sed -i.bak "s/bibledit/$bibledit/g" configure.ac
-if [ $? -ne 0 ]; then exit; fi
-sed -i.bak "s/Bibledit/$Bibledit/g" configure.ac
-if [ $? -ne 0 ]; then exit; fi
-sed -i.bak "s/bin_PROGRAMS = bibledit/bin_PROGRAMS = ${bibledit}/g" Makefile.am
-if [ $? -ne 0 ]; then exit; fi
-sed -i.bak "s/bibledit_SOURCES/${bibledit}_SOURCES/g" Makefile.am
-if [ $? -ne 0 ]; then exit; fi
-sed -i.bak "s/bibledit_LDADD/${bibledit}_LDADD/g" Makefile.am
-if [ $? -ne 0 ]; then exit; fi
+#echo Changing the program name and installation location to "${bibledit}"/"${Bibledit}"
+#sed -i.bak "s/bibledit/$bibledit/g" configure.ac
+#if [ $? -ne 0 ]; then exit; fi
+#sed -i.bak "s/Bibledit/$Bibledit/g" configure.ac
+#if [ $? -ne 0 ]; then exit; fi
+#sed -i.bak "s/bin_PROGRAMS = bibledit/bin_PROGRAMS = ${bibledit}/g" Makefile.am
+#if [ $? -ne 0 ]; then exit; fi
+#sed -i.bak "s/bibledit_SOURCES/${bibledit}_SOURCES/g" Makefile.am
+#if [ $? -ne 0 ]; then exit; fi
+#sed -i.bak "s/bibledit_LDADD/${bibledit}_LDADD/g" Makefile.am
+#if [ $? -ne 0 ]; then exit; fi
 # Remove backup file(s).
-rm *.bak
+#rm *.bak
 
 
 # Remove the internationalization file.
@@ -309,62 +301,62 @@ rm locale/bibledit.pot
 if [ $? -ne 0 ]; then exit; fi
 
 
-if [ "$bible" != "bible" ]
-then
-echo Renaming the bibles folder where to store the Bibles to ${bible}s
-cp -r bibles ${bible}s
-if [ $? -ne 0 ]; then exit; fi
-rm -rf bibles
-if [ $? -ne 0 ]; then exit; fi
+#if [ "$bible" != "bible" ]
+#then
+#echo Renaming the bibles folder where to store the Bibles to "${bible}"s
+#cp -r bibles "${bible}"s
+#if [ $? -ne 0 ]; then exit; fi
+#rm -rf bibles
+#if [ $? -ne 0 ]; then exit; fi
+## Update the references to this folder in the code.
+#sed -i.bak "s/\"bibles\"/\"${bible}s\"/g" database/bibles.cpp setup/logic.cpp
+#if [ $? -ne 0 ]; then exit; fi
+# Remove backup file(s).
+#rm database/*.bak
+#rm setup/*.bak
+#fi
+
+
+#if [ "$bible" != "bible" ]
+#then
+#echo Renaming the databases/config/bible folder where to store the Bibles configuration data
+#cp -r databases/config/bible databases/config/${bible}
+#if [ $? -ne 0 ]; then exit; fi
+#rm -rf databases/config/bible
+#if [ $? -ne 0 ]; then exit; fi
 # Update the references to this folder in the code.
-sed -i.bak "s/\"bibles\"/\"${bible}s\"/g" database/bibles.cpp setup/logic.cpp
-if [ $? -ne 0 ]; then exit; fi
+#sed -i.bak "s/\"bible\"/\"${bible}\"/g" database/config/bible.cpp
+#if [ $? -ne 0 ]; then exit; fi
 # Remove backup file(s).
-rm database/*.bak
-rm setup/*.bak
-fi
+#rm database/config/*.bak
+#fi
 
 
-if [ "$bible" != "bible" ]
-then
-echo Renaming the databases/config/bible folder where to store the Bibles configuration data
-cp -r databases/config/bible databases/config/${bible}
-if [ $? -ne 0 ]; then exit; fi
-rm -rf databases/config/bible
-if [ $? -ne 0 ]; then exit; fi
-# Update the references to this folder in the code.
-sed -i.bak "s/\"bible\"/\"${bible}\"/g" database/config/bible.cpp
-if [ $? -ne 0 ]; then exit; fi
+#echo Removing the man file as not needed in this situation
+#rm -f man/bibledit.1
+#sed -i.bak "/man_MANS/g" Makefile.am
 # Remove backup file(s).
-rm database/config/*.bak
-fi
+#rm *.bak
 
 
-echo Removing the man file as not needed in this situation
-rm -f man/bibledit.1
-sed -i.bak "/man_MANS/g" Makefile.am
+#if [ "$Bibledit" != "Bibledit" ]
+#then
+#echo Updating title of $Bibledit
+#sed -i.bak "s/\"Bibledit\"/\"${Bibledit}\"/g" executable/bibledit.cpp
+#if [ $? -ne 0 ]; then exit; fi
 # Remove backup file(s).
-rm *.bak
+#find . -name "*.bak" -delete
+#fi
 
 
-if [ "$Bibledit" != "Bibledit" ]
-then
-echo Updating title of $Bibledit
-sed -i.bak "s/\"Bibledit\"/\"${Bibledit}\"/g" executable/bibledit.cpp
-if [ $? -ne 0 ]; then exit; fi
+#if [ "$bibledit" != "bibledit" ]
+#then
+#echo Updating data directory for $bibledit
+#sed -i.bak "s/\"bibledit\"/\"${bibledit}\"/g" executable/bibledit.cpp
+#if [ $? -ne 0 ]; then exit; fi
 # Remove backup file(s).
-find . -name "*.bak" -delete
-fi
-
-
-if [ "$bibledit" != "bibledit" ]
-then
-echo Updating data directory for $bibledit
-sed -i.bak "s/\"bibledit\"/\"${bibledit}\"/g" executable/bibledit.cpp
-if [ $? -ne 0 ]; then exit; fi
-# Remove backup file(s).
-find . -name "*.bak" -delete
-fi
+#find . -name "*.bak" -delete
+#fi
 
 
 # Change any files with the fragment "Bible" in them to "Scripture".
@@ -397,34 +389,35 @@ fi
 # if [ $? -ne 0 ]; then exit; fi
 
 
-./reconfigure
+cmake -B build -DBUILD_UNITTESTS=OFF -DHAVE_LINUX=ON
 if [ $? -ne 0 ]; then exit; fi
-./configure
+cmake --build build --target clean
 if [ $? -ne 0 ]; then exit; fi
-make clean
+cmake --build build --target all
 if [ $? -ne 0 ]; then exit; fi
-make
+mv build/bibledit .
 if [ $? -ne 0 ]; then exit; fi
 
 
-if [ "$bibledit" != "bibledit" ]
-then
-echo Removing existing bibledit binaries and desktop file
-rm -f bibledit
-rm -f libbibledit.a
-rm -f bibledit.desktop
-echo Removing Sample Bible
-rm -rf bibles
-rm -f databases/sample.sqlite
-fi
+
+#if [ "$bibledit" != "bibledit" ]
+#then
+#echo Removing existing bibledit binaries and desktop file
+#rm -f bibledit
+#rm -f libbibledit.a
+#rm -f bibledit.desktop
+#echo Removing Sample Bible
+#rm -rf bibles
+#rm -f databases/sample.sqlite
+#fi
 
 
 # Remove the script, so people cannot reuse it.
 # Reusing scripts have given problems in the past as newer scripts were different.
-rm $SCRIPTPATH
+rm "$SCRIPT_PATH"
 
-echo If there were no errors, ${Bibledit} should be working now.
+echo If there were no errors, "${Bibledit}" should be working now.
 echo --
-echo To start ${Bibledit}, open a terminal, and type:
-echo ${bibledit}
+echo To start "${Bibledit}", open a terminal, and type:
+echo "${bibledit}"
 echo and press Enter.

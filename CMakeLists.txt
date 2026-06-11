@@ -82,11 +82,6 @@ endif ()
 message(STATUS "Build unit tests is ${BUILD_UNITTESTS} (disable: $cmake -DBUILD_UNITTESTS=OFF)")
 
 
-# Whether to have an internal MbedTLS library.
-option(INTERNAL_MBEDTLS "Have internal MbedTLS" ON)
-message(STATUS "Have internal MbedTLS ${INTERNAL_MBEDTLS} (diable: $cmake -DINTERNAL_MBEDTLS=OFF)")
-
-
 # Compiler to emit info for the debugger.
 add_compile_options(-g)
 
@@ -515,114 +510,114 @@ add_library(bibledit STATIC
         public/comment.cpp
         utf8proc/utf8proc.c
         search/logic.cpp
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/aes.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/aesce.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/aesni.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/aria.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/asn1parse.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/asn1write.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/base64.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/bignum.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/bignum_core.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/bignum_mod.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/bignum_mod_raw.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/block_cipher.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/camellia.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ccm.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/chacha20.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/chachapoly.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/cipher.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/cipher_wrap.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/cmac.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/constant_time.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ctr_drbg.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/debug.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/des.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/dhm.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ecdh.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ecdsa.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ecjpake.>c
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ecp.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ecp_curves.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ecp_curves_new.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/entropy.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/entropy_poll.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/error.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/gcm.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/hkdf.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/hmac_drbg.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/lmots.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/lms.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/md.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/md5.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/memory_buffer_alloc.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/mps_reader.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/mps_trace.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/net_sockets.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/nist_kw.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/oid.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/padlock.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/pem.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/pk.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/pk_ecc.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/pk_wrap.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/pkcs12.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/pkcs5.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/pkcs7.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/pkparse.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/pkwrite.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/platform.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/platform_util.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/poly1305.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_aead.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_cipher.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_client.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_driver_wrappers_no_static.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_ecp.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_ffdh.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_hash.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_mac.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_pake.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_rsa.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_se.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_slot_management.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_crypto_storage.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_its_file.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/psa_util.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ripemd160.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/rsa.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/rsa_alt_helpers.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/sha1.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/sha256.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/sha3.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/sha512.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_cache.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_ciphersuites.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_client.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_cookie.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_debug_helpers_generated.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_msg.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_ticket.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_tls.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_tls12_client.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_tls12_server.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_tls13_client.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_tls13_generic.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_tls13_keys.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/ssl_tls13_server.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/threading.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/timing.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/version.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/version_features.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/x509.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/x509_create.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/x509_crl.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/x509_crt.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/x509_csr.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/x509write.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/x509write_crt.c>
-        $<$<BOOL:INTERNAL_MBEDTLS>:mbedtls/x509write_csr.c>
+        mbedtls/aes.c
+        mbedtls/aesce.c
+        mbedtls/aesni.c
+        mbedtls/aria.c
+        mbedtls/asn1parse.c
+        mbedtls/asn1write.c
+        mbedtls/base64.c
+        mbedtls/bignum.c
+        mbedtls/bignum_core.c
+        mbedtls/bignum_mod.c
+        mbedtls/bignum_mod_raw.c
+        mbedtls/block_cipher.c
+        mbedtls/camellia.c
+        mbedtls/ccm.c
+        mbedtls/chacha20.c
+        mbedtls/chachapoly.c
+        mbedtls/cipher.c
+        mbedtls/cipher_wrap.c
+        mbedtls/cmac.c
+        mbedtls/constant_time.c
+        mbedtls/ctr_drbg.c
+        mbedtls/debug.c
+        mbedtls/des.c
+        mbedtls/dhm.c
+        mbedtls/ecdh.c
+        mbedtls/ecdsa.c
+        mbedtls/ecjpake.c
+        mbedtls/ecp.c
+        mbedtls/ecp_curves.c
+        mbedtls/ecp_curves_new.c
+        mbedtls/entropy.c
+        mbedtls/entropy_poll.c
+        mbedtls/error.c
+        mbedtls/gcm.c
+        mbedtls/hkdf.c
+        mbedtls/hmac_drbg.c
+        mbedtls/lmots.c
+        mbedtls/lms.c
+        mbedtls/md.c
+        mbedtls/md5.c
+        mbedtls/memory_buffer_alloc.c
+        mbedtls/mps_reader.c
+        mbedtls/mps_trace.c
+        mbedtls/net_sockets.c
+        mbedtls/nist_kw.c
+        mbedtls/oid.c
+        mbedtls/padlock.c
+        mbedtls/pem.c
+        mbedtls/pk.c
+        mbedtls/pk_ecc.c
+        mbedtls/pk_wrap.c
+        mbedtls/pkcs12.c
+        mbedtls/pkcs5.c
+        mbedtls/pkcs7.c
+        mbedtls/pkparse.c
+        mbedtls/pkwrite.c
+        mbedtls/platform.c
+        mbedtls/platform_util.c
+        mbedtls/poly1305.c
+        mbedtls/psa_crypto.c
+        mbedtls/psa_crypto_aead.c
+        mbedtls/psa_crypto_cipher.c
+        mbedtls/psa_crypto_client.c
+        mbedtls/psa_crypto_driver_wrappers_no_static.c
+        mbedtls/psa_crypto_ecp.c
+        mbedtls/psa_crypto_ffdh.c
+        mbedtls/psa_crypto_hash.c
+        mbedtls/psa_crypto_mac.c
+        mbedtls/psa_crypto_pake.c
+        mbedtls/psa_crypto_rsa.c
+        mbedtls/psa_crypto_se.c
+        mbedtls/psa_crypto_slot_management.c
+        mbedtls/psa_crypto_storage.c
+        mbedtls/psa_its_file.c
+        mbedtls/psa_util.c
+        mbedtls/ripemd160.c
+        mbedtls/rsa.c
+        mbedtls/rsa_alt_helpers.c
+        mbedtls/sha1.c
+        mbedtls/sha256.c
+        mbedtls/sha3.c
+        mbedtls/sha512.c
+        mbedtls/ssl_cache.c
+        mbedtls/ssl_ciphersuites.c
+        mbedtls/ssl_client.c
+        mbedtls/ssl_cookie.c
+        mbedtls/ssl_debug_helpers_generated.c
+        mbedtls/ssl_msg.c
+        mbedtls/ssl_ticket.c
+        mbedtls/ssl_tls.c
+        mbedtls/ssl_tls12_client.c
+        mbedtls/ssl_tls12_server.c
+        mbedtls/ssl_tls13_client.c
+        mbedtls/ssl_tls13_generic.c
+        mbedtls/ssl_tls13_keys.c
+        mbedtls/ssl_tls13_server.c
+        mbedtls/threading.c
+        mbedtls/timing.c
+        mbedtls/version.c
+        mbedtls/version_features.c
+        mbedtls/x509.c
+        mbedtls/x509_create.c
+        mbedtls/x509_crl.c
+        mbedtls/x509_crt.c
+        mbedtls/x509_csr.c
+        mbedtls/x509write.c
+        mbedtls/x509write_crt.c
+        mbedtls/x509write_csr.c
         related/logic.cpp
         sqlite/sqlite3.c
         ldap/logic.cpp
@@ -891,22 +886,20 @@ if (ICU_FOUND)
     target_link_libraries(generate ${ICU_LIBRARIES} icuuc)
 endif ()
 
-if (NOT INTERNAL_MBEDTLS)
-    pkg_check_modules(MBEDTLS mbedtls)
-    if (MBEDTLS_FOUND)
-        set(HAVE_LIBMBEDTLS ON)
-        target_include_directories(bibledit PUBLIC ${MBEDTLS_INCLUDE_DIRS})
-        target_compile_options(bibledit PUBLIC ${MBEDTLS_CFLAGS_OTHER})
-        target_link_directories(bibledit PUBLIC ${MBEDTLS_LIBRARY_DIRS})
-        target_link_libraries(server ${MBEDTLS_LIBRARIES})
-        if (BUILD_UNITTESTS)
-            target_link_libraries(unittest ${MBEDTLS_LIBRARIES})
-        endif ()
-        target_link_libraries(generate ${MBEDTLS_LIBRARIES})
+pkg_check_modules(MBEDTLS mbedtls)
+if (MBEDTLS_FOUND)
+    set(HAVE_LIBMBEDTLS ON)
+    target_include_directories(bibledit PUBLIC ${MBEDTLS_INCLUDE_DIRS})
+    target_compile_options(bibledit PUBLIC ${MBEDTLS_CFLAGS_OTHER})
+    target_link_directories(bibledit PUBLIC ${MBEDTLS_LIBRARY_DIRS})
+    target_link_libraries(server ${MBEDTLS_LIBRARIES})
+    if (BUILD_UNITTESTS)
+        target_link_libraries(unittest ${MBEDTLS_LIBRARIES})
     endif ()
+    target_link_libraries(generate ${MBEDTLS_LIBRARIES})
 endif ()
 
-pkg_check_modules(UTF8PROC mbedtls)
+pkg_check_modules(UTF8PROC libutf8proc)
 if (UTF8PROC_FOUND)
     set(HAVE_UTF8PROC ON)
     target_include_directories(bibledit PUBLIC ${UTF8PROC_INCLUDE_DIRS})

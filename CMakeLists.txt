@@ -886,7 +886,7 @@ if (ICU_FOUND)
     target_link_libraries(generate ${ICU_LIBRARIES} icuuc)
 endif ()
 
-pkg_check_modules(MBEDTLS mbedtls)
+pkg_check_modules(MBEDTLS mbedtls>=3.0.0)
 if (MBEDTLS_FOUND)
     set(HAVE_LIBMBEDTLS ON)
     target_include_directories(bibledit PUBLIC ${MBEDTLS_INCLUDE_DIRS})

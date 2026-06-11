@@ -20,8 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #define VERSION_MAJOR 5
 #define VERSION_MINOR 1
-#define VERSION_PATCH 047
-#define VERSION "5.1.047"
+#define VERSION_PATCH 048
+#define VERSION "5.1.048"
 /* #undef HAVE_LIBMBEDTLS */
 /* #undef HAVE_LIBPROC */
 /* #undef HAVE_EXECINFO */
@@ -30,8 +30,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define HAVE_UTF8PROC
 #define HAVE_PUGIXML
 #define HAVE_GTEST
-#define PACKAGE_DATA_DIR "/usr/share/bibledit"
-#define PACKAGE_PREFIX_DIR "/usr"
+#define PACKAGE_DATA_DIR "/tmp/share/bibledit"
+#define PACKAGE_PREFIX_DIR "/tmp"
 /* #undef COMPILER_GCC */
 #define COMPILER_CLANG
 /* #undef HAVE_WINDOWS */

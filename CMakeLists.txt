@@ -24,7 +24,8 @@ message(STATUS "Processing ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
 # Start a project by setting the project name and version.
-project(bibledit VERSION 5.1.047)
+project(bibledit VERSION 5.1.048)
+message(STATUS "Bibledit version ${bibledit_VERSION}")
 
 
 set(bibledit_VERSION "${bibledit_VERSION_MAJOR}.${bibledit_VERSION_MINOR}.${bibledit_VERSION_PATCH}")
@@ -38,14 +39,27 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 
-option(HAVE_WINDOWS "Compile for Windows" OFF)
+option(HAVE_WINDOWS "Build for Windows" OFF)
 if (HAVE_WINDOWS)
     set(WIN32 ON)
 endif ()
-option(HAVE_ANDROID "Compile for Android" OFF)
-option(HAVE_MACOS "Compile for macOS" OFF)
-option(HAVE_LINUX "Compile for Linux" OFF)
-option(HAVE_IOS "Compile for iOS" OFF)
+message(STATUS "Build for Windows ${HAVE_WINDOWS} (enable: $cmake -DHAVE_WINDOWS=ON)")
+
+
+option(HAVE_ANDROID "Build for Android" OFF)
+message(STATUS "Build for Android ${HAVE_ANDROID} (enable: $cmake -DHAVE_ANDROID=ON)")
+
+
+option(HAVE_MACOS "Build for macOS" OFF)
+message(STATUS "Build for macOS ${HAVE_MACOS} (enable: $cmake -DHAVE_MACOS=ON)")
+
+
+option(HAVE_LINUX "Build for Linux" OFF)
+message(STATUS "Build for Linux ${HAVE_LINUX} (enable: $cmake -DHAVE_LINUX=ON)")
+
+
+option(HAVE_IOS "Build for iOS" OFF)
+message(STATUS "Build for iOS ${HAVE_IOS} (enable: $cmake -DHAVE_IOS=ON)")
 
 
 # Handle the install prefix.
@@ -53,8 +67,8 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "/usr")
 endif()
 option(CMAKE_INSTALL_PREFIX "Install prefix" "/usr")
+message(STATUS "Install prefix is ${CMAKE_INSTALL_PREFIX} (change: $cmake -DCMAKE_INSTALL_PREFIX=path)")
 # Set it during install: $ cmake --install . --prefix "/path"
-# Set it during configure: $ cmake .. -DCMAKE_INSTALL_PREFIX=/usr
 
 
 # Default values for building the unit tests:
@@ -65,10 +79,12 @@ option(BUILD_UNITTESTS "Build and use the unit tests" ON)
 if (HAVE_LINUX OR HAVE_WINDOWS OR HAVE_ANDROID OR HAVE_MACOS OR HAVE_IOS)
     set(BUILD_UNITTESTS OFF)
 endif ()
+message(STATUS "Build unit tests is ${BUILD_UNITTESTS} (disable: $cmake -DBUILD_UNITTESTS=OFF)")
 
 
 # Whether to have an internal MbedTLS library.
 option(INTERNAL_MBEDTLS "Have internal MbedTLS" ON)
+message(STATUS "Have internal MbedTLS ${INTERNAL_MBEDTLS} (diable: $cmake -DINTERNAL_MBEDTLS=OFF)")
 
 
 # Compiler to emit info for the debugger.
@@ -966,21 +982,18 @@ set(PACKAGE_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/bibledit")
 
 set(PACKAGE_PREFIX_DIR "${CMAKE_INSTALL_PREFIX}")
 
-message(STATUS "Bibledit ${bibledit_VERSION} configuration summary")
-message(STATUS "Build unit tests (cmake -DBUILD_UNITTESTS=OFF)        ${BUILD_UNITTESTS}")
-message(STATUS "Install prefix   (cmake -DCMAKE_INSTALL_PREFIX=path)  ${CMAKE_INSTALL_PREFIX}")
-message(STATUS "Windows          (cmake -DHAVE_WINDOWS=ON)            ${HAVE_WINDOWS}")
-message(STATUS "Android          (cmake -DHAVE_ANDROID=ON)            ${HAVE_ANDROID}")
-message(STATUS "macOS            (cmake -DHAVE_MACOS=ON)              ${HAVE_MACOS}")
-message(STATUS "Linux            (cmake -DHAVE_LINUX=ON)              ${HAVE_LINUX}")
-message(STATUS "iOS              (cmake -DHAVE_IOS=ON)                ${HAVE_IOS}")
 
 # Write the variables in the template to config.h.
 configure_file(config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
+# Installation options.
+set(SERVER_BINARY_NAME "server" CACHE STRING "")
+message(STATUS "Server binary name is ${SERVER_BINARY_NAME} (change: $cmake -DSERVER_BINARY_NAME=name)")
+set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_BINARY_NAME}" )
+
 # Installation.
 if (HAVE_LINUX)
-    install(TARGETS client DESTINATION bin)
+    install(TARGETS client TYPE BIN)
     install(FILES gtk/bibledit.desktop DESTINATION share/applications)
     install(FILES pix/bbe48x48.xpm pix/bbe512x512.png DESTINATION share/icons)
     install(FILES pix/bbe48x48.xpm pix/bbe512x512.png DESTINATION share/pixmaps)

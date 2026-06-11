@@ -52,7 +52,6 @@
 /classes
 /client
 /client/index.html
-/cloud-macos.entitlements
 /CMakeLists.txt
 /collaboration
 /collaboration/index.html
@@ -266,6 +265,9 @@
 /fonts/SIL-Licenses.txt
 /git
 /git/gitflag
+/gtk
+/gtk/bibledit.appdata.xml
+/gtk/bibledit.desktop
 /gumbo
 /gumbo/0readme.txt
 /gumbo/char_ref.rl
@@ -479,6 +481,8 @@
 /pix/android-chrome-192x192.png
 /pix/android-chrome-512x512.png
 /pix/apple-touch-icon.png
+/pix/bbe48x48.xpm
+/pix/bbe512x512.png
 /pix/bibledit_logo.svg
 /pix/book.svg
 /pix/check.png
@@ -488,6 +492,8 @@
 /pix/loading.gif
 /pix/mstile-150x150.png
 /pix/safari-pinned-tab.svg
+/pix/screenshot-main.png
+/pix/screenshot-workspace.png
 /pix/splash.jpg
 /pkgdata
 /pkgdata/create.sh

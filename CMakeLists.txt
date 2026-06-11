@@ -1005,6 +1005,8 @@ configure_file(config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 set(SERVER_BINARY_NAME "server" CACHE STRING "")
 message(STATUS "Server binary name is ${SERVER_BINARY_NAME} (change: $cmake -DSERVER_BINARY_NAME=name)")
 set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_BINARY_NAME}" )
+set(SHARE_NAME "bibledit" CACHE STRING "")
+message(STATUS "Share name is ${SHARE_NAME} (change: $cmake -DSHARE_NAME=folder)")
 
 # Installation.
 if (HAVE_LINUX)
@@ -1017,7 +1019,7 @@ else ()
     install(TARGETS server DESTINATION bin)
 endif ()
 install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/create.sh)")
-install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/install.sh ${PROJECT_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} share/bibledit)")
+install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/install.sh ${PROJECT_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} share/${SHARE_NAME})")
 install(FILES man/bibledit.1 TYPE MAN)
 install(FILES man/bibledit-cloud.1 TYPE MAN)
 

@@ -24,7 +24,7 @@ message(STATUS "Processing ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
 # Start a project by setting the project name and version.
-project(bibledit VERSION 5.1.048)
+project(bibledit VERSION 5.1.049)
 message(STATUS "Bibledit version ${bibledit_VERSION}")
 
 

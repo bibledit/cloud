@@ -713,11 +713,13 @@ add_library(bibledit STATIC
 )
 
 
-# The Bibledit Cloud executable.
+# The Bibledit Cloud executable. Easily patchable.
 add_executable(server
         executable/bibledit.cpp
 )
+set_target_properties(server PROPERTIES OUTPUT_NAME "server" )
 target_link_libraries(server bibledit)
+
 
 
 # The Bibledit Linux client executable called "bibledit".
@@ -1001,12 +1003,6 @@ set(PACKAGE_PREFIX_DIR "${CMAKE_INSTALL_PREFIX}")
 # Write the variables in the template to config.h.
 configure_file(config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
-# Installation options.
-set(SERVER_BINARY_NAME "server" CACHE STRING "")
-message(STATUS "Server binary name is ${SERVER_BINARY_NAME} (change: $cmake -DSERVER_BINARY_NAME=name)")
-set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_BINARY_NAME}" )
-set(SHARE_NAME "bibledit" CACHE STRING "")
-message(STATUS "Share name is ${SHARE_NAME} (change: $cmake -DSHARE_NAME=folder)")
 
 # Installation.
 if (HAVE_LINUX)
@@ -1019,7 +1015,7 @@ else ()
     install(TARGETS server DESTINATION bin)
 endif ()
 install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/create.sh)")
-install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/install.sh ${PROJECT_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} share/${SHARE_NAME})")
+install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/install.sh ${PROJECT_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} share/bibledit")
 install(FILES man/bibledit.1 TYPE MAN)
 install(FILES man/bibledit-cloud.1 TYPE MAN)
 

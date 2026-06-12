@@ -24,7 +24,7 @@ message(STATUS "Processing ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
 # Start a project by setting the project name and version.
-project(bibledit VERSION 5.1.050)
+project(bibledit VERSION 5.1.051)
 message(STATUS "Bibledit version ${bibledit_VERSION}")
 
 
@@ -717,7 +717,7 @@ add_library(bibledit STATIC
 add_executable(server
         executable/bibledit.cpp
 )
-set_target_properties(server PROPERTIES OUTPUT_NAME "server" )
+set_target_properties(server PROPERTIES OUTPUT_NAME "server")
 target_link_libraries(server bibledit)
 
 

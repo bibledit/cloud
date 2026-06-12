@@ -1015,7 +1015,7 @@ else ()
     install(TARGETS server DESTINATION bin)
 endif ()
 install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/create.sh)")
-install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/install.sh ${PROJECT_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} share/bibledit")
+install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/install.sh ${PROJECT_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} share/bibledit)")
 install(FILES man/bibledit.1 TYPE MAN)
 install(FILES man/bibledit-cloud.1 TYPE MAN)
 

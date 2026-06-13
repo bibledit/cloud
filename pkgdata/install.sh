@@ -29,7 +29,7 @@ echo -- CMake install prefix: "$CMAKE_INSTALL_PREFIX"
 echo -- Package data directory: "$PKG_DATA_DIR"
 echo -- Combined install directory: "$COMBINED_INSTALL_DIR"
 
-echo -- Installing shared package data files to "$COMBINED_INSTALL_DIR" ...
+echo -- Installing shared package data files to "$COMBINED_INSTALL_DIR"
 
 FILE=$PROJECT_SOURCE_DIR/pkgdata/files.txt
 LINES=$(cat "$FILE")
@@ -42,6 +42,7 @@ if [ -d "$PROJECT_SOURCE_DIR/$ITEM" ]
 then
 mkdir -p "$COMBINED_INSTALL_DIR"/"$ITEM"
 else
+echo copy "$PROJECT_SOURCE_DIR"/"$ITEM" to "$COMBINED_INSTALL_DIR"/"$ITEM"
 cp "$PROJECT_SOURCE_DIR"/"$ITEM" "$COMBINED_INSTALL_DIR"/"$ITEM"
 COUNT=$((COUNT + 1))
 fi

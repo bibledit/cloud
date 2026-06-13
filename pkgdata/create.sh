@@ -104,5 +104,8 @@ sed -i.bak '/xcodeproj/d' pkgdata/files.txt
 # No Debian packaging information.
 sed -i.bak '/debian/d' pkgdata/files.txt
 
+# No man pages.
+sed -i.bak '/\/man\//d' pkgdata/files.txt
+
 # Clean backup file
 rm pkgdata/files.txt.bak

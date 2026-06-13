@@ -24,7 +24,7 @@ message(STATUS "Processing ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
 # Start a project by setting the project name and version.
-project(bibledit VERSION 5.1.052)
+project(bibledit VERSION 5.1.053)
 message(STATUS "Bibledit version ${bibledit_VERSION}")
 
 
@@ -1016,8 +1016,8 @@ else ()
 endif ()
 install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/create.sh)")
 install(CODE "execute_process(COMMAND ${PROJECT_SOURCE_DIR}/pkgdata/install.sh ${PROJECT_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} share/bibledit)")
-install(FILES man/bibledit.1 TYPE MAN)
-install(FILES man/bibledit-cloud.1 TYPE MAN)
+install(FILES man/bibledit.1 DESTINATION share/man/man1)
+install(FILES man/bibledit-cloud.1 DESTINATION share/man/man1)
 
 # Create tarball with target "dist"
 set(ARCHIVE_NAME ${CMAKE_PROJECT_NAME}-${PROJECT_VERSION})

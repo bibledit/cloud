@@ -21,7 +21,7 @@
 set -e
 
 # Work in the project root directory
-SOURCE=$(dirname $0)
+SOURCE=$(dirname "$0")
 cd "$SOURCE"
 cd ..
 
@@ -103,8 +103,8 @@ sed -i.bak '/debian/d' pkgdata/files.txt
 # No man pages.
 sed -i.bak '/\/man\//d' pkgdata/files.txt
 
-# No GTK files
+# No GTK files.
 sed -i.bak '/^\/gtk/d' pkgdata/files.txt
 
-# Clean backup file
+# Clean backup file.
 rm pkgdata/files.txt.bak

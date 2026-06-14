@@ -24,7 +24,7 @@ message(STATUS "Processing ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
 # Start a project by setting the project name and version.
-project(bibledit VERSION 5.1.053)
+project(bibledit VERSION 5.1.054)
 message(STATUS "Bibledit version ${bibledit_VERSION}")
 
 
@@ -1006,7 +1006,7 @@ configure_file(config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
 # Installation.
 if (HAVE_LINUX)
-    install(TARGETS client TYPE BIN)
+    install(TARGETS client DESTINATION bin)
     install(FILES gtk/bibledit.desktop DESTINATION share/applications)
     install(FILES pix/bbe48x48.xpm pix/bbe512x512.png DESTINATION share/icons)
     install(FILES pix/bbe48x48.xpm pix/bbe512x512.png DESTINATION share/pixmaps)

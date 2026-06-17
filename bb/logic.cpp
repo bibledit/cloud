@@ -452,7 +452,7 @@ void bible_logic::merge_irregularity_mail (const std::vector <std::string>& user
     // Clearly maark it up for the user.
     // The purpose is that the user immediately can see what happened,
     // and whether and how to correct it.
-    for (size_t i = 0; i < change_usfm.size(); i++) {
+    for (std::size_t i = 0; i < change_usfm.size(); i++) {
       node = document.append_child ("p");
       const std::string modification = filter_diff_diff (change_usfm[i], result_usfm[i]);
       // Add raw html to the email's text buffer.
@@ -1016,7 +1016,7 @@ void bible_logic::condense_editor_updates (const std::vector <int>& positions_in
   int previous_position = (std::numeric_limits<int>::min)();
   bool previous_addition {false};
   std::string previous_character {};
-  for (size_t i = 0; i < positions_in.size(); i++) {
+  for (std::size_t i = 0; i < positions_in.size(); i++) {
     const int position = positions_in[i];
     const int size = sizes_in[i];
     const bool addition = additions_in[i];

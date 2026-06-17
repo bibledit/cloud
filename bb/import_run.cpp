@@ -114,7 +114,7 @@ void bible_import_text (const std::string& text, const std::string& bible, int b
   std::vector <std::string> lines = filter::string::explode (text, '\n');
   
   // Go through the lines.
-  for (size_t i = 0; i < lines.size(); i++) {
+  for (std::size_t i = 0; i < lines.size(); i++) {
     
     // Trim the line.
     lines[i] = filter::string::trim (lines[i]);
@@ -192,7 +192,7 @@ void bible_import_text (const std::string& text, const std::string& bible, int b
             output.append("\\p");
             paragraph_open = true;
           }
-          size_t pos = lines[i].find(number);
+          std::size_t pos = lines[i].find(number);
           if (pos > 0) {
             output.append(" " + lines[i].substr(0, pos));
             lines[i].erase(0, pos);

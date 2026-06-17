@@ -198,7 +198,7 @@ void rss_logic_update_xml (std::vector <std::string> titles, std::vector <std::s
     document_updated = true;
   }
   pugi::xml_node channel = rss_node.child ("channel");
-  for (size_t i = 0; i < titles.size(); i++) {
+  for (std::size_t i = 0; i < titles.size(); i++) {
     pugi::xml_node item = channel.append_child ("item");
     std::string guid2 = guid + std::to_string (i);
     pugi::xml_node guid_node = item.append_child ("guid");

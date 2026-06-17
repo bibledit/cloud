@@ -189,7 +189,7 @@ std::string bible_order (Webserver_Request& webserver_request)
   const std::string moveup = webserver_request.query ["moveup"];
   const std::string movedown = webserver_request.query ["movedown"];
   if (!moveup.empty () || !movedown.empty ()) {
-    size_t move = static_cast<size_t>(filter::string::convert_to_int (moveup + movedown));
+    std::size_t move = static_cast<std::size_t>(filter::string::convert_to_int (moveup + movedown));
     const std::vector <int> books = filter_passage_get_ordered_books (bible);
     std::vector <std::string> s_books;
     for (const auto& book : books)
@@ -200,7 +200,7 @@ std::string bible_order (Webserver_Request& webserver_request)
   }
   
   const std::vector <int> books = filter_passage_get_ordered_books (bible);
-  for (size_t i = 0; i < books.size (); i++) {
+  for (std::size_t i = 0; i < books.size (); i++) {
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(books[i]));
     bookname = translate (bookname);
     view.add_iteration ("order", { std::pair ("offset", std::to_string (i)), std::pair ("bookname", bookname) } );

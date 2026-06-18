@@ -56,6 +56,11 @@ public:
         std::cout << "elapsed " << (stopped_at - m_started_at) << std::endl;
     }
 
+    scoped_timer(const scoped_timer&) = delete;
+    scoped_timer& operator=(const scoped_timer&) = delete;
+    scoped_timer(scoped_timer&&) = delete;
+    scoped_timer& operator=(scoped_timer&&) = delete;
+
 private:
     std::chrono::time_point<std::chrono::steady_clock, T> m_started_at;
 };

@@ -31,7 +31,9 @@ public:
     explicit Webserver_Request() = default;
     ~Webserver_Request();
     Webserver_Request(const Webserver_Request&) = delete;
-    Webserver_Request operator=(const Webserver_Request&) = delete;
+    Webserver_Request& operator=(const Webserver_Request&) = delete;
+    Webserver_Request(Webserver_Request&&) = delete;
+    Webserver_Request& operator=(Webserver_Request&&) = delete;
     // Whether the connection runs via the secure server.
     bool secure{false};
     // The session identifier of the cookie sent by the browser.

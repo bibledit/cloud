@@ -54,7 +54,7 @@ static std::string file(const std::string& user, const char* key)
 
 
 // The key in the cache for this setting.
-std::string map_key(const std::string& user, const char* key)
+static std::string map_key(const std::string& user, const char* key)
 {
     return user + key;
 }
@@ -115,7 +115,7 @@ static std::vector<std::string> get_list_for_user(const std::string& user, const
     const std::string cache_key = map_key(user, key);
     if (cache.contains(cache_key))
     {
-        const std::string value = cache.at(cache_key);
+        const std::string& value = cache.at(cache_key);
         return filter::string::explode(value, '\n');
     }
     // Read setting from disk.
@@ -328,7 +328,7 @@ bool Database_Config_User::get_notify_me_of_any_consultation_notes_edits() const
     return get_boolean_value(notify_me_of_any_consultation_notes_edits_key, false);
 }
 
-bool Database_Config_User::get_notify_user_of_any_consultation_notes_edits(const std::string& username) const
+bool Database_Config_User::get_notify_user_of_any_consultation_notes_edits(const std::string& username)
 {
     return get_boolean_value_for_user(username, notify_me_of_any_consultation_notes_edits_key, false);
 }
@@ -346,7 +346,7 @@ bool Database_Config_User::get_subscribed_consultation_note_notification() const
     return get_boolean_value(subscribed_consultation_note_notification_key, true);
 }
 
-bool Database_Config_User::get_user_subscribed_consultation_note_notification(const std::string& username) const
+bool Database_Config_User::get_user_subscribed_consultation_note_notification(const std::string& username)
 {
     return get_boolean_value_for_user(username, subscribed_consultation_note_notification_key, true);
 }
@@ -364,7 +364,7 @@ bool Database_Config_User::get_assigned_to_consultation_notes_changes() const
     return get_boolean_value(get_assigned_to_consultation_notes_changes_key, false);
 }
 
-bool Database_Config_User::get_user_assigned_to_consultation_notes_changes(const std::string& username) const
+bool Database_Config_User::get_user_assigned_to_consultation_notes_changes(const std::string& username)
 {
     return get_boolean_value_for_user(username, get_assigned_to_consultation_notes_changes_key, false);
 }
@@ -382,7 +382,7 @@ bool Database_Config_User::get_generate_change_notifications() const
     return get_boolean_value(generate_change_notifications_key, false);
 }
 
-bool Database_Config_User::get_user_generate_change_notifications(const std::string& username) const
+bool Database_Config_User::get_user_generate_change_notifications(const std::string& username)
 {
     return get_boolean_value_for_user(username, generate_change_notifications_key, false);
 }
@@ -400,7 +400,7 @@ bool Database_Config_User::get_assigned_consultation_note_notification() const
     return get_boolean_value(assigned_consultation_note_notification_key, true);
 }
 
-bool Database_Config_User::get_user_assigned_consultation_note_notification(const std::string& username) const
+bool Database_Config_User::get_user_assigned_consultation_note_notification(const std::string& username)
 {
     return get_boolean_value_for_user(username, assigned_consultation_note_notification_key, true);
 }
@@ -580,7 +580,7 @@ bool Database_Config_User::get_bible_changes_notification() const
     return get_boolean_value(bible_changes_notification_key, false);
 }
 
-bool Database_Config_User::get_user_bible_changes_notification(const std::string& username) const
+bool Database_Config_User::get_user_bible_changes_notification(const std::string& username)
 {
     return get_boolean_value_for_user(username, bible_changes_notification_key, false);
 }
@@ -598,7 +598,7 @@ bool Database_Config_User::get_deleted_consultation_note_notification() const
     return get_boolean_value(deleted_consultation_note_notification_key, false);
 }
 
-bool Database_Config_User::get_user_deleted_consultation_note_notification(const std::string& username) const
+bool Database_Config_User::get_user_deleted_consultation_note_notification(const std::string& username)
 {
     return get_boolean_value_for_user(username, deleted_consultation_note_notification_key, false);
 }
@@ -612,7 +612,7 @@ void Database_Config_User::set_deleted_consultation_note_notification(const bool
 bool Database_Config_User::default_bible_checks_notification() const
 {
     const int level = m_webserver_request.session_logic()->get_level();
-    return (level >= roles::translator && level <= roles::manager);
+    return level >= roles::translator and level <= roles::manager;
 }
 
 constexpr auto bible_checks_notification_key{"bible-checks-notification"};
@@ -640,7 +640,7 @@ bool Database_Config_User::get_pending_changes_notification() const
     return get_boolean_value(pending_changes_notification_key, false);
 }
 
-bool Database_Config_User::get_user_pending_changes_notification(const std::string& username) const
+bool Database_Config_User::get_user_pending_changes_notification(const std::string& username)
 {
     return get_boolean_value_for_user(username, pending_changes_notification_key, false);
 }
@@ -658,7 +658,7 @@ bool Database_Config_User::get_user_changes_notification() const
     return get_boolean_value(user_changes_notification_key, false);
 }
 
-bool Database_Config_User::get_user_user_changes_notification(const std::string& username) const
+bool Database_Config_User::get_user_user_changes_notification(const std::string& username)
 {
     return get_boolean_value_for_user(username, user_changes_notification_key, false);
 }
@@ -676,7 +676,7 @@ bool Database_Config_User::get_assigned_notes_statistics_notification() const
     return get_boolean_value(assigned_notes_statistics_notification_key, false);
 }
 
-bool Database_Config_User::get_user_assigned_notes_statistics_notification(const std::string& username) const
+bool Database_Config_User::get_user_assigned_notes_statistics_notification(const std::string& username)
 {
     return get_boolean_value_for_user(username, assigned_notes_statistics_notification_key, false);
 }
@@ -694,7 +694,7 @@ bool Database_Config_User::get_subscribed_notes_statistics_notification() const
     return get_boolean_value(subscribed_notes_statistics_notification_key, false);
 }
 
-bool Database_Config_User::get_user_subscribed_notes_statistics_notification(const std::string& username) const
+bool Database_Config_User::get_user_subscribed_notes_statistics_notification(const std::string& username)
 {
     return get_boolean_value_for_user(username, subscribed_notes_statistics_notification_key, false);
 }
@@ -712,7 +712,7 @@ bool Database_Config_User::get_notify_me_of_my_posts() const
     return get_boolean_value(notify_me_of_my_posts_key, true);
 }
 
-bool Database_Config_User::get_user_notify_me_of_my_posts(const std::string& username) const
+bool Database_Config_User::get_user_notify_me_of_my_posts(const std::string& username)
 {
     return get_boolean_value_for_user(username, notify_me_of_my_posts_key, true);
 }
@@ -730,7 +730,7 @@ bool Database_Config_User::get_suppress_mail_from_your_updates_notes() const
     return get_boolean_value(suppress_mail_my_updated_notes_key, false);
 }
 
-bool Database_Config_User::get_user_suppress_mail_from_your_updates_notes(const std::string& username) const
+bool Database_Config_User::get_user_suppress_mail_from_your_updates_notes(const std::string& username)
 {
     return get_boolean_value_for_user(username, suppress_mail_my_updated_notes_key, false);
 }
@@ -749,7 +749,7 @@ std::vector<std::string> Database_Config_User::get_active_resources() const
     return get_list(active_resources_key);
 }
 
-void Database_Config_User::set_active_resources(std::vector<std::string> values) const
+void Database_Config_User::set_active_resources(const std::vector<std::string>& values) const
 {
     set_list(active_resources_key, values);
 }
@@ -762,7 +762,7 @@ std::vector<std::string> Database_Config_User::get_consistency_resources() const
     return get_list(consistency_bibles_key);
 }
 
-void Database_Config_User::set_consistency_resources(std::vector<std::string> values) const
+void Database_Config_User::set_consistency_resources(const std::vector<std::string>& values) const
 {
     set_list(consistency_bibles_key, values);
 }
@@ -797,7 +797,7 @@ bool Database_Config_User::get_sprint_progress_notification() const
     return get_boolean_value(sprint_progress_notification_key, false);
 }
 
-bool Database_Config_User::get_user_sprint_progress_notification(const std::string& username) const
+bool Database_Config_User::get_user_sprint_progress_notification(const std::string& username)
 {
     return get_boolean_value_for_user(username, sprint_progress_notification_key, false);
 }
@@ -815,7 +815,7 @@ bool Database_Config_User::get_user_changes_notifications_online() const
     return get_boolean_value(user_changes_notifications_online_key, false);
 }
 
-bool Database_Config_User::get_user_user_changes_notifications_online(const std::string& username) const
+bool Database_Config_User::get_user_user_changes_notifications_online(const std::string& username)
 {
     return get_boolean_value_for_user(username, user_changes_notifications_online_key, false);
 }
@@ -833,7 +833,7 @@ bool Database_Config_User::get_contributor_changes_notifications_online() const
     return get_boolean_value(contributor_changes_notifications_online_key, false);
 }
 
-bool Database_Config_User::get_contributor_changes_notifications_online(const std::string& username) const
+bool Database_Config_User::get_contributor_changes_notifications_online(const std::string& username)
 {
     return get_boolean_value_for_user(username, contributor_changes_notifications_online_key, false);
 }
@@ -997,7 +997,7 @@ void Database_Config_User::add_updated_setting(const int value) const
 void Database_Config_User::remove_updated_setting(const int value) const
 {
     std::vector<int> settings = get_updated_settings();
-    const std::vector<int> against{value};
+    const std::vector against{value};
     settings = filter::string::array_diff(settings, against);
     set_updated_settings(settings);
 }
@@ -1026,7 +1026,7 @@ void Database_Config_User::add_removed_change(const int value) const
 void Database_Config_User::remove_removed_change(const int value) const
 {
     std::vector<int> settings = get_removed_changes();
-    std::vector<int> against{value};
+    std::vector against{value};
     settings = filter::string::array_diff(settings, against);
     set_removed_changes(settings);
 }
@@ -1045,7 +1045,7 @@ void Database_Config_User::set_change_notifications_checksum(const std::string& 
 }
 
 void Database_Config_User::set_user_change_notifications_checksum(const std::string& user,
-                                                                  const std::string& value) const
+                                                                  const std::string& value)
 {
     set_value_for_user(user, change_notifications_checksum_key, value);
 }
@@ -1071,7 +1071,7 @@ int Database_Config_User::get_resource_verses_before() const
     return get_numeric_value(resource_verses_before_key, 0);
 }
 
-void Database_Config_User::set_resource_verses_before(int verses) const
+void Database_Config_User::set_resource_verses_before(const int verses) const
 {
     set_numeric_value(resource_verses_before_key, verses);
 }
@@ -1259,8 +1259,7 @@ bool Database_Config_User::get_basic_interface_mode_default() const
     return true;
 #endif
     // _the app running on a workspace or laptop have default to basic mode for a lower role.
-    const int level = m_webserver_request.session_logic()->get_level();
-    if (level <= roles::manager)
+    if (const int level = m_webserver_request.session_logic()->get_level(); level <= roles::manager)
         return true;
     // _higher role: default to advanced mode.
     return false;
@@ -1394,12 +1393,12 @@ bool Database_Config_User::get_privilege_use_advanced_mode() const
     return get_boolean_value(privilege_use_advanced_mode_key, true);
 }
 
-bool Database_Config_User::get_privilege_use_advanced_mode_for_user(const std::string& username) const
+bool Database_Config_User::get_privilege_use_advanced_mode_for_user(const std::string& username)
 {
     return get_boolean_value_for_user(username, privilege_use_advanced_mode_key, true);
 }
 
-void Database_Config_User::set_privilege_use_advanced_mode_for_user(const std::string& username, const bool value) const
+void Database_Config_User::set_privilege_use_advanced_mode_for_user(const std::string& username, const bool value)
 {
     set_boolean_value_for_user(username, privilege_use_advanced_mode_key, value);
 }
@@ -1417,13 +1416,13 @@ void Database_Config_User::set_privilege_delete_consultation_notes(const bool va
     set_boolean_value(privilege_delete_consultation_notes_key, value);
 }
 
-bool Database_Config_User::get_privilege_delete_consultation_notes_for_user(const std::string& username) const
+bool Database_Config_User::get_privilege_delete_consultation_notes_for_user(const std::string& username)
 {
     return get_boolean_value_for_user(username, privilege_delete_consultation_notes_key, false);
 }
 
 void Database_Config_User::set_privilege_delete_consultation_notes_for_user(
-    const std::string& username, bool value) const
+    const std::string& username, bool value)
 {
     set_boolean_value_for_user(username, privilege_delete_consultation_notes_key, value);
 }
@@ -1436,12 +1435,12 @@ bool Database_Config_User::get_privilege_set_stylesheets() const
     return get_boolean_value(privilege_set_stylesheets_key, false);
 }
 
-bool Database_Config_User::get_privilege_set_stylesheets_for_user(const std::string& username) const
+bool Database_Config_User::get_privilege_set_stylesheets_for_user(const std::string& username)
 {
     return get_boolean_value_for_user(username, privilege_set_stylesheets_key, false);
 }
 
-void Database_Config_User::set_privilege_set_stylesheets_for_user(const std::string& username, bool value) const
+void Database_Config_User::set_privilege_set_stylesheets_for_user(const std::string& username, bool value)
 {
     set_boolean_value_for_user(username, privilege_set_stylesheets_key, value);
 }
@@ -1597,7 +1596,7 @@ std::vector<std::string> Database_Config_User::get_change_notifications_bibles()
     return get_list(change_notifications_bibles_key);
 }
 
-std::vector<std::string> Database_Config_User::get_change_notifications_bibles_for_user(const std::string& user) const
+std::vector<std::string> Database_Config_User::get_change_notifications_bibles_for_user(const std::string& user)
 {
     return get_list_for_user(user, change_notifications_bibles_key);
 }
@@ -1628,19 +1627,19 @@ bool Database_Config_User::get_show_navigation_arrows() const
     // On systems usually without a touch screen, the navigation arrows are on by default.
     // On mobile devices they will be off by default.
 #if defined(HAVE_CLOUD)
-    constexpr const bool defval{true};
+    constexpr const bool default_value{true};
 #elif defined(HAVE_WINDOWS)
-    constexpr const bool defval{true};
+    constexpr const bool default_value{true};
 #elif defined(HAVE_MACOS)
-    constexpr const bool defval{true};
+    constexpr const bool default_value{true};
 #elif defined(HAVE_LINUX)
-    constexpr const bool defval{true};
+    constexpr const bool default_value{true};
 #elif defined(HAVE_ANDROID)
-    constexpr const bool defval{false};
+    constexpr const bool default_value{false};
 #elif defined(HAVE_IOS)
-    constexpr const bool defval{false};
+    constexpr const bool default_value{false};
 #endif
-    return get_boolean_value(show_navigation_arrows_key, defval);
+    return get_boolean_value(show_navigation_arrows_key, default_value);
 }
 
 void Database_Config_User::set_show_navigation_arrows(const bool value) const

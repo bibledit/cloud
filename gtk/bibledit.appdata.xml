@@ -2,7 +2,7 @@
 <!-- Copyright (©) 2003-2026 Teus Benschop. -->
 <component type="desktop-application">
   <id>org.bibledit.bibledit</id>
-  <metadata_license>FSFAP</metadata_license>
+  <metadata_license>GPL-3.0+</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <name>Bibledit</name>
   <summary>Bible editor</summary>

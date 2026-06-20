@@ -480,7 +480,7 @@ TEST (git, basic)
     
     passage = filter_git_get_passage (" Genesis/3/data | 2 +-");
     Passage standard = Passage ("", 1, 3, "");
-    EXPECT_EQ (true, standard.equal (passage));
+    EXPECT_TRUE (standard == passage);
     
     passage = filter_git_get_passage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
     EXPECT_EQ (0, passage.m_book);
@@ -490,11 +490,11 @@ TEST (git, basic)
     
     passage = filter_git_get_passage (" Revelation/3/data | 2 +-");
     standard = Passage ("", 66, 3, "");
-    EXPECT_EQ (true, standard.equal (passage));
+    EXPECT_TRUE (standard == passage);
     
     passage = filter_git_get_passage ("	modified:   Exodus/3/data");
     standard = Passage ("", 2, 3, "");
-    EXPECT_EQ (true, standard.equal (passage));
+    EXPECT_TRUE (standard == passage);
   }
   
   // Exercise the "git status" filter.

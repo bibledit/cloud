@@ -21,24 +21,19 @@
 #include <mbedtls/md5.h>
 
 
-std::string md5 (const std::string str)
+std::string md5(const std::string& str)
 {
-  unsigned char md5sum[16];
-  const unsigned char *input = reinterpret_cast<const unsigned char *>(str.c_str ());
-  mbedtls_md5 (input, str.size (), md5sum);
+    const auto* input = reinterpret_cast<const unsigned char*>(str.c_str());
 
-  // Space for 32 bytes of hexits and one terminating null byte.
-  char hexits [32+1];
+    unsigned char md5sum[16];
+    mbedtls_md5(input, str.size(), md5sum);
 
-  memset (hexits, 0, sizeof (hexits));
-  for (int i = 0; i < 16; i++) {
-    // sprintf (&hexits[i*2], "%02x", static_cast<unsigned int>(md5sum[i]));
-    // Function sprintf is marked as deprecated.
-    // Due to security concerns inherent in the design of sprintf(3),
-    // it now uses snprintf(3) instead.
-    snprintf (&hexits[i*2], 3, "%02x", static_cast<unsigned int>(md5sum[i]));
-  }
-  
-  // Resulting hexits.
-  return std::string (hexits);
+    // Space for 32 bytes of hexits and one terminating null byte.
+    char hexits[32 + 1] = {};
+
+    for (int i = 0; i < 16; i++)
+        snprintf(&hexits[i * 2], 3, "%02x", static_cast<unsigned int>(md5sum[i]));
+
+    // Resulting hexits.
+    return {hexits};
 }

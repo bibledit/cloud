@@ -38,12 +38,12 @@ TEST (related, logic)
     int size = 6;
     EXPECT_EQ (size, output.size ());
     if (static_cast<int>(output.size ()) == size) {
-      EXPECT_EQ (true, Passage ("", 1, 10, "6").equal (output[0]));
-      EXPECT_EQ (true, Passage ("", 1, 10, "7").equal (output[1]));
-      EXPECT_EQ (true, Passage ("", 1, 10, "8").equal (output[2]));
-      EXPECT_EQ (true, Passage ("", 13, 1, "8").equal (output[3]));
-      EXPECT_EQ (true, Passage ("", 13, 1, "9").equal (output[4]));
-      EXPECT_EQ (true, Passage ("", 13, 1, "10").equal (output[5]));
+      EXPECT_TRUE (Passage ("", 1, 10, "6") == output.at(0));
+      EXPECT_TRUE (Passage ("", 1, 10, "7") == output.at(1));
+      EXPECT_TRUE (Passage ("", 1, 10, "8") == output.at(2));
+      EXPECT_TRUE (Passage ("", 13, 1, "8") == output.at(3));
+      EXPECT_TRUE (Passage ("", 13, 1, "9") == output.at(4));
+      EXPECT_TRUE (Passage ("", 13, 1, "10") == output.at(5));
     }
   }
 
@@ -59,18 +59,18 @@ TEST (related, logic)
     int size = 12;
     EXPECT_EQ (size, output.size ());
     if (static_cast<int>(output.size ()) == size) {
-      EXPECT_EQ (true, Passage ("", 1, 10, "26").equal (output[0]));
-      EXPECT_EQ (true, Passage ("", 1, 10, "27").equal (output[1]));
-      EXPECT_EQ (true, Passage ("", 1, 10, "28").equal (output[2]));
-      EXPECT_EQ (true, Passage ("", 1, 10, "29").equal (output[3]));
-      EXPECT_EQ (true, Passage ("", 1, 11, "12").equal (output[4]));
-      EXPECT_EQ (true, Passage ("", 1, 11, "13").equal (output[5]));
-      EXPECT_EQ (true, Passage ("", 1, 11, "14").equal (output[6]));
-      EXPECT_EQ (true, Passage ("", 13, 1, "18").equal (output[7]));
-      EXPECT_EQ (true, Passage ("", 13, 1, "20").equal (output[8]));
-      EXPECT_EQ (true, Passage ("", 13, 1, "21").equal (output[9]));
-      EXPECT_EQ (true, Passage ("", 13, 1, "22").equal (output[10]));
-      EXPECT_EQ (true, Passage ("", 13, 1, "23").equal (output[11]));
+      EXPECT_TRUE (Passage ("", 1, 10, "26") == output.at(0));
+      EXPECT_TRUE (Passage ("", 1, 10, "27") == output.at(1));
+      EXPECT_TRUE (Passage ("", 1, 10, "28") == output.at(2));
+      EXPECT_TRUE (Passage ("", 1, 10, "29") == output.at(3));
+      EXPECT_TRUE (Passage ("", 1, 11, "12") == output.at(4));
+      EXPECT_TRUE (Passage ("", 1, 11, "13") == output.at(5));
+      EXPECT_TRUE (Passage ("", 1, 11, "14") == output.at(6));
+      EXPECT_TRUE (Passage ("", 13, 1, "18") == output.at(7));
+      EXPECT_TRUE (Passage ("", 13, 1, "20") == output.at(8));
+      EXPECT_TRUE (Passage ("", 13, 1, "21") == output.at(9));
+      EXPECT_TRUE (Passage ("", 13, 1, "22") == output.at(10));
+      EXPECT_TRUE (Passage ("", 13, 1, "23") == output.at(11));
     }
   }
 
@@ -81,16 +81,16 @@ TEST (related, logic)
     int size = 10;
     EXPECT_EQ (size, output.size ());
     if (static_cast<int>(output.size ()) == size) {
-      EXPECT_EQ (true, Passage ("", 23, 40, "3").equal (output[0]));
-      EXPECT_EQ (true, Passage ("", 23, 40, "4").equal (output[1]));
-      EXPECT_EQ (true, Passage ("", 23, 40, "5").equal (output[2]));
-      EXPECT_EQ (true, Passage ("", 40, 3, "3").equal (output[3]));
-      EXPECT_EQ (true, Passage ("", 41, 1, "2").equal (output[4]));
-      EXPECT_EQ (true, Passage ("", 41, 1, "3").equal (output[5]));
-      EXPECT_EQ (true, Passage ("", 42, 3, "4").equal (output[6]));
-      EXPECT_EQ (true, Passage ("", 42, 3, "5").equal (output[7]));
-      EXPECT_EQ (true, Passage ("", 42, 3, "6").equal (output[8]));
-      EXPECT_EQ (true, Passage ("", 43, 1, "23").equal (output[9]));
+      EXPECT_TRUE (Passage ("", 23, 40, "3") == output.at(0));
+      EXPECT_TRUE (Passage ("", 23, 40, "4") == output.at(1));
+      EXPECT_TRUE (Passage ("", 23, 40, "5") == output.at(2));
+      EXPECT_TRUE (Passage ("", 40, 3, "3") == output.at(3));
+      EXPECT_TRUE (Passage ("", 41, 1, "2") == output.at(4));
+      EXPECT_TRUE (Passage ("", 41, 1, "3") == output.at(5));
+      EXPECT_TRUE (Passage ("", 42, 3, "4") == output.at(6));
+      EXPECT_TRUE (Passage ("", 42, 3, "5") == output.at(7));
+      EXPECT_TRUE (Passage ("", 42, 3, "6") == output.at(8));
+      EXPECT_TRUE (Passage ("", 43, 1, "23") == output.at(9));
     }
   }
 }

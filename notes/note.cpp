@@ -86,7 +86,7 @@ std::string notes_note (Webserver_Request& webserver_request)
     // no further focus operations are needed.
     bool passage_focused = false;
     for (auto passage : passages) {
-      if (focused_passage.equal (passage)) passage_focused = true;
+      if (focused_passage == passage) passage_focused = true;
     }
     if (!passage_focused) {
       int desired_book = passages[0].m_book;

@@ -553,23 +553,23 @@ void test_database_notes ()
     std::vector <Passage> passages = database_notes.get_passages (oldidentifier);
     Passage standard = Passage ("", 10, 9, "8");
     EXPECT_EQ (1, static_cast<int> (passages.size()));
-    EXPECT_EQ (true, standard.equal (passages.at(0)));
+    EXPECT_TRUE (standard == passages.at(0));
     passages = database_notes.get_passages (newidentifier);
     standard = Passage ("", 5, 4, "3");
     EXPECT_EQ (1, static_cast<int>(passages.size()));
-    EXPECT_EQ (true, standard.equal (passages.at(0)));
+    EXPECT_TRUE (standard == passages.at(0));
     
     // Test setting the passage.
     standard = Passage ("", 5, 6, "7");
     database_notes.set_passages (oldidentifier, {standard});
     passages = database_notes.get_passages (oldidentifier);
     EXPECT_EQ (1, static_cast<int>(passages.size()));
-    EXPECT_EQ (true, standard.equal (passages.at(0)));
+    EXPECT_TRUE (standard == passages.at(0));
     standard = Passage ("", 12, 13, "14");
     database_notes.set_passages (newidentifier, {standard});
     passages = database_notes.get_passages (newidentifier);
     EXPECT_EQ (1, static_cast<int>(passages.size()));
-    EXPECT_EQ (true, standard.equal (passages.at(0)));
+    EXPECT_TRUE (standard == passages.at(0));
   }
 
   // Test getting and setting the note status.
@@ -2012,10 +2012,10 @@ void test_database_notes ()
     std::vector <Passage> passages;
     passages = database_notes.get_passages (identifier1);
     EXPECT_EQ (1, passages.size());
-    for (auto passage : passages) EXPECT_EQ (true, passage1.equal (passage));
+    for (auto passage : passages) EXPECT_TRUE (passage1 == passage);
     passages = database_notes.get_passages (identifier2);
     EXPECT_EQ (1, passages.size());
-    for (auto passage : passages) EXPECT_EQ (true, passage2.equal (passage));
+    for (auto passage : passages) EXPECT_TRUE (passage2 == passage);
     EXPECT_EQ (" 1.2.3 ", database_notes.decode_passage (identifier1));
     EXPECT_EQ (" 4.5.6 ", database_notes.decode_passage (identifier2));
     

@@ -626,7 +626,7 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
   std::string summary {};
   std::vector <std::string> subjectlines = filter::string::explode (subject, ' ');
   if (!subjectlines.empty()) {
-    book = filter_passage_interpret_book_v2 (subjectlines[0]);
+    book = filter_passage_interpret_book (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
   }
   if (!subjectlines.empty()) {

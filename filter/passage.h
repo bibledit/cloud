@@ -23,32 +23,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Forward declaration.
 enum class book_id;
+
 namespace pugi { class xml_node; }
 
-class Passage
+struct Passage
 {
-public:
-  Passage ();
-  Passage (std::string bible, int book, int chapter, std::string verse);
-  std::string m_bible {};
-  int m_book {};
-  int m_chapter {};
-  std::string m_verse {};
-  bool equal (Passage & passage);
-  std::string encode () const;
-  static Passage decode (const std::string& encoded);
+    explicit Passage() = default;
+    explicit Passage(std::string bible, int book, int chapter, std::string verse);
+    std::string m_bible{};
+    int m_book{0};
+    int m_chapter{0};
+    std::string m_verse{};
+    [[nodiscard]] std::string encode() const;
+    static Passage decode(const std::string& encoded);
+    constexpr auto operator<=>(const Passage&) const noexcept = default;
 };
 
-std::string filter_passage_display (int book, int chapter, std::string verse);
-std::string filter_passage_display_inline (std::vector <Passage> passages);
-std::string filter_passage_display_multiline (std::vector <Passage> passages);
-int filter_passage_to_integer (Passage passage);
-Passage filter_integer_to_passage (int integer);
-book_id filter_passage_interpret_book_v2 (std::string book);
-std::string filter_passage_clean_passage (std::string text);
-Passage filter_passage_explode_passage (std::string text);
-Passage filter_passage_interpret_passage (Passage currentPassage, std::string rawPassage);
-std::vector <std::string> filter_passage_handle_sequences_ranges (const std::string& passage);
-void filter_passage_link_for_opening_editor_at (pugi::xml_node& node, int book, int chapter, std::string verse);
-std::string filter_passage_link_for_opening_editor_at (int book, int chapter, std::string verse);
-std::vector <int> filter_passage_get_ordered_books (const std::string& bible);
+std::string filter_passage_display(int book, int chapter, const std::string& verse);
+std::string filter_passage_display_inline(const std::vector<Passage>& passages);
+std::string filter_passage_display_multiline(const std::vector<Passage>& passages);
+int filter_passage_to_integer(const Passage& passage);
+Passage filter_integer_to_passage(int integer);
+book_id filter_passage_interpret_book(std::string book);
+std::string filter_passage_clean_passage(std::string text);
+Passage filter_passage_explode_passage(std::string text);
+Passage filter_passage_interpret_passage(Passage current_passage, std::string raw_passage);
+std::vector<std::string> filter_passage_handle_sequences_ranges(const std::string& passage);
+void filter_passage_link_for_opening_editor_at(pugi::xml_node& node, int book, int chapter, const std::string& verse);
+std::string filter_passage_link_for_opening_editor_at(int book, int chapter, const std::string& verse);
+std::vector<int> filter_passage_get_ordered_books(const std::string& bible);

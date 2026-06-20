@@ -335,7 +335,7 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
       Passage passage2 = Passage (std::string(), filter::string::convert_to_int (books [i]), filter::string::convert_to_int (chapters [i]), verses [i]);
       bool passageExists = false;
       for (auto& existingpassage : targetpassage) {
-        if (existingpassage.equal (passage2)) passageExists = true;
+        if (existingpassage == passage2) passageExists = true;
       }
       if (!passageExists) targetpassage.push_back (passage2);
     }

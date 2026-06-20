@@ -245,11 +245,11 @@ TEST (database, mappings)
     std::vector <Passage> passages = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "15");
-    EXPECT_EQ (true, passages[0].equal (standard));
+    EXPECT_TRUE (passages[0] == standard);
     passages = database_mappings.translate ("--X", "--X", 15, 16, 17);
     standard = Passage ("", 15, 16, "17");
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
-    EXPECT_EQ (true, passages[0].equal (standard));
+    EXPECT_TRUE (passages[0] == standard);
   }
   
   // Translate.
@@ -271,7 +271,7 @@ TEST (database, mappings)
     std::vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     Passage standard = Passage ("", 14, 14, "15");
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
-    EXPECT_EQ (true, passages[0].equal (standard));
+    EXPECT_TRUE (passages[0] == standard);
   }
 
   // Translate.
@@ -293,7 +293,7 @@ TEST (database, mappings)
     std::vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     Passage standard = Passage ("", 14, 14, "13");
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
-    EXPECT_EQ (true, passages[0].equal (standard));
+    EXPECT_TRUE (passages[0] == standard);
   }
 
   // Translate double result.
@@ -316,9 +316,9 @@ TEST (database, mappings)
     std::vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     EXPECT_EQ (2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "12");
-    EXPECT_EQ (true, passages[0].equal (standard));
+    EXPECT_TRUE (passages[0] == standard);
     standard = Passage ("", 14, 14, "13");
-    EXPECT_EQ (true, passages[1].equal (standard));
+    EXPECT_TRUE (passages[1] == standard);
   }
 
   // Translate from original.
@@ -329,9 +329,9 @@ TEST (database, mappings)
     std::string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
     std::vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
-    Passage standard = Passage ("", 14, 14, "12");
+    const Passage standard = Passage ("", 14, 14, "12");
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
-    EXPECT_EQ (true, passages[0].equal (standard));
+    EXPECT_TRUE (passages.front() == standard);
   }
 
   // Translate From Original Double
@@ -346,9 +346,9 @@ TEST (database, mappings)
     std::vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
     EXPECT_EQ (2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "12");
-    EXPECT_EQ (true, passages[0].equal (standard));
+    EXPECT_TRUE (passages.front() == standard);
     standard = Passage ("", 14, 14, "13");
-    EXPECT_EQ (true, passages[1].equal (standard));
+    EXPECT_TRUE (passages[1] == standard);
   }
 
   // Translate From Original No Mapping
@@ -361,7 +361,7 @@ TEST (database, mappings)
     std::vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 15, "14");
-    EXPECT_EQ (true, passages[0].equal (standard));
+    EXPECT_TRUE (passages[0] == standard);
   }
 
   // Translate To Original
@@ -374,7 +374,7 @@ TEST (database, mappings)
     std::vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "14");
-    EXPECT_EQ (true, passages[0].equal (standard));
+    EXPECT_TRUE (passages[0] == standard);
   }
 
   // Translate To Original Double
@@ -389,9 +389,9 @@ TEST (database, mappings)
     std::vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
     EXPECT_EQ (2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "13");
-    EXPECT_EQ (true, passages[0].equal (standard));
+    EXPECT_TRUE (passages[0] == standard);
     standard = Passage ("", 14, 14, "14");
-    EXPECT_EQ (true, passages[1].equal (standard));
+    EXPECT_TRUE (passages[1] == standard);
   }
   
 }

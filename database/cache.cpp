@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/cache.h>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <filter/date.h>
 #include <filter/shell.h>
 #include <database/sqlite.h>
 #include <database/logs.h>
@@ -39,7 +38,7 @@ namespace database::cache::sql {
 
 constexpr auto max_book {100};
 
-static std::string filename (std::string resource, int book)
+static std::string filename (std::string resource, const int book)
 {
   // Name of the database for this resource.
   resource = filter_url_clean_filename (resource);
@@ -57,13 +56,13 @@ std::string fragment ()
 }
 
 
-std::string path (const std::string& resource, int book)
+std::string path (const std::string& resource, const int book)
 {
   return filter_url_create_path ({database_logic_databases (), filename (filter_url_urlencode (resource), book) + database::sqlite::suffix ()});
 }
 
 
-void create (const std::string& resource, int book)
+void create (const std::string& resource, const int book)
 {
   SqliteDatabase sql (filename (resource, book));
   
@@ -85,7 +84,7 @@ void remove (const std::string& resource)
 }
 
 
-void remove (const std::string& resource, int book)
+void remove (const std::string& resource, const int book)
 {
   const std::string file = database::sqlite::get_file (filename (resource, book));
   if (file_or_dir_exists (file)) {
@@ -106,7 +105,7 @@ bool exists (const std::string& resource)
 
 
 // Returns true if the cache for the $resource $book exists.
-bool exists (const std::string& resource, int book)
+bool exists (const std::string& resource, const int book)
 {
   const std::string file = database::sqlite::get_file (filename (resource, book));
   return file_or_dir_exists (file);
@@ -114,9 +113,9 @@ bool exists (const std::string& resource, int book)
 
 
 // Returns true if a cached value for $resource/book/chapter/verse exists.
-bool exists (const std::string& resource, int book, int chapter, int verse)
+bool exists (const std::string& resource, const int book, const int chapter, const int verse)
 {
-  // If the the book-based cache exists, check existence from there.
+  // If the book-based cache exists, check existence from there.
   if (exists (resource, book)) {
     SqliteDatabase sql = SqliteDatabase (filename (resource, book));
     sql.add ("SELECT count(*) FROM cache WHERE chapter = ");
@@ -152,7 +151,7 @@ bool exists (const std::string& resource, int book, int chapter, int verse)
 
 
 // Caches a value.
-void cache (const std::string& resource, int book, int chapter, int verse, const std::string& value)
+void cache (const std::string& resource, const int book, const int chapter, const int verse, const std::string& value)
 {
   SqliteDatabase sql (filename (resource, book));
   
@@ -179,7 +178,7 @@ void cache (const std::string& resource, int book, int chapter, int verse, const
 // Retrieves a cached value.
 std::string retrieve (const std::string& resource, const int book, const int chapter, const int verse)
 {
-  // If the the book-based cache exists, retrieve it from there.
+  // If the book-based cache exists, retrieve it from there.
   if (exists (resource, book)) {
     SqliteDatabase sql = SqliteDatabase (filename (resource, book));
     sql.add ("SELECT value FROM cache WHERE chapter = ");
@@ -189,7 +188,7 @@ std::string retrieve (const std::string& resource, const int book, const int cha
     sql.add (";");
     const std::vector <std::string> result = sql.query () ["value"];
     if (result.empty ())
-      return std::string();
+      return {};
     return result.at(0);
   }
   // Else if the previous cache layout exists, retrieve it from there.
@@ -204,10 +203,10 @@ std::string retrieve (const std::string& resource, const int book, const int cha
     sql.add (";");
     const std::vector <std::string> result = sql.query () ["value"];
     if (result.empty ())
-      return std::string();
+      return {};
     return result.at(0);
   }
-  return std::string();
+  return {};
 }
 
 
@@ -232,7 +231,7 @@ bool ready (const std::string& resource, const int book)
   sql.add ("SELECT ready FROM ready;");
   const std::vector <std::string> result = sql.query () ["ready"];
   if (!result.empty()) {
-    const auto ready = result.at(0);
+    const auto& ready = result.at(0);
     return filter::string::convert_to_bool (ready);
   }
   return false;
@@ -258,7 +257,7 @@ void ready (const std::string& resource, const int book, const bool ready)
 
 int size (const std::string& resource, const int book)
 {
-  const std::string file = database::sqlite::get_file (filename (resource, book));
+  const std::string file = sqlite::get_file (filename (resource, book));
   return filter_url_filesize (file);
 }
 
@@ -269,7 +268,7 @@ int size (const std::string& resource, const int book)
 namespace database::cache::file {
 
 
-static std::string full_path (std::string file)
+static std::string full_path (const std::string& file)
 {
   return filter_url_create_root_path ({database_logic_databases (), "cache", file});
 }
@@ -345,7 +344,7 @@ void trim (bool clear)
   {
     const std::vector<std::string> bits = filter::string::explode(output, ' ');
     for (const auto& bit : bits) {
-      if (bit.find ("%") != std::string::npos) {
+      if (bit.find ('%') != std::string::npos) {
         percentage_disk_in_use = filter::string::convert_to_int(bit);
         // If a real percentage was found, other than 0, then skip the remainder.
         // On macOS the first percentage found is %iused, so will be skipped.
@@ -356,10 +355,10 @@ void trim (bool clear)
   }
   Database_Logs::log ("Disk space in use is " + std::to_string(percentage_disk_in_use) + "%");
   
-  // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.
+  // There have been instances that the cache takes up 4, 5, or 6 Gigabytes in the Cloud.
   // If the cache is left untrimmed, the size can be even larger.
   // This leads to errors when the disk runs out of space.
-  // Therefore it's good to remove cached files older than a couple of hours
+  // Therefore, it's good to remove cached files older than a couple of hours
   // in cases where disk space is tight.
   // Two hours.
   std::string minutes = "+120";
@@ -400,11 +399,11 @@ void trim (bool clear)
   path = filter_url_create_root_path ({database_logic_databases ()});
   
   // The number of days to keep cached data depends on the percentage of the disk in use.
-  // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.
+  // There have been instances that the cache takes up 4, 5, or 6 Gigabytes in the Cloud.
   // This can be even more.
   // This may lead to errors when the disk runs out of space.
-  // Therefore it's good to limit caches more if the space is tight.
-  // By default keep the resources cache for 30 days.
+  // Therefore, it's good to limit caches more if the space is tight.
+  // By default, keep the resources cache for 30 days.
   std::string days = "+30";
   // If keeping the resources cache for an extended period of time, keep it for a full year.
   if (database::config::general::get_keep_resources_cache_for_long())

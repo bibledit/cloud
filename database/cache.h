@@ -31,11 +31,11 @@ bool exists (const std::string& resource);
 bool exists (const std::string& resource, int book);
 bool exists (const std::string& resource, int book, int chapter, int verse);
 void cache (const std::string& resource, int book, int chapter, int verse, const std::string& value);
-std::string retrieve (const std::string& resource, const int book, const int chapter, const int verse);
+std::string retrieve (const std::string& resource, int book, int chapter, int verse);
 int count (const std::string& resource);
-bool ready (const std::string& resource, const int book);
-void ready (const std::string& resource, const int book, const bool ready);
-int size (const std::string& resource, const int book);
+bool ready (const std::string& resource, int book);
+void ready (const std::string& resource, int book, bool ready);
+int size (const std::string& resource, int book);
 std::string path (const std::string& resource, int book);
 
 }

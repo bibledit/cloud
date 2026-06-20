@@ -51,7 +51,7 @@ A note about this data.
     other     - Other matter
     ap        - Apocrypha
 */
-constexpr const book_record books_table [] =
+constexpr book_record books_table [] =
 {
   {"Genesis", "Gen", "GEN", "Gen", "Ge", book_id::_genesis, 3, book_type::old_testament, false}, // ‘1 Moses’ in some Bibles.
   {"Exodus", "Exod", "EXO", "Exo", "Ex", book_id::_exodus, 4, book_type::old_testament, false}, // ‘2 Moses’ in some Bibles.

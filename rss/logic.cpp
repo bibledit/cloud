@@ -28,17 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/bibles.h>
 #include "filter/passage.h"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wsuggest-override"
-#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-#ifndef HAVE_PUGIXML
-#include <pugixml/pugixml.hpp>
-#endif
-#ifdef HAVE_PUGIXML
-#include <pugixml.hpp>
-#endif
-#pragma GCC diagnostic pop
+#include <pugixml/include.h>
 #include <locale/translate.h>
 #include <tasks/logic.h>
 #include <rss/feed.h>

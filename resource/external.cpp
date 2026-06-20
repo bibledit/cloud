@@ -23,21 +23,14 @@
 #include <webserver/request.h>
 #include "assets/view.h"
 #include "resource/logic.h"
-#pragma clang diagnostic ignored "-Wunknown-warning-option"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wsuggest-override"
-#pragma GCC diagnostic ignored "-Wuseless-cast"
-#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-#include <jsonxx/jsonxx.h>
-#ifndef HAVE_PUGIXML
-#include <pugixml/pugixml.hpp>
-#endif
-#ifdef HAVE_PUGIXML
-#include <pugixml.hpp>
-#endif
-#pragma GCC diagnostic pop
+#include <pugixml/include.h>
 #include <pugixml/utils.h>
+#pragma GCC diagnostic push
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
+#include <jsonxx/jsonxx.h>
+#pragma GCC diagnostic pop
 
 
 // Local forward declarations:

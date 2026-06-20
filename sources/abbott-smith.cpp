@@ -21,6 +21,7 @@
 #include <database/abbottsmith.h>
 #include <filter/string.h>
 #include <filter/passage.h>
+#include <pugixml/include.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
@@ -28,12 +29,6 @@
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #pragma GCC diagnostic ignored "-Wunnecessary-virtual-specifier"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
-#ifndef HAVE_PUGIXML
-#include <pugixml/pugixml.hpp>
-#endif
-#ifdef HAVE_PUGIXML
-#include <pugixml.hpp>
-#endif
 #ifdef HAVE_ICU
 #include <unicode/ustdio.h>
 #include <unicode/normlzr.h>

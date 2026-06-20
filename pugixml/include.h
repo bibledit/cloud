@@ -19,25 +19,20 @@
 
 #pragma once
 
-#include <config/libraries.h>
-#include <pugixml/include.h>
+#include <config.h>
 
-class Editor_Html2Format
-{
-public:
-  void load (std::string html);
-  void run ();
-  std::vector <std::string> texts {};
-  std::vector <std::string> formats {};
-private:
-  pugi::xml_document document {}; // DOMDocument holding the HTML.
-  void preprocess ();
-  void postprocess ();
-  void process ();
-  void process_node (pugi::xml_node node);
-  void open_element_node (pugi::xml_node node);
-  void close_element_node (pugi::xml_node node);
-  void open_inline (std::string class_name);
-  std::string update_quill_class (std::string class_name);
-  std::string current_character_format {};
-};
+// Including pugixml is a multi-line operations.
+// Therefore, this file makes that simple for clients.
+// Include just this file, that's all.
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#ifndef HAVE_PUGIXML
+#include <pugixml/pugixml.hpp>
+#endif
+#ifdef HAVE_PUGIXML
+#include <pugixml.hpp>
+#endif
+#pragma GCC diagnostic pop

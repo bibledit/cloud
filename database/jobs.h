@@ -21,22 +21,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_Jobs
-{
-public:
-  void create ();
-  void optimize ();
-  void trim ();
-  bool id_exists (int id);
-  int get_new_id ();
-  void set_level (int id, int level);
-  int get_level (int id);
-  void set_start (int id, std::string start);
-  std::string get_start (int id);
-  void set_percentage (int id, int percentage);
-  std::string get_percentage (int id);
-  void set_progress (int id, std::string progress);
-  std::string get_progress (int id);
-  void set_result (int id, std::string result);
-  std::string get_result (int id);
-};
+namespace database_jobs {
+
+void create();
+void optimize();
+void trim();
+[[nodiscard]] bool id_exists(int id);
+[[nodiscard]] int get_new_id();
+void set_level(int id, int level);
+[[nodiscard]] int get_level(int id);
+void set_start(int id, const std::string& start);
+[[nodiscard]] std::string get_start(int id);
+void set_percentage(int id, int percentage);
+[[nodiscard]] std::string get_percentage(int id);
+void set_progress(int id, const std::string& progress);
+[[nodiscard]] std::string get_progress(int id);
+void set_result(int id, const std::string& result);
+[[nodiscard]] std::string get_result(int id);
+
+}

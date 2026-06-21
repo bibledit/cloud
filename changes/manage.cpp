@@ -67,10 +67,9 @@ std::string changes_manage (Webserver_Request& webserver_request)
     // If there's 2000+ notifications, it takes a considerable time.
     // For that reason, it starts a background job to clear the change notifications.
     // The app will remain responsive to the user.
-    Database_Jobs database_jobs {};
-    const int jobId = database_jobs.get_new_id ();
-    database_jobs.set_level (jobId, roles::manager);
-    database_jobs.set_start (jobId, translate ("Clearing change notifications."));
+    const int jobId = database_jobs::get_new_id ();
+    database_jobs::set_level (jobId, roles::manager);
+    database_jobs::set_start (jobId, translate ("Clearing change notifications."));
     tasks_logic_queue (task::delete_changes, {std::to_string (jobId), username});
     redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string (jobId));
     return std::string();

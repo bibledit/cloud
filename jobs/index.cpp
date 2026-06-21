@@ -54,13 +54,12 @@ std::string jobs_index (Webserver_Request& webserver_request)
   const int id = filter::string::convert_to_int (webserver_request.query ["id"]);
 
   // Get information about this job.
-  Database_Jobs database_jobs = Database_Jobs ();
-  const bool exists = database_jobs.id_exists (id);
-  const int level = database_jobs.get_level (id);
-  const std::string start = database_jobs.get_start (id);
-  const std::string percentage = database_jobs.get_percentage (id);
-  const std::string progress = database_jobs.get_progress (id);
-  const std::string result = database_jobs.get_result (id);
+  const bool exists = database_jobs::id_exists (id);
+  const int level = database_jobs::get_level (id);
+  const std::string start = database_jobs::get_start (id);
+  const std::string percentage = database_jobs::get_percentage (id);
+  const std::string progress = database_jobs::get_progress (id);
+  const std::string result = database_jobs::get_result (id);
 
   // Access control for the user.
   const int userlevel = webserver_request.session_logic()->get_level ();

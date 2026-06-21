@@ -22,5 +22,5 @@
 #include <config/libraries.h>
 
 void bible_import_run (std::string location, const std::string& bible, int book, int chapter);
-void bible_import_usfm (const std::string& data, const std::string& bible, int book, int chapter);
+void bible_import_usfm (const std::string& data, const std::string& bible);
 void bible_import_text (const std::string& text, const std::string& bible, int book, int chapter);

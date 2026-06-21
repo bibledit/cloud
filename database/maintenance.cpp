@@ -110,11 +110,10 @@ void database_maintenance ()
   Database_Navigation database_navigation;
   database_navigation.create();
   database_navigation.trim();
-  
-  
-  Database_Jobs database_jobs = Database_Jobs ();
-  database_jobs.trim ();
-  database_jobs.optimize ();
+
+
+  database_jobs::trim ();
+  database_jobs::optimize ();
   
   
   Database_Config_User database_config_user (webserver_request);

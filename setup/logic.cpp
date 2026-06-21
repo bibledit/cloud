@@ -215,8 +215,7 @@ void setup_initialize_data ()
   database::confirm::upgrade();
 #endif
   config_globals_setup_message = "jobs";
-  Database_Jobs database_jobs;
-  database_jobs.create ();
+  database_jobs::create ();
 #ifdef HAVE_CLOUD
   config_globals_setup_message = "sprint";
   Database_Sprint database_sprint;

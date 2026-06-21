@@ -63,7 +63,7 @@ void bible_import_run (std::string location, const std::string& bible, int book,
         bool xml = data.find ("<?xml") != std::string::npos;
         if (!xml) {
           if (id || c) {
-            bible_import_usfm (data, bible, book, chapter);
+            bible_import_usfm (data, bible);
           } else {
             bible_import_text (data, bible, book, chapter);
           }
@@ -83,10 +83,8 @@ void bible_import_run (std::string location, const std::string& bible, int book,
 
 
 // Import the USFM in $data into $bible.
-void bible_import_usfm (const std::string& data, const std::string& bible, int book, int chapter)
+void bible_import_usfm (const std::string& data, const std::string& bible)
 {
-  (void) book;
-  (void) chapter;
   const std::string stylesheet = stylesv2::standard_sheet ();
   const std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (data, stylesheet);
   for (const auto& data2 : book_chapter_text) {
@@ -105,7 +103,7 @@ void bible_import_usfm (const std::string& data, const std::string& bible, int b
 
 
 // Import raw $text into $bible $book $chapter.
-void bible_import_text (const std::string& text, const std::string& bible, int book, int chapter)
+void bible_import_text (const std::string& text, const std::string& bible, const int book, const int chapter)
 {
   // Consecutive discoveries.
   bool discoveries_passed {true};
@@ -150,7 +148,7 @@ void bible_import_text (const std::string& text, const std::string& bible, int b
     
     // If the line has no number in it,
     // and it ends with some type of punctuation,
-    // it is considered a a normal paragraph.
+    // it is considered a normal paragraph.
     // If no punctuation at the end, it is a section heading.
     if (discoveries_passed) {
       if (filter::string::number_in_string(lines[i]).empty()) {

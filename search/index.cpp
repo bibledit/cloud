@@ -63,11 +63,11 @@ std::string search_index (Webserver_Request& webserver_request)
     const std::string id = webserver_request.query ["id"];
 
     // Get the Bible and passage for this identifier.
-    const Passage passage = Passage::decode (id);
-    const std::string bible2 = passage.m_bible;
-    const int book = passage.m_book;
-    const int chapter = passage.m_chapter;
-    const std::string verse = passage.m_verse;
+    const Passage passage = filter_passage_decode (id);
+    const std::string bible2 = passage.bible();
+    const int book = passage.book();
+    const int chapter = passage.chapter();
+    const std::string verse = passage.verse();
     
     // Get the plain text.
     std::string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::string::convert_to_int (verse));
@@ -90,7 +90,7 @@ std::string search_index (Webserver_Request& webserver_request)
     for (const auto& passage : passages) {
       if (!output.empty ())
         output.append ("\n");
-      output.append (passage.encode ());
+      output.append (filter_passage_encode(passage));
     }
     return output;
   }

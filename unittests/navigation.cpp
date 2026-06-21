@@ -118,9 +118,9 @@ TEST (database_navigation, previous_same_user)
   // Get previous entry, which should be the first one entered.
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_previous (user, focus_group);
-    EXPECT_EQ (1, passage.m_book);
-    EXPECT_EQ (2, passage.m_chapter);
-    EXPECT_EQ ("3", passage.m_verse);
+    EXPECT_EQ (1, passage.book());
+    EXPECT_EQ (2, passage.chapter());
+    EXPECT_EQ ("3", passage.verse());
   }
 }
 
@@ -143,9 +143,9 @@ TEST (database_navigation, previous_other_user)
   // Get previous entry for another user: It should not be there.
   for (const auto focus_group : focus_groups) {
     Passage passage = database.get_previous (user_2, focus_group);
-    EXPECT_EQ (0, passage.m_book);
-    EXPECT_EQ (0, passage.m_chapter);
-    EXPECT_EQ ("", passage.m_verse);
+    EXPECT_EQ (0, passage.book());
+    EXPECT_EQ (0, passage.chapter());
+    EXPECT_EQ ("", passage.verse());
   }
 }
 
@@ -172,9 +172,9 @@ TEST (database_navigation, previous_of_3_entries)
   // Get previous entry, which should be the second one entered.
   for (const auto focus_group : focus_groups) {
     Passage passage = database.get_previous (user, focus_group);
-    EXPECT_EQ (4, passage.m_book);
-    EXPECT_EQ (5, passage.m_chapter);
-    EXPECT_EQ ("6", passage.m_verse);
+    EXPECT_EQ (4, passage.book());
+    EXPECT_EQ (5, passage.chapter());
+    EXPECT_EQ ("6", passage.verse());
   }
 }
 
@@ -209,9 +209,9 @@ TEST (database_navigation, previous_of_5_entries)
   // Get previous entry, which should be the last but one passage recorded.
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_previous (user, focus_group);
-    EXPECT_EQ (10, passage.m_book);
-    EXPECT_EQ (11, passage.m_chapter);
-    EXPECT_EQ ("12", passage.m_verse);
+    EXPECT_EQ (10, passage.book());
+    EXPECT_EQ (11, passage.chapter());
+    EXPECT_EQ ("12", passage.verse());
   }
 }
 
@@ -224,9 +224,9 @@ TEST (database_navigation, no_next)
   // There should be no next passage.
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_next (user, focus_group);
-    EXPECT_EQ (0, passage.m_book);
-    EXPECT_EQ (0, passage.m_chapter);
-    EXPECT_EQ ("", passage.m_verse);
+    EXPECT_EQ (0, passage.book());
+    EXPECT_EQ (0, passage.chapter());
+    EXPECT_EQ ("", passage.verse());
   }
 }
 
@@ -255,9 +255,9 @@ TEST (database_navigation, no_next_n_records)
   database.record (time, user, 1, 2, 3, focus_group);
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_next (user, focus_group);
-    EXPECT_EQ (0, passage.m_book);
-    EXPECT_EQ (0, passage.m_chapter);
-    EXPECT_EQ ("", passage.m_verse);
+    EXPECT_EQ (0, passage.book());
+    EXPECT_EQ (0, passage.chapter());
+    EXPECT_EQ ("", passage.verse());
   }
 }
 
@@ -277,51 +277,51 @@ TEST (database_navigation, multiple_previous_next)
   // Next entry is not there.
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_next (user, focus_group);
-    EXPECT_EQ (0, passage.m_book);
-    EXPECT_EQ (0, passage.m_chapter);
-    EXPECT_EQ ("", passage.m_verse);
+    EXPECT_EQ (0, passage.book());
+    EXPECT_EQ (0, passage.chapter());
+    EXPECT_EQ ("", passage.verse());
   }
   // Previous entry should be there.
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_previous (user, focus_group);
-    EXPECT_EQ (1, passage.m_book);
-    EXPECT_EQ (2, passage.m_chapter);
-    EXPECT_EQ ("3", passage.m_verse);
+    EXPECT_EQ (1, passage.book());
+    EXPECT_EQ (2, passage.chapter());
+    EXPECT_EQ ("3", passage.verse());
   }
   // Next entry should be there since we moved to the previous one.
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_next (user, focus_group);
-    EXPECT_EQ (4, passage.m_book);
-    EXPECT_EQ (5, passage.m_chapter);
-    EXPECT_EQ ("6", passage.m_verse);
+    EXPECT_EQ (4, passage.book());
+    EXPECT_EQ (5, passage.chapter());
+    EXPECT_EQ ("6", passage.verse());
   }
   // Previous entry should be there.
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_previous (user,focus_group);
-    EXPECT_EQ (1, passage.m_book);
-    EXPECT_EQ (2, passage.m_chapter);
-    EXPECT_EQ ("3", passage.m_verse);
+    EXPECT_EQ (1, passage.book());
+    EXPECT_EQ (2, passage.chapter());
+    EXPECT_EQ ("3", passage.verse());
   }
   // Previous entry before previous entry should not be there.
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_previous (user, focus_group);
-    EXPECT_EQ (0, passage.m_book);
-    EXPECT_EQ (0, passage.m_chapter);
-    EXPECT_EQ ("", passage.m_verse);
+    EXPECT_EQ (0, passage.book());
+    EXPECT_EQ (0, passage.chapter());
+    EXPECT_EQ ("", passage.verse());
   }
   // Next entry should be there since we moved to the previous one.
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_next (user, focus_group);
-    EXPECT_EQ (4, passage.m_book);
-    EXPECT_EQ (5, passage.m_chapter);
-    EXPECT_EQ ("6", passage.m_verse);
+    EXPECT_EQ (4, passage.book());
+    EXPECT_EQ (5, passage.chapter());
+    EXPECT_EQ ("6", passage.verse());
   }
   // The entry next to the next entry should not be there.
   for (const auto focus_group : focus_groups) {
     const Passage passage = database.get_next (user, focus_group);
-    EXPECT_EQ (0, passage.m_book);
-    EXPECT_EQ (0, passage.m_chapter);
-    EXPECT_EQ ("", passage.m_verse);
+    EXPECT_EQ (0, passage.book());
+    EXPECT_EQ (0, passage.chapter());
+    EXPECT_EQ ("", passage.verse());
   }
 }
 
@@ -358,12 +358,12 @@ TEST (database_navigation, history_two_users)
     const auto passages = database.get_history(user, -1, focus_group);
     EXPECT_EQ (2, passages.size());
     if (passages.size() == 2) {
-      EXPECT_EQ (4, passages[0].m_book);
-      EXPECT_EQ (5, passages[0].m_chapter);
-      EXPECT_EQ ("6", passages[0].m_verse);
-      EXPECT_EQ (1, passages[1].m_book);
-      EXPECT_EQ (2, passages[1].m_chapter);
-      EXPECT_EQ ("3", passages[1].m_verse);
+      EXPECT_EQ (4, passages[0].book());
+      EXPECT_EQ (5, passages[0].chapter());
+      EXPECT_EQ ("6", passages[0].verse());
+      EXPECT_EQ (1, passages[1].book());
+      EXPECT_EQ (2, passages[1].chapter());
+      EXPECT_EQ ("3", passages[1].verse());
     }
   }
   
@@ -381,18 +381,18 @@ TEST (database_navigation, history_two_users)
     const auto passages = database.get_history(user, -1, focus_group);
     EXPECT_EQ (1, passages.size());
     if (passages.size() == 1) {
-      EXPECT_EQ (1, passages[0].m_book);
-      EXPECT_EQ (2, passages[0].m_chapter);
-      EXPECT_EQ ("3", passages[0].m_verse);
+      EXPECT_EQ (1, passages[0].book());
+      EXPECT_EQ (2, passages[0].chapter());
+      EXPECT_EQ ("3", passages[0].verse());
     }
   }
   for (const auto focus_group : focus_groups) {
     const auto passages = database.get_history(user, 1, focus_group);
     EXPECT_EQ (1, passages.size());
     if (passages.size() == 1) {
-      EXPECT_EQ (7, passages[0].m_book);
-      EXPECT_EQ (8, passages[0].m_chapter);
-      EXPECT_EQ ("9", passages[0].m_verse);
+      EXPECT_EQ (7, passages[0].book());
+      EXPECT_EQ (8, passages[0].chapter());
+      EXPECT_EQ ("9", passages[0].verse());
     }
   }
   
@@ -408,12 +408,12 @@ TEST (database_navigation, history_two_users)
     const auto passages = database.get_history(user, 1, focus_group);
     EXPECT_EQ (2, passages.size());
     if (passages.size() == 2) {
-      EXPECT_EQ (4, passages[0].m_book);
-      EXPECT_EQ (5, passages[0].m_chapter);
-      EXPECT_EQ ("6", passages[0].m_verse);
-      EXPECT_EQ (7, passages[1].m_book);
-      EXPECT_EQ (8, passages[1].m_chapter);
-      EXPECT_EQ ("9", passages[1].m_verse);
+      EXPECT_EQ (4, passages[0].book());
+      EXPECT_EQ (5, passages[0].chapter());
+      EXPECT_EQ ("6", passages[0].verse());
+      EXPECT_EQ (7, passages[1].book());
+      EXPECT_EQ (8, passages[1].chapter());
+      EXPECT_EQ ("9", passages[1].verse());
     }
   }
 }

@@ -65,11 +65,11 @@ std::string search_replace (Webserver_Request& webserver_request)
   if (!id.empty ()) {
     
     // Get the Bible and passage for this identifier.
-    Passage passage = Passage::decode (id);
-    std::string bible2 = passage.m_bible;
-    int book = passage.m_book;
-    int chapter = passage.m_chapter;
-    std::string verse = passage.m_verse;
+    Passage passage = filter_passage_decode (id);
+    std::string bible2 = passage.bible();
+    int book = passage.book();
+    int chapter = passage.chapter();
+    std::string verse = passage.verse();
     
     // Get the plain text.
     std::string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::string::convert_to_int (verse));

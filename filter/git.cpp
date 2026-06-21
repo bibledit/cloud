@@ -458,8 +458,8 @@ Passage filter_git_get_passage (std::string line)
         int chapter = filter::string::convert_to_int (bits [1]);
         std::string data = bits [2];
         if (data.find ("data") != std::string::npos) {
-          passage.m_book = book;
-          passage.m_chapter = chapter;
+          passage.book(book);
+          passage.chapter(chapter);
         }
       }
     }

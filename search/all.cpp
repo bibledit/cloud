@@ -149,10 +149,10 @@ std::string search_all (Webserver_Request& webserver_request)
   // Assemble the search results for the Bible text.
   std::string textblock;
   for (auto & passage : passages) {
-    std::string bible = passage.m_bible;
-    int book = passage.m_book;
-    int chapter = passage.m_chapter;
-    std::string verse = passage.m_verse;
+    std::string bible = passage.bible();
+    int book = passage.book();
+    int chapter = passage.chapter();
+    std::string verse = passage.verse();
     // The title plus link.
     std::string link = bible + " | " + filter_passage_link_for_opening_editor_at (book, chapter, verse);
     // The excerpt.

@@ -208,7 +208,7 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
   // If there's been a mapping, the resource should include the verse number for clarity.
   if (passages.size () != 1) add_verse_numbers = true;
   for (auto passage : passages) {
-    if (verse != filter::string::convert_to_int (passage.m_verse)) {
+    if (verse != filter::string::convert_to_int (passage.verse())) {
       add_verse_numbers = true;
     }
   }
@@ -233,7 +233,7 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
         if (resource_versification != database_mappings.original ()) {
           passages.clear ();
           for (auto & related_passage : related_passages) {
-            std::vector <Passage> mapped_passages = database_mappings.translate (database_mappings.original (), resource_versification, related_passage.m_book, related_passage.m_chapter, filter::string::convert_to_int (related_passage.m_verse));
+            std::vector <Passage> mapped_passages = database_mappings.translate (database_mappings.original (), resource_versification, related_passage.book(), related_passage.chapter(), filter::string::convert_to_int (related_passage.verse()));
             passages.insert (passages.end (), mapped_passages.begin (), mapped_passages.end ());
           }
         }
@@ -245,10 +245,10 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
 
   for (auto passage : passages) {
     std::string possible_included_passage;
-    if (add_verse_numbers) possible_included_passage = passage.m_verse + " ";
-    if (add_passages_in_full) possible_included_passage = filter_passage_display (passage.m_book, passage.m_chapter, passage.m_verse) + " ";
+    if (add_verse_numbers) possible_included_passage = passage.verse ()+ " ";
+    if (add_passages_in_full) possible_included_passage = filter_passage_display (passage.book(), passage.chapter(), passage.verse()) + " ";
     html.append (possible_included_passage);
-    html.append (resource_logic_get_verse (webserver_request, resource, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse)));
+    html.append (resource_logic_get_verse (webserver_request, resource, passage.book(), passage.chapter(), filter::string::convert_to_int (passage.verse())));
   }
   
   return html;

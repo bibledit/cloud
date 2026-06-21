@@ -852,9 +852,9 @@ Passage getNotificationPassage (int id)
   const std::vector <std::string> chapters = result ["chapter"];
   const std::vector <std::string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
-    passage.m_book = filter::string::convert_to_int (books [i]);
-    passage.m_chapter = filter::string::convert_to_int (chapters [i]);
-    passage.m_verse = verses [i];
+    passage.book(filter::string::convert_to_int (books [i]));
+    passage.chapter(filter::string::convert_to_int (chapters [i]));
+    passage.verse(verses [i]);
   }
   return passage;
 }
@@ -950,9 +950,9 @@ std::vector <int> clearNotificationMatches (std::string username, std::string pe
   for (auto & personalID : personals) {
     std::string bible2 = getNotificationBible (personalID);
     Passage passage = getNotificationPassage (personalID);
-    int book = passage.m_book;
-    int chapter = passage.m_chapter;
-    int verse = filter::string::convert_to_int (passage.m_verse);
+    int book = passage.book();
+    int chapter = passage.chapter();
+    int verse = filter::string::convert_to_int (passage.verse());
     std::string modification = getNotificationModification (personalID);
     // Get all matching identifiers from the team's change notifications.
     sql.clear();

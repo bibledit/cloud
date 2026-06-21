@@ -180,9 +180,9 @@ Passage Database_Navigation::get_previous (const std::string& user, const int fo
   const std::vector <std::string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
-    passage.m_book = filter::string::convert_to_int (books [0]);
-    passage.m_chapter = filter::string::convert_to_int (chapters [0]);
-    passage.m_verse = verses [0];
+    passage.book(filter::string::convert_to_int (books [0]));
+    passage.chapter(filter::string::convert_to_int (chapters [0]));
+    passage.verse(verses [0]);
     return passage;
   }
   return Passage ();
@@ -225,9 +225,9 @@ Passage Database_Navigation::get_next (const std::string& user, const int focus_
   const std::vector <std::string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
-    passage.m_book = filter::string::convert_to_int (books [0]);
-    passage.m_chapter = filter::string::convert_to_int (chapters [0]);
-    passage.m_verse = verses [0];
+    passage.book(filter::string::convert_to_int (books [0]));
+    passage.chapter(filter::string::convert_to_int (chapters [0]));
+    passage.verse(verses [0]);
     return passage;
   }
   return Passage ();
@@ -349,9 +349,9 @@ std::vector <Passage> Database_Navigation::get_history (const std::string& user,
     const std::vector <std::string> verses = result ["verse"];
     for (unsigned int i = 0; i < books.size(); i++) {
       Passage passage;
-      passage.m_book = filter::string::convert_to_int (books [i]);
-      passage.m_chapter = filter::string::convert_to_int (chapters [i]);
-      passage.m_verse = verses [i];
+      passage.book(filter::string::convert_to_int (books [i]));
+      passage.chapter(filter::string::convert_to_int (chapters [i]));
+      passage.verse(verses [i]);
       passages.push_back(passage);
     }
   }

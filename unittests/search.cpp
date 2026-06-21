@@ -82,10 +82,10 @@ TEST (search, logic)
     std::vector <Passage> passages = search_logic_search_text ("sixth", {"phpunit"});
     EXPECT_EQ (1, static_cast <int> (passages.size()));
     if (!passages.empty ()) {
-      EXPECT_EQ ("phpunit", passages[0].m_bible);
-      EXPECT_EQ (2, passages[0].m_book);
-      EXPECT_EQ (3, passages[0].m_chapter);
-      EXPECT_EQ ("6", passages[0].m_verse);
+      EXPECT_EQ ("phpunit", passages[0].bible());
+      EXPECT_EQ (2, passages[0].book());
+      EXPECT_EQ (3, passages[0].chapter());
+      EXPECT_EQ ("6", passages[0].verse());
     }
   }
 
@@ -96,13 +96,13 @@ TEST (search, logic)
     std::vector <Passage> passages = search_logic_search_text ("ALLAH", {"phpunit3"});
     EXPECT_EQ (4, static_cast <int> (passages.size()));
     if (passages.size () == 4) {
-      EXPECT_EQ ("phpunit3", passages[0].m_bible);
-      EXPECT_EQ (6, passages[1].m_book);
-      EXPECT_EQ (7, passages[2].m_chapter);
-      EXPECT_EQ ("0", passages[0].m_verse);
-      EXPECT_EQ ("1", passages[1].m_verse);
-      EXPECT_EQ ("2", passages[2].m_verse);
-      EXPECT_EQ ("4", passages[3].m_verse);
+      EXPECT_EQ ("phpunit3", passages[0].bible());
+      EXPECT_EQ (6, passages[1].book());
+      EXPECT_EQ (7, passages[2].chapter());
+      EXPECT_EQ ("0", passages[0].verse());
+      EXPECT_EQ ("1", passages[1].verse());
+      EXPECT_EQ ("2", passages[2].verse());
+      EXPECT_EQ ("4", passages[3].verse());
     }
   }
 

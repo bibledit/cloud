@@ -454,7 +454,7 @@ TEST (database, versifications)
     // Books Chapters Verses.
     std::vector <Passage> data = database_versifications.get_books_chapters_verses (filter::string::english ());
     EXPECT_EQ (1189, static_cast<int>(data.size()));
-    EXPECT_EQ ("31", data [0].m_verse);
+    EXPECT_EQ ("31", data [0].verse());
     
     // Maximum number of books.
     books = database_versifications.getMaximumBooks ();
@@ -486,7 +486,7 @@ TEST (database, versifications)
     EXPECT_EQ (1000, id);
     std::vector <Passage> data = database_versifications.get_books_chapters_verses ("phpunit");
     EXPECT_EQ (2, static_cast<int> (data.size ()));
-    EXPECT_EQ ("25", data [1].m_verse);
+    EXPECT_EQ ("25", data [1].verse());
     std::string output = database_versifications.output ("phpunit");
     EXPECT_EQ (filter::string::trim (input), filter::string::trim (output));
   }

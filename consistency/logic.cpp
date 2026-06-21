@@ -72,10 +72,10 @@ std::string Consistency_Logic::response () const
     std::vector <std::string> range_sequence = filter_passage_handle_sequences_ranges (line);
     for (auto line2 : range_sequence) {
       Passage passage = filter_passage_interpret_passage (previousPassage, line2);
-      if (passage.m_book != 0) {
-        int book = passage.m_book;
-        int chapter = passage.m_chapter;
-        std::string verse = passage.m_verse;
+      if (passage.book() != 0) {
+        int book = passage.book();
+        int chapter = passage.chapter();
+        std::string verse = passage.verse();
         line2 = filter_passage_link_for_opening_editor_at (book, chapter, verse);
         line2 += " ";
         

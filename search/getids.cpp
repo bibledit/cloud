@@ -62,7 +62,7 @@ std::string search_getids (Webserver_Request& webserver_request)
   std::string output;
   for (const auto& passage : passages) {
     if (!output.empty ()) output.append ("\n");
-    output.append (passage.encode ());
+    output.append (filter_passage_encode(passage));
   }
   return output;
 }

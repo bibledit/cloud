@@ -1935,17 +1935,17 @@ void test_database_notes ()
     // Create notes.
     Database_Notes::NewNote note1 {
       .bible = bible1,
-      .book = passage1.m_book,
-      .chapter = passage1.m_chapter,
-      .verse = filter::string::convert_to_int (passage1.m_verse),
+      .book = passage1.book(),
+      .chapter = passage1.chapter(),
+      .verse = filter::string::convert_to_int (passage1.verse()),
       .summary = "v1",
       .contents = "v1",
     };
     Database_Notes::NewNote note2 {
       .bible = bible2,
-      .book = passage2.m_book,
-      .chapter = passage2.m_chapter,
-      .verse = filter::string::convert_to_int (passage2.m_verse),
+      .book = passage2.book(),
+      .chapter = passage2.chapter(),
+      .verse = filter::string::convert_to_int (passage2.verse()),
       .summary = "v2",
       .contents = "v2",
     };

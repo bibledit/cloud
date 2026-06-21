@@ -79,7 +79,7 @@ std::string notes_click (Webserver_Request& webserver_request)
     contents += "<p>" + translate("New text:") + "</p>";
     contents += database::modifications::getNotificationNewText (inew);
     Passage passage = database::modifications::getNotificationPassage (inew);
-    int identifier = notes_logic.createNote (bible, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse), summary, contents, false);
+    int identifier = notes_logic.createNote (bible, passage.book(), passage.chapter(), filter::string::convert_to_int (passage.verse()), summary, contents, false);
     ipc_notes::open (webserver_request, identifier);
   }
   

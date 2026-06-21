@@ -58,11 +58,11 @@ std::string search_replacepre2 (Webserver_Request& webserver_request)
   
   
   // Get the Bible and passage for this identifier.
-  Passage details = Passage::decode (id);
-  std::string bible = details.m_bible;
-  int book = details.m_book;
-  int chapter = details.m_chapter;
-  std::string verse = details.m_verse;
+  Passage details = filter_passage_decode (id);
+  const std::string& bible = details.bible();
+  int book = details.book();
+  int chapter = details.chapter();
+  const std::string& verse = details.verse();
   
   
   // Get the plain text or the USFM.

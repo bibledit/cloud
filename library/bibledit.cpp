@@ -447,9 +447,9 @@ const char * bibledit_get_reference_for_accordance ()
   if (passages.empty()) return "";
 
   // Accordance expects for instance, 2 Corinthians 9:2, to be broadcast as "2CO 9:2".
-  book = passages[0].m_book;
-  chapter = passages[0].m_chapter;
-  std::string verse_s = passages[0].m_verse;
+  book = passages[0].book();
+  chapter = passages[0].chapter();
+  std::string verse_s = passages[0].verse();
   std::string usfm_id = database::books::get_usfm_from_id (static_cast<book_id>(book));
   reference = usfm_id + " " + std::to_string(chapter) + ":" + filter::string::convert_to_string (verse_s);
 
@@ -499,9 +499,9 @@ void bibledit_put_reference_from_accordance (const char * reference)
   if (passages.empty()) return;
 
   // Set the focused passage in Bibledit.
-  book = passages[0].m_book;
-  chapter = passages[0].m_chapter;
-  std::string verse_s = passages[0].m_verse;
+  book = passages[0].book();
+  chapter = passages[0].chapter();
+  std::string verse_s = passages[0].verse();
   ipc_focus::set_passage (webserver_request, book, chapter, verse);
 }
 

@@ -78,11 +78,11 @@ std::string search_search2 (Webserver_Request& webserver_request)
     
     
     // Get the Bible and passage for this identifier.
-    Passage details = Passage::decode (hit);
-    std::string bible2 = details.m_bible;
-    int book = details.m_book;
-    int chapter = details.m_chapter;
-    std::string verse = details.m_verse;
+    Passage details = filter_passage_decode (hit);
+    const std::string& bible2 = details.bible();
+    int book = details.book();
+    int chapter = details.chapter();
+    const std::string& verse = details.verse();
     
     
     // Get the plain text or USFM.
@@ -143,7 +143,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
       int book = ipc_focus::get_book (webserver_request);
       std::vector <Passage> bookpassages;
       for (auto & passage : passages) {
-        if (book == passage.m_book) {
+        if (book == passage.book()) {
           bookpassages.push_back (passage);
         }
       }
@@ -157,7 +157,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
     if (otbooks || ntbooks) {
       std::vector <Passage> bookpassages;
       for (auto & passage : passages) {
-        book_type type = database::books::get_type (static_cast<book_id>(passage.m_book));
+        book_type type = database::books::get_type (static_cast<book_id>(passage.book()));
         if (otbooks) if (type != book_type::old_testament) continue;
         if (ntbooks) if (type != book_type::new_testament) continue;
         bookpassages.push_back (passage);
@@ -169,7 +169,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
     // Deal with how to share the results.
     std::vector <std::string> hits;
     for (auto & passage : passages) {
-      hits.push_back (passage.encode ());
+      hits.push_back (filter_passage_encode(passage));
     }
     if (sharing != "load") {
       std::vector <std::string> loaded_hits = filter::string::explode (database::temporal::get_value (identifier, "hits"), '\n');

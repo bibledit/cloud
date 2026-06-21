@@ -22,4 +22,4 @@
 #include <config/libraries.h>
 enum class book_id;
 
-bool book_create (const std::string & bible, const book_id book, const int chapter, std::vector <std::string> & feedback);
+bool book_create (const std::string & bible, book_id book, int chapter, std::vector <std::string> & feedback);

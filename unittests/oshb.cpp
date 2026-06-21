@@ -50,13 +50,13 @@ TEST (database, oshb)
   const std::vector <Passage> passages = database_oshb.searchHebrew ("יָדְע֥וּ");
   EXPECT_EQ (2, static_cast <int> (passages.size()));
   
-  EXPECT_EQ (19,   passages[0].m_book);
-  EXPECT_EQ (95,   passages[0].m_chapter);
-  EXPECT_EQ ("10", passages[0].m_verse);
+  EXPECT_EQ (19,   passages[0].book());
+  EXPECT_EQ (95,   passages[0].chapter());
+  EXPECT_EQ ("10", passages[0].verse());
   
-  EXPECT_EQ (30,   passages[1].m_book);
-  EXPECT_EQ (3,    passages[1].m_chapter);
-  EXPECT_EQ ("10", passages[1].m_verse);
+  EXPECT_EQ (30,   passages[1].book());
+  EXPECT_EQ (3,    passages[1].chapter());
+  EXPECT_EQ ("10", passages[1].verse());
   
   // Job 3:2.
   const std::vector <int> items = database_oshb.rowids (18, 3, 2);

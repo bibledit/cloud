@@ -36,15 +36,15 @@ TEST(filter, passage)
 {
     {
         Passage passage;
-        EXPECT_TRUE(passage.m_bible.empty());
-        EXPECT_EQ(0, passage.m_book);
-        EXPECT_EQ(0, passage.m_chapter);
-        EXPECT_TRUE(passage.m_verse.empty());
+        EXPECT_TRUE(passage.bible().empty());
+        EXPECT_EQ(0, passage.book());
+        EXPECT_EQ(0, passage.chapter());
+        EXPECT_TRUE(passage.verse().empty());
         passage = Passage("bible", 1, 2, "3");
-        EXPECT_EQ("bible", passage.m_bible);
-        EXPECT_EQ(1, passage.m_book);
-        EXPECT_EQ(2, passage.m_chapter);
-        EXPECT_EQ("3", passage.m_verse);
+        EXPECT_EQ("bible", passage.bible());
+        EXPECT_EQ(1, passage.book());
+        EXPECT_EQ(2, passage.chapter());
+        EXPECT_EQ("3", passage.verse());
         EXPECT_TRUE(passage == passage);
         const Passage passage2 = Passage("bible", 1, 2, "4");
         EXPECT_FALSE(passage == passage2);
@@ -53,18 +53,18 @@ TEST(filter, passage)
     // Encoding and decoding passages.
     {
         auto input = Passage("עברית", 1, 2, "3");
-        std::string encoded = input.encode();
-        Passage output = Passage::decode(encoded);
+        std::string encoded = filter_passage_encode(input);
+        Passage output = filter_passage_decode(encoded);
         EXPECT_TRUE(input == output);
 
         input = Passage("ελληνικά", 5, 4, "0");
-        encoded = input.encode();
-        output = Passage::decode(encoded);
+        encoded = filter_passage_encode(input);
+        output = filter_passage_decode(encoded);
         EXPECT_TRUE(input == output);
 
         input = Passage("Sample .!_ Bible", 99, 999, "9999");
-        encoded = input.encode();
-        output = Passage::decode(encoded);
+        encoded = filter_passage_encode(input);
+        output = filter_passage_decode(encoded);
         EXPECT_TRUE(input == output);
     }
 
@@ -246,24 +246,24 @@ TEST(filter, passage)
     // Explode passage.
     {
         Passage passage = filter_passage_explode_passage("Genesis 2:2");
-        EXPECT_EQ(1, passage.m_book);
-        EXPECT_EQ(2, passage.m_chapter);
-        EXPECT_EQ("2", passage.m_verse);
+        EXPECT_EQ(1, passage.book());
+        EXPECT_EQ(2, passage.chapter());
+        EXPECT_EQ("2", passage.verse());
 
         passage = filter_passage_explode_passage("1 Corinth. 2:2");
-        EXPECT_EQ(46, passage.m_book);
-        EXPECT_EQ(2, passage.m_chapter);
-        EXPECT_EQ("2", passage.m_verse);
+        EXPECT_EQ(46, passage.book());
+        EXPECT_EQ(2, passage.chapter());
+        EXPECT_EQ("2", passage.verse());
 
         passage = filter_passage_explode_passage("Song of Sol. 2:2");
-        EXPECT_EQ(22, passage.m_book);
-        EXPECT_EQ(2, passage.m_chapter);
-        EXPECT_EQ("2", passage.m_verse);
+        EXPECT_EQ(22, passage.book());
+        EXPECT_EQ(2, passage.chapter());
+        EXPECT_EQ("2", passage.verse());
 
         passage = filter_passage_explode_passage("Revelation 2:2");
-        EXPECT_EQ(66, passage.m_book);
-        EXPECT_EQ(2, passage.m_chapter);
-        EXPECT_EQ("2", passage.m_verse);
+        EXPECT_EQ(66, passage.book());
+        EXPECT_EQ(2, passage.chapter());
+        EXPECT_EQ("2", passage.verse());
     }
 
     // Interpret passage.

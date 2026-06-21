@@ -80,21 +80,21 @@ TEST (database, kjv)
     std::vector <Passage> passages = database_kjv.searchStrong ("G909");
     EXPECT_EQ (4, static_cast <int> (passages.size()));
     
-    EXPECT_EQ (41,   passages[0].m_book);
-    EXPECT_EQ (7,    passages[0].m_chapter);
-    EXPECT_EQ ("4",  passages[0].m_verse);
+    EXPECT_EQ (41,   passages[0].book());
+    EXPECT_EQ (7,    passages[0].chapter());
+    EXPECT_EQ ("4",  passages[0].verse());
     
-    EXPECT_EQ (41,   passages[1].m_book);
-    EXPECT_EQ (7,    passages[1].m_chapter);
-    EXPECT_EQ ("8",  passages[1].m_verse);
+    EXPECT_EQ (41,   passages[1].book());
+    EXPECT_EQ (7,    passages[1].chapter());
+    EXPECT_EQ ("8",  passages[1].verse());
     
-    EXPECT_EQ (58,   passages[2].m_book);
-    EXPECT_EQ (6,    passages[2].m_chapter);
-    EXPECT_EQ ("2",  passages[2].m_verse);
+    EXPECT_EQ (58,   passages[2].book());
+    EXPECT_EQ (6,    passages[2].chapter());
+    EXPECT_EQ ("2",  passages[2].verse());
     
-    EXPECT_EQ (58,   passages[3].m_book);
-    EXPECT_EQ (9,    passages[3].m_chapter);
-    EXPECT_EQ ("10", passages[3].m_verse);
+    EXPECT_EQ (58,   passages[3].book());
+    EXPECT_EQ (9,    passages[3].chapter());
+    EXPECT_EQ ("10", passages[3].verse());
   }
 }
 

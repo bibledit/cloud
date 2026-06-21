@@ -145,9 +145,9 @@ std::string search_strongs (Webserver_Request& webserver_request)
     
     // Get the and passage for this identifier.
     const Passage passage = filter_integer_to_passage (id);
-    const int book = passage.m_book;
-    const int chapter = passage.m_chapter;
-    const std::string verse = passage.m_verse;
+    const int book = passage.book();
+    const int chapter = passage.chapter();
+    const std::string verse = passage.verse();
     
     // Get the plain text.
     const std::string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::string::convert_to_int (verse));

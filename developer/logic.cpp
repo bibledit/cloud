@@ -176,8 +176,8 @@ void developer_logic_import_changes ()
         // 2. Update the passage to point to the new one.
         if (passage_found)
         {
-            developer_logic_import_changes_save(passage.m_bible, passage.m_book, passage.m_chapter,
-                                                filter::string::convert_to_int(passage.m_verse), text);
+            developer_logic_import_changes_save(passage.bible(), passage.book(), passage.chapter(),
+                                                filter::string::convert_to_int(passage.verse()), text);
             passage = Passage(bible, static_cast<int>(book), chapter, std::to_string(verse));
         }
         // Accumulate the text.
@@ -186,6 +186,6 @@ void developer_logic_import_changes ()
         text.append(line);
     }
 
-    developer_logic_import_changes_save(passage.m_bible, passage.m_book, passage.m_chapter,
-                                        filter::string::convert_to_int(passage.m_verse), text);
+    developer_logic_import_changes_save(passage.bible(), passage.book(), passage.chapter(),
+                                        filter::string::convert_to_int(passage.verse()), text);
 }

@@ -136,9 +136,9 @@ TEST (checks, database)
     database::check::record_output ("phpunit", 3, 4, 5, "test1");
     database::check::record_output ("phpunit", 6, 7, 8, "test2");
     Passage passage = database::check::get_passage (2);
-    EXPECT_EQ (6, passage.m_book);
-    EXPECT_EQ (7, passage.m_chapter);
-    EXPECT_EQ ("8", passage.m_verse);
+    EXPECT_EQ (6, passage.book());
+    EXPECT_EQ (7, passage.chapter());
+    EXPECT_EQ ("8", passage.verse());
   }
 
   {

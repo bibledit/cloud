@@ -64,11 +64,11 @@ std::string search_replacego (Webserver_Request& webserver_request)
   
   
   // Get Bible and passage for this identifier.
-  Passage passage = Passage::decode (id);
-  std::string bible = passage.m_bible;
-  int book = passage.m_book;
-  int chapter = passage.m_chapter;
-  int verse = filter::string::convert_to_int (passage.m_verse);
+  Passage passage = filter_passage_decode (id);
+  std::string bible = passage.bible();
+  int book = passage.book();
+  int chapter = passage.chapter();
+  int verse = filter::string::convert_to_int (passage.verse());
   
   
   // Check whether the user has write access to the book.

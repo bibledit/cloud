@@ -70,10 +70,10 @@ std::string public_notes (Webserver_Request& webserver_request)
       std::vector <Passage> passages = database_notes.get_passages (identifier);
       std::string verses;
       for (const auto& passage : passages) {
-        if (passage.m_book != book) continue;
-        if (passage.m_chapter != chapter) continue;
+        if (passage.book() != book) continue;
+        if (passage.chapter() != chapter) continue;
         if (!verses.empty ()) verses.append (" ");
-        verses.append (passage.m_verse);
+        verses.append (passage.verse());
       }
       notesblock << verses;
       notesblock << " | ";

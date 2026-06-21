@@ -106,9 +106,9 @@ std::vector <Passage> Database_OsHb::searchHebrew (std::string hebrew)
   std::vector <std::string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
     Passage passage;
-    passage.m_book = filter::string::convert_to_int (books [i]);
-    passage.m_chapter = filter::string::convert_to_int (chapters [i]);
-    passage.m_verse = verses [i];
+    passage.book(filter::string::convert_to_int (books [i]));
+    passage.chapter(filter::string::convert_to_int (chapters [i]));
+    passage.verse(verses [i]);
     hits.push_back (passage);
   }
   return hits;

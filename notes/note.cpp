@@ -77,21 +77,21 @@ std::string notes_note (Webserver_Request& webserver_request)
   std::vector <Passage> passages = database_notes.get_passages (id);
   if (!passages.empty ()) {
     Passage focused_passage;
-    focused_passage.m_book = ipc_focus::get_book (webserver_request);
-    focused_passage.m_chapter = ipc_focus::get_chapter (webserver_request);
-    focused_passage.m_verse = std::to_string (ipc_focus::get_verse (webserver_request));
+    focused_passage.book(ipc_focus::get_book (webserver_request));
+    focused_passage.chapter(ipc_focus::get_chapter (webserver_request));
+    focused_passage.verse(std::to_string (ipc_focus::get_verse (webserver_request)));
     // Only set passage and track history if the focused passage
     // differs from all of the passages of the note.
     // If the focused passage is already at any of the passages belonging to the note,
     // no further focus operations are needed.
     bool passage_focused = false;
-    for (auto passage : passages) {
+    for (const auto& passage : passages) {
       if (focused_passage == passage) passage_focused = true;
     }
     if (!passage_focused) {
-      int desired_book = passages[0].m_book;
-      int desired_chapter = passages[0].m_chapter;
-      int desired_verse = filter::string::convert_to_int (passages[0].m_verse);
+      const int desired_book = passages[0].book();
+      const int desired_chapter = passages[0].chapter();
+      const int desired_verse = filter::string::convert_to_int (passages[0].verse());
       ipc_focus::set_passage (webserver_request, desired_book, desired_chapter, desired_verse);
       navigation_passage::record_history (webserver_request, desired_book, desired_chapter, desired_verse);
     }

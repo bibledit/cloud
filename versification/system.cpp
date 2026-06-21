@@ -69,9 +69,9 @@ std::string versification_system (Webserver_Request& webserver_request)
   std::vector <std::string> data;
   std::vector <Passage> passages = database_versifications.get_books_chapters_verses (name);
   for (auto & passage : passages) {
-    int book = passage.m_book;
-    int chapter = passage.m_chapter;
-    std::string verse = passage.m_verse;
+    int book = passage.book();
+    int chapter = passage.chapter();
+    std::string verse = passage.verse();
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     data.push_back ("<tr>");
     data.push_back ("<td>" + bookname + "</td>");

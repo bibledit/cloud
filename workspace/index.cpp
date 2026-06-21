@@ -89,8 +89,8 @@ std::string workspace_index (Webserver_Request& webserver_request)
     Database_Notes database_notes (webserver_request);
     const std::vector <Passage> passages = database_notes.get_passages (note_id);
     if (!passages.empty ()) {
-      ipc_focus::set_passage (webserver_request, passages[0].m_book, passages[0].m_chapter, filter::string::convert_to_int (passages[0].m_verse));
-      navigation_passage::record_history (webserver_request, passages[0].m_book, passages[0].m_chapter, filter::string::convert_to_int (passages[0].m_verse));
+      ipc_focus::set_passage (webserver_request, passages[0].book(), passages[0].chapter(), filter::string::convert_to_int (passages[0].verse()));
+      navigation_passage::record_history (webserver_request, passages[0].book(), passages[0].chapter(), filter::string::convert_to_int (passages[0].verse()));
     }
   }
   

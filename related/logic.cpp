@@ -96,8 +96,8 @@ std::vector <Passage> related_logic_get_verses (const std::vector <Passage> & in
 
     // Get details about the book in the passage.
     // It assumes all input passages refer to the same book.
-    std::string bookname = database::books::get_english_from_id (static_cast<book_id>(input[0].m_book));
-    book_type booktype = database::books::get_type (static_cast<book_id>(input[0].m_book));
+    std::string bookname = database::books::get_english_from_id (static_cast<book_id>(input[0].book()));
+    book_type booktype = database::books::get_type (static_cast<book_id>(input[0].book()));
     bool is_ot = (booktype == book_type::old_testament);
     bool is_nt = (booktype == book_type::new_testament);
     
@@ -119,12 +119,12 @@ std::vector <Passage> related_logic_get_verses (const std::vector <Passage> & in
       // Search for parallel passages.
       for (pugi::xml_node passages : parallel_document.children ()) {
         for (pugi::xml_node section : passages.children ()) {
-          related_logic_search_related (bookname, input_passage.m_chapter, input_passage.m_verse, section, related_passages);
+          related_logic_search_related (bookname, input_passage.chapter(), input_passage.verse(), section, related_passages);
         }
       }
       // Search for quotes.
       for (pugi::xml_node passages : quotation_document.children ()) {
-        related_logic_search_related (bookname, input_passage.m_chapter, input_passage.m_verse, passages, related_passages);
+        related_logic_search_related (bookname, input_passage.chapter(), input_passage.verse(), passages, related_passages);
       }
     }
   }

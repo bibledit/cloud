@@ -69,9 +69,9 @@ std::string notes_verses (Webserver_Request& webserver_request)
     Passage previousPassage = Passage ("", 1, 1, "1");
     for (auto & line : verses) {
       line = filter::string::trim (line);
-      if (line != "") {
+      if (not line.empty()) {
         Passage passage = filter_passage_interpret_passage (previousPassage, line);
-        if (passage.m_book != 0) {
+        if (passage.book() != 0) {
           passages.push_back (passage);
           previousPassage = passage;
         }
@@ -82,7 +82,7 @@ std::string notes_verses (Webserver_Request& webserver_request)
     } else {
       notes_logic.setPassages (id, passages);
       redirect_browser (webserver_request, notes_actions_url () + "?id=" + std::to_string (id));
-      return std::string();
+      return {};
     }
   }
   

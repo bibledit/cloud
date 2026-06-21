@@ -1165,9 +1165,9 @@ Passage Database_Notes::decode_passage (std::string passage)
   passage = filter::string::trim (passage);
   Passage decodedpassage = Passage ();
   std::vector <std::string> lines = filter::string::explode (passage, '.');
-  if (lines.size() > 0) decodedpassage.m_book = filter::string::convert_to_int (lines[0]);
-  if (lines.size() > 1) decodedpassage.m_chapter = filter::string::convert_to_int (lines[1]);
-  if (lines.size() > 2) decodedpassage.m_verse = lines[2];
+  if (lines.size() > 0) decodedpassage.book(filter::string::convert_to_int (lines[0]));
+  if (lines.size() > 1) decodedpassage.chapter(filter::string::convert_to_int (lines[1]));
+  if (lines.size() > 2) decodedpassage.verse(lines[2]);
   return decodedpassage;
 }
 
@@ -1212,7 +1212,7 @@ void Database_Notes::set_passages (int identifier, const std::vector <Passage>& 
   std::string line;
   for (auto & passage : passages) {
     if (!line.empty ()) line.append ("\n");
-    line.append (encode_passage (passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse)));
+    line.append (encode_passage (passage.book(), passage.chapter(), filter::string::convert_to_int (passage.verse())));
   }
   // Store it.
   set_raw_passage (identifier, line);

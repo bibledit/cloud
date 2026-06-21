@@ -58,7 +58,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
     const int identifier = filter::string::convert_to_int (webserver_request.query["load"]);
     std::stringstream block {};
     const Passage passage = database::modifications::getNotificationPassage (identifier);
-    const std::string link = filter_passage_link_for_opening_editor_at (passage.m_book, passage.m_chapter, passage.m_verse);
+    const std::string link = filter_passage_link_for_opening_editor_at (passage.book(), passage.chapter(), passage.verse());
     std::string category = database::modifications::getNotificationCategory (identifier);
     if (category == changes_personal_category ())
       category = filter::string::emoji_smiling_face_with_smiling_eyes ();
@@ -94,9 +94,9 @@ std::string changes_changes (Webserver_Request& webserver_request)
     const std::string navigate = webserver_request.post_get("navigate");
     const int id = filter::string::convert_to_int (navigate);
     const Passage passage = database::modifications::getNotificationPassage (id);
-    if (passage.m_book) {
-      ipc_focus::set_passage (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
-      navigation_passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::string::convert_to_int (passage.m_verse));
+    if (passage.book()) {
+      ipc_focus::set_passage (webserver_request, passage.book(), passage.chapter(), filter::string::convert_to_int (passage.verse()));
+      navigation_passage::record_history (webserver_request, passage.book(), passage.chapter(), filter::string::convert_to_int (passage.verse()));
     }
     // Set the correct default Bible for the user.
     const std::string bible = database::modifications::getNotificationBible (id);

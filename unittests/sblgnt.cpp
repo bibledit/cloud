@@ -38,9 +38,9 @@ TEST (database, sblgnt)
   
   const std::vector <Passage> passages = database_sblgnt.searchGreek ("βαπτισμῶν");
   EXPECT_EQ (1,   static_cast <int> (passages.size()));
-  EXPECT_EQ (58,  passages[0].m_book);
-  EXPECT_EQ (6,   passages[0].m_chapter);
-  EXPECT_EQ ("2", passages[0].m_verse);
+  EXPECT_EQ (58,  passages[0].book());
+  EXPECT_EQ (6,   passages[0].chapter());
+  EXPECT_EQ ("2", passages[0].verse());
 }
 
 

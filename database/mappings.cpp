@@ -314,9 +314,9 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
   // This is a translation from Hebrew/Greek to the $output system.
   std::vector <Passage> targetpassage;
   for (const Passage& passage : origpassage) {
-    const int origbook = passage.m_book;
-    const int origchapter = passage.m_chapter;
-    const int origverse = filter::string::convert_to_int (passage.m_verse);
+    const int origbook = passage.book();
+    const int origchapter = passage.chapter();
+    const int origverse = filter::string::convert_to_int (passage.verse());
     SqliteDatabase sql (mappings);
     sql.add ("SELECT book, chapter, verse FROM maps WHERE name =");
     sql.add (output);

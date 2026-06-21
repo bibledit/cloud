@@ -530,13 +530,13 @@ TEST (database, modifications_notifications)
     database::modifications::recordNotification ({unittest0}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     Passage passage = database::modifications::getNotificationPassage (1);
-    EXPECT_EQ (1, passage.m_book);
-    EXPECT_EQ (2, passage.m_chapter);
-    EXPECT_EQ ("3", passage.m_verse);
+    EXPECT_EQ (1, passage.book());
+    EXPECT_EQ (2, passage.chapter());
+    EXPECT_EQ ("3", passage.verse());
     passage = database::modifications::getNotificationPassage (3);
-    EXPECT_EQ (0, passage.m_book);
-    EXPECT_EQ (0, passage.m_chapter);
-    EXPECT_EQ ("", passage.m_verse);
+    EXPECT_EQ (0, passage.book());
+    EXPECT_EQ (0, passage.chapter());
+    EXPECT_EQ ("", passage.verse());
   }
 
   // Old text.

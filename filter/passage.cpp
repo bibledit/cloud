@@ -32,59 +32,6 @@ Passage::Passage(std::string bible, const int book, const int chapter, std::stri
 }
 
 
-// This method converts the passage of the object into text, like e.g. so:
-// "hexadecimal Bible _1_2_3".
-// First the hexadecimal Bible comes, then the book identifier, then the chapter number, and finally the verse number.
-std::string Passage::encode() const
-{
-    std::string text;
-    // The encoded passage can be used as an attribute in the HTML DOM.
-    // Therefore, it will be encoded such that any Bible name will be acceptable as an attribute in the DOM.
-    text.append(filter::string::bin2hex(m_bible));
-    text.append("_");
-    text.append(std::to_string(m_book));
-    text.append("_");
-    text.append(std::to_string(m_chapter));
-    text.append("_");
-    text.append(m_verse);
-    if (m_verse.empty()) text.append("0");
-    return text;
-}
-
-
-// This method converts encoded text into a passage.
-// The text is in the format as its complementary function, "encode", produces.
-Passage Passage::decode(const std::string& encoded)
-{
-    Passage passage;
-    std::vector<std::string> bits = filter::string::explode(encoded, '_');
-    if (not bits.empty())
-    {
-        if (const std::string& verse = bits.back(); not verse.empty())
-            passage.m_verse = verse;
-        bits.pop_back();
-    }
-    if (not bits.empty())
-    {
-        if (const std::string& chapter = bits.back(); not chapter.empty())
-            passage.m_chapter = filter::string::convert_to_int(chapter);
-        bits.pop_back();
-    }
-    if (not bits.empty())
-    {
-        if (const std::string& book = bits.back(); !book.empty())
-            passage.m_book = filter::string::convert_to_int(book);
-        bits.pop_back();
-    }
-    if (not bits.empty())
-    {
-        passage.m_bible = filter::string::hex2bin(bits.back());
-        bits.pop_back();
-    }
-    return passage;
-}
-
-
 std::string filter_passage_display(const int book, const int chapter, const std::string& verse)
 {
     std::string display;
@@ -103,7 +50,7 @@ std::string filter_passage_display_inline(const std::vector<Passage>& passages)
     std::ranges::for_each(passages, [&display](const auto& passage)
     {
         if (!display.empty()) display.append(" | ");
-        display.append(filter_passage_display(passage.m_book, passage.m_chapter, passage.m_verse));
+        display.append(filter_passage_display(passage.book(), passage.chapter(), passage.verse()));
     });
     return display;
 }
@@ -115,7 +62,7 @@ std::string filter_passage_display_multiline(const std::vector<Passage>& passage
     std::string display;
     std::ranges::for_each(passages, [&display](const auto& passage)
     {
-        display.append(filter_passage_display(passage.m_book, passage.m_chapter, passage.m_verse));
+        display.append(filter_passage_display(passage.book(), passage.chapter(), passage.verse()));
         display.append("\n");
     });
     return display;
@@ -125,7 +72,7 @@ std::string filter_passage_display_multiline(const std::vector<Passage>& passage
 // This function converts $passage to an integer, so that passages can be compared or stored.
 int filter_passage_to_integer(const Passage& passage)
 {
-    return 1000000 * passage.m_book + 1000 * passage.m_chapter + filter::string::convert_to_int(passage.m_verse);
+    return 1000000 * passage.book() + 1000 * passage.chapter() + filter::string::convert_to_int(passage.verse());
 }
 
 
@@ -289,18 +236,18 @@ Passage filter_passage_explode_passage(std::string text)
     // Take the bits.
     if (not bits.empty()) {
         if (const std::string& verse = bits.back(); not verse.empty())
-            passage.m_verse = verse;
+            passage.verse(verse);
         bits.pop_back();
     }
     if (not bits.empty()) {
         if (const std::string& chapter = bits.back(); not chapter.empty())
-            passage.m_chapter = filter::string::convert_to_int(chapter);
+            passage.chapter(filter::string::convert_to_int(chapter));
         bits.pop_back();
     }
     if (const std::string book = filter::string::implode(bits, " "); not book.empty())
     {
         const book_id bk = filter_passage_interpret_book(book);
-        passage.m_book = static_cast<int>(bk);
+        passage.book(static_cast<int>(bk));
     }
     // Return the result.
     return passage;
@@ -350,22 +297,22 @@ Passage filter_passage_interpret_passage(Passage current_passage, std::string ra
     // Deal with: One number given, e.g. "10".
     if (book.empty() and numerals.size() == 1)
     {
-        int bk = current_passage.m_book;
-        int chapter = current_passage.m_chapter;
+        int bk = current_passage.book();
+        int chapter = current_passage.chapter();
         std::string verse = std::to_string(numerals[0]);
         Passage passage = filter_passage_explode_passage("Unknown " + std::to_string(chapter) + " " + verse);
-        passage.m_book = bk;
+        passage.book(bk);
         return passage;
     }
 
     // Deal with: Two numbers given, e.g. "1 2".
     if (book.empty() and numerals.size() == 2)
     {
-        int bk = current_passage.m_book;
+        int bk = current_passage.book();
         int chapter = numerals[1];
         std::string verse = std::to_string(numerals[0]);
         Passage passage = filter_passage_explode_passage("Unknown " + std::to_string(chapter) + " " + verse);
-        passage.m_book = bk;
+        passage.book(bk);
         return passage;
     }
 
@@ -490,3 +437,62 @@ std::vector<int> filter_passage_get_ordered_books(const std::string& bible)
 
     return ordered_books;
 }
+
+
+// This method converts the passage into text, like e.g. so:
+// "hexadecimal Bible _1_2_3".
+// First the hexadecimal Bible comes, then the book identifier, then the chapter number, and finally the verse number.
+std::string filter_passage_encode(const Passage& passage)
+{
+    std::string text;
+    // The encoded passage can be used as an attribute in the HTML DOM.
+    // Therefore, it will be encoded such that any Bible name will be acceptable as an attribute in the DOM.
+    text.append(filter::string::bin2hex(passage.bible()));
+    text.append("_");
+    text.append(std::to_string(passage.book()));
+    text.append("_");
+    text.append(std::to_string(passage.chapter()));
+    text.append("_");
+    text.append(passage.verse());
+    if (passage.verse().empty())
+        text.append("0");
+    return text;
+}
+
+
+
+
+
+// This method converts encoded text into a passage.
+// The text is in the format as its complementary function, "encode", produces.
+Passage filter_passage_decode(const std::string& encoded)
+{
+    Passage passage;
+    std::vector<std::string> bits = filter::string::explode(encoded, '_');
+    if (not bits.empty())
+    {
+        if (const std::string& verse = bits.back(); not verse.empty())
+            passage.verse(verse);
+        bits.pop_back();
+    }
+    if (not bits.empty())
+    {
+        if (const std::string& chapter = bits.back(); not chapter.empty())
+            passage.chapter(filter::string::convert_to_int(chapter));
+        bits.pop_back();
+    }
+    if (not bits.empty())
+    {
+        if (const std::string& book = bits.back(); !book.empty())
+            passage.book(filter::string::convert_to_int(book));
+        bits.pop_back();
+    }
+    if (not bits.empty())
+    {
+        passage.bible(filter::string::hex2bin(bits.back()));
+        bits.pop_back();
+    }
+    return passage;
+}
+
+

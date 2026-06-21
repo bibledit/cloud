@@ -110,9 +110,9 @@ std::string sync_changes (Webserver_Request& webserver_request)
       // chapter
       // verse
       Passage passage = database::modifications::getNotificationPassage (id);
-      lines.push_back (std::to_string (passage.m_book));
-      lines.push_back (std::to_string (passage.m_chapter));
-      lines.push_back (passage.m_verse);
+      lines.push_back (std::to_string (passage.book()));
+      lines.push_back (std::to_string (passage.chapter()));
+      lines.push_back (passage.verse());
       // oldtext (ensure it's one line for correct transfer to client)
       std::string oldtext = database::modifications::getNotificationOldText (id);
       oldtext = filter::string::replace ("\n", " ", oldtext);

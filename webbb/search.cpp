@@ -87,11 +87,11 @@ std::string webbible_search (Webserver_Request& webserver_request)
     
     
     // Get the passage of this search hit.
-    if (passage.m_book == 0) continue;
-    std::string bible = passage.m_bible;
-    int book = passage.m_book;
-    int chapter = passage.m_chapter;
-    std::string verse = passage.m_verse;
+    if (passage.book() == 0) continue;
+    std::string bible = passage.bible();
+    int book = passage.book();
+    int chapter = passage.chapter();
+    std::string verse = passage.verse();
     
     
     // The title.

@@ -467,26 +467,26 @@ TEST (git, basic)
   // Get Git Passage
   {
     Passage passage = filter_git_get_passage ("From https://github.com/joe/test");
-    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.book());
     
     passage = filter_git_get_passage ("   443579b..90dcb57  master     -> origin/master");
-    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.book());
     
     passage = filter_git_get_passage ("Updating 443579b..90dcb57");
-    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.book());
     
     passage = filter_git_get_passage ("Fast-forward");
-    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.book());
     
     passage = filter_git_get_passage (" Genesis/3/data | 2 +-");
     Passage standard = Passage ("", 1, 3, "");
     EXPECT_TRUE (standard == passage);
     
     passage = filter_git_get_passage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
-    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.book());
     
     passage = filter_git_get_passage (" delete mode 100644 Leviticus/1/data");
-    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.book());
     
     passage = filter_git_get_passage (" Revelation/3/data | 2 +-");
     standard = Passage ("", 66, 3, "");

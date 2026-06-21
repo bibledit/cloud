@@ -40,33 +40,33 @@ TEST (ipc, basic)
   webserver_request.session_logic ()->set_username ("phpunit");
   
   // There should be no note identifier.
-  int identifier = Ipc_Notes::get (webserver_request);
+  int identifier = ipc_notes::get (webserver_request);
   EXPECT_EQ (0, identifier);
   
   // Test opening note.
-  Ipc_Notes::open (webserver_request, 123456789);
-  identifier = Ipc_Notes::get (webserver_request);
+  ipc_notes::open (webserver_request, 123456789);
+  identifier = ipc_notes::get (webserver_request);
   EXPECT_EQ (123456789, identifier);
   
   // Test trimming.
   webserver_request.database_ipc()->trim ();
-  identifier = Ipc_Notes::get (webserver_request);
+  identifier = ipc_notes::get (webserver_request);
   EXPECT_EQ (123456789, identifier);
   
   // Test deleting note once.
-  Ipc_Notes::open (webserver_request, 123456789);
-  Ipc_Notes::erase (webserver_request);
-  identifier = Ipc_Notes::get (webserver_request);
+  ipc_notes::open (webserver_request, 123456789);
+  ipc_notes::erase (webserver_request);
+  identifier = ipc_notes::get (webserver_request);
   EXPECT_EQ (0, identifier);
   
   // Test deleting two notes.
-  Ipc_Notes::open (webserver_request, 123456789);
-  Ipc_Notes::open (webserver_request, 123456789);
-  Ipc_Notes::erase (webserver_request);
-  identifier = Ipc_Notes::get (webserver_request);
+  ipc_notes::open (webserver_request, 123456789);
+  ipc_notes::open (webserver_request, 123456789);
+  ipc_notes::erase (webserver_request);
+  identifier = ipc_notes::get (webserver_request);
   EXPECT_EQ (0, identifier);
-  Ipc_Notes::erase (webserver_request);
-  identifier = Ipc_Notes::get (webserver_request);
+  ipc_notes::erase (webserver_request);
+  identifier = ipc_notes::get (webserver_request);
   EXPECT_EQ (0, identifier);
 }
 

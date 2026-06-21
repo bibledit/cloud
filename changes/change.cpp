@@ -137,7 +137,7 @@ std::string changes_change (Webserver_Request& webserver_request)
   
   
   // Whether there's a live notes editor available.
-  const bool live_notes_editor = Ipc_Notes::alive (webserver_request, false);
+  const bool live_notes_editor = ipc_notes::alive (webserver_request, false);
   if (live_notes_editor)
     view.enable_zone ("alive");
   else 

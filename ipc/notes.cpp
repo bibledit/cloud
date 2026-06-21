@@ -19,49 +19,48 @@
 
 #include <ipc/notes.h>
 #include <filter/string.h>
-#include <filter/usfm.h>
-#include <database/navigation.h>
 #include <webserver/request.h>
 
 
 // Deals with the consultation notes stuff.
 
-
-void Ipc_Notes::open (Webserver_Request& webserver_request, int identifier)
+namespace ipc_notes {
+void open(Webserver_Request& webserver_request, const int identifier)
 {
-  const std::string& user = webserver_request.session_logic ()->get_username ();
-  webserver_request.database_ipc()->storeMessage (user, "", "opennote", std::to_string (identifier));
+    const std::string& user = webserver_request.session_logic()->get_username();
+    webserver_request.database_ipc()->storeMessage(user, "", "opennote", std::to_string(identifier));
 }
 
 
-int Ipc_Notes::get (Webserver_Request& webserver_request)
+int get(Webserver_Request& webserver_request)
 {
-  Database_Ipc_Message data = webserver_request.database_ipc()->getNote ();
-  return filter::string::convert_to_int (data.message);
+    const Database_Ipc_Message data = webserver_request.database_ipc()->getNote();
+    return filter::string::convert_to_int(data.message);
 }
 
 
-void Ipc_Notes::erase (Webserver_Request& webserver_request)
+void erase(Webserver_Request& webserver_request)
 {
-  Database_Ipc_Message data = webserver_request.database_ipc()->getNote ();
-  int counter = 0;
-  while (data.id && (counter < 100)) {
-    int id = data.id;
-    webserver_request.database_ipc()->deleteMessage (id);
-    counter++;
-  }
+    const Database_Ipc_Message data = webserver_request.database_ipc()->getNote();
+    int counter = 0;
+    while (data.id && counter < 100)
+    {
+        const int id = data.id;
+        webserver_request.database_ipc()->deleteMessage(id);
+        counter++;
+    }
 }
 
 
-// If $set is true, it sets the alive status of the notes editor.
+// If $set is true, it sets the alive status of the note editor.
 // If $set is false, it returns the alive status.
-bool Ipc_Notes::alive (Webserver_Request& webserver_request, bool set, bool alive)
+bool alive(Webserver_Request& webserver_request, const bool set, const bool alive)
 {
-  const std::string& user = webserver_request.session_logic ()->get_username ();
-  if (set) {
-    webserver_request.database_ipc()->storeMessage (user, "", "notesalive", filter::string::convert_to_string (alive));
-  } else {
-    return webserver_request.database_ipc()->getNotesAlive ();
-  }
-  return false;
+    const std::string& user = webserver_request.session_logic()->get_username();
+    if (set)
+        webserver_request.database_ipc()->storeMessage(user, "", "notesalive", filter::string::convert_to_string(alive));
+    else
+        return webserver_request.database_ipc()->getNotesAlive();
+    return false;
+}
 }

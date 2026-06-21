@@ -23,12 +23,10 @@
 
 class Webserver_Request;
 
-class Ipc_Notes
+namespace ipc_notes
 {
-public:
-  static void open (Webserver_Request& webserver_request, int identifier);
-  static int get (Webserver_Request& webserver_request);
-  static void erase (Webserver_Request& webserver_request);
-  static bool alive (Webserver_Request& webserver_request, bool set, bool alive = false);
-private:
-};
+void open (Webserver_Request& webserver_request, int identifier);
+int get (Webserver_Request& webserver_request);
+void erase (Webserver_Request& webserver_request);
+bool alive (Webserver_Request& webserver_request, bool set, bool alive = false);
+}

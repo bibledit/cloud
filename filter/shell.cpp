@@ -27,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_WINDOWS
 #include <tlhelp32.h>
 #endif
-#include <developer/logic.h>
 
 
 namespace filter::shell {

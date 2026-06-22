@@ -53,7 +53,7 @@ TEST(filter, archive)
     }
     filter_url_file_put_contents(path1, data1);
     filter_url_file_put_contents(path2, data2);
-    std::vector<std::string> files12 = {file1, file2};
+    std::vector files12 = {file1, file2};
 
     for (int i = 0; i < 5; i++)
     {
@@ -73,11 +73,9 @@ TEST(filter, archive)
         std::string zipfile = filter::archive::zip_folder_shell_internal(directory);
         EXPECT_EQ(true, file_or_dir_exists (zipfile));
         int size = filter_url_filesize(zipfile);
-        int min = 3328;
-        if (size < min)
+        if (constexpr int min = 3328; size < min)
             EXPECT_EQ("Should be at least " + std::to_string (min) + " bytes", std::to_string (size));
-        int max = 3334;
-        if (size > max)
+        if (constexpr int max = 3334; size > max)
             EXPECT_EQ("Should be no larger than " + std::to_string (max) + " bytes", std::to_string (size));
 
         // Zip existing folder through the miniz library.

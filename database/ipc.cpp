@@ -18,68 +18,125 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <database/ipc.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <filter/date.h>
-#include <database/sqlite.h>
-#include <webserver/request.h>
 #include <database/logic.h>
+#include <filter/date.h>
+#include <filter/string.h>
+#include <filter/url.h>
+#include <webserver/request.h>
 
 
 // Database resilience: Stored in plain file system.
 
 
-Database_Ipc::Database_Ipc (Webserver_Request& webserver_request):
-m_webserver_request (webserver_request)
+static std::string folder()
+{
+    return filter_url_create_root_path({database_logic_databases(), "ipc"});
+}
+
+
+static std::string file(const std::string& file)
+{
+    return filter_url_create_path({folder(), file});
+}
+
+
+// Reads most fields of all data in this database.
+// Returns a container with the above.
+// The fields are those that can be obtained from the name of the files.
+// One file is one entry in the database.
+// The filename looks like this: rowid__user__channel__command
+static std::vector<Database_Ipc_Item> read_data()
+{
+    std::vector<Database_Ipc_Item> data;
+    const std::vector<std::string> files = filter_url_scandir(folder());
+    std::ranges::for_each(files, [&](const std::string& file)
+    {
+        if (const auto explosion = filter::string::explode(file, '_'); explosion.size() == 7)
+        {
+            Database_Ipc_Item item {
+                .file = file,
+                .rowid = filter::string::convert_to_int(explosion.at(0)),
+                .user = explosion.at(2),
+                .channel = explosion.at(4),
+                .command = explosion.at(6),
+            };
+            data.emplace_back(std::move(item));
+        }
+    });
+    return data;
+}
+
+
+static void write_record(const int rowid, const std::string& user, const std::string& channel, const std::string& command, const std::string& message)
+{
+    std::string filename = std::to_string(rowid) + "__" + user + "__" + channel + "__" + command;
+    filename = file(filename);
+    filter_url_file_put_contents(filename, message);
+}
+
+
+// Returns the next available row identifier.
+static int get_next_id(const std::vector<Database_Ipc_Item>& data)
+{
+    auto&& range = data | std::views::transform(&Database_Ipc_Item::rowid);
+    const auto it = std::ranges::max_element(range);
+    int id = it != range.end() ? *it : 0;
+    ++id;
+    return id;
+}
+
+
+Database_Ipc::Database_Ipc(Webserver_Request& webserver_request) :
+    m_webserver_request(webserver_request)
 {
 }
 
 
-void Database_Ipc::trim ()
+void Database_Ipc::trim()
 {
-  std::vector <Database_Ipc_Item> data = readData ();
-  for (auto & record : data) {
-    if (record.user == "") {
-      deleteMessage (record.rowid);
-    }
-  }
-  int now = filter::date::seconds_since_epoch ();
-  std::vector <std::string> files = filter_url_scandir (folder ());
-  for (std::string item : files) {
-    std::string path = file(item);
-    int time = filter_url_file_modification_time (path);
-    int age_seconds = now - time;
-    if (age_seconds > 3600) {
-      filter_url_unlink (path);
-    }
-  }
+    const std::vector<Database_Ipc_Item> data = read_data();
+    std::ranges::for_each(data, [](const auto& record)
+    {
+        if (record.user.empty())
+            delete_message(record.rowid);
+    });
+    const int now = filter::date::seconds_since_epoch();
+    std::vector<std::string> files = filter_url_scandir(folder());
+    std::ranges::for_each(files, [now] (const std::string& item)
+    {
+        const std::string path = file(item);
+        if (const int modification_time = filter_url_file_modification_time(path);
+            now - modification_time > 3600)
+            filter_url_unlink(path);
+    });
 }
 
 
-void Database_Ipc::storeMessage (std::string user, std::string channel, std::string command, std::string message)
+void Database_Ipc::store_message(const std::string& user, const std::string& channel, const std::string& command, const std::string& message)
 {
-  // Load entire database into memory.
-  std::vector <Database_Ipc_Item> data = readData ();
+    // Load entire database into memory.
+    const std::vector<Database_Ipc_Item> data = read_data();
 
-  // Gather information about records to delete.
-  std::vector <int> deletes;
-  if (channel == "") {
-    for (auto & record : data) {
-      if ((record.user == user) && (record.channel == channel) && (record.command == command)) {
-        deletes.push_back (record.rowid);
-      }
+    // Write new information.
+    {
+        const int rowid = get_next_id(data);
+        write_record(rowid, user, channel, command, message);
     }
-  }
-  
-  // Write new information.
-  int rowid = getNextId (data);
-  writeRecord (rowid, user, channel, command, message);
-  
-  // Actually delete the records.
-  // Do this after writing new data, to be sure there is always some data on disk.
-  for (auto& erase : deletes) {
-    deleteMessage (erase);
-  }
+
+    // Gather information about records to delete and delete those.
+    // Do this after writing new data, to be sure there is always some data on disk.
+    if (channel.empty())
+    {
+        const auto match = [&](auto&& record)
+        {
+            return record.user == user and record.channel == channel and record.command == command;
+        };
+        auto&& row_ids = data | std::views::filter(match) | std::views::transform(&Database_Ipc_Item::rowid);
+        std::ranges::for_each(row_ids, [](const auto row_id)
+        {
+            delete_message(row_id);
+        });
+    }
 }
 
 
@@ -87,171 +144,111 @@ void Database_Ipc::storeMessage (std::string user, std::string channel, std::str
 // Returns an object with the data.
 // The rowid is 0 if there was nothing,
 // Else the object's properties are set properly.
-Database_Ipc_Message Database_Ipc::retrieveMessage (int id, std::string user, std::string channel, std::string command)
+Database_Ipc_Message Database_Ipc::retrieve_message(int id, const std::string& user, const std::string& channel, const std::string& command)
 {
-  int highestId = 0;
-  std::string hitChannel = "";
-  std::string hitCommand = "";
-  std::string hitMessage = "";
-  std::vector <Database_Ipc_Item> data = readData ();
-  for (auto & record : data) {
-    // Selection condition 1: The database record has a message identifier younger than the calling identifier.
-    int recordid = record.rowid;
-    if (recordid > id) {
-      // Selection condition 2: Channel matches calling channel, or empty channel.
-      std::string recordchannel = record.channel;
-      if ((recordchannel == channel) || (recordchannel == "")) {
-        // Selection condition 3: Record user matches calling user, or empty user.
-        std::string recorduser = record.user;
-        if ((recorduser == user) || (recorduser == "")) {
-          // Selection condition 4: Matching command.
-          std::string recordcommand = record.command;
-          if (recordcommand == command) {
-            if (recordid > highestId) {
-              highestId = recordid;
-              hitChannel = recordchannel;
-              hitCommand = recordcommand;
-              hitMessage = filter_url_file_get_contents (file (record.file));
+    int highest_id = 0;
+    std::string hit_channel;
+    std::string hit_command;
+    std::string hit_message;
+    for (auto& [record_file, record_id, record_user, record_channel, record_command] : read_data())
+    {
+        // Selection condition 1: The database record has a message identifier younger than the calling identifier.
+        if (record_id > id)
+        {
+            // Selection condition 2: Channel matches calling channel, or empty channel.
+            if (record_channel == channel or record_channel.empty())
+            {
+                // Selection condition 3: Record user matches calling user, or empty user.
+                if (record_user == user or record_user.empty())
+                {
+                    // Selection condition 4: Matching command.
+                    if (record_command == command)
+                    {
+                        if (record_id > highest_id)
+                        {
+                            highest_id = record_id;
+                            hit_channel = record_channel;
+                            hit_command = record_command;
+                            hit_message = filter_url_file_get_contents(file(record_file));
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
-  Database_Ipc_Message message = Database_Ipc_Message ();
-  if (highestId) {
-    message.id = highestId;
-    message.channel = hitChannel;
-    message.command = hitCommand;
-    message.message = hitMessage;
-  }
-  return message;
+    Database_Ipc_Message message;
+    if (highest_id)
+    {
+        message.id = highest_id;
+        message.channel = hit_channel;
+        message.command = hit_command;
+        message.message = hit_message;
+    }
+    return message;
 }
 
 
-void Database_Ipc::deleteMessage (int id)
+void Database_Ipc::delete_message(const int id)
 {
-  std::vector <Database_Ipc_Item> data = readData ();
-  for (auto & record : data) {
-    if (record.rowid == id) {
-      filter_url_unlink (file (record.file));
-    }
-  }
+    const std::vector<Database_Ipc_Item> data = read_data();
+    std::ranges::for_each(data, [id](const auto& record)
+    {
+        if (record.rowid == id)
+            filter_url_unlink(file(record.file));
+
+    });
 }
 
 
-Database_Ipc_Message Database_Ipc::getNote ()
+Database_Ipc_Message Database_Ipc::get_note()
 {
-  const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
 
-  int highestId = 0;
-  std::string hitMessage = "";
+    int highest_id = 0;
+    std::string hit_message;
 
-  std::vector <Database_Ipc_Item> data = readData ();
-  for (auto & record : data) {
-    int recordid = record.rowid;
-    // Conditions: Command is "opennote", and matching user.
-    if (record.command == "opennote") {
-      if (record.user == user) {
-        if (recordid > highestId) {
-          highestId = recordid;
-          hitMessage = filter_url_file_get_contents (file (record.file));
+    const  std::vector<Database_Ipc_Item> data = read_data();
+    std::ranges::for_each(data, [&](const auto& record)
+    {
+        // Conditions: Command is "opennote", and matching user.
+        if (record.command == "opennote" and record.user == user and record.rowid > highest_id)
+        {
+            highest_id = record.rowid;
+            hit_message = filter_url_file_get_contents(file(record.file));
         }
-      }
+    });
+
+    Database_Ipc_Message note;
+    if (highest_id)
+    {
+        note.id = highest_id;
+        note.message = hit_message;
     }
-  }
 
-  Database_Ipc_Message note = Database_Ipc_Message ();
-  if (highestId) {
-    note.id = highestId;
-    note.message = hitMessage;
-  }
-
-  return note;
+    return note;
 }
 
 
-bool Database_Ipc::getNotesAlive ()
+bool Database_Ipc::get_notes_alive()
 {
-  const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
 
-  int highestId = 0;
-  std::string hitMessage = "";
+    int highest_id = 0;
+    std::string hit_message;
 
-  std::vector <Database_Ipc_Item> data = readData ();
-  for (auto & record : data) {
-    int recordid = record.rowid;
-    // Conditions: Command is "notesalive", and matching user.
-    if (record.command == "notesalive") {
-      if (record.user == user) {
-        if (recordid > highestId) {
-          highestId = recordid;
-          hitMessage = filter_url_file_get_contents (file (record.file));
+    const std::vector<Database_Ipc_Item> data = read_data();
+    std::ranges::for_each(data, [&](const auto& record)
+    {
+        // Conditions: Command is "notesalive", and matching user.
+        if (record.command == "notesalive" and record.user == user and record.rowid > highest_id)
+        {
+            highest_id = record.rowid;
+            hit_message = filter_url_file_get_contents(file(record.file));
         }
-      }
-    }
-  }
+    });
 
-  if (highestId) return filter::string::convert_to_bool (hitMessage);
+    if (highest_id)
+        return filter::string::convert_to_bool(hit_message);
 
-  return false;
+    return false;
 }
-
-
-std::string Database_Ipc::folder ()
-{
-  return filter_url_create_root_path ({database_logic_databases (), "ipc"});
-}
-
-
-std::string Database_Ipc::file (std::string file)
-{
-  return filter_url_create_path ({folder (), file});
-}
-
-
-// Reads most fields of all data in this database.
-// Returns an array containing the above.
-// The fields are those that can be obtained from the name of the files.
-// One file is one entry in the database.
-// The filename looks like this: rowid__user__channel__command
-std::vector <Database_Ipc_Item> Database_Ipc::readData ()
-{
-  std::vector <Database_Ipc_Item> data;
-  std::vector <std::string> files = filter_url_scandir (folder ());
-  for (std::string file : files) {
-    std::vector <std::string> explosion = filter::string::explode (file, '_');
-    if (explosion.size () == 7) {
-      Database_Ipc_Item item = Database_Ipc_Item ();
-      item.file = file;
-      item.rowid = filter::string::convert_to_int (explosion [0]);
-      item.user = explosion [2];
-      item.channel = explosion [4];
-      item.command = explosion [6];
-      data.push_back (item);
-    }
-  }
-  return data;
-}
-  
-
-void Database_Ipc::writeRecord (int rowid, std::string user, std::string channel, std::string command, std::string message)
-{
-  std::string filename = std::to_string (rowid) + "__" + user + "__" +  channel + "__" + command;
-  filename = file (filename);
-  filter_url_file_put_contents (filename, message);
-}
-
-
-// Returns the next available row identifier.
-int Database_Ipc::getNextId (const std::vector <Database_Ipc_Item> & data)
-{
-  int id = 0;
-  for (auto & record : data) {
-    if (record.rowid > id) id = record.rowid;
-  }
-  id++;
-  return id;
-}
-
-

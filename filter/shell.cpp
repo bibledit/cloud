@@ -103,7 +103,7 @@ void check_existence_executables()
 
 const char* get_executable(const Executable executable)
 {
-  if (const auto iter = std::find(absent_executables.cbegin(), absent_executables.cend(), executable);
+  if (const auto iter = std::ranges::find(absent_executables, executable);
       iter != absent_executables.cend()) {
     log_absent_executable_internal(get_executable_internal(executable));
     return "false";
@@ -114,7 +114,7 @@ const char* get_executable(const Executable executable)
 
 static std::string escape_argument (std::string argument)
 {
-  argument = filter::string::replace ("'", "\\'", argument);
+  argument = string::replace ("'", "\\'", argument);
   argument.insert (0, "'");
   argument.append ("'");
   return argument;
@@ -126,7 +126,7 @@ static std::string escape_argument (std::string argument)
 // If they are nullptr, the output of the shell command goes to the Journal.
 int run ([[maybe_unused]] std::string directory,
          std::string command,
-         [[maybe_unused]] const std::vector<std::string> parameters,
+         [[maybe_unused]] const std::vector<std::string>& parameters,
          [[maybe_unused]] std::string* output,
          [[maybe_unused]] std::string* error)
 {
@@ -134,13 +134,13 @@ int run ([[maybe_unused]] std::string directory,
   Database_Logs::log ("Did not run on client: " + command);
   return 0;
 #else
-  command = filter::shell::escape_argument (command);
+  command = escape_argument (command);
   if (!directory.empty ()) {
     directory = filter::shell::escape_argument (directory);
     command.insert (0, "cd " + directory + "; ");
   }
   for (std::string parameter : parameters) {
-    parameter = filter::shell::escape_argument (parameter);
+    parameter = escape_argument (parameter);
     command.append (" " + parameter);
   }
   std::string pipe = filter_url_tempfile ();
@@ -170,7 +170,7 @@ int run ([[maybe_unused]] std::string directory,
 
 // Runs $command with $parameters.
 // It does not run $command through the shell, but executes it straight.
-int run (std::string command,
+int run (const std::string& command,
          [[maybe_unused]] const char* parameter,
          [[maybe_unused]] std::string& output)
 {
@@ -236,9 +236,9 @@ bool is_present (const char* program)
 #ifdef HAVE_CLIENT
   return false;
 #else
-  const std::string command = std::string(filter::shell::get_executable(filter::shell::Executable::which)) + " " + std::string(program) + " > /dev/null 2>&1";
+  const std::string command = std::string(get_executable(Executable::which)) + " " + std::string(program) + " > /dev/null 2>&1";
   const int exitcode = system (command.c_str ());
-  return (exitcode == 0);
+  return exitcode == 0;
 #endif
 }
 
@@ -266,8 +266,8 @@ std::vector<std::string> active_processes ()
 #else
   
   std::string output;
-  filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::ps)) + " ax", output);
-  processes = filter::string::explode (output, '\n');
+  run (std::string(get_executable(Executable::ps)) + " ax", output);
+  processes = string::explode (output, '\n');
   
 #endif
   
@@ -280,8 +280,8 @@ std::vector<std::string> active_processes ()
 // It does not run $command through the shell, but executes it through vfork,
 // which is the fastest possibble way to run a child process.
 int vfork ([[maybe_unused]] std::string& output,
-           [[maybe_unused]] std::string directory,
-           [[maybe_unused]] std::string command,
+           [[maybe_unused]] const std::string& directory,
+           [[maybe_unused]] const std::string& command,
            [[maybe_unused]] const char* p01,
            [[maybe_unused]] const char* p02,
            [[maybe_unused]] const char* p03,

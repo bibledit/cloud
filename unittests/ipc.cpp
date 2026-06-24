@@ -93,14 +93,14 @@ TEST (database, ipc)
     std::string command = "command";
     std::string message = "message";
     
-    database_ipc.storeMessage (user, channel, command, message);
+    database_ipc.store_message (user, channel, command, message);
     
-    Database_Ipc_Message data = database_ipc.retrieveMessage (id, user, channel, command);
+    Database_Ipc_Message data = database_ipc.retrieve_message (id, user, channel, command);
     EXPECT_EQ (0, data.id);
     
-    database_ipc.storeMessage (user, channel, command, message);
+    database_ipc.store_message (user, channel, command, message);
     
-    data = database_ipc.retrieveMessage (id, user, channel, command);
+    data = database_ipc.retrieve_message (id, user, channel, command);
     EXPECT_EQ (2, data.id);
     EXPECT_EQ (message, data.message);
   }
@@ -117,14 +117,14 @@ TEST (database, ipc)
     std::string command = "command";
     std::string message = "message";
     
-    database_ipc.storeMessage (user, channel, command, message);
+    database_ipc.store_message (user, channel, command, message);
     
-    Database_Ipc_Message data = database_ipc.retrieveMessage (0, user, channel, command);
+    Database_Ipc_Message data = database_ipc.retrieve_message (0, user, channel, command);
     EXPECT_EQ (id, data.id);
     
-    database_ipc.deleteMessage (id);
+    database_ipc.delete_message (id);
     
-    data = database_ipc.retrieveMessage (0, user, channel, command);
+    data = database_ipc.retrieve_message (0, user, channel, command);
     EXPECT_EQ (0, data.id);
   }
 
@@ -141,17 +141,17 @@ TEST (database, ipc)
     std::string channel = "channel";
     std::string command = "opennote";
     
-    Database_Ipc_Message note = database_ipc.getNote ();
+    Database_Ipc_Message note = database_ipc.get_note ();
     EXPECT_EQ (0, note.id);
     
     std::string message = "12345";
-    database_ipc.storeMessage (user, channel, command, message);
-    note = database_ipc.getNote ();
+    database_ipc.store_message (user, channel, command, message);
+    note = database_ipc.get_note ();
     EXPECT_EQ (message, note.message);
     
     message = "54321";
-    database_ipc.storeMessage (user, channel, command, message);
-    note = database_ipc.getNote ();
+    database_ipc.store_message (user, channel, command, message);
+    note = database_ipc.get_note ();
     EXPECT_EQ (message, note.message);
   }
 
@@ -168,17 +168,17 @@ TEST (database, ipc)
     std::string channel = "channel";
     std::string command = "notesalive";
     
-    bool alive = database_ipc.getNotesAlive ();
+    bool alive = database_ipc.get_notes_alive ();
     EXPECT_EQ (false, alive);
     
     std::string message = "1";
-    database_ipc.storeMessage (user, channel, command, message);
-    alive = database_ipc.getNotesAlive ();
+    database_ipc.store_message (user, channel, command, message);
+    alive = database_ipc.get_notes_alive ();
     EXPECT_EQ (filter::string::convert_to_bool (message), alive);
     
     message = "0";
-    database_ipc.storeMessage (user, channel, command, message);
-    alive = database_ipc.getNotesAlive ();
+    database_ipc.store_message (user, channel, command, message);
+    alive = database_ipc.get_notes_alive ();
     EXPECT_EQ (filter::string::convert_to_bool (message), alive);
   }
 }

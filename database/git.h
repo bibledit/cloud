@@ -31,7 +31,7 @@ namespace database::git {
 void create ();
 void optimize ();
 void store_chapter (const std::string& user, const std::string& bible, int book, int chapter,
-                    const std::string& oldusfm, const std::string& newusfm);
+                    const std::string& old_usfm, const std::string& new_usfm);
 std::vector <std::string> get_users (const std::string& bible);
 std::vector <int> get_rowids (const std::string& user, const std::string& bible);
 bool get_chapter (int rowid,

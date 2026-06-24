@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_CLOUD
 
 
-constexpr const char * database_name {"git"};
+constexpr auto database_name {"git"};
 
 
 namespace database::git {
@@ -55,9 +55,8 @@ void create ()
 
 void optimize ()
 {
-  const bool healthy_database = database::sqlite::healthy (database_name);
-  if (!healthy_database) {
-    filter_url_unlink (database::sqlite::get_file (database_name));
+  if (const bool healthy_database = sqlite::healthy (database_name); not healthy_database) {
+    filter_url_unlink (sqlite::get_file (database_name));
     create ();
   }
   
@@ -83,8 +82,8 @@ void optimize ()
 }
 
 
-void store_chapter (const std::string& user, const std::string& bible, int book, int chapter,
-                                  const std::string& oldusfm, const std::string& newusfm)
+void store_chapter (const std::string& user, const std::string& bible, const int book, const int chapter,
+                                  const std::string& old_usfm, const std::string& new_usfm)
 {
   SqliteDatabase sql (database_name);
   sql.add ("INSERT INTO changes VALUES (");
@@ -98,9 +97,9 @@ void store_chapter (const std::string& user, const std::string& bible, int book,
   sql.add (",");
   sql.add (chapter);
   sql.add (",");
-  sql.add (oldusfm);
+  sql.add (old_usfm);
   sql.add (",");
-  sql.add (newusfm);
+  sql.add (new_usfm);
   sql.add (");");
   sql.execute ();
 }
@@ -128,11 +127,12 @@ std::vector <int> get_rowids (const std::string& user, const std::string& bible)
   sql.add (bible);
   sql.add ("ORDER BY rowid;");
   const std::vector <std::string> values = sql.query () ["rowid"];
-  std::vector <int> rowids;
+  std::vector <int> row_ids;
+  row_ids.resize(values.size());
   for (const auto& value : values) {
-    rowids.push_back (filter::string::convert_to_int (value));
+    row_ids.push_back (filter::string::convert_to_int (value));
   }
-  return rowids;
+  return row_ids;
 }
 
 
@@ -169,7 +169,7 @@ bool get_chapter (int rowid,
 }
 
 
-void erase_rowid (int rowid)
+void erase_rowid (const int rowid)
 {
   SqliteDatabase sql (database_name);
   sql.add ("DELETE FROM changes WHERE rowid =");
@@ -179,7 +179,7 @@ void erase_rowid (int rowid)
 }
 
 
-void touch_timestamps (int timestamp)
+void touch_timestamps (const int timestamp)
 {
   SqliteDatabase sql (database_name);
   sql.add ("UPDATE changes SET timestamp =");

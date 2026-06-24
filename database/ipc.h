@@ -28,40 +28,39 @@ class Webserver_Request;
 
 struct Database_Ipc_Item
 {
-  std::string file {};
-  int rowid {0};
-  std::string user {};
-  std::string channel {};
-  std::string command {};
+    std::string file{};
+    int rowid{0};
+    std::string user{};
+    std::string channel{};
+    std::string command{};
 };
 
 
 struct Database_Ipc_Message
 {
-  int id {0};
-  std::string channel {};
-  std::string command {};
-  std::string message {};
+    int id{0};
+    std::string channel{};
+    std::string command{};
+    std::string message{};
 };
 
 
 class Database_Ipc
 {
 public:
-  Database_Ipc (Webserver_Request& webserver_request);
-  void trim ();
-  void storeMessage (std::string user, std::string channel, std::string command, std::string message);
-  Database_Ipc_Message retrieveMessage (int id, std::string user, std::string channel, std::string command);
-  void deleteMessage (int id);
-  Database_Ipc_Message getNote ();
-  bool getNotesAlive ();
+    Database_Ipc() = delete;
+    explicit Database_Ipc(Webserver_Request&);
+    Database_Ipc(Database_Ipc&) = delete;
+    Database_Ipc& operator= (Database_Ipc&) = delete;
+    Database_Ipc(Database_Ipc&&) = delete;
+    Database_Ipc& operator= (Database_Ipc&&) = delete;
+    static void trim();
+    static void store_message(const std::string& user, const std::string& channel, const std::string& command, const std::string& message);
+    static Database_Ipc_Message retrieve_message(int id, const std::string& user, const std::string& channel, const std::string& command);
+    static void delete_message(int id);
+    Database_Ipc_Message get_note();
+    bool get_notes_alive();
+
 private:
-  Webserver_Request& m_webserver_request;
-  std::string folder ();
-  std::string file (std::string file);
-  std::vector <Database_Ipc_Item> readData ();
-  void writeRecord (int rowid, std::string user, std::string channel, std::string command, std::string message);
-  int getNextId (const std::vector <Database_Ipc_Item> & data);
+    Webserver_Request& m_webserver_request;
 };
-
-

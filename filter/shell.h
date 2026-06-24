@@ -47,13 +47,13 @@ enum class Executable {
 void check_existence_executables();
 #endif
 const char* get_executable(const Executable executable);
-int run (std::string directory, std::string command, const std::vector<std::string> parameters,
+int run (std::string directory, std::string command, const std::vector<std::string>& parameters,
          std::string* output, std::string* error);
-int run (std::string command, const char* parameter, std::string& output);
+int run (const std::string& command, const char* parameter, std::string& output);
 int run (std::string command, std::string& out_err);
 bool is_present (const char* program);
 std::vector <std::string> active_processes ();
-int vfork (std::string& output, std::string directory, std::string command,
+int vfork (std::string& output, const std::string& directory, const std::string& command,
            const char* p01 = nullptr,
            const char* p02 = nullptr,
            const char* p03 = nullptr,

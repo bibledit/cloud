@@ -134,7 +134,7 @@ TEST(database, config_user)
     refresh_sandbox(true);
     Webserver_Request request;
     Database_State::create();
-    Database_Login::create();
+    database::login::create();
     Database_Users database_users;
     database_users.create();
     database_users.upgrade();

@@ -21,21 +21,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_Login
-{
-public:
-  static const char * database ();
-  static void create ();
-  static void trim ();
-  static void optimize ();
-  static bool healthy ();
-  static void setTokens (std::string username, std::string address, std::string agent, std::string fingerprint, std::string cookie, bool touch);
-  static void removeTokens (std::string username);
-  static void removeTokens (std::string username, std::string cookie);
-  static void renameTokens (std::string username_existing, std::string username_new, std::string cookie);
-  static std::string getUsername (std::string cookie, bool & daily);
-  static bool getTouchEnabled (std::string cookie);
-  static void testTimestamp ();
-private:
-  static int timestamp ();
-};
+namespace database::login {
+
+const char * database ();
+void create ();
+void trim ();
+void optimize ();
+bool healthy ();
+void set_tokens (std::string username, std::string address, std::string agent, std::string fingerprint, std::string cookie, bool touch);
+void remove_tokens (const std::string& username);
+void remove_tokens (const std::string& username, const std::string& cookie);
+void rename_tokens (const std::string& username_existing, const std::string& username_new, const std::string& cookie);
+std::string get_username (const std::string& cookie, bool & daily);
+bool get_touch_enabled (const std::string& cookie);
+void test_timestamp ();
+
+}

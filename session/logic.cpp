@@ -96,12 +96,12 @@ void Session_Logic::open ()
   }
   
   bool daily;
-  std::string username_from_cookie = Database_Login::getUsername (cookie, daily);
+  std::string username_from_cookie = database::login::get_username (cookie, daily);
   if (!username_from_cookie.empty ()) {
     set_username (username_from_cookie);
     m_logged_in = true;
     if (daily) m_webserver_request.resend_cookie = true;
-    m_touch_enabled = Database_Login::getTouchEnabled (cookie);
+    m_touch_enabled = database::login::get_touch_enabled (cookie);
   } else {
     set_username (std::string());
     m_logged_in = false;
@@ -167,7 +167,7 @@ bool Session_Logic::attempt_login (std::string user_or_email, const std::string&
     set_username (user_or_email);
     m_logged_in = true;
     const std::string cookie = m_webserver_request.session_identifier;
-    Database_Login::setTokens (user_or_email, "", "", "", cookie, touch_enabled_in);
+    database::login::set_tokens (user_or_email, "", "", "", cookie, touch_enabled_in);
     get_level (true);
     return true;
   } else {
@@ -236,7 +236,7 @@ int Session_Logic::get_level (bool force)
 void Session_Logic::logout ()
 {
   const std::string cookie = m_webserver_request.session_identifier;
-  Database_Login::removeTokens (m_username, cookie);
+  database::login::remove_tokens (m_username, cookie);
   set_username (std::string());
   m_level = roles::guest;
 }
@@ -269,6 +269,6 @@ bool Session_Logic::client_access ()
 void Session_Logic::switch_user (std::string new_user)
 {
   std::string cookie = m_webserver_request.session_identifier;
-  Database_Login::removeTokens (new_user, cookie);
-  Database_Login::renameTokens (m_username, new_user, cookie);
+  database::login::remove_tokens (new_user, cookie);
+  database::login::rename_tokens (m_username, new_user, cookie);
 }

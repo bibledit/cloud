@@ -187,7 +187,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     // Disable the user in the database.
     webserver_request.database_users ()->set_enabled (object_username, false);
     // Remove all login tokens (cookies) for this user, so the user no longer is logged in.
-    Database_Login::removeTokens (object_username);
+    database::login::remove_tokens (object_username);
     // Feedback.
     assets_page::success (translate("The user account was disabled"));
   }

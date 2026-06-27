@@ -243,8 +243,8 @@ void setup_initialize_data ()
   config_globals_setup_message = "state";
   Database_State::create ();
   config_globals_setup_message = "login";
-  Database_Login::create ();
-  Database_Login::optimize ();
+  database::login::create ();
+  database::login::optimize ();
   config_globals_setup_message = "privileges";
   DatabasePrivileges::create ();
   DatabasePrivileges::upgrade ();

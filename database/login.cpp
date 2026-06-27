@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/md5.h>
-#include <filter/roles.h>
 #include <filter/date.h>
 
 
@@ -32,187 +31,194 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Due to the infrequent write operations, there is a low and acceptable change of corruption.
 
 
+namespace database::login {
+// Gets the current number of days since the Unix epoch.
+static int timestamp()
+{
+    return filter::date::seconds_since_epoch() / 86400;
+}
+
+
 // The name of the database.
-const char * Database_Login::database ()
+const char* database()
 {
-  return "login";
+    return "login";
 }
 
 
-void Database_Login::create ()
+void create()
 {
-  SqliteDatabase sql (database ());
-  sql.add ("CREATE TABLE IF NOT EXISTS logins ("
-           " username text,"
-           " address text,"
-           " agent text,"
-           " fingerprint text,"
-           " cookie text,"
-           " touch boolean,"
-           " timestamp integer"
-           ");");
-  sql.execute ();
+    SqliteDatabase sql(database());
+    sql.add("CREATE TABLE IF NOT EXISTS logins ("
+        " username text,"
+        " address text,"
+        " agent text,"
+        " fingerprint text,"
+        " cookie text,"
+        " touch boolean,"
+        " timestamp integer"
+        ");");
+    sql.execute();
 }
 
 
-void Database_Login::trim ()
+void trim()
 {
-  // Remove persistent logins after 365 days of inactivity.
-  SqliteDatabase sql (database ());
-  sql.add ("DELETE FROM logins WHERE timestamp < ");
-  sql.add (timestamp () - 365);
-  sql.add (";");
-  sql.execute ();
+    // Remove persistent logins after 365 days of inactivity.
+    SqliteDatabase sql(database());
+    sql.add("DELETE FROM logins WHERE timestamp < ");
+    sql.add(timestamp() - 365);
+    sql.add(";");
+    sql.execute();
 }
 
 
-void Database_Login::optimize ()
+void optimize()
 {
-  if (!healthy ()) {
-    // (Re)create damaged or non-existing database.
-    filter_url_unlink (database::sqlite::get_file (database ()));
-    create ();
-  }
-  // Vacuum it.
-  SqliteDatabase sql (database ());
-  // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
-  sql.add ("PRAGMA temp_store = MEMORY;");
-  sql.execute ();
-  sql.clear ();
-  sql.add ("VACUUM;");
-  sql.execute ();
+    if (!healthy())
+    {
+        // (Re)create damaged or non-existing database.
+        filter_url_unlink(sqlite::get_file(database()));
+        create();
+    }
+    // Vacuum it.
+    SqliteDatabase sql(database());
+    // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
+    sql.add("PRAGMA temp_store = MEMORY;");
+    sql.execute();
+    sql.clear();
+    sql.add("VACUUM;");
+    sql.execute();
 }
 
 
-bool Database_Login::healthy ()
+bool healthy()
 {
-  return database::sqlite::healthy (database ());
+    return sqlite::healthy(database());
 }
 
 
 // Sets the login security tokens for a user.
 // Also store whether the device is touch-enabled.
 // It only writes to the table if the combination of username and tokens differs from what the table already contains.
-void Database_Login::setTokens (std::string username, std::string address, std::string agent, std::string fingerprint, std::string cookie, bool touch)
+void set_tokens(std::string username, std::string address, std::string agent, std::string fingerprint,
+                std::string cookie, const bool touch)
 {
-  bool daily;
-  if (username == getUsername (cookie, daily)) return;
-  address = md5 (address);
-  agent = md5 (agent);
-  fingerprint = md5 (fingerprint);
-  SqliteDatabase sql (database ());
-  sql.add ("INSERT INTO logins VALUES (");
-  sql.add (username);
-  sql.add (",");
-  sql.add (address);
-  sql.add (",");
-  sql.add (agent);
-  sql.add (",");
-  sql.add (fingerprint);
-  sql.add (",");
-  sql.add (cookie);
-  sql.add (",");
-  sql.add (touch);
-  sql.add (",");
-  sql.add (timestamp ());
-  sql.add (");");
-  sql.execute ();
+    if (bool daily; username == get_username(cookie, daily)) return;
+    address = md5(address);
+    agent = md5(agent);
+    fingerprint = md5(fingerprint);
+    SqliteDatabase sql(database());
+    sql.add("INSERT INTO logins VALUES (");
+    sql.add(username);
+    sql.add(",");
+    sql.add(address);
+    sql.add(",");
+    sql.add(agent);
+    sql.add(",");
+    sql.add(fingerprint);
+    sql.add(",");
+    sql.add(cookie);
+    sql.add(",");
+    sql.add(touch);
+    sql.add(",");
+    sql.add(timestamp());
+    sql.add(");");
+    sql.execute();
 }
 
 
 // Remove the login security tokens for a user.
-void Database_Login::removeTokens (std::string username)
+void remove_tokens(const std::string& username)
 {
-  SqliteDatabase sql (database ());
-  sql.add ("DELETE FROM logins WHERE username =");
-  sql.add (username);
-  sql.add (";");
-  sql.execute ();
+    SqliteDatabase sql(database());
+    sql.add("DELETE FROM logins WHERE username =");
+    sql.add(username);
+    sql.add(";");
+    sql.execute();
 }
 
 
 // Remove the login security tokens for a user based on the cookie.
-void Database_Login::removeTokens (std::string username, std::string cookie)
+void remove_tokens(const std::string& username, const std::string& cookie)
 {
-  //address = md5 (address);
-  //agent = md5 (agent);
-  //fingerprint = md5 (fingerprint);
-  SqliteDatabase sql (database ());
-  sql.add ("DELETE FROM logins WHERE username =");
-  sql.add (username);
-  sql.add ("AND cookie =");
-  sql.add (cookie);
-  sql.add (";");
-  sql.execute ();
+    //address = md5 (address);
+    //agent = md5 (agent);
+    //fingerprint = md5 (fingerprint);
+    SqliteDatabase sql(database());
+    sql.add("DELETE FROM logins WHERE username =");
+    sql.add(username);
+    sql.add("AND cookie =");
+    sql.add(cookie);
+    sql.add(";");
+    sql.execute();
 }
 
 
-void Database_Login::renameTokens (std::string username_existing, std::string username_new, std::string cookie)
+void rename_tokens(const std::string& username_existing, const std::string& username_new, const std::string& cookie)
 {
-  SqliteDatabase sql (database ());
-  sql.add ("UPDATE logins SET username =");
-  sql.add (username_new);
-  sql.add ("WHERE username =");
-  sql.add (username_existing);
-  sql.add ("AND cookie =");
-  sql.add (cookie);
-  sql.add (";");
-  sql.execute ();
+    SqliteDatabase sql(database());
+    sql.add("UPDATE logins SET username =");
+    sql.add(username_new);
+    sql.add("WHERE username =");
+    sql.add(username_existing);
+    sql.add("AND cookie =");
+    sql.add(cookie);
+    sql.add(";");
+    sql.execute();
 }
 
 
 // Returns the username that matches the cookie sent by the browser.
 // Once a day, $daily will be set true.
-std::string Database_Login::getUsername (std::string cookie, bool & daily)
+std::string get_username(const std::string& cookie, bool& daily)
 {
-  SqliteDatabase sql (database ());
-  sql.add ("SELECT rowid, timestamp, username FROM logins WHERE cookie =");
-  sql.add (cookie);
-  sql.add (";");
-  std::map <std::string, std::vector <std::string> > result = sql.query ();
-  if (result.empty()) return std::string();
-  std::string username = result ["username"][0];
-  int stamp = filter::string::convert_to_int (result ["timestamp"] [0]);
-  if (stamp != timestamp ()) {
-    // Touch the timestamp. This occurs once a day.
-    int rowid = filter::string::convert_to_int (result ["rowid"] [0]);
-    sql.clear ();
-    sql.add ("UPDATE logins SET timestamp =");
-    sql.add (timestamp ());
-    sql.add ("WHERE rowid =");
-    sql.add (rowid);
-    sql.execute ();
-    daily = true;
-  } else {
-    daily = false;
-  }
-  return username;
+    SqliteDatabase sql(database());
+    sql.add("SELECT rowid, timestamp, username FROM logins WHERE cookie =");
+    sql.add(cookie);
+    sql.add(";");
+    std::map<std::string, std::vector<std::string>> result = sql.query();
+    if (result.empty()) return std::string();
+    std::string username = result["username"][0];
+    if (const int stamp = filter::string::convert_to_int(result["timestamp"][0]);
+        stamp != timestamp())
+    {
+        // Touch the timestamp. This occurs once a day.
+        const int row_id = filter::string::convert_to_int(result["rowid"][0]);
+        sql.clear();
+        sql.add("UPDATE logins SET timestamp =");
+        sql.add(timestamp());
+        sql.add("WHERE rowid =");
+        sql.add(row_id);
+        sql.execute();
+        daily = true;
+    }
+    else
+    {
+        daily = false;
+    }
+    return username;
 }
 
 
 // Returns whether the device, that matches the cookie it sent, is touch-enabled.
-bool Database_Login::getTouchEnabled (std::string cookie)
+bool get_touch_enabled(const std::string& cookie)
 {
-  SqliteDatabase sql (database ());
-  sql.add ("SELECT touch FROM logins WHERE cookie =");
-  sql.add (cookie);
-  sql.add (";");
-  std::vector <std::string> result = sql.query () ["touch"];
-  if (!result.empty()) return filter::string::convert_to_bool (result [0]);
-  return false;
+    SqliteDatabase sql(database());
+    sql.add("SELECT touch FROM logins WHERE cookie =");
+    sql.add(cookie);
+    sql.add(";");
+    const std::vector<std::string> result = sql.query()["touch"];
+    if (not result.empty())
+        return filter::string::convert_to_bool(result.at(0));
+    return false;
 }
 
 
-void Database_Login::testTimestamp ()
+void test_timestamp()
 {
-  SqliteDatabase sql (database ());
-  sql.add ("UPDATE logins SET timestamp = timestamp - 370;");
-  sql.execute ();
+    SqliteDatabase sql(database());
+    sql.add("UPDATE logins SET timestamp = timestamp - 370;");
+    sql.execute();
 }
-
-
-// Gets the current number of days since the Unix epoch.
-int Database_Login::timestamp ()
-{
-  return filter::date::seconds_since_epoch () / 86400;
 }

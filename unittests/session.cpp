@@ -42,7 +42,7 @@ TEST (session, logic1)
   
   // The session logic depends on users in the database.
   Database_State::create ();
-  Database_Login::create ();
+  database::login::create ();
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();
@@ -71,7 +71,7 @@ TEST (session, logic2)
   // In a client installation, a client is logged in as admin when there's no user in the database.
   refresh_sandbox (false);
   Database_State::create ();
-  Database_Login::create ();
+  database::login::create ();
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();
@@ -88,7 +88,7 @@ TEST (session, logic3)
   // In a client installation, a client is logged in as the first user in the database.
   refresh_sandbox (false);
   Database_State::create ();
-  Database_Login::create ();
+  database::login::create ();
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();
@@ -108,7 +108,7 @@ TEST (session, logic4)
 {
   refresh_sandbox (false);
   Database_State::create ();
-  Database_Login::create ();
+  database::login::create ();
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();
@@ -185,7 +185,7 @@ TEST (session, logic5)
   // Detection and mitigation of brute force login attack.
   refresh_sandbox (false);
   Database_State::create ();
-  Database_Login::create ();
+  database::login::create ();
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();
@@ -249,7 +249,7 @@ TEST (session, logic6)
 {
   refresh_sandbox (false);
   Database_State::create ();
-  Database_Login::create ();
+  database::login::create ();
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();

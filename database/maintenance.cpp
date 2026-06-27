@@ -119,8 +119,8 @@ void database_maintenance ()
   database_config_user.trim ();
   
   
-  Database_Login::trim ();
-  Database_Login::optimize ();
+  database::login::trim ();
+  database::login::optimize ();
   
 
   DatabasePrivileges::optimize ();

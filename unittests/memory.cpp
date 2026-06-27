@@ -120,7 +120,7 @@ TEST (DISABLED_memory, basic)
     Database_State::create ();
     Database_Users database_users;
     database_users.create ();
-    Database_Login::create ();
+    database::login::create ();
     demo_create_sample_bible ();
     Webserver_Request request;
     request.session_logic ()->set_username (session_admin_credentials ());

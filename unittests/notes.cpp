@@ -164,7 +164,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -184,7 +184,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -222,7 +222,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -299,7 +299,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -395,7 +395,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -480,7 +480,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -522,7 +522,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -576,7 +576,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -621,7 +621,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -676,7 +676,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -714,7 +714,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -745,7 +745,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -810,7 +810,7 @@ void test_database_notes ()
     // and whether it is not yet due for deletion before that.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -864,7 +864,7 @@ void test_database_notes ()
     // will not be due for deletion.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -907,7 +907,7 @@ void test_database_notes ()
     // are properly touched so they keep their own number of days.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -973,7 +973,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1040,7 +1040,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1193,7 +1193,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1242,7 +1242,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1286,7 +1286,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1403,7 +1403,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1523,7 +1523,7 @@ void test_database_notes ()
   // Test the resilience of the notes.
   {
     refresh_sandbox (true);
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1551,7 +1551,7 @@ void test_database_notes ()
   // Test the resilience of the checksums of notes.
   {
     refresh_sandbox (true);
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1579,7 +1579,7 @@ void test_database_notes ()
   // Availability.
   {
     refresh_sandbox (true);
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1596,7 +1596,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1670,7 +1670,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1836,7 +1836,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
@@ -1920,7 +1920,7 @@ void test_database_notes ()
   {
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Login::create ();
+    database::login::create ();
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;

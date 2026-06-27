@@ -49,7 +49,7 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_reques
   
   Database_State::create ();
   database::git::create ();
-  Database_Login::create ();
+  database::login::create ();
   
   std::string repository = filter_git_directory (bible);
   std::string newrepository = filter_git_directory (newbible);

@@ -34,18 +34,18 @@ TEST (database, login)
 {
   {
     refresh_sandbox (false);
-    Database_Login::create ();
-    const std::string path = database::sqlite::get_file (Database_Login::database ());
+    database::login::create ();
+    const std::string path = database::sqlite::get_file (database::login::database ());
     filter_url_file_put_contents (path, "damaged database");
-    EXPECT_EQ (false, Database_Login::healthy ());
-    Database_Login::optimize ();
-    EXPECT_EQ (true, Database_Login::healthy ());
+    EXPECT_EQ (false, database::login::healthy ());
+    database::login::optimize ();
+    EXPECT_EQ (true, database::login::healthy ());
     refresh_sandbox (false);
   }
   
   refresh_sandbox (true);
-  Database_Login::create ();
-  Database_Login::optimize ();
+  database::login::create ();
+  database::login::optimize ();
   
   const std::string username = "unittest";
   const std::string username2 = "unittest2";
@@ -57,41 +57,41 @@ TEST (database, login)
   bool daily;
   
   // Testing whether setting tokens and reading the username, and removing the tokens works.
-  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
-  EXPECT_EQ (username, Database_Login::getUsername (cookie, daily));
-  Database_Login::removeTokens (username);
-  EXPECT_EQ ("", Database_Login::getUsername (cookie, daily));
+  database::login::set_tokens (username, address, agent, fingerprint, cookie, true);
+  EXPECT_EQ (username, database::login::get_username (cookie, daily));
+  database::login::remove_tokens (username);
+  EXPECT_EQ ("", database::login::get_username (cookie, daily));
   
   // Testing whether a persistent login gets removed after about a year.
-  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
-  EXPECT_EQ (username, Database_Login::getUsername (cookie, daily));
-  Database_Login::testTimestamp ();
-  Database_Login::trim ();
-  EXPECT_EQ ("", Database_Login::getUsername (cookie, daily));
+  database::login::set_tokens (username, address, agent, fingerprint, cookie, true);
+  EXPECT_EQ (username, database::login::get_username (cookie, daily));
+  database::login::test_timestamp ();
+  database::login::trim ();
+  EXPECT_EQ ("", database::login::get_username (cookie, daily));
   
   // Testing whether storing touch enabled
-  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
-  EXPECT_EQ (true, Database_Login::getTouchEnabled (cookie));
-  Database_Login::removeTokens (username);
-  EXPECT_EQ (false, Database_Login::getTouchEnabled (cookie));
-  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
-  EXPECT_EQ (false, Database_Login::getTouchEnabled (cookie + "x"));
+  database::login::set_tokens (username, address, agent, fingerprint, cookie, true);
+  EXPECT_EQ (true, database::login::get_touch_enabled (cookie));
+  database::login::remove_tokens (username);
+  EXPECT_EQ (false, database::login::get_touch_enabled (cookie));
+  database::login::set_tokens (username, address, agent, fingerprint, cookie, true);
+  EXPECT_EQ (false, database::login::get_touch_enabled (cookie + "x"));
   
   // Testing that removing tokens for one set does not remove all tokens for a user.
-  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
-  EXPECT_EQ (username, Database_Login::getUsername (cookie, daily));
-  Database_Login::setTokens (username, address, agent, fingerprint, cookie2, true);
-  EXPECT_EQ (username, Database_Login::getUsername (cookie2, daily));
-  Database_Login::removeTokens (username, cookie2);
-  EXPECT_EQ (username, Database_Login::getUsername (cookie, daily));
-  EXPECT_EQ ("", Database_Login::getUsername (cookie2, daily));
+  database::login::set_tokens (username, address, agent, fingerprint, cookie, true);
+  EXPECT_EQ (username, database::login::get_username (cookie, daily));
+  database::login::set_tokens (username, address, agent, fingerprint, cookie2, true);
+  EXPECT_EQ (username, database::login::get_username (cookie2, daily));
+  database::login::remove_tokens (username, cookie2);
+  EXPECT_EQ (username, database::login::get_username (cookie, daily));
+  EXPECT_EQ ("", database::login::get_username (cookie2, daily));
   
   // Test moving tokens to a new username.
-  Database_Login::removeTokens (username);
-  Database_Login::setTokens (username, address, agent, fingerprint, cookie, true);
-  EXPECT_EQ (username, Database_Login::getUsername (cookie, daily));
-  Database_Login::renameTokens (username, username2, cookie);
-  EXPECT_EQ (username2, Database_Login::getUsername (cookie, daily));
+  database::login::remove_tokens (username);
+  database::login::set_tokens (username, address, agent, fingerprint, cookie, true);
+  EXPECT_EQ (username, database::login::get_username (cookie, daily));
+  database::login::rename_tokens (username, username2, cookie);
+  EXPECT_EQ (username2, database::login::get_username (cookie, daily));
 }
 
 

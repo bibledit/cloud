@@ -102,7 +102,7 @@ void filter_git_sync_modifications_to_git (std::string bible, std::string reposi
     int overall_book = 0, overall_chapter = 0;
     
     // Go through all the rowids for the user and the Bible.
-    std::vector <int> rowids = database::git::get_rowids (user, bible);
+    std::vector <int> rowids = database::git::get_row_ids (user, bible);
     for (auto rowid : rowids) {
 
       std::string s;
@@ -132,7 +132,7 @@ void filter_git_sync_modifications_to_git (std::string bible, std::string reposi
       }
 
       // This record has been processed.
-      database::git::erase_rowid (rowid);
+      database::git::erase_row_id (rowid);
 
     }
     

@@ -895,11 +895,11 @@ TEST (database, git)
   
   // Store one chapter, and check there's one rowid as a result.
   database::git::store_chapter (user, bible, 1, 2, "old", "new");
-  std::vector <int> rowids = database::git::get_rowids (user, "");
+  std::vector <int> rowids = database::git::get_row_ids (user, "");
   EXPECT_EQ (std::vector <int>{}, rowids);
-  rowids = database::git::get_rowids ("", bible);
+  rowids = database::git::get_row_ids ("", bible);
   EXPECT_EQ (std::vector <int>{}, rowids);
-  rowids = database::git::get_rowids (user, bible);
+  rowids = database::git::get_row_ids (user, bible);
   EXPECT_EQ (std::vector <int>{1}, rowids);
   
   // Store some more chapters to get more rowids in the database.
@@ -921,8 +921,8 @@ TEST (database, git)
   EXPECT_EQ ("new", newusfm);
   
   // Erase a rowid, and check that the remaining ones in the database are correct.
-  database::git::erase_rowid (2);
-  rowids = database::git::get_rowids (user, bible);
+  database::git::erase_row_id (2);
+  rowids = database::git::get_row_ids (user, bible);
   EXPECT_EQ ((std::vector<int>{1, 3, 4}), rowids);
   
   // Getting a non-existent rowid should fail.
@@ -930,14 +930,14 @@ TEST (database, git)
   EXPECT_EQ (false, get);
   
   // Update the timestamps and check that expired entries get removed and recent ones remain.
-  rowids = database::git::get_rowids ("user", "bible");
+  rowids = database::git::get_row_ids ("user", "bible");
   EXPECT_EQ (3, rowids.size ());
   database::git::optimize ();
-  rowids = database::git::get_rowids (user, bible);
+  rowids = database::git::get_row_ids (user, bible);
   EXPECT_EQ (3, rowids.size ());
   database::git::touch_timestamps (filter::date::seconds_since_epoch () - 432000 - 1);
   database::git::optimize ();
-  rowids = database::git::get_rowids (user, bible);
+  rowids = database::git::get_row_ids (user, bible);
   EXPECT_EQ (0, rowids.size ());
   
   // Test that it reads distinct users.

@@ -21,29 +21,30 @@
 #include <filter/string.h>
 #include <database/check.h>
 #include <database/books.h>
-#include <locale/translate.h>
 #include <checks/issues.h>
 
 
-void checks_headers::no_punctuation_at_end (const std::string& bible, int book, int chapter,
-                                            const std::map<int,std::string>& headings,
-                                            const std::string& centermarks, const std::string& endmarks)
+void checks_headers::no_punctuation_at_end(const std::string& bible, const int book, const int chapter,
+                                           const std::map<int, std::string>& headings,
+                                           const std::string& center_marks, const std::string& end_marks)
 {
-  for (const auto& [verse, heading] : headings) {
-    // Full stops often occur in the inspired headings of many Psalms in verse 0.
-    // Skip these.
-    if ((book == static_cast<int>(book_id::_psalms)) and (verse == 0))
-      continue;
-    std::string last_character {};
-    if (!heading.empty ())
-      last_character = heading.substr (heading.size () - 1);
-    bool message {false};
-    if (centermarks.find (last_character) != std::string::npos)
-      message = true;
-    if (endmarks.find (last_character) != std::string::npos)
-      message = true;
-    if (message) {
-      database::check::record_output (bible, book, chapter, verse, checks::issues::text(checks::issues::issue::punctuation_at_end_of_heading) + ": " + heading);
+    for (const auto& [verse, heading] : headings)
+    {
+        // Full stops often occur in the inspired headings of many Psalms in verse 0.
+        // Skip these.
+        if (book == static_cast<int>(book_id::_psalms) and verse == 0)
+            continue;
+        std::string last_character{};
+        if (not heading.empty())
+            last_character = heading.substr(heading.size() - 1);
+        bool message{false};
+        if (center_marks.find(last_character) != std::string::npos)
+            message = true;
+        if (end_marks.find(last_character) != std::string::npos)
+            message = true;
+        if (message)
+            database::check::record_output(bible, book, chapter, verse,
+                                           checks::issues::text(checks::issues::issue::punctuation_at_end_of_heading) +
+                                           ": " + heading);
     }
-  }
 }

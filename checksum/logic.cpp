@@ -20,7 +20,6 @@
 #include <checksum/logic.h>
 #include <filter/string.h>
 #include <filter/md5.h>
-#include <filter/usfm.h>
 #include <database/bibles.h>
 
 
@@ -31,76 +30,83 @@
 // The first line contains the checksum.
 // The second line contains the readwrite as 0 or 1.
 // The rest contains the $data.
-std::string checksum_logic::send (const std::string& data, bool readwrite)
+std::string checksum_logic::send(const std::string& data, const bool readwrite)
 {
-  std::string checksum = get(data);
-  checksum.append ("\n");
-  checksum.append (filter::string::convert_to_string(readwrite));
-  checksum.append ("\n");
-  checksum.append (data);
-  return checksum;
+    std::string checksum = get(data);
+    checksum.append("\n");
+    checksum.append(filter::string::convert_to_string(readwrite));
+    checksum.append("\n");
+    checksum.append(data);
+    return checksum;
 }
 
 
 // This function gets the checksum for $data, and returns it.
 // It calculates the length of 'data' in bytes.
-std::string checksum_logic::get (const std::string& data)
+std::string checksum_logic::get(const std::string& data)
 {
-  return std::to_string(data.length());
+    return std::to_string(data.length());
 }
 
 
 // This function gets the checksum for $data, and returns it.
 // It calculates the length of vector 'data' in bytes.
-std::string checksum_logic::get (const std::vector<std::string>& data)
+std::string checksum_logic::get(const std::vector<std::string>& data)
 {
-  size_t length = 0;
-  for (const auto& bit : data) length += bit.length();
-  return std::to_string(length);
+    std::size_t length = 0;
+    std::ranges::for_each(data, [&length](const auto& bit)
+    {
+        length += bit.length();
+    });
+    return std::to_string(length);
 }
 
 
 // Returns a proper checksum for the USFM in the chapter.
-std::string checksum_logic::get_chapter (const std::string& bible, int book, int chapter)
+std::string checksum_logic::get_chapter(const std::string& bible, const int book, const int chapter)
 {
-  std::string usfm = database::bibles::get_chapter(bible, book, chapter);
-  return md5(filter::string::trim(usfm));
+    const std::string usfm = database::bibles::get_chapter(bible, book, chapter);
+    return md5(filter::string::trim(usfm));
 }
 
 
 // Returns a proper checksum for the USFM in the book.
-std::string checksum_logic::get_book (const std::string& bible, int book)
+std::string checksum_logic::get_book(const std::string& bible, const int book)
 {
-  const std::vector<int> chapters = database::bibles::get_chapters(bible, book);
-  std::vector<std::string> checksums;
-  for (const int chapter : chapters) {
-    checksums.push_back(get_chapter(bible, book, chapter));
-  }
-  std::string checksum = filter::string::implode(checksums, std::string());
-  return md5(checksum);
+    const std::vector<int> chapters = database::bibles::get_chapters(bible, book);
+    std::vector<std::string> checksums;
+    std::ranges::for_each (chapters, [&](const int chapter)
+    {
+        checksums.push_back(get_chapter(bible, book, chapter));
+    });
+    const std::string checksum = filter::string::implode(checksums, {});
+    return md5(checksum);
 }
 
 
 // Returns a proper checksum for the USFM in the $bible.
-std::string checksum_logic::get_bible (const std::string& bible)
+std::string checksum_logic::get_bible(const std::string& bible)
 {
-  const std::vector<int> books = database::bibles::get_books(bible);
-  std::vector<std::string> checksums;
-  for (const auto book : books) {
-    checksums.push_back(get_book(bible, book));
-  }
-  std::string checksum = filter::string::implode (checksums, std::string());
-  return md5(checksum);
+    const std::vector<int> books = database::bibles::get_books(bible);
+    std::vector<std::string> checksums;
+    checksums.reserve(books.size());
+    std::ranges::for_each(books, [&](const auto book)
+    {
+        checksums.push_back(get_book(bible, book));
+    });
+    const std::string checksum = filter::string::implode(checksums, {});
+    return md5(checksum);
 }
 
 
 // Returns a proper checksum for the USFM in the array of $bibles.
-std::string checksum_logic::get_bibles (const std::vector<std::string>& bibles)
+std::string checksum_logic::get_bibles(const std::vector<std::string>& bibles)
 {
-  std::vector<std::string> checksums;
-  for (const auto& bible : bibles) {
-    checksums.push_back (get_bible(bible));
-  }
-  std::string checksum = filter::string::implode (checksums, std::string());
-  return md5(checksum);
+    std::vector<std::string> checksums;
+    std::ranges::for_each (bibles, [&checksums](const auto& bible)
+    {
+        checksums.push_back(get_bible(bible));
+    });
+    const std::string checksum = filter::string::implode(checksums, {});
+    return md5(checksum);
 }

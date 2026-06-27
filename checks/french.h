@@ -27,8 +27,8 @@ void space_before_after_punctuation(const std::string & bible, int book, int cha
                                     const std::map <int, std::string> & texts);
 void citation_style(const std::string & bible, int book, int chapter,
                     const std::vector <std::map <int, std::string>> & verses_paragraphs);
-constexpr const std::string_view left_guillemet{"«"};
-constexpr const std::string_view right_guillemet{"»"};
+constexpr std::string_view left_guillemet{"«"};
+constexpr std::string_view right_guillemet{"»"};
 
 
 }

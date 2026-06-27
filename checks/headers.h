@@ -26,6 +26,6 @@ namespace checks_headers {
 
 void no_punctuation_at_end (const std::string & bible, int book, int chapter,
                             const std::map <int, std::string> & headings,
-                            const std::string & centermarks, const std::string & endmarks);
+                            const std::string & center_marks, const std::string & end_marks);
 
 }

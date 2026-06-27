@@ -22,8 +22,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
 #pragma GCC diagnostic ignored "-Wcharacter-conversion"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #pragma GCC diagnostic pop
+#include <database/ipc.h>
 #include <unittests/utilities.h>
 #include <webserver/request.h>
 #include <ipc/notes.h>
@@ -49,7 +50,7 @@ TEST (ipc, basic)
   EXPECT_EQ (123456789, identifier);
   
   // Test trimming.
-  webserver_request.database_ipc()->trim ();
+  database_ipc::trim ();
   identifier = ipc_notes::get (webserver_request);
   EXPECT_EQ (123456789, identifier);
   
@@ -77,15 +78,14 @@ TEST (database, ipc)
   {
     refresh_sandbox (false);
     Webserver_Request webserver_request;
-    Database_Ipc database_ipc (webserver_request);
-    database_ipc.trim ();
+    database_ipc::trim ();
   }
 
   // Test store retrieve
   {
     refresh_sandbox (true);
     Webserver_Request webserver_request;
-    Database_Ipc database_ipc (webserver_request);
+    // database_ipc::Database_Ipc database_ipc (webserver_request);
     
     int id = 1;
     std::string user = "phpunit";
@@ -93,14 +93,14 @@ TEST (database, ipc)
     std::string command = "command";
     std::string message = "message";
     
-    database_ipc.store_message (user, channel, command, message);
-    
-    Database_Ipc_Message data = database_ipc.retrieve_message (id, user, channel, command);
+    database_ipc::store_message (user, channel, command, message);
+
+    database_ipc::Message data = database_ipc::retrieve_message (id, user, channel, command);
     EXPECT_EQ (0, data.id);
     
-    database_ipc.store_message (user, channel, command, message);
+    database_ipc::store_message (user, channel, command, message);
     
-    data = database_ipc.retrieve_message (id, user, channel, command);
+    data = database_ipc::retrieve_message (id, user, channel, command);
     EXPECT_EQ (2, data.id);
     EXPECT_EQ (message, data.message);
   }
@@ -108,23 +108,21 @@ TEST (database, ipc)
   // Test delete
   {
     refresh_sandbox (true);
-    Webserver_Request webserver_request;
-    Database_Ipc database_ipc (webserver_request);
-    
+
     int id = 1;
     std::string user = "phpunit";
     std::string channel = "channel";
     std::string command = "command";
     std::string message = "message";
     
-    database_ipc.store_message (user, channel, command, message);
-    
-    Database_Ipc_Message data = database_ipc.retrieve_message (0, user, channel, command);
+    database_ipc::store_message (user, channel, command, message);
+
+    database_ipc::Message data = database_ipc::retrieve_message (0, user, channel, command);
     EXPECT_EQ (id, data.id);
     
-    database_ipc.delete_message (id);
+    database_ipc::delete_message (id);
     
-    data = database_ipc.retrieve_message (0, user, channel, command);
+    data = database_ipc::retrieve_message (0, user, channel, command);
     EXPECT_EQ (0, data.id);
   }
 
@@ -134,24 +132,23 @@ TEST (database, ipc)
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
-    Database_Ipc database_ipc (webserver_request);
-    
+
     std::string user = "phpunit";
     webserver_request.session_logic ()->set_username (user);
     std::string channel = "channel";
     std::string command = "opennote";
-    
-    Database_Ipc_Message note = database_ipc.get_note ();
+
+    database_ipc::Message note = database_ipc::get_note (webserver_request);
     EXPECT_EQ (0, note.id);
     
     std::string message = "12345";
-    database_ipc.store_message (user, channel, command, message);
-    note = database_ipc.get_note ();
+    database_ipc::store_message (user, channel, command, message);
+    note = database_ipc::get_note (webserver_request);
     EXPECT_EQ (message, note.message);
     
     message = "54321";
-    database_ipc.store_message (user, channel, command, message);
-    note = database_ipc.get_note ();
+    database_ipc::store_message (user, channel, command, message);
+    note = database_ipc::get_note (webserver_request);
     EXPECT_EQ (message, note.message);
   }
 
@@ -161,24 +158,23 @@ TEST (database, ipc)
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
-    Database_Ipc database_ipc (webserver_request);
-    
+
     std::string user = "phpunit";
     webserver_request.session_logic ()->set_username (user);
     std::string channel = "channel";
     std::string command = "notesalive";
     
-    bool alive = database_ipc.get_notes_alive ();
+    bool alive = database_ipc::get_notes_alive (webserver_request);
     EXPECT_EQ (false, alive);
     
     std::string message = "1";
-    database_ipc.store_message (user, channel, command, message);
-    alive = database_ipc.get_notes_alive ();
+    database_ipc::store_message (user, channel, command, message);
+    alive = database_ipc::get_notes_alive (webserver_request);
     EXPECT_EQ (filter::string::convert_to_bool (message), alive);
     
     message = "0";
-    database_ipc.store_message (user, channel, command, message);
-    alive = database_ipc.get_notes_alive ();
+    database_ipc::store_message (user, channel, command, message);
+    alive = database_ipc::get_notes_alive (webserver_request);
     EXPECT_EQ (filter::string::convert_to_bool (message), alive);
   }
 }
@@ -202,9 +198,9 @@ TEST (ipc, focus)
   EXPECT_EQ (ipc_focus::get_verse(other_req), 1);
 
   // Set a passage and confirm it.
-  constexpr const int book {2};
-  constexpr const int chapter {3};
-  constexpr const int verse {4};
+  constexpr int book {2};
+  constexpr int chapter {3};
+  constexpr int verse {4};
   ipc_focus::set_passage(req, book, chapter, verse);
   EXPECT_EQ (ipc_focus::get_book(req), book);
   EXPECT_EQ (ipc_focus::get_chapter(req), chapter);

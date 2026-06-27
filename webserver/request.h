@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logic.h>
 #include <database/config/user.h>
 #include <database/users.h>
-#include <database/ipc.h>
 
 class Webserver_Request
 {
@@ -61,8 +60,8 @@ public:
     // The raw POSTed data from the browser.
     std::vector<std::pair<std::string, std::string>> post{};
     // Convenience functions on post.
-    int post_count(const std::string& key) const;
-    std::string post_get(const std::string& key) const;
+    [[nodiscard]] int post_count(const std::string& key) const;
+    [[nodiscard]] std::string post_get(const std::string& key) const;
     // Header as received from the browser.
     std::string if_none_match{};
     // Extra header to be sent back to the browser.
@@ -81,11 +80,9 @@ public:
     Session_Logic* session_logic();
     Database_Config_User* database_config_user();
     Database_Users* database_users();
-    Database_Ipc* database_ipc();
 
 private:
     Session_Logic* session_logic_instance{nullptr};
     Database_Config_User* database_config_user_instance{nullptr};
     Database_Users* database_users_instance{nullptr};
-    Database_Ipc* database_ipc_instance{nullptr};
 };

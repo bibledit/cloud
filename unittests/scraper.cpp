@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic ignored "-Wsign-compare"
 #pragma GCC diagnostic ignored "-Wcharacter-conversion"
 #pragma GCC diagnostic ignored "-Wmissing-noreturn"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #pragma GCC diagnostic pop
 #include <unittests/utilities.h>

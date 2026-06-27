@@ -26,7 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Webserver_Request;
 
 
-struct Database_Ipc_Item
+namespace database_ipc {
+
+
+struct Item
 {
     std::string file{};
     int rowid{0};
@@ -36,7 +39,7 @@ struct Database_Ipc_Item
 };
 
 
-struct Database_Ipc_Message
+struct Message
 {
     int id{0};
     std::string channel{};
@@ -45,22 +48,12 @@ struct Database_Ipc_Message
 };
 
 
-class Database_Ipc
-{
-public:
-    Database_Ipc() = delete;
-    explicit Database_Ipc(Webserver_Request&);
-    Database_Ipc(Database_Ipc&) = delete;
-    Database_Ipc& operator= (Database_Ipc&) = delete;
-    Database_Ipc(Database_Ipc&&) = delete;
-    Database_Ipc& operator= (Database_Ipc&&) = delete;
-    static void trim();
-    static void store_message(const std::string& user, const std::string& channel, const std::string& command, const std::string& message);
-    static Database_Ipc_Message retrieve_message(int id, const std::string& user, const std::string& channel, const std::string& command);
-    static void delete_message(int id);
-    Database_Ipc_Message get_note();
-    bool get_notes_alive();
+void trim();
+void store_message(const std::string& user, const std::string& channel, const std::string& command, const std::string& message);
+Message retrieve_message(int id, const std::string& user, const std::string& channel, const std::string& command);
+void delete_message(int id);
+Message get_note(Webserver_Request&);
+bool get_notes_alive(Webserver_Request&);
 
-private:
-    Webserver_Request& m_webserver_request;
-};
+
+}

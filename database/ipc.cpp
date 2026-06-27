@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Database resilience: Stored in plain file system.
 
 
+namespace database_ipc {
 static std::string folder()
 {
     return filter_url_create_root_path({database_logic_databases(), "ipc"});
@@ -45,15 +46,15 @@ static std::string file(const std::string& file)
 // The fields are those that can be obtained from the name of the files.
 // One file is one entry in the database.
 // The filename looks like this: rowid__user__channel__command
-static std::vector<Database_Ipc_Item> read_data()
+static std::vector<Item> read_data()
 {
-    std::vector<Database_Ipc_Item> data;
+    std::vector<Item> data;
     const std::vector<std::string> files = filter_url_scandir(folder());
     std::ranges::for_each(files, [&](const std::string& file)
     {
         if (const auto explosion = filter::string::explode(file, '_'); explosion.size() == 7)
         {
-            Database_Ipc_Item item {
+            Item item {
                 .file = file,
                 .rowid = filter::string::convert_to_int(explosion.at(0)),
                 .user = explosion.at(2),
@@ -76,9 +77,9 @@ static void write_record(const int rowid, const std::string& user, const std::st
 
 
 // Returns the next available row identifier.
-static int get_next_id(const std::vector<Database_Ipc_Item>& data)
+static int get_next_id(const std::vector<Item>& data)
 {
-    auto&& range = data | std::views::transform(&Database_Ipc_Item::rowid);
+    auto&& range = data | std::views::transform(&Item::rowid);
     const auto it = std::ranges::max_element(range);
     int id = it != range.end() ? *it : 0;
     ++id;
@@ -86,15 +87,9 @@ static int get_next_id(const std::vector<Database_Ipc_Item>& data)
 }
 
 
-Database_Ipc::Database_Ipc(Webserver_Request& webserver_request) :
-    m_webserver_request(webserver_request)
+void trim()
 {
-}
-
-
-void Database_Ipc::trim()
-{
-    const std::vector<Database_Ipc_Item> data = read_data();
+    const std::vector<Item> data = read_data();
     std::ranges::for_each(data, [](const auto& record)
     {
         if (record.user.empty())
@@ -112,10 +107,10 @@ void Database_Ipc::trim()
 }
 
 
-void Database_Ipc::store_message(const std::string& user, const std::string& channel, const std::string& command, const std::string& message)
+void store_message(const std::string& user, const std::string& channel, const std::string& command, const std::string& message)
 {
     // Load entire database into memory.
-    const std::vector<Database_Ipc_Item> data = read_data();
+    const std::vector<Item> data = read_data();
 
     // Write new information.
     {
@@ -131,7 +126,7 @@ void Database_Ipc::store_message(const std::string& user, const std::string& cha
         {
             return record.user == user and record.channel == channel and record.command == command;
         };
-        auto&& row_ids = data | std::views::filter(match) | std::views::transform(&Database_Ipc_Item::rowid);
+        auto&& row_ids = data | std::views::filter(match) | std::views::transform(&Item::rowid);
         std::ranges::for_each(row_ids, [](const auto row_id)
         {
             delete_message(row_id);
@@ -144,7 +139,7 @@ void Database_Ipc::store_message(const std::string& user, const std::string& cha
 // Returns an object with the data.
 // The rowid is 0 if there was nothing,
 // Else the object's properties are set properly.
-Database_Ipc_Message Database_Ipc::retrieve_message(int id, const std::string& user, const std::string& channel, const std::string& command)
+Message retrieve_message(int id, const std::string& user, const std::string& channel, const std::string& command)
 {
     int highest_id = 0;
     std::string hit_channel;
@@ -176,7 +171,7 @@ Database_Ipc_Message Database_Ipc::retrieve_message(int id, const std::string& u
             }
         }
     }
-    Database_Ipc_Message message;
+    Message message;
     if (highest_id)
     {
         message.id = highest_id;
@@ -188,9 +183,9 @@ Database_Ipc_Message Database_Ipc::retrieve_message(int id, const std::string& u
 }
 
 
-void Database_Ipc::delete_message(const int id)
+void delete_message(const int id)
 {
-    const std::vector<Database_Ipc_Item> data = read_data();
+    const std::vector<Item> data = read_data();
     std::ranges::for_each(data, [id](const auto& record)
     {
         if (record.rowid == id)
@@ -200,14 +195,14 @@ void Database_Ipc::delete_message(const int id)
 }
 
 
-Database_Ipc_Message Database_Ipc::get_note()
+Message get_note(Webserver_Request& webserver_request)
 {
-    const std::string& user = m_webserver_request.session_logic()->get_username();
+    const std::string& user = webserver_request.session_logic()->get_username();
 
     int highest_id = 0;
     std::string hit_message;
 
-    const  std::vector<Database_Ipc_Item> data = read_data();
+    const  std::vector<Item> data = read_data();
     std::ranges::for_each(data, [&](const auto& record)
     {
         // Conditions: Command is "opennote", and matching user.
@@ -218,7 +213,7 @@ Database_Ipc_Message Database_Ipc::get_note()
         }
     });
 
-    Database_Ipc_Message note;
+    Message note;
     if (highest_id)
     {
         note.id = highest_id;
@@ -229,14 +224,14 @@ Database_Ipc_Message Database_Ipc::get_note()
 }
 
 
-bool Database_Ipc::get_notes_alive()
+bool get_notes_alive(Webserver_Request& webserver_request)
 {
-    const std::string& user = m_webserver_request.session_logic()->get_username();
+    const std::string& user = webserver_request.session_logic()->get_username();
 
     int highest_id = 0;
     std::string hit_message;
 
-    const std::vector<Database_Ipc_Item> data = read_data();
+    const std::vector<Item> data = read_data();
     std::ranges::for_each(data, [&](const auto& record)
     {
         // Conditions: Command is "notesalive", and matching user.
@@ -251,4 +246,7 @@ bool Database_Ipc::get_notes_alive()
         return filter::string::convert_to_bool(hit_message);
 
     return false;
+}
+
+
 }

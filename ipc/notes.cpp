@@ -20,6 +20,7 @@
 #include <ipc/notes.h>
 #include <filter/string.h>
 #include <webserver/request.h>
+#include <database/ipc.h>
 
 
 // Deals with the consultation notes stuff.
@@ -28,25 +29,25 @@ namespace ipc_notes {
 void open(Webserver_Request& webserver_request, const int identifier)
 {
     const std::string& user = webserver_request.session_logic()->get_username();
-    webserver_request.database_ipc()->store_message(user, "", "opennote", std::to_string(identifier));
+    database_ipc::store_message(user, "", "opennote", std::to_string(identifier));
 }
 
 
 int get(Webserver_Request& webserver_request)
 {
-    const Database_Ipc_Message data = webserver_request.database_ipc()->get_note();
+    const database_ipc::Message data = database_ipc::get_note(webserver_request);
     return filter::string::convert_to_int(data.message);
 }
 
 
 void erase(Webserver_Request& webserver_request)
 {
-    const Database_Ipc_Message data = webserver_request.database_ipc()->get_note();
+    const database_ipc::Message data = database_ipc::get_note(webserver_request);
     int counter = 0;
     while (data.id && counter < 100)
     {
         const int id = data.id;
-        webserver_request.database_ipc()->delete_message(id);
+        database_ipc::delete_message(id);
         counter++;
     }
 }
@@ -58,9 +59,9 @@ bool alive(Webserver_Request& webserver_request, const bool set, const bool aliv
 {
     const std::string& user = webserver_request.session_logic()->get_username();
     if (set)
-        webserver_request.database_ipc()->store_message(user, "", "notesalive", filter::string::convert_to_string(alive));
+        database_ipc::store_message(user, "", "notesalive", filter::string::convert_to_string(alive));
     else
-        return webserver_request.database_ipc()->get_notes_alive();
+        return database_ipc::get_notes_alive(webserver_request);
     return false;
 }
 }

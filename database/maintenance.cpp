@@ -87,9 +87,8 @@ void database_maintenance ()
   
   database::bibles::optimize ();
 
-  
-  Database_Ipc database_ipc (webserver_request);
-  database_ipc.trim ();
+
+  database_ipc::trim ();
   
   
   Database_Notes database_notes (webserver_request);

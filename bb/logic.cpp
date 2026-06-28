@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/bibleactions.h>
 #include <database/bibles.h>
 #include <database/books.h>
-#include <database/cache.h>
 #include <database/logs.h>
 #include <database/modifications.h>
 #include <database/privileges.h>
@@ -49,7 +48,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "webserver/request.h"
 
 
-void bible_logic::store_chapter (const std::string& bible, int book, int chapter, const std::string& usfm)
+void bible_logic::store_chapter (const std::string& bible, const int book, const int chapter, const std::string& usfm)
 {
   // Record data of the chapter to be stored prior to storing the new version.
   // Both client and cloud follow this order.
@@ -77,7 +76,7 @@ void bible_logic::store_chapter (const std::string& bible, int book, int chapter
 }
 
 
-void bible_logic::delete_chapter (const std::string& bible, int book, int chapter)
+void bible_logic::delete_chapter (const std::string& bible, const int book, const int chapter)
 {
   // Cloud and client record data of the chapter to be deleted prior to deletion.
   
@@ -104,7 +103,7 @@ void bible_logic::delete_chapter (const std::string& bible, int book, int chapte
 }
 
 
-void bible_logic::delete_book (const std::string& bible, int book)
+void bible_logic::delete_book (const std::string& bible, const int book)
 {
   // Both client and cloud record data of the book to be deleted prior to deletion.
   
@@ -161,9 +160,9 @@ void bible_logic::delete_bible (const std::string& bible)
   database::modifications::storeTeamDiffBible (bible);
 
   // Possible git repository.
-  const std::string gitdirectory = filter_git_directory (bible);
-  if (file_or_dir_exists (gitdirectory)) {
-    filter_url_rmdir (gitdirectory);
+  if (const std::string git_directory = filter_git_directory (bible);
+      file_or_dir_exists (git_directory)) {
+    filter_url_rmdir (git_directory);
   }
 
 #endif

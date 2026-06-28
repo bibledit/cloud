@@ -79,7 +79,7 @@ bool book_create(const std::string& bible, const book_id book, const int chapter
             std::string data{};
             data += R"(\c )" + std::to_string(ch) + "\n";
             data += R"(\p)" "\n";
-            for (int i = 1; i <= verse; i++)
+            for (int i = 1; i <= verse; ++i)
             {
                 data += R"(\v )" "" + std::to_string(i) + "\n";
             }

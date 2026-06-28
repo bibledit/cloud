@@ -452,7 +452,7 @@ void bible_logic::merge_irregularity_mail (const std::vector <std::string>& user
     // Clearly maark it up for the user.
     // The purpose is that the user immediately can see what happened,
     // and whether and how to correct it.
-    for (std::size_t i = 0; i < change_usfm.size(); i++) {
+    for (std::size_t i = 0; i < change_usfm.size(); ) {
       node = document.append_child ("p");
       const std::string modification = filter_diff_diff (change_usfm[i], result_usfm[i]);
       // Add raw html to the email's text buffer.
@@ -611,7 +611,7 @@ void bible_logic::client_receive_merge_mail (const std::string& bible, int book,
   std::string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
   node.text ().set (location.c_str ());
 
-  for (unsigned int i = 0; i < client_diff.size(); i++) {
+  for (unsigned int i = 0; i < client_diff.size(); ) {
     document.append_child ("br");
     node = document.append_child ("p");
     node.text ().set ("You sent:");
@@ -751,7 +751,7 @@ void bible_logic::client_no_write_access_mail (const std::string& bible, int boo
   const std::string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
   node.text ().set (location.c_str ());
   
-  for (unsigned int i = 0; i < client_new_diff.size(); i++) {
+  for (unsigned int i = 0; i < client_new_diff.size(); ++i) {
     
     document.append_child ("br");
     node = document.append_child ("p");
@@ -828,7 +828,7 @@ void bible_logic::recent_save_email (const std::string& bible,
   node.text ().set (location.c_str ());
 
   bool differences_found {false};
-  for (unsigned int i = 0; i < new_verses.size(); i++) {
+  for (unsigned int i = 0; i < new_verses.size(); ++i) {
     Filter_Text filter_text_old = Filter_Text (bible);
     Filter_Text filter_text_new = Filter_Text (bible);
     filter_text_old.html_text_standard = new HtmlText (translate("Bible"));
@@ -1016,7 +1016,7 @@ void bible_logic::condense_editor_updates (const std::vector <int>& positions_in
   int previous_position = (std::numeric_limits<int>::min)();
   bool previous_addition {false};
   std::string previous_character {};
-  for (std::size_t i = 0; i < positions_in.size(); i++) {
+  for (std::size_t i = 0; i < positions_in.size(); ++i) {
     const int position = positions_in[i];
     const int size = sizes_in[i];
     const bool addition = additions_in[i];
@@ -1088,22 +1088,22 @@ void bible_logic::html_to_editor_updates (const std::string& editor_html,
 
   // Convert the formatted text fragments to formatted UTF-8 characters.
   std::vector <std::string> editor_formatted_character_content;
-  for (size_t i = 0; i < editor_format.texts.size(); i++) {
+  for (size_t i = 0; i < editor_format.texts.size(); ++i) {
     const std::string& text = editor_format.texts[i];
     const std::string& format = editor_format.formats[i];
     const size_t length = filter::string::unicode_string_length (text);
-    for (size_t pos = 0; pos < length; pos++) {
+    for (std::size_t pos = 0; pos < length; ++pos) {
       const std::string utf8_character = filter::string::unicode_string_substr (text, pos, 1);
       editor_formatted_character_content.push_back (utf8_character + format);
     }
   }
   std::vector <std::string> server_formatted_character_content {};
   std::vector <std::string> server_utf8_characters {};
-  for (size_t i = 0; i < server_format.texts.size(); i++) {
+  for (std::size_t i = 0; i < server_format.texts.size(); ++i) {
     const std::string& text = server_format.texts[i];
     const std::string& format = server_format.formats[i];
     const size_t length = filter::string::unicode_string_length (text);
-    for (size_t pos = 0; pos < length; pos++) {
+    for (std::size_t pos = 0; pos < length; ++pos) {
       const std::string utf8_character = filter::string::unicode_string_substr (text, pos, 1);
       server_formatted_character_content.push_back (utf8_character + format);
       server_utf8_characters.push_back(utf8_character);
@@ -1131,7 +1131,7 @@ void bible_logic::html_to_editor_updates (const std::string& editor_html,
   // If there's new line(s) added or removed, apply all paragraph styles again.
   if (new_line_diff_count) {
     int position {0};
-    for (size_t i = 0; i < server_utf8_characters.size(); i++) {
+    for (std::size_t i = 0; i < server_utf8_characters.size(); ++i) {
       const int size = static_cast<int>(filter::string::convert_to_u16string (server_utf8_characters[i]).length());
       if (server_utf8_characters[i] == "\n") {
         positions.push_back(position);

@@ -200,7 +200,7 @@ std::string bible_order (Webserver_Request& webserver_request)
   }
   
   const std::vector <int> books = filter_passage_get_ordered_books (bible);
-  for (std::size_t i = 0; i < books.size (); i++) {
+  for (std::size_t i = 0; i < books.size (); ++i) {
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(books[i]));
     bookname = translate (bookname);
     view.add_iteration ("order", { std::pair ("offset", std::to_string (i)), std::pair ("bookname", bookname) } );

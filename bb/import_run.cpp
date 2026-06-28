@@ -112,7 +112,7 @@ void bible_import_text (const std::string& text, const std::string& bible, const
   std::vector <std::string> lines = filter::string::explode (text, '\n');
   
   // Go through the lines.
-  for (std::size_t i = 0; i < lines.size(); i++) {
+  for (std::size_t i = 0; i < lines.size(); ++i) {
     
     // Trim the line.
     lines[i] = filter::string::trim (lines[i]);
@@ -217,7 +217,7 @@ void bible_import_text (const std::string& text, const std::string& bible, const
   
   // Make one block of text.
   std::string newtext {};
-  for (unsigned int i = 0; i < lines.size(); i++) {
+  for (unsigned int i = 0; i < lines.size(); ++i) {
     if (lines[i].empty())
       continue;
     lines[i] = filter::string::collapse_whitespace (lines[i]);

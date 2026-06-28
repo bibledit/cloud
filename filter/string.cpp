@@ -1807,7 +1807,7 @@ std::string fix_invalid_html_tidy (std::string html)
     html = std::string (reinterpret_cast<char const*>(output.bp));
   }
   else {
-    Database_Logs::log("A severe error occurred while tidying html - code " + std::to_string(rc) + " - html: " + html);
+    database::logs::log("A severe error occurred while tidying html - code " + std::to_string(rc) + " - html: " + html);
   }
   
   // Release memory.

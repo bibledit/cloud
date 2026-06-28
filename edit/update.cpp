@@ -204,7 +204,7 @@ std::string edit_update (Webserver_Request& webserver_request)
   if (good2go && bible_write_access) {
     const std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (edited_chapter_usfm, stylesheet);
     if (book_chapter_text.size () != 1) {
-      Database_Logs::log (translate ("A user tried to save something different from exactly one chapter"));
+      database::logs::log (translate ("A user tried to save something different from exactly one chapter"));
       messages.push_back (translate("Incorrect chapter"));
       good2go = false;
     }

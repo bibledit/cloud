@@ -216,9 +216,9 @@ void timer_index ()
         if (minute == 1) {
           if (!database::config::general::getJustStarted ()) {
             if (tasks_run_active_count ()) {
-              Database_Logs::log ("Server is due to restart itself but does not because of active jobs");
+              database::logs::log ("Server is due to restart itself but does not because of active jobs");
             } else {
-              Database_Logs::log ("Server restarts itself");
+              database::logs::log ("Server restarts itself");
               exit (0);
             }
           }
@@ -276,11 +276,11 @@ void timer_index ()
 #endif
 
     } catch (const std::exception & e) {
-      Database_Logs::log (e.what ());
+      database::logs::log (e.what ());
     } catch (const std::exception * e) {
-      Database_Logs::log (e->what ());
+      database::logs::log (e->what ());
     } catch (...) {
-      Database_Logs::log ("A general internal error occurred in the timers");
+      database::logs::log ("A general internal error occurred in the timers");
     }
   }
 }

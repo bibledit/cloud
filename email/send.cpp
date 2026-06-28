@@ -88,7 +88,7 @@ void send ()
     // In the Cloud, if the email address validates, ok, else remove this mail from the queue and log the action.
     if (!filter_url_email_is_valid (email)) {
       database_mail.erase (id);
-      Database_Logs::log ("Email to " + email + " was deleted because of an invalid email address");
+      database::logs::log ("Email to " + email + " was deleted because of an invalid email address");
       continue;
     }
     
@@ -99,7 +99,7 @@ void send ()
     // Do not attempt to send it again as it would cause the crash again in an endless loop.
     if (config_globals_has_crashed_while_mailing) {
       database_mail.erase (id);
-      Database_Logs::log ("Email to " + email + " with subject \"" + subject + "\" was deleted because it has caused a crash");
+      database::logs::log ("Email to " + email + " with subject \"" + subject + "\" was deleted because it has caused a crash");
       config_globals_has_crashed_while_mailing = false;
       continue;
     }
@@ -120,13 +120,13 @@ void send ()
 #ifdef HAVE_CLIENT
       result.append ("queued for sending through the Cloud");
 #endif
-      Database_Logs::log (result, roles::manager);
+      database::logs::log (result, roles::manager);
     } else {
       // Special handling of cases that the smart host denied login.
       bool login_denied = result == "Login denied";
       // Write result to logbook.
       result.insert (0, "Email to " + email + " could not be sent - reason: ");
-      Database_Logs::log (result, roles::manager);
+      database::logs::log (result, roles::manager);
       // If the login was denied, then postpone all emails queued for sending,
       // rather than trying to send them all, and have them all cause a 'login denied' error.
       if (login_denied) {
@@ -134,7 +134,7 @@ void send ()
         for (auto id2 : ids) {
           database_mail.postpone (id2);
         }
-        Database_Logs::log ("Postponing sending " + std::to_string (ids.size()) + " emails", roles::manager);
+        database::logs::log ("Postponing sending " + std::to_string (ids.size()) + " emails", roles::manager);
         break;
       } else {
         database_mail.postpone (id);
@@ -217,7 +217,7 @@ std::string send ([[maybe_unused]] std::string to_mail,
   std::string response = sync_logic.post (post, url, error);
   
   if (!error.empty ()) {
-    Database_Logs::log ("Failure sending email: " + error, roles::guest);
+    database::logs::log ("Failure sending email: " + error, roles::guest);
   }
   
   return error;

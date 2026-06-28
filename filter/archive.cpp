@@ -64,7 +64,7 @@ std::string zip_folder_shell_internal (std::string folder)
     filter_url_unlink (zippedfile);
     zippedfile.clear();
     std::string errors = filter_url_file_get_contents (logfile);
-    Database_Logs::log (errors);
+    database::logs::log (errors);
   }
 #endif
   return zippedfile;
@@ -99,7 +99,7 @@ std::string zip_folder_miniz_internal (std::string folder)
       status = mz_zip_add_mem_to_archive_file_in_place (zippedfile.c_str(), file.c_str(), contents.c_str(), contents.size(), "", 0, MZ_DEFAULT_LEVEL);
     }
     if (!status) {
-      Database_Logs::log ("mz_zip_add_mem_to_archive_file_in_place failed for " + path);
+      database::logs::log ("mz_zip_add_mem_to_archive_file_in_place failed for " + path);
       return std::string();
     }
   }
@@ -137,7 +137,7 @@ std::string unzip_shell_internal ([[maybe_unused]] std::string file)
     filter_url_rmdir (folder);
     folder.clear();
     std::string errors = filter_url_file_get_contents (logfile);
-    Database_Logs::log (errors);
+    database::logs::log (errors);
   } else {
     // Set free permissions after unzipping.
     command = std::string(filter::shell::get_executable(filter::shell::Executable::chmod)) + " -R 0777 " + folder;
@@ -212,13 +212,13 @@ std::string unzip_miniz_internal (std::string zipfile)
           // Extract this file.
           status = mz_zip_reader_extract_to_file (&zip_archive, i, fixed_filename.c_str(), 0);
           if (!status) {
-            Database_Logs::log ("mz_zip_reader_extract_to_file failure for file " + filename + " in " + zipfile);
+            database::logs::log ("mz_zip_reader_extract_to_file failure for file " + filename + " in " + zipfile);
             error = true;
           }
         }
         
       } else {
-        Database_Logs::log ("mz_zip_reader_file_stat failed for " + zipfile);
+        database::logs::log ("mz_zip_reader_file_stat failed for " + zipfile);
         error = true;
       }
     }
@@ -227,7 +227,7 @@ std::string unzip_miniz_internal (std::string zipfile)
     mz_zip_reader_end (&zip_archive);
     
   } else {
-    Database_Logs::log ("mz_zip_reader_init_file failed for " + zipfile);
+    database::logs::log ("mz_zip_reader_init_file failed for " + zipfile);
     error = true;
   }
   
@@ -260,7 +260,7 @@ std::string tar_gzip_file (std::string filename)
     filter_url_unlink (tarball);
     tarball.clear();
     std::string errors = filter_url_file_get_contents (logfile);
-    Database_Logs::log (errors);
+    database::logs::log (errors);
   }
   return tarball;
 }
@@ -286,7 +286,7 @@ std::string tar_gzip_folder (std::string folder)
     filter_url_unlink (tarball);
     tarball.clear();
     std::string errors = filter_url_file_get_contents (logfile);
-    Database_Logs::log (errors);
+    database::logs::log (errors);
   }
   return tarball;
 }
@@ -314,7 +314,7 @@ std::string untar_gzip (std::string file)
     filter_url_rmdir (folder);
     folder.clear();
     std::string errors = filter_url_file_get_contents (logfile);
-    Database_Logs::log (errors);
+    database::logs::log (errors);
   }
   return folder;
 }

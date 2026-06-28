@@ -85,29 +85,29 @@ void sendreceive_queue_sync (int minute, int second)
     // Only queue a sync task if it is not running at the moment.
     if (sync_bibles) {
       if (tasks_logic_queued (task::sync_bibles)) {
-        Database_Logs::log ("About to start synchronizing Bibles");
+        database::logs::log ("About to start synchronizing Bibles");
       } else {
         tasks_logic_queue (task::sync_bibles);
       }
     }
     if (sync_rest) {
       if (tasks_logic_queued (task::sync_notes)) {
-        Database_Logs::log ("About to start synchronizing Notes");
+        database::logs::log ("About to start synchronizing Notes");
       } else {
         tasks_logic_queue (task::sync_notes);
       }
       if (tasks_logic_queued (task::sync_settings)) {
-        Database_Logs::log ("About to start synchronizing Settings");
+        database::logs::log ("About to start synchronizing Settings");
       } else {
         tasks_logic_queue (task::sync_settings);
       }
       if (tasks_logic_queued (task::sync_changes)) {
-        Database_Logs::log ("About to start synchronizing Changes");
+        database::logs::log ("About to start synchronizing Changes");
       } else {
         tasks_logic_queue (task::sync_changes);
       }
       if (tasks_logic_queued (task::sync_files)) {
-        Database_Logs::log ("About to start synchronizing Files");
+        database::logs::log ("About to start synchronizing Files");
       } else {
         tasks_logic_queue (task::sync_files);
       }
@@ -141,7 +141,7 @@ void sendreceive_queue_paratext (tasks::enums::paratext_sync method)
 {
 #ifdef HAVE_PARATEXT
   if (sendreceive_paratext_queued ()) {
-    Database_Logs::log ("About to start synchronizing with Paratext");
+    database::logs::log ("About to start synchronizing with Paratext");
   } else {
     tasks_logic_queue (task::sync_paratext, { std::to_string(static_cast<int>(method)) });
   }

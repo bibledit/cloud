@@ -85,7 +85,7 @@ void ldap_logic_initialize ()
     }
     // Log the results.
     if (ldap_logic_is_on (true)) {
-      Database_Logs::log ("Using LDAP for authentication");
+      database::logs::log ("Using LDAP for authentication");
     }
   }
 }
@@ -107,27 +107,27 @@ void ldap_logic_clear ()
 bool ldap_logic_is_on (bool log)
 {
   if (ldap_logic_uri.empty ()) {
-    if (log) Database_Logs::log ("LDAP server configuration lacks the URI");
+    if (log) database::logs::log ("LDAP server configuration lacks the URI");
     return false;
   }
   if (ldap_logic_binddn.empty ()) {
-    if (log) Database_Logs::log ("LDAP server configuration lacks the bind dn");
+    if (log) database::logs::log ("LDAP server configuration lacks the bind dn");
     return false;
   }
   if (ldap_logic_basedn.empty ()) {
-    if (log) Database_Logs::log ("LDAP server configuration lacks the base dn");
+    if (log) database::logs::log ("LDAP server configuration lacks the base dn");
     return false;
   }
   if (ldap_logic_scope.empty ()) {
-    if (log) Database_Logs::log ("LDAP server configuration lacks the scope");
+    if (log) database::logs::log ("LDAP server configuration lacks the scope");
     return false;
   }
   if (ldap_logic_filter.empty ()) {
-    if (log) Database_Logs::log ("LDAP server configuration lacks the search filter");
+    if (log) database::logs::log ("LDAP server configuration lacks the search filter");
     return false;
   }
   if (ldap_logic_role.empty ()) {
-    if (log) Database_Logs::log ("LDAP server configuration lacks the role field");
+    if (log) database::logs::log ("LDAP server configuration lacks the role field");
     return false;
   }
   return true;
@@ -164,7 +164,7 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
   // Logging.
   if (log) {
     const std::string command = std::string(filter::shell::get_executable(filter::shell::Executable::ldapsearch)) + " -H " + ldap_logic_uri + " -D " + binddn + " -w " + password + " -b " + ldap_logic_basedn + " -s " + ldap_logic_scope + " " + filter;
-    Database_Logs::log ("LDAP query\n" + command + "\n" + output, roles::admin);
+    database::logs::log ("LDAP query\n" + command + "\n" + output, roles::admin);
   }
   
   // Check on invalid credentials.

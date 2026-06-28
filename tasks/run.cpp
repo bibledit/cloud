@@ -124,7 +124,7 @@ void tasks_run_one (const std::string& filename)
   }
   
   if (command == task::rotate_journal) {
-    Database_Logs::rotate ();
+    database::logs::rotate ();
   }
   else if (command == task::receive_email) {
     email::receive ();
@@ -305,7 +305,7 @@ void tasks_run_one (const std::string& filename)
     filter::google::refresh_access_token ();
   }
   else {
-    Database_Logs::log ("Unknown task: " + command);
+    database::logs::log ("Unknown task: " + command);
   }
 
   // Decrease running tasks count.

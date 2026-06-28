@@ -422,7 +422,7 @@ static void http_parse_post_standard (std::string content, Webserver_Request& we
     throw std::runtime_error("Cannot parse content type " + webserver_request.content_type);
   }
   catch (const std::exception& exception) {
-    Database_Logs::log("POST parsing error: " + std::string(exception.what()));
+    database::logs::log("POST parsing error: " + std::string(exception.what()));
   }
 }
 

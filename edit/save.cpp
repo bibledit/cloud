@@ -82,12 +82,12 @@ std::string edit_save (Webserver_Request& webserver_request)
   html = filter::string::trim (std::move(html));
 
   if (html.empty ()) {
-    Database_Logs::log (translate ("There was no text.") + " " + translate ("Nothing was saved.") + " " + translate ("The original text of the chapter was reloaded."));
+    database::logs::log (translate ("There was no text.") + " " + translate ("Nothing was saved.") + " " + translate ("The original text of the chapter was reloaded."));
     return translate("Nothing to save");
   }
 
   if (!filter::string::unicode_string_is_valid (html)) {
-    Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
+    database::logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
     return translate("Save failure");
   }
   
@@ -107,7 +107,7 @@ std::string edit_save (Webserver_Request& webserver_request)
   
   std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
-    Database_Logs::log (translate ("User tried to save something different from exactly one chapter."));
+    database::logs::log (translate ("User tried to save something different from exactly one chapter."));
     return translate("Incorrect chapter");
   }
   
@@ -136,7 +136,7 @@ std::string edit_save (Webserver_Request& webserver_request)
     if (server_usfm != ancestor_usfm) {
       // Prioritize the user's USFM.
       user_usfm = filter_merge_run (ancestor_usfm, server_usfm, user_usfm, true, conflicts);
-      Database_Logs::log (translate ("Merging chapter."));
+      database::logs::log (translate ("Merging chapter."));
     }
   }
   

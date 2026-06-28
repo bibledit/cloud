@@ -146,7 +146,7 @@ std::string editone_save (Webserver_Request& webserver_request)
       // Prioritize the USFM already in the chapter.
       new_chapter_usfm = filter_merge_run (loaded_usfm, new_chapter_usfm, old_chapter_usfm, true, conflicts);
       database::bibles::store_chapter (bible, book, chapter, new_chapter_usfm);
-      Database_Logs::log (translate ("Merging chapter."));
+      database::logs::log (translate ("Merging chapter."));
     }
 #ifdef HAVE_CLOUD
     // The Cloud stores details of the user's changes.

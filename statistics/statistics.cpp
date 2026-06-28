@@ -41,7 +41,7 @@ void statistics_statistics ()
   Database_Notes database_notes (webserver_request);
   
   
-  Database_Logs::log (translate("Sending statistics"), roles::manager);
+  database::logs::log (translate("Sending statistics"), roles::manager);
 
   
   std::string siteUrl = config::logic::site_url (webserver_request);

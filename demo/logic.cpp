@@ -110,7 +110,7 @@ std::string demo_client_warning ()
 // Cleans and resets the data in the Bibledit installation.
 void demo_clean_data ()
 {
-  Database_Logs::log ("Cleaning up the demo data");
+  database::logs::log ("Cleaning up the demo data");
   
   
   Webserver_Request webserver_request {};
@@ -224,7 +224,7 @@ std::string demo_sample_bible_name ()
 // The new and current method does a simple copy operation and that is fast.
 void demo_create_sample_bible ()
 {
-  Database_Logs::log ("Creating sample Bible");
+  database::logs::log ("Creating sample Bible");
   
   // Remove and create the sample Bible.
   database::bibles::delete_bible (demo_sample_bible_name ());
@@ -261,7 +261,7 @@ void demo_create_sample_bible ()
     filter_url_file_put_contents (file, data);
   }
   
-  Database_Logs::log ("Sample Bible was created");
+  database::logs::log ("Sample Bible was created");
 }
 
 

@@ -99,7 +99,7 @@ std::string client_logic_connection_setup(std::string user, std::string hash)
     }
     else
     {
-        Database_Logs::log(error, roles::translator);
+        database::logs::log(error, roles::translator);
         // In case Bibledit Cloud requires the client to connect through https,
         // and the client connects through http,
         // it will give a response code 426 plus text.
@@ -114,7 +114,7 @@ std::string client_logic_connection_setup(std::string user, std::string hash)
             // Add a good explanation to the error code so the user knows what to do if this error occurs.
             error.append(
                 "Bibledit Cloud requires the client to connect via the secure https protocol. The client now tried to connect through the insecure http protocol. If connected, please disconnect from Bibledit Cloud and connect again via https. Use the secure port number instead of the insecure port number. Usually the secure port number is the insecure port number plus one.");
-            Database_Logs::log(error, roles::translator);
+            database::logs::log(error, roles::translator);
         }
     }
 

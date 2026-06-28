@@ -116,12 +116,12 @@ std::string public_login (Webserver_Request& webserver_request)
       // For public login, the password is taken to be the same as the username.
       if (webserver_request.session_logic()->attempt_login (name, name, touch_enabled)) {
         // Log the login.
-        Database_Logs::log ("User " + webserver_request.session_logic ()->get_username () + " logged in");
+        database::logs::log ("User " + webserver_request.session_logic ()->get_username () + " logged in");
       } else {
         // Add a new user and login.
         webserver_request.database_users ()->add_user(name, name, roles::guest, email);
         webserver_request.session_logic()->attempt_login (name, name, touch_enabled);
-        Database_Logs::log ("Public account created for user " + webserver_request.session_logic ()->get_username () + " with email " + email);
+        database::logs::log ("Public account created for user " + webserver_request.session_logic ()->get_username () + " with email " + email);
       }
     }
   }

@@ -62,7 +62,7 @@ std::string system_googletranslate (Webserver_Request& webserver_request)
 
   // Check whether the Google Translate JSON key can be read.
   auto [ json_key, json_error ] = filter::google::get_json_key_value_error ();
-  if (!json_error.empty()) Database_Logs::log(json_error);
+  if (!json_error.empty()) database::logs::log(json_error);
   error.assign(json_error);
 
   // Check whether gcloud has been installed on the server.
@@ -77,14 +77,14 @@ std::string system_googletranslate (Webserver_Request& webserver_request)
   if (error.empty()) {
     auto [ activate_ok, activate_output ] = filter::google::activate_service_account ();
     if (!activate_ok) error.assign(activate_output);
-    Database_Logs::log (activate_output);
+    database::logs::log (activate_output);
   }
 
   // Print and store the gcloud access token.
   if (error.empty()) {
     auto [ access_ok, access_token ] = filter::google::print_store_access_token ();
     if (!access_ok) error.assign(access_token);
-    Database_Logs::log ("Access token: " + access_token);
+    database::logs::log ("Access token: " + access_token);
   }
 
   // Do a translation.

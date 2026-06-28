@@ -330,7 +330,7 @@ void remove (std::string schema)
 void trim (bool clear)
 {
   if (clear)
-    Database_Logs::log ("Clearing cache");
+    database::logs::log ("Clearing cache");
   
   // The directory that contains the file-based cache files.
   std::string path = database::cache::file::full_path ("");
@@ -339,7 +339,7 @@ void trim (bool clear)
   std::string output, error;
   filter::shell::run (path, filter::shell::get_executable(filter::shell::Executable::df), {"."}, &output, &error);
   if (!error.empty ())
-    Database_Logs::log (error);
+    database::logs::log (error);
   int percentage_disk_in_use {0};
   {
     const std::vector<std::string> bits = filter::string::explode(output, ' ');
@@ -353,7 +353,7 @@ void trim (bool clear)
       }
     }
   }
-  Database_Logs::log ("Disk space in use is " + std::to_string(percentage_disk_in_use) + "%");
+  database::logs::log ("Disk space in use is " + std::to_string(percentage_disk_in_use) + "%");
   
   // There have been instances that the cache takes up 4, 5, or 6 Gigabytes in the Cloud.
   // If the cache is left untrimmed, the size can be even larger.
@@ -385,15 +385,15 @@ void trim (bool clear)
   output.clear ();
   error.clear ();
   filter::shell::run (path, filter::shell::get_executable(filter::shell::Executable::find), {".", "-amin", minutes, "-delete"}, &output, &error);
-  if (!output.empty ()) Database_Logs::log (output);
-  if (!error.empty ()) Database_Logs::log (error);
+  if (!output.empty ()) database::logs::log (output);
+  if (!error.empty ()) database::logs::log (error);
   
   // Remove empty directories.
   output.clear ();
   error.clear ();
   filter::shell::run (path, filter::shell::get_executable(filter::shell::Executable::find), {".", "-type", "d", "-empty", "-delete"}, &output, &error);
-  if (!output.empty ()) Database_Logs::log (output);
-  if (!error.empty ()) Database_Logs::log (error);
+  if (!output.empty ()) database::logs::log (output);
+  if (!error.empty ()) database::logs::log (error);
   
   // The directory that contains the database-based cache files.
   path = filter_url_create_root_path ({database_logic_databases ()});
@@ -420,17 +420,17 @@ void trim (bool clear)
   if (clear)
     days = "0";
   
-  Database_Logs::log ("Will remove resource caches not accessed for " + days + " days");
+  database::logs::log ("Will remove resource caches not accessed for " + days + " days");
   
   // Remove database-based cached files that have not been modified for x days.
   output.clear ();
   error.clear ();
   filter::shell::run (path, filter::shell::get_executable(filter::shell::Executable::find), {path, "-name", database::cache::sql::fragment () + "*", "-atime", days, "-delete"}, &output, &error);
-  if (!output.empty ()) Database_Logs::log (output);
-  if (!error.empty ()) Database_Logs::log (error);
+  if (!output.empty ()) database::logs::log (output);
+  if (!error.empty ()) database::logs::log (error);
   
   if (clear)
-    Database_Logs::log ("Ready clearing  cache");
+    database::logs::log ("Ready clearing  cache");
 }
 
 

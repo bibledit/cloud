@@ -76,7 +76,7 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
   }
   
 
-  Database_Logs::log ("Updating Sprint information", roles::manager);
+  database::logs::log ("Updating Sprint information", roles::manager);
 
   Webserver_Request request;
   Database_Sprint database_sprint = Database_Sprint ();
@@ -179,7 +179,7 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
       } else {
         
         // Since there are no tasks, no mail will be sent: Make a logbook entry.
-        Database_Logs::log ("No tasks in this Sprint: No email was sent");
+        database::logs::log ("No tasks in this Sprint: No email was sent");
       }
     }
   }

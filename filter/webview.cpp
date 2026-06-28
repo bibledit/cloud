@@ -28,7 +28,7 @@ void filter_webview_log_user_agent (std::string user_agent)
 
   // Log the browser's user agent once.
   if (!filter_webview_logged) {
-    Database_Logs::log (user_agent);
+    database::logs::log (user_agent);
     filter_webview_logged = true;
   }
 }

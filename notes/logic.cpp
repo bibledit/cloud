@@ -592,7 +592,7 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
     email::schedule (username, confirm_subject, body);
   }
   // Log operation.
-  Database_Logs::log ("Comment posted: " + body);
+  database::logs::log ("Comment posted: " + body);
   // Job done.
   return true;
 }
@@ -683,7 +683,7 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
     email::schedule (username, subject + ": " + originalSubject, body);
   }
   // Log operation.
-  Database_Logs::log ("New note posted : " + body);
+  database::logs::log ("New note posted : " + body);
   // Job done.
   return true;
 }

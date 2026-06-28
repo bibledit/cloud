@@ -255,7 +255,7 @@ void error (sqlite3 * database, const std::string& prefix, const char * error)
       message.append (" - ");
     message.append ("No database connection");
   }
-  Database_Logs::log (message);
+  database::logs::log (message);
 }
 
 

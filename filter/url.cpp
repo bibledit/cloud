@@ -539,7 +539,7 @@ void filter_url_rmdir (const std::string& directory)
   } 
   catch (const std::exception& exception)
   {
-    Database_Logs::log(exception.what());
+    database::logs::log(exception.what());
   }
 }
 #else
@@ -677,7 +677,7 @@ bool filter_url_file_cp (const std::string& input, const std::string& output)
     std::filesystem::copy(input, output, std::filesystem::copy_options::overwrite_existing);
   }
   catch (const std::exception& exception) {
-    Database_Logs::log (exception.what());
+    database::logs::log (exception.what());
     return false;
   }
   return true;
@@ -1268,7 +1268,7 @@ int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char 
   if (type == CURLINFO_SSL_DATA_OUT) log = false;
   if (log) {
     std::string message (data, size);
-    Database_Logs::log (message);
+    database::logs::log (message);
   }
   return 0;
 }
@@ -1576,13 +1576,13 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
 #else
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(timeval));
 #endif
-    if (ret != 0) Database_Logs::log (strerror (errno));
+    if (ret != 0) database::logs::log (strerror (errno));
 #ifdef HAVE_WINDOWS
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, tv, sizeof (tv));
 #else
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(timeval));
 #endif
-    if (ret != 0) Database_Logs::log (strerror (errno));
+    if (ret != 0) database::logs::log (strerror (errno));
   }
   
   
@@ -1890,7 +1890,7 @@ void filter_url_display_mbed_tls_error (int& ret, std::string* error, bool serve
   if (error) {
     error->assign (msg);
   } else {
-    Database_Logs::log (msg);
+    database::logs::log (msg);
   }
 }
 

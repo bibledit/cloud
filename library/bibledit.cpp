@@ -138,7 +138,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   hours = static_cast<int>(round (lt.tm_gmtoff / 3600));
 #endif
   config_globals_timezone_offset_utc = hours;
-  Database_Logs::log ("Timezone offset in hours: " + std::to_string(hours));
+  database::logs::log ("Timezone offset in hours: " + std::to_string(hours));
 #endif
 
   // Initialize obfuscation data.
@@ -383,7 +383,7 @@ void bibledit_shutdown_library ()
 // Puts an entry in the journal.
 void bibledit_log (const char * message)
 {
-  Database_Logs::log (message);
+  database::logs::log (message);
 }
 
 

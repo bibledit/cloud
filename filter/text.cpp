@@ -88,7 +88,7 @@ void Filter_Text::add_usfm_code (std::string usfm)
 {
   // Check that the USFM is valid UTF-8.
   if (!filter::string::unicode_string_is_valid (usfm)) {
-    Database_Logs::log (translate ("Exporting invalid UTF-8.") + " " + translate ("Please check.") + " " + usfm);
+    database::logs::log (translate ("Exporting invalid UTF-8.") + " " + translate ("Please check.") + " " + usfm);
   }
   // Clean the USFM.
   usfm = filter::string::trim (usfm);

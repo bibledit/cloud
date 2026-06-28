@@ -92,7 +92,7 @@ std::string session_login (Webserver_Request& webserver_request)
       // Authenticate against local database.
       if (webserver_request.session_logic()->attempt_login (user, pass, touch_enabled)) {
         // Log the login.
-        Database_Logs::log (webserver_request.session_logic ()->get_username () + " logged in");
+        database::logs::log (webserver_request.session_logic ()->get_username () + " logged in");
         // Store web site's base URL.
         const std::string site_url = get_base_url (webserver_request);
         database::config::general::set_site_url (site_url);
@@ -102,7 +102,7 @@ std::string session_login (Webserver_Request& webserver_request)
         // Log the login failure for the Administrator(s) only.
         // Others with lower roles should not be able to reverse engineer a user's password
         // based on the failure information.
-        Database_Logs::log ("Failed login attempt for user " + user + " with password " + pass, roles::admin);
+        database::logs::log ("Failed login attempt for user " + user + " with password " + pass, roles::admin);
       }
     }
   }

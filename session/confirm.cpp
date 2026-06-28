@@ -72,7 +72,7 @@ std::string session_confirm ([[maybe_unused]] Webserver_Request& webserver_reque
     // Authenticate against local database, but skipping some checks.
     if (webserver_request.session_logic()->attempt_login (email, std::string(), true, true)) {
       // Log the login.
-      Database_Logs::log (webserver_request.session_logic ()->get_username () + " confirmed account and logged in");
+      database::logs::log (webserver_request.session_logic ()->get_username () + " confirmed account and logged in");
       // Store web site's base URL.
       const std::string site_url = get_base_url (webserver_request);
       database::config::general::set_site_url (site_url);

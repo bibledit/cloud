@@ -89,12 +89,12 @@ std::string editusfm_save (Webserver_Request& webserver_request)
   // https://github.com/bibledit/cloud/issues/711
   usfm = filter::string::collapse_whitespace(std::move(usfm));
   if (usfm.empty ()) {
-    Database_Logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
+    database::logs::log ("There was no text. Nothing was saved. The original text of the chapter was reloaded.");
     return translate("Nothing to save");
   }
 
   if (!filter::string::unicode_string_is_valid (usfm)) {
-    Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
+    database::logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
     return translate("Needs Unicode");
   }
 
@@ -110,7 +110,7 @@ std::string editusfm_save (Webserver_Request& webserver_request)
         chapters.append(" ");
       chapters.append(std::to_string(bct.m_chapter));
     }
-    Database_Logs::log ("Could not save the chapter because it contains more than one chapter:" + chapters);
+    database::logs::log ("Could not save the chapter because it contains more than one chapter:" + chapters);
     return translate("Multiple chapters") + " " + chapters;
   }
 
@@ -143,7 +143,7 @@ std::string editusfm_save (Webserver_Request& webserver_request)
     if (server_usfm != ancestor_usfm) {
       // Prioritize the USFM to save.
       chapter_data_to_save = filter_merge_run (ancestor_usfm, server_usfm, chapter_data_to_save, true, conflicts);
-      Database_Logs::log (translate ("Merging and saving chapter."));
+      database::logs::log (translate ("Merging and saving chapter."));
     }
   }
   

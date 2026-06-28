@@ -206,7 +206,7 @@ void Editor_Html2Usfm::process_node(pugi::xml_node& node)
     case pugi::node_cdata:
     default:
     {
-      Database_Logs::log ("XML node " + std::string(node.name ()) + " not handled while saving editor text");
+      database::logs::log ("XML node " + std::string(node.name ()) + " not handled while saving editor text");
       break;
     }
   }
@@ -497,7 +497,7 @@ void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node)
     parent.remove_child (note_p_element);
 
   } else {
-    Database_Logs::log ("Discarding note with id " + id);
+    database::logs::log ("Discarding note with id " + id);
   }
 }
 
@@ -596,10 +596,10 @@ void Editor_Html2Usfm::post_process ()
   
   // Log any word-level and milestone attributes that have not been integrated into the USFM.
   for (const auto& element : m_word_level_attributes) {
-    Database_Logs::log ("Discarding unprocessed word-level attribute with key: " + element.first + " and value: " + element.second);
+    database::logs::log ("Discarding unprocessed word-level attribute with key: " + element.first + " and value: " + element.second);
   }
   for (const auto& element : m_milestone_attributes) {
-    Database_Logs::log ("Discarding unprocessed milestone attribute with key: " + element.first + " and value: " + element.second);
+    database::logs::log ("Discarding unprocessed milestone attribute with key: " + element.first + " and value: " + element.second);
   }
 }
 

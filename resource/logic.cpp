@@ -434,7 +434,7 @@ std::string resource_logic_cloud_get_translation (Webserver_Request& webserver_r
 
   // Done.
   if (translation_success) return translated_text;
-  Database_Logs::log (translation_error);
+  database::logs::log (translation_error);
   return "Failed to translate";
 }
 
@@ -553,7 +553,7 @@ std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, 
   }
   if (!error.empty ()) {
     // Error: Log it, and add it to the contents.
-    Database_Logs::log (resource + ": " + error);
+    database::logs::log (resource + ": " + error);
     content.append (error);
   }
 
@@ -775,7 +775,7 @@ void resource_logic_create_cache ()
   std::vector <int> chapters = database_versifications.getMaximumChapters (book);
   for (const auto& chapter : chapters) {
 
-    Database_Logs::log ("Caching " + resource + " " + bookname + " " + std::to_string (chapter), roles::consultant);
+    database::logs::log ("Caching " + resource + " " + bookname + " " + std::to_string (chapter), roles::consultant);
 
     // The verse numbers in the chapter.
     std::vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
@@ -804,11 +804,11 @@ void resource_logic_create_cache ()
         // Check on errors.
         server_is_installing_module = (html == sword_logic_installing_module_text ());
         if (server_is_installing_module) {
-          Database_Logs::log ("Waiting while installing SWORD module: " + resource);
+          database::logs::log ("Waiting while installing SWORD module: " + resource);
         }
         server_is_updating = html.find ("... upgrading ...") != std::string::npos;
         if (server_is_updating) {
-          Database_Logs::log ("Waiting while Cloud is upgrading itself");
+          database::logs::log ("Waiting while Cloud is upgrading itself");
         }
         // In case of server unavailability, wait a while, then try again.
         server_is_unavailable = server_is_installing_module || server_is_updating;
@@ -829,7 +829,7 @@ void resource_logic_create_cache ()
 
   // Done.
   database::cache::sql::ready (resource, book, true);
-  Database_Logs::log ("Completed caching " + resource + " " + bookname, roles::consultant);
+  database::logs::log ("Completed caching " + resource + " " + bookname, roles::consultant);
   resource_logic_create_cache_running = false;
   
   // If there's another resource database waiting to be cached, schedule it for caching.
@@ -866,7 +866,7 @@ std::string resource_logic_bible_gateway_module_list_path ()
 // Refreshes the list of resources available from BibleGateway.
 std::string resource_logic_bible_gateway_module_list_refresh ()
 {
-  Database_Logs::log ("Refresh BibleGateway resources");
+  database::logs::log ("Refresh BibleGateway resources");
   std::string path = resource_logic_bible_gateway_module_list_path ();
   std::string error {};
   std::string html = filter_url_http_get ("https://www.biblegateway.com/versions/", error, false);
@@ -884,9 +884,9 @@ std::string resource_logic_bible_gateway_module_list_refresh ()
       resources.push_back (name);
     }
     filter_url_file_put_contents (path, filter::string::implode (resources, "\n"));
-    Database_Logs::log ("Modules: " + std::to_string (resources.size ()));
+    database::logs::log ("Modules: " + std::to_string (resources.size ()));
   } else {
-    Database_Logs::log (error);
+    database::logs::log (error);
   }
   return error;
 }
@@ -1207,7 +1207,7 @@ std::string resource_logic_study_light_module_list_path ()
 // Refreshes the list of resources available from StudyLight.
 std::string resource_logic_study_light_module_list_refresh ()
 {
-  Database_Logs::log ("Refresh StudyLight resources");
+  database::logs::log ("Refresh StudyLight resources");
   std::string path {resource_logic_study_light_module_list_path ()};
   std::string error {};
   std::string html = filter_url_http_get ("https://www.studylight.org/commentaries", error, false);
@@ -1246,9 +1246,9 @@ std::string resource_logic_study_light_module_list_refresh ()
     // Store the resources in a file.
     filter_url_file_put_contents (path, filter::string::implode (resources, "\n"));
     // Done.
-    Database_Logs::log ("Modules: " + std::to_string (resources.size ()));
+    database::logs::log ("Modules: " + std::to_string (resources.size ()));
   } else {
-    Database_Logs::log (error);
+    database::logs::log (error);
   }
   return error;
 }

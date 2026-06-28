@@ -37,5 +37,5 @@ void pugixml_utils_error_logger (void * pugi_xml_parse_result, const std::string
   msg.append (std::to_string (result->offset));
   msg.append (": ");
   msg.append (fragment);
-  Database_Logs::log (msg);
+  database::logs::log (msg);
 }

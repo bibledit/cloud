@@ -101,7 +101,7 @@ void user_logic_delete_account (std::string user, std::string role, std::string 
                                 std::string & feedback)
 {
   feedback = "Deleted user " + user + " with role " + role + " and email " + email;
-  Database_Logs::log (feedback, roles::admin);
+  database::logs::log (feedback, roles::admin);
   Database_Users database_users;
   database_users.removeUser (user);
   database_privileges_client_remove (user);

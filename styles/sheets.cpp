@@ -38,7 +38,7 @@ void styles_sheets_create_all ()
 
 void styles_sheets_create_all_run ()
 {
-  Database_Logs::log ("Creating stylesheet.css files");
+  database::logs::log ("Creating stylesheet.css files");
   Styles_Sheets styles_sheets;
   styles_sheets.recreate ();
 }

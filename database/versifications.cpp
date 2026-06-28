@@ -101,7 +101,7 @@ void Database_Versifications::input (const std::string& contents, const std::str
     int book = static_cast<int>(database::books::get_id_from_english(passage_book_string));
     // Check result.
     if ((book == 0) || (chapter == 0)) {
-      Database_Logs::log ("Malformed versification entry: " + line);
+      database::logs::log ("Malformed versification entry: " + line);
       continue;
     }
     // Store result.

@@ -65,19 +65,19 @@ void receive ()
       std::string body;
       filter_mail_dissect (message, from, subject, body);
       
-      Database_Logs::log ("Processing email from " + from + " with subject " + subject);
+      database::logs::log ("Processing email from " + from + " with subject " + subject);
       
       if (notes_logic.handleEmailComment (from, subject, body)) {
       }
       else if (notes_logic.handleEmailNew (from, subject, body)) {
       }
       else {
-        Database_Logs::log ("Could not allocate email from " + from + ", subject " + subject);
-        Database_Logs::log (body);
+        database::logs::log ("Could not allocate email from " + from + ", subject " + subject);
+        database::logs::log (body);
       }
       
     } else {
-      Database_Logs::log ("Error retrieving mail: " + error);
+      database::logs::log ("Error retrieving mail: " + error);
     }
     
   }

@@ -28,7 +28,7 @@ void store_chapter (const std::string& bible, int book, int chapter, const std::
 void delete_chapter (const std::string& bible, int book, int chapter);
 void delete_book (const std::string& bible, int book);
 void delete_bible (const std::string& bible);
-void import_resource (std::string bible, std::string resource);
+void import_resource (const std::string& bible, const std::string& resource);
 void log_change (const std::string& bible, int book, int chapter, const std::string& usfm, std::string user, const std::string & summary, bool force);
 void log_merge (const std::string& user, const std::string& bible, int book, int chapter,
                 const std::string& base, const std::string& change,

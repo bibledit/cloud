@@ -299,17 +299,17 @@ static void webserver_process_request (const int conn_fd, const std::string clie
     {
         std::string message("Internal error: ");
         message.append(e.what());
-        Database_Logs::log(message);
+        database::logs::log(message);
     }
     catch (const std::exception* e)
     {
         std::string message("Internal error: ");
         message.append(e->what());
-        Database_Logs::log(message);
+        database::logs::log(message);
     }
     catch (...)
     {
-        Database_Logs::log("A general internal error occurred");
+        database::logs::log("A general internal error occurred");
     }
 
     // Done: Close.
@@ -345,7 +345,7 @@ void http_server()
         std::string error = "Error opening socket: ";
         error.append(strerror(errno));
         std::cerr << error << std::endl;
-        Database_Logs::log(error);
+        database::logs::log(error);
         listener_healthy = false;
     }
 
@@ -359,7 +359,7 @@ void http_server()
         std::string error = "Error setting socket option: ";
         error.append(strerror(errno));
         std::cerr << error << std::endl;
-        Database_Logs::log(error);
+        database::logs::log(error);
     }
 
     // The listening socket will be an endpoint for all requests to a port on this host.
@@ -387,7 +387,7 @@ void http_server()
         std::string error = "Error binding server to socket: ";
         error.append(strerror(errno));
         std::cerr << error << std::endl;
-        Database_Logs::log(error);
+        database::logs::log(error);
         listener_healthy = false;
     }
 
@@ -399,7 +399,7 @@ void http_server()
         std::string error = "Error listening on socket: ";
         error.append(strerror(errno));
         std::cerr << error << std::endl;
-        Database_Logs::log(error);
+        database::logs::log(error);
         listener_healthy = false;
     }
 
@@ -441,7 +441,7 @@ void http_server()
             std::string error = "Error accepting connection on socket: ";
             error.append(strerror(errno));
             std::cerr << error << std::endl;
-            Database_Logs::log(error);
+            database::logs::log(error);
         }
     }
 
@@ -507,7 +507,7 @@ void http_server()
     {
         std::string error = "Could not initialize Windows Sockets with error " + std::to_string(result);
         std::cerr << error << std::endl;
-        Database_Logs::log(error);
+        database::logs::log(error);
         listener_healthy = false;
     }
     // Check for the correct requested Windows Sockets interface version.
@@ -515,7 +515,7 @@ void http_server()
     {
         std::string error = "Incorrect Windows Sockets version";
         std::cerr << error << std::endl;
-        Database_Logs::log(error);
+        database::logs::log(error);
         listener_healthy = false;
     }
 
@@ -525,7 +525,7 @@ void http_server()
     {
         std::string error = "Socket failed with error " + std::to_string(WSAGetLastError());
         std::cerr << error << std::endl;
-        Database_Logs::log(error);
+        database::logs::log(error);
         listener_healthy = false;
     }
 
@@ -542,7 +542,7 @@ void http_server()
     {
         std::string error = "Error binding server to socket";
         std::cerr << error << std::endl;
-        Database_Logs::log(error);
+        database::logs::log(error);
         listener_healthy = false;
     }
 
@@ -552,7 +552,7 @@ void http_server()
     {
         std::string error = "Listen failed with error " + std::to_string(WSAGetLastError());
         std::cerr << error << std::endl;
-        Database_Logs::log(error);
+        database::logs::log(error);
         listener_healthy = false;
     }
 
@@ -862,17 +862,17 @@ static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_n
     {
         std::string message("Internal error: ");
         message.append(e.what());
-        Database_Logs::log(message);
+        database::logs::log(message);
     }
     catch (const std::exception* e)
     {
         std::string message("Internal error: ");
         message.append(e->what());
-        Database_Logs::log(message);
+        database::logs::log(message);
     }
     catch (...)
     {
-        Database_Logs::log("A general internal error occurred");
+        database::logs::log("A general internal error occurred");
     }
 
     // Close client network connection.
@@ -906,13 +906,13 @@ void https_server()
         const std::string contents{filter_url_file_get_contents(server_key_path)};
         if (contents.empty())
         {
-            Database_Logs::log("Cannot read " + server_key_path + " so not running secure server");
+            database::logs::log("Cannot read " + server_key_path + " so not running secure server");
             return;
         }
     }
     else
     {
-        Database_Logs::log(
+        database::logs::log(
             "Cannot find server private key in " + config::logic::server_key_path(true) +
             " so not running secure server");
         return;
@@ -922,13 +922,13 @@ void https_server()
         const std::string contents{filter_url_file_get_contents(server_certificate_path)};
         if (contents.empty())
         {
-            Database_Logs::log("Cannot read " + server_certificate_path + " so not running secure server");
+            database::logs::log("Cannot read " + server_certificate_path + " so not running secure server");
             return;
         }
     }
     else
     {
-        Database_Logs::log(
+        database::logs::log(
             "Cannot find server certificate in " + config::logic::server_certificate_path(true) +
             " so not running secure server");
         return;
@@ -938,13 +938,13 @@ void https_server()
         std::string contents{filter_url_file_get_contents(authorities_certificates_path)};
         if (contents.empty())
         {
-            Database_Logs::log("Cannot read " + authorities_certificates_path + " so not running secure server");
+            database::logs::log("Cannot read " + authorities_certificates_path + " so not running secure server");
             return;
         }
     }
     else
     {
-        Database_Logs::log(
+        database::logs::log(
             "Cannot find certificate authorities chain in " + config::logic::authorities_certificates_path(true) +
             " so not running secure server");
         return;
@@ -975,7 +975,7 @@ void https_server()
     if (psa_status != PSA_SUCCESS)
     {
 #pragma GCC diagnostic pop
-        Database_Logs::log("Failure to run PSA crypto initialization: Not running the secure server");
+        database::logs::log("Failure to run PSA crypto initialization: Not running the secure server");
         return;
     }
 
@@ -987,7 +987,7 @@ void https_server()
     if (ret != 0)
     {
         filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
-        Database_Logs::log("Invalid " + server_key_path + " so not running secure server");
+        database::logs::log("Invalid " + server_key_path + " so not running secure server");
         return;
     }
 
@@ -1000,7 +1000,7 @@ void https_server()
     if (ret != 0)
     {
         filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
-        Database_Logs::log("Invalid " + server_certificate_path + " so not running secure server");
+        database::logs::log("Invalid " + server_certificate_path + " so not running secure server");
         return;
     }
 
@@ -1009,7 +1009,7 @@ void https_server()
     if (ret != 0)
     {
         filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
-        Database_Logs::log("Invalid " + authorities_certificates_path + " so not running secure server");
+        database::logs::log("Invalid " + authorities_certificates_path + " so not running secure server");
         return;
     }
 

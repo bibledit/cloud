@@ -87,7 +87,7 @@ void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* func
     std::string sfunction(wfunction.begin(), wfunction.end());
     std::wstring wfile(file);
     std::string sfile(wfile.begin(), wfile.end());
-    Database_Logs::log(
+    database::logs::log(
         "Invalid parameter detected in function " + sfunction + " in file " + sfile + " line " + std::to_string(line) +
         " expression " + sexpression + ".");
 }
@@ -203,11 +203,11 @@ int main()
     filter_url_unlink(backtrace_path());
     if (!backtrace.empty())
     {
-        Database_Logs::log("Backtrace of the last segmentation fault:");
+        database::logs::log("Backtrace of the last segmentation fault:");
         std::vector<std::string> lines = filter::string::explode(backtrace, '\n');
         for (auto& line : lines)
         {
-            Database_Logs::log(line);
+            database::logs::log(line);
             // Set a flag if the backtrace appears to be caused while sending email.
             if (line.find("email_send") != std::string::npos) config_globals_has_crashed_while_mailing = true;
         }

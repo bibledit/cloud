@@ -40,7 +40,7 @@ static void log_absent_executable_internal(const char* executable)
 {
   std::stringstream ss{};
   ss << "Command line tool " << std::quoted(executable) << " was not found";
-  Database_Logs::log (ss.str());
+  database::logs::log (ss.str());
 }
 
 
@@ -131,7 +131,7 @@ int run ([[maybe_unused]] std::string directory,
          [[maybe_unused]] std::string* error)
 {
 #ifdef HAVE_CLIENT
-  Database_Logs::log ("Did not run on client: " + command);
+  database::logs::log ("Did not run on client: " + command);
   return 0;
 #else
   command = escape_argument (command);
@@ -153,13 +153,13 @@ int run ([[maybe_unused]] std::string directory,
   if (output) {
     output->assign (contents);
   } else {
-    Database_Logs::log (contents);
+    database::logs::log (contents);
   }
   contents = filter_url_file_get_contents (standarderr);
   if (error) {
     error->assign (contents);
   } else {
-    Database_Logs::log (contents);
+    database::logs::log (contents);
   }
   filter_url_unlink (standardout);
   filter_url_unlink (standarderr);
@@ -175,7 +175,7 @@ int run (const std::string& command,
          [[maybe_unused]] std::string& output)
 {
 #ifdef HAVE_CLIENT
-  Database_Logs::log ("Did not run on client: " + command);
+  database::logs::log ("Did not run on client: " + command);
   return 0;
 #else
   // File descriptor for file to write child's stdout to.
@@ -192,7 +192,7 @@ int run (const std::string& command,
     close(fd);
     execlp (command.c_str(), parameter, nullptr);
     // The above only returns in case of an error.
-    Database_Logs::log (strerror (errno));
+    database::logs::log (strerror (errno));
     // Use_exit instead of exit, so there's no flushing.
     _exit (1);
     //close (fd);
@@ -298,7 +298,7 @@ int vfork ([[maybe_unused]] std::string& output,
 {
   int status = 0;
 #ifdef HAVE_CLIENT
-  Database_Logs::log ("Did not run on client: " + command);
+  database::logs::log ("Did not run on client: " + command);
 #else
   
   // File descriptors for files to write child's stdout and stderr to.
@@ -314,7 +314,7 @@ int vfork ([[maybe_unused]] std::string& output,
 #pragma clang diagnostic pop
   if (pid != 0) {
     if (pid < 0) {
-      Database_Logs::log ("Failed to run " + command);
+      database::logs::log ("Failed to run " + command);
     } else {
       wait (&status);
     }
@@ -329,7 +329,7 @@ int vfork ([[maybe_unused]] std::string& output,
     }
     execlp (command.c_str(), command.c_str(), p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, nullptr);
     // The above only returns in case of an error.
-    Database_Logs::log (command + ": " + strerror (errno));
+    database::logs::log (command + ": " + strerror (errno));
     _exit (1);
     //close (fd);
     return -1;

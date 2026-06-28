@@ -57,7 +57,7 @@ TEST (ldap, logic)
   
   // Check there is one journal entry as a result of authenticating a user.
   std::string last = "0";
-  std::vector <std::string> logs = Database_Logs::get (last);
+  std::vector <std::string> logs = database::logs::get (last);
   EXPECT_EQ (1, logs.size ());
   
   // Clear LDAP settings.

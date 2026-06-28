@@ -31,7 +31,7 @@ void trash_change_notification (Webserver_Request& webserver_request, int id)
   std::string passageText = filter_passage_display_inline ({passage});
   std::string modification = database::modifications::getNotificationModification (id);
   const std::string& username = webserver_request.session_logic ()->get_username ();
-  Database_Logs::log (username + " removed change notification " + passageText + " : " + modification);
+  database::logs::log (username + " removed change notification " + passageText + " : " + modification);
 }
 
 
@@ -45,5 +45,5 @@ void trash_consultation_note (Webserver_Request& webserver_request, int id)
   contents = filter::string::html2text (contents);
   std::string username = webserver_request.session_logic ()->get_username ();
   if (username.empty ()) username = "This app";
-  Database_Logs::log (username + " deleted or marked for deletion consultation note " + passageText + " | " + summary + " | " + contents);
+  database::logs::log (username + " deleted or marked for deletion consultation note " + passageText + " | " + summary + " | " + contents);
 }

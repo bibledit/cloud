@@ -25,13 +25,13 @@
 
 void sources_hebrewlexicon_parse ()
 {
-  Database_Logs::log ("Start parsing Open Scriptures's Hebrew Lexicon");
+  database::logs::log ("Start parsing Open Scriptures's Hebrew Lexicon");
   Database_HebrewLexicon database_hebrewlexicon;
   database_hebrewlexicon.create ();
   /* To redo this with pugixml
 
   {
-    Database_Logs::log ("AugIndex.xml");
+    database::logs::log ("AugIndex.xml");
     xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/AugIndex.xml");
     
     std::string aug;
@@ -66,7 +66,7 @@ void sources_hebrewlexicon_parse ()
   }
   
   {
-    Database_Logs::log ("BrownDriverBriggs.xml");
+    database::logs::log ("BrownDriverBriggs.xml");
     xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/BrownDriverBriggs.xml");
     
     std::string id;
@@ -108,7 +108,7 @@ void sources_hebrewlexicon_parse ()
   }
 
   {
-    Database_Logs::log ("LexicalIndex.xml");
+    database::logs::log ("LexicalIndex.xml");
     xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/LexicalIndex.xml");
     
     std::string id;
@@ -147,7 +147,7 @@ void sources_hebrewlexicon_parse ()
   }
   
   {
-    Database_Logs::log ("HebrewStrong.xml");
+    database::logs::log ("HebrewStrong.xml");
     xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/HebrewStrong.xml");
     
     std::string id;
@@ -184,7 +184,7 @@ void sources_hebrewlexicon_parse ()
   }
 
   {
-    Database_Logs::log ("PartsOfSpeech.xml");
+    database::logs::log ("PartsOfSpeech.xml");
     xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/PartsOfSpeech.xml");
     
     std::string code;
@@ -219,5 +219,5 @@ void sources_hebrewlexicon_parse ()
   }
    */
   
-  Database_Logs::log ("Finished parsing Open Scriptures's Hebrew Lexicon");
+  database::logs::log ("Finished parsing Open Scriptures's Hebrew Lexicon");
 }

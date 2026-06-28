@@ -42,7 +42,7 @@ std::string navigation_paratext (Webserver_Request& webserver_request)
   // Reference should differ from the previous one.
   if (!from.empty () && (from != previous_from)) {
     previous_from = from;
-    Database_Logs::log("Paratext is at " + from);
+    database::logs::log("Paratext is at " + from);
     // User should have set to receive references from Paratext.
     if (webserver_request.database_config_user ()->get_receive_focused_reference_from_paratext ()) {
       // Parse the reference from Paratext.

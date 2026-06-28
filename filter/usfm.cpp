@@ -704,7 +704,7 @@ std::string save_is_safe (Webserver_Request& webserver_request,
     explanation.append ("The length differs " + std::to_string(percentage) + "% from the existing text.");
     explanation.append (" ");
     explanation.append (explanation2);
-    Database_Logs::log (explanation + "\n" + newtext);
+    database::logs::log (explanation + "\n" + newtext);
     return translate ("Text length differs too much");
   }
   
@@ -726,7 +726,7 @@ std::string save_is_safe (Webserver_Request& webserver_request,
     explanation.append ("The new text is " + std::to_string(percentage) + "% similar to the existing text.");
     explanation.append (" ");
     explanation.append (explanation2);
-    Database_Logs::log (explanation + "\n" + newtext);
+    database::logs::log (explanation + "\n" + newtext);
     return translate ("Text content differs too much");
   }
   
@@ -750,7 +750,7 @@ std::string safely_store_chapter (Webserver_Request& webserver_request,
   // Check if Bible is given.
   if (bible.empty ()) {
     explanation = "The Bible is not given";
-    Database_Logs::log (explanation + ": " + usfm);
+    database::logs::log (explanation + ": " + usfm);
     return translate ("Missing Bible");
   }
 
@@ -790,7 +790,7 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   // Check if Bible is given.
   if (bible.empty ()) {
     explanation = "The Bible is not given";
-    Database_Logs::log (explanation + ": " + usfm);
+    database::logs::log (explanation + ": " + usfm);
     return translate ("Missing Bible");
   }
 
@@ -803,7 +803,7 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   }
   if (save_verses.empty ()) {
     explanation = "The USFM contains no verse information";
-    Database_Logs::log (explanation + ": " + usfm);
+    database::logs::log (explanation + ": " + usfm);
     return translate ("Missing verse number");
   }
   if (!filter::string::in_array (verse, save_verses)) {
@@ -811,7 +811,7 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
     for (auto vs : save_verses)
       vss.push_back (std::to_string(vs));
     explanation = "The USFM contains verse(s) " + filter::string::implode (vss, " ") + " while it wants to save to verse " + std::to_string (verse);
-    Database_Logs::log (explanation + ": " + usfm);
+    database::logs::log (explanation + ": " + usfm);
     return translate ("Verse mismatch");
   }
 
@@ -846,7 +846,7 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
     for (auto vs : existing_verses) existing.push_back (std::to_string(vs));
     for (auto vs : save_verses) save.push_back (std::to_string(vs));
     explanation = "The USFM contains verse(s) " + filter::string::implode (save, " ") + " which would overwrite a fragment that contains verse(s) " + filter::string::implode (existing, " ");
-    Database_Logs::log (explanation + ": " + usfm);
+    database::logs::log (explanation + ": " + usfm);
     return translate ("Cannot overwrite another verse");
   }
 
@@ -864,7 +864,7 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   const size_t length = existing_verse_usfm.length ();
   if (pos == std::string::npos) {
     explanation = "Cannot find the exact location in the chapter where to save this USFM fragment";
-    Database_Logs::log (explanation + ": " + usfm);
+    database::logs::log (explanation + ": " + usfm);
     return translate ("Doesn't know where to save");
   }
   chapter_usfm.erase (pos, length);
@@ -876,13 +876,13 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
     const std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (chapter_usfm, stylesv2::standard_sheet());
     if (book_chapter_text.size () != 1) {
       explanation = "Cannot save " + std::to_string(book_chapter_text.size ()) + " chapters";
-      Database_Logs::log (explanation + ": " + usfm);
+      database::logs::log (explanation + ": " + usfm);
       return translate ("Incorrect chapter");
     }
     const int chapter_number = book_chapter_text.at(0).m_chapter;
     if (chapter_number != chapter) {
       explanation = "Incorrect chapter " + std::to_string (chapter_number);
-      Database_Logs::log (explanation + ": " + usfm);
+      database::logs::log (explanation + ": " + usfm);
       return translate ("Incorrect chapter");
     }
     // The import process above has put the new lines correct, take that correct USFM for saving below.

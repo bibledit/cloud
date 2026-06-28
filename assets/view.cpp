@@ -75,7 +75,7 @@ std::string Assets_View::render (const std::string& tpl1, const std::string& tpl
 
   // The flate engine crashes if the template does not exist, so be sure it exists.  
   if (!file_or_dir_exists (tpl)) {
-    Database_Logs::log ("Cannot find template file " + tpl);
+    database::logs::log ("Cannot find template file " + tpl);
     return std::string();
   }
 

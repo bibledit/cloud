@@ -63,7 +63,7 @@ std::string render_journal_entry (std::string filename, [[maybe_unused]] int use
   // followed by the number of microseconds within the current second.
 
   // Get the contents of the file.
-  std::string path = filter_url_create_path ({Database_Logs::folder (), filename});
+  std::string path = filter_url_create_path ({database::logs::folder (), filename});
   std::string entry = filter_url_file_get_contents (path);
   
   // Deal with the user-level of the entry.
@@ -109,7 +109,7 @@ std::string render_journal_entry (std::string filename, [[maybe_unused]] int use
 std::string journal_index_ajax_next (Webserver_Request& webserver_request, std::string filename)
 {
   int userLevel = webserver_request.session_logic()->get_level ();
-  std::string result = Database_Logs::next (filename);
+  std::string result = database::logs::next (filename);
   if (!result.empty()) {
     result = render_journal_entry (result, userLevel);
     result.insert (0, filename + "\n");
@@ -133,7 +133,7 @@ std::string journal_index (Webserver_Request& webserver_request)
   if (!expansion.empty ()) {
     // Get file path.
     expansion = filter_url_basename_web (expansion);
-    std::string path = filter_url_create_path ({Database_Logs::folder (), expansion});
+    std::string path = filter_url_create_path ({database::logs::folder (), expansion});
     // Get contents of the record.
     expansion = filter_url_file_get_contents (path);
     // Remove the user's level.
@@ -158,7 +158,7 @@ std::string journal_index (Webserver_Request& webserver_request)
 
 
   if (webserver_request.query.count ("clear")) {
-    Database_Logs::clear ();
+    database::logs::clear ();
     // If the logbook has been cleared on a mobile device, and the screen goes off,
     // and then the user activates the screen on the mobile device,
     // the logbook will then again be cleared, because that was the last opened URL.
@@ -169,7 +169,7 @@ std::string journal_index (Webserver_Request& webserver_request)
 
   
   std::string lastfilename;
-  std::vector <std::string> records = Database_Logs::get (lastfilename);
+  std::vector <std::string> records = database::logs::get (lastfilename);
 
 
   std::string lines;

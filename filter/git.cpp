@@ -46,7 +46,7 @@ std::string filter_git_directory (std::string object)
 void filter_git_check_error (std::string data)
 {
   std::vector <std::string> lines = filter::string::explode (data, '\n');
-  for (auto & line : lines) Database_Logs::log (line);
+  for (auto & line : lines) database::logs::log (line);
 }
 
 
@@ -249,7 +249,7 @@ void filter_git_sync_git_to_bible (std::string repository, std::string bible)
                   bible_logic::store_chapter (bible, book, chapter, usfm);
                   // Log it.
                   std::string message = translate("A translator added chapter") + " " + bible + " " + bookname + " " + chapterfile;
-                  Database_Logs::log (message);
+                  database::logs::log (message);
                 }
               }
             }
@@ -281,17 +281,17 @@ void filter_git_sync_git_to_bible (std::string repository, std::string bible)
           std::string usfm = database::bibles::get_chapter (bible, book, chapter);
           if (contents != usfm) {
             bible_logic::store_chapter (bible, book, chapter, contents);
-            Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
+            database::logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
             rss_logic_schedule_update ("collaborator", bible, book, chapter, usfm, contents);
           }
         } else {
           bible_logic::delete_chapter (bible, book, chapter);
-          Database_Logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
+          database::logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
         }
       }
     } else {
       bible_logic::delete_book (bible, book);
-      Database_Logs::log (translate("A translator deleted book") + " " + bible + " " + bookname);
+      database::logs::log (translate("A translator deleted book") + " " + bible + " " + bookname);
     }
   }
 }
@@ -325,7 +325,7 @@ void filter_git_sync_git_chapter_to_bible (std::string repository, std::string b
     
     // Delete chapter from database.
     bible_logic::delete_chapter (bible, book, chapter);
-    Database_Logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
+    database::logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
     
   }
 }
@@ -581,7 +581,7 @@ void filter_git_config (std::string repository)
   // This is to be removed.
   std::string index_lock = filter_url_create_path ({repository, ".git", "index.lock"});
   if (file_or_dir_exists (index_lock)) {
-    Database_Logs::log ("Cleaning out index lock " + index_lock);
+    database::logs::log ("Cleaning out index lock " + index_lock);
     filter_url_unlink (index_lock);
   }
 

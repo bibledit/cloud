@@ -19,69 +19,70 @@
 
 #include <styles/sheets.h>
 #include <filter/url.h>
-#include <filter/string.h>
-#include <filter/roles.h>
 #include <tasks/logic.h>
 #include <database/styles.h>
 #include <database/logs.h>
 #include <styles/css.h>
-#include <webserver/request.h>
+
+
+namespace styles::sheets {
 
 
 // Recreates all stylesheet.css files through a background process.
 // The advantage of this is that the user interface will be more responsive.
-void styles_sheets_create_all ()
+void create_all ()
 {
-  tasks_logic_queue (task::create_css);
+    tasks_logic_queue (task::create_css);
 }
 
 
-void styles_sheets_create_all_run ()
+void create_all_run ()
 {
-  database::logs::log ("Creating stylesheet.css files");
-  Styles_Sheets styles_sheets;
-  styles_sheets.recreate ();
+    database::logs::log ("Creating stylesheet.css files");
+    recreate ();
+}
+
+
+std::string get_location (const std::string& sheet, const bool editor)
+{
+    std::string path;
+    if (editor) path = "editor";
+    else path = "basic";
+    path.append (sheet);
+    path.append (".css");
+    path = filter_url_create_root_path ({"dyncss", path});
+    return path;
+}
+
+
+void create (const std::string& stylesheet, const std::string& path, const bool editor, const std::string& export_bible)
+{
+    Styles_Css styles_css (stylesheet);
+    if (editor) {
+        styles_css.editor ();
+    }
+    if (not export_bible.empty()) {
+        styles_css.exports ();
+        styles_css.customize (export_bible);
+        styles_css.customize (std::string());
+    }
+    styles_css.generate ();
+    styles_css.css (path); // Todo fix this.
 }
 
 
 // Recreates the various stylesheets.css files.
-void Styles_Sheets::recreate ()
+void recreate ()
 {
-  std::vector <std::string> stylesheets = database::styles::get_sheets ();
-  for (const auto & stylesheet : stylesheets) {
-    std::string path = get_location (stylesheet, false);
-    create (stylesheet, path, false, std::string());
-    path = get_location (stylesheet, true);
-    create (stylesheet, path, true, std::string());
-  }
+    for (const auto & stylesheet : database::styles::get_sheets ()) {
+        std::string path = get_location (stylesheet, false);
+        create (stylesheet, path, false, std::string());
+        path = get_location (stylesheet, true);
+        create (stylesheet, path, true, std::string());
+    }
 }
 
 
-void Styles_Sheets::create (std::string stylesheet, std::string path, bool editor, std::string export_bible)
-{
-  Styles_Css styles_css (stylesheet);
-  if (editor) {
-    styles_css.editor ();
-  }
-  if (!export_bible.empty ()) {
-    styles_css.exports ();
-    styles_css.customize (export_bible);
-    styles_css.customize (std::string());
-  }
-  styles_css.generate ();
-  styles_css.css (path);
-}
-
-
-std::string Styles_Sheets::get_location (std::string sheet, bool editor)
-{
-  std::string path;
-  if (editor) path = "editor";
-  else path = "basic";
-  path.append (sheet);
-  path.append (".css");
-  path = filter_url_create_root_path ({"dyncss", path});
-  return path;
 }
 
 

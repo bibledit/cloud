@@ -172,8 +172,7 @@ void export_web_index (std::string bible, bool log)
   
   
   // Create stylesheet.
-  Styles_Sheets styles_sheets;
-  styles_sheets.create (stylesheet, filecss, false, bible);
+  styles::sheets::create (stylesheet, filecss, false, bible);
   
   
   std::string backLinkPath = export_logic::web_back_link_directory (bible);

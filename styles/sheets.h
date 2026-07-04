@@ -21,14 +21,12 @@
 
 #include <config/libraries.h>
 
-void styles_sheets_create_all ();
-void styles_sheets_create_all_run ();
+namespace styles::sheets {
 
-class Styles_Sheets
-{
-public:
-  void recreate ();
-  void create (std::string stylesheet, std::string path, bool editor, std::string export_bible);
-  std::string get_location (std::string sheet, bool editor);
-private:
-};
+void create_all ();
+void create_all_run ();
+std::string get_location (const std::string& sheet, bool editor);
+void create (const std::string& stylesheet, const std::string& path, bool editor, const std::string& export_bible);
+void recreate ();
+
+}

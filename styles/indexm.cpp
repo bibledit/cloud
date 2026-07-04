@@ -71,7 +71,7 @@ std::string styles_indexm(Webserver_Request& webserver_request)
         {
             database::styles::create_sheet(name);
             database::styles::grant_write_access(username, name);
-            styles_sheets_create_all();
+            styles::sheets::create_all();
             page += assets_page::success(translate("The stylesheet has been created"));
         }
     }

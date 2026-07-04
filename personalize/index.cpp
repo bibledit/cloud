@@ -127,7 +127,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
     int fontsizeeditors = filter::string::convert_to_int (input_val);
     fontsizeeditors = std::clamp (fontsizeeditors, 50, 300);
     webserver_request.database_config_user ()->set_bible_editors_font_size (fontsizeeditors);
-    styles_sheets_create_all ();
+    styles::sheets::create_all ();
     return std::string();
   }
   view.set_variable ("fontsizeeditors", std::to_string (webserver_request.database_config_user ()->get_bible_editors_font_size ()));

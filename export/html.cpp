@@ -57,8 +57,7 @@ void export_html_book (const std::string& bible, const int book, const bool log)
   
   
   // Create stylesheet.
-  Styles_Sheets styles_sheets;
-  styles_sheets.create (stylesheet, stylesheet_css, false, bible);
+  styles::sheets::create (stylesheet, stylesheet_css, false, bible);
   
   
   // Copy font to the output directory.

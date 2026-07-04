@@ -102,7 +102,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("reset")) {
     if (write) {
       database::styles::reset_marker(sheet, style);
-      styles_sheets_create_all();
+      styles::sheets::create_all();
       const std::string url = filter_url_build_http_query(styles_view_url(), {
         {"sheet", sheet}, {"style", style},
       });
@@ -580,7 +580,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     if (write) {
       if (!marker_data.marker.empty())
         database::styles::save_style(sheet, marker_data);
-      styles_sheets_create_all();
+      styles::sheets::create_all();
     }
   }
 

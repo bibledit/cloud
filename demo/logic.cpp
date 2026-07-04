@@ -126,7 +126,7 @@ void demo_clean_data ()
   // Delete empty stylesheet that may have been there.
   database::styles::revoke_write_access (std::string(), stylesv2::standard_sheet());
   database::styles::delete_sheet(std::string());
-  styles_sheets_create_all();
+  styles::sheets::create_all();
   
   
   // Set both stylesheets to "Standard" for all Bibles.

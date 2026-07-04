@@ -259,7 +259,7 @@ void setup_initialize_data ()
 
   // Create stylesheets.
   config_globals_setup_message = "stylesheets";
-  styles_sheets_create_all ();
+  styles::sheets::create_all ();
   
   // Schedule creation of sample Bible if there's no Bible yet.
   // In former versions of Bibledit, creation of the sample Bible was not scheduled,

@@ -21,27 +21,27 @@
 
 #include <config/libraries.h>
 
-class Webserver_Request;
 namespace stylesv2 { struct Style; }
 
 class Styles_Css
 {
 public:
-  Styles_Css (const std::string& stylesheet);
-  Styles_Css(const Styles_Css&) = delete;
-  Styles_Css operator=(const Styles_Css&) = delete;
-  void editor ();
-  void exports ();
-  void generate ();
-  std::string css (std::string path = std::string());
-  void customize (const std::string& bible);
+    explicit Styles_Css(std::string stylesheet);
+    Styles_Css(const Styles_Css&) = delete;
+    Styles_Css operator=(const Styles_Css&) = delete;
+    void editor();
+    void exports();
+    void generate();
+    std::string css(const std::string& path = {}) const;
+    void customize(const std::string& bible);
+
 private:
-  std::string m_stylesheet {};
-  std::vector <std::string> m_code {};
-  bool editor_enabled {false}; // Whether to generate CSS for the Bible text editor.
-  bool exports_enabled {false}; // Whether to generate CSS for exported Bibles.
-  void evaluate (const stylesv2::Style* style);
-  void add (const stylesv2::Style* style, const bool paragraph, const bool keep_with_next);
-  void add_exports_styles ();
-  void add_editor_styles ();
+    std::string m_stylesheet{};
+    std::vector<std::string> m_code{};
+    bool editor_enabled{false}; // Whether to generate CSS for the Bible text editor.
+    bool exports_enabled{false}; // Whether to generate CSS for exported Bibles.
+    void evaluate(const stylesv2::Style* style);
+    void add(const stylesv2::Style* style, bool paragraph, bool keep_with_next);
+    void add_exports_styles();
+    static void add_editor_styles();
 };

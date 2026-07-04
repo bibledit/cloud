@@ -569,7 +569,7 @@ std::string styles_view (Webserver_Request& webserver_request)
 
   
   // A style can be reset to its default values if the style's marker is among the default styles.
-  if (std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), style) != stylesv2::styles.cend())
+  if (std::ranges::find(stylesv2::styles, style, &stylesv2::Style::marker) != stylesv2::styles.cend())
     view.enable_zone("reset");
   else
     view.enable_zone("noreset");

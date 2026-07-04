@@ -64,7 +64,7 @@ std::string one_string (const std::string& usfm)
     const std::string marker = get_marker(line);
     if (!marker.empty()) {
       // Check whether this marker can be found in the standard styles.
-      const auto iter = std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), marker);
+      const auto iter = std::ranges::find(stylesv2::styles, marker, &stylesv2::Style::marker);
       if (iter != stylesv2::styles.cend()) {
         // Check whether this marker should start a new line in USFM.
         // If it does not, insert a space.

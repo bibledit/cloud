@@ -2162,8 +2162,8 @@ TEST (notes, citations)
   std::vector<std::string> numbers1to9 {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
   std::vector<std::string> alphanumeric {"1", "a", "x", "7"};
 
-  const Style style_f = *std::find(styles.cbegin(), styles.cend(), "f");
-  const Style style_fe = *std::find(styles.cbegin(), styles.cend(), "fe");
+  const Style style_f = *std::ranges::find(styles, "f", &stylesv2::Style::marker);
+  const Style style_fe = *std::ranges::find(styles, "fe", &stylesv2::Style::marker);
 
   // Test that an empty note citation sequence leads to a continually inceasing note citation.
   {

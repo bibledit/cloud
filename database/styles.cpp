@@ -214,7 +214,7 @@ static void ensure_sheet_in_cache(const std::string& sheet)
   const std::vector<std::string> updated_markers {get_updated_markers (sheet)};
   for (const auto& marker : updated_markers) {
     // Since there's an update, remove the existing style.
-    auto iter = std::find(cache.cbegin(), cache.cend(), marker);
+    auto iter = std::ranges::find(cache, marker, &stylesv2::Style::marker);
     if (iter != cache.cend())
       cache.erase(iter);
     // Get the updated style. If one is given, add it to the cache.
@@ -238,7 +238,7 @@ static std::string add_space(const std::string_view key)
 static stylesv2::Style get_base_style (const std::string& marker) {
   // Search the default styles for the marker.
   // If the style is found among the default ones, return that as the base style.
-  const auto iter = std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), marker);
+  const auto iter = std::ranges::find(stylesv2::styles, marker, &stylesv2::Style::marker);
   if (iter != stylesv2::styles.cend())
     return *iter;
   // The marker is not among the default ones, return a default constructed style object.
@@ -267,7 +267,7 @@ void add_marker (const std::string& sheet, const std::string& marker, const std:
 void delete_marker (const std::string& sheet, const std::string& marker)
 {
   // Check if the marker to delete is among the hard-coded default styles.
-  const auto iter = std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), marker);
+  const auto iter = std::ranges::find(stylesv2::styles, marker, &stylesv2::Style::marker);
   // If the marker is among the hard-coded ones,
   // deleting a marker means to write a style to file as deleted.
   if (iter != stylesv2::styles.cend()) {
@@ -340,7 +340,7 @@ const stylesv2::Style* get_marker_data (const std::string& sheet, const std::str
 {
   // If the requested marker is among the styles in the requested sheet, return that.
   const std::list<stylesv2::Style>& styles {get_styles(sheet)};
-  const auto iter = std::find(styles.cbegin(), styles.cend(), marker);
+  const auto iter = std::ranges::find(styles, marker, &stylesv2::Style::marker);
   if (iter != styles.cend())
     return std::addressof(*iter);
   // Style not found.

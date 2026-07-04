@@ -669,7 +669,7 @@ TEST_F (styles, get_styles)
   // Do a spot-check on markers.
   {
     constexpr const char * marker {"id"};
-    const auto iter = std::find(default_styles.cbegin(), default_styles.cend(), marker);
+    const auto iter = std::ranges::find(default_styles, marker, &stylesv2::Style::marker);
     if (iter == default_styles.cend())
       ADD_FAILURE() << "Should contain style " << std::quoted(marker);
     else {
@@ -683,7 +683,7 @@ TEST_F (styles, get_styles)
   // A marker that is not in the stylesheet.
   {
     constexpr const char * marker {"abc"};
-    const auto iter = std::find(default_styles.cbegin(), default_styles.cend(), marker);
+    const auto iter = std::ranges::find(default_styles, marker, &stylesv2::Style::marker);
     if (iter != default_styles.cend())
       ADD_FAILURE() << "Should not contain style " << std::quoted(marker);
   }

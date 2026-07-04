@@ -113,7 +113,7 @@ void timer_index()
             // On a production website running on an inexpensive virtual private server,
             // with 512 Mb of memory and a fast network connection,
             // sending and receiving two Bibles takes more than 15 minutes when there are many changes.
-            const bool send_receive = (hour == 0 && minute == 5);
+            const bool send_receive = (hour == 0 and minute == 5);
             const bool repeat = (minute % 5) == 0;
             if (send_receive or repeat)
             {
@@ -134,7 +134,7 @@ void timer_index()
 #ifdef HAVE_CLOUD
             // Run the checks on the Bibles.
             // This takes 15 minutes on a production machine with two Bibles.
-            if (hour == 0 && minute == 30)
+            if (hour == 0 and minute == 30)
             {
                 checks::logic::start_all();
             }
@@ -142,7 +142,7 @@ void timer_index()
 
             // Database maintenance and trimming.
             // It takes a few minutes on a production machine.
-            if (hour == 0 && minute == 50)
+            if (hour == 0 and minute == 50)
             {
                 tasks_logic_queue(task::maintain_database);
             }
@@ -165,21 +165,21 @@ void timer_index()
             // Export the Bibles to the various output formats.
             // This may take an hour on a production machine.
             // This hour was in PHP. In C++ it is much faster.
-            if (hour == 1 && minute == 10)
+            if (hour == 1 and minute == 10)
             {
                 export_logic::schedule_all();
             }
 #endif
 
             // Delete expired temporal files.
-            if (hour == 2 && minute == 0)
+            if (hour == 2 and minute == 0)
             {
                 tasks_logic_queue(task::clean_tmp_files);
             }
 
             // Re-index Bibles and notes.
             // Only update missing indexes.
-            if (hour == 2 && minute == 0)
+            if (hour == 2 and minute == 0)
             {
                 Database_State::create();
                 database::config::general::set_index_bibles(true);
@@ -241,7 +241,7 @@ void timer_index()
 
 #ifdef HAVE_CLOUD
             // Email notes statistics to the users.
-            if (hour == 3 && minute == 0)
+            if (hour == 3 and minute == 0)
             {
                 tasks_logic_queue(task::notes_statistics);
             }
@@ -253,13 +253,13 @@ void timer_index()
             if (weekday == 1)
             {
                 // Refresh.
-                if (hour == 3 && minute == 5)
+                if (hour == 3 and minute == 5)
                 {
                     tasks_logic_queue(task::refresh_sword_modules);
                     tasks_logic_queue(task::refresh_web_resources);
                 }
                 // Update installed SWORD modules, shortly after the module list has been refreshed.
-                if (hour == 3 && minute == 15)
+                if (hour == 3 and minute == 15)
                 {
                     tasks_logic_queue(task::update_sword_modules);
                 }
@@ -270,7 +270,7 @@ void timer_index()
             // The Cloud updates the list of USFM resources once a week.
             if (weekday == 1)
             {
-                if (hour == 3 && minute == 10)
+                if (hour == 3 and minute == 10)
                 {
                     tasks_logic_queue(task::list_usfm_resources);
                 }

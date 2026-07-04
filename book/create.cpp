@@ -80,9 +80,7 @@ bool book_create(const std::string& bible, const book_id book, const int chapter
             data += R"(\c )" + std::to_string(ch) + "\n";
             data += R"(\p)" "\n";
             for (int i = 1; i <= verse; ++i)
-            {
                 data += R"(\v )" "" + std::to_string(i) + "\n";
-            }
             bible_logic::store_chapter(bible, static_cast<int>(book), ch, data);
             chapters_created.push_back(ch);
         }

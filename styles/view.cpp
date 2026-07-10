@@ -23,23 +23,14 @@
 #include <assets/page.h>
 #include <dialog/entry.h>
 #include <dialog/select.h>
-#include <dialog/color.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <tasks/logic.h>
 #include <webserver/request.h>
-#include <journal/index.h>
-#include <database/config/user.h>
-#include <database/logs.h>
-#include <access/user.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
 #include <assets/header.h>
-#include <menu/logic.h>
-#include <styles/indexm.h>
 #include <assets/external.h>
-
 #include "database/styles.h"
 
 

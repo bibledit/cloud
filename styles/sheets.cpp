@@ -66,13 +66,14 @@ void create (const std::string& stylesheet, const std::string& path, const bool 
         styles_css.customize (export_bible);
         styles_css.customize (std::string());
     }
-    styles_css.generate ();
-    styles_css.css (path); // Todo fix this.
+    styles_css.generate();
+    // Save to file.
+    const auto _ = styles_css.css(path);
 }
 
 
 // Recreates the various stylesheets.css files.
-void recreate ()
+void recreate()
 {
     for (const auto & stylesheet : database::styles::get_sheets ()) {
         std::string path = get_location (stylesheet, false);

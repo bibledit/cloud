@@ -24,16 +24,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 extern std::string testing_directory;
 void refresh_sandbox (bool displayjournal, std::vector <std::string> allowed = {});
 int odf2txt (std::string odf, std::string txt);
-
-class scoped_timer {
-public:
-  scoped_timer() : m_beg(std::chrono::high_resolution_clock::now())
-  { }
-  ~scoped_timer() {
-    auto end = std::chrono::high_resolution_clock::now();
-    auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - m_beg);
-    std::cout << dur.count() << " microseconds" << std::endl;
-  }
-private:
-  std::chrono::time_point<std::chrono::high_resolution_clock> m_beg;
-};

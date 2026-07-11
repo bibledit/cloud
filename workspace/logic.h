@@ -34,7 +34,7 @@ void workspace_set_values (Webserver_Request& webserver_request, int selector, c
 void workspace_set_urls (Webserver_Request& webserver_request, const std::map <int, std::string> & values);
 void workspace_set_widths (Webserver_Request& webserver_request, const std::map <int, std::string> & values);
 void workspace_set_heights (Webserver_Request& webserver_request, const std::map <int, std::string> & values);
-void workspace_set_entire_width (Webserver_Request& webserver_request, std::string value);
+void workspace_set_entire_width (Webserver_Request& webserver_request, const std::string& value);
 std::map <int, std::string> workspace_get_values (Webserver_Request& webserver_request, int selector, bool use);
 std::map <int, std::string> workspace_get_urls (Webserver_Request& webserver_request, bool use);
 std::map <int, std::string> workspace_get_widths (Webserver_Request& webserver_request);

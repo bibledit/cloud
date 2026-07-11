@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <filter/roles.h>
 #include <filter/url.h>
-#include <filter/string.h>
 #include <locale/translate.h>
 #include <assets/header.h>
 #include <assets/external.h>
@@ -31,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 std::string help_index_html (const std::string& url)
 {
   std::string path {url};
-  if (const auto pos = url.find ("/");
+  if (const auto pos = url.find ('/');
       pos != std::string::npos)
     path.erase (0, pos + 1);
   path.append (".html");
@@ -56,7 +55,7 @@ bool help_index_acl (Webserver_Request& webserver_request)
 
 std::string help_index (Webserver_Request& webserver_request, const std::string& url)
 {
-  Assets_Header header = Assets_Header (translate("Help"), webserver_request);
+  auto header = Assets_Header (translate("Help"), webserver_request);
   std::string page = header.run ();
 
   Assets_View view {};
@@ -68,7 +67,7 @@ std::string help_index (Webserver_Request& webserver_request, const std::string&
   view.set_variable ("config", filter_url_create_root_path ({config::logic::config_folder ()}));
   
   std::string filename (url);
-  if (const auto pos = url.find ("/");
+  if (const auto pos = url.find ('/');
       pos != std::string::npos)
     filename.erase (0, pos + 1);
  

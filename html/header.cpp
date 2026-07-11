@@ -19,9 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <html/header.h>
 #include <filter/string.h>
-#include <filter/url.h>
-#include <filter/url.h>
-#include <database/books.h>
 #include <html/text.h>
 #include <locale/translate.h>
 #include <pugixml/include.h>
@@ -30,46 +27,49 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Class for creating a HTML Bible header with  search box.
 
 
-Html_Header::Html_Header (HtmlText& html_text):
-m_html_text (html_text)
-{ }
-
-
-void Html_Header::search_back_link (const std::string& url, const std::string& text)
+Html_Header::Html_Header(HtmlText& html_text) :
+    m_html_text(html_text)
 {
-  m_search_back_link_url = url;
-  m_search_back_link_text = text;
 }
 
 
-void Html_Header::create (const std::vector <std::pair <std::string, std::string> > & breadcrumbs)
+void Html_Header::search_back_link(const std::string& url, const std::string& text)
 {
-  pugi::xml_node table_element = m_html_text.new_table ();
-  pugi::xml_node table_row_element = m_html_text.new_table_row (table_element);
-  pugi::xml_node table_data_element = m_html_text.new_table_data (table_row_element);
-  for (const auto& breadcrumb : breadcrumbs) {
-    m_html_text.add_link (table_data_element, breadcrumb.second, "", breadcrumb.first, "", ' ' + breadcrumb.first + ' ');
-  }
-  table_data_element = m_html_text.new_table_data (table_row_element, true);
-  pugi::xml_node form_element = table_data_element.append_child ("form");
-  form_element.append_attribute ("action") = "/webbb/search";
-  form_element.append_attribute ("method") = "GET";
-  form_element.append_attribute ("name") = "search";
-  form_element.append_attribute ("id") = "search";
-  pugi::xml_node input_element = form_element.append_child ("input");
-  input_element.append_attribute ("name") = "q";
-  input_element.append_attribute ("type") = "text";
-  input_element.append_attribute ("placeholder") = translate ("Search the Bible").c_str();
-  input_element = form_element.append_child ("input");
-  input_element.append_attribute ("type") = "image";
-  input_element.append_attribute ("name") = "search";
-  input_element.append_attribute ("src") = "lens.png";
-  input_element = form_element.append_child ("input");
-  input_element.append_attribute ("type") = "hidden";
-  input_element.append_attribute ("name") = "url";
-  input_element.append_attribute ("value") = m_search_back_link_url.c_str ();
-  input_element = form_element.append_child ("input");
-  input_element.append_attribute ("type") = "hidden";
-  input_element.append_attribute ("name") = "text";
-  input_element.append_attribute ("value") = m_search_back_link_text.c_str ();
+    m_search_back_link_url = url;
+    m_search_back_link_text = text;
+}
+
+
+void Html_Header::create(const std::vector<std::pair<std::string, std::string>>& breadcrumbs) const
+{
+    const pugi::xml_node table_element = m_html_text.new_table();
+    const pugi::xml_node table_row_element = m_html_text.new_table_row(table_element);
+    pugi::xml_node table_data_element = m_html_text.new_table_data(table_row_element);
+    for (const auto& breadcrumb : breadcrumbs)
+    {
+        m_html_text.add_link(table_data_element, breadcrumb.second, "", breadcrumb.first, "",
+                             ' ' + breadcrumb.first + ' ');
+    }
+    table_data_element = m_html_text.new_table_data(table_row_element, true);
+    pugi::xml_node form_element = table_data_element.append_child("form");
+    form_element.append_attribute("action") = "/webbb/search";
+    form_element.append_attribute("method") = "GET";
+    form_element.append_attribute("name") = "search";
+    form_element.append_attribute("id") = "search";
+    pugi::xml_node input_element = form_element.append_child("input");
+    input_element.append_attribute("name") = "q";
+    input_element.append_attribute("type") = "text";
+    input_element.append_attribute("placeholder") = translate("Search the Bible").c_str();
+    input_element = form_element.append_child("input");
+    input_element.append_attribute("type") = "image";
+    input_element.append_attribute("name") = "search";
+    input_element.append_attribute("src") = "lens.png";
+    input_element = form_element.append_child("input");
+    input_element.append_attribute("type") = "hidden";
+    input_element.append_attribute("name") = "url";
+    input_element.append_attribute("value") = m_search_back_link_url.c_str();
+    input_element = form_element.append_child("input");
+    input_element.append_attribute("type") = "hidden";
+    input_element.append_attribute("name") = "text";
+    input_element.append_attribute("value") = m_search_back_link_text.c_str();
 }

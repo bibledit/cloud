@@ -27,13 +27,15 @@ class HtmlText;
 class Html_Header
 {
 public:
-  Html_Header (HtmlText& html_text);
-  Html_Header(const Html_Header&) = delete;
-  Html_Header operator=(const Html_Header&) = delete;
-  void search_back_link (const std::string& url, const std::string& text);
-  void create (const std::vector <std::pair <std::string, std::string> > & breadcrumbs);
+    Html_Header() = delete;
+    explicit Html_Header(HtmlText& html_text);
+    Html_Header(const Html_Header&) = delete;
+    Html_Header operator=(const Html_Header&) = delete;
+    void search_back_link(const std::string& url, const std::string& text);
+    void create(const std::vector<std::pair<std::string, std::string>>& breadcrumbs) const;
+
 private:
-  HtmlText& m_html_text;
-  std::string m_search_back_link_url {};
-  std::string m_search_back_link_text {};
+    HtmlText& m_html_text;
+    std::string m_search_back_link_url{};
+    std::string m_search_back_link_text{};
 };

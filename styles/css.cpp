@@ -25,8 +25,6 @@
 #include <database/config/bible.h>
 #include <fonts/logic.h>
 #include <filter/quill.h>
-
-#include <utility>
 #include "database/styles.h"
 
 

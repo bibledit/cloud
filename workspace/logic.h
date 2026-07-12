@@ -41,11 +41,11 @@ std::map <int, std::string> workspace_get_widths (Webserver_Request& webserver_r
 std::map <int, std::string> workspace_get_heights (Webserver_Request& webserver_request);
 std::string workspace_get_entire_width (Webserver_Request& webserver_request);
 std::vector <std::string> workspace_get_names (Webserver_Request& webserver_request, bool add_default = true);
-void workspace_delete (Webserver_Request& webserver_request, std::string workspace);
+void workspace_delete (Webserver_Request& webserver_request, const std::string& workspace);
 void workspace_reorder (Webserver_Request& webserver_request, const std::vector <std::string> & workspaces);
-void workspace_copy (Webserver_Request& webserver_request, std::string source, std::string destination);
+void workspace_copy (Webserver_Request& webserver_request, const std::string& source, const std::string& destination);
 void workspace_cache_for_cloud (Webserver_Request& webserver_request, bool urls, bool widths, bool heights);
 std::string workspace_get_default_name ();
-void workspace_send (Webserver_Request& webserver_request, std::string workspace, std::string user);
+void workspace_send (Webserver_Request& webserver_request, const std::string& workspace, const std::string& user);
 std::map <int, int> workspace_add_bible_editor_number (const std::map <int,std::string>& urls);
 std::optional<std::string> get_first_bible_from_urls (const std::map <int,std::string>& urls);

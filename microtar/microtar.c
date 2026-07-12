@@ -111,8 +111,10 @@ static int raw_to_header(mtar_header_t *h, const mtar_raw_header_t *rh) {
   sscanf(rh->size, "%o", &h->size);
   sscanf(rh->mtime, "%o", &h->mtime);
   h->type = rh->type;
-  strcpy(h->name, rh->name);
-  strcpy(h->linkname, rh->linkname);
+  memcpy(h->name, rh->name, sizeof(h->name));
+  h->name[sizeof(h->name) - 1] = '\0';
+  memcpy(h->linkname, rh->linkname, sizeof(h->linkname));
+  h->linkname[sizeof(h->linkname) - 1] = '\0';
 
   return MTAR_ESUCCESS;
 }
@@ -123,17 +125,19 @@ static int header_to_raw(mtar_raw_header_t *rh, const mtar_header_t *h) {
 
   /* Load header into raw header */
   memset(rh, 0, sizeof(*rh));
-  sprintf(rh->mode, "%o", h->mode);
-  sprintf(rh->owner, "%o", h->owner);
-  sprintf(rh->size, "%o", h->size);
-  sprintf(rh->mtime, "%o", h->mtime);
+  snprintf(rh->mode, sizeof(rh->mode), "%o", h->mode);
+  snprintf(rh->owner, sizeof(rh->owner), "%o", h->owner);
+  snprintf(rh->size, sizeof(rh->size), "%o", h->size);
+  snprintf(rh->mtime, sizeof(rh->mtime), "%o", h->mtime);
   rh->type = h->type ? h->type : MTAR_TREG;
-  strcpy(rh->name, h->name);
-  strcpy(rh->linkname, h->linkname);
+  memcpy(rh->name, h->name, sizeof(rh->name));
+  rh->name[sizeof(rh->name) - 1] = '\0';
+  memcpy(rh->linkname, h->linkname, sizeof(rh->linkname));
+  rh->linkname[sizeof(rh->linkname) - 1] = '\0';
 
   /* Calculate and write checksum */
   chksum = checksum(rh);
-  sprintf(rh->checksum, "%06o", chksum);
+  snprintf(rh->checksum, sizeof(rh->checksum), "%06o", chksum);
   rh->checksum[7] = ' ';
 
   return MTAR_ESUCCESS;
@@ -336,7 +340,7 @@ int mtar_write_file_header(mtar_t *tar, const char *name, unsigned size) {
   mtar_header_t h;
   /* Build header */
   memset(&h, 0, sizeof(h));
-  strcpy(h.name, name);
+  snprintf(h.name, sizeof(h.name), "%s", name);
   h.size = size;
   h.type = MTAR_TREG;
   h.mode = 0664;
@@ -349,7 +353,7 @@ int mtar_write_dir_header(mtar_t *tar, const char *name) {
   mtar_header_t h;
   /* Build header */
   memset(&h, 0, sizeof(h));
-  strcpy(h.name, name);
+  snprintf(h.name, sizeof(h.name), "%s", name);
   h.type = MTAR_TDIR;
   h.mode = 0775;
   /* Write header */

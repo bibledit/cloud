@@ -17,119 +17,115 @@
  */
 
 
-#include <bb/css.h>
-#include <assets/view.h>
-#include <assets/page.h>
+#include <access/bible.h>
 #include <assets/header.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <bb/css.h>
+#include <database/config/bible.h>
+#include <filter/css.h>
 #include <filter/roles.h>
 #include <filter/string.h>
-#include <filter/css.h>
-#include <webserver/request.h>
-#include <database/config/bible.h>
-#include <database/books.h>
-#include <locale/translate.h>
-#include <access/bible.h>
 #include <fonts/logic.h>
-#include <menu/logic.h>
-#include <bb/manage.h>
+#include <locale/translate.h>
+#include <webserver/request.h>
 
 
-std::string bible_css_url ()
+std::string bible_css_url()
 {
-  return "bible/css";
+    return "bible/css";
 }
 
 
-bool bible_css_acl (Webserver_Request& webserver_request)
+bool bible_css_acl(Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::translator);
+    return roles::access_control(webserver_request, roles::translator);
 }
 
 
-std::string bible_css (Webserver_Request& webserver_request)
+std::string bible_css(Webserver_Request& webserver_request)
 {
-  std::string page {};
-  
-  Assets_Header header = Assets_Header (translate("Font and text direction"), webserver_request);
-  page = header.run ();
-  
-  Assets_View view {};
-  
-  // The name of the Bible.
-  const std::string bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
-  view.set_variable ("bible", filter::string::escape_special_xml_characters (bible));
-  
-  // Data submission.
-  if (webserver_request.post_count("submit")) {
-    
-    std::string font = webserver_request.post_get("font");
-    font = filter::string::trim (font);
+    Assets_Header header(translate("Font and text direction"), webserver_request);
+    std::string page{header.run()};
+
+    Assets_View view{};
+
+    // The name of the Bible.
+    const std::string bible = access_bible::clamp(webserver_request, webserver_request.query["bible"]);
+    view.set_variable("bible", filter::string::escape_special_xml_characters(bible));
+
+    // Data submission.
+    if (webserver_request.post_count("submit"))
+    {
+        const std::string font = filter::string::trim(webserver_request.post_get("font"));
 #ifdef HAVE_CLIENT
-    // Bibledit client storage.
-    database::config::bible::set_text_font_client (bible, font);
+        // Bibledit client storage.
+        database::config::bible::set_text_font_client(bible, font);
 #else
-    // Bibledit Cloud storage.
-    database::config::bible::set_text_font (bible, font);
+        // Bibledit Cloud storage.
+        database::config::bible::set_text_font(bible, font);
 #endif
-    
-    const std::string s_direction = webserver_request.post_get("direction");
-    const int i_direction = filter::css::directionValue (s_direction);
-    
-    const std::string s_mode = webserver_request.post_get("mode");
-    const int i_mode = filter::css::writingModeValue (s_mode);
-    
-    database::config::bible::set_text_direction (bible, i_mode * 10 + i_direction);
-    
-    int lineheight = filter::string::convert_to_int (webserver_request.post_get("lineheight"));
-    if (lineheight < 50) lineheight = 50;
-    if (lineheight > 300) lineheight = 300;
-    database::config::bible::set_line_height (bible, lineheight);
 
-    float letterspacing = filter::string::convert_to_float (webserver_request.post_get("letterspacing"));
-    if (letterspacing < -3) letterspacing = -3;
-    if (letterspacing > 3) letterspacing = 3;
-    database::config::bible::set_letter_spacing (bible, static_cast<int>(10 * letterspacing));
-    
-    page += assets_page::success ("The information was saved.");
-  }
+        const std::string focused_verse_font = filter::string::trim(webserver_request.post_get("focusedversefont"));
+        database::config::bible::set_verse_editor_focused_verse_font(bible, focused_verse_font);
+
+        const std::string s_direction = webserver_request.post_get("direction");
+        const int i_direction = filter::css::directionValue(s_direction);
+
+        const std::string s_mode = webserver_request.post_get("mode");
+        const int i_mode = filter::css::writingModeValue(s_mode);
+
+        database::config::bible::set_text_direction(bible, i_mode * 10 + i_direction);
+
+        const int lineheight = std::clamp(filter::string::convert_to_int(webserver_request.post_get("lineheight")), 50, 300);
+        database::config::bible::set_line_height(bible, lineheight);
+
+        const float letterspacing = std::clamp(filter::string::convert_to_float(webserver_request.post_get("letterspacing")), -3.0f, 3.0f);
+        database::config::bible::set_letter_spacing(bible, static_cast<int>(10 * letterspacing));
+
+        page += assets_page::success("The information was saved.");
+    }
 
 #ifdef HAVE_CLIENT
-  view.enable_zone ("client");
+    view.enable_zone("client");
 #endif
-  
-  const std::string font = fonts::logic::get_text_font (bible);
-  view.set_variable ("font", font);
 
-  const int direction = database::config::bible::get_text_direction (bible);
-  
-  view.set_variable ("direction_none", filter::css::directionUnspecified (direction));
-  view.set_variable ("direction_ltr", filter::css::directionLeftToRight (direction));
-  view.set_variable ("direction_rtl", filter::css::directionRightToLeft (direction));
-  
-  view.set_variable ("mode_none", filter::css::writingModeUnspecified (direction));
-  view.set_variable ("mode_tblr", filter::css::writingModeTopBottomLeftRight (direction));
-  view.set_variable ("mode_tbrl", filter::css::writingModeTopBottomRightLeft (direction));
-  view.set_variable ("mode_btlr", filter::css::writingModeBottomTopLeftRight (direction));
-  view.set_variable ("mode_btrl", filter::css::writingModeBottomTopRightLeft (direction));
+    const std::string font = fonts::logic::get_text_font(bible);
+    view.set_variable("font", font);
 
-  const int lineheight = database::config::bible::get_line_height (bible);
-  view.set_variable ("lineheight", std::to_string (lineheight));
+    const std::string focused_verse_font = database::config::bible::get_verse_editor_focused_verse_font(bible);
+    view.set_variable("focusedversefont", focused_verse_font);
 
-  float letterspacing = static_cast<float> (database::config::bible::get_letter_spacing (bible));
-  letterspacing /= 10;
-  view.set_variable ("letterspacing", filter::string::convert_to_string (letterspacing));
+    const int direction = database::config::bible::get_text_direction(bible);
 
-  const std::string custom_class = filter::css::getClass (bible);
-  view.set_variable ("custom_class", custom_class);
-  const std::string custom_css = filter::css::get_css (custom_class,
-                                                      fonts::logic::get_font_path (font), direction,
-                                                      lineheight,
-                                                      database::config::bible::get_letter_spacing (bible));
-  view.set_variable ("custom_css", custom_css);
+    view.set_variable("direction_none", filter::css::directionUnspecified(direction));
+    view.set_variable("direction_ltr", filter::css::directionLeftToRight(direction));
+    view.set_variable("direction_rtl", filter::css::directionRightToLeft(direction));
 
-  page += view.render ("bb", "css");
-  
-  page += assets_page::footer ();
-  
-  return page;
+    view.set_variable("mode_none", filter::css::writingModeUnspecified(direction));
+    view.set_variable("mode_tblr", filter::css::writingModeTopBottomLeftRight(direction));
+    view.set_variable("mode_tbrl", filter::css::writingModeTopBottomRightLeft(direction));
+    view.set_variable("mode_btlr", filter::css::writingModeBottomTopLeftRight(direction));
+    view.set_variable("mode_btrl", filter::css::writingModeBottomTopRightLeft(direction));
+
+    const int lineheight = database::config::bible::get_line_height(bible);
+    view.set_variable("lineheight", std::to_string(lineheight));
+
+    auto letterspacing = static_cast<float>(database::config::bible::get_letter_spacing(bible));
+    letterspacing /= 10;
+    view.set_variable("letterspacing", filter::string::convert_to_string(letterspacing));
+
+    const std::string custom_class = filter::css::getClass(bible);
+    view.set_variable("custom_class", custom_class);
+    const std::string custom_css = filter::css::get_css(custom_class,
+                                                        fonts::logic::get_font_path(font), direction,
+                                                        lineheight,
+                                                        database::config::bible::get_letter_spacing(bible));
+    view.set_variable("custom_css", custom_css);
+
+    page += view.render("bb", "css");
+
+    page += assets_page::footer();
+
+    return page;
 }

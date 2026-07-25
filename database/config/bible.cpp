@@ -922,6 +922,19 @@ void set_text_font_client(const std::string& bible, const std::string& value)
 }
 
 
+constexpr auto verse_editor_focused_verse_font_key{"verse-editor-focused-verse-font"};
+
+std::string get_verse_editor_focused_verse_font(const std::string& bible)
+{
+    return get_value<std::string>(bible, verse_editor_focused_verse_font_key, "");
+}
+
+void set_verse_editor_focused_verse_font(const std::string& bible, const std::string& value)
+{
+    set_value(bible, verse_editor_focused_verse_font_key, value);
+}
+
+
 constexpr auto paratext_project_key{"paratext-project"};
 
 std::string get_paratext_project(const std::string& bible)

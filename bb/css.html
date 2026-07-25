@@ -1,14 +1,23 @@
-<style type="text/css">##custom_css##</style>
+<style>##custom_css##</style>
 <h3>translate("Font and text settings")</h3>
 <p>translate("Bible"): <a href="settings?bible=##bible##">##bible##</a></p>
 <br>
 <p>
-  translate("Make settings for font and text for the Bible editors.")
+    translate("Make settings for font and text for the Bible editors.")
 </p>
 <br>
 <form action="?bible=##bible##" name="form" method="post">
 
-  <p>translate("Font"): <input type="text" name="font" value="##font##"></p>
+    <table>
+        <tr>
+            <td><label for="font">translate("General font"):</label></td>
+            <td><input type="text" name="font" id="font" value="##font##"></td>
+        </tr>
+        <tr>
+            <td><label for="focusedversefont">translate("Verse editor focused verse font"):</label></td>
+            <td><input type="text" name="focusedversefont" id="focusedversefont" value="##focusedversefont##"></td>
+        </tr>
+    </table>
   <ul>
   <li>
     translate("Enter the name of a locally available font.")
@@ -80,7 +89,7 @@ even as the Father knows me, and I know the Father.
 I lay down my life for the sheep.
 I have other sheep, which are not of this fold. I must bring them also, and they will hear my voice.
 They will become one flock with one shepherd.
-Therefore the Father loves me, because I lay down my life, that I may take it again.
+Therefore, the Father loves me, because I lay down my life, that I may take it again.
 No one takes it away from me, but I lay it down by myself.
 I have power to lay it down, and I have power to take it again.
 I received this commandment from my Father.”

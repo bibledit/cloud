@@ -56,7 +56,7 @@ std::string text (const int role)
 // The "role" is the role required for the user to have access.
 bool access_control (Webserver_Request& webserver_request, const int role)
 {
-  const int level = webserver_request.session_logic ()->get_level ();
+  const int level = webserver_request.session_logic()->get_level ();
   return level >= role;
 }
 

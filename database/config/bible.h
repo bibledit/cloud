@@ -138,8 +138,10 @@ int get_text_direction (const std::string& bible);
 void set_text_direction (const std::string& bible, int value);
 std::string get_text_font (const std::string& bible);
 void set_text_font (const std::string& bible, const std::string& value);
-std::string get_text_font_client (const std::string& bible);
+std::string get_text_font_client (const std::string& bible); // Todo check whether this can be simplified.
 void set_text_font_client (const std::string& bible, const std::string& value);
+std::string get_verse_editor_focused_verse_font (const std::string& bible);
+void set_verse_editor_focused_verse_font (const std::string& bible, const std::string& value);
 std::string get_paratext_project (const std::string& bible);
 void set_paratext_project (const std::string& bible, const std::string& value);
 bool get_paratext_collaboration_enabled (const std::string& bible);

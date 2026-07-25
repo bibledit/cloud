@@ -169,35 +169,33 @@ std::string filter::css::getClass (std::string bible)
 // directionvalue: The value for the text direction.
 // $lineheigh: Value in percents.
 // $letterspacing: Value multiplied by 10, in pixels.
-std::string filter::css::get_css (std::string class_, std::string font, int directionvalue, int lineheight, int letterspacing)
+std::string filter::css::get_css (const std::string& class_, std::string font, int directionvalue, int lineheight, int letterspacing)
 {
   std::vector <std::string> css;
   
   // If the font has a URL, then it is a web font.
-  if ((font != filter_url_basename_web (font)) && !font.empty()) {
-    css.push_back ("@font-face");
-    css.push_back ("{");
+  if ((font != filter_url_basename_web (font)) and not font.empty()) {
+    css.emplace_back("@font-face");
+    css.emplace_back("{");
     css.push_back ("font-family: " + class_ + ";");
     css.push_back ("src: url(" + font + ");");
-    css.push_back ("}");
+    css.emplace_back("}");
     // Below, properly reference the above web font as the class.
     font = class_;
   }
   
   css.push_back ("." + class_);
-  css.push_back ("{");
+  css.emplace_back("{");
   
-  if (font != "") {
+  if (not font.empty()) {
     css.push_back ("font-family: " + font + ";");
   }
-  
-  int direction = directionvalue % 10;
-  
-  if (direction > 0) {
+
+  if (const int direction = directionvalue % 10; direction > 0) {
     std::string line = "direction: ";
     if (direction == 2) line += rtl ();
     else line += ltr ();
-    line += ";";
+    line += ';';
     css.push_back (line);
   }
   
@@ -213,7 +211,7 @@ std::string filter::css::get_css (std::string class_, std::string font, int dire
       case 4: line += bt_rl (); break;
       default: line += tb_lr (); break;
     }
-    line += ";";
+    line += ';';
     css.push_back (line);
   }
   
@@ -223,12 +221,12 @@ std::string filter::css::get_css (std::string class_, std::string font, int dire
   }
   
   if (letterspacing != 0) {
-    float value = static_cast <float> (letterspacing / 10);
+    const auto value = static_cast <float> (letterspacing / 10);
     std::string line = "letter-spacing: " + filter::string::convert_to_string (value) + "px;";
     css.push_back (line);
   }
   
-  css.push_back ("}");
+  css.emplace_back("}");
   
   return filter::string::implode (css, "\n");
 }

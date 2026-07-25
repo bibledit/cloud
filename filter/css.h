@@ -40,7 +40,7 @@ std::string bt_lr ();
 std::string bt_rl ();
 int writingModeValue (std::string mode);
 std::string getClass (std::string bible);
-std::string get_css (std::string class_, std::string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
+std::string get_css (const std::string& class_, std::string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
 void distinction_set_basic ();
 std::string distinction_set_light (int itemstyleindex);
 std::string distinction_set_dark (int itemstyleindex);

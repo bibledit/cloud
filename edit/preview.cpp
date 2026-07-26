@@ -80,7 +80,7 @@ std::string edit_preview (Webserver_Request& webserver_request)
   // If needed, change Bible to one it has read access to.
   bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->get_bible ());
 
-  std::string cls = filter::css::getClass (bible);
+  std::string cls = filter::css::get_class (bible);
   std::string font = fonts::logic::get_text_font (bible);
   int direction = database::config::bible::get_text_direction (bible);
   int lineheight = database::config::bible::get_line_height (bible);

@@ -23,34 +23,33 @@
 
 namespace filter::css {
 
-std::string directionUnspecified (int value);
-std::string directionLeftToRight (int value);
-std::string directionRightToLeft (int value);
+std::string direction_unspecified (int value);
+std::string direction_left_to_right (int value);
+std::string direction_right_to_left (int value);
 std::string ltr ();
 std::string rtl ();
-int directionValue (std::string direction);
-std::string writingModeUnspecified (int value);
-std::string writingModeTopBottomLeftRight (int value);
-std::string writingModeTopBottomRightLeft (int value);
-std::string writingModeBottomTopLeftRight (int value);
-std::string writingModeBottomTopRightLeft (int value);
+int direction_value (const std::string& direction);
+std::string writing_mode_unspecified (int value);
+std::string writing_mode_top_bottom_left_right (int value);
+std::string writing_mode_top_bottom_right_left (int value);
+std::string writing_mode_bottom_top_left_right (int value);
+std::string writing_mode_bottom_top_right_left (int value);
 std::string tb_lr ();
 std::string tb_rl ();
 std::string bt_lr ();
 std::string bt_rl ();
-int writingModeValue (std::string mode);
-std::string getClass (std::string bible);
+int writing_mode_value (const std::string& mode);
+std::string get_class (const std::string& bible);
 std::string get_css(const std::string& class_,
                     std::string font,
                     const std::string& focused_verse_font,
-                    int directionvalue, int lineheight = 100, int letterspacing = 0);
-void distinction_set_basic ();
-std::string distinction_set_light (int itemstyleindex);
-std::string distinction_set_dark (int itemstyleindex);
-std::string distinction_set_redblue_light (int itemstyleindex);
-std::string distinction_set_redblue_dark (int itemstyleindex);
-std::string distinction_set_notes (int itemstyleindex);
-std::string theme_picker (int themestyleindex, int itemstyleindex);
+                    int direction_value, int line_height = 100, int letter_spacing = 0);
+std::string distinction_set_light (int item_style_index);
+std::string distinction_set_dark (int item_style_index);
+std::string distinction_set_red_blue_light (int item_style_index);
+std::string distinction_set_red_blue_dark (int item_style_index);
+std::string distinction_set_notes (int item_style_index);
+std::string theme_picker (int theme_style_index, int item_style_index);
 std::string grey_background ();
 
 }

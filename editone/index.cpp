@@ -116,7 +116,7 @@ std::string editone_index(Webserver_Request& webserver_request)
     config::logic::swipe_enabled(webserver_request, script);
     view.set_variable("script", script);
 
-    const std::string custom_class = filter::css::getClass(bible);
+    const std::string custom_class = filter::css::get_class(bible);
     const std::string font = fonts::logic::get_text_font(bible);
     const std::string focused_verse_font = database::config::bible::get_verse_editor_focused_verse_font(bible);
     const int current_theme_index = webserver_request.database_config_user()->get_current_theme();

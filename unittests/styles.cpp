@@ -183,36 +183,36 @@ TEST_F (styles, css_properties)
 {
   // Direction.
   {
-    EXPECT_EQ ("checked", filter::css::directionUnspecified (100));
-    EXPECT_EQ ("", filter::css::directionUnspecified (101));
+    EXPECT_EQ ("checked", filter::css::direction_unspecified (100));
+    EXPECT_EQ ("", filter::css::direction_unspecified (101));
     
-    EXPECT_EQ ("checked", filter::css::directionLeftToRight (101));
-    EXPECT_EQ ("", filter::css::directionLeftToRight (102));
+    EXPECT_EQ ("checked", filter::css::direction_left_to_right (101));
+    EXPECT_EQ ("", filter::css::direction_left_to_right (102));
     
-    EXPECT_EQ ("checked", filter::css::directionRightToLeft (102));
-    EXPECT_EQ ("", filter::css::directionRightToLeft (103));
+    EXPECT_EQ ("checked", filter::css::direction_right_to_left (102));
+    EXPECT_EQ ("", filter::css::direction_right_to_left (103));
     
-    EXPECT_EQ (0, filter::css::directionValue (""));
-    EXPECT_EQ (1, filter::css::directionValue ("ltr"));
-    EXPECT_EQ (2, filter::css::directionValue ("rtl"));
+    EXPECT_EQ (0, filter::css::direction_value (""));
+    EXPECT_EQ (1, filter::css::direction_value ("ltr"));
+    EXPECT_EQ (2, filter::css::direction_value ("rtl"));
   }
 
   // Writing Mode.
   {
-    EXPECT_EQ ("checked", filter::css::writingModeUnspecified (102));
-    EXPECT_EQ ("", filter::css::writingModeUnspecified (112));
+    EXPECT_EQ ("checked", filter::css::writing_mode_unspecified (102));
+    EXPECT_EQ ("", filter::css::writing_mode_unspecified (112));
     
-    EXPECT_EQ ("checked", filter::css::writingModeTopBottomLeftRight (112));
-    EXPECT_EQ ("", filter::css::writingModeTopBottomLeftRight (122));
+    EXPECT_EQ ("checked", filter::css::writing_mode_top_bottom_left_right (112));
+    EXPECT_EQ ("", filter::css::writing_mode_top_bottom_left_right (122));
     
-    EXPECT_EQ ("checked", filter::css::writingModeTopBottomRightLeft (122));
-    EXPECT_EQ ("", filter::css::writingModeTopBottomRightLeft (132));
+    EXPECT_EQ ("checked", filter::css::writing_mode_top_bottom_right_left (122));
+    EXPECT_EQ ("", filter::css::writing_mode_top_bottom_right_left (132));
     
-    EXPECT_EQ ("checked", filter::css::writingModeBottomTopLeftRight (132));
-    EXPECT_EQ ("", filter::css::writingModeBottomTopLeftRight (142));
+    EXPECT_EQ ("checked", filter::css::writing_mode_bottom_top_left_right (132));
+    EXPECT_EQ ("", filter::css::writing_mode_bottom_top_left_right (142));
     
-    EXPECT_EQ ("checked", filter::css::writingModeBottomTopRightLeft (142));
-    EXPECT_EQ ("", filter::css::writingModeBottomTopRightLeft (152));
+    EXPECT_EQ ("checked", filter::css::writing_mode_bottom_top_right_left (142));
+    EXPECT_EQ ("", filter::css::writing_mode_bottom_top_right_left (152));
   }
 }
 
@@ -306,7 +306,7 @@ TEST_F (styles, get_css)
 // Getting the custom class.
 TEST_F (styles, get_custom_class)
 {
-  const std::string custom_class = filter::css::getClass ("ആഈഘലറ");
+  const std::string custom_class = filter::css::get_class ("ആഈഘലറ");
   EXPECT_EQ ("customf86528", custom_class);
 }
 

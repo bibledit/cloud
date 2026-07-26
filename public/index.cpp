@@ -103,7 +103,7 @@ std::string public_index (Webserver_Request& webserver_request)
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
 
   
-  const std::string clss = filter::css::getClass (bible);
+  const std::string clss = filter::css::get_class (bible);
   const std::string font = fonts::logic::get_text_font (bible);
   const int direction = database::config::bible::get_text_direction (bible);
   const int lineheight = database::config::bible::get_line_height (bible);

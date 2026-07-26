@@ -70,10 +70,10 @@ std::string bible_css(Webserver_Request& webserver_request)
         database::config::bible::set_verse_editor_focused_verse_font(bible, focused_verse_font);
 
         const std::string s_direction = webserver_request.post_get("direction");
-        const int i_direction = filter::css::directionValue(s_direction);
+        const int i_direction = filter::css::direction_value(s_direction);
 
         const std::string s_mode = webserver_request.post_get("mode");
-        const int i_mode = filter::css::writingModeValue(s_mode);
+        const int i_mode = filter::css::writing_mode_value(s_mode);
 
         database::config::bible::set_text_direction(bible, i_mode * 10 + i_direction);
 
@@ -98,15 +98,15 @@ std::string bible_css(Webserver_Request& webserver_request)
 
     const int direction = database::config::bible::get_text_direction(bible);
 
-    view.set_variable("direction_none", filter::css::directionUnspecified(direction));
-    view.set_variable("direction_ltr", filter::css::directionLeftToRight(direction));
-    view.set_variable("direction_rtl", filter::css::directionRightToLeft(direction));
+    view.set_variable("direction_none", filter::css::direction_unspecified(direction));
+    view.set_variable("direction_ltr", filter::css::direction_left_to_right(direction));
+    view.set_variable("direction_rtl", filter::css::direction_right_to_left(direction));
 
-    view.set_variable("mode_none", filter::css::writingModeUnspecified(direction));
-    view.set_variable("mode_tblr", filter::css::writingModeTopBottomLeftRight(direction));
-    view.set_variable("mode_tbrl", filter::css::writingModeTopBottomRightLeft(direction));
-    view.set_variable("mode_btlr", filter::css::writingModeBottomTopLeftRight(direction));
-    view.set_variable("mode_btrl", filter::css::writingModeBottomTopRightLeft(direction));
+    view.set_variable("mode_none", filter::css::writing_mode_unspecified(direction));
+    view.set_variable("mode_tblr", filter::css::writing_mode_top_bottom_left_right(direction));
+    view.set_variable("mode_tbrl", filter::css::writing_mode_top_bottom_right_left(direction));
+    view.set_variable("mode_btlr", filter::css::writing_mode_bottom_top_left_right(direction));
+    view.set_variable("mode_btrl", filter::css::writing_mode_bottom_top_right_left(direction));
 
     const int lineheight = database::config::bible::get_line_height(bible);
     view.set_variable("lineheight", std::to_string(lineheight));
@@ -115,7 +115,7 @@ std::string bible_css(Webserver_Request& webserver_request)
     letterspacing /= 10;
     view.set_variable("letterspacing", filter::string::convert_to_string(letterspacing));
 
-    const std::string custom_class = filter::css::getClass(bible);
+    const std::string custom_class = filter::css::get_class(bible);
     view.set_variable("custom_class", custom_class);
     const std::string custom_css = filter::css::get_css(custom_class,
                                                         fonts::logic::get_font_path(font), {},

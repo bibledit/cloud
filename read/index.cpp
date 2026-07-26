@@ -124,7 +124,7 @@ std::string read_index (Webserver_Request& webserver_request)
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 
-  std::string cls = filter::css::getClass (bible);
+  std::string cls = filter::css::get_class (bible);
   std::string font = fonts::logic::get_text_font (bible);
   int current_theme_index = webserver_request.database_config_user ()->get_current_theme ();
   int direction = database::config::bible::get_text_direction (bible);

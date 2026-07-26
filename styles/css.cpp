@@ -355,7 +355,7 @@ void Styles_Css::add_editor_styles()
 
 void Styles_Css::customize(const std::string& bible)
 {
-    const std::string cls = filter::css::getClass(bible);
+    const std::string cls = filter::css::get_class(bible);
     std::string font = fonts::logic::get_text_font(bible);
     const bool uploaded_font = fonts::logic::font_exists(font);
     font = fonts::logic::get_font_path(font);

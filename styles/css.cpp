@@ -360,7 +360,8 @@ void Styles_Css::customize(const std::string& bible)
     const bool uploaded_font = fonts::logic::font_exists(font);
     font = fonts::logic::get_font_path(font);
     const int direction = database::config::bible::get_text_direction(bible);
-    std::string css = filter::css::get_css(cls, font, "Todo", direction);
-    if (uploaded_font) css = filter::string::replace("../fonts/", "", css);
+    std::string css = filter::css::get_css(cls, font, "", direction);
+    if (uploaded_font)
+        css = filter::string::replace("../fonts/", "", css);
     m_code.push_back(css);
 }

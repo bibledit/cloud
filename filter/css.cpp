@@ -171,7 +171,7 @@ std::string filter::css::getClass(std::string bible)
 // $letterspacing: Value multiplied by 10, in pixels.
 std::string filter::css::get_css(const std::string& class_,
                                  std::string font,
-                                 std::string focused_verse_font, // Todo use this.
+                                 const std::string& focused_verse_font,
                                  int directionvalue, int lineheight, int letterspacing)
 {
     std::vector<std::string> css;

@@ -87,8 +87,7 @@ std::string edit_preview (Webserver_Request& webserver_request)
   int letterspacing = database::config::bible::get_letter_spacing (bible);
   view.set_variable ("custom_class", cls);
   view.set_variable ("custom_css", filter::css::get_css (cls,
-                                                       fonts::logic::get_font_path (font),
-                                                       "Todo",
+                                                       fonts::logic::get_font_path (font), {},
                                                        direction,
                                                        lineheight,
                                                        letterspacing));

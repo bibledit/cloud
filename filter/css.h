@@ -42,7 +42,7 @@ int writingModeValue (std::string mode);
 std::string getClass (std::string bible);
 std::string get_css(const std::string& class_,
                     std::string font,
-                    std::string focused_verse_font,
+                    const std::string& focused_verse_font,
                     int directionvalue, int lineheight = 100, int letterspacing = 0);
 void distinction_set_basic ();
 std::string distinction_set_light (int itemstyleindex);

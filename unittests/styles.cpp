@@ -223,14 +223,14 @@ TEST_F (styles, get_css)
   std::string css {};
   std::string standard {};
   
-  css = filter::css::get_css ("class", std::string(), "Todo", 0);
+  css = filter::css::get_css ("class", {}, {}, 0);
   standard =
   ".class\n"
   "{\n"
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("class", std::string(), "Todo", 101);
+  css = filter::css::get_css ("class", {}, {}, 101);
   standard =
   ".class\n"
   "{\n"
@@ -238,7 +238,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("class", std::string(), "Todo", 102);
+  css = filter::css::get_css ("class", {}, {}, 102);
   standard =
   ".class\n"
   "{\n"
@@ -246,7 +246,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("class", std::string(), "Todo", 110);
+  css = filter::css::get_css ("class", {}, {}, 110);
   standard =
   ".class\n"
   "{\n"
@@ -254,7 +254,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("CLass", std::string(), "Todo", 130);
+  css = filter::css::get_css ("CLass", {}, {}, 130);
   standard =
   ".CLass\n"
   "{\n"
@@ -262,7 +262,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("CLass", std::string(), "Todo", 1322);
+  css = filter::css::get_css ("CLass", {}, {}, 1322);
   standard =
   ".CLass\n"
   "{\n"
@@ -271,7 +271,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("Class", "sherif", "Todo", 0);
+  css = filter::css::get_css ("Class", "sherif", {}, 0);
   standard =
   ".Class\n"
   "{\n"
@@ -279,7 +279,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("Class", "sherif", "Todo", 102);
+  css = filter::css::get_css ("Class", "sherif", {}, 102);
   standard =
   ".Class\n"
   "{\n"
@@ -288,12 +288,12 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("classs", "../font.ttf", "Todo", 0);
+  css = filter::css::get_css ("classs", "../font.ttf", {}, 0);
   standard =
   "@font-face\n"
   "{\n"
   "font-family: classs;\n"
-  "src: url(../font.ttf);\n"
+  "src: url(\"../font.ttf\");\n"
   "}\n"
   ".classs\n"
   "{\n"

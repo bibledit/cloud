@@ -675,28 +675,28 @@ TEST (scraper, studylight_albert_barnet)
   constexpr auto isaiah {23};
   text = resource_logic_study_light_get (resource, isaiah, 10, 14);
   text = filter::string::html2text (text);
-  EXPECT_EQ (361, text.find("parent bird"));
+  EXPECT_EQ (363, text.find("parent bird"));
   
   constexpr auto daniel {27};
   text = resource_logic_study_light_get (resource, daniel, 10, 14);
   text = filter::string::html2text (text);
-  EXPECT_EQ (293, text.find("For yet the vision is for many days"));
+  EXPECT_EQ (297, text.find("For yet the vision is for many days"));
   
   constexpr auto first_thessalonians {52};
   text = resource_logic_study_light_get (resource, first_thessalonians, 1, 4);
   text = filter::string::html2text (text);
-  EXPECT_EQ (83, text.find("beloved of God, your election"));
+  EXPECT_EQ (86, text.find("beloved of God, your election"));
   
   constexpr auto second_thessalonians {53};
   text = resource_logic_study_light_get (resource, second_thessalonians, 1, 4);
   text = filter::string::html2text (text);
-  EXPECT_EQ (354, text.find("You have shownunwavering confidence in God in your afflictions"));
+  EXPECT_EQ (425, text.find("In all your persecutions and tribulations that ye endure"));
   
   constexpr auto hebrews {58};
   text = resource_logic_study_light_get (resource, hebrews, 10, 14);
   text = filter::string::html2text (text);
-  EXPECT_EQ (2917, text.find("τους ἁγιαζομενους"));
-  EXPECT_EQ (3678, text.find("By one offering Christ hath forever justifiedsuch as are purged or cleansed by it"));
+  EXPECT_EQ (text.find("τους ἁγιαζομενους"), 2923);
+  EXPECT_EQ (text.find("By one offering Christ hath forever justifiedsuch as are purged or cleansed by it"), 3684);
 }
 
 

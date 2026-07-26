@@ -118,7 +118,7 @@ std::string editone_index(Webserver_Request& webserver_request)
 
     const std::string custom_class = filter::css::getClass(bible);
     const std::string font = fonts::logic::get_text_font(bible);
-    const std::string focused_verse_font = database::config::bible::get_verse_editor_focused_verse_font(bible); // Todo
+    const std::string focused_verse_font = database::config::bible::get_verse_editor_focused_verse_font(bible);
     const int current_theme_index = webserver_request.database_config_user()->get_current_theme();
     const int direction = database::config::bible::get_text_direction(bible);
     const int line_height = database::config::bible::get_line_height(bible);
@@ -129,9 +129,8 @@ std::string editone_index(Webserver_Request& webserver_request)
     const std::string custom_css = filter::css::get_css(custom_class,
                                                         fonts::logic::get_font_path(font),
                                                         fonts::logic::get_font_path(focused_verse_font),
-                                                        direction, line_height, letter_spacing); // Todo
+                                                        direction, line_height, letter_spacing);
     view.set_variable("custom_css", custom_css);
-    std::cout << custom_css << std::endl; // Todo
 
 
     // Whether to enable fast Bible editor switching.

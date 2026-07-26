@@ -135,7 +135,7 @@ std::string read_index (Webserver_Request& webserver_request)
   view.set_variable ("custom_class", cls);
   view.set_variable ("custom_css", filter::css::get_css (cls,
                                                        fonts::logic::get_font_path (font),
-                                                       "Todo",
+                                                       {},
                                                        direction,
                                                        lineheight,
                                                        letterspacing));

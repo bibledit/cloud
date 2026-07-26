@@ -118,7 +118,8 @@ std::string bible_css(Webserver_Request& webserver_request)
     const std::string custom_class = filter::css::getClass(bible);
     view.set_variable("custom_class", custom_class);
     const std::string custom_css = filter::css::get_css(custom_class,
-                                                        fonts::logic::get_font_path(font), direction,
+                                                        fonts::logic::get_font_path(font), "Todo",
+                                                        direction,
                                                         lineheight,
                                                         database::config::bible::get_letter_spacing(bible));
     view.set_variable("custom_css", custom_css);

@@ -223,14 +223,14 @@ TEST_F (styles, get_css)
   std::string css {};
   std::string standard {};
   
-  css = filter::css::get_css ("class", std::string(), 0);
+  css = filter::css::get_css ("class", std::string(), "Todo", 0);
   standard =
   ".class\n"
   "{\n"
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("class", std::string(), 101);
+  css = filter::css::get_css ("class", std::string(), "Todo", 101);
   standard =
   ".class\n"
   "{\n"
@@ -238,7 +238,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("class", std::string(), 102);
+  css = filter::css::get_css ("class", std::string(), "Todo", 102);
   standard =
   ".class\n"
   "{\n"
@@ -246,7 +246,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("class", std::string(), 110);
+  css = filter::css::get_css ("class", std::string(), "Todo", 110);
   standard =
   ".class\n"
   "{\n"
@@ -254,7 +254,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("CLass", std::string(), 130);
+  css = filter::css::get_css ("CLass", std::string(), "Todo", 130);
   standard =
   ".CLass\n"
   "{\n"
@@ -262,7 +262,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("CLass", std::string(), 1322);
+  css = filter::css::get_css ("CLass", std::string(), "Todo", 1322);
   standard =
   ".CLass\n"
   "{\n"
@@ -271,7 +271,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("Class", "sherif", 0);
+  css = filter::css::get_css ("Class", "sherif", "Todo", 0);
   standard =
   ".Class\n"
   "{\n"
@@ -279,7 +279,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("Class", "sherif", 102);
+  css = filter::css::get_css ("Class", "sherif", "Todo", 102);
   standard =
   ".Class\n"
   "{\n"
@@ -288,7 +288,7 @@ TEST_F (styles, get_css)
   "}";
   EXPECT_EQ (standard, css);
   
-  css = filter::css::get_css ("classs", "../font.ttf", 0);
+  css = filter::css::get_css ("classs", "../font.ttf", "Todo", 0);
   standard =
   "@font-face\n"
   "{\n"
@@ -314,13 +314,13 @@ TEST_F (styles, get_custom_class)
 // Do a spot check on the markers and their associated parameters.
 TEST_F (styles, spot_check_markers)
 {
-  constexpr const char* test_sheet {"testsheet"};
+  constexpr auto test_sheet {"testsheet"};
     
   database::styles::create_sheet (test_sheet);
   
   std::vector <std::string> markers {};
   
-  constexpr const int marker_count {220};
+  constexpr int marker_count {220};
   
   markers = database::styles::get_markers (stylesv2::standard_sheet ());
   EXPECT_EQ (marker_count, static_cast<int>(markers.size ()));

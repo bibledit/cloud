@@ -40,10 +40,6 @@
 #define RUN_SECURE_SERVER 1
 
 
-// Whether it uses a thread pool for handling web requests.
-#define HAVE_THREADPOOL 1
-
-
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1

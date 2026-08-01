@@ -210,7 +210,7 @@ void bibledit_start_library ()
   config_globals_webserver_running = true;
 
   // Start the thread pool with the workers.
-  start_thread_pool(); // Todo determine pool size.
+  start_thread_pool();
 
   // Run the plain web server in a thread.
   config_globals_http_worker = new std::thread (http_server);

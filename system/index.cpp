@@ -167,7 +167,6 @@ std::string system_index (Webserver_Request& webserver_request)
   const bool producenotes = webserver_request.query.count ("producenotes");
   const bool produceresources = webserver_request.query.count ("produceresources");
   if (producebibles || producenotes || produceresources) {
-    Database_Jobs database_jobs;
     const int jobId = database_jobs::get_new_id ();
     database_jobs::set_level (jobId, roles::member);
     std::string task {};

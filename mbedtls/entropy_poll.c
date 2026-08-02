@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
 /*
  *  Platform-specific and custom entropy polling functions
  *

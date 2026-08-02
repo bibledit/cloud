@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
 /*
  *  FIPS-180-2 compliant SHA-384/512 implementation
  *

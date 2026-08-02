@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file memory_buffer_alloc.h
  *

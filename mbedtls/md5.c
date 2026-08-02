@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
 /*
  *  RFC 1321 compliant MD5 implementation
  *

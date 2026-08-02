@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
 /*
  *  X.509 base functions for creating certificates / CSRs
  *

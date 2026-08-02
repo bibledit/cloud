@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /*
  *  Function signatures for functionality that can be provided by
  *  cryptographic accelerators.

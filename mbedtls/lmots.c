@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
 /*
  * The LM-OTS one-time public-key signature scheme
  *

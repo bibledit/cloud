@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /** \file psa_crypto_its.h
  * \brief Interface of trusted storage that crypto is built on.
  */

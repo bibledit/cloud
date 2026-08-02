@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file mbedtls/config_adjust_psa_from_legacy.h
  * \brief Adjust PSA configuration: construct PSA configuration from legacy

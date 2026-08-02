@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file sha1.h
  *

@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /*
  *  PSA ECP layer on top of Mbed TLS crypto
  */

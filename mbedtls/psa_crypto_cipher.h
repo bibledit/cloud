@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /*
  *  PSA cipher driver entry points and associated auxiliary functions
  */

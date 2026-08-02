@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file mbedtls/config_psa.h
  * \brief PSA crypto configuration options (set of defines)

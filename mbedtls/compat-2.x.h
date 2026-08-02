@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file compat-2.x.h
  *

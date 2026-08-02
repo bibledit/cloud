@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
 /*
  *  Generic SSL/TLS messaging layer functions
  *  (record layer + retransmission state machine)

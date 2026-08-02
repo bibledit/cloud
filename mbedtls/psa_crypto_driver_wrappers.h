@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /*
  *  Functions to delegate cryptographic operations to an available
  *  and appropriate accelerator.

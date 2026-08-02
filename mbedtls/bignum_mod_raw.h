@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  *  Low-level modular bignum functions
  *

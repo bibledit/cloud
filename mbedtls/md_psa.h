@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * Translation between MD and PSA identifiers (algorithms, errors).
  *

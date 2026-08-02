@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file mbedtls/config_adjust_legacy_crypto.h
  * \brief Adjust legacy configuration configuration

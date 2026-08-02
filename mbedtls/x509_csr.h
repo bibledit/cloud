@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file x509_csr.h
  *

@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /** \file psa_crypto_random_impl.h
  *
  * \brief PSA crypto random generator implementation abstraction.

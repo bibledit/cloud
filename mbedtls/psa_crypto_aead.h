@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /*
  *  PSA AEAD driver entry points
  */

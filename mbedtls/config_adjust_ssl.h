@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file mbedtls/config_adjust_ssl.h
  * \brief Adjust TLS configuration

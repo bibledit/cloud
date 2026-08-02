@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /*
  *  PSA crypto support for secure element drivers
  */

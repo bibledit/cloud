@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file ecp_internal_alt.h
  *

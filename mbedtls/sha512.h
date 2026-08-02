@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file sha512.h
  * \brief This file contains SHA-384 and SHA-512 definitions and functions.

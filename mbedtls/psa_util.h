@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file psa_util.h
  *

@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file bignum_core_invasive.h
  *

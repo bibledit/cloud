@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /*
  *  TLS 1.3 key schedule
  *

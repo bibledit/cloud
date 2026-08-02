@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
 /*
  *  Implementation of NIST SP 800-38F key wrapping, supporting KW and KWP modes
  *  only

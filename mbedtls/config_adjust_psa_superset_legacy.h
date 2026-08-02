@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file mbedtls/config_adjust_psa_superset_legacy.h
  * \brief Adjust PSA configuration: automatic enablement from legacy

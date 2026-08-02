@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file poly1305.h
  *

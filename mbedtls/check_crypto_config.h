@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file check_crypto_config.h
  *

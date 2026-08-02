@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file mbedtls/config_adjust_x509.h
  * \brief Adjust X.509 configuration

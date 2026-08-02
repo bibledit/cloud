@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /*
  *  PSA RSA layer on top of Mbed TLS crypto
  */

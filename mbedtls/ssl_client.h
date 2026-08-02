@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  *  TLS 1.2 and 1.3 client-side functions
  *

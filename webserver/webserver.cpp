@@ -32,7 +32,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma clang diagnostic ignored "-Wswitch-enum"
 #include <mbedtls/platform.h>
 #include <mbedtls/version.h>
-
 #include "assets/page.h"
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/debug.h"
@@ -120,7 +119,7 @@ static int get_line(const int sock, char* buf, const int size)
     int n{0};
     while ((i < size - 1) && (character != '\n'))
     {
-        n = static_cast<int>(::recv(sock, &character, 1, 0));
+        n = static_cast<int>(recv(sock, &character, 1, 0));
         if (n > 0)
         {
             if (character == '\r')
@@ -299,7 +298,7 @@ static void webserver_process_request (const int conn_fd, const std::string clie
         message.append(e.what());
         database::logs::log(message);
     }
-    catch (const std::exception* e)
+    catch (const std::exception* e) // NOLINT(*-throw-by-value-catch-by-reference)
     {
         std::string message("Internal error: ");
         message.append(e->what());
@@ -379,7 +378,7 @@ void http_server()
     server_addr.sin6_port = htons(
         static_cast<uint16_t>(filter::string::convert_to_int (config::logic::http_network_port ())));
 #endif
-    result = ::bind(listen_fd, reinterpret_cast<sockaddr*>(&server_addr), sizeof (server_addr));
+    result = bind(listen_fd, reinterpret_cast<sockaddr*>(&server_addr), sizeof (server_addr));
     if (result != 0)
     {
         std::string error = "Error binding server to socket: ";
@@ -405,10 +404,10 @@ void http_server()
     while (listener_healthy and config_globals_webserver_running)
     {
         // Socket and file descriptor for the client connection.
-        sockaddr_in6 client_addr6;
+        sockaddr_in6 client_addr6{};
         socklen_t client_len = sizeof (client_addr6);
-        int conn_fd = accept(listen_fd, reinterpret_cast<sockaddr*>(&client_addr6), &client_len);
-        if (conn_fd > 0)
+        if (const int conn_fd = accept(listen_fd, reinterpret_cast<sockaddr*>(&client_addr6), &client_len);
+            conn_fd > 0)
         {
             // Socket receive timeout, plain http.
             timeval tv{};
@@ -581,7 +580,7 @@ static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_n
 {
     // Socket receive timeout, secure https.
 #ifndef HAVE_WINDOWS
-    timeval tv;
+    timeval tv {};
     tv.tv_sec = 60;
     tv.tv_usec = 0;
     setsockopt(client_fd.fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
@@ -607,18 +606,18 @@ static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_n
             // or the IPv6 address in the proper notation,
             // and put it in the webserver request object.
             {
-                sockaddr_storage client_addr;
+                sockaddr_storage client_addr{};
                 socklen_t socklen = sizeof(client_addr);
                 getpeername(client_fd.fd, reinterpret_cast<sockaddr*>(&client_addr), &socklen);
                 char remote_address[256];
                 if (client_addr.ss_family == AF_INET)
                 {
-                    struct sockaddr_in* s = reinterpret_cast<sockaddr_in*>(&client_addr);
+                    auto* s = reinterpret_cast<sockaddr_in*>(&client_addr);
                     inet_ntop(AF_INET, &s->sin_addr, remote_address, sizeof remote_address);
                 }
                 else if (client_addr.ss_family == AF_INET6)
                 {
-                    struct sockaddr_in6* s = reinterpret_cast<sockaddr_in6*>(&client_addr);
+                    auto* s = reinterpret_cast<sockaddr_in6*>(&client_addr);
                     inet_ntop(AF_INET6, &s->sin6_addr, remote_address, sizeof remote_address);
                 }
                 request.remote_address = remote_address;
@@ -743,10 +742,10 @@ static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_n
 
             // Write the response to the browser.
             const char* output = request.reply.c_str();
-            const unsigned char* buf = reinterpret_cast<const unsigned char*>(output);
+            const auto* buf = reinterpret_cast<const unsigned char*>(output);
             // The C function strlen () fails on null characters in the reply, so take string::size()
             size_t len = request.reply.size();
-            while (connection_healthy && (len > 0))
+            while (connection_healthy && len > 0)
             {
                 // Function
                 // int ret = mbedtls_ssl_write (&ssl, buf, len)
@@ -797,8 +796,8 @@ static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_n
 #endif
                         (filefd, buffer, 1024));
                     int remaining_length = bytecount;
-                    const unsigned char* buffer_ptr = reinterpret_cast<const unsigned char*>(&buffer);
-                    while (connection_healthy && (remaining_length > 0))
+                    const auto* buffer_ptr = reinterpret_cast<const unsigned char*>(&buffer);
+                    while (connection_healthy && remaining_length > 0)
                     {
                         // Function
                         // int ret = mbedtls_ssl_write (&ssl, buf, len)
@@ -843,9 +842,6 @@ static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_n
                     if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
                     filter_url_display_mbed_tls_error(ret, nullptr, true, request.remote_address);
                     connection_healthy = false;
-                    if (connection_healthy)
-                    {
-                    }; // Suppress static analyzer warning about unused code.
                     break;
                 }
             }
@@ -857,7 +853,7 @@ static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_n
         message.append(e.what());
         database::logs::log(message);
     }
-    catch (const std::exception* e)
+    catch (const std::exception* e) // NOLINT(*-throw-by-value-catch-by-reference)
     {
         std::string message("Internal error: ");
         message.append(e->what());
@@ -896,8 +892,8 @@ void https_server()
     const std::string authorities_certificates_path{config::logic::authorities_certificates_path(false)};
     if (!server_key_path.empty())
     {
-        const std::string contents{filter_url_file_get_contents(server_key_path)};
-        if (contents.empty())
+        if (const std::string contents{filter_url_file_get_contents(server_key_path)};
+            contents.empty())
         {
             database::logs::log("Cannot read " + server_key_path + " so not running secure server");
             return;
@@ -912,8 +908,7 @@ void https_server()
     }
     if (!server_certificate_path.empty())
     {
-        const std::string contents{filter_url_file_get_contents(server_certificate_path)};
-        if (contents.empty())
+        if (filter_url_file_get_contents(server_certificate_path).empty())
         {
             database::logs::log("Cannot read " + server_certificate_path + " so not running secure server");
             return;
@@ -928,8 +923,8 @@ void https_server()
     }
     if (!authorities_certificates_path.empty())
     {
-        std::string contents{filter_url_file_get_contents(authorities_certificates_path)};
-        if (contents.empty())
+        if (const std::string contents{filter_url_file_get_contents(authorities_certificates_path)};
+            contents.empty())
         {
             database::logs::log("Cannot read " + authorities_certificates_path + " so not running secure server");
             return;
@@ -1007,7 +1002,7 @@ void https_server()
     }
 
     // Seed the random number generator.
-    const char* pers = "Cloud";
+    auto* pers = "Cloud";
     ret = mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy, reinterpret_cast<const unsigned char*>(pers),
                                 strlen(pers));
     if (ret != 0)
@@ -1096,6 +1091,9 @@ void https_server()
 static std::vector<std::thread> thread_pool;
 
 // Queue of tasks.
+//   The underlying std::deque is unlikely to give several heap fragmentation
+//   because it allocates a block on the heap for many elements at once,
+//   dozens or hundreds per chunk.
 static std::queue<std::function<void()>> tasks;
 
 // Mutex to synchronize access to shared data.
@@ -1173,9 +1171,18 @@ void stop_thread_pool()
 
 void enqueue_task(std::function<void()> task)
 {
+    bool large_queue {false};
     {
-        std::unique_lock<std::mutex> lock(mutex);
+        std::unique_lock lock(mutex);
         tasks.emplace(std::move(task));
+        large_queue = tasks.size() > 50;
     }
     cv.notify_one();
+    // If the queue gets too large, it waits shortly.
+    // That should reduce the request rate.
+    if (large_queue)
+    {
+        using namespace std::literals;
+        std::this_thread::sleep_for(100ms);
+    }
 }

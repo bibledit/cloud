@@ -193,7 +193,7 @@ std::string filter_mail_address_name (std::string name)
   // To make the filter easy, allow only letters, digits, underscores and spaces.
   // See https://www.rfc-editor.org/rfc/rfc5322.txt
   // more specifically https://datatracker.ietf.org/doc/html/rfc5322#section-3.4
-  const auto allowed = [](const char c) {
+  const auto allowed = [](const char c) noexcept {
     // Put the checks in an order likely optimized for speed.
     if (c >= 'a' and c <= 'z')
       return true;

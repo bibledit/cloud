@@ -540,9 +540,9 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
     if (pos == 0)
       style.info = line.substr(info_key.length()+1);
     // Function to ensure that the paragraph field is not a nullopt.
-    const auto ensure_paragraph_is_set = [](stylesv2::Style& style) {
-      if (!style.paragraph)
-        style.paragraph = stylesv2::Paragraph();
+    const auto ensure_paragraph_is_set = [](stylesv2::Style& st) {
+      if (not st.paragraph)
+        st.paragraph = stylesv2::Paragraph();
     };
     // Check / set paragraph font size.
     pos = line.find(add_space(paragraph_fontsize_key));
@@ -619,9 +619,9 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
     }
     
     // Function to ensure that the character field is not a nullopt.
-    const auto ensure_character_is_set = [](stylesv2::Style& style) {
-      if (!style.character)
-        style.character = stylesv2::Character();
+    const auto ensure_character_is_set = [](stylesv2::Style& st) {
+      if (not st.character)
+        st.character = stylesv2::Character();
     };
     // Check / set character italic.
     pos = line.find(add_space(character_italic_key));

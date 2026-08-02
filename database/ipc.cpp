@@ -122,7 +122,7 @@ void store_message(const std::string& user, const std::string& channel, const st
     // Do this after writing new data, to be sure there is always some data on disk.
     if (channel.empty())
     {
-        const auto match = [&](auto&& record)
+        const auto match = [&](auto&& record) noexcept
         {
             return record.user == user and record.channel == channel and record.command == command;
         };

@@ -820,12 +820,12 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   
   // Get the existing USFM fragment for the verse to save.
   const auto get_existing_verse_usfm = [quill, &chapter_usfm, chapter, verse] () {
-    std::string usfm;
+    std::string local_usfm;
     if (quill)
-      usfm = get_verse_text_quill (chapter, verse, chapter_usfm);
+      local_usfm = get_verse_text_quill (chapter, verse, chapter_usfm);
     else
-      usfm = get_verse_text (chapter_usfm, verse);
-    return filter::string::trim (usfm);
+      local_usfm = get_verse_text (chapter_usfm, verse);
+    return string::trim (local_usfm);
   };
   const std::string existing_verse_usfm {get_existing_verse_usfm()};
 

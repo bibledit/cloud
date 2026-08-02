@@ -42,7 +42,10 @@ long long convert_to_long_long (const std::string& s);
 float convert_to_float (const std::string& s);
 bool convert_to_bool (const std::string& s);
 std::string convert_to_true_false (const bool b);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 std::u16string convert_to_u16string (const std::string& s);
+#pragma GCC diagnostic pop
 std::string trim (const std::string& s);
 std::string ltrim (const std::string& s);
 std::string rtrim (std::string s);

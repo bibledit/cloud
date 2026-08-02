@@ -259,15 +259,15 @@ void Styles_Css::add(const stylesv2::Style* style, const bool paragraph, const b
                 result.erase(pos);
             return result;
         };
-        if (static_cast<bool>(sp.space_before))
+        if (std::lround(sp.space_before))
             m_code.push_back("margin-top: " + to_float_precision_01(sp.space_before) + "mm;");
-        if (static_cast<bool>(sp.space_after))
+        if (std::lround(sp.space_after))
             m_code.push_back("margin-bottom: " + to_float_precision_01(sp.space_after) + "mm;");
-        if (static_cast<bool>(sp.left_margin))
+        if (std::lround(sp.left_margin))
             m_code.push_back("margin-left: " + to_float_precision_01(sp.left_margin) + "mm;");
-        if (static_cast<bool>(sp.right_margin))
+        if (std::lround(sp.right_margin))
             m_code.push_back("margin-right: " + to_float_precision_01(sp.right_margin) + "mm;");
-        if (static_cast<bool>(sp.first_line_indent))
+        if (std::lround(sp.first_line_indent))
             m_code.push_back("text-indent: " + to_float_precision_01(sp.first_line_indent) + "mm;");
 
         // Columns have not yet been implemented.

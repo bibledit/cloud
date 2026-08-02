@@ -1,4 +1,5 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wtype-limits"
 
 // Copyright 2010 Google Inc. All Rights Reserved.
 //

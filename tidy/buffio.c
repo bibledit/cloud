@@ -3,6 +3,7 @@
 #pragma clang diagnostic ignored "-Wassign-enum"
 #pragma clang diagnostic ignored "-Wcomma"
 #pragma clang diagnostic ignored "-Wconversion"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 /* buffio.c -- Treat buffer as an I/O stream.
 
   (c) 1998-2007 (W3C) MIT, ERCIM, Keio University

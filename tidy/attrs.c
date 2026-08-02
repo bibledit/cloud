@@ -6,6 +6,8 @@
 #pragma clang diagnostic ignored "-Wignored-qualifiers"
 #pragma clang diagnostic ignored "-Wmissing-field-initializers"
 #pragma clang diagnostic ignored "-Wunused-but-set-variable"
+#pragma clang diagnostic ignored "-Wmissing-field-initializers"
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
 /* attrs.c -- recognize HTML attributes
 
@@ -2305,7 +2307,7 @@ static void CheckDecimal( TidyDocImpl* doc, Node *node, AttVal *attval)
                 hasPoint = yes;
             else
                 TY_(ReportAttrError)( doc, node, attval, BAD_ATTRIBUTE_VALUE);
-                break;
+            break;
         }
         
         if (!TY_(IsDigit)(*p))

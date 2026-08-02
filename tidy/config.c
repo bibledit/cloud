@@ -3,7 +3,9 @@
 #pragma clang diagnostic ignored "-Wassign-enum"
 #pragma clang diagnostic ignored "-Wcomma"
 #pragma clang diagnostic ignored "-Wconversion"
-#pragma clang diagnostic ignored "-Wmissing-field-initializers"
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#pragma GCC diagnostic ignored "-Wignored-qualifiers"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 /* config.c
  * Read configuration files and manage configuration properties.
  *

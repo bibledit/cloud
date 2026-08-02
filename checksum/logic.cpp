@@ -54,7 +54,7 @@ std::string checksum_logic::get(const std::string& data)
 std::string checksum_logic::get(const std::vector<std::string>& data)
 {
     std::size_t length = 0;
-    std::ranges::for_each(data, [&length](const auto& bit)
+    std::ranges::for_each(data, [&length](const auto& bit) noexcept
     {
         length += bit.length();
     });

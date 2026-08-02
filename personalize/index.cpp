@@ -431,7 +431,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
     std::vector<std::string> values, texts;
     for (auto df {filter::date::dd_mm_yyyy}; df <= filter::date::yyyy_mn_dd;
          df = static_cast<filter::date::date_format>(df + 1)) {
-      values.emplace_back(std::to_string(df));
+      values.emplace_back(std::to_string(static_cast<int>(df)));
       texts.emplace_back(filter::date::date_format_to_text (df));
     }
     dialog::select::Settings settings {

@@ -1,9 +1,11 @@
-#pragma clang diagnostic ignored "-Wsign-compare"
+#pragma GCC diagnostic ignored "-Wsign-compare"
 #pragma clang diagnostic ignored "-Wshadow"
 #pragma clang diagnostic ignored "-Wassign-enum"
 #pragma clang diagnostic ignored "-Wcomma"
 #pragma clang diagnostic ignored "-Wconversion"
-#pragma clang diagnostic ignored "-Wmissing-field-initializers"
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wignored-qualifiers"
 /* message.c -- General Message Writing Routines
 
   (c) 1998-2017 (W3C) MIT, ERCIM, Keio University, University of

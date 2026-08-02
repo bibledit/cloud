@@ -131,7 +131,7 @@ public:
     EditSelector edit_selector{EditSelector::at_any_time};
     NonEditSelector non_edit_selector{NonEditSelector::any_time};
     // Optionally constrains selection based on list of note statuses.
-    std::vector<std::string> status_selectors;
+    std::vector<std::string> status_selectors{};
     // Optionally constrains the selection based on a note being assigned to somebody.
     std::string assignment_selector{};
     // Optionally limits the selection based on a note's subscription.

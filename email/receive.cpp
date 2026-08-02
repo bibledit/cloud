@@ -150,7 +150,7 @@ int receive_count (std::string& error, bool verbose)
   
   curl_easy_setopt (curl, CURLOPT_URL, url ().c_str());
   
-  curl_easy_setopt (curl, CURLOPT_USE_SSL, static_cast<long>(CURLUSESSL_ALL));
+  curl_easy_setopt (curl, CURLOPT_USE_SSL, CURLUSESSL_ALL);
   curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, 0);
   curl_easy_setopt (curl, CURLOPT_SSL_VERIFYHOST, 0);
   
@@ -212,7 +212,7 @@ std::string receive_message (std::string& error)
   std::string message_url = url () + "/1";
   curl_easy_setopt (curl, CURLOPT_URL, message_url.c_str());
   
-  curl_easy_setopt (curl, CURLOPT_USE_SSL, static_cast<long>(CURLUSESSL_ALL));
+  curl_easy_setopt (curl, CURLOPT_USE_SSL, CURLUSESSL_ALL);
   curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, 0);
   curl_easy_setopt (curl, CURLOPT_SSL_VERIFYHOST, 0);
   

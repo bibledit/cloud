@@ -812,6 +812,7 @@ if (BUILD_UNITTESTS)
             unittests/image.cpp
             unittests/scraper.cpp
             unittests/consistency.cpp
+	    unittests/numbers.cpp
     )
     target_link_libraries(unittest bibledit)
 endif ()

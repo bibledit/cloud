@@ -16,12 +16,17 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-
 #pragma once
+
+#include <config/libraries.h>
 
 namespace filter::number {
 
-bool float_equal(const float x, const float y);
+template<std::floating_point T>
+bool float_equal(T f1, T f2) {
+    return std::fabs(f1 - f2) <= std::numeric_limits<T>::epsilon() * std::fmax(std::fabs(f1), std::fabs(f2));
+}
+
 
 }
 

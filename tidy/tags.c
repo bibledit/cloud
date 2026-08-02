@@ -3,7 +3,7 @@
 #pragma clang diagnostic ignored "-Wassign-enum"
 #pragma clang diagnostic ignored "-Wcomma"
 #pragma clang diagnostic ignored "-Wconversion"
-#pragma clang diagnostic ignored "-Wmissing-field-initializers"
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 /* tags.c
  * Recognize HTML tags.
  *

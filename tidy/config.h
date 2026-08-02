@@ -1,5 +1,6 @@
 #pragma clang diagnostic ignored "-Wunused-parameter"
 #pragma clang diagnostic ignored "-Wignored-qualifiers"
+#pragma GCC system_header
 
 
 #ifndef __CONFIG_H__

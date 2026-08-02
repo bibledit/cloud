@@ -314,7 +314,7 @@ std::string send ([[maybe_unused]] std::string to_mail,
    * of using CURLUSESSL_TRY here, because if TLS upgrade fails, the transfer
    * will continue anyway - see the security discussion in the libcurl
    * tutorial for more details. */
-  if (port != "25") curl_easy_setopt(curl, CURLOPT_USE_SSL, static_cast<long>(CURLUSESSL_ALL));
+  if (port != "25") curl_easy_setopt(curl, CURLOPT_USE_SSL, CURLUSESSL_ALL);
   
   /* If your server doesn't have a valid certificate, then you can disable
    * part of the Transport Layer Security protection by setting the

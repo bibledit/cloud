@@ -33,9 +33,9 @@
 // 2. A string with the word-level attributes class, like "wla2" for example.
 // 3. A string with the milestone attributes class, like "mls2" for example.
 struct std_wla_mls {
-  std::vector<std::string> standard_classes;
-  std::string word_level_attributes_class;
-  std::string milestone_attributes_class;
+  std::vector<std::string> standard_classes {};
+  std::string word_level_attributes_class {};
+  std::string milestone_attributes_class {};
 };
 static std_wla_mls get_standard_classes_and_wla_or_mls_class (const std::string& class_name)
 {

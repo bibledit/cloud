@@ -73,7 +73,7 @@ std::string styles_new(Webserver_Request& webserver_request)
         {
             page.append(assets_page::error(translate("Enter a name for the new style")));
         }
-        else if (std::ranges::any_of(new_style, [&allowed](const char c)
+        else if (std::ranges::any_of(new_style, [&allowed](const char c) noexcept
         {
             return allowed.find(c) == std::string::npos;
         }))

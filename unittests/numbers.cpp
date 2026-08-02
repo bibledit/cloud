@@ -17,8 +17,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+#pragma GCC diagnostic ignored "-Wcharacter-conversion"
+#include <gtest/gtest.h>
+#pragma GCC diagnostic pop
 #include <filter/number.h>
 
-namespace filter::number {
 
+TEST(numbers, float)
+{
+    EXPECT_TRUE(filter::number::float_equal(0.0f, 0.0f));
+    EXPECT_TRUE(filter::number::float_equal(2.2f, 2.2f));
+    EXPECT_FALSE(filter::number::float_equal(2.2f, 2.2002f));
 }
+
+
+#endif

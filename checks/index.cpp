@@ -94,7 +94,7 @@ std::string checks_index(Webserver_Request& webserver_request)
         using namespace checks::issues;
         if (group > static_cast<int>(issue::start_boundary) and group < static_cast<int>(issue::stop_boundary))
         {
-            const auto fragment = text(static_cast<enum issue>(group));
+            const auto fragment = text(static_cast<issue>(group));
             for (const database::check::Hit& hit : database::check::get_hits())
             {
                 if (std::ranges::find(bibles, hit.bible) == bibles.cend())
@@ -185,10 +185,10 @@ std::string checks_index(Webserver_Request& webserver_request)
         {
             const auto issue = static_cast<enum issue>(i);
             const auto translation = text(issue);
-            const auto is_among_fragments = [&fragments](const auto& translation)
+            const auto is_among_fragments = [&fragments](const auto& translat)
             {
                 for (const auto& fragment : fragments)
-                    if (fragment.find(translation) != std::string::npos)
+                    if (fragment.find(translat) != std::string::npos)
                         return true;
                 return false;
             };

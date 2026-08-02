@@ -25,7 +25,8 @@
 #include <database/config/bible.h>
 #include <fonts/logic.h>
 #include <filter/quill.h>
-#include "database/styles.h"
+#include <database/styles.h>
+#include <filter/number.h>
 
 
 Styles_Css::Styles_Css(std::string  stylesheet) : m_stylesheet(std::move(stylesheet)) { }
@@ -259,15 +260,15 @@ void Styles_Css::add(const stylesv2::Style* style, const bool paragraph, const b
                 result.erase(pos);
             return result;
         };
-        if (std::lround(sp.space_before))
+        if (not filter::number::float_equal(sp.space_before, 0.0f))
             m_code.push_back("margin-top: " + to_float_precision_01(sp.space_before) + "mm;");
-        if (std::lround(sp.space_after))
+        if (not filter::number::float_equal(sp.space_after, 0.0f))
             m_code.push_back("margin-bottom: " + to_float_precision_01(sp.space_after) + "mm;");
-        if (std::lround(sp.left_margin))
+        if (not filter::number::float_equal(sp.left_margin, 0.0f))
             m_code.push_back("margin-left: " + to_float_precision_01(sp.left_margin) + "mm;");
-        if (std::lround(sp.right_margin))
+        if (not filter::number::float_equal(sp.right_margin, 0.0f))
             m_code.push_back("margin-right: " + to_float_precision_01(sp.right_margin) + "mm;");
-        if (std::lround(sp.first_line_indent))
+        if (not filter::number::float_equal(sp.first_line_indent, 0.0f))
             m_code.push_back("text-indent: " + to_float_precision_01(sp.first_line_indent) + "mm;");
 
         // Columns have not yet been implemented.

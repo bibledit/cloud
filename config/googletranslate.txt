@@ -1,7 +1,7 @@
 Configuring Bibledit to use Google Translate
 ============================================
 
-Google Translate can help you translating your resources into another language.
+Google Translate can help you translate your resources into another language.
 That gives the translators easier access to those resources in a language they can understand.
 To start using translated resources, follow these steps:
 
@@ -16,13 +16,13 @@ Choose which Google account to use.
 Or create a new Google account and use that.
 
 2.
-Open the following page with information about how to setup Google Translate.
+Open the following page with information about how to set up Google Translate.
 https://cloud.google.com/translate/docs/setup
 This is a guide to setting up Google Cloud Translation.
 The guide helps you with the next steps to take.
 
 You will use the basic edition of Cloud Translation.
-The Google Guide assumes that basic adition.
+The Google Guide assumes that basic edition.
 
 3.
 Go to the Google Cloud console.
@@ -57,7 +57,7 @@ Step 2: Install gcloud on the server hosting Bibledit Cloud
 -----------------------------------------------------------
 
 Bibledit Cloud authenticates access to Google Translate through the gcloud CLI.
-Therefore gcloud needs to be installed on the server.
+Therefore, gcloud needs to be installed on the server.
 Information: https://cloud.google.com/sdk/gcloud/
 
 To install gcloud on the Bibledit server, follow these steps:

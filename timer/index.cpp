@@ -68,10 +68,10 @@ void timer_index()
 
             // The current time, localized.
             const int local_seconds = filter::date::local_seconds(filter::date::seconds_since_epoch());
-            const int second = filter::date::numerical_second(local_seconds);
-            const int minute = filter::date::numerical_minute(local_seconds);
-            const int hour = filter::date::numerical_hour(local_seconds);
-            [[maybe_unused]] const int weekday = filter::date::numerical_week_day(local_seconds);
+            const int second = filter::date::get_second_within_minute(local_seconds);
+            const int minute = filter::date::get_minute_within_hour(local_seconds);
+            const int hour = filter::date::get_hour_within_day(local_seconds);
+            [[maybe_unused]] const int weekday = filter::date::get_day_within_week(local_seconds);
 
             // Run once per second.
             if (second == previous_second) continue;

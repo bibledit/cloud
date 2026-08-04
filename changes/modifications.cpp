@@ -317,17 +317,17 @@ void changes_modifications ()
     // The files get stored at https://site.org:<port>/revisions/<Bible>/<date>
     const int seconds = filter::date::seconds_since_epoch ();
     std::string timepath;
-    timepath.append (std::to_string (filter::date::numerical_year (seconds)));
+    timepath.append (std::to_string (filter::date::get_year_ad (seconds)));
     timepath.append ("-");
-    timepath.append (filter::string::fill (std::to_string (filter::date::numerical_month (seconds)), 2, '0'));
+    timepath.append (filter::string::fill (std::to_string (filter::date::get_month_within_year (seconds)), 2, '0'));
     timepath.append ("-");
-    timepath.append (filter::string::fill (std::to_string (filter::date::numerical_month_day (seconds)), 2, '0'));
+    timepath.append (filter::string::fill (std::to_string (filter::date::get_day_within_month (seconds)), 2, '0'));
     timepath.append (" ");
-    timepath.append (filter::string::fill (std::to_string (filter::date::numerical_hour (seconds)), 2, '0'));
+    timepath.append (filter::string::fill (std::to_string (filter::date::get_hour_within_day (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (filter::string::fill (std::to_string (filter::date::numerical_minute (seconds)), 2, '0'));
+    timepath.append (filter::string::fill (std::to_string (filter::date::get_minute_within_hour (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (filter::string::fill (std::to_string (filter::date::numerical_second (seconds)), 2, '0'));
+    timepath.append (filter::string::fill (std::to_string (filter::date::get_second_within_minute (seconds)), 2, '0'));
     const std::string directory = filter_url_create_root_path ({"revisions", bible, timepath});
     filter_url_mkdir (directory);
     

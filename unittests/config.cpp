@@ -163,7 +163,7 @@ TEST(database, config_user)
     // Testing the Sprint month and trimming it.
     // It should get today's month.
     {
-        int month = filter::date::numerical_month(filter::date::seconds_since_epoch());
+        int month = filter::date::get_month_within_year(filter::date::seconds_since_epoch());
         EXPECT_EQ(month, request.database_config_user ()->get_sprint_month ());
         // Set the sprint month to another month value: It should get this value back from the database.
         int newmonth = 123;
@@ -203,7 +203,7 @@ TEST(database, config_user)
     EXPECT_EQ("test", request.database_config_user ()->get_consultation_notes_assignment_selector ());
 
     // Sprint year.
-    EXPECT_EQ(filter::date::numerical_year (filter::date::seconds_since_epoch ()),
+    EXPECT_EQ(filter::date::get_year_ad (filter::date::seconds_since_epoch ()),
               request.database_config_user ()->get_sprint_year ());
 
     // Test getting a Bible that does not exist: It creates one.

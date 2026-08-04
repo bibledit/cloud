@@ -237,7 +237,7 @@ std::string send ([[maybe_unused]] std::string to_mail,
   int seconds = filter::date::seconds_since_epoch ();
   payload_text.clear();
   std::string payload;
-  payload = "Date: " + std::to_string (filter::date::numerical_year (seconds)) + "/" + std::to_string (filter::date::numerical_month (seconds)) + "/" + std::to_string (filter::date::numerical_month_day (seconds)) + " " + std::to_string (filter::date::numerical_hour (seconds)) + ":" + std::to_string (filter::date::numerical_minute (seconds)) + "\n";
+  payload = "Date: " + std::to_string (filter::date::get_year_ad (seconds)) + "/" + std::to_string (filter::date::get_month_within_year (seconds)) + "/" + std::to_string (filter::date::get_day_within_month (seconds)) + " " + std::to_string (filter::date::get_hour_within_day (seconds)) + ":" + std::to_string (filter::date::get_minute_within_hour (seconds)) + "\n";
   payload_text.push_back (std::move(payload));
   const auto generate_address_line = [] (const char* header,
                                          const std::string& name,

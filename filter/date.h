@@ -24,35 +24,35 @@
 class Webserver_Request;
 
 namespace filter::date {
+int get_second_within_minute(int seconds);
+int get_minute_within_hour(int seconds);
+int get_hour_within_day(int seconds);
+int get_day_within_month(int seconds);
+int get_day_within_week(int seconds);
+int get_month_within_year(int seconds);
+int get_year_ad(int seconds);
+int get_microseconds_within_second();
+int seconds_since_epoch();
+int seconds_since_epoch(int year, int month, int day);
+int local_seconds(int seconds);
+bool is_first_business_day_of_month(int monthday, int weekday);
+int get_last_business_day_of_month(int year, int month);
+bool is_business_day(int year, int month, int day);
+void get_previous_month(int& month, int& year);
+void get_next_month(int& month, int& year);
+std::string day_rfc822(int day);
+std::string month_rfc822(int month);
+std::string rfc822(int seconds);
+long elapsed_microseconds(long start);
+std::string localized_date_format();
 
-int numerical_second (int seconds);
-int numerical_minute (int seconds);
-int numerical_hour (int seconds);
-int numerical_month_day (int seconds);
-int numerical_week_day (int seconds);
-int numerical_month (int seconds);
-int numerical_year (int seconds);
-int numerical_microseconds ();
-int seconds_since_epoch ();
-int seconds_since_epoch (int year, int month, int day);
-int local_seconds (int seconds);
-bool is_first_business_day_of_month (int monthday, int weekday);
-int get_last_business_day_of_month (int year, int month);
-bool is_business_day (int year, int month, int day);
-void get_previous_month (int & month, int & year);
-void get_next_month (int & month, int & year);
-std::string day_rfc822 (int day);
-std::string month_rfc822 (int month);
-std::string rfc822 (int seconds);
-long elapsed_microseconds (long start);
-std::string localized_date_format ();
-
-enum date_format {
-  dd_mm_yyyy = 0,
-  mm_dd_yyyy = 1,
-  yyyy_mn_dd = 2
+enum date_format
+{
+    dd_mm_yyyy = 0,
+    mm_dd_yyyy = 1,
+    yyyy_mn_dd = 2
 };
-std::string date_format_to_text (date_format format);
-std::string localized_date_format (Webserver_Request& webserver_request);
 
+std::string date_format_to_text(date_format format);
+std::string localized_date_format(Webserver_Request& webserver_request);
 }

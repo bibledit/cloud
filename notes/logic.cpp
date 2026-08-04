@@ -512,7 +512,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, std::str
   int timestamp = filter::date::seconds_since_epoch ();
   if (postpone) {
     int localseconds = filter::date::local_seconds (timestamp);
-    float localhour = static_cast<float>(filter::date::numerical_hour (localseconds)) + static_cast<float>(filter::date::numerical_minute (localseconds)) / 60;
+    float localhour = static_cast<float>(filter::date::get_hour_within_day (localseconds)) + static_cast<float>(filter::date::get_minute_within_hour (localseconds)) / 60;
     if (localhour < 21) {
       float difference = 21 - localhour;
       timestamp += static_cast<int>(3600 * difference) - 10;
@@ -571,7 +571,7 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
     username = filter::string::replace (".", " ", username);
   }
   // Clean the email's body.
-  std::string year = std::to_string (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
+  std::string year = std::to_string (filter::date::get_year_ad (filter::date::seconds_since_epoch ()));
   std::string sender = database::config::general::get_site_mail_name();
   body = filter::string::extract_body (body, year, sender);
   // Remove any new lines from the body. This cleans up the email considerably,

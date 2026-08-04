@@ -50,9 +50,9 @@ std::string locale_logic_month (int month)
 std::string locale_logic_date (int seconds)
 {
   seconds = filter::date::local_seconds (seconds);
-  int day = filter::date::numerical_month_day (seconds);
-  int month = filter::date::numerical_month (seconds);
-  int year = filter::date::numerical_year (seconds);
+  int day = filter::date::get_day_within_month (seconds);
+  int month = filter::date::get_month_within_year (seconds);
+  int year = filter::date::get_year_ad (seconds);
   return std::to_string (day) + " " + locale_logic_month (month) + " " + std::to_string (year);
 }
 
@@ -65,11 +65,11 @@ std::string locale_logic_date_time (int seconds)
   std::string timestamp;
   timestamp.append (locale_logic_date (seconds));
   timestamp.append (" ");
-  timestamp.append (filter::string::fill (std::to_string (filter::date::numerical_hour (seconds)), 2, '0'));
+  timestamp.append (filter::string::fill (std::to_string (filter::date::get_hour_within_day (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter::string::fill (std::to_string (filter::date::numerical_minute (seconds)), 2, '0'));
+  timestamp.append (filter::string::fill (std::to_string (filter::date::get_minute_within_hour (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter::string::fill (std::to_string (filter::date::numerical_second (seconds)), 2, '0'));
+  timestamp.append (filter::string::fill (std::to_string (filter::date::get_second_within_minute (seconds)), 2, '0'));
   // Done.
   return timestamp;
 }

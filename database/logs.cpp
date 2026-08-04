@@ -56,7 +56,7 @@ void log(std::string description, const int level)
 
     // Save this logbook entry to a filename with seconds and microseconds.
     const std::string seconds = std::to_string(filter::date::seconds_since_epoch());
-    const std::string time = seconds + filter::string::fill(std::to_string(filter::date::numerical_microseconds()), 8, '0');
+    const std::string time = seconds + filter::string::fill(std::to_string(filter::date::get_microseconds_within_second()), 8, '0');
     const std::string file = filter_url_create_path({folder(), time});
     // The microseconds granularity depends on the platform.
     // On Windows it is lower than on Linux.

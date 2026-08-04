@@ -45,11 +45,11 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
 {
 #ifdef HAVE_CLOUD
   int localseconds = filter::date::local_seconds (filter::date::seconds_since_epoch ());
-  int year = filter::date::numerical_year (localseconds);
-  int month = filter::date::numerical_month (localseconds);
-  int monthday = filter::date::numerical_month_day (localseconds); // 1 to 31.
-  int weekday = filter::date::numerical_week_day (localseconds); // 0 (for Sunday) through 6 (for Saturday).
-  int hour = filter::date::numerical_hour (localseconds);
+  int year = filter::date::get_year_ad (localseconds);
+  int month = filter::date::get_month_within_year (localseconds);
+  int monthday = filter::date::get_day_within_month (localseconds); // 1 to 31.
+  int weekday = filter::date::get_day_within_week (localseconds); // 0 (for Sunday) through 6 (for Saturday).
+  int hour = filter::date::get_hour_within_day (localseconds);
   bool sprintstart = false;
   bool sprintfinish = false;
   bool email = false;
@@ -89,9 +89,9 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
   if (hour <= 6) {
     localseconds -= (3600 * 6);
   }
-  year = filter::date::numerical_year (localseconds);
-  month = filter::date::numerical_month (localseconds);
-  monthday = filter::date::numerical_month_day (localseconds); // 1 to 31.
+  year = filter::date::get_year_ad (localseconds);
+  month = filter::date::get_month_within_year (localseconds);
+  monthday = filter::date::get_day_within_month (localseconds); // 1 to 31.
   
   
   // It sending the planning manually, update the date.
@@ -204,7 +204,7 @@ std::string sprint_create_burndown_chart ([[maybe_unused]] std::string bible,
   // The business days in the month for on the X-axis.
   std::vector <int> days_in_month;
   for (int day = 1; day <= 31; day++) {
-    int mymonth = filter::date::numerical_month (seconds);
+    int mymonth = filter::date::get_month_within_year (seconds);
     if (mymonth == month) {
       if (filter::date::is_business_day (year, month, day)) {
         days_in_month.push_back (day);

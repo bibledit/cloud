@@ -1202,7 +1202,7 @@ std::string encrypt_decrypt (std::string key, std::string data)
 // Gets a new random string for sessions, encryption, you name it.
 std::string get_new_random_string ()
 {
-  const std::string u = std::to_string (filter::date::numerical_microseconds ());
+  const std::string u = std::to_string (filter::date::get_microseconds_within_second ());
   const std::string s = std::to_string (filter::date::seconds_since_epoch ());
   const std::string r = std::to_string (config_globals_int_distribution (config_globals_random_engine));
   return md5 (u + s + r);

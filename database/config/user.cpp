@@ -770,7 +770,7 @@ void Database_Config_User::set_consistency_resources(const std::vector<std::stri
 
 int Database_Config_User::get_sprint_month() const
 {
-    return get_numeric_value(sprint_month_key, filter::date::numerical_month(filter::date::seconds_since_epoch()));
+    return get_numeric_value(sprint_month_key, filter::date::get_month_within_year(filter::date::seconds_since_epoch()));
 }
 
 void Database_Config_User::set_sprint_month(const int value) const
@@ -781,7 +781,7 @@ void Database_Config_User::set_sprint_month(const int value) const
 
 int Database_Config_User::get_sprint_year() const
 {
-    return get_numeric_value(sprint_year_key, filter::date::numerical_year(filter::date::seconds_since_epoch()));
+    return get_numeric_value(sprint_year_key, filter::date::get_year_ad(filter::date::seconds_since_epoch()));
 }
 
 void Database_Config_User::set_sprint_year(const int value) const

@@ -649,11 +649,11 @@ std::vector<int> Database_Notes::select_notes(const Selector& selector)
       break;
     case EditSelector::since_yesterday:
       // Select notes that have been edited since yesterday.
-      time = filter::date::seconds_since_epoch () - 1 * 24 * 3600 - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
+      time = filter::date::seconds_since_epoch () - 1 * 24 * 3600 - filter::date::get_hour_within_day (filter::date::seconds_since_epoch ()) * 3600;
       break;
     case EditSelector::today:
       // Select notes that have been edited today.
-      time = filter::date::seconds_since_epoch () - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
+      time = filter::date::seconds_since_epoch () - filter::date::get_hour_within_day (filter::date::seconds_since_epoch ()) * 3600;
       break;
   }
   if (time != 0) {

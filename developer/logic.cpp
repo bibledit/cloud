@@ -64,7 +64,7 @@ void developer_logic_log_network_write ()
 Developer_Logic_Tracer::Developer_Logic_Tracer(Webserver_Request& webserver_request)
 {
     seconds1 = filter::date::seconds_since_epoch();
-    microseconds1 = filter::date::numerical_microseconds();
+    microseconds1 = filter::date::get_microseconds_within_second();
     rfc822 = filter::date::rfc822(seconds1);
     remote_address = webserver_request.remote_address;
     request_get = webserver_request.get;
@@ -82,7 +82,7 @@ Developer_Logic_Tracer::Developer_Logic_Tracer(Webserver_Request& webserver_requ
 Developer_Logic_Tracer::~Developer_Logic_Tracer()
 {
     const int seconds2 = filter::date::seconds_since_epoch();
-    const int microseconds2 = filter::date::numerical_microseconds();
+    const int microseconds2 = filter::date::get_microseconds_within_second();
     const int microseconds = (seconds2 - seconds1) * 1000000 + microseconds2 - microseconds1;
     const std::vector<std::string> bits = {rfc822, std::to_string(microseconds), request_get, request_query, username};
     const std::string entry = filter::string::implode(bits, ",");

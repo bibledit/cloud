@@ -17,347 +17,376 @@
  */
 
 
+#include <database/config/general.h>
 #include <filter/date.h>
 #include <filter/string.h>
-#include <database/config/general.h>
 #include <webserver/request.h>
 
 
 namespace filter::date {
-
-
 // Gets the second within the minute from the seconds since the Unix epoch.
-int numerical_second (int seconds)
+int get_second_within_minute(const int seconds)
 {
-  time_t tt = seconds;
-  tm utc_tm = *gmtime(&tt);
-  int second = utc_tm.tm_sec;
-  return second;
+    return seconds % 60;
 }
 
 
 // Gets the minute within the hour from the seconds since the Unix epoch.
-int numerical_minute (int seconds)
+int get_minute_within_hour(const int seconds)
 {
-  time_t tt = seconds;
-  tm utc_tm = *gmtime(&tt);
-  int minute = utc_tm.tm_min;
-  return minute;
+    return seconds / 60 % 60;
 }
 
 
 // Gets the hour within the day from the seconds since the Unix epoch.
-int numerical_hour (int seconds)
+int get_hour_within_day(const int seconds)
 {
-  time_t tt = seconds;
-  tm utc_tm = *gmtime(&tt);
-  int hour = utc_tm.tm_hour;
-  return hour;
+    return seconds / 3600 % 24;
 }
 
 
 // The numerical day of the month from 1 to 31.
-int numerical_month_day (int seconds)
+int get_day_within_month(const int seconds)
 {
-  time_t tt = seconds;
-  tm utc_tm = *gmtime(&tt);
-  int day = utc_tm.tm_mday;
-  return day;
+    const std::chrono::seconds duration(seconds);
+    const auto epoch_plus_duration = std::chrono::system_clock::time_point{} + duration;
+    const std::chrono::year_month_day year_month_day{std::chrono::floor<std::chrono::days>(epoch_plus_duration)};
+    const auto day_of_month = static_cast<int>(static_cast<unsigned>(year_month_day.day()));
+    return day_of_month;
+    // const time_t tt = seconds; // Todo goes out if the above compiles on all OSes.
+    // const tm utc_tm = *gmtime(&tt);
+    // const int day = utc_tm.tm_mday;
+    // return day;
 }
 
 
 // The numerical day of the week: 0 (for Sunday) through 6 (for Saturday)
-int numerical_week_day (int seconds)
+int get_day_within_week(const int seconds)
 {
-  time_t tt = seconds;
-  tm utc_tm = *gmtime(&tt);
-  int day = utc_tm.tm_wday;
-  return day;
+    // Input is the seconds since 1970-01-01 UTC, get time point.
+    const std::chrono::system_clock::time_point time_point{std::chrono::seconds(seconds)};
+    // Cast time point down to day precision.
+    const auto day_point = std::chrono::floor<std::chrono::days>(time_point);
+    // Get the weekday object (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    const std::chrono::weekday weekday{day_point};
+    // Get numeric index.
+    using func_return_type = decltype(get_day_within_week(0));
+    return static_cast<func_return_type>(weekday.c_encoding());
+    // const time_t tt = seconds; // Todo goes out if the above compiles on all OSes.
+    // const tm utc_tm = *gmtime(&tt);
+    // const int day = utc_tm.tm_wday;
+    // return day;
 }
 
 
-// A C++ equivalent for PHP's date ("n") function.
 // Numeric representation of a month: 1 through 12.
-int numerical_month (int seconds)
+int get_month_within_year(const int seconds)
 {
-  time_t tt = seconds;
-  tm utc_tm = *gmtime(&tt);
-  int month = utc_tm.tm_mon + 1;
-  return month;
+    // Input is seconds since 1 Jan 1970 UTC, convert to wall clock timepoint.
+    const std::chrono::system_clock::time_point time_point{std::chrono::seconds(seconds)};
+    // Cast down to day precision and create a calendar date object.
+    const std::chrono::year_month_day year_month_day{std::chrono::floor<std::chrono::days>(time_point)};
+    // Get the month object.
+    const std::chrono::month month {year_month_day.month()};
+    // Get numeric index (1 = January, 2 = February, ..., 12 = December).
+    const auto month_index = static_cast<unsigned int>(month);
+    return static_cast<decltype(get_month_within_year(0))>(month_index);
+    // Todo remove the below if the above compiles on all OSes.
+    // const time_t tt = seconds;
+    // const tm utc_tm = *gmtime(&tt);
+    // const int month = utc_tm.tm_mon + 1;
+    // return month;
 }
 
 
-// A C++ equivalent for PHP's date ("Y") function.
 // A full numeric representation of a year, 4 digits: 2014.
-int numerical_year (int seconds)
+int get_year_ad(const int seconds)
 {
-  time_t tt = seconds;
-  tm utc_tm = *gmtime(&tt);
-  // Get years since 1900, and correct to get years since birth of Christ.
-  int year = utc_tm.tm_year + 1900;
-  return year;
+    // Input is seconds since Unix epoch, convert that o a system seconds timepoint.
+    const std::chrono::sys_seconds time_point{std::chrono::seconds(seconds)};
+    // Convert time point to a calendar year-month-day structure.
+    std::chrono::year_month_day year_month_day{std::chrono::floor<std::chrono::days>(time_point)};
+    // Extract the year.
+    int year = static_cast<int>(year_month_day.year());
+    return year;
+    // Todo code below can go out once the code above compiles on all OSes.
+    // const time_t tt = seconds;
+    // const tm utc_tm = *gmtime(&tt);
+    // // Get years since 1900, and correct to get years since birth of Christ.
+    // const int year = utc_tm.tm_year + 1900;
+    // return year;
 }
 
 
 // This function gives the number of microseconds within the current second.
-int numerical_microseconds ()
+int get_microseconds_within_second()
 {
-  auto now = std::chrono::system_clock::now ();
-  auto duration = now.time_since_epoch ();
-  auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
-  int usecs = static_cast<int>(microseconds % 1000000);
-  return usecs;
+    const std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+    const auto duration = now.time_since_epoch();
+    const auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+    const int microseconds_in_second = static_cast<decltype(microseconds_in_second)>(microseconds % 1000000);
+    return microseconds_in_second;
 }
 
 
 // This function returns the seconds since the Unix epoch, which is 1 January 1970 UTC.
-int seconds_since_epoch ()
+int seconds_since_epoch()
 {
-  auto now = std::chrono::system_clock::now ();
-  auto duration = now.time_since_epoch ();
-  int seconds = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(duration).count());
-  return seconds;
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    int seconds = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(duration).count());
+    return seconds;
 }
 
 
 // Returns the seconds since the Unix epoch for $year and $month and $day.
-int seconds_since_epoch (int year, int month, int day)
+int seconds_since_epoch(int year, int month, int day)
 {
-  int seconds = 0;
-  bool done = false;
-  bool hit = false;
-  do {
-    seconds += 86400;
-    int myyear = numerical_year (seconds);
-    int mymonth = numerical_month (seconds);
-    int myday = numerical_month_day (seconds);
-    if ((year == myyear) && (month == mymonth)) hit = true;
-    done = ((year == myyear) && (month == mymonth) && (day == myday));
-    if (hit) if (month != mymonth) done = true;
-  } while (!done);
-  return seconds;
+    int seconds = 0;
+    bool done = false;
+    bool hit = false;
+    do
+    {
+        seconds += 86400;
+        int myyear = get_year_ad(seconds);
+        int mymonth = get_month_within_year(seconds);
+        int myday = get_day_within_month(seconds);
+        if ((year == myyear) && (month == mymonth)) hit = true;
+        done = ((year == myyear) && (month == mymonth) && (day == myday));
+        if (hit) if (month != mymonth) done = true;
+    }
+    while (!done);
+    return seconds;
 }
 
 
 // This function takes the "seconds" parameter,
 // corrects it according to the local timezone,
 // and returns it.
-int local_seconds (int seconds)
+int local_seconds(int seconds)
 {
-  int offset = database::config::general::get_timezone ();
-  seconds += (offset * 3600);
-  return seconds;
+    int offset = database::config::general::get_timezone();
+    seconds += (offset * 3600);
+    return seconds;
 }
 
 
-bool is_first_business_day_of_month (int monthday, int weekday)
+bool is_first_business_day_of_month(int monthday, int weekday)
 {
-  if (monthday == 1) {
-    if (weekday == 1) return true;
-    if (weekday == 2) return true;
-    if (weekday == 3) return true;
-    if (weekday == 4) return true;
-    if (weekday == 5) return true;
-  }
-  if (weekday == 1) {
-    if (monthday == 2) return true;
-    if (monthday == 3) return true;
-  }
-  return false;
-}
-
-
-int get_last_business_day_of_month (int year, int month)
-{
-  int myyear = year;
-  int mymonth = month;
-  get_next_month (mymonth, myyear);
-  int seconds = seconds_since_epoch (myyear, mymonth, 1);
-  int iterations = 0;
-  do {
-    seconds -= 86400;
-    int weekday = numerical_week_day (seconds);
-    if ((weekday == 1) || (weekday == 2) || (weekday == 3) || (weekday == 4) || (weekday == 5)) {
-      return numerical_month_day (seconds);
+    if (monthday == 1)
+    {
+        if (weekday == 1) return true;
+        if (weekday == 2) return true;
+        if (weekday == 3) return true;
+        if (weekday == 4) return true;
+        if (weekday == 5) return true;
     }
-    iterations++;
-  } while (iterations < 10);
-  return 28;
+    if (weekday == 1)
+    {
+        if (monthday == 2) return true;
+        if (monthday == 3) return true;
+    }
+    return false;
 }
 
 
-bool is_business_day (int year, int month, int day)
+int get_last_business_day_of_month(int year, int month)
 {
-  int seconds = seconds_since_epoch (year, month, day);
-  int weekday = numerical_week_day (seconds);
-  if ((weekday == 1) || (weekday == 2) || (weekday == 3) || (weekday == 4) || (weekday == 5)) {
-    return true;
-  }
-  return false;
+    int myyear = year;
+    int mymonth = month;
+    get_next_month(mymonth, myyear);
+    int seconds = seconds_since_epoch(myyear, mymonth, 1);
+    int iterations = 0;
+    do
+    {
+        seconds -= 86400;
+        int weekday = get_day_within_week(seconds);
+        if ((weekday == 1) || (weekday == 2) || (weekday == 3) || (weekday == 4) || (weekday == 5))
+        {
+            return get_day_within_month(seconds);
+        }
+        iterations++;
+    }
+    while (iterations < 10);
+    return 28;
 }
 
 
-void get_previous_month (int & month, int & year)
+bool is_business_day(int year, int month, int day)
 {
-  month--;
-  if (month <= 0) {
-    month = 12;
-    year--;
-  }
+    int seconds = seconds_since_epoch(year, month, day);
+    int weekday = get_day_within_week(seconds);
+    if ((weekday == 1) || (weekday == 2) || (weekday == 3) || (weekday == 4) || (weekday == 5))
+    {
+        return true;
+    }
+    return false;
 }
 
 
-void get_next_month (int & month, int & year)
+void get_previous_month(int& month, int& year)
 {
-  month++;
-  if (month > 12) {
-    month = 1;
-    year++;
-  }
+    month--;
+    if (month <= 0)
+    {
+        month = 12;
+        year--;
+    }
 }
 
 
-std::string day_rfc822 (int day)
+void get_next_month(int& month, int& year)
 {
-  if (day == 0) return "Sun";
-  if (day == 1) return "Mon";
-  if (day == 2) return "Tue";
-  if (day == 3) return "Wed";
-  if (day == 4) return "Thu";
-  if (day == 5) return "Fri";
-  if (day == 6) return "Sat";
-  return std::string();
+    month++;
+    if (month > 12)
+    {
+        month = 1;
+        year++;
+    }
 }
 
 
-std::string month_rfc822 (int month)
+std::string day_rfc822(int day)
 {
-  if (month ==  1) return "Jan";
-  if (month ==  2) return "Feb";
-  if (month ==  3) return "Mar";
-  if (month ==  4) return "Apr";
-  if (month ==  5) return "May";
-  if (month ==  6) return "Jun";
-  if (month ==  7) return "Jul";
-  if (month ==  8) return "Aug";
-  if (month ==  9) return "Sep";
-  if (month == 10) return "Oct";
-  if (month == 11) return "Nov";
-  if (month == 12) return "Dec";
-  return std::string();
+    if (day == 0) return "Sun";
+    if (day == 1) return "Mon";
+    if (day == 2) return "Tue";
+    if (day == 3) return "Wed";
+    if (day == 4) return "Thu";
+    if (day == 5) return "Fri";
+    if (day == 6) return "Sat";
+    return std::string();
+}
+
+
+std::string month_rfc822(int month)
+{
+    if (month == 1) return "Jan";
+    if (month == 2) return "Feb";
+    if (month == 3) return "Mar";
+    if (month == 4) return "Apr";
+    if (month == 5) return "May";
+    if (month == 6) return "Jun";
+    if (month == 7) return "Jul";
+    if (month == 8) return "Aug";
+    if (month == 9) return "Sep";
+    if (month == 10) return "Oct";
+    if (month == 11) return "Nov";
+    if (month == 12) return "Dec";
+    return std::string();
 }
 
 
 // Converts the number of $seconds since the Unix epoch
 // to date and time values according to RFC 822,
 // e.g.: Wed, 02 Oct 2002 15:00:00 +0200.
-std::string rfc822 (int seconds)
+std::string rfc822(int seconds)
 {
-  std::string rfc822;
-  // The feed validator at https://validator.w3.org/feed/ says:
-  // <pubDate>Wed, 18 Feb 2017 12:26:39 +0100</pubDate>
-  // This feed does not validate: Incorrect day of week: Wed (2 occurrences).
-  // Yet, 18 February 2017 is on a Wednesday.
-  // It continues to say that:
-  // If it turns out that computing the correct day of week is impractical using the software you have available, then RFC 822 permits omitting both the day of the week and the subsequent comma from the value.
-  // So to work around the error in the validator, the day of the week is left out.
-  // int weekday = numerical_week_day (seconds);
-  // rfc822.append (day_rfc822 (weekday));
-  // rfc822.append (", ");
-  std::string monthday = std::to_string (numerical_month_day (seconds));
-  rfc822.append (filter::string::fill (monthday, 2, '0'));
-  rfc822.append (" ");
-  int month = numerical_month (seconds);
-  rfc822.append (month_rfc822 (month));
-  rfc822.append (" ");
-  int year = numerical_year (seconds);
-  rfc822.append (std::to_string (year));
-  rfc822.append (" ");
-  std::string hour = std::to_string (numerical_hour (seconds));
-  rfc822.append (filter::string::fill (hour, 2, '0'));
-  rfc822.append (":");
-  std::string minute = std::to_string (numerical_minute (seconds));
-  rfc822.append (filter::string::fill (minute, 2, '0'));
-  rfc822.append (":");
-  std::string second = std::to_string (numerical_second (seconds));
-  rfc822.append (filter::string::fill (second, 2, '0'));
-  rfc822.append (" ");
-  int timezone = database::config::general::get_timezone ();
-  if (timezone >= 0) rfc822.append ("+");
-  else rfc822.append ("-");
-  if (timezone < 0) timezone = 0 - timezone;
-  rfc822.append (filter::string::fill (std::to_string (timezone), 2, '0'));
-  rfc822.append ("00");
-  return rfc822;
+    std::string rfc822;
+    // The feed validator at https://validator.w3.org/feed/ says:
+    // <pubDate>Wed, 18 Feb 2017 12:26:39 +0100</pubDate>
+    // This feed does not validate: Incorrect day of week: Wed (2 occurrences).
+    // Yet, 18 February 2017 is on a Wednesday.
+    // It continues to say that:
+    // If it turns out that computing the correct day of week is impractical using the software you have available, then RFC 822 permits omitting both the day of the week and the subsequent comma from the value.
+    // So to work around the error in the validator, the day of the week is left out.
+    // int weekday = numerical_week_day (seconds);
+    // rfc822.append (day_rfc822 (weekday));
+    // rfc822.append (", ");
+    std::string monthday = std::to_string(get_day_within_month(seconds));
+    rfc822.append(filter::string::fill(monthday, 2, '0'));
+    rfc822.append(" ");
+    int month = get_month_within_year(seconds);
+    rfc822.append(month_rfc822(month));
+    rfc822.append(" ");
+    int year = get_year_ad(seconds);
+    rfc822.append(std::to_string(year));
+    rfc822.append(" ");
+    std::string hour = std::to_string(get_hour_within_day(seconds));
+    rfc822.append(filter::string::fill(hour, 2, '0'));
+    rfc822.append(":");
+    std::string minute = std::to_string(get_minute_within_hour(seconds));
+    rfc822.append(filter::string::fill(minute, 2, '0'));
+    rfc822.append(":");
+    std::string second = std::to_string(get_second_within_minute(seconds));
+    rfc822.append(filter::string::fill(second, 2, '0'));
+    rfc822.append(" ");
+    int timezone = database::config::general::get_timezone();
+    if (timezone >= 0) rfc822.append("+");
+    else rfc822.append("-");
+    if (timezone < 0) timezone = 0 - timezone;
+    rfc822.append(filter::string::fill(std::to_string(timezone), 2, '0'));
+    rfc822.append("00");
+    return rfc822;
 }
 
 
 // Calculates the number of microseconds elapsed since $start.
 // It returns the elapsed number of microseconds.
-long elapsed_microseconds (long start)
+long elapsed_microseconds(long start)
 {
-  auto now = std::chrono::system_clock::now ();
-  auto duration = now.time_since_epoch ();
-  auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
-  long elapsed = microseconds - start;
-  return elapsed;
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+    long elapsed = microseconds - start;
+    return elapsed;
 }
 
 
-std::string localized_date_format ()
+std::string localized_date_format()
 {
-  time_t tt;
-  time (&tt);
-  tm * localtm = localtime (&tt);
-  char buffer[20];
+    time_t tt;
+    time(&tt);
+    tm* localtm = localtime(&tt);
+    char buffer[20];
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-y2k"
-  strftime(buffer, sizeof(buffer), "%x", localtm);
+    strftime(buffer, sizeof(buffer), "%x", localtm);
 #pragma GCC diagnostic pop
-  return std::string (buffer);
+    return std::string(buffer);
 }
 
 
-std::string date_format_to_text (date_format format)
+std::string date_format_to_text(date_format format)
 {
-  switch (format) {
+    switch (format)
+    {
     case dd_mm_yyyy: return "dd/mm/yyyy";
     case mm_dd_yyyy: return "mm/dd/yyyy";
     case yyyy_mn_dd: return "yyyy-mm-dd";
     default: return std::string();
-  }
-  return std::string();
+    }
+    return std::string();
 }
 
 
-std::string localized_date_format (Webserver_Request& webserver_request)
+std::string localized_date_format(Webserver_Request& webserver_request)
 {
-  int time = seconds_since_epoch ();
-  
-  std::string day = std::to_string (numerical_month_day (time));
-  std::string month = std::to_string (numerical_month (time));
-  std::string year = std::to_string (numerical_year (time));
+    int time = seconds_since_epoch();
 
-  date_format df = static_cast<date_format>(webserver_request.database_config_user()->get_notes_date_format());
+    std::string day = std::to_string(get_day_within_month(time));
+    std::string month = std::to_string(get_month_within_year(time));
+    std::string year = std::to_string(get_year_ad(time));
 
-  switch (df) {
+    date_format df = static_cast<date_format>(webserver_request.database_config_user()->get_notes_date_format());
+
+    switch (df)
+    {
     case dd_mm_yyyy:
-    {
-      return day + "/" + month + "/" + year;
-    }
+        {
+            return day + "/" + month + "/" + year;
+        }
     case mm_dd_yyyy:
-    {
-      return month + "/" + day + "/" + year;
-    }
+        {
+            return month + "/" + day + "/" + year;
+        }
     case yyyy_mn_dd:
     default:
-    {
-      return year + "-" + month + "-" + day;
+        {
+            return year + "-" + month + "-" + day;
+        }
     }
-  }
-  
-  return std::string();
+
+    return std::string();
 }
-
-
 }

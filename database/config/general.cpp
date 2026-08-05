@@ -550,19 +550,6 @@ void set_unreceived_bible_data_time(const int value)
 }
 
 
-constexpr auto author_in_rss_feed_key{"author-in-rss-feed"};
-
-bool get_author_in_rss_feed()
-{
-    return get_value<bool>(author_in_rss_feed_key, "");
-}
-
-void set_author_in_rss_feed(const bool value)
-{
-    set_value<bool>(author_in_rss_feed_key, value);
-}
-
-
 constexpr auto just_connected_to_cloud_key{"just-connected-to-cloud"};
 
 bool get_just_connected_to_cloud()

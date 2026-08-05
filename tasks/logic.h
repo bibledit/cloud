@@ -67,7 +67,6 @@ constexpr const auto list_usfm_resources {"listusfmresources"};
 constexpr const auto create_sample_bible {"createsamplebible"};
 constexpr const auto cache_resources {"cacheresources"};
 constexpr const auto refresh_web_resources {"refreshwebresources"};
-constexpr const auto rss_feed_update_chapter {"rssfeedupdatechapter"};
 constexpr const auto produce_bibles_transferfile {"producebiblestransferfile"};
 constexpr const auto import_bibles_transferfile {"importbiblestransferfile"};
 constexpr const auto produce_notes_transferfile {"producenotestransferfile"};

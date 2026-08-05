@@ -38,9 +38,7 @@
 #include <bb/logic.h>
 #include <editone/logic.h>
 #include <edit/logic.h>
-#include <rss/logic.h>
 #include <sendreceive/logic.h>
-
 #include <database/bibles.h>
 
 
@@ -244,7 +242,6 @@ std::string editone_update (Webserver_Request& webserver_request)
       if (sendreceive_git_repository_linked (bible)) {
         database::git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
       }
-      rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
 #endif
       // Feedback to user.
       messages.push_back (locale_logic_text_saved ());

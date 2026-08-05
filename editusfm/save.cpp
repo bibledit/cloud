@@ -34,9 +34,7 @@
 #include <edit/logic.h>
 #include <access/bible.h>
 #include <bb/logic.h>
-#include <rss/logic.h>
 #include <sendreceive/logic.h>
-
 #include <database/bibles.h>
 
 
@@ -181,7 +179,6 @@ std::string editusfm_save (Webserver_Request& webserver_request)
   if (sendreceive_git_repository_linked (bible)) {
     database::git::store_chapter (username, bible, book, chapter, old_text, new_text);
   }
-  rss_logic_schedule_update (username, bible, book, chapter, old_text, new_text);
 #endif
 
   // Store a copy of the USFM loaded in the editor for later reference.

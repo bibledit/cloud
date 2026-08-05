@@ -152,7 +152,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/user1view.h>
 #include <resource/user9edit.h>
 #include <resource/user9view.h>
-#include <rss/feed.h>
 #include <search/all.h>
 #include <search/getids.h>
 #include <search/getids2.h>
@@ -1241,12 +1240,6 @@ void bootstrap_index(Webserver_Request& webserver_request)
         return;
     }
 #endif
-
-    if (request_matcher(rss_feed_url(), rss_feed_acl))
-    {
-        webserver_request.reply = rss_feed(webserver_request);
-        return;
-    }
 
     if (request_matcher(edit_update_url(), edit_update_acl))
     {

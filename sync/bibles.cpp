@@ -38,7 +38,6 @@
 #include <checksum/logic.h>
 #include <access/bible.h>
 #include <bb/logic.h>
-#include <rss/logic.h>
 #include <sendreceive/logic.h>
 
 
@@ -137,7 +136,6 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, c
     if (sendreceive_git_repository_linked (bible)) {
       database::git::store_chapter (username, bible, book, chapter, old_text, new_text);
     }
-    rss_logic_schedule_update (username, bible, book, chapter, old_text, new_text);
 #endif
   }
 

@@ -37,9 +37,7 @@
 #include <editone/logic.h>
 #include <edit/logic.h>
 #include <developer/logic.h>
-#include <rss/logic.h>
 #include <sendreceive/logic.h>
-
 #include <database/bibles.h>
 
 
@@ -155,7 +153,6 @@ std::string editone_save (Webserver_Request& webserver_request)
     if (sendreceive_git_repository_linked (bible)) {
       database::git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
     }
-    rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
 #endif
     
     

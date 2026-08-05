@@ -116,9 +116,6 @@ void set_unsent_bible_data_time (int value);
 int get_unreceived_bible_data_time ();
 void set_unreceived_bible_data_time (int value);
 
-bool get_author_in_rss_feed ();
-void set_author_in_rss_feed (bool value);
-
 bool get_just_connected_to_cloud ();
 void set_just_connected_to_cloud (bool value);
 

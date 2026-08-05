@@ -45,8 +45,6 @@
 #include <checks/french.h>
 #include <email/send.h>
 #include <sendreceive/logic.h>
-#include <rss/logic.h>
-
 #include <database/bibles.h>
 
 
@@ -145,7 +143,6 @@ void checks_run (std::string bible)
           if (sendreceive_git_repository_linked (bible)) {
             database::git::store_chapter (username, bible, book, chapter, old_usfm, chapterUsfm);
           }
-          rss_logic_schedule_update (username, bible, book, chapter, old_usfm, chapterUsfm);
 #endif
           database::logs::log ("Transposed and fixed double spaces around markers in footnotes or cross references in " + filter_passage_display (book, chapter, "") + " in Bible " + bible);
         }

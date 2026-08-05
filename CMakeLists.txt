@@ -619,8 +619,6 @@ add_library(bibledit STATIC
         related/logic.cpp
         sqlite/sqlite3.c
         ldap/logic.cpp
-        rss/logic.cpp
-        rss/feed.cpp
         microtar/microtar.c
         miniz/miniz.c
         read/index.cpp
@@ -755,7 +753,6 @@ if (BUILD_UNITTESTS)
             unittests/http.cpp
             unittests/memory.cpp
             unittests/tasks.cpp
-            unittests/rss.cpp
             unittests/roles.cpp
             unittests/md5.cpp
             unittests/string.cpp

@@ -28,7 +28,6 @@
 #include <database/config/general.h>
 #include <bb/logic.h>
 #include <locale/translate.h>
-#include <rss/logic.h>
 #include <database/bibles.h>
 #include "database/users.h"
 
@@ -282,7 +281,6 @@ void filter_git_sync_git_to_bible (std::string repository, std::string bible)
           if (contents != usfm) {
             bible_logic::store_chapter (bible, book, chapter, contents);
             database::logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
-            rss_logic_schedule_update ("collaborator", bible, book, chapter, usfm, contents);
           }
         } else {
           bible_logic::delete_chapter (bible, book, chapter);
@@ -319,8 +317,7 @@ void filter_git_sync_git_chapter_to_bible (std::string repository, std::string b
     std::string usfm = filter_url_file_get_contents (filename);
     bible_logic::log_change (bible, book, chapter, usfm, "collaborator", "Chapter updated from git repository", false);
     bible_logic::store_chapter (bible, book, chapter, usfm);
-    rss_logic_schedule_update ("collaborator", bible, book, chapter, existing_usfm, usfm);
-    
+
   } else {
     
     // Delete chapter from database.

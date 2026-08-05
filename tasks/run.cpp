@@ -62,7 +62,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 #include <client/logic.h>
 #include <user/logic.h>
-#include <rss/logic.h>
 #include <system/logic.h>
 #include <notes/logic.h>
 #include <changes/logic.h>
@@ -257,11 +256,6 @@ void tasks_run_one (const std::string& filename)
     resource_logic_bible_gateway_module_list_refresh ();
     resource_logic_study_light_module_list_refresh ();
   }
-#ifdef HAVE_CLOUD
-  else if (command == task::rss_feed_update_chapter) {
-    rss_logic_execute_update (parameter1, parameter2, filter::string::convert_to_int (parameter3), filter::string::convert_to_int (parameter4), parameter5, parameter6);
-  }
-#endif
 #ifdef HAVE_CLIENT
   else if (command == task::produce_bibles_transferfile) {
     system_logic_produce_bibles_file (filter::string::convert_to_int (parameter1));

@@ -45,7 +45,6 @@
 #include <sword/logic.h>
 #include <tasks/logic.h>
 #include <system/index.h>
-#include <rss/logic.h>
 #include <access/logic.h>
 #include <database/bibles.h>
 #include "database/styles.h"
@@ -244,7 +243,6 @@ std::string bible_settings (Webserver_Request& webserver_request)
   if (checkbox == "rss") {
     if (write_access) {
       database::config::bible::set_send_changes_to_rss (bible, checked);
-      rss_logic_feed_on_off ();
     }
   }
   view.set_variable ("rss", filter::string::get_checkbox_status (database::config::bible::get_send_changes_to_rss (bible)));

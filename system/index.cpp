@@ -36,8 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <config/globals.h>
-#include <rss/feed.h>
-#include <rss/logic.h>
 #include <assets/external.h>
 #include <jobs/index.h>
 #include <tasks/logic.h>
@@ -133,33 +131,6 @@ std::string system_index (Webserver_Request& webserver_request)
       || (config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE)) {
     view.enable_zone ("timezone");
   }
-
-  
-#ifdef HAVE_CLOUD
-  // Whether to include the author with every change in the RSS feed.
-  if (checkbox == "rssauthor") {
-    database::config::general::set_author_in_rss_feed (checked);
-    return std::string();
-  }
-  view.set_variable ("rssauthor", filter::string::get_checkbox_status (database::config::general::get_author_in_rss_feed ()));
-  // The location of the RSS feed.
-  view.set_variable ("rssfeed", rss_feed_url ());
-  // The Bibles that send their changes to the RSS feed.
-  std::string rssbibles {};
-  {
-    std::vector <std::string> bibles = database::bibles::get_bibles ();
-    for (const auto& bible : bibles) {
-      if (database::config::bible::get_send_changes_to_rss (bible)) {
-        if (!rssbibles.empty ()) rssbibles.append (" ");
-        rssbibles.append (bible);
-      }
-    }
-  }
-  if (rssbibles.empty ()) {
-    rssbibles.append (translate ("none"));
-  }
-  view.set_variable ("rssbibles", rssbibles);
-#endif
 
   
 #ifdef HAVE_CLIENT

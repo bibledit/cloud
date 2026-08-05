@@ -35,7 +35,6 @@ int get_microseconds_within_second();
 int get_seconds_since_epoch();
 int get_seconds_since_epoch(int year, int month, int day);
 int get_local_seconds(int seconds);
-std::string day_rfc822(int day);
 std::string month_rfc822(int month);
 std::string rfc822(int seconds);
 long elapsed_microseconds(long start);

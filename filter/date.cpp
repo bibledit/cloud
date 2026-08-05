@@ -185,19 +185,6 @@ int get_local_seconds(int seconds)
 }
 
 
-std::string day_rfc822(int day)
-{
-    if (day == 0) return "Sun";
-    if (day == 1) return "Mon";
-    if (day == 2) return "Tue";
-    if (day == 3) return "Wed";
-    if (day == 4) return "Thu";
-    if (day == 5) return "Fri";
-    if (day == 6) return "Sat";
-    return std::string();
-}
-
-
 std::string month_rfc822(int month)
 {
     if (month == 1) return "Jan";
@@ -212,7 +199,7 @@ std::string month_rfc822(int month)
     if (month == 10) return "Oct";
     if (month == 11) return "Nov";
     if (month == 12) return "Dec";
-    return std::string();
+    return {};
 }
 
 
@@ -230,8 +217,6 @@ std::string rfc822(int seconds)
     // If it turns out that computing the correct day of week is impractical using the software you have available, then RFC 822 permits omitting both the day of the week and the subsequent comma from the value.
     // So to work around the error in the validator, the day of the week is left out.
     // int weekday = numerical_week_day (seconds);
-    // rfc822.append (day_rfc822 (weekday));
-    // rfc822.append (", ");
     std::string monthday = std::to_string(get_day_within_month(seconds));
     rfc822.append(filter::string::fill(monthday, 2, '0'));
     rfc822.append(" ");

@@ -65,7 +65,6 @@ Developer_Logic_Tracer::Developer_Logic_Tracer(Webserver_Request& webserver_requ
 {
     seconds1 = filter::date::get_seconds_since_epoch();
     microseconds1 = filter::date::get_microseconds_within_second();
-    rfc822 = filter::date::rfc822(seconds1);
     remote_address = webserver_request.remote_address;
     request_get = webserver_request.get;
     std::ranges::for_each(webserver_request.query, [this](const auto& element)

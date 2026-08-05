@@ -185,92 +185,6 @@ int get_local_seconds(int seconds)
 }
 
 
-std::string month_rfc822(int month)
-{
-    if (month == 1) return "Jan";
-    if (month == 2) return "Feb";
-    if (month == 3) return "Mar";
-    if (month == 4) return "Apr";
-    if (month == 5) return "May";
-    if (month == 6) return "Jun";
-    if (month == 7) return "Jul";
-    if (month == 8) return "Aug";
-    if (month == 9) return "Sep";
-    if (month == 10) return "Oct";
-    if (month == 11) return "Nov";
-    if (month == 12) return "Dec";
-    return {};
-}
-
-
-// Converts the number of $seconds since the Unix epoch
-// to date and time values according to RFC 822,
-// e.g.: Wed, 02 Oct 2002 15:00:00 +0200.
-std::string rfc822(int seconds)
-{
-    std::string rfc822;
-    // The feed validator at https://validator.w3.org/feed/ says:
-    // <pubDate>Wed, 18 Feb 2017 12:26:39 +0100</pubDate>
-    // This feed does not validate: Incorrect day of week: Wed (2 occurrences).
-    // Yet, 18 February 2017 is on a Wednesday.
-    // It continues to say that:
-    // If it turns out that computing the correct day of week is impractical using the software you have available, then RFC 822 permits omitting both the day of the week and the subsequent comma from the value.
-    // So to work around the error in the validator, the day of the week is left out.
-    // int weekday = numerical_week_day (seconds);
-    std::string monthday = std::to_string(get_day_within_month(seconds));
-    rfc822.append(filter::string::fill(monthday, 2, '0'));
-    rfc822.append(" ");
-    int month = get_month_within_year(seconds);
-    rfc822.append(month_rfc822(month));
-    rfc822.append(" ");
-    int year = get_year_ad(seconds);
-    rfc822.append(std::to_string(year));
-    rfc822.append(" ");
-    std::string hour = std::to_string(get_hour_within_day(seconds));
-    rfc822.append(filter::string::fill(hour, 2, '0'));
-    rfc822.append(":");
-    std::string minute = std::to_string(get_minute_within_hour(seconds));
-    rfc822.append(filter::string::fill(minute, 2, '0'));
-    rfc822.append(":");
-    std::string second = std::to_string(get_second_within_minute(seconds));
-    rfc822.append(filter::string::fill(second, 2, '0'));
-    rfc822.append(" ");
-    int timezone = database::config::general::get_timezone();
-    if (timezone >= 0) rfc822.append("+");
-    else rfc822.append("-");
-    if (timezone < 0) timezone = 0 - timezone;
-    rfc822.append(filter::string::fill(std::to_string(timezone), 2, '0'));
-    rfc822.append("00");
-    return rfc822;
-}
-
-
-// Calculates the number of microseconds elapsed since $start.
-// It returns the elapsed number of microseconds.
-long elapsed_microseconds(long start)
-{
-    auto now = std::chrono::system_clock::now();
-    auto duration = now.time_since_epoch();
-    auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
-    long elapsed = microseconds - start;
-    return elapsed;
-}
-
-
-std::string localized_date_format()
-{
-    time_t tt;
-    time(&tt);
-    tm* localtm = localtime(&tt);
-    char buffer[20];
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-y2k"
-    strftime(buffer, sizeof(buffer), "%x", localtm);
-#pragma GCC diagnostic pop
-    return std::string(buffer);
-}
-
-
 std::string date_format_to_text(date_format format)
 {
     switch (format)
@@ -278,23 +192,19 @@ std::string date_format_to_text(date_format format)
     case dd_mm_yyyy: return "dd/mm/yyyy";
     case mm_dd_yyyy: return "mm/dd/yyyy";
     case yyyy_mn_dd: return "yyyy-mm-dd";
-    default: return std::string();
+    default: return {};
     }
-    return std::string();
+    return {};
 }
 
 
 std::string localized_date_format(Webserver_Request& webserver_request)
 {
-    int time = get_seconds_since_epoch();
-
-    std::string day = std::to_string(get_day_within_month(time));
-    std::string month = std::to_string(get_month_within_year(time));
-    std::string year = std::to_string(get_year_ad(time));
-
-    date_format df = static_cast<date_format>(webserver_request.database_config_user()->get_notes_date_format());
-
-    switch (df)
+    const int time = get_seconds_since_epoch();
+    const std::string day = std::to_string(get_day_within_month(time));
+    const std::string month = std::to_string(get_month_within_year(time));
+    const std::string year = std::to_string(get_year_ad(time));
+    switch (static_cast<date_format>(webserver_request.database_config_user()->get_notes_date_format()))
     {
     case dd_mm_yyyy:
         {
@@ -311,6 +221,6 @@ std::string localized_date_format(Webserver_Request& webserver_request)
         }
     }
 
-    return std::string();
+    return {};
 }
 }

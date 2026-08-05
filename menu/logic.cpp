@@ -73,7 +73,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/index.h>
 #include <session/login.h>
 #include <session/logout.h>
-#include <sprint/index.h>
 #include <styles/indexm.h>
 #include <system/index.h>
 #include <user/account.h>
@@ -526,7 +525,6 @@ std::string menu_logic_tools_category (Webserver_Request& webserver_request, std
   const std::string checks = translate ("Checks");
   const std::string consistency = translate ("Consistency");
   const std::string changes = menu_logic_changes_text ();
-  const std::string planning = translate ("Planning");
   const std::string send_receive = translate ("Send/receive");
   const std::string develop = translate ("Develop");
   const std::string exporting = translate ("Export");
@@ -535,7 +533,6 @@ std::string menu_logic_tools_category (Webserver_Request& webserver_request, std
     checks,
     consistency,
     changes,
-    planning,
     send_receive,
     develop,
     exporting,
@@ -544,7 +541,7 @@ std::string menu_logic_tools_category (Webserver_Request& webserver_request, std
   
   // Sort the labels in alphabetical order for the menu.
   // Using the localized labels means that the sorted order of the menu depends on the localization.
-  sort (labels.begin (), labels.end ());
+  std::ranges::sort (labels);
   
   std::vector <std::string> html;
   std::vector <std::string> tiplabels;
@@ -571,15 +568,6 @@ std::string menu_logic_tools_category (Webserver_Request& webserver_request, std
       if (index_listing_acl (webserver_request, "revisions")) {
         html.push_back (menu_logic_create_item (index_listing_url ("revisions"), menu_logic_changes_text (), true, "", ""));
         tiplabels.push_back (menu_logic_changes_text ());
-      }
-#endif
-    }
-    
-    if (label == planning) {
-#ifndef HAVE_CLIENT
-      if (sprint_index_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (sprint_index_url (), label, true, "", ""));
-        tiplabels.push_back (label);
       }
 #endif
     }

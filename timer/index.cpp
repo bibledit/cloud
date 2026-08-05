@@ -198,16 +198,6 @@ void timer_index()
             }
 
 #ifdef HAVE_CLOUD
-            // Sprint burndown.
-            // It runs every hour in the Cloud.
-            // The script itself determines what to do at which hour of the day or day of the week or day of the month.
-            if (minute == 5)
-            {
-                tasks_logic_queue(task::sprint_burndown);
-            }
-#endif
-
-#ifdef HAVE_CLOUD
             // Bibledit Cloud quits at midnight.
             // This is to be sure that any memory leaks don't accumulate too much
             // in case Bibledit Cloud would run for months and years.

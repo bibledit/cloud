@@ -449,8 +449,6 @@ add_library(bibledit STATIC
         changes/manage.cpp
         changes/modifications.cpp
         changes/statistics.cpp
-        sprint/burndown.cpp
-        sprint/index.cpp
         checks/run.cpp
         checks/headers.cpp
         checks/index.cpp
@@ -788,7 +786,6 @@ if (BUILD_UNITTESTS)
             unittests/kjv.cpp
             unittests/oshb.cpp
             unittests/sblgnt.cpp
-            unittests/sprint.cpp
             unittests/mail.cpp
             unittests/navigation.cpp
             unittests/resources.cpp

@@ -46,7 +46,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/download.h>
 #include <statistics/statistics.h>
 #include <changes/modifications.h>
-#include <sprint/burndown.h>
 #include <checks/run.h>
 #include <export/index.h>
 #include <export/web.h>
@@ -194,9 +193,6 @@ void tasks_run_one (const std::string& filename)
   }
   else if (command == task::generate_changes) {
     changes_modifications ();
-  }
-  else if (command == task::sprint_burndown) {
-    sprint_burndown ("", 0, 0);
   }
   else if (command == task::check_bible) {
     checks_run (parameter1);

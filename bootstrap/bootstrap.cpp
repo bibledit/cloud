@@ -176,7 +176,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/signup.h>
 #include <session/switch.h>
 #include <setup/index.h>
-#include <sprint/index.h>
 #include <styles/indexm.h>
 #include <styles/new.h>
 #include <styles/sheetm.h>
@@ -687,13 +686,6 @@ void bootstrap_index(Webserver_Request& webserver_request)
     if (request_matcher(changes_statistics_url(), changes_statistics_acl))
     {
         webserver_request.reply = changes_statistics(webserver_request);
-        return;
-    }
-
-    // Planning menu.
-    if (request_matcher(sprint_index_url(), sprint_index_acl))
-    {
-        webserver_request.reply = sprint_index(webserver_request);
         return;
     }
 

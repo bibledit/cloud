@@ -47,7 +47,6 @@ constexpr const auto convert_bible_to_resource {"convertbible2resource"};
 constexpr const auto convert_resource_to_bible {"convertresource2bible"};
 constexpr const auto notes_statistics {"notesstatistics"};
 constexpr const auto generate_changes {"generatechanges"};
-constexpr const auto sprint_burndown {"sprintburndown"};
 constexpr const auto check_bible {"checkbible"};
 constexpr const auto export_all {"exportall"};
 constexpr const auto export_text_usfm {"exporttextusfm"};

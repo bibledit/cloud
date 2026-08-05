@@ -185,59 +185,6 @@ int get_local_seconds(int seconds)
 }
 
 
-bool is_first_business_day_of_month(int monthday, int weekday)
-{
-    if (monthday == 1)
-    {
-        if (weekday == 1) return true;
-        if (weekday == 2) return true;
-        if (weekday == 3) return true;
-        if (weekday == 4) return true;
-        if (weekday == 5) return true;
-    }
-    if (weekday == 1)
-    {
-        if (monthday == 2) return true;
-        if (monthday == 3) return true;
-    }
-    return false;
-}
-
-
-int get_last_business_day_of_month(int year, int month)
-{
-    int myyear = year;
-    int mymonth = month;
-    get_next_month(mymonth, myyear);
-    int seconds = get_seconds_since_epoch(myyear, mymonth, 1);
-    int iterations = 0;
-    do
-    {
-        seconds -= 86400;
-        int weekday = get_day_within_week(seconds);
-        if ((weekday == 1) || (weekday == 2) || (weekday == 3) || (weekday == 4) || (weekday == 5))
-        {
-            return get_day_within_month(seconds);
-        }
-        iterations++;
-    }
-    while (iterations < 10);
-    return 28;
-}
-
-
-bool is_business_day(int year, int month, int day)
-{
-    int seconds = get_seconds_since_epoch(year, month, day);
-    int weekday = get_day_within_week(seconds);
-    if ((weekday == 1) || (weekday == 2) || (weekday == 3) || (weekday == 4) || (weekday == 5))
-    {
-        return true;
-    }
-    return false;
-}
-
-
 void get_previous_month(int& month, int& year)
 {
     month--;

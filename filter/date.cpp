@@ -185,28 +185,6 @@ int get_local_seconds(int seconds)
 }
 
 
-void get_previous_month(int& month, int& year)
-{
-    month--;
-    if (month <= 0)
-    {
-        month = 12;
-        year--;
-    }
-}
-
-
-void get_next_month(int& month, int& year)
-{
-    month++;
-    if (month > 12)
-    {
-        month = 1;
-        year++;
-    }
-}
-
-
 std::string day_rfc822(int day)
 {
     if (day == 0) return "Sun";

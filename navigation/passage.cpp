@@ -609,7 +609,7 @@ void record_history (Webserver_Request& webserver_request, const int book, const
   const std::string& user = webserver_request.session_logic()->get_username();
   const int focus_group = ipc_focus::get_focus_group(webserver_request);
   Database_Navigation database_navigation;
-  database_navigation.record (filter::date::seconds_since_epoch (), user, book, chapter, verse, focus_group);
+  database_navigation.record (filter::date::get_seconds_since_epoch (), user, book, chapter, verse, focus_group);
 }
 
 

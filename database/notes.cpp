@@ -641,19 +641,19 @@ std::vector<int> Database_Notes::select_notes(const Selector& selector)
       break;
     case EditSelector::during_last_30_days:
       // Select notes that have been edited during the last 30 days.
-      time = filter::date::seconds_since_epoch () - 30 * 24 * 3600;
+      time = filter::date::get_seconds_since_epoch () - 30 * 24 * 3600;
       break;
     case EditSelector::during_last_7_days:
       // Select notes that have been edited during the last 7 days.
-      time = filter::date::seconds_since_epoch () - 7 * 24 * 3600;
+      time = filter::date::get_seconds_since_epoch () - 7 * 24 * 3600;
       break;
     case EditSelector::since_yesterday:
       // Select notes that have been edited since yesterday.
-      time = filter::date::seconds_since_epoch () - 1 * 24 * 3600 - filter::date::get_hour_within_day (filter::date::seconds_since_epoch ()) * 3600;
+      time = filter::date::get_seconds_since_epoch () - 1 * 24 * 3600 - filter::date::get_hour_within_day (filter::date::get_seconds_since_epoch ()) * 3600;
       break;
     case EditSelector::today:
       // Select notes that have been edited today.
-      time = filter::date::seconds_since_epoch () - filter::date::get_hour_within_day (filter::date::seconds_since_epoch ()) * 3600;
+      time = filter::date::get_seconds_since_epoch () - filter::date::get_hour_within_day (filter::date::get_seconds_since_epoch ()) * 3600;
       break;
   }
   if (time != 0) {
@@ -671,23 +671,23 @@ std::vector<int> Database_Notes::select_notes(const Selector& selector)
       break;
     case Database_Notes::NonEditSelector::a_day:
       // Select notes that have not been edited for a day.
-      nonedit = filter::date::seconds_since_epoch () - 1 * 24 * 3600;
+      nonedit = filter::date::get_seconds_since_epoch () - 1 * 24 * 3600;
       break;
     case Database_Notes::NonEditSelector::two_days:
       // Select notes that have not been edited for two days.
-      nonedit = filter::date::seconds_since_epoch () - 2 * 24 * 3600;
+      nonedit = filter::date::get_seconds_since_epoch () - 2 * 24 * 3600;
       break;
     case Database_Notes::NonEditSelector::a_week:
       // Select notes that have not been edited for a week.
-      nonedit = filter::date::seconds_since_epoch () - 7 * 24 * 3600;
+      nonedit = filter::date::get_seconds_since_epoch () - 7 * 24 * 3600;
       break;
     case Database_Notes::NonEditSelector::a_month:
       // Select notes that have not been edited for a month.
-      nonedit = filter::date::seconds_since_epoch () - 30 * 24 * 3600;
+      nonedit = filter::date::get_seconds_since_epoch () - 30 * 24 * 3600;
       break;
     case Database_Notes::NonEditSelector::a_year:
       // Select notes that have not been edited for a year.
-      nonedit = filter::date::seconds_since_epoch () - 365 * 24 * 3600;
+      nonedit = filter::date::get_seconds_since_epoch () - 365 * 24 * 3600;
       break;
   }
   if (nonedit != 0) {
@@ -1430,7 +1430,7 @@ void Database_Notes::set_public (int identifier, bool value)
 void Database_Notes::note_modified_actions (int identifier)
 {
   // Update 'modified' field.
-  set_modified (identifier, filter::date::seconds_since_epoch());
+  set_modified (identifier, filter::date::get_seconds_since_epoch());
 }
 
 

@@ -888,7 +888,7 @@ const char* filter_url_temp_dir()
 // Returns the name of a temporary file.
 std::string filter_url_tempfile(const char* directory)
 {
-    std::string filename = std::to_string(filter::date::seconds_since_epoch()) +
+    std::string filename = std::to_string(filter::date::get_seconds_since_epoch()) +
         std::to_string(filter::date::get_microseconds_within_second()) + std::to_string(
             filter::string::rand(10000000, 99999999));
     if (directory)

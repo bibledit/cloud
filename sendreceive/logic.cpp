@@ -117,7 +117,7 @@ void sendreceive_queue_sync (int minute, int second)
 
     if (sync_bibles || sync_rest) {
       // Store the most recent time that the sync action ran.
-      database::config::general::set_last_send_receive (filter::date::seconds_since_epoch ());
+      database::config::general::set_last_send_receive (filter::date::get_seconds_since_epoch ());
     }
   }
 }
@@ -193,7 +193,7 @@ void sendreceive_queue_startup ()
   }
   
   // When the current time is past the next time it is supposed to sync, start the sync.
-  if (filter::date::seconds_since_epoch () >= next_second) {
+  if (filter::date::get_seconds_since_epoch () >= next_second) {
     sendreceive_queue_sync (-1, 0);
   }
 }

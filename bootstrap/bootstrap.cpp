@@ -238,7 +238,7 @@ void bootstrap_index(Webserver_Request& webserver_request)
     /*
     if (!webserver_request.post.empty () and config_logic_demo_enabled ()) {
       std::string contents;
-      int seconds = filter::date::seconds_since_epoch ();
+      int seconds = filter::date::get_seconds_since_epoch ();
       std::string rfc822time = filter::date::rfc822 (seconds);
       contents.append (rfc822time + "\n");
       contents.append (webserver_request.get + "\n");

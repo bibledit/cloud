@@ -44,7 +44,7 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
                       [[maybe_unused]] int manualmonth)
 {
 #ifdef HAVE_CLOUD
-  int localseconds = filter::date::local_seconds (filter::date::seconds_since_epoch ());
+  int localseconds = filter::date::get_local_seconds (filter::date::get_seconds_since_epoch ());
   int year = filter::date::get_year_ad (localseconds);
   int month = filter::date::get_month_within_year (localseconds);
   int monthday = filter::date::get_day_within_month (localseconds); // 1 to 31.
@@ -199,7 +199,7 @@ std::string sprint_create_burndown_chart ([[maybe_unused]] std::string bible,
 #ifdef HAVE_CLOUD
   
   // Get the seconds for the first of the month.
-  int seconds = filter::date::seconds_since_epoch (year, month, 1);
+  int seconds = filter::date::get_seconds_since_epoch (year, month, 1);
   
   // The business days in the month for on the X-axis.
   std::vector <int> days_in_month;

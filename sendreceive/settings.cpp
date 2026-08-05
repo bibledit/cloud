@@ -67,7 +67,7 @@ void sendreceive_settings_done ()
 void sendreceive_settings ()
 {
   if (sendreceive_settings_watchdog) {
-    int time = filter::date::seconds_since_epoch ();
+    int time = filter::date::get_seconds_since_epoch ();
     if (time < (sendreceive_settings_watchdog + 900)) {
       database::logs::log ("Settings: " + translate("Still busy"), roles::translator);
       return;
@@ -265,6 +265,6 @@ void sendreceive_settings ()
 
 void sendreceive_settings_kick_watchdog ()
 {
-  sendreceive_settings_watchdog = filter::date::seconds_since_epoch ();
+  sendreceive_settings_watchdog = filter::date::get_seconds_since_epoch ();
 }
 

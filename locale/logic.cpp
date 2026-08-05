@@ -49,7 +49,7 @@ std::string locale_logic_month (int month)
 
 std::string locale_logic_date (int seconds)
 {
-  seconds = filter::date::local_seconds (seconds);
+  seconds = filter::date::get_local_seconds (seconds);
   int day = filter::date::get_day_within_month (seconds);
   int month = filter::date::get_month_within_year (seconds);
   int year = filter::date::get_year_ad (seconds);
@@ -60,7 +60,7 @@ std::string locale_logic_date (int seconds)
 std::string locale_logic_date_time (int seconds)
 {
   // Localize the seconds.
-  seconds = filter::date::local_seconds (seconds);
+  seconds = filter::date::get_local_seconds (seconds);
   // Convert the seconds into a human readable date and time.
   std::string timestamp;
   timestamp.append (locale_logic_date (seconds));

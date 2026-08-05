@@ -141,7 +141,7 @@ TEST (database, modifications_user)
     refresh_sandbox (true);
     database::modifications::recordUserSave (unittest1, "bible", 1, 2, 3, "old1", 4, "new1");
     const int time = database::modifications::getUserTimestamp (unittest1, "bible", 1, 2, 4);
-    if (const int current_time = filter::date::seconds_since_epoch ();
+    if (const int current_time = filter::date::get_seconds_since_epoch ();
         time < current_time - 1 or time > current_time + 1)
         EXPECT_EQ (current_time, time);
   }
@@ -418,7 +418,7 @@ TEST (database, modifications_notifications)
 
     // Set the time back, re-index, filter::string::trim, and check one entry's gone.
     database::modifications::indexTrimAllNotifications ();
-    database::modifications::notificationUpdateTime (1, filter::date::seconds_since_epoch () - 7776001);
+    database::modifications::notificationUpdateTime (1, filter::date::get_seconds_since_epoch () - 7776001);
     database::modifications::indexTrimAllNotifications ();
     ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ (std::vector{2}, ids);
@@ -488,11 +488,11 @@ TEST (database, modifications_notifications)
     database::modifications::create ();
 
     int timestamp = database::modifications::getNotificationTimeStamp (0);
-    int current_time = filter::date::seconds_since_epoch ();
+    int current_time = filter::date::get_seconds_since_epoch ();
     if ((timestamp < current_time) || (timestamp > current_time + 1))
         EXPECT_EQ (current_time, timestamp);
 
-    int time = filter::date::seconds_since_epoch () - 21600;
+    int time = filter::date::get_seconds_since_epoch () - 21600;
     database::modifications::recordNotification ({unittest0}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     timestamp = database::modifications::getNotificationTimeStamp (1);

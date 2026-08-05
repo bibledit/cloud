@@ -86,7 +86,7 @@ TEST (notes, database_noteactions)
     database.record ("phpunit3", 3, 4, "content5");
     std::vector <Database_Note_Action> data = database.getNoteData (2);
     EXPECT_EQ (2, static_cast<int>(data.size()));
-    int now = filter::date::seconds_since_epoch ();
+    int now = filter::date::get_seconds_since_epoch ();
     EXPECT_EQ (1, data[0].rowid);
     EXPECT_EQ ("phpunit1", data[0].username);
     if ((data[0].timestamp < now - 1) || (data[0].timestamp > now + 2)) EXPECT_EQ (now, data[0].timestamp);
@@ -684,7 +684,7 @@ void test_database_notes ()
     database_notes.create ();
     
     webserver_request.session_logic()->set_username ("unittest");
-    int time = filter::date::seconds_since_epoch ();
+    int time = filter::date::get_seconds_since_epoch ();
     
     // Create note2.
     Database_Notes::NewNote note {

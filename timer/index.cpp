@@ -67,7 +67,7 @@ void timer_index()
             if (!config_globals_data_initialized) continue;
 
             // The current time, localized.
-            const int local_seconds = filter::date::local_seconds(filter::date::seconds_since_epoch());
+            const int local_seconds = filter::date::get_local_seconds(filter::date::get_seconds_since_epoch());
             const int second = filter::date::get_second_within_minute(local_seconds);
             const int minute = filter::date::get_minute_within_hour(local_seconds);
             const int hour = filter::date::get_hour_within_day(local_seconds);

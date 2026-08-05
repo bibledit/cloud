@@ -66,7 +66,7 @@ void optimize()
 void trim()
 {
     // Delete jobs older than 30 days.
-    const int timestamp = filter::date::seconds_since_epoch() - 30 * 24 * 3600;
+    const int timestamp = filter::date::get_seconds_since_epoch() - 30 * 24 * 3600;
     SqliteDatabase sql(jobs);
     sql.add("DELETE FROM jobs WHERE timestamp <");
     sql.add(timestamp);
@@ -98,7 +98,7 @@ int get_new_id()
     while (id_exists(id));
     // Store the new id so it can't be given out again just now.
     // Also store the timestamp. used for entry expiry.
-    const int timestamp = filter::date::seconds_since_epoch();
+    const int timestamp = filter::date::get_seconds_since_epoch();
     SqliteDatabase sql(jobs);
     sql.add("INSERT INTO jobs (id, timestamp) VALUES (");
     sql.add(id);

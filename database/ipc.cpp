@@ -95,7 +95,7 @@ void trim()
         if (record.user.empty())
             delete_message(record.rowid);
     });
-    const int now = filter::date::seconds_since_epoch();
+    const int now = filter::date::get_seconds_since_epoch();
     std::vector<std::string> files = filter_url_scandir(folder());
     std::ranges::for_each(files, [now] (const std::string& item)
     {

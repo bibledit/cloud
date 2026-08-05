@@ -240,7 +240,7 @@ void Database_Config_User::trim()
     // Reset the sprint month and year after some time.
     // When a user visits the Sprint page after a few days, it will then display the current Sprint.
     // If the Sprint is not reset, the user may enter new tasks in the wrong sprint.
-    const int time = filter::date::seconds_since_epoch() - (2 * 24 * 3600);
+    const int time = filter::date::get_seconds_since_epoch() - (2 * 24 * 3600);
     Database_Users database_users{};
     std::ranges::for_each(database_users.get_users(), [time](const auto& user)
     {
@@ -770,7 +770,7 @@ void Database_Config_User::set_consistency_resources(const std::vector<std::stri
 
 int Database_Config_User::get_sprint_month() const
 {
-    return get_numeric_value(sprint_month_key, filter::date::get_month_within_year(filter::date::seconds_since_epoch()));
+    return get_numeric_value(sprint_month_key, filter::date::get_month_within_year(filter::date::get_seconds_since_epoch()));
 }
 
 void Database_Config_User::set_sprint_month(const int value) const
@@ -781,7 +781,7 @@ void Database_Config_User::set_sprint_month(const int value) const
 
 int Database_Config_User::get_sprint_year() const
 {
-    return get_numeric_value(sprint_year_key, filter::date::get_year_ad(filter::date::seconds_since_epoch()));
+    return get_numeric_value(sprint_year_key, filter::date::get_year_ad(filter::date::get_seconds_since_epoch()));
 }
 
 void Database_Config_User::set_sprint_year(const int value) const

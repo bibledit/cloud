@@ -55,7 +55,7 @@ void log(std::string description, const int level)
     }
 
     // Save this logbook entry to a filename with seconds and microseconds.
-    const std::string seconds = std::to_string(filter::date::seconds_since_epoch());
+    const std::string seconds = std::to_string(filter::date::get_seconds_since_epoch());
     const std::string time = seconds + filter::string::fill(std::to_string(filter::date::get_microseconds_within_second()), 8, '0');
     const std::string file = filter_url_create_path({folder(), time});
     // The microseconds granularity depends on the platform.
@@ -92,9 +92,9 @@ void rotate()
 
     // Timestamp for removing older records, depending on whether it's a tiny journal.
 #ifdef HAVE_TINY_JOURNAL
-    const int old_timestamp = filter::date::seconds_since_epoch() - 14400;
+    const int old_timestamp = filter::date::get_seconds_since_epoch() - 14400;
 #else
-    const int old_timestamp = filter::date::seconds_since_epoch() - 6 * 86400;
+    const int old_timestamp = filter::date::get_seconds_since_epoch() - 6 * 86400;
 #endif
 
 

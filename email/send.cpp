@@ -234,7 +234,7 @@ std::string send ([[maybe_unused]] std::string to_mail,
   
   upload_ctx.lines_read = 0;
   
-  int seconds = filter::date::seconds_since_epoch ();
+  int seconds = filter::date::get_seconds_since_epoch ();
   payload_text.clear();
   std::string payload;
   payload = "Date: " + std::to_string (filter::date::get_year_ad (seconds)) + "/" + std::to_string (filter::date::get_month_within_year (seconds)) + "/" + std::to_string (filter::date::get_day_within_month (seconds)) + " " + std::to_string (filter::date::get_hour_within_day (seconds)) + ":" + std::to_string (filter::date::get_minute_within_hour (seconds)) + "\n";

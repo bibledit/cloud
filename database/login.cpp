@@ -35,7 +35,7 @@ namespace database::login {
 // Gets the current number of days since the Unix epoch.
 static int timestamp()
 {
-    return filter::date::seconds_since_epoch() / 86400;
+    return filter::date::get_seconds_since_epoch() / 86400;
 }
 
 

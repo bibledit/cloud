@@ -40,7 +40,7 @@ void tasks_logic_queue (std::string command, std::vector <std::string> parameter
   lines.push_back (command);
   lines.insert (lines.end(), parameters.begin(), parameters.end());
   // The filename to write to contains seconds and microseconds.
-  std::string seconds = std::to_string (filter::date::seconds_since_epoch ());
+  std::string seconds = std::to_string (filter::date::get_seconds_since_epoch ());
   std::string time = seconds + filter::string::fill (std::to_string (filter::date::get_microseconds_within_second ()), 8, '0');
   std::string file = filter_url_create_path ({tasks_logic_folder (), time});
   // On Windows the microtime is not fine enough.

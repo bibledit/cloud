@@ -76,7 +76,7 @@ TEST (database, logs_3)
   // Test the getNext function of the Journal.
   refresh_sandbox (false);
   database::logs::log ("description");
-  const int second = filter::date::seconds_since_epoch ();
+  const int second = filter::date::get_seconds_since_epoch ();
   std::string filename = std::to_string (second) + "00000000";
   // First time: getNext gets the logged entry.
   std::string s = database::logs::next (filename);

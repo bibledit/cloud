@@ -66,7 +66,7 @@ std::string sendreceive_changes_up_to_date_text ()
 void sendreceive_changes ()
 {
   if (sendreceive_changes_watchdog) {
-    int time = filter::date::seconds_since_epoch ();
+    int time = filter::date::get_seconds_since_epoch ();
     if (time < (sendreceive_changes_watchdog + 900)) {
       database::logs::log (sendreceive_changes_text () + translate("Still busy"), roles::translator);
       return;
@@ -274,5 +274,5 @@ void sendreceive_changes ()
 
 void sendreceive_changes_kick_watchdog ()
 {
-  sendreceive_changes_watchdog = filter::date::seconds_since_epoch ();
+  sendreceive_changes_watchdog = filter::date::get_seconds_since_epoch ();
 }

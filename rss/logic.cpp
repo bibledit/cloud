@@ -155,7 +155,7 @@ std::string rss_logic_xml_path ()
 
 void rss_logic_update_xml (std::vector <std::string> titles, std::vector <std::string> authors, std::vector <std::string> descriptions)
 {
-  int seconds = filter::date::seconds_since_epoch ();
+  int seconds = filter::date::get_seconds_since_epoch ();
   std::string rfc822time = filter::date::rfc822 (seconds);
   std::string guid = std::to_string (seconds);
   bool document_updated = false;

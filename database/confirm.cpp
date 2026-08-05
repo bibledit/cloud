@@ -112,7 +112,7 @@ void store (unsigned int id, const std::string& query,
   sql.add (",");
   sql.add (query);
   sql.add (",");
-  sql.add (filter::date::seconds_since_epoch ());
+  sql.add (filter::date::get_seconds_since_epoch ());
   sql.add (",");
   sql.add (to);
   sql.add (",");
@@ -227,7 +227,7 @@ void erase (unsigned int id)
 void trim ()
 {
   // Leave entries for no more than 30 days.
-  const int time = filter::date::seconds_since_epoch () - 2592000;
+  const int time = filter::date::get_seconds_since_epoch () - 2592000;
   SqliteDatabase sql (filename);
   sql.add ("DELETE FROM confirm WHERE timestamp <");
   sql.add (time);

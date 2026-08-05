@@ -223,7 +223,7 @@ int get_chapter_age (const std::string& bible, const int book, const int chapter
     const std::string file = files.at(files.size() - 1);
     const std::string path = filter_url_create_path ({folder, file});
     const int time = filter_url_file_modification_time (path);
-    const int now = filter::date::seconds_since_epoch ();
+    const int now = filter::date::get_seconds_since_epoch ();
     return now - time;
   }
   return 100'000'000;

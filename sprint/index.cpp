@@ -77,8 +77,8 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("currentprint")) {
-    webserver_request.database_config_user()->set_sprint_month (filter::date::get_month_within_year (filter::date::seconds_since_epoch ()));
-    webserver_request.database_config_user()->set_sprint_year (filter::date::get_year_ad (filter::date::seconds_since_epoch ()));
+    webserver_request.database_config_user()->set_sprint_month (filter::date::get_month_within_year (filter::date::get_seconds_since_epoch ()));
+    webserver_request.database_config_user()->set_sprint_year (filter::date::get_year_ad (filter::date::get_seconds_since_epoch ()));
   }
   
   

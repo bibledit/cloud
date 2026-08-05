@@ -68,7 +68,7 @@ void optimize()
     sql.clear();
 
     // Delete entries older than 10 days.
-    const int timestamp = filter::date::seconds_since_epoch() - 432000;
+    const int timestamp = filter::date::get_seconds_since_epoch() - 432000;
     sql.add("DELETE FROM changes WHERE timestamp <");
     sql.add(timestamp);
     sql.add(";");
@@ -86,7 +86,7 @@ void store_chapter(const std::string& user, const std::string& bible, const int 
 {
     SqliteDatabase sql(database_name);
     sql.add("INSERT INTO changes VALUES (");
-    sql.add(filter::date::seconds_since_epoch());
+    sql.add(filter::date::get_seconds_since_epoch());
     sql.add(",");
     sql.add(user);
     sql.add(",");

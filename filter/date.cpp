@@ -130,43 +130,57 @@ int get_microseconds_within_second()
 
 
 // This function returns the seconds since the Unix epoch, which is 1 January 1970 UTC.
-int seconds_since_epoch()
+int get_seconds_since_epoch()
 {
-    auto now = std::chrono::system_clock::now();
-    auto duration = now.time_since_epoch();
-    int seconds = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(duration).count());
+    const auto now = std::chrono::system_clock::now();
+    const auto duration = now.time_since_epoch();
+    const int seconds = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(duration).count());
     return seconds;
 }
 
 
-// Returns the seconds since the Unix epoch for $year and $month and $day.
-int seconds_since_epoch(int year, int month, int day)
+// Returns the seconds since the Unix epoch for $year (yyyy) and $month (1...12) and $day (1...31).
+int get_seconds_since_epoch(const int year, const int month, const int day)
 {
-    int seconds = 0;
-    bool done = false;
-    bool hit = false;
-    do
-    {
-        seconds += 86400;
-        int myyear = get_year_ad(seconds);
-        int mymonth = get_month_within_year(seconds);
-        int myday = get_day_within_month(seconds);
-        if ((year == myyear) && (month == mymonth)) hit = true;
-        done = ((year == myyear) && (month == mymonth) && (day == myday));
-        if (hit) if (month != mymonth) done = true;
-    }
-    while (!done);
-    return seconds;
+    // Convert input data to C++20 calendar struct.
+    const std::chrono::year_month_day year_month_day{
+        std::chrono::year{year},
+        std::chrono::month{static_cast<unsigned>(month)},
+        std::chrono::day{static_cast<unsigned>(day)}
+    };
+    // Convert to sys_days (a timepoint that tracks days since the Epoch).
+    const std::chrono::sys_days time_point = year_month_day;
+    // Extract the total seconds since the Unix epoch.
+    const auto seconds_since_epoch = std::chrono::duration_cast<std::chrono::seconds>(time_point.time_since_epoch()).count();
+    return static_cast<decltype(get_seconds_since_epoch(0,0,0))> (seconds_since_epoch);
+    // Once the code above builds on all OSes, remove the code below.
+    // int seconds = 0;
+    // bool done = false;
+    // bool hit = false;
+    // do
+    // {
+    //     seconds += 86400;
+    //     int myyear = get_year_ad(seconds);
+    //     int mymonth = get_month_within_year(seconds);
+    //     int myday = get_day_within_month(seconds);
+    //     if ((year == myyear) && (month == mymonth)) hit = true;
+    //     done = ((year == myyear) && (month == mymonth) && (day == myday));
+    //     if (hit) if (month != mymonth) done = true;
+    // }
+    // while (!done);
+    // return seconds;
 }
 
 
 // This function takes the "seconds" parameter,
 // corrects it according to the local timezone,
 // and returns it.
-int local_seconds(int seconds)
+int get_local_seconds(int seconds)
 {
-    int offset = database::config::general::get_timezone();
-    seconds += (offset * 3600);
+    const int offset = database::config::general::get_timezone();
+    constexpr int seconds_in_hour = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::hours(1)).count();
+    static_assert(seconds_in_hour == 3600);
+    seconds += offset * seconds_in_hour;
     return seconds;
 }
 
@@ -195,7 +209,7 @@ int get_last_business_day_of_month(int year, int month)
     int myyear = year;
     int mymonth = month;
     get_next_month(mymonth, myyear);
-    int seconds = seconds_since_epoch(myyear, mymonth, 1);
+    int seconds = get_seconds_since_epoch(myyear, mymonth, 1);
     int iterations = 0;
     do
     {
@@ -214,7 +228,7 @@ int get_last_business_day_of_month(int year, int month)
 
 bool is_business_day(int year, int month, int day)
 {
-    int seconds = seconds_since_epoch(year, month, day);
+    int seconds = get_seconds_since_epoch(year, month, day);
     int weekday = get_day_within_week(seconds);
     if ((weekday == 1) || (weekday == 2) || (weekday == 3) || (weekday == 4) || (weekday == 5))
     {
@@ -362,7 +376,7 @@ std::string date_format_to_text(date_format format)
 
 std::string localized_date_format(Webserver_Request& webserver_request)
 {
-    int time = seconds_since_epoch();
+    int time = get_seconds_since_epoch();
 
     std::string day = std::to_string(get_day_within_month(time));
     std::string month = std::to_string(get_month_within_year(time));

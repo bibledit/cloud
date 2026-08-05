@@ -201,8 +201,8 @@ TEST (session, logic5)
   
   // To get stable results from the unit tests, run them right from the start of a new second.
   // The issue is that the failed logins are recorded per second.
-  int now = filter::date::seconds_since_epoch ();
-  while (now == filter::date::seconds_since_epoch ()) std::this_thread::sleep_for (std::chrono::milliseconds (10));
+  int now = filter::date::get_seconds_since_epoch ();
+  while (now == filter::date::get_seconds_since_epoch ()) std::this_thread::sleep_for (std::chrono::milliseconds (10));
   
   // Test the brute force detection mechanism.
   EXPECT_TRUE (user_logic_login_failure_check_okay ());
@@ -232,8 +232,8 @@ TEST (session, logic5)
   EXPECT_FALSE (request4.session_logic ()->get_logged_in ());
   
   // Wait till the next second.
-  now = filter::date::seconds_since_epoch ();
-  while (now == filter::date::seconds_since_epoch ()) std::this_thread::sleep_for (std::chrono::milliseconds (10));
+  now = filter::date::get_seconds_since_epoch ();
+  while (now == filter::date::get_seconds_since_epoch ()) std::this_thread::sleep_for (std::chrono::milliseconds (10));
   
   // After a second, a proper login works again.
   Webserver_Request request5;

@@ -75,7 +75,7 @@ void Database_Navigation::downgrade ()
 void Database_Navigation::trim ()
 {
   // Delete items older than, say, several weeks.
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   time -= (3600 * 24 * 14);
   SqliteDatabase sql (navigation);
   sql.add ("DELETE FROM navigation WHERE timestamp <=");

@@ -350,7 +350,7 @@ int Sync_Logic::files_get_file_checksum (std::string directory, std::string file
 void Sync_Logic::prioritized_ip_address_record ()
 {
   sync_logic_mutex.lock ();
-  config_globals_prioritized_ip_addresses [m_webserver_request.remote_address] = filter::date::seconds_since_epoch ();
+  config_globals_prioritized_ip_addresses [m_webserver_request.remote_address] = filter::date::get_seconds_since_epoch ();
   sync_logic_mutex.unlock ();
 }
 
@@ -359,7 +359,7 @@ void Sync_Logic::prioritized_ip_address_record ()
 bool Sync_Logic::prioritized_ip_address_active ()
 {
   std::string ip = m_webserver_request.remote_address;
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   bool active = false;
   sync_logic_mutex.lock ();
   bool record_present = config_globals_prioritized_ip_addresses.count (ip);

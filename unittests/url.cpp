@@ -423,7 +423,7 @@ TEST_F (filter_url, file_modification_time)
   const std::string file = filter_url_create_path ({directory, "file.txt"});
   filter_url_file_put_contents (file, "file.txt");
   const int mod_time = filter_url_file_modification_time (file);
-  const int ref_time = filter::date::seconds_since_epoch ();
+  const int ref_time = filter::date::get_seconds_since_epoch ();
   EXPECT_NEAR (mod_time, ref_time, 1);
   // Test the modification time returned if the file does not exist.
   filter_url_unlink (file);

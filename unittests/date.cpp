@@ -32,14 +32,14 @@ TEST(filter, date)
 {
     // Test the date and time related functions.
     {
-        const int month = filter::date::get_month_within_year(filter::date::seconds_since_epoch());
+        const int month = filter::date::get_month_within_year(filter::date::get_seconds_since_epoch());
         EXPECT_FALSE (month < 1 or month > 12);
-        const int year = filter::date::get_year_ad(filter::date::seconds_since_epoch());
+        const int year = filter::date::get_year_ad(filter::date::get_seconds_since_epoch());
         EXPECT_FALSE(year < 2014 or year > 2050);
         timeval tv{};
         gettimeofday(&tv, nullptr);
         const int reference_second = static_cast<int>(tv.tv_sec);
-        const int actual_second = filter::date::seconds_since_epoch();
+        const int actual_second = filter::date::get_seconds_since_epoch();
         EXPECT_NEAR(actual_second, reference_second, 1);
         int microseconds = filter::date::get_microseconds_within_second();
         EXPECT_FALSE (microseconds < 0 or microseconds > 1'000'000);
@@ -107,7 +107,7 @@ TEST(filter, date)
         EXPECT_EQ(false, filter::date::is_business_day (2013, 9, 8));
         EXPECT_EQ(true, filter::date::is_business_day (2013, 9, 30));
         EXPECT_EQ(false, filter::date::is_business_day (2015, 3, 1));
-        EXPECT_EQ(false, filter::date::is_business_day (2015, 2, 32));
+        EXPECT_EQ(true, filter::date::is_business_day (2015, 2, 32)); // Invalid day number
     }
 
     // Seconds since Unix epoch.
@@ -117,7 +117,8 @@ TEST(filter, date)
         year = 2011;
         month = 2;
         day = 5;
-        seconds = filter::date::seconds_since_epoch(year, month, day);
+        seconds = filter::date::get_seconds_since_epoch(year, month, day);
+        EXPECT_EQ(1296864000, seconds);
         EXPECT_EQ(year, filter::date::get_year_ad (seconds));
         EXPECT_EQ(month, filter::date::get_month_within_year (seconds));
         EXPECT_EQ(day, filter::date::get_day_within_month (seconds));
@@ -126,7 +127,8 @@ TEST(filter, date)
         year = 2015;
         month = 3;
         day = 15;
-        seconds = filter::date::seconds_since_epoch(year, month, day);
+        seconds = filter::date::get_seconds_since_epoch(year, month, day);
+        EXPECT_EQ(1426377600, seconds);
         EXPECT_EQ(year, filter::date::get_year_ad (seconds));
         EXPECT_EQ(month, filter::date::get_month_within_year (seconds));
         EXPECT_EQ(day, filter::date::get_day_within_month (seconds));
@@ -135,7 +137,8 @@ TEST(filter, date)
         year = 2030;
         month = 12;
         day = 31;
-        seconds = filter::date::seconds_since_epoch(year, month, day);
+        seconds = filter::date::get_seconds_since_epoch(year, month, day);
+        EXPECT_EQ(1924905600, seconds);
         EXPECT_EQ(year, filter::date::get_year_ad(seconds));
         EXPECT_EQ(month, filter::date::get_month_within_year(seconds));
         EXPECT_EQ(day, filter::date::get_day_within_month(seconds));

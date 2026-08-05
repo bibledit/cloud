@@ -935,7 +935,7 @@ TEST (database, git)
   database::git::optimize ();
   rowids = database::git::get_row_ids (user, bible);
   EXPECT_EQ (3, rowids.size ());
-  database::git::touch_timestamps (filter::date::seconds_since_epoch () - 432000 - 1);
+  database::git::touch_timestamps (filter::date::get_seconds_since_epoch () - 432000 - 1);
   database::git::optimize ();
   rowids = database::git::get_row_ids (user, bible);
   EXPECT_EQ (0, rowids.size ());

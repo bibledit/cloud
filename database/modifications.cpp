@@ -294,7 +294,7 @@ std::vector <int> getTeamDiffChapters (const std::string& bible, int book)
     if (bits.size() != 3) continue;
     std::string path = filter_url_create_path ({teamFolder (), file});
     const int time = filter_url_file_modification_time (path);
-    const int days = (filter::date::seconds_since_epoch () - time) / 86400;
+    const int days = (filter::date::get_seconds_since_epoch () - time) / 86400;
     if (days > 5) {
       // Unprocessed team changes older than so many days usually indicate a problem.
       // Perhaps the server crashed so it never could process them.
@@ -387,7 +387,7 @@ void recordUserSave (const std::string& username, const std::string& bible, int 
   if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   // The other data is stored in separate files in the newID folder.
   std::string timeFile = userTimeFile (username, bible, book, chapter, newID);
-  filter_url_file_put_contents (timeFile, std::to_string (filter::date::seconds_since_epoch ()));
+  filter_url_file_put_contents (timeFile, std::to_string (filter::date::get_seconds_since_epoch ()));
   std::string oldIDFile = userOldIDFile (username, bible, book, chapter, newID);
   filter_url_file_put_contents (oldIDFile, std::to_string (oldID));
   std::string oldTextFile = userOldTextFile (username, bible, book, chapter, newID);
@@ -440,7 +440,7 @@ std::vector <int> getUserChapters (const std::string& username, const std::strin
   for (const auto& file : files) {
     const std::string path = filter_url_create_path ({folder, file});
     const int time = filter_url_file_modification_time (path);
-    const int days = (filter::date::seconds_since_epoch () - time) / 86400;
+    const int days = (filter::date::get_seconds_since_epoch () - time) / 86400;
     if (days > 5) {
       // Unprocessed user changes older than so many days usually indicate a problem.
       // Perhaps the server crashed so it never could process them.
@@ -492,7 +492,7 @@ int getUserTimestamp (const std::string& username, const std::string& bible, int
   std::string contents = filter_url_file_get_contents (file);
   int time = filter::string::convert_to_int (contents);
   if (time > 0) return time;
-  return filter::date::seconds_since_epoch ();
+  return filter::date::get_seconds_since_epoch ();
 }
 
 
@@ -536,7 +536,7 @@ void recordNotification (const std::vector <std::string> & users, const std::str
   // Normally this function is called just after midnight.
   // It would then put the current time on changes made the day before.
   // Make a correction for that by subtracting 6 hours.
-  int timestamp = filter::date::seconds_since_epoch () - 21600;
+  int timestamp = filter::date::get_seconds_since_epoch () - 21600;
   for (auto & user : users) {
     int identifier = getNextAvailableNotificationIdentifier ();
     SqliteDatabase sql (notificationIdentifierDatabase (identifier));
@@ -581,10 +581,10 @@ void indexTrimAllNotifications ()
   
   // Change notifications expire after 30 days.
   // But the more there are, the sooner they expire.
-  int expiry_time = filter::date::seconds_since_epoch () - (30 * 3600 * 24);
-  if (sidentifiers.size () > 10000) expiry_time = filter::date::seconds_since_epoch () - (14 * 3600 * 24);
-  if (sidentifiers.size () > 20000) expiry_time = filter::date::seconds_since_epoch () - (7 * 3600 * 14);
-  if (sidentifiers.size () > 30000) expiry_time = filter::date::seconds_since_epoch () - (4 * 3600 * 14);
+  int expiry_time = filter::date::get_seconds_since_epoch () - (30 * 3600 * 24);
+  if (sidentifiers.size () > 10000) expiry_time = filter::date::get_seconds_since_epoch () - (14 * 3600 * 24);
+  if (sidentifiers.size () > 20000) expiry_time = filter::date::get_seconds_since_epoch () - (7 * 3600 * 14);
+  if (sidentifiers.size () > 30000) expiry_time = filter::date::get_seconds_since_epoch () - (4 * 3600 * 14);
   
   // Database: Connect and speed it up.
   SqliteDatabase sql (database_name);
@@ -802,7 +802,7 @@ int getNotificationTimeStamp (int id)
   sql.add (id);
   sql.add (";");
   const std::vector <std::string> timestamps = sql.query () ["timestamp"];
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   for (const auto& stamp : timestamps) {
     time = filter::string::convert_to_int (stamp);
   }
@@ -1025,7 +1025,7 @@ void storeClientNotification (int id, std::string username, std::string category
   // Erase any existing database.
   deleteNotificationFile (id);
   // Timestamp is not used: Just put the current time.
-  int timestamp = filter::date::seconds_since_epoch ();
+  int timestamp = filter::date::get_seconds_since_epoch ();
   {
     SqliteDatabase sql (notificationIdentifierDatabase (id));
     sql.add (createNotificationsDbSql ());

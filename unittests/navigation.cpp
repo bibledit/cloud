@@ -54,7 +54,7 @@ TEST (database_navigation, timed_record)
   database.create ();
   
   // Use current time.
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   
   // Record one entry.
   // As a result there should be no previous entry.
@@ -106,7 +106,7 @@ TEST (database_navigation, previous_same_user)
   Database_Navigation database;
   database.create ();
   // Use current time.
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   // Record one entry, and another one 6 seconds later.
   for (const auto focus_group : focus_groups) {
     database.record (time, user, 1, 2, 3, focus_group);
@@ -131,7 +131,7 @@ TEST (database_navigation, previous_other_user)
   Database_Navigation database;
   database.create ();
   // Use current time.
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   // Record one entry, and another 6 seconds later.
   for (const auto focus_group : focus_groups) {
     database.record (time, user, 1, 2, 3, focus_group);
@@ -156,7 +156,7 @@ TEST (database_navigation, previous_of_3_entries)
   Database_Navigation database;
   database.create ();
   // Use current time.
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   // Record three entries, each one 6 seconds later.
   for (const auto focus_group : focus_groups) {
     database.record (time, user, 1, 2, 3, focus_group);
@@ -185,7 +185,7 @@ TEST (database_navigation, previous_of_5_entries)
   Database_Navigation database;
   database.create ();
   // Use current time.
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   // Record five entries, each one 6 seconds later.
   for (const auto focus_group : focus_groups) {
     database.record (time, user, 1, 2, 3, focus_group);
@@ -237,7 +237,7 @@ TEST (database_navigation, no_next_n_records)
   Database_Navigation database;
   database.create ();
   // Use current time.
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   // Record several entries, all spaced apart by 6 seconds.
   for (const auto focus_group : focus_groups)
     database.record (time, user, 1, 2, 3, focus_group);
@@ -268,7 +268,7 @@ TEST (database_navigation, multiple_previous_next)
   Database_Navigation database;
   database.create ();
   // Record two entries at an interval.
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   for (const auto focus_group : focus_groups)
     database.record (time, user, 1, 2, 3, focus_group);
   time += 6;
@@ -332,7 +332,7 @@ TEST (database_navigation, history_two_users)
   refresh_sandbox (true);
   Database_Navigation database;
   database.create ();
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   
   // Record three entries at an interval for this user.
   // Record different entries for another user.
@@ -424,7 +424,7 @@ TEST (database_navigation, trim_no_loss)
   refresh_sandbox (true);
   Database_Navigation database;
   database.create ();
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   
   // 1. Record several recent passages.
   // 2. Trim the database.
@@ -447,7 +447,7 @@ TEST (database_navigation, trim)
   refresh_sandbox (true);
   Database_Navigation database;
   database.create ();
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
   
   // 1. Record several old passages.
   // Check the passages are there.
@@ -481,7 +481,7 @@ TEST (database_navigation, upgrade)
   refresh_sandbox (true);
   Database_Navigation database;
   database.create ();
-  int time = filter::date::seconds_since_epoch ();
+  int time = filter::date::get_seconds_since_epoch ();
 
   const auto record_old_passages = [&](const int focus_group) {
     for (int i = 0; i < 5; i++) {

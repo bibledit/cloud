@@ -361,13 +361,13 @@ void bible_logic::kick_unsent_data_timer()
     if (database::config::general::get_unsent_bible_data_time() != 0) return;
 
     // Stamp with the current time.
-    database::config::general::set_unsent_bible_data_time(filter::date::seconds_since_epoch());
+    database::config::general::set_unsent_bible_data_time(filter::date::get_seconds_since_epoch());
 }
 
 
 void bible_logic::kick_unreceived_data_timer()
 {
-    database::config::general::set_unreceived_bible_data_time(filter::date::seconds_since_epoch());
+    database::config::general::set_unreceived_bible_data_time(filter::date::get_seconds_since_epoch());
 }
 
 
@@ -384,7 +384,7 @@ std::string bible_logic::unsent_unreceived_data_warning()
     // A value of 0 means that it is not relevant.
     if (data_time)
     {
-        const int now = filter::date::seconds_since_epoch();
+        const int now = filter::date::get_seconds_since_epoch();
         // Unreceived data warning after four days.
         data_time += (4 * 24 * 3600);
         if (now > data_time)
@@ -404,7 +404,7 @@ std::string bible_logic::unsent_unreceived_data_warning()
     // A value of 0 means that there's no pending data.
     if (data_time)
     {
-        const int now = filter::date::seconds_since_epoch();
+        const int now = filter::date::get_seconds_since_epoch();
         // Unsent data warning after four days.
         data_time += (4 * 24 * 3600);
         if (now > data_time)

@@ -315,7 +315,7 @@ void changes_modifications ()
     
     
     // The files get stored at https://site.org:<port>/revisions/<Bible>/<date>
-    const int seconds = filter::date::seconds_since_epoch ();
+    const int seconds = filter::date::get_seconds_since_epoch ();
     std::string timepath;
     timepath.append (std::to_string (filter::date::get_year_ad (seconds)));
     timepath.append ("-");
@@ -455,7 +455,7 @@ void changes_modifications ()
   
   // Remove expired downloadable revisions.
   const std::string directory = filter_url_create_root_path ({"revisions"});
-  const int now = filter::date::seconds_since_epoch ();
+  const int now = filter::date::get_seconds_since_epoch ();
   bibles = filter_url_scandir (directory);
   for (const auto & bible : bibles) {
     const std::string folder = filter_url_create_path ({directory, bible});

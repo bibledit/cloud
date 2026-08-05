@@ -48,7 +48,7 @@ bool edit_id_acl (Webserver_Request& webserver_request)
 std::string edit_id (Webserver_Request& webserver_request)
 {
   // Update the timestamp indicating that the Bible editor is alive.
-  webserver_request.database_config_user()->set_live_bible_editor (filter::date::seconds_since_epoch ());
+  webserver_request.database_config_user()->set_live_bible_editor (filter::date::get_seconds_since_epoch ());
   
   const std::string bible = webserver_request.query ["bible"];
   const int book = filter::string::convert_to_int (webserver_request.query ["book"]);

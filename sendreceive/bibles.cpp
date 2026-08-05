@@ -73,7 +73,7 @@ std::string sendreceive_bibles_up_to_date_text ()
 void sendreceive_bibles ()
 {
   if (sendreceive_bibles_watchdog) {
-    const int time = filter::date::seconds_since_epoch ();
+    const int time = filter::date::get_seconds_since_epoch ();
     if (time < (sendreceive_bibles_watchdog + 900)) {
       database::logs::log (sendreceive_bibles_text () + translate("Still busy"), roles::translator);
       return;
@@ -555,5 +555,5 @@ void sendreceive_bibles ()
 
 void sendreceive_bibles_kick_watchdog ()
 {
-  sendreceive_bibles_watchdog = filter::date::seconds_since_epoch ();
+  sendreceive_bibles_watchdog = filter::date::get_seconds_since_epoch ();
 }

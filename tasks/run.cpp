@@ -110,17 +110,7 @@ void tasks_run_one (const std::string& filename)
     parameter4 = lines [0];
     lines.erase (lines.begin ());
   }
-  std::string parameter5 {};
-  if (!lines.empty ()) {
-    parameter5 = lines [0];
-    lines.erase (lines.begin ());
-  }
-  std::string parameter6 {};
-  if (!lines.empty ()) {
-    parameter6 = lines [0];
-    lines.erase (lines.begin ());
-  }
-  
+
   if (command == task::rotate_journal) {
     database::logs::rotate ();
   }

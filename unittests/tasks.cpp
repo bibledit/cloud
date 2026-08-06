@@ -28,22 +28,41 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tasks/logic.h>
 
 
-TEST (tasks, logic)
+TEST(tasks, logic)
 {
-  refresh_sandbox (false);
-  tasks_logic_queue ("task1");
-  tasks_logic_queue ("task3");
-  tasks_logic_queue ("task4", { "parameter1", "parameter2" });
-  EXPECT_EQ (true, tasks_logic_queued ("task1"));
-  EXPECT_EQ (false, tasks_logic_queued ("task2"));
-  EXPECT_EQ (false, tasks_logic_queued ("task1", { "parameter" }));
-  EXPECT_EQ (true, tasks_logic_queued ("task4"));
-  EXPECT_EQ (true, tasks_logic_queued ("task4", { "parameter1" }));
-  EXPECT_EQ (true, tasks_logic_queued ("task4", { "parameter1", "parameter2" }));
-  EXPECT_EQ (false, tasks_logic_queued ("task4", { "parameter1", "parameter3" }));
-  EXPECT_EQ (false, tasks_logic_queued ("task4", { "parameter2" }));
-  
+    refresh_sandbox(false);
+
+    constexpr auto task1 = tasks::enums::task::check_bible;
+    constexpr auto task2 = tasks::enums::task::cache_resources;
+    constexpr auto task3 = tasks::enums::task::convert_bible_to_resource;
+    constexpr auto task4 = tasks::enums::task::export_all;
+    constexpr auto parameter = [](const int number = 0) -> std::string
+    {
+        return "parameter" + (number ? std::to_string(number) : std::string());
+    };
+
+    tasks_logic_queue("task1");
+    tasks_logic_queue( task1 );
+    tasks_logic_queue("task3");
+    tasks_logic_queue( task3 );
+    tasks_logic_queue("task4", {"parameter1", "parameter2"});
+    tasks_logic_queue( task4,  { parameter(1), parameter(2)});
+    EXPECT_TRUE(tasks_logic_queued ("task1"));
+    EXPECT_TRUE(tasks_logic_queued ( task1));
+    EXPECT_FALSE(tasks_logic_queued ("task2"));
+    EXPECT_FALSE(tasks_logic_queued ( task2));
+    EXPECT_FALSE(tasks_logic_queued ("task1", { "parameter"  }));
+    EXPECT_FALSE(tasks_logic_queued ( task1,  {  parameter() }));
+    EXPECT_TRUE(tasks_logic_queued ("task4"));
+    EXPECT_FALSE(tasks_logic_queued ( task4 ));
+    EXPECT_TRUE(tasks_logic_queued ("task4", { "parameter1" }));
+    EXPECT_FALSE(tasks_logic_queued (task4, { parameter(1) }));
+    EXPECT_TRUE(tasks_logic_queued ("task4", { "parameter1", "parameter2" }));
+    EXPECT_TRUE(tasks_logic_queued (task4, { parameter(1), parameter(2) }));
+    EXPECT_FALSE(tasks_logic_queued ("task4", { "parameter1", "parameter3" }));
+    EXPECT_FALSE(tasks_logic_queued (task4, { parameter(1), parameter(3) }));
+    EXPECT_FALSE(tasks_logic_queued ("task4", { "parameter2" }));
+    EXPECT_FALSE(tasks_logic_queued (task4, { parameter(2) }));
 }
 
 #endif
-

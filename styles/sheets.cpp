@@ -32,7 +32,7 @@ namespace styles::sheets {
 // The advantage of this is that the user interface will be more responsive.
 void create_all ()
 {
-    tasks_logic_queue (task::create_css);
+    tasks_logic_queue (tasks::enums::task::create_css);
 }
 
 

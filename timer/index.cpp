@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <filter/date.h>
 #include <tasks/logic.h>
-#include <tasks/run.h>
 #include <sendreceive/logic.h>
 #include <changes/logic.h>
 #include <checks/logic.h>
@@ -52,7 +51,7 @@ void timer_index()
 
 #ifdef HAVE_CLOUD
     // Right after startup, update the Google Translate access token.
-    tasks_logic_queue(task::get_google_access_token);
+    tasks_logic_queue(tasks::enums::task::get_google_access_token);
 #endif
 
     while (config_globals_webserver_running)
@@ -77,9 +76,6 @@ void timer_index()
             if (second == previous_second) continue;
             previous_second = second;
 
-            // Every second: Deal with queued and/or active tasks.
-            tasks_run_check();
-
             // Every second:
             // Check whether client sends/receives Bibles and Consultation Notes and other stuff.
             sendreceive_queue_sync(minute, second);
@@ -91,15 +87,15 @@ void timer_index()
             previous_minute = minute;
 
             // Every minute send out queued email.
-            if (!tasks_logic_queued(task::send_email))
-                tasks_logic_queue(task::send_email);
+            if (!tasks_logic_queued(tasks::enums::task::send_email))
+                tasks_logic_queue(tasks::enums::task::send_email);
 
 #ifdef HAVE_CLOUD
             // Check for new mail every five minutes.
             // Do not check more often with Gmail else the account may be shut down.
             if (minute % 5 == 0)
             {
-                tasks_logic_queue(task::receive_email);
+                tasks_logic_queue(tasks::enums::task::receive_email);
             }
 #endif
 
@@ -107,7 +103,7 @@ void timer_index()
             // The nine is chosen, because the journal rotation will summarize the send/receive messages.
             // In case send/receive happens every five minutes, it is expected that under normal circumstances
             // the whole process of sending/receiving will be over, so summarization can then be done.
-            if (minute == 9) tasks_logic_queue(task::rotate_journal);
+            if (minute == 9) tasks_logic_queue(tasks::enums::task::rotate_journal);
 
             // Sending and receiving Bibles to and from the git repository.
             // On a production website running on an inexpensive virtual private server,
@@ -144,7 +140,7 @@ void timer_index()
             // It takes a few minutes on a production machine.
             if (hour == 0 and minute == 50)
             {
-                tasks_logic_queue(task::maintain_database);
+                tasks_logic_queue(tasks::enums::task::maintain_database);
             }
 
 #ifdef HAVE_CLOUD
@@ -156,7 +152,7 @@ void timer_index()
             // And to leave files in the files cache for only a couple of hours.
             if (minute == 10)
             {
-                tasks_logic_queue(task::trim_caches);
+                tasks_logic_queue(tasks::enums::task::trim_caches);
             }
 
 #endif
@@ -174,7 +170,7 @@ void timer_index()
             // Delete expired temporal files.
             if (hour == 2 and minute == 0)
             {
-                tasks_logic_queue(task::clean_tmp_files);
+                tasks_logic_queue(tasks::enums::task::clean_tmp_files);
             }
 
             // Re-index Bibles and notes.
@@ -183,9 +179,9 @@ void timer_index()
             {
                 Database_State::create();
                 database::config::general::set_index_bibles(true);
-                tasks_logic_queue(task::reindex_bibles);
+                tasks_logic_queue(tasks::enums::task::reindex_bibles);
                 database::config::general::setIndexNotes(true);
-                tasks_logic_queue(task::reindex_notes);
+                tasks_logic_queue(tasks::enums::task::reindex_notes);
             }
 
             // Actions for a demo installation.
@@ -193,7 +189,7 @@ void timer_index()
             {
                 if (config::logic::demo_enabled())
                 {
-                    tasks_logic_queue(task::clean_demo);
+                    tasks_logic_queue(tasks::enums::task::clean_demo);
                 }
             }
 
@@ -208,9 +204,9 @@ void timer_index()
                 {
                     if (not database::config::general::getJustStarted())
                     {
-                        if (tasks_run_active_count())
+                        if (tasks_logic_queued_and_active_count())
                         {
-                            database::logs::log("Server is due to restart itself but does not because of active jobs");
+                            database::logs::log("Server is due to restart itself but does not because of pending and active jobs");
                         }
                         else
                         {
@@ -233,7 +229,7 @@ void timer_index()
             // Email notes statistics to the users.
             if (hour == 3 and minute == 0)
             {
-                tasks_logic_queue(task::notes_statistics);
+                tasks_logic_queue(tasks::enums::task::notes_statistics);
             }
 #endif
 
@@ -245,13 +241,13 @@ void timer_index()
                 // Refresh.
                 if (hour == 3 and minute == 5)
                 {
-                    tasks_logic_queue(task::refresh_sword_modules);
-                    tasks_logic_queue(task::refresh_web_resources);
+                    tasks_logic_queue(tasks::enums::task::refresh_sword_modules);
+                    tasks_logic_queue(tasks::enums::task::refresh_web_resources);
                 }
                 // Update installed SWORD modules, shortly after the module list has been refreshed.
                 if (hour == 3 and minute == 15)
                 {
-                    tasks_logic_queue(task::update_sword_modules);
+                    tasks_logic_queue(tasks::enums::task::update_sword_modules);
                 }
             }
 #endif
@@ -262,7 +258,7 @@ void timer_index()
             {
                 if (hour == 3 and minute == 10)
                 {
-                    tasks_logic_queue(task::list_usfm_resources);
+                    tasks_logic_queue(tasks::enums::task::list_usfm_resources);
                 }
             }
 #endif
@@ -274,7 +270,7 @@ void timer_index()
             google_translate_authentication_token_age_minute++;
             if (google_translate_authentication_token_age_minute > 50)
             {
-                tasks_logic_queue(task::get_google_access_token);
+                tasks_logic_queue(tasks::enums::task::get_google_access_token);
                 google_translate_authentication_token_age_minute = 0;
             }
 #endif

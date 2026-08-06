@@ -49,7 +49,7 @@ void convert_resource_to_bible (std::string resource)
   
   
   // The Cloud updates the list of available USFM resources for the clients.
-  tasks_logic_queue (task::list_usfm_resources);
+  tasks_logic_queue (tasks::enums::task::list_usfm_resources);
 
   
   database::logs::log (translate("Conversion completed"));

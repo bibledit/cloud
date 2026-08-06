@@ -1091,7 +1091,7 @@ void https_server()
 static std::vector<std::thread> thread_pool;
 
 // Queue of tasks.
-//   The underlying std::deque is unlikely to give several heap fragmentation
+//   The underlying std::deque is unlikely to give severe heap fragmentation
 //   because it allocates a block on the heap for many elements at once,
 //   dozens or hundreds per chunk.
 static std::queue<std::function<void()>> tasks;

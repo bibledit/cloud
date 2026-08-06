@@ -175,7 +175,7 @@ void system_logic_import_bibles_file (std::string tarball)
 
   // Since new Bibles may have been imported, index them all.
   database::config::general::set_index_bibles (true);
-  tasks_logic_queue (task::reindex_bibles, {"1"});
+  tasks_logic_queue (tasks::enums::task::reindex_bibles, {"1"});
 
   // Ready, hallelujah!
   database::logs::log ("Importing Bibles ready");
@@ -263,7 +263,7 @@ void system_logic_import_notes_file (std::string tarball)
 
   // Since notes may have been imported or updated, index them all.
   database::config::general::setIndexNotes (true);
-  tasks_logic_queue (task::reindex_notes);
+  tasks_logic_queue (tasks::enums::task::reindex_notes);
 
   // Ready, hallelujah!
   database::logs::log ("Importing Consultation Notes ready");

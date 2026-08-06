@@ -387,8 +387,8 @@ void schedule (std::string to, std::string subject, std::string body, int time)
   database_mail.send (to, subject, body, time);
   // Schedule a task to send the mail right away.
   // If the task is already scheduled, don't schedule one more, to avoid plenty of similar tasks.
-  if (!tasks_logic_queued (task::send_email))
-    tasks_logic_queue (task::send_email);
+  if (!tasks_logic_queued (tasks::enums::task::send_email))
+    tasks_logic_queue (tasks::enums::task::send_email);
 }
 
 

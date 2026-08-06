@@ -268,7 +268,6 @@ add_library(bibledit STATIC
         odf/text.cpp
         timer/index.cpp
         tasks/logic.cpp
-        tasks/run.cpp
         config/logic.cpp
         bb/logic.cpp
         bb/manage.cpp

@@ -36,6 +36,6 @@ void start_all()
 
 void start(const std::string& bible)
 {
-    tasks_logic_queue(task::check_bible, {bible});
+    tasks_logic_queue(tasks::enums::task::check_bible, {bible});
 }
 } // Namespace.

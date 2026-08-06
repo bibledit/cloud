@@ -44,6 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/logic.h>
 #include <ipc/focus.h>
 #include <client/logic.h>
+#include "tasks/logic.h"
 
 
 bool bibledit_started {false};
@@ -209,8 +210,9 @@ void bibledit_start_library ()
   // Set running flag.
   config_globals_webserver_running = true;
 
-  // Start the thread pool with the workers.
+  // Start the thread pools with the workers.
   start_thread_pool();
+  tasks_logic_start_thread_pool(MAX_PARALLEL_TASKS);
 
   // Run the plain web server in a thread.
   config_globals_http_worker = new std::thread (http_server);
@@ -347,8 +349,9 @@ void bibledit_stop_library()
     }
 #endif
 
-    // Stop the thread pool for the workers.
+    // Stop the thread pools for the workers.
     stop_thread_pool();
+    tasks_logic_stop_thread_pool();
 
     // Another way of doing the above is to ::raise a signal to each of the listening threads.
     // That signal will unblock the blocking BSD sockets, and so allow the shutdown process to proceed.

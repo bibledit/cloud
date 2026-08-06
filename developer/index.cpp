@@ -38,171 +38,196 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <dialog/select.h>
 
 
-const char * developer_index_url ()
+const char* developer_index_url()
 {
-  return "developer/index";
+    return "developer/index";
 }
 
 
-bool developer_index_acl (Webserver_Request& webserver_request)
+bool developer_index_acl(Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::admin);
+    return roles::access_control(webserver_request, roles::admin);
 }
 
 
-std::string developer_index (Webserver_Request& webserver_request)
+std::string developer_index(Webserver_Request& webserver_request)
 {
-  if (webserver_request.query.contains ("log")) {
-    std::string message = webserver_request.query ["log"];
-    std::cerr << message << std::endl;
-    return {};
-  }
-  
-  std::string page {};
-
-  Assets_Header header = Assets_Header ("Development", webserver_request);
-  header.notify_on ();
-  page = header.run ();
-
-  Assets_View view {};
-
-  std::string code {};
-  
-  std::string debug = webserver_request.query ["debug"];
-  
-  // It is cleaner and easier to move the following task to the binary ./generate.
-  if (debug == "etcbc4download") {
-    // sources_etcbc4_download ();
-    view.set_variable ("success", "Task disabled");
-  }
-  
-  // It is cleaner and easier to move the following task to the binary ./generate.
-  if (debug == "etcbc4parse") {
-    //sources_etcbc4_parse ();
-    view.set_variable ("success", "Task disabled");
-  }
-  
-  // It is cleaner and easier to move the following task to the binary ./generate.
-  if (debug == "parsekjv") {
-    //sources_kjv_parse ();
-    view.set_variable ("success", "Task disabled");
-  }
-  
-  // It is cleaner and easier to move the following task to the binary ./generate.
-  if (debug == "parsemorphgnt") {
-    // sources_morphgnt_parse ();
-    view.set_variable ("success", "Task disabled");
-  }
-
-  // It is cleaner and easier to move the following task to the binary ./generate.
-  if (debug == "parsehebrewlexicon") {
-    //sources_hebrewlexicon_parse ();
-    view.set_variable ("success", "Task disabled");
-    //view.set_variable ("success", "Task running");
-  }
-
-  if (debug == "crash") {
-    // Make a bad pointer.
-    // int *foo = (int*)-1;
-    // Cause segmentation fault.
-    // printf ("%d\n", *foo);
-    view.set_variable ("success", "Task disabled");
-  }
-  
-  if (debug == "sendreceive") {
-    tasks_logic_queue (task::receive_email);
-    view.set_variable ("success", "Sending and receiving email");
-  }
-
-  if (debug == "ipv6") {
-    view.set_variable ("success", "Fetching data via IPv6");
-    std::string error {};
-    std::string response = filter_url_http_request_mbed ("http://ipv6.google.com", error, {}, "", true);
-    page.append (response);
-    view.set_variable ("error", error);
-  }
-  
-  if (debug == "ipv6s") {
-    view.set_variable ("success", "Securely fetching data via IPv6");
-    std::string error {};
-    std::string response = filter_url_http_request_mbed ("https://ipv6.google.com", error, {}, "", true);
-    page.append (response);
-    view.set_variable ("error", error);
-  }
-  
-  if (debug == "maintain") {
-    tasks_logic_queue (task::maintain_database);
-    view.set_variable ("success", "Starting to maintain the databases");
-  }
-
-  if (debug == "accordance") {
-    std::string reference = bibledit_get_reference_for_accordance ();
-    view.set_variable ("success", "Accordance reference: " + reference);
-    bibledit_put_reference_from_accordance("PSA 3:2");
-  }
-
-  if (debug == "changes") {
-    developer_logic_import_changes ();
-    view.set_variable ("success", "Task was done see Journal");
-  }
-  
-  {
-    constexpr const char* identification {"selectorajax"};
-    if (webserver_request.post_count(identification)) {
-      [[maybe_unused]] const std::string value {webserver_request.post_get(identification)};
-      return std::string();
+    if (webserver_request.query.contains("log"))
+    {
+        std::string message = webserver_request.query["log"];
+        std::cerr << message << std::endl;
+        return {};
     }
-    dialog::select::Settings settings {
-      .identification = identification,
-      .values = {"aaa", "bbb", "ccc"},
-      .selected = "aaa",
-      .parameters = { {"a", "aa"}, {"b", "bb"} },
-      .tooltip = "Tooltip",
-    };
-    view.set_variable(identification, dialog::select::ajax(settings));
-  }
 
-  {
-    constexpr const char* identification {"selectorform"};
-    std::string selected = "ddd";
-    if (webserver_request.post_count(identification)) {
-      selected = webserver_request.post_get(identification);
-      view.set_variable ("success", "Submitted: " + selected);
+    Assets_Header header("Development", webserver_request);
+    header.notify_on();
+    std::string page = header.run();
+
+    Assets_View view{};
+
+    std::string code{};
+
+    std::string debug = webserver_request.query["debug"];
+
+    // It is cleaner and easier to move the following task to the binary ./generate.
+    if (debug == "etcbc4download")
+    {
+        // sources_etcbc4_download ();
+        view.set_variable("success", "Task disabled");
     }
-    dialog::select::Settings settings {
-      .identification = identification,
-      .values = {"ddd", "eee", "fff"},
-      .selected = selected,
-      .parameters = { {"d", "dd"}, {"e", "ee"} },
-      .tooltip = "Tooltip",
-      .submit = "Enter",
-    };
-    dialog::select::Form form { .auto_submit = false };
-    view.set_variable(identification, dialog::select::form(settings, form));
-  }
 
-  {
-    constexpr const char* identification {"selectorautosubmit"};
-    std::string selected = "ggg";
-    if (webserver_request.post_count(identification)) {
-      selected = webserver_request.post_get(identification);
-      view.set_variable ("success", "Submitted: " + selected);
+    // It is cleaner and easier to move the following task to the binary ./generate.
+    if (debug == "etcbc4parse")
+    {
+        //sources_etcbc4_parse ();
+        view.set_variable("success", "Task disabled");
     }
-    dialog::select::Settings settings {
-      .identification = identification,
-      .values = {"ggg", "hhh", "iii"},
-      .selected = selected,
-      .parameters = { {"g", "gg"}, {"h", "hh"} },
-      .tooltip = "Tooltip",
-    };
-    dialog::select::Form form { .auto_submit = true };
-    view.set_variable(identification, dialog::select::form(settings, form));
-  }
-  
-  view.set_variable ("code", code);
 
-  page += view.render ("developer", "index");
-  page += assets_page::footer ();
+    // It is cleaner and easier to move the following task to the binary ./generate.
+    if (debug == "parsekjv")
+    {
+        //sources_kjv_parse ();
+        view.set_variable("success", "Task disabled");
+    }
 
-  return page;
+    // It is cleaner and easier to move the following task to the binary ./generate.
+    if (debug == "parsemorphgnt")
+    {
+        // sources_morphgnt_parse ();
+        view.set_variable("success", "Task disabled");
+    }
+
+    // It is cleaner and easier to move the following task to the binary ./generate.
+    if (debug == "parsehebrewlexicon")
+    {
+        //sources_hebrewlexicon_parse ();
+        view.set_variable("success", "Task disabled");
+        //view.set_variable ("success", "Task running");
+    }
+
+    if (debug == "crash")
+    {
+        // Make a bad pointer.
+        // int *foo = (int*)-1;
+        // Cause segmentation fault.
+        // printf ("%d\n", *foo);
+        view.set_variable("success", "Task disabled");
+    }
+
+    if (debug == "sendreceive")
+    {
+        tasks_logic_queue(tasks::enums::task::receive_email);
+        view.set_variable("success", "Sending and receiving email");
+    }
+
+    if (debug == "ipv6")
+    {
+        view.set_variable("success", "Fetching data via IPv6");
+        std::string error{};
+        std::string response = filter_url_http_request_mbed("http://ipv6.google.com", error, {}, "", true);
+        page.append(response);
+        view.set_variable("error", error);
+    }
+
+    if (debug == "ipv6s")
+    {
+        view.set_variable("success", "Securely fetching data via IPv6");
+        std::string error{};
+        std::string response = filter_url_http_request_mbed("https://ipv6.google.com", error, {}, "", true);
+        page.append(response);
+        view.set_variable("error", error);
+    }
+
+    if (debug == "maintain")
+    {
+        tasks_logic_queue(tasks::enums::task::maintain_database);
+        view.set_variable("success", "Starting to maintain the databases");
+    }
+
+    if (debug == "accordance")
+    {
+        std::string reference = bibledit_get_reference_for_accordance();
+        view.set_variable("success", "Accordance reference: " + reference);
+        bibledit_put_reference_from_accordance("PSA 3:2");
+    }
+
+    if (debug == "changes")
+    {
+        developer_logic_import_changes();
+        view.set_variable("success", "Task was done see Journal");
+    }
+
+    {
+        constexpr auto identification{"selectorajax"};
+        if (webserver_request.post_count(identification))
+        {
+            [[maybe_unused]] const std::string value{webserver_request.post_get(identification)};
+            return {};
+        }
+        dialog::select::Settings settings{
+            .identification = identification,
+            .values = {"aaa", "bbb", "ccc"},
+            .selected = "aaa",
+            .parameters = {{"a", "aa"}, {"b", "bb"}},
+            .tooltip = "Tooltip",
+        };
+        view.set_variable(identification, dialog::select::ajax(settings));
+    }
+
+    {
+        constexpr auto identification{"selectorform"};
+        std::string selected = "ddd";
+        if (webserver_request.post_count(identification))
+        {
+            selected = webserver_request.post_get(identification);
+            view.set_variable("success", "Submitted: " + selected);
+        }
+        dialog::select::Settings settings{
+            .identification = identification,
+            .values = {"ddd", "eee", "fff"},
+            .selected = selected,
+            .parameters = {{"d", "dd"}, {"e", "ee"}},
+            .tooltip = "Tooltip",
+            .submit = "Enter",
+        };
+        dialog::select::Form form{.auto_submit = false};
+        view.set_variable(identification, dialog::select::form(settings, form));
+    }
+
+    {
+        constexpr auto identification{"selectorautosubmit"};
+        std::string selected = "ggg";
+        if (webserver_request.post_count(identification))
+        {
+            selected = webserver_request.post_get(identification);
+            view.set_variable("success", "Submitted: " + selected);
+        }
+        dialog::select::Settings settings{
+            .identification = identification,
+            .values = {"ggg", "hhh", "iii"},
+            .selected = selected,
+            .parameters = {{"g", "gg"}, {"h", "hh"}},
+            .tooltip = "Tooltip",
+        };
+        dialog::select::Form form{.auto_submit = true};
+        view.set_variable(identification, dialog::select::form(settings, form));
+    }
+
+    if (debug == "queuetasks")
+    {
+        std::vector<std::string> parameters{};
+        for (int i = 1; i <= 5; ++i)
+        {
+            tasks_logic_queue(tasks::enums::task::none, parameters);
+            parameters.emplace_back("parameter" + std::to_string(i));
+        }
+        view.set_variable("success", "Tasks were queued");
+    }
+
+    view.set_variable("code", code);
+
+    page.append(view.render("developer", "index"));
+    page.append(assets_page::footer());
+
+    return page;
 }

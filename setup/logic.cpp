@@ -88,8 +88,8 @@ void setup_conditionally (const char * package)
     
 #ifndef HAVE_CLIENT
     // Cloud updates the available SWORD modules and web resources.
-    tasks_logic_queue (task::refresh_sword_modules);
-    tasks_logic_queue (task::refresh_web_resources);
+    tasks_logic_queue (tasks::enums::task::refresh_sword_modules);
+    tasks_logic_queue (tasks::enums::task::refresh_web_resources);
 #endif
     
     // Update installed version.
@@ -124,11 +124,11 @@ void setup_conditionally (const char * package)
   // the app may shut down before the tasks have been completed.
   // Next time the app starts, the tasks will be restarted here, and they will run if a flag was set for them.
   // Once the tasks are really complete, they will clear the flag.
-  tasks_logic_queue (task::reindex_bibles);
-  tasks_logic_queue (task::reindex_notes);
+  tasks_logic_queue (tasks::enums::task::reindex_bibles);
+  tasks_logic_queue (tasks::enums::task::reindex_notes);
 #ifdef HAVE_CLIENT
   // Same for the resource downloader, for the client.
-  tasks_logic_queue (task::sync_resources);
+  tasks_logic_queue (tasks::enums::task::sync_resources);
 #endif
 }
 
@@ -270,7 +270,7 @@ void setup_initialize_data ()
   // To make installation fast, the creation of the sample Bible is now done in the background.
   const std::vector <std::string> bibles = database::bibles::get_bibles ();
   if (bibles.empty ()) {
-    tasks_logic_queue (task::create_sample_bible);
+    tasks_logic_queue (tasks::enums::task::create_sample_bible);
   }
   
   // Schedule reindexing Bible search data.

@@ -167,7 +167,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
         const auto bibles = database::bibles::get_books (bible);
         if (bibles.empty()) {
           if (write_access) {
-            tasks_logic_queue (task::import_resource, { bible, resource });
+            tasks_logic_queue (tasks::enums::task::import_resource, { bible, resource });
             success_message = translate ("The resource will be imported into the Bible.") + " " + translate ("The journal shows the progress.");
           }
         } else {

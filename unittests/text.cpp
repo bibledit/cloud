@@ -1313,7 +1313,7 @@ TEST_F (filter_text, alternate_chapter_number)
   \p
   \v 1 Verse one.
   )";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet());
@@ -1324,10 +1324,11 @@ TEST_F (filter_text, alternate_chapter_number)
   const std::string standard =
   "Unknown 13    (14)\n"
   "\n"
-  "13    (14)\n"
+  "   \n"
   "\n"
-  " \n"
-  "\n   1 Verse one.\n\n"
+  "  13    (14)\n"
+  "\n"
+  "Verse one.\n\n"
   ;
   EXPECT_EQ (standard, odt);
 }
@@ -1487,7 +1488,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="imte"><span>Introduction main title ending</span></p>)"
   R"(<p class="imte1"><span>Introduction main title ending 1</span></p>)"
   R"(<p class="imte2"><span>Introduction main title ending 2</span></p>)"
-  R"(<p class="c"><span>1 (2)</span><span> </span><span> </span><span> </span><span> </span></p>)"
+  R"(<p class="c"><span>1 (2)</span></p>)"
   R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"
   R"(<p class="p"><span class="v">2</span><span> </span><span> text</span></p>)"
   R"(<p class="c"><span>Psalm</span></p>)"

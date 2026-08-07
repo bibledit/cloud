@@ -124,7 +124,7 @@ int get_microseconds_within_second()
     const std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
     const auto duration = now.time_since_epoch();
     const auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
-    const int microseconds_in_second = static_cast<decltype(microseconds_in_second)>(microseconds % 1000000);
+    const int microseconds_in_second = static_cast<int>(microseconds % 1000000);
     return microseconds_in_second;
 }
 

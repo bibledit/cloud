@@ -431,12 +431,12 @@ void setInstalledDatabaseVersion(const std::string& value)
 
 constexpr auto just_started_key{"just-started"};
 
-bool getJustStarted()
+bool get_just_started()
 {
     return get_value<bool>(just_started_key, "");
 }
 
-void setJustStarted(const bool value)
+void set_just_started(const bool value)
 {
     set_value<bool>(just_started_key, value);
 }

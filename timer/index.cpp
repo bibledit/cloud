@@ -196,14 +196,13 @@ void timer_index()
 
 #ifdef HAVE_CLOUD
             // Bibledit Cloud quits at midnight.
-            // This is to be sure that any memory leaks don't accumulate too much
-            // in case Bibledit Cloud would run for months and years.
-            // If the binary quits, the shell script or service notice that and restart the binary.
+            // This keeps unlikely memory leaks in check when Bibledit Cloud runs for months or years.
+            // If the binary quits, the shell script or service notices that and restarts the binary.
             if (hour == 0)
             {
                 if ((minute == 1) or restart_attempt)
                 {
-                    if (not database::config::general::getJustStarted())
+                    if (not database::config::general::get_just_started())
                     {
                         if (tasks_logic_queued_and_active_count())
                         {
@@ -222,7 +221,7 @@ void timer_index()
                 // rather than restarting repeatedly many times during that minute.
                 if (minute == 0)
                 {
-                    database::config::general::setJustStarted(false);
+                    database::config::general::set_just_started(false);
                 }
             }
 #endif

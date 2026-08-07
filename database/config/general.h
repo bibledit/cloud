@@ -89,8 +89,8 @@ void set_installed_interface_version (const std::string& value);
 std::string getInstalledDatabaseVersion ();
 void setInstalledDatabaseVersion (const std::string& value);
 
-bool getJustStarted ();
-void setJustStarted (bool value);
+bool get_just_started ();
+void set_just_started (bool value);
 
 std::string get_paratext_projects_folder ();
 void set_paratext_projects_folder (const std::string& value);

@@ -197,7 +197,7 @@ void bibledit_start_library ()
   
 #ifdef HAVE_CLOUD
   // Indicate that the Cloud has started just now.
-  database::config::general::setJustStarted (true);
+  database::config::general::set_just_started (true);
 #endif
 
   

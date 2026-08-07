@@ -201,7 +201,7 @@ void timer_index()
             // If the binary quits, the shell script or service notice that and restart the binary.
             if (hour == 0)
             {
-                if ((minute >= 1) or restart_attempt)
+                if ((minute == 1) or restart_attempt)
                 {
                     if (not database::config::general::getJustStarted())
                     {

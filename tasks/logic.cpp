@@ -145,7 +145,7 @@ std::string to_string(const tasks::enums::task& task)
 struct Task
 {
     tasks::enums::task task{tasks::enums::task::none};
-    std::vector<std::string> parameters;
+    std::vector<std::string> parameters{};
     constexpr auto operator<=>(const Task&) const = default;
 };
 
@@ -528,7 +528,7 @@ void tasks_logic_start_thread_pool(const std::size_t num_threads) // Todo
         {
             while (true)
             {
-                Task task;
+                Task task{};
                 // The reason for putting the below code here is to unlock the queue
                 // before executing the task so that other threads can perform enqueue tasks.
                 {

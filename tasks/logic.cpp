@@ -142,12 +142,14 @@ std::string to_string(const tasks::enums::task& task)
 }
 
 
+namespace {
 struct Task
 {
     tasks::enums::task task{tasks::enums::task::none};
     std::vector<std::string> parameters{};
     constexpr auto operator<=>(const Task&) const = default;
 };
+}
 
 
 static std::ostream& operator<<(std::ostream& os, const Task& task) noexcept
@@ -444,38 +446,48 @@ static void tasks_logic_run_one(Task task)
             resource_logic_study_light_module_list_refresh();
             break;
         }
-#ifdef HAVE_CLIENT
     case tasks::enums::task::produce_bibles_transferfile:
         {
+#ifdef HAVE_CLIENT
             system_logic_produce_bibles_file(filter::string::convert_to_int(parameter1));
+#endif
             break;
         }
     case tasks::enums::task::import_bibles_transferfile:
         {
+#ifdef HAVE_CLIENT
             system_logic_import_bibles_file(parameter1);
+#endif
             break;
         }
     case tasks::enums::task::produce_notes_transferfile:
         {
+#ifdef HAVE_CLIENT
             system_logic_produce_notes_file(filter::string::convert_to_int(parameter1));
+#endif
             break;
         }
     case tasks::enums::task::import_notes_transferfile:
         {
+#ifdef HAVE_CLIENT
             system_logic_import_notes_file(parameter1);
+#endif
             break;
         }
     case tasks::enums::task::produce_resources_transferfile:
         {
+#ifdef HAVE_CLIENT
             system_logic_produce_resources_file(filter::string::convert_to_int(parameter1));
+#endif
             break;
         }
     case tasks::enums::task::import_resources_transferfile:
         {
+#ifdef HAVE_CLIENT
             system_logic_import_resources_file(parameter1);
+#endif
             break;
         }
-#endif
     case tasks::enums::task::delete_changes:
         {
             changes_clear_notifications_user(parameter1, parameter2);

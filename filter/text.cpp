@@ -674,7 +674,7 @@ void Filter_Text::process_usfm ()
                 filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               }
               // Do nothing with the closing marker.
-              break; // Todo
+              break;
             }
             case stylesv2::Type::verse:
             {

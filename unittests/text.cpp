@@ -33,10 +33,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/diff.h>
 #include "usfm.h"
 
-constexpr const char* bible {"unittest"};
+constexpr auto bible {"unittest"};
 
-constexpr const char* text_odt {"/tmp/test.odt"};
-constexpr const char*  text_txt {"/tmp/test.txt"};
+constexpr auto text_odt {"/tmp/test.odt"};
+constexpr auto text_txt {"/tmp/test.txt"};
 
 
 class filter_text : public testing::Test {
@@ -58,7 +58,7 @@ protected:
 // Test basic formatting into OpenDocument.
 TEST_F (filter_text, extract)
 {
-  const std::string usfm = R"(
+    const std::string usfm = R"(
 \id GEN
 \h Header
 \h1 Header1
@@ -77,41 +77,42 @@ TEST_F (filter_text, extract)
 \p
 \v 2 This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2.
 )";
-  Filter_Text filter_text = Filter_Text (bible);
-  filter_text.odf_text_standard = new odf_text (bible);
-  filter_text.add_usfm_code (usfm);
-  filter_text.run (stylesv2::standard_sheet ());
-  // Check that it finds the running headers.
-  const int desiredRunningHeaders = 5;
-  const int actualRunningHeaders = static_cast<int>(filter_text.runningHeaders.size());
-  EXPECT_EQ (desiredRunningHeaders, actualRunningHeaders);
-  if (actualRunningHeaders == desiredRunningHeaders) {
-    EXPECT_EQ (1, filter_text.runningHeaders[0].m_book);
-    EXPECT_EQ (0, filter_text.runningHeaders[0].m_chapter);
-    EXPECT_EQ ("0", filter_text.runningHeaders[0].m_verse);
-    EXPECT_EQ ("h", filter_text.runningHeaders[0].m_marker);
-    EXPECT_EQ ("Header", filter_text.runningHeaders[0].m_value);
-    EXPECT_EQ (1, filter_text.runningHeaders[1].m_book);
-    EXPECT_EQ (0, filter_text.runningHeaders[1].m_chapter);
-    EXPECT_EQ ("0", filter_text.runningHeaders[1].m_verse);
-    EXPECT_EQ ("h1", filter_text.runningHeaders[1].m_marker);
-    EXPECT_EQ ("Header1", filter_text.runningHeaders[1].m_value);
-    EXPECT_EQ (1, filter_text.runningHeaders[2].m_book);
-    EXPECT_EQ (0, filter_text.runningHeaders[2].m_chapter);
-    EXPECT_EQ ("0", filter_text.runningHeaders[2].m_verse);
-    EXPECT_EQ ("h2", filter_text.runningHeaders[2].m_marker);
-    EXPECT_EQ ("Header2", filter_text.runningHeaders[2].m_value);
-    EXPECT_EQ (1, filter_text.runningHeaders[3].m_book);
-    EXPECT_EQ (0, filter_text.runningHeaders[3].m_chapter);
-    EXPECT_EQ ("0", filter_text.runningHeaders[3].m_verse);
-    EXPECT_EQ ("h3", filter_text.runningHeaders[3].m_marker);
-    EXPECT_EQ ("Header3", filter_text.runningHeaders[3].m_value);
-    EXPECT_EQ (1, filter_text.runningHeaders[4].m_book);
-    EXPECT_EQ (2, filter_text.runningHeaders[4].m_chapter);
-    EXPECT_EQ ("0", filter_text.runningHeaders[4].m_verse);
-    EXPECT_EQ ("h", filter_text.runningHeaders[4].m_marker);
-    EXPECT_EQ ("Header4", filter_text.runningHeaders[4].m_value);
-  }
+    Filter_Text filter_text = Filter_Text(bible);
+    filter_text.odf_text_standard = new odf_text(bible);
+    filter_text.add_usfm_code(usfm);
+    filter_text.run(stylesv2::standard_sheet());
+    // Check that it finds the running headers.
+    const int desiredRunningHeaders = 5;
+    const int actualRunningHeaders = static_cast<int>(filter_text.runningHeaders.size());
+    EXPECT_EQ(desiredRunningHeaders, actualRunningHeaders);
+    if (actualRunningHeaders == desiredRunningHeaders)
+    {
+        EXPECT_EQ(1, filter_text.runningHeaders[0].m_book);
+        EXPECT_EQ(0, filter_text.runningHeaders[0].m_chapter);
+        EXPECT_EQ("0", filter_text.runningHeaders[0].m_verse);
+        EXPECT_EQ("h", filter_text.runningHeaders[0].m_marker);
+        EXPECT_EQ("Header", filter_text.runningHeaders[0].m_value);
+        EXPECT_EQ(1, filter_text.runningHeaders[1].m_book);
+        EXPECT_EQ(0, filter_text.runningHeaders[1].m_chapter);
+        EXPECT_EQ("0", filter_text.runningHeaders[1].m_verse);
+        EXPECT_EQ("h1", filter_text.runningHeaders[1].m_marker);
+        EXPECT_EQ("Header1", filter_text.runningHeaders[1].m_value);
+        EXPECT_EQ(1, filter_text.runningHeaders[2].m_book);
+        EXPECT_EQ(0, filter_text.runningHeaders[2].m_chapter);
+        EXPECT_EQ("0", filter_text.runningHeaders[2].m_verse);
+        EXPECT_EQ("h2", filter_text.runningHeaders[2].m_marker);
+        EXPECT_EQ("Header2", filter_text.runningHeaders[2].m_value);
+        EXPECT_EQ(1, filter_text.runningHeaders[3].m_book);
+        EXPECT_EQ(0, filter_text.runningHeaders[3].m_chapter);
+        EXPECT_EQ("0", filter_text.runningHeaders[3].m_verse);
+        EXPECT_EQ("h3", filter_text.runningHeaders[3].m_marker);
+        EXPECT_EQ("Header3", filter_text.runningHeaders[3].m_value);
+        EXPECT_EQ(1, filter_text.runningHeaders[4].m_book);
+        EXPECT_EQ(2, filter_text.runningHeaders[4].m_chapter);
+        EXPECT_EQ("0", filter_text.runningHeaders[4].m_verse);
+        EXPECT_EQ("h", filter_text.runningHeaders[4].m_marker);
+        EXPECT_EQ("Header4", filter_text.runningHeaders[4].m_value);
+    }
   
   // Check table of contents items.
   const int desiredlongTOCs = 1;

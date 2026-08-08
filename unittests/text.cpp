@@ -137,10 +137,10 @@ TEST_F (filter_text, extract)
   }
   
   // Check book abbreviation.
-  const int desiredbookAbbreviations = 1;
-  const size_t actualbookAbbreviations = filter_text.bookAbbreviations.size();
-  EXPECT_EQ (desiredbookAbbreviations, actualbookAbbreviations);
-  if (desiredbookAbbreviations == static_cast<int>(actualbookAbbreviations)) {
+    constexpr int desired_book_abbreviations = 1;
+  const size_t actual_book_abbreviations = filter_text.bookAbbreviations.size();
+  EXPECT_EQ (desired_book_abbreviations, actual_book_abbreviations);
+  if (desired_book_abbreviations == static_cast<int>(actual_book_abbreviations)) {
     EXPECT_EQ (1, filter_text.bookAbbreviations[0].m_book);
     EXPECT_EQ (0, filter_text.bookAbbreviations[0].m_chapter);
     EXPECT_EQ ("0", filter_text.bookAbbreviations[0].m_verse);
@@ -149,10 +149,10 @@ TEST_F (filter_text, extract)
   }
   
   // Check published chapter markers.
-  const int desiredpublished_chapter_markers = 2;
-  const size_t actualpublished_chapter_markers = filter_text.published_chapter_markers.size();
-  EXPECT_EQ (desiredpublished_chapter_markers, actualpublished_chapter_markers);
-  if (desiredpublished_chapter_markers == static_cast<int>(actualpublished_chapter_markers)) {
+    constexpr int desired_published_chapter_markers = 2;
+  const size_t actual_published_chapter_markers = filter_text.published_chapter_markers.size();
+  EXPECT_EQ (desired_published_chapter_markers, actual_published_chapter_markers);
+  if (desired_published_chapter_markers == static_cast<int>(actual_published_chapter_markers)) {
     EXPECT_EQ (1, filter_text.published_chapter_markers[0].m_book);
     EXPECT_EQ (1, filter_text.published_chapter_markers[0].m_chapter);
     EXPECT_EQ ("0", filter_text.published_chapter_markers[0].m_verse);
@@ -209,7 +209,7 @@ TEST_F (filter_text, new_page_between_books)
   "\\p Text Matthew 2\n"
   "\\rem Comment\n"
   "\\xxx Unknown markup\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -242,7 +242,7 @@ TEST_F (filter_text, new_page_between_books)
   "Text Matthew 2\n"
   "\n";
   EXPECT_EQ (filter::string::trim (standard), filter::string::trim (odt));
-  EXPECT_EQ ((std::vector<std::string>{"Matthew 2:0 Unknown marker \\xxx, formatting error: Unknown markup"}), filter_text.fallout);
+  EXPECT_EQ (std::vector<std::string>{"Matthew 2:0 Unknown marker \\xxx, formatting error: Unknown markup"}, filter_text.fallout);
   EXPECT_EQ ((std::vector<std::string>{"Genesis 0:0 Text encoding: \\ide XYZ", "Matthew 2:0 Comment: \\rem Comment"}), filter_text.info);
 }
 
@@ -254,7 +254,7 @@ TEST_F (filter_text, books_odt_headers)
   std::string directory = filter_url_create_root_path ({"unittests", "tests"});
   std::string usfm_ruth = filter_url_file_get_contents (filter_url_create_path ({directory, "08-Ruth.usfm"}));
   std::string usfm_1_peter = filter_url_file_get_contents (filter_url_create_path ({directory, "60-1Peter.usfm"}));
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm_ruth);
   filter_text.add_usfm_code (usfm_1_peter);
@@ -305,16 +305,16 @@ TEST_F (filter_text, transform_verse_numbers)
   "\\v 3 Verse Three.\n"
   "\\v 4 Verse Four.\n"
   "\\v 5 Verse Five.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
-  int ret = odf2txt (text_odt, text_txt);
+  const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::string::replace ("  ", "", odt);
-  std::string standard = ""
+  const std::string standard = ""
   "Genesis\n"
   "\n"
   "1 Verse One.\n"
@@ -333,7 +333,7 @@ TEST_F (filter_text, footnotes_xrefs_1)
   R"(\id GEN)" "\n"
   R"(\v 1 Text 1\x + \xt Isa. 1.1.\x*\x - \xt Isa. 2.2.\x*\x + \xt Isa. 3.3.\x*, text 2\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f*, text3.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*)" "\n"
   ;
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -384,7 +384,7 @@ TEST_F (filter_text, footnotes_xrefs_new_chapters)
 \v 6 Note 6\f + \ft Note 6.\f*.
 )";
   usfm = filter::string::trim (usfm);
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -449,7 +449,7 @@ TEST_F (filter_text, transform_published_verse_numbers)
 \v 4 \vp ၄။\vp* မည်သည့်အိမ်ကိုမဆို သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍ ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
 )";
   usfm = filter::string::trim (usfm);
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -479,11 +479,12 @@ TEST_F (filter_text, vp_no_space_after_v)
 \p
 \v 1 \vp A\vp* Verse text.
 )";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.text_text = new Text_Text ();
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
   const std::string output = filter_text.text_text->get ();
+  // ReSharper disable once CppVariableCanBeMadeConstexpr
   const std::string standard = R"(
 1
 A Verse text.
@@ -504,7 +505,7 @@ TEST_F (filter_text, clear_text_export_1)
   "\\c 1\n"
   "\\p\n"
   "\\v 1 In the be\\x + \\xt Isa. 1.1.\\x*\\x - \\xt Isa. 2.2.\\x*ginning, God created\\f + \\fk Word1: \\fl Heb. \\fq Explanation1.\\f*\\f + \\fk Word2: \\fl Heb. \\fq Explanation2.\\f* the heavens and the earth.\\f + \\fk Test: \\fl Heb. \\fq Note at the very end.\\f*\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.text_text = new Text_Text ();
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -539,7 +540,7 @@ TEST_F (filter_text, clear_text_export_2)
   "\\p\n"
   "\\v 1 Chapter 2, verse one.\n"
   "\\v 2 Verse two.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.text_text = new Text_Text ();
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -576,7 +577,7 @@ TEST_F (filter_text, verse_headings_1)
   "\\s Heading three\n"
   "\\p\n"
   "\\v 1 Verse one.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -601,7 +602,7 @@ TEST_F (filter_text, verse_headings_2)
   "\\s Heading \\add two\\add*\n"
   "\\p\n"
   "\\v 3 Verse three\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -632,7 +633,7 @@ TEST_F (filter_text, verses_text_1)
   "\\s Heading three\n"
   "\\p\n"
   "\\v 1 Verse one\\x + \\xt Isa. 1.1.\\x*.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -659,7 +660,7 @@ TEST_F (filter_text, verses_text_2)
   "\\v 1 He said:\n"
   "\\p I will sing to the Lord.\n"
   "\\v 2 The Lord is my strength.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -683,7 +684,7 @@ TEST_F (filter_text, paragraph_starting_markers)
   "\\q1 I will sing to the Lord.\n"
   "\\v 2 The Lord is my strength.\n"
   "\\q2 I trust in Him.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -696,7 +697,7 @@ TEST_F (filter_text, improved_paragraph_detection)
 {
   const std::string path = filter_url_create_root_path ({"unittests", "tests", "ShonaNumbers23.usfm"});
   const std::string usfm = filter_url_file_get_contents (path);
-  Filter_Text filter_text = Filter_Text (std::string());
+  Filter_Text filter_text("");
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -763,7 +764,7 @@ TEST_F (filter_text, embedded_character_styles_to_text)
   "\\p\n"
   "\\v 1 He said: I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n"
   "\\v 2 The \\nd Lord\\nd* is my strength.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -784,11 +785,11 @@ TEST_F (filter_text, embedded_character_styles_to_html_1)
   "\\c 1\n"
   "\\p\n"
   "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.html_text_standard = new HtmlText (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
-  std::string html = filter_text.html_text_standard->get_inner_html ();
+  const std::string html = filter_text.html_text_standard->get_inner_html ();
   const std::string standard =
   R"(<p class="p">)"
   R"(<span class="dropcaps">1</span>)"
@@ -809,7 +810,7 @@ TEST_F (filter_text, embedded_character_styles_to_html_2)
   "\\c 1\n"
   "\\p\n"
   "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.html_text_standard = new HtmlText (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -828,12 +829,12 @@ TEST_F (filter_text, embedded_character_styles_to_html_3)
   "\\c 1\n"
   "\\p\n"
   "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.html_text_standard = new HtmlText (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
-  std::string html = filter_text.html_text_standard->get_inner_html ();
-  std::string standard = R"(<p class="p"><span class="dropcaps">1</span><span>I will sing </span><span class="add">to the </span><span class="add nd">Lord</span><span>.</span></p>)";
+  const std::string html = filter_text.html_text_standard->get_inner_html ();
+  const std::string standard = R"(<p class="p"><span class="dropcaps">1</span><span>I will sing </span><span class="add">to the </span><span class="add nd">Lord</span><span>.</span></p>)";
   EXPECT_EQ (standard, html);
 }
 
@@ -847,7 +848,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_1)
   "\\c 1\n"
   "\\p\n"
   "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -856,7 +857,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_1)
   EXPECT_EQ (0, ret);
   std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::string::replace ("  ", "", odt);
-  std::string standard = ""
+  const std::string standard = ""
   "Genesis\n"
   "\n"
   "Genesis 1\n"
@@ -874,7 +875,7 @@ TEST_F (filter_text, generate_text_note_citations)
   std::string usfm =
   "\\id GEN\n"
   "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x* text\\f + \\fk Word: \\fl Heb. \\fq Explanation1.\\f* text\\fe + \\fk Word: \\fl Heb. \\fq Explanation1.\\fe*.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_text_and_note_citations = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -899,7 +900,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_2)
   "\\c 1\n"
   "\\p\n"
   "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -929,7 +930,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_3)
   "\\c 1\n"
   "\\p\n"
   "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -970,16 +971,16 @@ TEST_F (filter_text, chapter_label_in_chapter_zero)
 \p
 \v 2 Jesus came to save the people.
 )";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
   
   // Check chapter labels.
-  const int desiredchapter_labels = 1;
-  const size_t actualchapter_labels = filter_text.chapter_labels.size();
-  EXPECT_EQ (desiredchapter_labels, actualchapter_labels);
-  if (desiredchapter_labels == static_cast<int>(actualchapter_labels)) {
+  constexpr int desired_chapter_labels = 1;
+  const size_t actual_chapter_labels = filter_text.chapter_labels.size();
+  EXPECT_EQ (desired_chapter_labels, actual_chapter_labels);
+  if (desired_chapter_labels == static_cast<int>(actual_chapter_labels)) {
     EXPECT_EQ (1, filter_text.chapter_labels[0].m_book);
     EXPECT_EQ (0, filter_text.chapter_labels[0].m_chapter);
     EXPECT_EQ ("0", filter_text.chapter_labels[0].m_verse);
@@ -1035,16 +1036,16 @@ TEST_F (filter_text, chapter_label_in_chapters)
 \p
 \v 2 Jesus came to save the people.
 )";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
   
   // Check chapter labels.
-  const int desiredchapter_labels = 2;
-  const size_t actualchapter_labels = filter_text.chapter_labels.size();
-  EXPECT_EQ (desiredchapter_labels, actualchapter_labels);
-  if (desiredchapter_labels == static_cast<int>(actualchapter_labels)) {
+  constexpr int desired_chapter_labels = 2;
+  const size_t actual_chapter_labels = filter_text.chapter_labels.size();
+  EXPECT_EQ (desired_chapter_labels, actual_chapter_labels);
+  if (desired_chapter_labels == static_cast<int>(actual_chapter_labels)) {
     EXPECT_EQ (1, filter_text.chapter_labels[0].m_book);
     EXPECT_EQ (1, filter_text.chapter_labels[0].m_chapter);
     EXPECT_EQ ("0", filter_text.chapter_labels[0].m_verse);
@@ -1093,7 +1094,7 @@ TEST_F (filter_text, footnotes_xrefs_plain_text)
 \v 2 This is verse two\f + Note 2\f*.
 \v 3 This is verse three\fe + Endnote 3\fe*.
 )";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
   constexpr size_t n {3};
@@ -1121,7 +1122,7 @@ TEST_F (filter_text, plain_text_notes_export)
 \v 2 This is verse two\f + Note 2\f*\x + Xref 2\x*.
 \v 3 This is verse three\fe + Endnote 3\fe*.
 )";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -1152,9 +1153,9 @@ TEST_F (filter_text, plain_text_notes_export)
   
   EXPECT_EQ (3, filter_text.verses_text_note_positions.size());
   EXPECT_EQ (std::vector <int>{}, filter_text.verses_text_note_positions [0]);
-  EXPECT_EQ ((std::vector <int>{17, 17}), filter_text.verses_text_note_positions [1]);
-  EXPECT_EQ ((std::vector <int>{17, 17}), filter_text.verses_text_note_positions [2]);
-  EXPECT_EQ (std::vector <int>{19}, filter_text.verses_text_note_positions [3]);
+  EXPECT_EQ ((std::vector {17, 17}), filter_text.verses_text_note_positions [1]);
+  EXPECT_EQ ((std::vector {17, 17}), filter_text.verses_text_note_positions [2]);
+  EXPECT_EQ (std::vector {19}, filter_text.verses_text_note_positions [3]);
   EXPECT_EQ (std::vector <int>{}, filter_text.verses_text_note_positions [4]);
 }
 
@@ -1168,7 +1169,7 @@ TEST_F (filter_text, incorrect_vp_markup)
 \v 1 \vp A Jesus is King.
 \v 2 \vp B Jesus is the son of God.
 )";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (filter::string::trim(usfm));
   filter_text.run (stylesv2::standard_sheet ());
@@ -1194,7 +1195,7 @@ TEST_F (filter_text, invalid_utf8_input)
   refresh_sandbox (false);
   std::string path = filter_url_create_root_path ({"unittests", "tests", "invalid-utf8-2.usfm"});
   std::string invalid_utf8_usfm = filter_url_file_get_contents (path);
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (filter::string::trim(invalid_utf8_usfm));
   filter_text.run (stylesv2::standard_sheet ());
@@ -1229,7 +1230,7 @@ TEST_F (filter_text, convert_image_to_format)
   // Test converting the USFM with an image to html.
   {
     const std::string standard_html = R"(<p class="p"><span class="dropcaps">1</span><span>Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%"/><p class="fig"><span>caption</span></p><p><span class="v">2</span><span> </span><span>Verse two.</span></p>)";
-    Filter_Text filter_text = Filter_Text (bible);
+    Filter_Text filter_text(bible);
     filter_text.html_text_standard = new HtmlText (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (stylesv2::standard_sheet());
@@ -1244,7 +1245,7 @@ TEST_F (filter_text, convert_image_to_format)
   }
   // Test converting the USFM with an image to OpenDocument.
   {
-    Filter_Text filter_text = Filter_Text (bible);
+    Filter_Text filter_text(bible);
     filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (stylesv2::standard_sheet());
@@ -1288,7 +1289,7 @@ TEST_F (filter_text, export_no_word_level_attributes)
 \v 6 Text with multiple attributes: \w gracious|lemma="grace" x-myattr="metadata"\w*.
 \v 7 Text with \x - \xt 1|GEN 2:1\xt*\x*link reference.
   )";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet ());
@@ -1341,7 +1342,7 @@ TEST_F (filter_text, introduction_main_title)
   \c 1
   \imt Title
   )";
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet());
@@ -1349,6 +1350,7 @@ TEST_F (filter_text, introduction_main_title)
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   const std::string odt = filter_url_file_get_contents (text_txt);
+  // ReSharper disable once CppVariableCanBeMadeConstexpr
   const std::string standard =
   "Unknown 1   \n"
   "\n"
@@ -1367,7 +1369,7 @@ TEST_F (filter_text, sidebar)
   R"(\esbe)" "\n"
   R"(\p after)" "\n"
   ;
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet());
@@ -1390,7 +1392,7 @@ TEST_F (filter_text, sidebar)
 TEST_F (filter_text, usfm_with_all_markers)
 {
   const std::string usfm = usfm_with_all_markers;
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.html_text_standard = new HtmlText (bible);
   filter_text.text_text = new Text_Text ();
@@ -1413,12 +1415,13 @@ TEST_F (filter_text, usfm_with_all_markers)
   }
   
   const std::string text2_txt = filter_url_create_root_path ({"unittests", "tests", "text2.txt"});
-  const std::string standard_text = filter_url_file_get_contents (text2_txt);
-  if (text != standard_text) {
-    const std::string tmpfile = "/tmp/text2.txt";
-    filter_url_file_put_contents (tmpfile, text);
+  if (const std::string standard_text = filter_url_file_get_contents (text2_txt);
+    text != standard_text) {
+    // ReSharper disable once CppVariableCanBeMadeConstexpr
+    const std::string tmp_file = "/tmp/text2.txt";
+    filter_url_file_put_contents (tmp_file, text);
     ADD_FAILURE() << "The produced text differs from the reference text in file " << text2_txt << std::endl
-    << "The produced text was written to " << tmpfile;
+    << "The produced text was written to " << tmp_file;
     std::vector<std::string> removals;
     std::vector<std::string> additions;
     filter_diff_diff (filter::string::trim(standard_text), filter::string::trim(text), &removals, &additions);
@@ -1630,8 +1633,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(</div>)"
   ;
 
-  const auto make_readable = [] (const auto& html) {
-    return filter::string::replace ("</p>", "</p>\n", html);
+  const auto make_readable = [] (const auto& fn_html) {
+    return filter::string::replace ("</p>", "</p>\n", fn_html);
   };
 
   if (html != standard_html) {
@@ -1656,7 +1659,7 @@ TEST_F (filter_text, milestones)
   R"(\p text2\qt-e |attribute2="value2"\*)" "\n"
   ;
   
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet());
@@ -1664,6 +1667,7 @@ TEST_F (filter_text, milestones)
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
   const std::string odt = filter_url_file_get_contents (text_txt);
+  // ReSharper disable once CppVariableCanBeMadeConstexpr
   const std::string standard =
   "text1\n"
   "\n"
@@ -1678,7 +1682,7 @@ TEST_F (filter_text, tilde_to_no_break_space)
 {
   const std::string usfm = R"(\p text1~text2 ~ text3)" "\n";
   
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet());
@@ -1698,7 +1702,7 @@ TEST_F (filter_text, double_slash_to_soft_hyphen)
 {
   const std::string usfm = R"(\p text1//text2 // text3)" "\n";
   
-  Filter_Text filter_text = Filter_Text (bible);
+  Filter_Text filter_text(bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesv2::standard_sheet());

@@ -34,7 +34,7 @@ namespace filter::text {
 
 struct passage_marker_value
 {
-  passage_marker_value (int book, int chapter, std::string verse, std::string marker, std::string value);
+  explicit passage_marker_value (int book, int chapter, std::string verse, std::string marker, std::string value);
   int m_book {0};
   int m_chapter {0};
   std::string m_verse {};
@@ -62,7 +62,7 @@ private:
   // Container holding USFM, alternating between markup and text.
   std::vector <std::string> m_usfm_markers_and_text {};
   unsigned int usfm_markers_and_text_ptr {0};
-  bool unprocessed_usfm_code_available ();
+  bool unprocessed_usfm_code_available () const;
   void get_usfm_next_chapter ();
   
 public:
@@ -89,7 +89,7 @@ private:
   int m_current_chapter_number {0};
   // Verse number, e.g. "0", "1", "2", and so on.
   std::string m_current_verse_number {};
-  std::string get_current_passage_text ();
+  std::string get_current_passage_text () const;
   // Map of (book, chapter number).
   std::map <int, int> m_number_of_chapters_per_book {};
   void process_usfm ();
@@ -98,19 +98,19 @@ private:
   void create_paragraph_style (const stylesv2::Style* style, bool keep_with_next);
   void new_paragraph (const stylesv2::Style* style, bool keep_with_next);
   void apply_drop_caps_to_current_paragraph (const int drop_caps_length);
-  void put_chapter_number_in_frame (std::string chapter_text);
+  void put_chapter_number_in_frame (const std::string& chapter_text) const;
   std::string get_note_citation (const std::string& marker);
-  void ensure_note_paragraph_style (std::string marker, const stylesv2::Style* style);
+  void ensure_note_paragraph_style (const std::string& marker, const stylesv2::Style* style);
 
 public:
   // Container with objects (book, chapter, verse, marker, header value).
-  std::vector <filter::text::passage_marker_value> runningHeaders {};
+  std::vector <filter::text::passage_marker_value> running_headers {};
   // Container with objects (book, chapter, verse, marker, TOC value).
-  std::vector <filter::text::passage_marker_value> longTOCs {};
+  std::vector <filter::text::passage_marker_value> long_TOCs {};
   // Container with objects (book, chapter, verse, marker, TOC value).
-  std::vector <filter::text::passage_marker_value> shortTOCs {};
+  std::vector <filter::text::passage_marker_value> short_TOCs {};
   // Container with objects (book, chapter, verse, marker, abbreviation value).
-  std::vector <filter::text::passage_marker_value> bookAbbreviations {};
+  std::vector <filter::text::passage_marker_value> book_abbreviations {};
 
 public:
   // The following four containers are vectors of object (book, chapter, verse, marker, label value).
@@ -133,8 +133,8 @@ public:
   odf_text * odf_text_notes {nullptr};
 
 public:
-  void produce_info_document (std::string path);
-  void produceFalloutDocument (std::string path);
+  void produce_info_document (const std::string& path) const;
+  void produce_fallout_document (const std::string& path) const;
   std::vector <std::string> info {};
   std::vector <std::string> fallout {};
 private:
@@ -221,8 +221,8 @@ private:
 
 public:
 private:
-  void set_to_zero (std::string& value);
-  void close_text_style_all();
+  static void set_to_zero (std::string& value);
+  void close_text_style_all() const;
   
 private:
   std::string handle_tilde_and_double_slash(std::string);

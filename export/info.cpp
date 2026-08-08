@@ -71,7 +71,7 @@ void export_info (std::string bible, bool log)
   
   // Save files.
   filter_text.produce_info_document (informationdFilename);
-  filter_text.produceFalloutDocument (falloutFilename);
+  filter_text.produce_fallout_document (falloutFilename);
   
   
   // Clear the flag for this export.

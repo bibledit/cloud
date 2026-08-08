@@ -95,72 +95,72 @@ TEST_F(filter_text, extract)
     filter_text.run(stylesv2::standard_sheet());
     // Check that it finds the running headers.
     constexpr int desired_running_headers = 5;
-    const int actual_running_headers = static_cast<int>(filter_text.runningHeaders.size());
+    const int actual_running_headers = static_cast<int>(filter_text.running_headers.size());
     EXPECT_EQ(desired_running_headers, actual_running_headers);
     if (actual_running_headers == desired_running_headers)
     {
-        EXPECT_EQ(1, filter_text.runningHeaders[0].m_book);
-        EXPECT_EQ(0, filter_text.runningHeaders[0].m_chapter);
-        EXPECT_EQ("0", filter_text.runningHeaders[0].m_verse);
-        EXPECT_EQ("h", filter_text.runningHeaders[0].m_marker);
-        EXPECT_EQ("Header", filter_text.runningHeaders[0].m_value);
-        EXPECT_EQ(1, filter_text.runningHeaders[1].m_book);
-        EXPECT_EQ(0, filter_text.runningHeaders[1].m_chapter);
-        EXPECT_EQ("0", filter_text.runningHeaders[1].m_verse);
-        EXPECT_EQ("h1", filter_text.runningHeaders[1].m_marker);
-        EXPECT_EQ("Header1", filter_text.runningHeaders[1].m_value);
-        EXPECT_EQ(1, filter_text.runningHeaders[2].m_book);
-        EXPECT_EQ(0, filter_text.runningHeaders[2].m_chapter);
-        EXPECT_EQ("0", filter_text.runningHeaders[2].m_verse);
-        EXPECT_EQ("h2", filter_text.runningHeaders[2].m_marker);
-        EXPECT_EQ("Header2", filter_text.runningHeaders[2].m_value);
-        EXPECT_EQ(1, filter_text.runningHeaders[3].m_book);
-        EXPECT_EQ(0, filter_text.runningHeaders[3].m_chapter);
-        EXPECT_EQ("0", filter_text.runningHeaders[3].m_verse);
-        EXPECT_EQ("h3", filter_text.runningHeaders[3].m_marker);
-        EXPECT_EQ("Header3", filter_text.runningHeaders[3].m_value);
-        EXPECT_EQ(1, filter_text.runningHeaders[4].m_book);
-        EXPECT_EQ(2, filter_text.runningHeaders[4].m_chapter);
-        EXPECT_EQ("0", filter_text.runningHeaders[4].m_verse);
-        EXPECT_EQ("h", filter_text.runningHeaders[4].m_marker);
-        EXPECT_EQ("Header4", filter_text.runningHeaders[4].m_value);
+        EXPECT_EQ(1, filter_text.running_headers[0].m_book);
+        EXPECT_EQ(0, filter_text.running_headers[0].m_chapter);
+        EXPECT_EQ("0", filter_text.running_headers[0].m_verse);
+        EXPECT_EQ("h", filter_text.running_headers[0].m_marker);
+        EXPECT_EQ("Header", filter_text.running_headers[0].m_value);
+        EXPECT_EQ(1, filter_text.running_headers[1].m_book);
+        EXPECT_EQ(0, filter_text.running_headers[1].m_chapter);
+        EXPECT_EQ("0", filter_text.running_headers[1].m_verse);
+        EXPECT_EQ("h1", filter_text.running_headers[1].m_marker);
+        EXPECT_EQ("Header1", filter_text.running_headers[1].m_value);
+        EXPECT_EQ(1, filter_text.running_headers[2].m_book);
+        EXPECT_EQ(0, filter_text.running_headers[2].m_chapter);
+        EXPECT_EQ("0", filter_text.running_headers[2].m_verse);
+        EXPECT_EQ("h2", filter_text.running_headers[2].m_marker);
+        EXPECT_EQ("Header2", filter_text.running_headers[2].m_value);
+        EXPECT_EQ(1, filter_text.running_headers[3].m_book);
+        EXPECT_EQ(0, filter_text.running_headers[3].m_chapter);
+        EXPECT_EQ("0", filter_text.running_headers[3].m_verse);
+        EXPECT_EQ("h3", filter_text.running_headers[3].m_marker);
+        EXPECT_EQ("Header3", filter_text.running_headers[3].m_value);
+        EXPECT_EQ(1, filter_text.running_headers[4].m_book);
+        EXPECT_EQ(2, filter_text.running_headers[4].m_chapter);
+        EXPECT_EQ("0", filter_text.running_headers[4].m_verse);
+        EXPECT_EQ("h", filter_text.running_headers[4].m_marker);
+        EXPECT_EQ("Header4", filter_text.running_headers[4].m_value);
     }
 
     // Check table of contents items.
     constexpr int desired_long_TOCs = 1;
-    const size_t actual_long_TOCs = filter_text.longTOCs.size();
+    const size_t actual_long_TOCs = filter_text.long_TOCs.size();
     EXPECT_EQ(desired_long_TOCs, actual_long_TOCs);
     if (desired_long_TOCs == static_cast<int>(actual_long_TOCs))
     {
-        EXPECT_EQ(1, filter_text.longTOCs[0].m_book);
-        EXPECT_EQ(0, filter_text.longTOCs[0].m_chapter);
-        EXPECT_EQ("0", filter_text.longTOCs[0].m_verse);
-        EXPECT_EQ("toc1", filter_text.longTOCs[0].m_marker);
-        EXPECT_EQ("The Book of Genesis", filter_text.longTOCs[0].m_value);
+        EXPECT_EQ(1, filter_text.long_TOCs[0].m_book);
+        EXPECT_EQ(0, filter_text.long_TOCs[0].m_chapter);
+        EXPECT_EQ("0", filter_text.long_TOCs[0].m_verse);
+        EXPECT_EQ("toc1", filter_text.long_TOCs[0].m_marker);
+        EXPECT_EQ("The Book of Genesis", filter_text.long_TOCs[0].m_value);
     }
     constexpr int desired_short_TOCs = 1;
-    const size_t actual_short_TOCs = filter_text.shortTOCs.size();
+    const size_t actual_short_TOCs = filter_text.short_TOCs.size();
     EXPECT_EQ(desired_short_TOCs, actual_short_TOCs);
     if (desired_long_TOCs == static_cast<int>(actual_long_TOCs))
     {
-        EXPECT_EQ(1, filter_text.shortTOCs[0].m_book);
-        EXPECT_EQ(0, filter_text.shortTOCs[0].m_chapter);
-        EXPECT_EQ("0", filter_text.shortTOCs[0].m_verse);
-        EXPECT_EQ("toc2", filter_text.shortTOCs[0].m_marker);
-        EXPECT_EQ("Genesis", filter_text.shortTOCs[0].m_value);
+        EXPECT_EQ(1, filter_text.short_TOCs[0].m_book);
+        EXPECT_EQ(0, filter_text.short_TOCs[0].m_chapter);
+        EXPECT_EQ("0", filter_text.short_TOCs[0].m_verse);
+        EXPECT_EQ("toc2", filter_text.short_TOCs[0].m_marker);
+        EXPECT_EQ("Genesis", filter_text.short_TOCs[0].m_value);
     }
 
     // Check book abbreviation.
     constexpr int desired_book_abbreviations = 1;
-    const size_t actual_book_abbreviations = filter_text.bookAbbreviations.size();
+    const size_t actual_book_abbreviations = filter_text.book_abbreviations.size();
     EXPECT_EQ(desired_book_abbreviations, actual_book_abbreviations);
     if (desired_book_abbreviations == static_cast<int>(actual_book_abbreviations))
     {
-        EXPECT_EQ(1, filter_text.bookAbbreviations[0].m_book);
-        EXPECT_EQ(0, filter_text.bookAbbreviations[0].m_chapter);
-        EXPECT_EQ("0", filter_text.bookAbbreviations[0].m_verse);
-        EXPECT_EQ("toc3", filter_text.bookAbbreviations[0].m_marker);
-        EXPECT_EQ("Gen", filter_text.bookAbbreviations[0].m_value);
+        EXPECT_EQ(1, filter_text.book_abbreviations[0].m_book);
+        EXPECT_EQ(0, filter_text.book_abbreviations[0].m_chapter);
+        EXPECT_EQ("0", filter_text.book_abbreviations[0].m_verse);
+        EXPECT_EQ("toc3", filter_text.book_abbreviations[0].m_marker);
+        EXPECT_EQ("Gen", filter_text.book_abbreviations[0].m_value);
     }
 
     // Check published chapter markers.
@@ -918,7 +918,7 @@ TEST_F(filter_text, embedded_character_styles_to_html_3)
 TEST_F(filter_text, embedded_character_styles_to_odt_1)
 {
     // Open character style, and embedded character style, and close both normally.
-    std::string usfm =
+    const std::string usfm =
         "\\id GEN\n"
         "\\c 1\n"
         "\\p\n"
@@ -928,7 +928,7 @@ TEST_F(filter_text, embedded_character_styles_to_odt_1)
     filter_text.add_usfm_code(usfm);
     filter_text.run(stylesv2::standard_sheet());
     filter_text.odf_text_standard->save(text_odt);
-    int ret = odf2txt(text_odt, text_txt);
+    const int ret = odf2txt(text_odt, text_txt);
     EXPECT_EQ(0, ret);
     std::string odt = filter_url_file_get_contents(text_txt);
     odt = filter::string::replace("  ", "", odt);
@@ -947,7 +947,7 @@ TEST_F(filter_text, embedded_character_styles_to_odt_1)
 // Exercise bits in document to generate text and note citations.
 TEST_F(filter_text, generate_text_note_citations)
 {
-    std::string usfm =
+    const std::string usfm =
         "\\id GEN\n"
         "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x* text\\f + \\fk Word: \\fl Heb. \\fq Explanation1.\\f* text\\fe + \\fk Word: \\fl Heb. \\fq Explanation1.\\fe*.\n";
     Filter_Text filter_text(bible);
@@ -955,7 +955,7 @@ TEST_F(filter_text, generate_text_note_citations)
     filter_text.add_usfm_code(usfm);
     filter_text.run(stylesv2::standard_sheet());
     filter_text.odf_text_text_and_note_citations->save(text_odt);
-    int ret = odf2txt(text_odt, text_txt);
+    const int ret = odf2txt(text_odt, text_txt);
     EXPECT_EQ(0, ret);
     const std::string odt = filter_url_file_get_contents(text_txt);
     const std::string standard = ""
@@ -1000,7 +1000,7 @@ TEST_F(filter_text, embedded_character_styles_to_odt_2)
 TEST_F(filter_text, embedded_character_styles_to_odt_3)
 {
     // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
-    std::string usfm =
+    const std::string usfm =
         "\\id GEN\n"
         "\\c 1\n"
         "\\p\n"
@@ -1014,7 +1014,7 @@ TEST_F(filter_text, embedded_character_styles_to_odt_3)
     EXPECT_EQ(0, ret);
     std::string odt = filter_url_file_get_contents(text_txt);
     odt = filter::string::replace("  ", "", odt);
-    std::string standard =
+    const std::string standard =
         "Genesis\n"
         "\n"
         "Genesis 1\n"
@@ -1279,10 +1279,10 @@ TEST_F(filter_text, invalid_utf8_input)
     filter_text.add_usfm_code(filter::string::trim(invalid_utf8_usfm));
     filter_text.run(stylesv2::standard_sheet());
     filter_text.odf_text_standard->save(text_odt);
-    int ret = odf2txt(text_odt, text_txt);
+    const int ret = odf2txt(text_odt, text_txt);
     EXPECT_EQ(256, ret);
-    std::string odt = filter_url_file_get_contents(text_txt);
-    bool invalid_token = odt.find("not well-formed (invalid token)") != std::string::npos;
+    const std::string odt = filter_url_file_get_contents(text_txt);
+    const bool invalid_token = odt.find("not well-formed (invalid token)") != std::string::npos;
     EXPECT_EQ(true, invalid_token);
     // The above test produces logbook entries.
     // Clear them so they don't disturb the output in the terminal.
@@ -1294,7 +1294,9 @@ TEST_F(filter_text, invalid_utf8_input)
 TEST_F(filter_text, convert_image_to_format)
 {
     // Store images in the database that keeps the Bible images.
+    // ReSharper disable once CppVariableCanBeMadeConstexpr
     const std::string image_2_name = "bibleimage2.png";
+    // ReSharper disable once CppVariableCanBeMadeConstexpr
     const std::string image_3_name = "bibleimage3.png";
     const std::string image_2_path = filter_url_create_root_path({"unittests", "tests", image_2_name});
     const std::string image_3_path = filter_url_create_root_path({"unittests", "tests", image_3_name});

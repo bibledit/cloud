@@ -564,16 +564,26 @@ void tasks_logic_start_thread_pool(const std::size_t num_threads) // Todo
                 }
 
                 // Run the task in this thread.
-                ++running_tasks;
+                struct RunningTasks
+                {
+                    explicit RunningTasks()
+                    {
+                        ++running_tasks;
+                    }
+                    ~ RunningTasks()
+                    {
+                        --running_tasks;
+                    }
+                };
                 try
                 {
+                    RunningTasks running_tasks_raii_wrapper;
                     tasks_logic_run_one(task);
                 }
                 catch (const std::exception& exception)
                 {
                     database::logs::log("Error running background task: " + std::string(exception.what()));
                 }
-                --running_tasks;
             }
         });
     }

@@ -564,19 +564,13 @@ void tasks_logic_start_thread_pool(const std::size_t num_threads) // Todo
                 }
 
                 // Run the task in this thread.
-                struct RunningTasks
-                {
-                    explicit RunningTasks()
-                    {
-                        ++running_tasks;
-                    }
-                    ~ RunningTasks()
-                    {
-                        --running_tasks;
-                    }
-                };
                 try
                 {
+                    struct RunningTasks
+                    {
+                        explicit RunningTasks() { ++running_tasks; }
+                        ~RunningTasks() { --running_tasks; }
+                    };
                     RunningTasks running_tasks_raii_wrapper;
                     tasks_logic_run_one(task);
                 }

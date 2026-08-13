@@ -608,8 +608,14 @@ void tasks_logic_stop_thread_pool() // Todo
 }
 
 
-int tasks_logic_queued_and_active_count()
+int tasks_logic_queue_size()
 {
     std::scoped_lock lock(queue_mutex);
-    return static_cast<int>(task_queue.size()) + running_tasks;
+    return static_cast<decltype(tasks_logic_queue_size())>(task_queue.size());
+}
+
+
+int tasks_logic_active_jobs_count ()
+{
+    return running_tasks;
 }

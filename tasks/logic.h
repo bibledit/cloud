@@ -27,4 +27,5 @@ void tasks_logic_queue (tasks::enums::task task, std::vector <std::string> param
 bool tasks_logic_queued (tasks::enums::task task, std::vector <std::string> parameters = {});
 void tasks_logic_start_thread_pool(std::size_t num_threads);
 void tasks_logic_stop_thread_pool();
-int tasks_logic_queued_and_active_count ();
+int tasks_logic_queue_size ();
+int tasks_logic_active_jobs_count ();

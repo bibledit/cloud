@@ -196,17 +196,17 @@ void timer_index()
 
 #ifdef HAVE_CLOUD
             // Bibledit Cloud quits at midnight.
-            // This keeps unlikely memory leaks in check when Bibledit Cloud runs for months or years.
-            // If the binary quits, the shell script or service notices that and restarts the binary.
-            if (hour == 0)
+            // This keeps unlikely resource leaks in check when Bibledit Cloud runs for months or years.
+            // If the binary quits, the shell script or service restarts the binary.
+            if (hour == 0 or restart_attempt)
             {
-                if ((minute == 1) or restart_attempt)
+                if (minute == 1 or restart_attempt)
                 {
                     if (not database::config::general::get_just_started())
                     {
-                        if (tasks_logic_queued_and_active_count())
+                        if (tasks_logic_queue_size() or tasks_logic_active_jobs_count())
                         {
-                            database::logs::log("Server is due to restart itself but does not because of pending and active jobs");
+                            database::logs::log("Server is due to restart itself but does not because of " + std::to_string(tasks_logic_queue_size()) + " pending and " + std::to_string(tasks_logic_active_jobs_count()) + " active jobs");
                             restart_attempt++;
                         }
                         else

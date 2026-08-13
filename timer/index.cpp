@@ -48,7 +48,7 @@ void timer_index()
     int previous_second{-1};
     int previous_minute{-1};
     [[maybe_unused]] int google_translate_authentication_token_age_minute{0};
-    int restart_attempt {0};
+    bool server_restart_attempted {false};
 
 #ifdef HAVE_CLOUD
     // Right after startup, update the Google Translate access token.
@@ -198,16 +198,16 @@ void timer_index()
             // Bibledit Cloud quits at midnight.
             // This keeps unlikely resource leaks in check when Bibledit Cloud runs for months or years.
             // If the binary quits, the shell script or service restarts the binary.
-            if (hour == 0 or restart_attempt)
+            if (hour == 0 or server_restart_attempted)
             {
-                if (minute == 1 or restart_attempt)
+                if (minute == 1 or server_restart_attempted)
                 {
                     if (not database::config::general::get_just_started())
                     {
                         if (tasks_logic_queue_size() or tasks_logic_active_jobs_count())
                         {
                             database::logs::log("Server is due to restart itself but does not because of " + std::to_string(tasks_logic_queue_size()) + " pending and " + std::to_string(tasks_logic_active_jobs_count()) + " active jobs");
-                            restart_attempt++;
+                            server_restart_attempted = true;
                         }
                         else
                         {

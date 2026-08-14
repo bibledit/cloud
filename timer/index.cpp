@@ -17,19 +17,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <timer/index.h>
-#include <database/logs.h>
-#include <database/config/general.h>
-#include <database/state.h>
-#include <config/globals.h>
-#include <filter/date.h>
-#include <tasks/logic.h>
-#include <sendreceive/logic.h>
 #include <changes/logic.h>
 #include <checks/logic.h>
-#include <export/logic.h>
+#include <config/globals.h>
+#include <database/logs.h>
+#include <database/state.h>
+#include <database/config/general.h>
 #include <developer/logic.h>
+#include <export/logic.h>
+#include <filter/date.h>
+#include <sendreceive/logic.h>
 #include <setup/logic.h>
+#include <tasks/logic.h>
+#include <timer/index.h>
 
 
 // CPU-intensive actions run at night.
@@ -71,11 +71,51 @@ void timer_index()
             const int second = filter::date::get_second_within_minute(local_seconds);
             const int minute = filter::date::get_minute_within_hour(local_seconds);
             const int hour = filter::date::get_hour_within_day(local_seconds);
-            [[maybe_unused]] const int weekday = filter::date::get_day_within_week(local_seconds);
+#ifdef HAVE_CLOUD
+            const int weekday = filter::date::get_day_within_week(local_seconds);
+#endif
 
             // Run once per second.
             if (second == previous_second) continue;
             previous_second = second;
+
+            // Bibledit Cloud quits at midnight.
+            // This keeps unlikely resource leaks in check when Bibledit Cloud runs for months or years.
+            // If the binary quits, the shell script or service restarts the binary.
+            // Check on server restart towards the end of the minute.
+            // Then there will be fewer running tasks than at the start of the minute,
+            // because far by most tasks are queued at the full minute.
+#ifdef HAVE_CLOUD
+            if (second == 55) // Todo
+            {
+                if (hour == 0 or server_restart_attempted)
+                {
+                    if (minute == 1 or server_restart_attempted)
+                    {
+                        if (not database::config::general::get_just_started())
+                        {
+                            if (tasks_logic_queue_size() or tasks_logic_active_jobs_count())
+                            {
+                                database::logs::log("Server is due to restart itself but does not because of " + std::to_string(tasks_logic_queue_size()) + " pending and " + std::to_string(tasks_logic_active_jobs_count()) + " active jobs");
+                                server_restart_attempted = true;
+                            }
+                            else
+                            {
+                                database::logs::log("Server restarts itself");
+                                exit(0);
+                            }
+                        }
+                    }
+                    // Clear flag in preparation of restart next minute.
+                    // This flag also has the purpose of ensuring the server restarts once during that minute,
+                    // rather than restarting repeatedly many times during that minute.
+                    if (minute == 0)
+                    {
+                        database::config::general::set_just_started(false);
+                    }
+                }
+            }
+#endif
 
             // Every second:
             // Check whether client sends/receives Bibles and Consultation Notes and other stuff.
@@ -193,38 +233,6 @@ void timer_index()
                     tasks_logic_queue(tasks::enums::task::clean_demo);
                 }
             }
-
-#ifdef HAVE_CLOUD
-            // Bibledit Cloud quits at midnight.
-            // This keeps unlikely resource leaks in check when Bibledit Cloud runs for months or years.
-            // If the binary quits, the shell script or service restarts the binary.
-            if (hour == 0 or server_restart_attempted)
-            {
-                if (minute == 1 or server_restart_attempted)
-                {
-                    if (not database::config::general::get_just_started())
-                    {
-                        if (tasks_logic_queue_size() or tasks_logic_active_jobs_count())
-                        {
-                            database::logs::log("Server is due to restart itself but does not because of " + std::to_string(tasks_logic_queue_size()) + " pending and " + std::to_string(tasks_logic_active_jobs_count()) + " active jobs");
-                            server_restart_attempted = true;
-                        }
-                        else
-                        {
-                            database::logs::log("Server restarts itself");
-                            exit(0);
-                        }
-                    }
-                }
-                // Clear flag in preparation of restart next minute.
-                // This flag also has the purpose of ensuring the server restarts once during that minute,
-                // rather than restarting repeatedly many times during that minute.
-                if (minute == 0)
-                {
-                    database::config::general::set_just_started(false);
-                }
-            }
-#endif
 
 #ifdef HAVE_CLOUD
             // Email notes statistics to the users.

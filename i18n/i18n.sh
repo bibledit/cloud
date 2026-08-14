@@ -63,7 +63,7 @@ find . -iname "*.html" > i18n.html
 
 
 echo Transfer translatable strings from the html files to a C++ file.
-g++ -std=c++17 -I. -I.. i18n/i18n.cpp
+g++ -std=c++20 -I. -I.. i18n/i18n.cpp
 ./a.out
 rm a.out
 

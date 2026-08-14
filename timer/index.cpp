@@ -86,7 +86,7 @@ void timer_index()
             // Then there will be fewer running tasks than at the start of the minute,
             // because far by most tasks are queued at the full minute.
 #ifdef HAVE_CLOUD
-            if (second == 55) // Todo
+            if (second == 55)
             {
                 if (hour == 0 or server_restart_attempted)
                 {
@@ -102,7 +102,7 @@ void timer_index()
                             else
                             {
                                 database::logs::log("Server restarts itself");
-                                exit(0);
+                                std::exit(0);
                             }
                         }
                     }
@@ -150,8 +150,9 @@ void timer_index()
             // On a production website running on an inexpensive virtual private server,
             // with 512 Mb of memory and a fast network connection,
             // sending and receiving two Bibles takes more than 15 minutes when there are many changes.
-            const bool send_receive = (hour == 0 and minute == 5);
-            const bool repeat = (minute % 5) == 0;
+            const bool send_receive = hour == 0 and minute == 5;
+            // ReSharper disable once CppTooWideScopeInitStatement
+            const bool repeat = minute % 5 == 0;
             if (send_receive or repeat)
             {
                 sendreceive_queue_all(send_receive);
@@ -288,7 +289,7 @@ void timer_index()
         {
             database::logs::log(e.what());
         }
-        catch (const std::exception* e)
+        catch (const std::exception* e) // NOLINT(*-throw-by-value-catch-by-reference)
         {
             database::logs::log(e->what());
         }

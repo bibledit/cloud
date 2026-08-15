@@ -17,107 +17,118 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <system/googletranslate.h>
-#include <assets/view.h>
-#include <assets/page.h>
-#include <assets/header.h>
 #include <assets/external.h>
-#include <filter/roles.h>
-#include <filter/url.h>
-#include <filter/google.h>
-#include <filter/shell.h>
-#include <locale/translate.h>
-#include <menu/logic.h>
+#include <assets/header.h>
+#include <assets/page.h>
+#include <assets/view.h>
 #include <database/logs.h>
+#include <filter/google.h>
+#include <filter/roles.h>
+#include <filter/shell.h>
+#include <filter/url.h>
+#include <locale/translate.h>
+#include <system/googletranslate.h>
 
 
-std::string system_googletranslate_url ()
+std::string system_googletranslate_url()
 {
-  return "system/googletranslate";
+    return "system/googletranslate";
 }
 
 
-bool system_googletranslate_acl (Webserver_Request& webserver_request)
+bool system_googletranslate_acl(Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager);
+    return roles::access_control(webserver_request, roles::manager);
 }
 
 
-std::string system_googletranslate (Webserver_Request& webserver_request)
+std::string system_googletranslate(Webserver_Request& webserver_request)
 {
-  std::string page {};
-  std::string success {};
-  std::string error {};
-  
-  // The header.
-  Assets_Header header = Assets_Header (translate("Google Translate"), webserver_request);
-  page = header.run ();
-  
-  Assets_View view {};
-  
-  view.set_variable ("external", assets_external_logic_link_addon ());
-  
-  // The location of the googletranslate.txt file with required information about setup.
-  view.set_variable ("config", filter_url_create_root_path ({config::logic::config_folder (), "googletranslate.txt"}));
+    std::string success{};
+    std::string error{};
 
-  // Check whether the Google Translate JSON key can be read.
-  auto [ json_key, json_error ] = filter::google::get_json_key_value_error ();
-  if (!json_error.empty()) database::logs::log(json_error);
-  error.assign(json_error);
+    // The header.
+    Assets_Header header(translate("Google Translate"), webserver_request);
+    std::string page = header.run();
 
-  // Check whether gcloud has been installed on the server.
-  if (error.empty()) {
-    const bool gcloud_present = filter::shell::is_present (filter::shell::get_executable(filter::shell::Executable::gcloud));
-    if (!gcloud_present) {
-      error.assign("The gcloud CLI was not found on the server.");
+    Assets_View view{};
+
+    view.set_variable("external", assets_external_logic_link_addon());
+
+    // The location of the googletranslate.txt file with required information about setup.
+    view.set_variable("config", filter_url_create_root_path({config::logic::config_folder(), "googletranslate.txt"}));
+
+    // Check whether the Google Translate JSON key can be read.
+    const auto [json_key, json_error] = filter::google::get_json_key_value_error();
+    if (not json_error.empty())
+        database::logs::log(json_error);
+    error.assign(json_error);
+
+    // Check whether gcloud has been installed on the server.
+    if (error.empty())
+    {
+        const bool gcloud_present = filter::shell::is_present(
+            filter::shell::get_executable(filter::shell::Executable::gcloud));
+        if (not gcloud_present)
+        {
+            error.assign("The gcloud CLI was not found on the server.");
+        }
     }
-  }
 
-  // Check whether the service account can be activated.
-  if (error.empty()) {
-    auto [ activate_ok, activate_output ] = filter::google::activate_service_account ();
-    if (!activate_ok) error.assign(activate_output);
-    database::logs::log (activate_output);
-  }
+    // Check whether the service account can be activated.
+    if (error.empty())
+    {
+        const auto [activate_ok, activate_output] = filter::google::activate_service_account();
+        if (not activate_ok)
+            error.assign(activate_output);
+        database::logs::log(activate_output);
+    }
 
-  // Print and store the gcloud access token.
-  if (error.empty()) {
-    auto [ access_ok, access_token ] = filter::google::print_store_access_token ();
-    if (!access_ok) error.assign(access_token);
-    database::logs::log ("Access token: " + access_token);
-  }
+    // Print and store the gcloud access token.
+    if (error.empty())
+    {
+        const auto [access_ok, access_token] = filter::google::print_store_access_token();
+        if (not access_ok)
+            error.assign(access_token);
+        database::logs::log("Access token: " + access_token);
+    }
 
-  // Do a translation.
-  std::string english_text { "Jesus the Christ the Messiah" };
-  std::string greek_text;
-  if (error.empty()) {
-    auto [ trans_ok, translation, trans_err ] = filter::google::translate (english_text, "en", "el");
-    if (!trans_ok) error.assign(trans_err);
-    if (trans_ok) greek_text = translation;
-  }
-  
-  // Handle the OK message.
-  if (error.empty()) if (json_key.length()) {
-    std::stringstream ss;
-    ss << translate("The connection to Google Translate looks good.");
-    ss << " ";
-    ss << translate("An example translation was made.");
-    ss << " - ";
-    ss << translate ("English") << ": ";
-    ss << std::quoted(english_text);
-    ss << " - ";
-    ss << translate ("Greek") << ": ";
-    ss << std::quoted(greek_text);
-    success = ss.str();
-  }
-  
-  // Set the feedback.
-  view.set_variable ("success", success);
-  view.set_variable ("error", error);
+    // Do a translation.
+    const std::string english_text{"Jesus the Christ the Messiah"};
+    std::string greek_text;
+    if (error.empty())
+    {
+        const auto [trans_ok, translation, trans_err] = filter::google::translate(english_text, "en", "el");
+        if (trans_ok)
+            greek_text.assign(translation);
+        else
+            error.assign(trans_err);
+    }
 
-  page += view.render ("system", "googletranslate");
-  page += assets_page::footer ();
-  return page;
+    // Handle the OK message.
+    if (error.empty())
+        if (not json_key.empty())
+        {
+            std::stringstream ss;
+            ss << translate("The connection to Google Translate looks good.");
+            ss << " ";
+            ss << translate("An example translation was made.");
+            ss << " - ";
+            ss << translate("English") << ": ";
+            ss << std::quoted(english_text);
+            ss << " - ";
+            ss << translate("Greek") << ": ";
+            ss << std::quoted(greek_text);
+            success = ss.str();
+        }
+
+    // Set the feedback.
+    view.set_variable("success", success);
+    view.set_variable("error", error);
+
+    page.append(view.render("system", "googletranslate"));
+    page.append(assets_page::footer());
+    return page;
 }
 
 

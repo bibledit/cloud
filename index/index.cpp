@@ -63,7 +63,7 @@ std::string index_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user ()->set_basic_interface_mode (basic);
     menu_logic_tabbed_mode_save_json (webserver_request);
   }
-  
+
   // Upon app start, initialize the JSON for tabbed mode.
   // It should be done during the setup phase.
   // But in this case the setup phase does not provide user information.

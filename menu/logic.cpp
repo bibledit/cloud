@@ -81,12 +81,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workspace/index.h>
 #include <workspace/logic.h>
 #include <workspace/organize.h>
-#pragma clang diagnostic ignored "-Wunknown-warning-option"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wuseless-cast"
-#include <jsonxx/jsonxx.h>
-#pragma GCC diagnostic pop
+#include <nlohmann/json.hpp>
 #include <filter/css.h>
 #include <images/index.h>
 #include <read/index.h>
@@ -1344,16 +1339,6 @@ bool menu_logic_can_do_tabbed_mode()
 }
 
 
-// For internal repetitive use.
-static jsonxx::Object menu_logic_tabbed_mode_add_tab(std::string url, std::string label)
-{
-    jsonxx::Object object;
-    object << "url" << url;
-    object << "label" << label;
-    return object;
-}
-
-
 // This looks at the settings, and then generates JSON, and stores that in the general configuration.
 void menu_logic_tabbed_mode_save_json(Webserver_Request& webserver_request)
 {
@@ -1366,31 +1351,39 @@ void menu_logic_tabbed_mode_save_json(Webserver_Request& webserver_request)
         bool generate_json = database::config::general::get_menu_in_tabbed_view_on();
 
         // Tabbed view not possible in advanced mode.
-        if (!webserver_request.database_config_user()->get_basic_interface_mode())
+        if (not webserver_request.database_config_user()->get_basic_interface_mode())
         {
             generate_json = false;
         }
 
         if (generate_json)
         {
+            const auto menu_logic_tabbed_mode_add_tab = [] (const std::string& url, const std::string& label)
+            {
+                const nlohmann::json object {
+                    {"url", url},
+                    {"label", label}
+                };
+                return object;
+            };
             // Storage for the tabbed view.
-            jsonxx::Array json_array;
+            nlohmann::json json_array = nlohmann::json::array();
             // Adding tabs in the order an average translator uses them most of the time:
             // Add the Bible editor tab.
-            json_array << menu_logic_tabbed_mode_add_tab(editone_index_url(), menu_logic_translate_text());
+            json_array.push_back(menu_logic_tabbed_mode_add_tab(editone_index_url(), menu_logic_translate_text()));
             // Add the resources tab.
-            json_array << menu_logic_tabbed_mode_add_tab(resource_index_url(), menu_logic_resources_text());
+            json_array.push_back(menu_logic_tabbed_mode_add_tab(resource_index_url(), menu_logic_resources_text()));
             // Add the consultation notes tab.
-            json_array << menu_logic_tabbed_mode_add_tab(notes_index_url(), menu_logic_consultation_notes_text());
+            json_array.push_back(menu_logic_tabbed_mode_add_tab(notes_index_url(), menu_logic_consultation_notes_text()));
             // Add the change notifications, if enabled.
             if (webserver_request.database_config_user()->get_menu_changes_in_basic_mode())
             {
-                json_array << menu_logic_tabbed_mode_add_tab(changes_changes_url(), menu_logic_changes_text());
+                json_array.push_back(menu_logic_tabbed_mode_add_tab(changes_changes_url(), menu_logic_changes_text()));
             }
             // Add the preferences tab.
-            json_array << menu_logic_tabbed_mode_add_tab(personalize_index_url(), menu_logic_settings_text());
+            json_array.push_back(menu_logic_tabbed_mode_add_tab(personalize_index_url(), menu_logic_settings_text()));
             // JSON representation of the URLs.
-            json = json_array.json();
+            json = nlohmann::to_string(json_array);
         }
     }
 

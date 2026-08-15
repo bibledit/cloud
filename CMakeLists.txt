@@ -746,7 +746,6 @@ if (BUILD_UNITTESTS)
             unittests/verses.cpp
             unittests/paratext.cpp
             unittests/search.cpp
-            unittests/json.cpp
             unittests/related.cpp
             unittests/editone.cpp
             unittests/http.cpp

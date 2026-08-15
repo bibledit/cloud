@@ -17,18 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/logic.h>
+#include <database/logs.h>
 #include <filter/google.h>
-#include <filter/url.h>
 #include <filter/shell.h>
 #include <filter/string.h>
-#include <database/logs.h>
-#include <config/logic.h>
-#pragma GCC diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-warning-option"
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wuseless-cast"
-#include <jsonxx/jsonxx.h>
-#pragma GCC diagnostic pop
+#include <filter/url.h>
 #include <nlohmann/json.hpp>
 
 
@@ -85,7 +79,7 @@ std::pair<bool, std::string> print_store_access_token()
     std::string out_err;
     const int result = shell::run(command, out_err);
     // Check on success.
-    bool success = (result == 0);
+    bool success = result == 0;
     // Store the token if it was received, else clear it.
     // Trim the token to remove any new line it likely contains.
     if (success)
@@ -125,12 +119,12 @@ std::tuple<bool, std::string, std::string> translate(const std::string& text, co
     const std::string url{"https://translation.googleapis.com/language/translate/v2"};
 
     // Create the JSON data and POST it.
-    const nlohmann::json translation_data = nlohmann::json::object({
+    const nlohmann::json translation_data {
         {"q", text},
         {"source", source},
         {"target", target},
         {"format", "text"},
-    });
+    };
     std::string post_data = nlohmann::to_string(translation_data);
     std::string error;
     bool burst{false};
@@ -157,12 +151,8 @@ std::tuple<bool, std::string, std::string> translate(const std::string& text, co
     {
         try
         {
-            jsonxx::Object json_object;
-            json_object.parse(translation);
-            jsonxx::Object data = json_object.get<jsonxx::Object>("data");
-            jsonxx::Array translations = data.get<jsonxx::Array>("translations");
-            jsonxx::Object translated = translations.get<jsonxx::Object>(0);
-            translation = translated.get<jsonxx::String>("translatedText");
+            nlohmann::json j_object = nlohmann::json::parse(translation);
+            translation = j_object.at("data").at("translations").at(0).at("translatedText");
         }
         catch (const std::exception& exception)
         {
@@ -174,10 +164,8 @@ std::tuple<bool, std::string, std::string> translate(const std::string& text, co
         }
     }
 
-    if (!error.empty())
-    {
+    if (not error.empty())
         database::logs::log("Error while translating text: " + error);
-    }
 
     // Done.
     return {success, translation, error};
@@ -197,9 +185,10 @@ std::vector<std::pair<std::string, std::string>> get_languages(const std::string
     const std::string url{"https://translation.googleapis.com/language/translate/v2/languages"};
 
     // Create the JSON data to post.
-    jsonxx::Object request_data;
-    request_data << "target" << target;
-    std::string postdata = request_data.json();
+    const nlohmann::json request_data {
+        {"target", target}
+    };
+    const std::string post_data = nlohmann::to_string(request_data);
 
     std::string error;
     bool burst{false};
@@ -208,7 +197,7 @@ std::vector<std::pair<std::string, std::string>> get_languages(const std::string
         {"Content-Type", "application/json; charset=utf-8"},
         {"Authorization", "Bearer " + google_access_token}
     };
-    std::string result_json = filter_url_http_post(url, postdata, {}, error, burst, check_certificate, headers);
+    std::string result_json = filter_url_http_post(url, post_data, {}, error, burst, check_certificate, headers);
 
     // Parse the resulting JSON.
     // Example:
@@ -235,17 +224,14 @@ std::vector<std::pair<std::string, std::string>> get_languages(const std::string
     {
         try
         {
-            jsonxx::Object json_object;
-            json_object.parse(result_json);
-            jsonxx::Object data = json_object.get<jsonxx::Object>("data");
-            jsonxx::Array languages = data.get<jsonxx::Array>("languages");
-            for (size_t i = 0; i < languages.size(); i++)
+            nlohmann::json json_object = nlohmann::json::parse(result_json);
+            nlohmann::json languages = json_object.at("data").at("languages");
+            std::ranges::for_each(languages, [&language_codes_names](const auto& pair)
             {
-                jsonxx::Object language_name = languages.get<jsonxx::Object>(static_cast<unsigned>(i));
-                std::string language = language_name.get<jsonxx::String>("language");
-                std::string name = language_name.get<jsonxx::String>("name");
-                language_codes_names.push_back({language, name});
-            }
+                std::string language = pair.at("language");
+                std::string name = pair.at("name");
+                language_codes_names.emplace_back(std::move(language), std::move(name));
+            });
         }
         catch (const std::exception& exception)
         {

@@ -40,6 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic pop
 #include <database/logic.h>
 #include <time.h>
+#include <nlohmann/json.hpp>
 
 
 // Database resilience.
@@ -589,14 +590,15 @@ int Database_Notes::store_new_note(const NewNote& new_note)
     std::string path = note_file(identifier);
     std::string folder = filter_url_dirname(path);
     filter_url_mkdir(folder);
-    jsonxx::Object note;
-    note << bible_key() << new_note.bible;
-    note << passage_key() << passage;
-    note << status_key() << status;
-    note << severity_key() << std::to_string(severity);
-    note << summary_key() << summary;
-    note << contents_key() << contents;
-    std::string json = note.json();
+    nlohmann::json note ({
+        {bible_key(), new_note.bible},
+        {passage_key(), passage},
+        {status_key(), status},
+        {severity_key(), std::to_string(severity)},
+        {summary_key(), summary},
+        {contents_key(), contents},
+    });
+    std::string json = note.dump(4);
     filter_url_file_put_contents(path, json);
 
     // Store new default note into the database.
@@ -1870,39 +1872,38 @@ std::string Database_Notes::notes_order_by_relevance_statement()
 std::string Database_Notes::get_bulk(std::vector<int> identifiers)
 {
     // JSON container for the bulk notes.
-    jsonxx::Array bulk;
+    nlohmann::json bulk = nlohmann::json::array();
     // Go through all the notes.
     for (auto identifier : identifiers)
     {
         // JSON object for the note.
-        jsonxx::Object note;
+        nlohmann::json note;
         // Add all the fields of the note.
         std::string assigned = get_field(identifier, assigned_key());
-        note << "a" << assigned;
+        note["a"] = assigned;
         std::string bible = get_bible(identifier);;
-        note << "b" << bible;
+        note["b"] = bible;
         std::string contents = get_contents(identifier);
-        note << "c" << contents;
-        note << "i" << identifier;
+        note["c"] = contents;
+        note["i"] = identifier;
         int modified = get_modified(identifier);
-        note << "m" << modified;
+        note["m"] = modified;
         std::string passage = get_raw_passage(identifier);
-        note << "p" << passage;
+        note["p"] = passage;
         std::string subscriptions = get_field(identifier, subscriptions_key());
-        note << "sb" << subscriptions;
-        std::string summary;
-        summary = get_summary(identifier);
-        note << "sm" << summary;
+        note["sb"] = subscriptions;
+        std::string summary = get_summary(identifier);
+        note["sm"] = summary;
         std::string status;
         status = get_raw_status(identifier);
-        note << "st" << status;
+        note["st"] = status;
         int severity = get_raw_severity(identifier);
-        note << "sv" << severity;
+        note["sv"] = severity;
         // Add the note to the bulk container.
-        bulk << note;
+        bulk.push_back(std::move(note));
     }
     // Resulting JSON string.
-    return bulk.json();
+    return bulk.dump(4);
 }
 
 
@@ -1912,50 +1913,57 @@ std::vector<std::string> Database_Notes::set_bulk(std::string json)
     // Container for the summaries that were stored.
     std::vector<std::string> summaries;
 
-    // Parse the incoming JSON.
-    jsonxx::Array bulk;
-    bulk.parse(json);
-
-    // Go through the notes the JSON contains.
-    for (size_t i = 0; i < bulk.size(); i++)
+    try
     {
-        // Get all the different fields for this note.
-        jsonxx::Object note = bulk.get<jsonxx::Object>(static_cast<unsigned>(i));
-        std::string assigned = note.get<jsonxx::String>("a");
-        std::string bible = note.get<jsonxx::String>("b");
-        std::string contents = note.get<jsonxx::String>("c");
-        int identifier = static_cast<int>(note.get<jsonxx::Number>("i"));
-        int modified = static_cast<int>(note.get<jsonxx::Number>("m"));
-        std::string passage = note.get<jsonxx::String>("p");
-        std::string subscriptions = note.get<jsonxx::String>("sb");
-        std::string summary = note.get<jsonxx::String>("sm");
-        std::string status = note.get<jsonxx::String>("st");
-        int severity = static_cast<int>(note.get<jsonxx::Number>("sv"));
+        // Parse the incoming JSON.
+        nlohmann::json bulk = nlohmann::json::parse(json);
 
-        // Feedback about which note it received in bulk.
-        summaries.push_back(summary);
+        // Go through the notes the JSON contains.
+        for (std::size_t i = 0; i < bulk.size(); ++i)
+        {
+            // Get all the different fields for this note.
+            nlohmann::json note = bulk.at(i);
+            const std::string assigned = note.at("a");
+            const std::string bible = note.at("b");
+            const std::string contents = note.at("c");
+            const int identifier = note.at("i");
+            const int modified = note.at("m");
+            const std::string passage = note.at("p");
+            const std::string subscriptions = note.at("sb");
+            const std::string summary = note.at("sm");
+            const std::string status = note.at("st");
+            const int severity = note.at("sv");
 
-        // Store the note in the filesystem.
-        std::string path = note_file(identifier);
-        std::string folder = filter_url_dirname(path);
-        filter_url_mkdir(folder);
-        jsonxx::Object note2;
-        note2 << assigned_key() << assigned;
-        note2 << bible_key() << bible;
-        note2 << contents_key() << contents;
-        note2 << modified_key() << std::to_string(modified);
-        note2 << passage_key() << passage;
-        note2 << subscriptions_key() << subscriptions;
-        note2 << summary_key() << summary;
-        note2 << status_key() << status;
-        note2 << severity_key() << std::to_string(severity);
-        std::string json2 = note2.json();
-        filter_url_file_put_contents(path, json2);
+            // Feedback about which note it received in bulk.
+            summaries.push_back(summary);
 
-        // Update the indexes.
-        update_database(identifier);
-        update_search_fields(identifier);
-        update_checksum(identifier);
+            // Store the note in the filesystem.
+            std::string path = note_file(identifier);
+            std::string folder = filter_url_dirname(path);
+            filter_url_mkdir(folder);
+            nlohmann::json note2 ({
+                {assigned_key(), assigned},
+                {bible_key(), bible},
+                {contents_key(), contents},
+                {modified_key(), std::to_string(modified)},
+                {passage_key(), passage},
+                {subscriptions_key(), subscriptions},
+                {summary_key(), summary},
+                {status_key(), status},
+                {severity_key(), std::to_string(severity)},
+            });
+            std::string json2 = note2.dump(4);
+            filter_url_file_put_contents(path, json2);
+
+            // Update the indexes.
+            update_database(identifier);
+            update_search_fields(identifier);
+            update_checksum(identifier);
+        }
+    }
+    catch (const std::exception& exception)
+    {
+        database::logs::log(exception.what());
     }
 
     // Container with all the summaries of the notes that were stored.
@@ -1964,28 +1972,33 @@ std::vector<std::string> Database_Notes::set_bulk(std::string json)
 
 
 // Gets a field from a note in JSON format.
-std::string Database_Notes::get_field(int identifier, const std::string& key)
+std::string Database_Notes::get_field(const int identifier, const std::string& key)
 {
     const std::string file = note_file(identifier);
     const std::string json = filter_url_file_get_contents(file);
-    jsonxx::Object note;
-    note.parse(json);
-    if (note.has<jsonxx::String>(key))
-        return note.get<jsonxx::String>(key);
-    return std::string();
+    try
+    {
+        if (const nlohmann::json note = nlohmann::json::parse(json); note.contains(key))
+            return note.at(key);
+    }
+    catch (...) { }
+    return {};
 }
 
 
 // Sets a field in a note in JSON format.
-void Database_Notes::set_field(int identifier, std::string key, std::string value)
+void Database_Notes::set_field(const int identifier, const std::string& key, const std::string& value)
 {
-    std::string file = note_file(identifier);
+    const std::string file = note_file(identifier);
     std::string json = filter_url_file_get_contents(file);
-    jsonxx::Object note;
-    note.parse(json);
-    note << key << value;
-    json = note.json();
-    filter_url_file_put_contents(file, json);
+    try
+    {
+        nlohmann::json note = nlohmann::json::parse(json);
+        note[key] = value;
+        json = note.dump(4);
+        filter_url_file_put_contents(file, json);
+    }
+    catch (...) { }
 }
 
 

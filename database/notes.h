@@ -289,7 +289,7 @@ private:
 
 private:
   std::string get_field (int identifier, const std::string& key);
-  void set_field (int identifier, std::string key, std::string value);
+  void set_field (int identifier, const std::string& key, const std::string& value);
 
 };
 

@@ -17,30 +17,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <database/logic.h>
+#include <database/logs.h>
 #include <database/notes.h>
-#include <filter/string.h>
-#include <filter/url.h>
+#include <database/sqlite.h>
+#include <database/state.h>
 #include <filter/date.h>
 #include <filter/md5.h>
+#include <filter/string.h>
+#include <filter/url.h>
+#include <locale/translate.h>
+#include <nlohmann/json.hpp>
 #include <notes/logic.h>
-#include <locale/translate.h>
-#include <locale/translate.h>
-#include <config/globals.h>
-#include <database/sqlite.h>
-#include <database/logs.h>
-#include <database/state.h>
 #include <trash/handler.h>
 #include <webserver/request.h>
-#pragma GCC diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-warning-option"
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma clang diagnostic ignored "-Wunknown-warning-option"
-#pragma GCC diagnostic ignored "-Wuseless-cast"
-#include <jsonxx/jsonxx.h>
-#pragma GCC diagnostic pop
-#include <database/logic.h>
-#include <time.h>
-#include <nlohmann/json.hpp>
 
 
 // Database resilience.

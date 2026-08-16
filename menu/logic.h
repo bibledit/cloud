@@ -26,7 +26,7 @@ class Webserver_Request;
 std::string menu_logic_href (std::string href);
 std::string menu_logic_click (std::string item);
 
-std::string menu_logic_create_item (std::string href, std::string text, bool history, std::string title, std::string colour);
+std::string menu_logic_create_item (std::string href, const std::string& text, bool history, const std::string& title, const std::string& colour);
 
 std::string menu_logic_translate_menu ();
 std::string menu_logic_search_menu ();

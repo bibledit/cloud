@@ -109,21 +109,17 @@ std::string menu_logic_click(std::string item)
 }
 
 
-std::string menu_logic_create_item(std::string href, std::string text, bool history, std::string title,
-                                   std::string colour)
+std::string menu_logic_create_item(std::string href, const std::string& text, const bool history, const std::string& title,
+                                   const std::string& colour)
 {
     std::string item;
     item.append(R"(<span class="nowrap)");
     if (!colour.empty()) item.append(" " + colour);
     item.append(R"("><a href="/)");
     if (history)
-    {
         item.append(menu_index_url());
-    }
     else
-    {
         item.append(index_index_url());
-    }
     item.append("?item=");
     item.append(menu_logic_href(href) + R"(" title=")" + title + R"(">)" + text + "</a>");
     item.append("</span>");

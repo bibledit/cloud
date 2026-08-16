@@ -438,7 +438,6 @@ add_library(bibledit STATIC
         resource/bbgateway.cpp
         resource/studylight.cpp
         resource/unload.cpp
-        jsonxx/jsonxx.cpp
         mapping/index.cpp
         mapping/map.cpp
         statistics/statistics.cpp

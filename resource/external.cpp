@@ -19,18 +19,11 @@
 
 #include <filter/string.h>
 #include <filter/url.h>
+#include <nlohmann/json.hpp>
 #include <pugixml/include.h>
 #include <pugixml/utils.h>
 #include <resource/external.h>
-#include <webserver/request.h>
-#include "assets/view.h"
 #include "resource/logic.h"
-#pragma GCC diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-warning-option"
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wuseless-cast"
-#include <jsonxx/jsonxx.h>
-#pragma GCC diagnostic pop
 
 
 // Local function declarations:
@@ -973,9 +966,14 @@ static std::string resource_external_get_net_bible(const int book, const int cha
         text = resource_logic_web_or_cache_get(url, error);
 
         // Parse the incoming JSON and get the relevant html bit.
-        jsonxx::Object json;
-        json.parse(text);
-        text = json.get<jsonxx::String>("bible1");
+        try
+        {
+            nlohmann::json object = nlohmann::json::parse(text);
+            text = object.at("bible1");
+        }
+        catch (...)
+        {
+        }
 
         // The html obtained above is not well-formed.
         // It cannot be loaded as an XML document without errors and missing text.

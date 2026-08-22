@@ -25,11 +25,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 class Webserver_Request;
 
-struct Database_Notes_Text
+namespace database::notes {
+
+struct Text
 {
-  std::string raw {};
-  std::string localized {};
+    std::string raw {};
+    std::string localized {};
 };
+
+void create ();
+
+
+}
+
+
 
 
 class Database_Notes
@@ -41,7 +50,6 @@ private:
   Webserver_Request& m_webserver_request;
 
 public:
-  void create ();
 
 private:
   std::string database_path ();
@@ -221,7 +229,7 @@ public:
   std::string get_raw_status (int identifier);
   std::string get_status (int identifier);
   void set_status (int identifier, const std::string& status, bool import = false);
-  std::vector <Database_Notes_Text> get_possible_statuses ();
+  std::vector <database::notes::Text> get_possible_statuses ();
 private:
   std::string status_key ();
 
@@ -229,7 +237,7 @@ public:
   std::string get_severity (int identifier);
   int get_raw_severity (int identifier);
   void set_raw_severity (int identifier, int severity);
-  std::vector <Database_Notes_Text> get_possible_severities ();
+  std::vector <database::notes::Text> get_possible_severities ();
 private:
   std::string severity_key ();
   std::vector <std::string> standard_severities ();

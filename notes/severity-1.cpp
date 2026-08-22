@@ -72,7 +72,7 @@ std::string notes_severity_1 (Webserver_Request& webserver_request)
   
   
   std::stringstream severityblock;
-  std::vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
+  std::vector <database::notes::Text> severities = database_notes.get_possible_severities ();
   for (auto & severity : severities) {
     severityblock << "<li><a href=" << std::quoted ("severity-1?id=" + std::to_string (id) + "&severity=" + severity.raw) << ">" << severity.localized << "</a></li>" << std::endl;
   }

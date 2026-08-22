@@ -269,7 +269,7 @@ std::string notes_select (Webserver_Request& webserver_request)
     }
     std::vector<std::string> values {"-1"};
     std::vector<std::string> displayed {translate("Any")};
-    std::vector <Database_Notes_Text> severities = database_notes.get_possible_severities();
+    std::vector <database::notes::Text> severities = database_notes.get_possible_severities();
     for (size_t i = 0; i < severities.size (); i++) {
       values.push_back(std::to_string(i));
       displayed.push_back(severities[i].localized);

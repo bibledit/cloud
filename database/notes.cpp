@@ -54,17 +54,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-constexpr const auto database_notes{"notes"};
-constexpr const auto database_notes_checksums{"notes_checksums"};
+constexpr auto database_notes{"notes"};
+constexpr auto database_notes_checksums{"notes_checksums"};
 
 
-Database_Notes::Database_Notes(Webserver_Request& webserver_request) :
-    m_webserver_request(webserver_request)
-{
-}
+namespace database::notes {
 
 
-void Database_Notes::create()
+void create()
 {
     // Create the main database and table.
     {
@@ -120,6 +117,16 @@ void Database_Notes::create()
 }
 
 
+
+
+}
+
+Database_Notes::Database_Notes(Webserver_Request& webserver_request) :
+    m_webserver_request(webserver_request)
+{
+}
+
+
 std::string Database_Notes::database_path()
 {
     return filter_url_create_root_path({database_logic_databases(), "notes.sqlite"});
@@ -154,7 +161,7 @@ bool Database_Notes::checkup()
     if (healthy())
         return false;
     filter_url_unlink(database_path());
-    create();
+    database::notes::create();
     return true;
 }
 
@@ -167,7 +174,7 @@ bool Database_Notes::checkup_checksums()
     if (checksums_healthy())
         return false;
     filter_url_unlink(checksums_database_path());
-    create();
+    database::notes::create();
     return true;
 }
 
@@ -1358,7 +1365,7 @@ void Database_Notes::set_status(int identifier, const std::string& status, bool 
 
 // Gets an array of array with the possible statuses of consultation notes,
 // both raw and localized versions.
-std::vector<Database_Notes_Text> Database_Notes::get_possible_statuses()
+std::vector<database::notes::Text> Database_Notes::get_possible_statuses()
 {
     // Get an array with the statuses used in the database, ordered by occurrence, most often used ones first.
     SqliteDatabase sql(database_notes);
@@ -1375,11 +1382,11 @@ std::vector<Database_Notes_Text> Database_Notes::get_possible_statuses()
         }
     }
     // Localize the results.
-    std::vector<Database_Notes_Text> localized_statuses;
+    std::vector<database::notes::Text> localized_statuses;
     for (auto& status : statuses)
     {
         std::string localization = translate(status.c_str());
-        Database_Notes_Text localized_status;
+        database::notes::Text localized_status;
         localized_status.raw = status;
         localized_status.localized = localization;
         localized_statuses.push_back(localized_status);
@@ -1439,13 +1446,13 @@ void Database_Notes::set_raw_severity(int identifier, int severity)
 
 
 // Gets an array with the possible severities.
-std::vector<Database_Notes_Text> Database_Notes::get_possible_severities()
+std::vector<database::notes::Text> Database_Notes::get_possible_severities()
 {
     std::vector<std::string> standard = standard_severities();
-    std::vector<Database_Notes_Text> severities;
+    std::vector<database::notes::Text> severities;
     for (size_t i = 0; i < standard.size(); i++)
     {
-        Database_Notes_Text severity;
+        database::notes::Text severity;
         severity.raw = std::to_string(i);
         severity.localized = translate(standard[i].c_str());
         severities.push_back(severity);

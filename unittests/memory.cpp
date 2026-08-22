@@ -90,7 +90,7 @@ TEST (DISABLED_memory, basic)
     Database_State::create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     for (int i = 0; i < 100; i++) {
       Database_Notes::NewNote new_note {
         .bible = "bible",

@@ -168,8 +168,8 @@ void test_database_notes ()
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
+    database::notes::create ();
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
     database_notes.optimize ();
     Database_Notes::NewNote new_note {};
     const int identifier = database_notes.store_new_note (new_note);
@@ -187,10 +187,10 @@ void test_database_notes ()
     database::login::create ();
     Database_Users database_users;
     database_users.create ();
+    database::notes::create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
-    
+
     EXPECT_EQ (100'000'000, Notes_Logic::lowNoteIdentifier);
     
     EXPECT_EQ (999'999'999, Notes_Logic::highNoteIdentifier);
@@ -225,9 +225,9 @@ void test_database_notes ()
     database::login::create ();
     Database_Users database_users;
     database_users.create ();
+    database::notes::create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
 
     int newidentifier{};
     
@@ -302,9 +302,9 @@ void test_database_notes ()
     database::login::create ();
     Database_Users database_users;
     database_users.create ();
+    database::notes::create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
     Notes_Logic notes_logic (webserver_request);
     Database_Mail database_mail (webserver_request);
     database_mail.create ();
@@ -400,7 +400,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     Database_Mail database_mail (webserver_request);
     database_mail.create ();
     
@@ -485,7 +485,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     webserver_request.session_logic()->set_username ("unittest");
     Database_Notes::NewNote old_note {
@@ -527,7 +527,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     webserver_request.session_logic()->set_username ("unittest");
     
@@ -581,7 +581,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     webserver_request.session_logic()->set_username ("unittest");
     
@@ -608,7 +608,7 @@ void test_database_notes ()
     EXPECT_EQ ("yyyyy", status);
     
     // Test getting all possible statuses.
-    std::vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
+    std::vector <database::notes::Text> statuses = database_notes.get_possible_statuses ();
     std::vector <std::string> rawstatuses;
     for (auto & note_text : statuses) {
       rawstatuses.push_back (note_text.raw);
@@ -626,7 +626,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     webserver_request.session_logic()->set_username ("unittest");
     
@@ -659,7 +659,7 @@ void test_database_notes ()
     EXPECT_EQ ("Major", severity);
     
     // Test getting all unique severities.
-    std::vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
+    std::vector <database::notes::Text> severities = database_notes.get_possible_severities ();
     std::vector <std::string> rawseverities;
     std::vector <std::string> localizedseverities;
     for (auto & note_text : severities) {
@@ -681,7 +681,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     webserver_request.session_logic()->set_username ("unittest");
     int time = filter::date::get_seconds_since_epoch ();
@@ -719,7 +719,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     webserver_request.session_logic()->set_username ("unittest");
     
@@ -750,7 +750,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     // Create note.
     webserver_request.session_logic()->set_username ("unittest");
@@ -815,7 +815,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     Database_Notes::NewNote new_note {
       .summary = "summary",
@@ -869,7 +869,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     Database_Notes::NewNote new_note {
       .summary = "summary",
@@ -912,7 +912,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     Database_Notes::NewNote new_note {
       .summary = "summary",
@@ -978,7 +978,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     Database_Notes::NewNote new_note {
       .summary = "summary",
@@ -1045,7 +1045,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     // Create notes to work with.
     Database_Notes::NewNote note {
@@ -1198,7 +1198,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     // Create notes to work with.
     std::vector <int> oldidentifiers;
@@ -1247,7 +1247,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     // Create notes to work with.
     Database_Notes::NewNote new_note {
@@ -1291,7 +1291,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     // Create a couple of notes to work with.
     const Database_Notes::NewNote new_note1 {
@@ -1408,7 +1408,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     // Create a couple of notes to work with.
     const Database_Notes::NewNote note1 {
@@ -1528,7 +1528,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     bool healthy = database_notes.healthy ();
     EXPECT_EQ (true, healthy);
@@ -1556,7 +1556,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
 
     bool healthy = database_notes.checksums_healthy ();
     EXPECT_EQ (true, healthy);
@@ -1584,7 +1584,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     EXPECT_EQ (true, database_notes.available ());
     database_notes.set_availability (false);
     EXPECT_EQ (false, database_notes.available ());
@@ -1601,7 +1601,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     // Create a couple of notes to work with.
     const Database_Notes::NewNote note1 {
@@ -1675,7 +1675,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     // Keep the stored values for the notes.
     std::vector<std::string> v_assigned;
@@ -1841,7 +1841,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     // Test values for the note.
     const std::string contents ("contents");
@@ -1925,7 +1925,7 @@ void test_database_notes ()
     database_users.create ();
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    database_notes.create ();
+    database::notes::create ();
     
     std::string bible1 = "bible1";
     std::string bible2 = "bible2";
@@ -2108,7 +2108,7 @@ void test_indexing_fixes_damaged_note ()
   Database_State::create ();
   Webserver_Request webserver_request;
   Database_Notes database_notes (webserver_request);
-  database_notes.create ();
+  database::notes::create ();
   
   Database_Notes::NewNote new_note {};
   const int identifier = database_notes.store_new_note(new_note);

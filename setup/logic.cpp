@@ -238,8 +238,7 @@ void setup_initialize_data ()
   config_globals_setup_message = "modifications";
   database::modifications::create ();
   config_globals_setup_message = "notes";
-  Database_Notes database_notes (webserver_request);
-  database_notes.create ();
+  database::notes::create ();
   config_globals_setup_message = "state";
   Database_State::create ();
   config_globals_setup_message = "login";

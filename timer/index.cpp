@@ -96,12 +96,12 @@ void timer_index()
                         {
                             if (tasks_logic_queue_size() or tasks_logic_active_jobs_count())
                             {
-                                database::logs::log("Server is due to restart itself but does not because of " + std::to_string(tasks_logic_queue_size()) + " pending and " + std::to_string(tasks_logic_active_jobs_count()) + " active jobs");
+                                database::logs::logv1("Server is due to restart itself but does not because of " + std::to_string(tasks_logic_queue_size()) + " pending and " + std::to_string(tasks_logic_active_jobs_count()) + " active jobs");
                                 server_restart_attempted = true;
                             }
                             else
                             {
-                                database::logs::log("Server restarts itself");
+                                database::logs::logv1("Server restarts itself");
                                 std::exit(0);
                             }
                         }
@@ -287,15 +287,15 @@ void timer_index()
         }
         catch (const std::exception& e)
         {
-            database::logs::log(e.what());
+            database::logs::logv1(e.what());
         }
         catch (const std::exception* e) // NOLINT(*-throw-by-value-catch-by-reference)
         {
-            database::logs::log(e->what());
+            database::logs::logv1(e->what());
         }
         catch (...)
         {
-            database::logs::log("A general internal error occurred in the timers");
+            database::logs::logv1("A general internal error occurred in the timers");
         }
     }
 }

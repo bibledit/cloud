@@ -1408,7 +1408,7 @@ int filter_url_curl_debug_callback(void* curl_handle, int curl_info_type, char* 
     if (log)
     {
         std::string message(data, size);
-        database::logs::log(message);
+        database::logs::logv1(message);
     }
     return 0;
 }
@@ -1741,13 +1741,13 @@ std::string filter_url_http_request_mbed(std::string url, std::string& error,
 #else
         ret = setsockopt(comm_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(timeval));
 #endif
-        if (ret != 0) database::logs::log(strerror(errno));
+        if (ret != 0) database::logs::logv1(strerror(errno));
 #ifdef HAVE_WINDOWS
         ret = setsockopt(comm_sock, SOL_SOCKET, SO_SNDTIMEO, tv, sizeof (tv));
 #else
         ret = setsockopt(comm_sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(timeval));
 #endif
-        if (ret != 0) database::logs::log(strerror(errno));
+        if (ret != 0) database::logs::logv1(strerror(errno));
     }
 
 
@@ -2107,7 +2107,7 @@ void filter_url_display_mbed_tls_error(int& ret, std::string* error, bool server
     }
     else
     {
-        database::logs::log(msg);
+        database::logs::logv1(msg);
     }
 }
 

@@ -39,7 +39,7 @@ std::string folder()
 
 
 // Records a journal entry.
-void log(std::string description, const int level)
+void logv1(std::string description, const int minimum_role)
 {
     // Trim spaces.
     description = filter::string::trim(description);
@@ -65,7 +65,7 @@ void log(std::string description, const int level)
     if (file_or_dir_exists(file))
         description.insert(0, " | ");
     else
-        description.insert(0, std::to_string(level) + " ");
+        description.insert(0, std::to_string(minimum_role) + " ");
     filter_url_file_put_contents_append(file, description);
 #ifdef HAVE_WINDOWS
     // Delay to cover for lower usec granularity on Windows.
@@ -130,7 +130,7 @@ void rotate()
     }
 
     if (filtered_entries)
-        log(journal_logic_filtered_message());
+        logv1(journal_logic_filtered_message());
 }
 
 
@@ -176,6 +176,6 @@ void clear()
     {
         filter_url_unlink(filter_url_create_path({directory, file}));
     }
-    log("The journal was cleared");
+    logv1("The journal was cleared");
 }
 }

@@ -32,10 +32,10 @@
 
 void bible_import_run (std::string location, const std::string& bible, int book, int chapter)
 {
-  database::logs::log ("Importing Bible data from location " + location + " into Bible " + bible);
+  database::logs::logv1 ("Importing Bible data from location " + location + " into Bible " + bible);
 
   if (bible.empty()) {
-    database::logs::log ("Missing Bible while importing data");
+    database::logs::logv1 ("Missing Bible while importing data");
     return;
   }
 
@@ -50,7 +50,7 @@ void bible_import_run (std::string location, const std::string& bible, int book,
   
   for (const auto & file : files) {
     if (filter_url_is_dir (file)) continue;
-    database::logs::log ("Examining file for import: " + file);
+    database::logs::logv1 ("Examining file for import: " + file);
     std::string success_message {};
     std::string error_message {};
     const std::string data = filter_url_file_get_contents (file);
@@ -68,17 +68,17 @@ void bible_import_run (std::string location, const std::string& bible, int book,
             bible_import_text (data, bible, book, chapter);
           }
         } else {
-          database::logs::log ("The file seems to be an XML file.", true);
+          database::logs::logv1 ("The file seems to be an XML file.", true);
         }
       } else {
-        database::logs::log ("The file does not contain valid Unicode UTF-8 text.", true);
+        database::logs::logv1 ("The file does not contain valid Unicode UTF-8 text.", true);
       }
     } else {
-      database::logs::log ("Nothing was imported.", true);
+      database::logs::logv1 ("Nothing was imported.", true);
     }
   }
   
-  database::logs::log ("Import Bible data has finished");
+  database::logs::logv1 ("Import Bible data has finished");
 }
 
 
@@ -94,9 +94,9 @@ void bible_import_usfm (const std::string& data, const std::string& bible)
     if (book_number > 0) {
       bible_logic::store_chapter (bible, book_number, chapter_number, chapter_data);
       const std::string book_name = database::books::get_usfm_from_id (static_cast<book_id>(book_number));
-      database::logs::log ("Imported " + book_name + " " + std::to_string (chapter_number));
+      database::logs::logv1 ("Imported " + book_name + " " + std::to_string (chapter_number));
     } else {
-      database::logs::log ("Could not import this data: " + chapter_data.substr (0, 1000));
+      database::logs::logv1 ("Could not import this data: " + chapter_data.substr (0, 1000));
     }
   }
 }
@@ -141,7 +141,7 @@ void bible_import_text (const std::string& text, const std::string& bible, const
           continue;
         }
         const std::string msg = "The line that contains " + lines[i] + " looks like a chapter number, but the number differs from the chapter that was set";
-        database::logs::log (msg);
+        database::logs::logv1 (msg);
         discoveries_passed = false;
       }
     }
@@ -234,5 +234,5 @@ void bible_import_text (const std::string& text, const std::string& bible, const
   // Import the text as USFM.
   bible_logic::store_chapter (bible, book, chapter, newtext);
   const std::string book_name = database::books::get_usfm_from_id (static_cast<book_id>(book));
-  database::logs::log ("Imported " + book_name + " " + std::to_string (chapter) + ": " + text);
+  database::logs::logv1 ("Imported " + book_name + " " + std::to_string (chapter) + ": " + text);
 }

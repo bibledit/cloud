@@ -99,7 +99,7 @@ void Editor_Html2Format::process_node (pugi::xml_node node)
     default:
     {
       const std::string nodename = node.name ();
-      database::logs::log ("XML node " + nodename + " not handled while saving editor text");
+      database::logs::logv1 ("XML node " + nodename + " not handled while saving editor text");
       break;
     }
   }

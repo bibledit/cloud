@@ -38,7 +38,7 @@ void create_all ()
 
 void create_all_run ()
 {
-    database::logs::log ("Creating stylesheet.css files");
+    database::logs::logv1 ("Creating stylesheet.css files");
     recreate ();
 }
 

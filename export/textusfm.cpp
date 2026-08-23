@@ -119,5 +119,5 @@ void export_text_usfm_book (std::string bible, int book, bool log)
   Database_State::clearExport (bible, book, export_logic::export_text_and_basic_usfm);
 
   
-  if (log) database::logs::log (translate("Exported to basic USFM and text") + ": " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)), roles::translator);
+  if (log) database::logs::logv1 (translate("Exported to basic USFM and text") + ": " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)), roles::translator);
 }

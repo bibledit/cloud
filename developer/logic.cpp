@@ -102,7 +102,7 @@ void developer_logic_import_changes_save (const std::string& bible, const int bo
     std::string explanation = "import changes";
     const std::string message = filter::usfm::safely_store_verse(webserver_request, bible, book, chapter, verse, text,
                                                                  explanation, false);
-    if (!message.empty()) database::logs::log(message);
+    if (!message.empty()) database::logs::logv1(message);
     text.clear();
 }
 
@@ -114,15 +114,15 @@ void developer_logic_import_changes ()
         home_path = home;
     const std::string file_path = filter_url_create_path({home_path, "Desktop", "changes.usfm"});
     const std::string bible = "test";
-    database::logs::log("Import changes from " + file_path + " into Bible " + bible);
+    database::logs::logv1("Import changes from " + file_path + " into Bible " + bible);
     if (not std::ranges::count(database::bibles::get_bibles(), bible))
     {
-        database::logs::log("Cannot locate Bible " + bible);
+        database::logs::logv1("Cannot locate Bible " + bible);
         return;
     }
     if (not file_or_dir_exists(file_path))
     {
-        database::logs::log("Cannot locate " + file_path);
+        database::logs::logv1("Cannot locate " + file_path);
         return;
     }
     const std::string contents = filter_url_file_get_contents(file_path);

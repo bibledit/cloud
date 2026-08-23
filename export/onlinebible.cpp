@@ -67,5 +67,5 @@ void export_onlinebible (std::string bible, bool log)
   Database_State::clearExport (bible, 0, export_logic::export_online_bible);
 
   
-  if (log) database::logs::log (translate("Exported to Online Bible") + " " + bible, roles::translator);
+  if (log) database::logs::logv1 (translate("Exported to Online Bible") + " " + bible, roles::translator);
 }

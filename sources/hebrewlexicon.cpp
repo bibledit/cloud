@@ -25,7 +25,7 @@
 
 void sources_hebrewlexicon_parse ()
 {
-  database::logs::log ("Start parsing Open Scriptures's Hebrew Lexicon");
+  database::logs::logv1 ("Start parsing Open Scriptures's Hebrew Lexicon");
   Database_HebrewLexicon database_hebrewlexicon;
   database_hebrewlexicon.create ();
   /* To redo this with pugixml
@@ -219,5 +219,5 @@ void sources_hebrewlexicon_parse ()
   }
    */
   
-  database::logs::log ("Finished parsing Open Scriptures's Hebrew Lexicon");
+  database::logs::logv1 ("Finished parsing Open Scriptures's Hebrew Lexicon");
 }

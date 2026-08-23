@@ -185,7 +185,7 @@ void bible_logic::delete_bible(const std::string& bible)
 
 void bible_logic::import_resource(const std::string& bible, const std::string& resource)
 {
-    database::logs::logv1("Starting to import resource " + resource + " into Bible " + bible);
+    database::logs::log("Starting to import resource", resource, "into Bible", bible);
 
     Database_Versifications database_versifications{};
     Webserver_Request webserver_request{};
@@ -198,7 +198,7 @@ void bible_logic::import_resource(const std::string& bible, const std::string& r
         {
             const std::string message = "Importing " + resource + " " + bookName + " chapter " +
                 std::to_string(chapter);
-            database::logs::logv1(message, roles::translator);
+            database::logs::log<roles::translator>(message);
 
             std::vector<std::string> usfm{};
 
@@ -226,8 +226,7 @@ void bible_logic::import_resource(const std::string& bible, const std::string& r
                     server_is_installing_module = (html == sword_logic_installing_module_text());
                     if (server_is_installing_module)
                     {
-                        database::logs::logv1(
-                            translate("Waiting while Bibledit Cloud installs the requested SWORD module"));
+                        database::logs::log(translate("Waiting while Bibledit Cloud installs the requested SWORD module"));
                         std::this_thread::sleep_for(std::chrono::seconds(60));
                         wait_iterations++;
                     }
@@ -245,7 +244,7 @@ void bible_logic::import_resource(const std::string& bible, const std::string& r
         }
     }
 
-    database::logs::logv1("Completed importing resource " + resource + " into Bible " + bible);
+    database::logs::log("Completed importing resource", resource, "into Bible", bible);
 }
 
 
@@ -1191,7 +1190,7 @@ void bible_logic::html_to_editor_updates(const std::string& editor_html,
 
 void bible_logic::create_empty_bible(const std::string& name)
 {
-    database::logs::logv1(translate("Creating Bible") + " " + name);
+    database::logs::log(translate("Creating Bible"), name);
 
     // Remove and create the empty Bible.
     database::bibles::delete_bible(name);
@@ -1212,5 +1211,5 @@ void bible_logic::create_empty_bible(const std::string& name)
         }
     }
 
-    database::logs::logv1(translate("Created:") + " " + name);
+    database::logs::log(translate("Created:"), name);
 }

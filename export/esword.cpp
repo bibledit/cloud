@@ -72,5 +72,5 @@ void export_esword (const std::string& bible, bool log)
 
   
   if (log) 
-    database::logs::logv1 (translate("Exported to e-Sword") + " " + bible, roles::translator);
+    database::logs::log<roles::translator> (translate("Exported to e-Sword"), bible);
 }

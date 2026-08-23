@@ -27,7 +27,7 @@ std::string folder ();
 
 void logv1 (std::string description, int minimum_role = 5);
 
-template <typename ... Args, int minimum_role = 5>
+template <int minimum_role = 5, typename ... Args>
 void log (Args&& ... args)
 {
     std::ostringstream oss{};

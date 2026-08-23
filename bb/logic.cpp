@@ -318,7 +318,7 @@ void bible_logic::log_change(const std::string& bible,
     body.push_back(usfm);
 
     if (!user.empty()) user.append(" - ");
-    database::logs::log(user + summary + " - " + passage, filter::string::implode(body, "\n"));
+    database::logsv2::log(user, summary, "-", passage, "\n", filter::string::implode(body, "\n"));
 }
 
 
@@ -350,7 +350,7 @@ void bible_logic::log_merge(const std::string& user, const std::string& bible, i
     body.push_back("Result:");
     body.push_back(result);
 
-    database::logs::log(user + " - merge record - " + passage, filter::string::implode(body, "\n"));
+    database::logsv2::log(user, "-", "merge record", "-", passage, "\n", filter::string::implode(body, "\n"));
 }
 
 

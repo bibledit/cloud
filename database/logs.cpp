@@ -74,16 +74,6 @@ void log(std::string description, const int level)
 }
 
 
-// Records an extended journal entry.
-void log(std::string subject, const std::string& body, const int level)
-{
-    std::string description {std::move(subject)};
-    description.append("\n");
-    description.append(body);
-    log(description, level);
-}
-
-
 void rotate()
 {
     std::string directory = folder();

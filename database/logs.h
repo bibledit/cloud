@@ -25,7 +25,7 @@ namespace database::logs {
 
 std::string folder ();
 void log (std::string description, int level = 5);
-void log (std::string subject, const std::string& body, int level = 5);
+
 void rotate ();
 std::vector <std::string> get (std::string & last_filename);
 std::string next (std::string &filename);
@@ -33,3 +33,17 @@ void clear ();
 
 }
 
+namespace database::logsv2 {
+
+template <typename ... Args>
+void log (Args&& ... args)
+{
+    std::ostringstream oss{};
+    (void(oss << std::forward<Args>(args) << ' '), ...);
+    std::string msg = std::move(oss).str();
+    if (not msg.empty() and msg.back() == ' ')
+        msg.pop_back();
+    logs::log(std::move(msg));
+}
+
+}

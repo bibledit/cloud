@@ -64,7 +64,7 @@ std::string Flate::render(const std::string& html)
     }
     catch (...)
     {
-        database::logs::logv1("Failure to process template " + html);
+        database::logs::log("Failure to process template", html);
     }
     // Remove empty lines.
     std::vector<std::string> lines = filter::string::explode(rendering, '\n');

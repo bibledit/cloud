@@ -101,7 +101,7 @@ void refresh_access_token()
     // Refresh the token.
     const auto [success, token] = print_store_access_token();
 
-    database::logs::logv1("Google access token: " + token);
+    database::logs::log("Google access token:", token);
 }
 
 
@@ -165,7 +165,7 @@ std::tuple<bool, std::string, std::string> translate(const std::string& text, co
     }
 
     if (not error.empty())
-        database::logs::logv1("Error while translating text: " + error);
+        database::logs::log("Error while translating text:", error);
 
     // Done.
     return {success, translation, error};
@@ -244,7 +244,7 @@ std::vector<std::pair<std::string, std::string>> get_languages(const std::string
 
     if (!error.empty())
     {
-        database::logs::logv1("Error while getting Google Translate supported languages: " + error);
+        database::logs::log("Error while getting Google Translate supported languages:", error);
         language_codes_names.clear();
     }
 

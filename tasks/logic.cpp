@@ -210,7 +210,7 @@ static void tasks_logic_run_one(Task task)
     std::string parameter4{};
     get_parameter(parameter4);
 
-    switch (task.task) // Todo handle six warnings in cloud mode.
+    switch (task.task)
     {
     case tasks::enums::task::none:
         {
@@ -526,7 +526,7 @@ static void tasks_logic_run_one(Task task)
 }
 
 
-void tasks_logic_start_thread_pool(const std::size_t num_threads) // Todo
+void tasks_logic_start_thread_pool(const std::size_t num_threads)
 {
     // Guard against double starting.
     if (run_pool)
@@ -584,7 +584,7 @@ void tasks_logic_start_thread_pool(const std::size_t num_threads) // Todo
 }
 
 
-void tasks_logic_stop_thread_pool() // Todo
+void tasks_logic_stop_thread_pool()
 {
     // Guard against double stopping.
     if (not run_pool)

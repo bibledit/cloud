@@ -24,16 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace database::logs {
 
 std::string folder ();
+
 void logv1 (std::string description, int minimum_role = 5);
-
-void rotate ();
-std::vector <std::string> get (std::string & last_filename);
-std::string next (std::string &filename);
-void clear ();
-
-}
-
-namespace database::logsv2 {
 
 template <typename ... Args, int minimum_role = 5>
 void log (Args&& ... args)
@@ -43,7 +35,15 @@ void log (Args&& ... args)
     std::string msg = std::move(oss).str();
     if (not msg.empty() and msg.back() == ' ')
         msg.pop_back();
-    logs::logv1(std::move(msg), minimum_role);
+    logv1(std::move(msg), minimum_role);
 }
+
+void rotate ();
+
+std::vector <std::string> get (std::string & last_filename);
+
+std::string next (std::string &filename);
+
+void clear ();
 
 }

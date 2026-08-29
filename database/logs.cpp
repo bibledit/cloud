@@ -46,14 +46,12 @@ void log_internal(std::string description, const int minimum_role)
     // Discard empty line.
     if (description.empty()) return;
     // Truncate very long entry.
-
     constexpr std::size_t maximum_length {50000};
     if (const std::size_t length = description.length(); length > maximum_length)
     {
         description.erase (50000);
         description.append ("... This entry was too large and has been truncated: " + std::to_string(length) + " bytes");
     }
-
     // Save this logbook entry to a filename with seconds and microseconds.
     const std::string seconds = std::to_string(filter::date::get_seconds_since_epoch());
     const std::string time = seconds + filter::string::fill(std::to_string(filter::date::get_microseconds_within_second()), 8, '0');
@@ -130,7 +128,7 @@ void rotate()
     }
 
     if (filtered_entries)
-        log_internal(journal_logic_filtered_message());
+        log(journal_logic_filtered_message());
 }
 
 
@@ -176,6 +174,6 @@ void clear()
     {
         filter_url_unlink(filter_url_create_path({directory, file}));
     }
-    log_internal("The journal was cleared");
+    log("The journal was cleared");
 }
 }

@@ -25,7 +25,7 @@ namespace database::logs {
 
 std::string folder ();
 
-void log_internal (std::string description, int minimum_role = 5);
+void log_internal (std::string description, int minimum_role);
 
 template <int minimum_role = 5, typename ... Args>
 void log (Args&& ... args)

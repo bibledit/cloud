@@ -170,7 +170,7 @@ std::string next(std::string& filename)
 void clear()
 {
     for (const std::string directory = folder();
-        const auto& file : filter_url_scandir(directory))
+         const auto& file : filter_url_scandir(directory))
     {
         filter_url_unlink(filter_url_create_path({directory, file}));
     }

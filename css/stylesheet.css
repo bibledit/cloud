@@ -108,7 +108,7 @@ abbr[title], dfn[title] {
 }
 @font-face {
   font-family: "Cardo";
-  src: url(/fonts/Cardo-Regular.ttf);
+  src: url(../fonts/Cardo-Regular.ttf);
 }
 
 html {

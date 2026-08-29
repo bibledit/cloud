@@ -125,14 +125,14 @@ void system_logic_produce_bibles_file (int jobid)
 
 void system_logic_import_bibles_file (std::string tarball)
 {
-  database::logs::logv1 ("Importing Bibles from " + tarball);
+  database::logs::log ("Importing Bibles from", tarball);
 
   // Unpack the tarball into a directory.
   std::string directory = filter_url_tempfile ();
   filter_url_mkdir (directory);
   std::string error= filter::archive::microtar_unpack (tarball, directory);
   if (!error.empty ()) {
-    database::logs::logv1 ("Importing Bibles failure: " + error);
+    database::logs::log ("Importing Bibles failure:", error);
     return;
   }
 
@@ -141,7 +141,7 @@ void system_logic_import_bibles_file (std::string tarball)
   for (auto file : files) {
     
     // Get the file's contents for import.
-    database::logs::logv1 ("Importing from file " + file);
+    database::logs::log ("Importing from file", file);
     std::string path = filter_url_create_path ({directory, file});
     std::string data = filter_url_file_get_contents (path);
     
@@ -161,10 +161,10 @@ void system_logic_import_bibles_file (std::string tarball)
         // so importing outdated Bibles would not affect the authoritative copy in the Cloud.
         database::bibles::store_chapter (bible, book_chapter_data.m_book, book_chapter_data.m_chapter, book_chapter_data.m_data);
         std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book_chapter_data.m_book));
-        database::logs::logv1 ("Imported " + bible + " " + bookname + " " + std::to_string (book_chapter_data.m_chapter));
+        database::logs::log ("Imported", bible, bookname, book_chapter_data.m_chapter);
       } else {
         // Import error.
-        database::logs::logv1 ("Could not import this file: " + file);
+        database::logs::log ("Could not import this file:", file);
       }
     }
   }
@@ -178,7 +178,7 @@ void system_logic_import_bibles_file (std::string tarball)
   tasks_logic_queue (tasks::enums::task::reindex_bibles, {"1"});
 
   // Ready, hallelujah!
-  database::logs::logv1 ("Importing Bibles ready");
+  database::logs::log ("Importing Bibles ready");
 }
 
 
@@ -246,7 +246,7 @@ void system_logic_produce_notes_file (int jobid)
 
 void system_logic_import_notes_file (std::string tarball)
 {
-  database::logs::logv1 ("Importing Consultation Notes from " + tarball);
+  database::logs::log ("Importing Consultation Notes from", tarball);
   
   // The database directory where the consultation notes reside.
   std::string directory = filter_url_create_root_path ({"consultations"});
@@ -254,7 +254,7 @@ void system_logic_import_notes_file (std::string tarball)
   // Unpack the tarball into the directory.
   std::string error= filter::archive::microtar_unpack (tarball, directory);
   if (!error.empty ()) {
-    database::logs::logv1 ("Importing Consultation Notes failure: " + error);
+    database::logs::log ("Importing Consultation Notes failure:", error);
     return;
   }
   
@@ -266,7 +266,7 @@ void system_logic_import_notes_file (std::string tarball)
   tasks_logic_queue (tasks::enums::task::reindex_notes);
 
   // Ready, hallelujah!
-  database::logs::logv1 ("Importing Consultation Notes ready");
+  database::logs::log ("Importing Consultation Notes ready");
 }
 
 
@@ -403,14 +403,14 @@ void system_logic_produce_resources_file (int jobid)
 
 void system_logic_import_resources_file (std::string tarball)
 {
-  database::logs::logv1 ("Importing Resources from " + tarball);
+  database::logs::log ("Importing Resources from", tarball);
   
   // Unpack the tarball into a directory.
   std::string directory = filter_url_tempfile ();
   filter_url_mkdir (directory);
   std::string error= filter::archive::microtar_unpack (tarball, directory);
   if (!error.empty ()) {
-    database::logs::logv1 ("Importing Resources failure: " + error);
+    database::logs::log ("Importing Resources failure:", error);
     return;
   }
   
@@ -419,7 +419,7 @@ void system_logic_import_resources_file (std::string tarball)
   for (auto file : files) {
 
     // Get the file's contents for import.
-    database::logs::logv1 ("Importing " + file);
+    database::logs::log ("Importing", file);
     std::string path = filter_url_create_path ({directory, file});
     std::string data = filter_url_file_get_contents (path);
 
@@ -433,7 +433,7 @@ void system_logic_import_resources_file (std::string tarball)
   filter_url_unlink (tarball);
 
   // Ready, hallelujah!
-  database::logs::logv1 ("Importing Resources ready");
+  database::logs::log ("Importing Resources ready");
 }
 
 

@@ -25,7 +25,7 @@ namespace database::logs {
 
 std::string folder ();
 
-void logv1 (std::string description, int minimum_role = 5);
+void log_internal (std::string description, int minimum_role = 5);
 
 template <int minimum_role = 5, typename ... Args>
 void log (Args&& ... args)
@@ -35,7 +35,7 @@ void log (Args&& ... args)
     std::string msg = std::move(oss).str();
     if (not msg.empty() and msg.back() == ' ')
         msg.pop_back();
-    logv1(std::move(msg), minimum_role);
+    log_internal(std::move(msg), minimum_role);
 }
 
 void rotate ();

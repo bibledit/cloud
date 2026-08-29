@@ -36,9 +36,9 @@ TEST (database, logs_1)
   {
     refresh_sandbox (false);
     // Log some items.
-    database::logs::logv1 ("description1", 2);
-    database::logs::logv1 ("description2", 3);
-    database::logs::logv1 ("description3", 4);
+    database::logs::log<2> ("description1");
+    database::logs::log<3> ("description2");
+    database::logs::log<4> ("description3");
     // Rotate the items.
     database::logs::rotate ();
     // Get the items from the SQLite database.
@@ -55,7 +55,7 @@ TEST (database, logs_2)
   // Test huge journal entry.
   refresh_sandbox (false);
   const std::string huge (60'000, 'x');
-  database::logs::logv1 (huge);
+  database::logs::log (huge);
   database::logs::rotate ();
   std::string s = "0";
   if (std::vector <std::string> result = database::logs::get (s);
@@ -75,7 +75,7 @@ TEST (database, logs_3)
 {
   // Test the getNext function of the Journal.
   refresh_sandbox (false);
-  database::logs::logv1 ("description");
+  database::logs::log ("description");
   const int second = filter::date::get_seconds_since_epoch ();
   std::string filename = std::to_string (second) + "00000000";
   // First time: getNext gets the logged entry.

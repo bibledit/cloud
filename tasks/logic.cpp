@@ -576,7 +576,7 @@ void tasks_logic_start_thread_pool(const std::size_t num_threads)
                 }
                 catch (const std::exception& exception)
                 {
-                    database::logs::logv1("Error running background task: " + std::string(exception.what()));
+                    database::logs::log("Error running background task:", exception.what());
                 }
             }
         });

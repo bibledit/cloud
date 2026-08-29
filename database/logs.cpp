@@ -39,7 +39,7 @@ std::string folder()
 
 
 // Records a journal entry.
-void logv1(std::string description, const int minimum_role)
+void log_internal(std::string description, const int minimum_role)
 {
     // Trim spaces.
     description = filter::string::trim(description);
@@ -130,7 +130,7 @@ void rotate()
     }
 
     if (filtered_entries)
-        logv1(journal_logic_filtered_message());
+        log_internal(journal_logic_filtered_message());
 }
 
 
@@ -176,6 +176,6 @@ void clear()
     {
         filter_url_unlink(filter_url_create_path({directory, file}));
     }
-    logv1("The journal was cleared");
+    log_internal("The journal was cleared");
 }
 }

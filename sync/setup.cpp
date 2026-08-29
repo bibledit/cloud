@@ -42,9 +42,7 @@ std::string sync_setup (Webserver_Request& webserver_request)
   // Check the username presented by the client.
   if (!webserver_request.database_users ()->username_exists (username)) {
     if (user_logic_login_failure_check_okay()) {
-      std::stringstream ss{};
-      ss << "Failed client connection attempt with incorrect username " << std::quoted(username);
-      database::logs::logv1(std::move(ss).str());
+      database::logs::log("Failed client connection attempt with incorrect username", username);
     }
     user_logic_login_failure_register ();
     return unrecognized_credentials;
@@ -54,7 +52,7 @@ std::string sync_setup (Webserver_Request& webserver_request)
   if (const std::string md5 = webserver_request.database_users()->get_md5(username);
       password_hash != md5) {
     if (user_logic_login_failure_check_okay()) {
-      database::logs::logv1("Failed client connection attempt with incorrect password");
+      database::logs::log("Failed client connection attempt with incorrect password");
     }
     user_logic_login_failure_register ();
     return unrecognized_credentials;
@@ -73,8 +71,7 @@ std::string sync_setup (Webserver_Request& webserver_request)
     webserver_request.response_code = 426;
     std::stringstream ss{};
     if (user_logic_login_failure_check_okay()) {
-      ss << "Rejecting insecure client login with username " << std::quoted(username) << " - client should upgrade its Cloud connection to https";
-      database::logs::logv1(std::move(ss).str());
+      database::logs::log("Rejecting insecure client login with username", username, " - client should upgrade its Cloud connection to https");
     }
     return require_secure;
   }

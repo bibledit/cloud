@@ -47,7 +47,7 @@ int sendreceive_notes_watchdog = 0;
 
 std::string sendreceive_notes_text ()
 {
-  return translate("Notes") + ": ";
+  return translate("Notes") + ":";
 }
 
 
@@ -68,10 +68,10 @@ void sendreceive_notes ()
   if (sendreceive_notes_watchdog) {
     int time = filter::date::get_seconds_since_epoch ();
     if (time < (sendreceive_notes_watchdog + 900)) {
-      database::logs::logv1 (sendreceive_notes_text () + translate("Still busy"), roles::translator);
+      database::logs::log<roles::translator> (sendreceive_notes_text (), translate("Still busy"));
       return;
     }
-    database::logs::logv1 (sendreceive_notes_text () + translate("Watchdog timeout"), roles::translator);
+    database::logs::log<roles::translator> (sendreceive_notes_text (), translate("Watchdog timeout"));
   }
 
   sendreceive_notes_kick_watchdog ();
@@ -87,7 +87,7 @@ void sendreceive_notes ()
     success = sendreceive_notes_download (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
   }
 
-  if (success) database::logs::logv1 (sendreceive_notes_up_to_date_text (), roles::translator);
+  if (success) database::logs::log<roles::translator> (sendreceive_notes_up_to_date_text ());
 
   sendreceive_notes_watchdog = 0;
   config_globals_syncing_notes = false;
@@ -103,13 +103,13 @@ bool sendreceive_notes_upload ()
   Database_NoteActions database_noteactions = Database_NoteActions ();
   
   
-  database::logs::logv1 (sendreceive_notes_sendreceive_text (), roles::translator);
+  database::logs::log<roles::translator> (sendreceive_notes_sendreceive_text ());
   
   
   std::string response = client_logic_connection_setup ("", "");
   if (const int iresponse = filter::string::convert_to_int (response);
       iresponse < roles::guest || iresponse > roles::admin) {
-    database::logs::logv1 (sendreceive_notes_text () + response, roles::translator);
+    database::logs::log (sendreceive_notes_text () + response, roles::translator);
     return false;
   }
   
@@ -117,7 +117,7 @@ bool sendreceive_notes_upload ()
   // Set the correct user in the session: The sole user on the Client.
   std::vector <std::string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
-    database::logs::logv1 (sendreceive_notes_text () + translate("No local user found"), roles::translator);
+    database::logs::log<roles::translator> (sendreceive_notes_text(), translate("No local user found"));
     return false;
   }
   std::string user = users [0];
@@ -157,7 +157,7 @@ bool sendreceive_notes_upload ()
 
     std::string summary = database_notes.get_summary (identifier);
     if (summary.empty ()) summary = "<deleted>";
-    database::logs::logv1 (sendreceive_notes_text () + translate("Sending note to server") + ": " + summary, roles::translator);
+    database::logs::log<roles::translator> (sendreceive_notes_text(), translate("Sending note to server"), ":", summary);
     
     
     // Get all the actions for the current note.
@@ -227,7 +227,7 @@ bool sendreceive_notes_upload ()
       sendreceive_notes_kick_watchdog ();
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
-        database::logs::logv1 (sendreceive_notes_text () + "Failure sending note: " + error, roles::translator);
+        database::logs::log<roles::translator> (sendreceive_notes_text(), "Failure sending note:", error);
         return false;
       }
       
@@ -326,7 +326,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   std::string response = client_logic_connection_setup ("", "");
   if (const int iresponse = filter::string::convert_to_int (response);
       iresponse < roles::guest || iresponse > roles::admin) {
-    database::logs::logv1 (sendreceive_notes_text () + response, roles::translator);
+    database::logs::log<roles::translator> (sendreceive_notes_text(), response);
     return false;
   }
   
@@ -339,7 +339,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // The client selects all available notes on the system.
   std::vector <std::string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
-    database::logs::logv1 (sendreceive_notes_text () + translate("No local user found"), roles::translator);
+    database::logs::log<roles::translator> (sendreceive_notes_text(), translate("No local user found"));
     return false;
   }
   std::string user = users [0];
@@ -352,7 +352,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   if (!database_notes.healthy ()) healthy = false;
   if (!database_notes.checksums_healthy ()) healthy = false;
   if (!healthy) {
-    database::logs::logv1 (sendreceive_notes_text () + "Abort receive just now because of database problems", roles::translator);
+    database::logs::log<roles::translator> (sendreceive_notes_text (), "Abort receive just now because of database problems");
     return false;
   }
   
@@ -383,7 +383,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   sendreceive_notes_kick_watchdog ();
   response = sync_logic.post (post, url, error, true);
   if (!error.empty ()) {
-    database::logs::logv1 (sendreceive_notes_text () + "Failure requesting totals: " + error, roles::translator);
+    database::logs::log<roles::translator> (sendreceive_notes_text (), "Failure requesting totals:", error);
     return false;
   }
   std::vector <std::string> vresponse = filter::string::explode (response, '\n');
@@ -436,7 +436,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   sendreceive_notes_kick_watchdog ();
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
-    database::logs::logv1 (sendreceive_notes_text () + "Failure requesting identifiers: " + error, roles::translator);
+    database::logs::log<roles::translator> (sendreceive_notes_text (), "Failure requesting identifiers:", error);
     return false;
   }
   std::vector <int> server_identifiers;
@@ -470,7 +470,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     if (delete_counter > 15) continue;
     std::string summary = database_notes.get_summary (identifier);
     database_notes.erase (identifier);
-    database::logs::logv1 (sendreceive_notes_text () + "Deleting because it is not on the server: " + summary, roles::translator);
+    database::logs::log<roles::translator> (sendreceive_notes_text(), "Deleting because it is not on the server:", summary);
   }
   
 
@@ -498,7 +498,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   if (!identifiers_bulk_download.empty ()) {
     sendreceive_notes_kick_watchdog ();
     if (identifiers_bulk_download.size () >= 3) {
-      database::logs::logv1 (sendreceive_notes_text () + "Receiving multiple notes: " + std::to_string (identifiers_bulk_download.size ()), roles::manager);
+      database::logs::log<roles::manager> (sendreceive_notes_text(), "Receiving multiple notes:", identifiers_bulk_download.size ());
     }
     // Request the JSON from the Cloud: It will contain the requested notes.
     post.clear ();
@@ -507,7 +507,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     post ["b"] = bulk_identifiers;
     std::string json = sync_logic.post (post, url, error);
     if (!error.empty ()) {
-      database::logs::logv1 (sendreceive_notes_text () + "Failure requesting multiple notes: " + error, roles::consultant);
+      database::logs::log<roles::consultant> (sendreceive_notes_text (), "Failure requesting multiple notes:", error);
       return false;
     }
     // Store the notes in the file system.
@@ -515,7 +515,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     // More specific feedback in case it downloaded only a few notes, rather than notes in bulk.
     if (identifiers_bulk_download.size () < 3) {
       for (auto & summary : summaries) {
-        database::logs::logv1 (sendreceive_notes_text () + "Receiving: " + summary, roles::manager);
+        database::logs::log<roles::manager> (sendreceive_notes_text (), "Receiving:", summary);
       }
     }
   }

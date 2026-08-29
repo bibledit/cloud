@@ -27,7 +27,7 @@
 
 void sources_etcbc4_download ()
 {
-  database::logs::logv1 ("Start to download the raw Hebrew morphology data from the ETCBC4 database");
+  database::logs::log ("Start to download the raw Hebrew morphology data from the ETCBC4 database");
   database::etcbc4::create ();
   
   // The book names for downloading data.
@@ -93,14 +93,14 @@ void sources_etcbc4_download ()
         std::string error;
         std::string response = filter_url_http_get (url, error, false);
         if (!error.empty ()) {
-          database::logs::logv1 (error);
+          database::logs::log (error);
           continue;
         }
         if (response.find ("does not exist") != std::string::npos) {
           if (verse == 1) book_done = true;
           break;
         }
-        database::logs::logv1 (bookname + " " + std::to_string (chapter) + "." + std::to_string (verse));
+        database::logs::log (bookname, chapter, ".", verse);
         database::etcbc4::store (book, chapter, verse, response);
         // Wait a second: Be polite: Do not overload the website.
         std::this_thread::sleep_for (std::chrono::seconds (1));
@@ -108,7 +108,7 @@ void sources_etcbc4_download ()
     }
   }
 
-  database::logs::logv1 ("Finished downloading from the ETCBC4 database");
+  database::logs::log ("Finished downloading from the ETCBC4 database");
 }
 
 
@@ -127,13 +127,13 @@ std::string sources_etcbc4_clean (std::string item)
 // The parser is supposed to be ran only by the developers.
 void sources_etcbc4_parse ()
 {
-  database::logs::logv1 ("Parsing data from the ETCBC4 database");
+  database::logs::log ("Parsing data from the ETCBC4 database");
   database::etcbc4::create ();
   const std::vector <int> books = database::etcbc4::books ();
   for (auto book : books) {
     const std::vector <int> chapters = database::etcbc4::chapters (book);
     for (auto chapter : chapters) {
-      database::logs::logv1 ("Parsing book " + std::to_string (book) + " chapter " + std::to_string (chapter));
+      database::logs::log ("Parsing book", book, "chapter", chapter);
       std::vector <int> verses = database::etcbc4::verses (book, chapter);
       for (auto verse : verses) {
         // The raw data for the verse.
@@ -213,5 +213,5 @@ void sources_etcbc4_parse ()
     }
   }
   
-  database::logs::logv1 ("Finished parsing data from the ETCBC4 database");
+  database::logs::log ("Finished parsing data from the ETCBC4 database");
 }

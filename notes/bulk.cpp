@@ -175,7 +175,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
       }
     }
     success = translate("The notes were assigned to the user");
-    database::logs::logv1 ("Notes assigned to user " + assignee + ": " + identifierlist);
+    database::logs::log ("Notes assigned to user", assignee, ":", identifierlist);
   }
   
   
@@ -187,7 +187,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
       }
     }
     success = translate("The notes are no longer assigned to the user");
-    database::logs::logv1 ("Notes unassigned from user " + unassignee + ": " + identifierlist);
+    database::logs::log ("Notes unassigned from user", unassignee, ":", identifierlist);
   }
 
   
@@ -199,7 +199,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
       }
     }
     success = translate("The notes are no longer assigned to you");
-    database::logs::logv1 ("Notes unassigned from user " + username + ": " + identifierlist);
+    database::logs::log ("Notes unassigned from user", username, ":", identifierlist);
   }
 
   
@@ -211,7 +211,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
       }
     }
     success = translate("The status of the notes was updated");
-    database::logs::logv1 ("Status update of notes: " + identifierlist);
+    database::logs::log ("Status update of notes:", identifierlist);
   }
   
   
@@ -223,7 +223,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
       }
     }
     success = translate("The severity of the notes was updated");
-    database::logs::logv1 ("Severity update of notes: " + identifierlist);
+    database::logs::log ("Severity update of notes:", identifierlist);
   }
   
   
@@ -236,7 +236,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
       }
     }
     success = translate("The Bible of the notes was updated");
-    database::logs::logv1 ("Bible update of notes: " + identifierlist);
+    database::logs::log ("Bible update of notes:", identifierlist);
   }
   
   

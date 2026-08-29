@@ -52,7 +52,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, c
   // Check a Bible is given.
   if (bible.empty()) {
     const std::string message = "Missing Bible";
-    database::logs::logv1 (message, roles::manager);
+    database::logs::log<roles::manager> (message);
     return message;
   }
   
@@ -70,7 +70,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, c
   // Check whether the user has write-access to the Bible book.
   if (!access_bible::book_write (webserver_request, username, bible, book)) {
     std::string message = "User " + username + " does not have write access to Bible " + bible;
-    database::logs::logv1 (message, roles::manager);
+    database::logs::log<roles::manager> (message);
     // The Cloud will email the user with details about the issue.
     bible_logic::client_no_write_access_mail (bible, book, chapter, username, oldusfm, newusfm);
     // The Cloud returns the checksum so the client thinks the chapter was send off correcly,
@@ -82,7 +82,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, c
   // Check checksum.
   if (checksum != checksum_logic::get (oldusfm + newusfm)) {
     const std::string message = "The received data is corrupted";
-    database::logs::logv1 (message, roles::manager);
+    database::logs::log<roles::manager> (message);
     return message;
   }
   

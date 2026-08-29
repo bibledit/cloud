@@ -56,7 +56,7 @@ void checks_run (std::string bible)
   if (bible.empty()) return;
   
   
-  database::logs::logv1 ("Check " + bible + ": Start", roles::translator);
+  database::logs::log<roles::translator> ("Check", bible, ": Start");
   
   
   database::check::delete_output(bible);
@@ -144,7 +144,7 @@ void checks_run (std::string bible)
             database::git::store_chapter (username, bible, book, chapter, old_usfm, chapterUsfm);
           }
 #endif
-          database::logs::logv1 ("Transposed and fixed double spaces around markers in footnotes or cross references in " + filter_passage_display (book, chapter, "") + " in Bible " + bible);
+          database::logs::log ("Transposed and fixed double spaces around markers in footnotes or cross references in", filter_passage_display (book, chapter, ""), "in Bible", bible);
         }
       }
       
@@ -284,5 +284,5 @@ void checks_run (std::string bible)
   }
   
   
-  database::logs::logv1 ("Check " + bible + ": Complete", roles::translator);
+  database::logs::log<roles::translator> ("Check", bible, ": Complete");
 }

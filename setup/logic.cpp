@@ -83,7 +83,7 @@ void setup_conditionally (const char * package)
     setup_initialize_data ();
     
     for (const auto& message : messages) {
-      database::logs::logv1 (message);
+      database::logs::log (message);
     }
     
 #ifndef HAVE_CLIENT

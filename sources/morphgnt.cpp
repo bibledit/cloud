@@ -26,7 +26,7 @@
 
 void sources_morphgnt_parse ()
 {
-  database::logs::logv1 ("Start parsing MorphGNT");
+  database::logs::log ("Start parsing MorphGNT");
   Database_MorphGnt database_morphgnt;
   database_morphgnt.create ();
 
@@ -44,14 +44,14 @@ void sources_morphgnt_parse ()
   
   for (auto file : files) {
     file.insert (0, "sources/morphgnt/");
-    database::logs::logv1 (file);
+    database::logs::log (file);
     std::string contents = filter_url_file_get_contents (file);
     std::vector <std::string> lines = filter::string::explode (contents, '\n');
     for (auto line : lines) {
       std::vector <std::string> bits = filter::string::explode (line, ' ');
       if (bits.size () != 7) {
-        database::logs::logv1 (line);
-        database::logs::logv1 ("Should be seven bits");
+        database::logs::log (line);
+        database::logs::log ("Should be seven bits");
         continue;
       }
 
@@ -74,5 +74,5 @@ void sources_morphgnt_parse ()
   }
 
   database_morphgnt.optimize ();
-  database::logs::logv1 ("Finished parsing MorphGNT");
+  database::logs::log ("Finished parsing MorphGNT");
 }

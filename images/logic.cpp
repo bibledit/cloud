@@ -29,7 +29,7 @@
 
 void images_logic_import_images (std::string path)
 {
-  database::logs::logv1 ("Importing: " + filter_url_basename (path));
+  database::logs::log ("Importing:", filter_url_basename (path));
 
   // To begin with, add the path of the zip file to the main file to the list of paths to be processed.
   std::vector <std::string> paths = {path};
@@ -48,19 +48,19 @@ void images_logic_import_images (std::string path)
       if (basename.size() > 1) {
         if (basename[0] != '.') {
           database::bible_images::store (path);
-          database::logs::logv1 ("Storing image " + basename);
+          database::logs::log ("Storing image", basename);
         }
       }
     }
 
     // Uncompress archives.
     else if (filter::archive::is_archive (path)) {
-      database::logs::logv1 ("Unpacking archive " + basename);
+      database::logs::log ("Unpacking archive", basename);
       std::string folder = filter::archive::decompress (path);
       filter_url_recursive_scandir (folder, paths);
     }
    
   }
 
-  database::logs::logv1 ("Ready importing Bible images");
+  database::logs::log ("Ready importing Bible images");
 }

@@ -107,8 +107,8 @@ abbr[title], dfn[title] {
   src: url(/fonts/SILEOT.ttf);
 }
 @font-face {
-  font-family: "Cardo";
-  src: url(../fonts/Cardo-Regular.ttf);
+    font-family: "Cardo";
+    src: local("Cardo"), local("Cardo-Regular"), url("../fonts/Cardo-Regular.ttf") ;
 }
 
 html {

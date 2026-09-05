@@ -23,23 +23,23 @@
 
 class Webserver_Request;
 
-void developer_logic_log_network_write ();
+void developer_logic_log_network_write();
 
 class Developer_Logic_Tracer
 {
 public:
-  Developer_Logic_Tracer(Webserver_Request& webserver_request);
-  ~Developer_Logic_Tracer();
-  int seconds1 {0};
-  int microseconds1 {0};
-  std::string rfc822 {};
-  std::string remote_address {};
-  std::string request_get {};
-  std::string request_query {};
-  std::string username {};
+    explicit Developer_Logic_Tracer(Webserver_Request& webserver_request);
+    ~Developer_Logic_Tracer();
+    int seconds1{0};
+    int microseconds1{0};
+    std::string rfc822{};
+    std::string remote_address{};
+    std::string request_get{};
+    std::string request_query{};
+    std::string username{};
 };
 
-void developer_logic_import_changes ();
+void developer_logic_import_changes();
 
 template <typename T>
 class scoped_timer

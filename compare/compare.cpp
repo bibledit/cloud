@@ -17,7 +17,6 @@
  */
 
 
-#include <access/bible.h>
 #include <compare/compare.h>
 #include <database/bibles.h>
 #include <database/books.h>

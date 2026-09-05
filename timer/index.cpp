@@ -48,7 +48,9 @@ void timer_index()
     int previous_second{-1};
     int previous_minute{-1};
     [[maybe_unused]] int google_translate_authentication_token_age_minute{0};
+#ifdef HAVE_CLOUD
     bool server_restart_attempted {false};
+#endif
 
 #ifdef HAVE_CLOUD
     // Right after startup, update the Google Translate access token.

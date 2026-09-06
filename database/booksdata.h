@@ -23,11 +23,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 struct book_record
 {
-    const char* english; // English name.
-    const char* osis; // OSIS abbreviation.
-    const char* usfm; // USFM ID.
-    const char* bibleworks; // BibleWorks abbreviation.
-    const char* onlinebible; // Online Bible abbreviation.
+    std::string_view english; // English name.
+    std::string_view osis; // OSIS abbreviation.
+    std::string_view usfm; // USFM ID.
+    std::string_view bibleworks; // BibleWorks abbreviation.
+    std::string_view onlinebible; // Online Bible abbreviation.
     const book_id id; // Bibledit's internal book identifier as an enum.
     const uint8_t order; // The order of the books.
     const book_type type; // The type of the book as an enum.

@@ -21,10 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/booksdata.h>
 #include <filter/diff.h>
 #include <filter/string.h>
-#include <locale/translate.h>
 
 
 namespace database::books {
+
+
 std::vector<book_id> get_ids()
 {
     auto&& ids_view = books_table | std::ranges::views::transform(&book_record::id);
@@ -32,75 +33,78 @@ std::vector<book_id> get_ids()
 }
 
 
-book_id get_id_from_english(const std::string_view english) noexcept
+// Metaprogramming utility.
+// Given a pointer-to-member value (like &book_record::english),
+// extract just the type of the member it points to (e.g., std::string_view),
+// so that type can be used elsewhere as a function parameter type, a return type, etc.
+template <typename Struct, typename Member>
+// ReSharper disable once CppFunctionIsNotImplemented
+static Member member_value_type(Member Struct::*);
+// Above is just the declaration, because it is never called at runtime.
+// The parameter type, Member Struct::*, is a pointer-to-member declarator.
+// It means "a pointer to a member of type Member belonging to class Struct."
+
+template <auto member_ptr>
+using member_t = decltype(member_value_type(member_ptr));
+
+
+
+template <auto search_member, auto result_member, typename DefaultFn>
+[[nodiscard]] static auto lookup_field(const member_t<search_member>& key, DefaultFn&& default_fn)
+    -> member_t<result_member>
 {
-    if (const auto iter = std::ranges::find(books_table, english, &book_record::english);
+    if (const auto iter = std::ranges::find(books_table, key, search_member);
         iter != std::ranges::cend(books_table))
-        return iter->id;
-    return book_id::_unknown;
+        return iter->*result_member;
+    return std::invoke(std::forward<DefaultFn>(default_fn));
 }
 
+book_id get_id_from_english(const std::string_view english) noexcept
+{
+    auto default_fn = [] { return book_id::_unknown; };
+    return lookup_field<&book_record::english, &book_record::id>(english, std::move(default_fn));
+}
 
 std::string get_english_from_id(const book_id id)
 {
-    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
-        iter != std::ranges::cend(books_table))
-        return iter->english;
-    return translate("Unknown");
+    auto default_fn = [] { return std::string_view{"Unknown"}; };
+    return std::string{lookup_field<&book_record::id, &book_record::english>(id, std::move(default_fn))};
 }
-
 
 std::string get_usfm_from_id(const book_id id)
 {
-    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
-        iter != std::ranges::cend(books_table))
-        return iter->usfm;
-    return "XXX";
+    auto default_fn = [] { return std::string_view{"XXX"}; };
+    return std::string{lookup_field<&book_record::id, &book_record::usfm>(id, std::move(default_fn))};
 }
-
 
 std::string get_bibleworks_from_id(const book_id id)
 {
-    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
-        iter != std::ranges::cend(books_table))
-        return iter->bibleworks;
-    return "Xxx";
+    auto default_fn = [] { return std::string_view{"Xxx"}; };
+    return std::string{lookup_field<&book_record::id, &book_record::bibleworks>(id, std::move(default_fn))};
 }
-
 
 std::string get_osis_from_id(const book_id id)
 {
-    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
-        iter != std::ranges::cend(books_table))
-        return iter->osis;
-    return translate("Unknown");
+    auto default_fn = [] { return std::string_view{"Unknown"}; };
+    return std::string{lookup_field<&book_record::id, &book_record::osis>(id, std::move(default_fn))};
 }
-
 
 book_id get_id_from_usfm(const std::string_view usfm)
 {
-    if (const auto iter = std::ranges::find(books_table, usfm, &book_record::usfm);
-        iter != std::ranges::cend(books_table))
-        return iter->id;
-    return book_id::_unknown;
+    auto default_fn = [] { return book_id::_unknown; };
+    return lookup_field<&book_record::usfm, &book_record::id>(usfm, std::move(default_fn));
 }
-
 
 book_id get_id_from_osis(const std::string_view osis)
 {
-    if (const auto iter = std::ranges::find(books_table, osis, &book_record::osis);
-        iter != std::ranges::cend(books_table))
-        return iter->id;
-    return book_id::_unknown;
+    auto default_fn = [] { return book_id::_unknown; };
+    return lookup_field<&book_record::osis, &book_record::id>(osis, std::move(default_fn));
 }
-
 
 book_id get_id_from_bibleworks(const std::string_view bibleworks)
 {
-    if (const auto iter = std::ranges::find(books_table, bibleworks, &book_record::bibleworks);
-        iter != std::ranges::cend(books_table))
-        return iter->id;
-    return book_id::_unknown;
+    auto default_fn = [] { return book_id::_unknown; };
+    return lookup_field<&book_record::bibleworks, &book_record::id>(bibleworks, std::move(default_fn));
 }
 
 
@@ -124,12 +128,12 @@ book_id get_id_like_text(const std::string& text)
     std::vector<int> similarities{};
     for (const auto & record : books_table)
     {
-        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(record.english)));
-        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(record.osis)));
+        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(std::string{record.english})));
+        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(std::string{record.osis})));
         // USFM is canonical uppercase: Leave it like that.
-        candidates.emplace_back(record.id, filter_diff_character_similarity(text, record.usfm));
-        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(record.bibleworks)));
-        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(record.onlinebible)));
+        candidates.emplace_back(record.id, filter_diff_character_similarity(text, std::string{record.usfm}));
+        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(std::string{record.bibleworks})));
+        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(std::string{record.onlinebible})));
     }
 
     // Don't sort the entire vector, just take the maximum element.
@@ -140,39 +144,27 @@ book_id get_id_like_text(const std::string& text)
 
 book_id get_id_from_onlinebible(const std::string_view onlinebible)
 {
-    if (const auto iter = std::ranges::find(books_table, onlinebible, &book_record::onlinebible);
-        iter != std::ranges::cend(books_table))
-        return iter->id;
-    return book_id::_unknown;
+    auto default_fn = [] { return book_id::_unknown; };
+    return lookup_field<&book_record::onlinebible, &book_record::id>(onlinebible, std::move(default_fn));
 }
-
 
 std::string get_onlinebible_from_id(const book_id id)
 {
-    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
-        iter != std::ranges::cend(books_table))
-        return iter->onlinebible;
-    return {};
+    auto default_fn = [] { return std::string_view{}; };
+    return std::string{lookup_field<&book_record::id, &book_record::onlinebible>(id, std::move(default_fn))};
 }
-
 
 short get_order_from_id(const book_id id)
 {
-    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
-        iter != std::ranges::cend(books_table))
-        return iter->order;
-    return 0;
+    auto default_fn = [] { return static_cast<uint8_t>(0); };
+    return lookup_field<&book_record::id, &book_record::order>(id, std::move(default_fn));
 }
-
 
 book_type get_type(const book_id id)
 {
-    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
-        iter != std::ranges::cend(books_table))
-        return iter->type;
-    return book_type::unknown;
+    auto default_fn = [] { return book_type::unknown; };
+    return lookup_field<&book_record::id, &book_record::type>(id, std::move(default_fn));
 }
-
 
 std::string book_type_to_string(const book_type type)
 {

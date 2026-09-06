@@ -18,206 +18,173 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <database/books.h>
-#include <config/globals.h>
-#include <database/sqlite.h>
-#include <filter/string.h>
-#include <filter/diff.h>
-#include <locale/translate.h>
 #include <database/booksdata.h>
+#include <filter/diff.h>
+#include <filter/string.h>
+#include <locale/translate.h>
 
 
 namespace database::books {
-
-
-// Internal function for the number of data elements.
-constexpr size_t data_count = sizeof (books_table) / sizeof (*books_table);
-
-
-std::vector <book_id> get_ids ()
+std::vector<book_id> get_ids()
 {
-  std::vector <book_id> ids;
-  for (unsigned int i = 0; i < data_count; i++) {
-    book_id id = books_table[i].id;
-    ids.push_back (id);
-  }
-  return ids;
+    auto&& ids_view = books_table | std::ranges::views::transform(&book_record::id);
+    return {ids_view.begin(), ids_view.end()};
 }
 
 
-book_id get_id_from_english (const std::string& english)
+book_id get_id_from_english(const std::string_view english) noexcept
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (english == books_table[i].english) {
-      return books_table[i].id;
-    }
-  }
-  return book_id::_unknown;
+    if (const auto iter = std::ranges::find(books_table, english, &book_record::english);
+        iter != std::ranges::cend(books_table))
+        return iter->id;
+    return book_id::_unknown;
 }
 
 
-std::string get_english_from_id (book_id id)
+std::string get_english_from_id(const book_id id)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
-      return books_table[i].english;
-    }
-  }
-  return translate ("Unknown");
+    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
+        iter != std::ranges::cend(books_table))
+        return iter->english;
+    return translate("Unknown");
 }
 
 
-std::string get_usfm_from_id (book_id id)
+std::string get_usfm_from_id(const book_id id)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
-      return books_table[i].usfm;
-    }
-  }
-  return "XXX";
+    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
+        iter != std::ranges::cend(books_table))
+        return iter->usfm;
+    return "XXX";
 }
 
 
-std::string get_bibleworks_from_id (book_id id)
+std::string get_bibleworks_from_id(const book_id id)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
-      return books_table[i].bibleworks;
-    }
-  }
-  return "Xxx";
+    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
+        iter != std::ranges::cend(books_table))
+        return iter->bibleworks;
+    return "Xxx";
 }
 
 
-std::string get_osis_from_id (book_id id)
+std::string get_osis_from_id(const book_id id)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
-      return books_table[i].osis;
-    }
-  }
-  return translate ("Unknown");
+    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
+        iter != std::ranges::cend(books_table))
+        return iter->osis;
+    return translate("Unknown");
 }
 
 
-book_id get_id_from_usfm (const std::string& usfm)
+book_id get_id_from_usfm(const std::string_view usfm)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (usfm == books_table[i].usfm) {
-      return books_table[i].id;
-    }
-  }
-  return book_id::_unknown;
+    if (const auto iter = std::ranges::find(books_table, usfm, &book_record::usfm);
+        iter != std::ranges::cend(books_table))
+        return iter->id;
+    return book_id::_unknown;
 }
 
 
-book_id get_id_from_osis (const std::string& osis)
+book_id get_id_from_osis(const std::string_view osis)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (osis == books_table[i].osis) {
-      return books_table[i].id;
-    }
-  }
-  return book_id::_unknown;
+    if (const auto iter = std::ranges::find(books_table, osis, &book_record::osis);
+        iter != std::ranges::cend(books_table))
+        return iter->id;
+    return book_id::_unknown;
 }
 
 
-book_id get_id_from_bibleworks (const std::string& bibleworks)
+book_id get_id_from_bibleworks(const std::string_view bibleworks)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (bibleworks == books_table[i].bibleworks) {
-      return books_table[i].id;
-    }
-  }
-  return book_id::_unknown;
+    if (const auto iter = std::ranges::find(books_table, bibleworks, &book_record::bibleworks);
+        iter != std::ranges::cend(books_table))
+        return iter->id;
+    return book_id::_unknown;
 }
 
 
-// Tries to interprete $text as the name of a Bible book.
+// Tries to interpret $text as the name of a Bible book.
 // Returns the book's identifier if it succeeds.
 // If it fails, it returns 0.
-book_id get_id_like_text (const std::string& text)
-{
-  // Go through all known book names and abbreviations.
-  // Note how much the $text differs from the known names.
-  // Then return the best match.
-  std::vector <int> ids {};
-  std::vector <int> similarities {};
-  for (unsigned int i = 0; i < data_count; i++) {
-    int id {static_cast<int>(books_table[i].id)};
-    ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, filter::string::unicode_string_casefold(books_table[i].english)));
-    ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, filter::string::unicode_string_casefold(books_table[i].osis)));
-    ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, books_table[i].usfm));
-    ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, filter::string::unicode_string_casefold(books_table[i].bibleworks)));
-    ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, filter::string::unicode_string_casefold(books_table[i].onlinebible)));
-  }
-  filter::string::quick_sort (similarities, ids, 0, static_cast<unsigned>(ids.size()));
-  int id = ids.back ();
-  return static_cast<book_id>(id);
-}
 
-
-book_id get_id_from_onlinebible (const std::string& onlinebible)
+book_id get_id_like_text(const std::string& text)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (onlinebible == books_table[i].onlinebible) {
-      return books_table[i].id;
+    struct candidate
+    {
+        book_id id;
+        int similarity;
+    };
+    std::vector<candidate> candidates;
+    candidates.reserve(books_table.size() * 5);
+
+    // Go through all known book names and abbreviations.
+    // Store how much parameter "text" differs from the known names.
+    std::vector<int> ids{};
+    std::vector<int> similarities{};
+    for (const auto & record : books_table)
+    {
+        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(record.english)));
+        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(record.osis)));
+        // USFM is canonical uppercase: Leave it like that.
+        candidates.emplace_back(record.id, filter_diff_character_similarity(text, record.usfm));
+        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(record.bibleworks)));
+        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(record.onlinebible)));
     }
-  }
-  return book_id::_unknown;
+
+    // Don't sort the entire vector, just take the maximum element.
+    const auto best = std::ranges::max_element(candidates, {}, &candidate::similarity);
+    return best->id;
 }
 
 
-std::string get_onlinebible_from_id (book_id id)
+book_id get_id_from_onlinebible(const std::string_view onlinebible)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
-      return books_table[i].onlinebible;
-    }
-  }
-  return std::string();
+    if (const auto iter = std::ranges::find(books_table, onlinebible, &book_record::onlinebible);
+        iter != std::ranges::cend(books_table))
+        return iter->id;
+    return book_id::_unknown;
 }
 
 
-short get_order_from_id (book_id id)
+std::string get_onlinebible_from_id(const book_id id)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
-      return books_table[i].order;
-    }
-  }
-  return 0;
+    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
+        iter != std::ranges::cend(books_table))
+        return iter->onlinebible;
+    return {};
 }
 
 
-book_type get_type (book_id id)
+short get_order_from_id(const book_id id)
 {
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
-      return books_table[i].type;
-    }
-  }
-  return book_type::unknown;
+    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
+        iter != std::ranges::cend(books_table))
+        return iter->order;
+    return 0;
 }
 
 
-std::string book_type_to_string (book_type type)
+book_type get_type(const book_id id)
 {
-  switch (type) {
-    case book_type::unknown: return std::string();
+    if (const auto iter = std::ranges::find(books_table, id, &book_record::id);
+        iter != std::ranges::cend(books_table))
+        return iter->type;
+    return book_type::unknown;
+}
+
+
+std::string book_type_to_string(const book_type type)
+{
+    switch (type)
+    {
+    case book_type::unknown: return {};
     case book_type::old_testament: return "ot";
     case book_type::new_testament: return "nt";
     case book_type::front_back: return "frontback";
     case book_type::other: return "other";
     case book_type::apocryphal: return "ap";
-    default: return std::string();
-  }
-  return std::string();
+    default: return {};
+    }
 }
-
-
 } // End of namespace.

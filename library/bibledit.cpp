@@ -212,7 +212,7 @@ void bibledit_start_library ()
 
   // Start the thread pools with the workers.
   start_thread_pool();
-  tasks_logic_start_thread_pool(MAX_PARALLEL_TASKS);
+  tasks::tasks_logic_start_thread_pool(MAX_PARALLEL_TASKS);
 
   // Run the plain web server in a thread.
   config_globals_http_worker = new std::thread (http_server);
@@ -351,7 +351,7 @@ void bibledit_stop_library()
 
     // Stop the thread pools for the workers.
     stop_thread_pool();
-    tasks_logic_stop_thread_pool();
+    tasks::tasks_logic_stop_thread_pool();
 
     // Another way of doing the above is to ::raise a signal to each of the listening threads.
     // That signal will unblock the blocking BSD sockets, and so allow the shutdown process to proceed.

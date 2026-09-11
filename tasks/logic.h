@@ -22,6 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include "enums.h"
 
+namespace tasks {
+
 std::string to_string (const tasks::enums::task& task);
 void tasks_logic_queue (tasks::enums::task task, std::vector <std::string> parameters = {});
 bool tasks_logic_queued (tasks::enums::task task, std::vector <std::string> parameters = {});
@@ -29,3 +31,5 @@ void tasks_logic_start_thread_pool(std::size_t num_threads);
 void tasks_logic_stop_thread_pool();
 int tasks_logic_queue_size ();
 int tasks_logic_active_jobs_count ();
+
+}

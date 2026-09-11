@@ -41,17 +41,17 @@ TEST(tasks, logic)
         return "parameter" + (number ? std::to_string(number) : std::string());
     };
 
-    tasks_logic_queue( task1 );
-    tasks_logic_queue( task3 );
-    tasks_logic_queue( task4,  { parameter(1), parameter(2)});
-    EXPECT_TRUE (tasks_logic_queued ( task1 ));
-    EXPECT_FALSE(tasks_logic_queued ( task2 ));
-    EXPECT_FALSE(tasks_logic_queued ( task1, {  parameter() }));
-    EXPECT_FALSE(tasks_logic_queued ( task4 ));
-    EXPECT_FALSE(tasks_logic_queued ( task4, { parameter(1) }));
-    EXPECT_TRUE (tasks_logic_queued ( task4, { parameter(1), parameter(2) }));
-    EXPECT_FALSE(tasks_logic_queued ( task4, { parameter(1), parameter(3) }));
-    EXPECT_FALSE(tasks_logic_queued ( task4, { parameter(2) }));
+    tasks::tasks_logic_queue( task1 );
+    tasks::tasks_logic_queue( task3 );
+    tasks::tasks_logic_queue( task4,  { parameter(1), parameter(2)});
+    EXPECT_TRUE (tasks::tasks_logic_queued ( task1 ));
+    EXPECT_FALSE(tasks::tasks_logic_queued ( task2 ));
+    EXPECT_FALSE(tasks::tasks_logic_queued ( task1, {  parameter() }));
+    EXPECT_FALSE(tasks::tasks_logic_queued ( task4 ));
+    EXPECT_FALSE(tasks::tasks_logic_queued ( task4, { parameter(1) }));
+    EXPECT_TRUE (tasks::tasks_logic_queued ( task4, { parameter(1), parameter(2) }));
+    EXPECT_FALSE(tasks::tasks_logic_queued ( task4, { parameter(1), parameter(3) }));
+    EXPECT_FALSE(tasks::tasks_logic_queued ( task4, { parameter(2) }));
 }
 
 #endif

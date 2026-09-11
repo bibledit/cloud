@@ -116,7 +116,7 @@ std::string developer_index(Webserver_Request& webserver_request)
 
     if (debug == "sendreceive")
     {
-        tasks_logic_queue(tasks::enums::task::receive_email);
+        tasks::tasks_logic_queue(tasks::enums::task::receive_email);
         view.set_variable("success", "Sending and receiving email");
     }
 
@@ -140,7 +140,7 @@ std::string developer_index(Webserver_Request& webserver_request)
 
     if (debug == "maintain")
     {
-        tasks_logic_queue(tasks::enums::task::maintain_database);
+        tasks::tasks_logic_queue(tasks::enums::task::maintain_database);
         view.set_variable("success", "Starting to maintain the databases");
     }
 
@@ -218,7 +218,7 @@ std::string developer_index(Webserver_Request& webserver_request)
         std::vector<std::string> parameters{};
         for (int i = 1; i <= 5; ++i)
         {
-            tasks_logic_queue(tasks::enums::task::none, parameters);
+            tasks::tasks_logic_queue(tasks::enums::task::none, parameters);
             parameters.emplace_back("parameter" + std::to_string(i));
         }
         view.set_variable("success", "Tasks were queued");

@@ -46,7 +46,7 @@ TEST(tasks, logic)
     tasks::tasks_logic_queue( task4,  { parameter(1), parameter(2)});
     EXPECT_TRUE (tasks::tasks_logic_queued ( task1 ));
     EXPECT_FALSE(tasks::tasks_logic_queued ( task2 ));
-    EXPECT_FALSE(tasks::tasks_logic_queued ( task1, {  parameter() }));
+    EXPECT_FALSE(tasks::tasks_logic_queued ( task1, { parameter() }));
     EXPECT_FALSE(tasks::tasks_logic_queued ( task4 ));
     EXPECT_FALSE(tasks::tasks_logic_queued ( task4, { parameter(1) }));
     EXPECT_TRUE (tasks::tasks_logic_queued ( task4, { parameter(1), parameter(2) }));

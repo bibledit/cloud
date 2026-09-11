@@ -164,32 +164,30 @@ static std::atomic running_tasks(0);
 void tasks_logic_queue(const enums::task task, std::vector<std::string> parameters)
 {
     {
-        std::scoped_lock lock(queue_mutex);
+        std::lock_guard lock(queue_mutex);
         task_queue.emplace_back(task, std::move(parameters));
     }
     thread_cv.notify_one();
 }
 
 
-bool tasks_logic_queued(const enums::task task, std::vector<std::string> parameters)
+bool tasks_logic_queued(const enums::task task, const std::vector<std::string>& parameters)
 {
-    const Task query_task{
-        .task = task,
-        .parameters = std::move(parameters)
-    };
-    std::scoped_lock lock(queue_mutex);
-    return std::ranges::find(task_queue, query_task) != task_queue.cend();
+    std::lock_guard lock(queue_mutex);
+    return std::ranges::any_of(task_queue, [&](const Task& t) noexcept {
+        return t.task == task && t.parameters == parameters;
+    });
 }
 
 
 static void tasks_logic_run_one(Task task)
 {
-    const auto get_parameter = [&task](std::string& parameter)
+    size_t index {0};
+    const auto get_parameter = [&task, &index](std::string& parameter)
     {
-        if (task.parameters.empty())
-            return;
-        parameter = std::move(task.parameters.front());
-        task.parameters.erase(task.parameters.begin());
+        if (index < task.parameters.size())
+            parameter = std::move(task.parameters[index]);
+        ++index;
     };
     std::string parameter1{};
     get_parameter(parameter1);
@@ -396,7 +394,7 @@ static void tasks_logic_run_one(Task task)
     case enums::task::sync_paratext:
         {
             int imethod = filter::string::convert_to_int(parameter1);
-            auto method = static_cast<tasks::enums::paratext_sync>(imethod);
+            auto method = static_cast<enums::paratext_sync>(imethod);
             Paratext_Logic::synchronize(method);
             break;
         }

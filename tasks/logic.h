@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace tasks {
 std::string_view to_string(enums::task task);
 void tasks_logic_queue (enums::task task, std::vector <std::string> parameters = {});
-bool tasks_logic_queued (enums::task task, std::vector <std::string> parameters = {});
+bool tasks_logic_queued (enums::task task, const std::vector<std::string>& parameters = {});
 void tasks_logic_start_thread_pool(std::size_t num_threads);
 void tasks_logic_stop_thread_pool();
 int tasks_logic_queue_size ();

@@ -144,13 +144,11 @@ struct Task
 }
 
 
-static std::ostream& operator<<(std::ostream& os, const Task& task) noexcept
+static std::ostream& operator<<(std::ostream& os, const Task& task)
 {
     os << std::quoted(to_string(task.task));
-    std::ranges::for_each(task.parameters, [&os]<typename P>(P&& parameter)
-    {
-        os << " " << std::quoted(std::forward<P>(parameter));
-    });
+    for (const auto& parameter : task.parameters)
+        os << ' ' << std::quoted(parameter);
     return os;
 }
 

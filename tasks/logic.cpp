@@ -137,8 +137,8 @@ std::string_view to_string(const enums::task task)
 namespace {
 struct Task
 {
-    tasks::enums::task task{enums::task::none};
-    std::vector<std::string> parameters{};
+    enums::task task;
+    std::vector<std::string> parameters;
     constexpr auto operator<=>(const Task&) const = default;
 };
 }

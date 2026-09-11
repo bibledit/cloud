@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace tasks::enums {
 
-enum class task
+enum class task : uint8_t
 {
     none,
     rotate_journal,
@@ -82,7 +82,7 @@ enum class task
     get_google_access_token,
 };
 
-enum class paratext_sync {
+enum class paratext_sync : uint8_t {
   none,
   bi_directional,
   bibledit_to_paratext,

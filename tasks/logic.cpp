@@ -68,7 +68,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 namespace tasks {
-std::string to_string(const enums::task& task)
+std::string_view to_string(const enums::task task)
 {
     switch (task)
     {
@@ -129,9 +129,8 @@ std::string to_string(const enums::task& task)
     case enums::task::create_empty_bible: return "create empty bible";
     case enums::task::import_bible_images: return "import bible images";
     case enums::task::get_google_access_token: return "get google access token";
-    default: return "";
+    default: return {};
     }
-    return "";
 }
 
 
@@ -164,7 +163,7 @@ static std::atomic run_pool{false};
 static std::atomic running_tasks(0);
 
 
-void tasks::tasks_logic_queue(const tasks::enums::task task, std::vector<std::string> parameters)
+void tasks_logic_queue(const enums::task task, std::vector<std::string> parameters)
 {
     {
         std::scoped_lock lock(queue_mutex);
@@ -174,7 +173,7 @@ void tasks::tasks_logic_queue(const tasks::enums::task task, std::vector<std::st
 }
 
 
-bool tasks::tasks_logic_queued(const tasks::enums::task task, std::vector<std::string> parameters)
+bool tasks_logic_queued(const enums::task task, std::vector<std::string> parameters)
 {
     const Task query_task{
         .task = task,

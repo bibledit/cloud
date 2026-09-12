@@ -173,21 +173,7 @@ bool tasks_logic_queued(const enums::task task, const std::vector<std::string>& 
 
 static void tasks_logic_run_one(database::tasks::Task task)
 {
-    size_t index {0}; // Todo use extractor.
-    const auto get_parameter = [&task, &index](std::string& parameter)
-    {
-        if (index < task.parameters.size())
-            parameter = std::move(task.parameters[index]);
-        ++index;
-    };
-    std::string parameter1{};
-    get_parameter(parameter1);
-    std::string parameter2{};
-    get_parameter(parameter2);
-    std::string parameter3{};
-    get_parameter(parameter3);
-    std::string parameter4{};
-    get_parameter(parameter4);
+    const auto [parameter1, parameter2, parameter3, parameter4] = extract(task.parameters);
 
     switch (task.task)
     {

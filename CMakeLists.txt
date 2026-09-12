@@ -704,6 +704,8 @@ add_library(bibledit STATIC
         gumbo/utf8.c
         gumbo/util.c
         gumbo/vector.c
+	database/tasks.cpp
+	database/tasks.h
 )
 
 

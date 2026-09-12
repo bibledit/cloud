@@ -65,6 +65,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tasks/logic.h>
 #include <tmp/tmp.h>
 #include <user/logic.h>
+#include "database/tasks.h"
 
 
 namespace tasks {
@@ -134,17 +135,7 @@ std::string_view to_string(const enums::task task)
 }
 
 
-namespace {
-struct Task
-{
-    enums::task task;
-    std::vector<std::string> parameters;
-    constexpr auto operator<=>(const Task&) const = default;
-};
-}
-
-
-static std::ostream& operator<<(std::ostream& os, const Task& task)
+static std::ostream& operator<<(std::ostream& os, const database::tasks::Task& task)
 {
     os << std::quoted(to_string(task.task));
     for (const auto& parameter : task.parameters)
@@ -153,7 +144,7 @@ static std::ostream& operator<<(std::ostream& os, const Task& task)
 }
 
 
-static std::deque<Task> task_queue{};
+static std::deque<database::tasks::Task> task_queue{};
 static std::mutex queue_mutex{};
 static std::vector<std::thread> thread_pool;
 static std::condition_variable thread_cv;
@@ -174,15 +165,15 @@ void tasks_logic_queue(const enums::task task, std::vector<std::string> paramete
 bool tasks_logic_queued(const enums::task task, const std::vector<std::string>& parameters)
 {
     std::lock_guard lock(queue_mutex);
-    return std::ranges::any_of(task_queue, [&](const Task& t) noexcept {
+    return std::ranges::any_of(task_queue, [&](const database::tasks::Task& t) noexcept {
         return t.task == task && t.parameters == parameters;
     });
 }
 
 
-static void tasks_logic_run_one(Task task)
+static void tasks_logic_run_one(database::tasks::Task task)
 {
-    size_t index {0};
+    size_t index {0}; // Todo use extractor.
     const auto get_parameter = [&task, &index](std::string& parameter)
     {
         if (index < task.parameters.size())
@@ -528,7 +519,7 @@ void tasks_logic_start_thread_pool(const std::size_t num_threads)
         {
             while (true)
             {
-                Task task{};
+                database::tasks::Task task{};
                 // The reason for putting the below code here is to unlock the queue
                 // before executing the task so that other threads can perform enqueue tasks.
                 {
@@ -606,6 +597,24 @@ int tasks_logic_queue_size()
 int tasks_logic_active_jobs_count ()
 {
     return running_tasks;
+}
+
+
+Parameters extract(std::vector<std::string>& task_parameters)
+{
+    size_t index {0};
+    const auto get_parameter = [&task_parameters, &index](std::string& parameter)
+    {
+        if (index < task_parameters.size())
+            parameter = std::move(task_parameters[index]);
+        ++index;
+    };
+    Parameters parameters;
+    get_parameter(parameters.p1);
+    get_parameter(parameters.p2);
+    get_parameter(parameters.p3);
+    get_parameter(parameters.p4);
+    return parameters;
 }
 
 

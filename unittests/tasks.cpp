@@ -28,10 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tasks/logic.h>
 
 
-TEST(tasks, logic)
+TEST(tasks, queuing)
 {
-    refresh_sandbox(false);
-
     constexpr auto task1 = tasks::enums::task::check_bible;
     constexpr auto task2 = tasks::enums::task::cache_resources;
     constexpr auto task3 = tasks::enums::task::convert_bible_to_resource;
@@ -53,5 +51,93 @@ TEST(tasks, logic)
     EXPECT_FALSE(tasks::tasks_logic_queued ( task4, { parameter(1), parameter(3) }));
     EXPECT_FALSE(tasks::tasks_logic_queued ( task4, { parameter(2) }));
 }
+
+
+TEST(tasks, extract_parameters)
+{
+    constexpr auto one   {"one"};
+    constexpr auto two   {"two"};
+    constexpr auto three {"three"};
+    constexpr auto four  {"four"};
+    constexpr auto five  {"five"};
+
+    struct TestCase {
+        std::vector<std::string> input;
+        std::string expected_1;
+        std::string expected_2;
+        std::string expected_3;
+        std::string expected_4;
+    };
+
+    std::vector<TestCase> test_cases = {
+        {{},                            "",  "",  "",    ""  },
+        {{one},                         one, "",  "",    ""  },
+        {{one, two},                    one, two, "",    ""  },
+        {{one, two, three},             one, two, three, ""  },
+        {{one, two, three, four},       one, two, three, four},
+        {{one, two, three, four, five}, one, two, three, four},
+    };
+
+    for (auto& [input, e1, e2, e3, e4] : test_cases) {
+        const auto parameters = tasks::extract(input);
+        EXPECT_EQ(parameters.p1, e1);
+        EXPECT_EQ(parameters.p2, e2);
+        EXPECT_EQ(parameters.p3, e3);
+        EXPECT_EQ(parameters.p4, e4);
+    }
+}
+
+
+TEST(tasks, database)
+{
+    refresh_sandbox(false);
+    using namespace database::tasks;
+    using enum tasks::enums::task;
+
+    // Test saving/loading empty queue.
+    {
+        std::deque<Task> queue = load();
+        EXPECT_TRUE(queue.empty());
+        save(queue);
+        EXPECT_TRUE(load().empty());
+    }
+
+    // Save a task without parameters. Test loading it.
+    {
+        std::deque<Task> queue1 {Task {create_css, {}}};
+        save(queue1);
+
+        std::deque<Task> queue2 = load();
+        EXPECT_EQ(queue2.size(), 1u);
+
+        const auto& task = queue2.front();
+        EXPECT_EQ(task.task, create_css);
+        EXPECT_EQ(task.parameters.size(), 4);
+        EXPECT_TRUE(std::ranges::all_of(task.parameters, [](const auto& p) { return p.empty(); }));
+    }
+
+    // Save two tasks with varying parameters. Test properly loading them.
+    {
+        std::deque<Task> queue {
+            Task {create_css,      {"p1"}},
+            Task {clean_tmp_files, {"p1", "p2", "p3", "p4"}},
+        };
+        save(queue);
+
+        queue = load();
+        EXPECT_EQ(queue.size(), 2u);
+
+        auto task = queue.front();
+        EXPECT_EQ(queue[0].task, create_css);
+
+        std::vector<std::string> parameters = {"p1", "", "", ""};
+        EXPECT_EQ(queue[0].parameters, parameters);
+
+        EXPECT_EQ(queue[1].task, clean_tmp_files);
+        parameters = {"p1", "p2", "p3", "p4"};
+        EXPECT_EQ(queue[1].parameters, parameters);
+    }
+}
+
 
 #endif

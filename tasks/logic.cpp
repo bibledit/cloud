@@ -625,7 +625,7 @@ void tasks_logic_controlled_cloud_quit()
     {
         using namespace std::chrono_literals;
         std::this_thread::sleep_for(15min);
-        database::logs::log("Exit server despite", tasks::tasks_logic_active_jobs_count(), "stuck task and", tasks::tasks_logic_queue_size(), "queued tasks got lost");
+        database::logs::log("Exit server despite", tasks_logic_active_jobs_count(), "stuck task and", tasks_logic_queue_size(), "queued tasks got lost");
         for (int i {0}; i < 100; ++i)
         {
             exit(EXIT_SUCCESS);
@@ -637,15 +637,15 @@ void tasks_logic_controlled_cloud_quit()
     auto normal_exit_thread = std::thread ([]
     {
         // Wait till all current tasks have completed.
-        if (tasks::tasks_logic_active_jobs_count())
-            database::logs::log("Server is due to restart and waits till", tasks::tasks_logic_active_jobs_count(), "tasks have completed");
-        tasks::tasks_logic_stop_thread_pool();
+        if (tasks_logic_active_jobs_count())
+            database::logs::log("Server is due to restart and waits till", tasks_logic_active_jobs_count(), "tasks have completed");
+        tasks_logic_stop_thread_pool();
 
         // Save queued tasks.
-        if (tasks::tasks_logic_queue_size())
+        if (tasks_logic_queue_size())
         {
-            database::logs::log("Storing", tasks::tasks_logic_queue_size(), "queued tasks");
-            tasks::tasks_logic_save();
+            database::logs::log("Storing", tasks_logic_queue_size(), "queued tasks");
+            tasks_logic_save();
         }
         // Ok, quit now.
         database::logs::log("Server restarts itself");

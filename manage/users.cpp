@@ -166,7 +166,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     std::string email = webserver_request.post_get("entry");
     if (filter_url_email_is_valid (email)) {
       page += assets_page::success (translate("Email address was updated"));
-      webserver_request.database_users ()->updateUserEmail (object_username, email);
+      webserver_request.database_users ()->update_user_email (object_username, email);
       user_updated = true;
     } else {
       page += assets_page::error (translate("The email address is not valid"));

@@ -63,23 +63,23 @@ TEST (database, users1)
   
   database_users.add_user (username, password, level, email);
   
-  EXPECT_TRUE (database_users.matchUserPassword (username, password));
-  EXPECT_FALSE (database_users.matchUserPassword (username, "wrong password"));
+  EXPECT_TRUE (database_users.match_user_password (username, password));
+  EXPECT_FALSE (database_users.match_user_password (username, "wrong password"));
   
-  EXPECT_TRUE (database_users.matchEmailPassword (email, password));
-  EXPECT_FALSE (database_users.matchEmailPassword (email, "wrong password"));
+  EXPECT_TRUE (database_users.match_email_password (email, password));
+  EXPECT_FALSE (database_users.match_email_password (email, "wrong password"));
   
   // No matches for a disabled account.
   database_users.set_enabled (username, false);
-  EXPECT_FALSE (database_users.matchUserPassword (username, password));
-  EXPECT_FALSE (database_users.matchEmailPassword (email, password));
+  EXPECT_FALSE (database_users.match_user_password (username, password));
+  EXPECT_FALSE (database_users.match_email_password (email, password));
   
   std::string ref = "INSERT INTO users (username, password, level, email) VALUES ('unit test', '014877e71841e82d44ce524d66dcc732', 10, 'email@site.nl');";
-  std::string act = database_users.add_userQuery (username, password, level, email);
+  std::string act = database_users.add_user_query (username, password, level, email);
   EXPECT_EQ (ref, act);
   
-  EXPECT_EQ (username, database_users.getEmailToUser (email));
-  EXPECT_EQ (std::string(), database_users.getEmailToUser ("wrong email"));
+  EXPECT_EQ (username, database_users.get_email_to_user (email));
+  EXPECT_EQ (std::string(), database_users.get_email_to_user ("wrong email"));
   
   EXPECT_EQ (email, database_users.get_email (username));
   EXPECT_EQ (std::string(), database_users.get_email ("wrong username"));
@@ -87,8 +87,8 @@ TEST (database, users1)
   EXPECT_TRUE (database_users.username_exists (username));
   EXPECT_FALSE (database_users.username_exists ("invalid username"));
   
-  EXPECT_TRUE (database_users.emailExists (email));
-  EXPECT_FALSE (database_users.emailExists ("invalid email"));
+  EXPECT_TRUE (database_users.email_exists (email));
+  EXPECT_FALSE (database_users.email_exists ("invalid email"));
   
   EXPECT_EQ (level, database_users.get_level (username));
   EXPECT_EQ (roles::guest, database_users.get_level ("invalid username"));
@@ -97,10 +97,10 @@ TEST (database, users1)
   database_users.set_level (username, level);
   EXPECT_EQ (level, database_users.get_level (username));
   
-  database_users.removeUser (username);
+  database_users.remove_user (username);
   EXPECT_FALSE (database_users.username_exists (username));
   
-  EXPECT_EQ (" UPDATE users SET email =  'email@site.nl'  WHERE username =  'unit test'  ; ", database_users.updateEmailQuery (username, email));
+  EXPECT_EQ (" UPDATE users SET email =  'email@site.nl'  WHERE username =  'unit test'  ; ", database_users.update_email_query (username, email));
 }
 
 // Test administrators and updating email.
@@ -138,7 +138,7 @@ TEST (database, users2)
   EXPECT_EQ (2, static_cast<int> (admins.size()));
   
   email = "new@email.address";
-  database_users.updateUserEmail (username1, email);
+  database_users.update_user_email (username1, email);
   EXPECT_EQ (email, database_users.get_email (username1));
   
   std::vector <std::string> users = database_users.get_users ();

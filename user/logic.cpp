@@ -53,7 +53,7 @@ void user_logic_optional_ldap_authentication (Webserver_Request& webserver_reque
           webserver_request.database_users ()->set_level (user, role);
         }
         if (webserver_request.database_users ()->get_email (user) != email) {
-          webserver_request.database_users ()->updateUserEmail (user, email);
+          webserver_request.database_users ()->update_user_email (user, email);
         }
         if (!webserver_request.database_users ()->get_enabled (user)) {
           webserver_request.database_users ()->set_enabled (user, true);
@@ -103,7 +103,7 @@ void user_logic_delete_account (std::string user, std::string role, std::string 
   feedback = "Deleted user " + user + " with role " + role + " and email " + email;
   database::logs::log<roles::admin> (feedback);
   Database_Users database_users;
-  database_users.removeUser (user);
+  database_users.remove_user (user);
   database_privileges_client_remove (user);
   // Also remove any privileges for this user.
   // In particular for the Bible privileges this is necessary,

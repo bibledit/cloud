@@ -143,22 +143,22 @@ bool Session_Logic::attempt_login (std::string user_or_email, const std::string&
   bool login_okay = false;
 
   // Match username and email.
-  if (database_users.matchUserPassword (user_or_email, password)) {
+  if (database_users.match_user_password (user_or_email, password)) {
     login_okay = true;
   }
 
   // Match password and email.
-  if (database_users.matchEmailPassword (user_or_email, password)) {
+  if (database_users.match_email_password (user_or_email, password)) {
     login_okay = true;
     // Fetch username that belongs to the email address that was used to login.
-    user_or_email = database_users.getEmailToUser (user_or_email);
+    user_or_email = database_users.get_email_to_user (user_or_email);
   }
   
   // The routine can skip the checks, as in the case of a confirmation link.
   if (skip_checks) {
     login_okay = true;
     // When skipping checks, the email is passed, so fetch the username from that.
-    user_or_email = database_users.getEmailToUser (user_or_email);
+    user_or_email = database_users.get_email_to_user (user_or_email);
     if (user_or_email.empty()) login_okay = false;
   }
   

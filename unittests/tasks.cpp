@@ -71,20 +71,20 @@ TEST(tasks, extract_parameters)
     };
 
     std::vector<TestCase> test_cases = {
-        {{},                            "",  "",  "",    ""  },
-        {{one},                         one, "",  "",    ""  },
-        {{one, two},                    one, two, "",    ""  },
-        {{one, two, three},             one, two, three, ""  },
-        {{one, two, three, four},       one, two, three, four},
-        {{one, two, three, four, five}, one, two, three, four},
+        {.input = {},                            .expected_1 = "",  .expected_2 = "",  .expected_3 = "",    .expected_4 = ""  },
+        {.input = {one},                         .expected_1 = one, .expected_2 = "",  .expected_3 = "",    .expected_4 = ""  },
+        {.input = {one, two},                    .expected_1 = one, .expected_2 = two, .expected_3 = "",    .expected_4 = ""  },
+        {.input = {one, two, three},             .expected_1 = one, .expected_2 = two, .expected_3 = three, .expected_4 = ""  },
+        {.input = {one, two, three, four},       .expected_1 = one, .expected_2 = two, .expected_3 = three, .expected_4 = four},
+        {.input = {one, two, three, four, five}, .expected_1 = one, .expected_2 = two, .expected_3 = three, .expected_4 = four},
     };
 
     for (auto& [input, e1, e2, e3, e4] : test_cases) {
-        const auto parameters = tasks::extract(input);
-        EXPECT_EQ(parameters.p1, e1);
-        EXPECT_EQ(parameters.p2, e2);
-        EXPECT_EQ(parameters.p3, e3);
-        EXPECT_EQ(parameters.p4, e4);
+        const auto [p1, p2, p3, p4] = tasks::extract(input);
+        EXPECT_EQ(p1, e1);
+        EXPECT_EQ(p2, e2);
+        EXPECT_EQ(p3, e3);
+        EXPECT_EQ(p4, e4);
     }
 }
 
@@ -105,23 +105,23 @@ TEST(tasks, database)
 
     // Save a task without parameters. Test loading it.
     {
-        std::deque<Task> queue1 {Task {create_css, {}}};
+        std::deque queue1 {Task {.task = create_css, .parameters = {}}};
         save(queue1);
 
         std::deque<Task> queue2 = load();
         EXPECT_EQ(queue2.size(), 1u);
 
-        const auto& task = queue2.front();
-        EXPECT_EQ(task.task, create_css);
-        EXPECT_EQ(task.parameters.size(), 4);
-        EXPECT_TRUE(std::ranges::all_of(task.parameters, [](const auto& p) { return p.empty(); }));
+        const auto& [task, parameters] = queue2.front();
+        EXPECT_EQ(task, create_css);
+        EXPECT_EQ(parameters.size(), 4);
+        EXPECT_TRUE(std::ranges::all_of(parameters, [](const auto& p) { return p.empty(); }));
     }
 
     // Save two tasks with varying parameters. Test properly loading them.
     {
-        std::deque<Task> queue {
-            Task {create_css,      {"p1"}},
-            Task {clean_tmp_files, {"p1", "p2", "p3", "p4"}},
+        std::deque queue {
+            Task {.task = create_css, .parameters = {"p1"}},
+            Task {.task = clean_tmp_files, .parameters = {"p1", "p2", "p3", "p4"}},
         };
         save(queue);
 

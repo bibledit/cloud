@@ -41,7 +41,7 @@ struct Parameters
     std::string p4{};
 };
 
-Parameters extract(std::vector<std::string>&);
+Parameters extract(const std::vector<std::string>&);
 
 void tasks_logic_controlled_cloud_quit();
 

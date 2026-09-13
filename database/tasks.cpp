@@ -50,7 +50,13 @@ void save(const std::deque<Task>& tasks)
         "parameter4 text"
         ");");
     sql.execute();
-    for (auto [task, parameters] : tasks)
+
+    // Do only one disk sync for everything.
+    sql.clear();
+    sql.add("BEGIN;");
+    sql.execute();
+
+    for (const auto& [task, parameters] : tasks)
     {
         const auto [p1, p2, p3, p4] = ::tasks::extract(parameters);
         sql.clear();
@@ -67,6 +73,10 @@ void save(const std::deque<Task>& tasks)
         sql.add(");");
         sql.execute ();
     }
+
+    sql.clear();
+    sql.add("COMMIT;");
+    sql.execute();
 }
 
 

@@ -54,7 +54,7 @@ void client_index_remove_all_users (Webserver_Request& webserver_request)
   std::ranges::for_each(webserver_request.database_users()->get_users(),
                         [&webserver_request](const std::string& existing_user)
                         {
-                            webserver_request.database_users()->removeUser(existing_user);
+                            webserver_request.database_users()->remove_user(existing_user);
                         });
 }
 

@@ -260,10 +260,6 @@ void timer_index()
         {
             database::logs::log(e.what());
         }
-        catch (const std::exception* e) // NOLINT(*-throw-by-value-catch-by-reference)
-        {
-            database::logs::log(e->what());
-        }
         catch (...)
         {
             database::logs::log("A general internal error occurred in the timers");

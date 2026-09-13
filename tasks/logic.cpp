@@ -600,13 +600,13 @@ void tasks_logic_load()
 }
 
 
-Parameters extract(std::vector<std::string>& task_parameters)
+Parameters extract(const std::vector<std::string>& task_parameters)
 {
     size_t index {0};
     const auto get_parameter = [&task_parameters, &index](std::string& parameter)
     {
         if (index < task_parameters.size())
-            parameter = std::move(task_parameters[index]);
+            parameter = task_parameters[index];
         ++index;
     };
     Parameters parameters;

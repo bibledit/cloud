@@ -17,13 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <database/users.h>
 #include <database/sqlite.h>
-#include <filter/url.h>
-#include <filter/string.h>
+#include <database/users.h>
 #include <filter/md5.h>
 #include <filter/roles.h>
-#include <filter/date.h>
+#include <filter/string.h>
 
 
 // This database is resilient.
@@ -32,36 +30,44 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Due to the infrequent write operations, there is a low and acceptable chance of corruption.
 
 
-void Database_Users::create ()
+namespace database::users {
+
+
+} // namespace
+
+
+void Database_Users::create() const
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("CREATE TABLE IF NOT EXISTS users (username text, password text, level integer, email text);");
-  sql.execute ();
+    SqliteDatabase sql(filename());
+    sql.add("CREATE TABLE IF NOT EXISTS users (username text, password text, level integer, email text);");
+    sql.execute();
 }
 
 
-void Database_Users::upgrade ()
+void Database_Users::upgrade() const
 {
-  // Several extra columns are available in older databases.
-  // They are not in use.
-  // They cannot be dropped easily in SQLite.
-  // Leave them for just now.
+    // Several extra columns are available in older databases.
+    // They are not in use.
+    // They cannot be dropped easily in SQLite.
+    // Leave them for just now.
 
-  // Add columns for LDAP authentication and for disabling an account,
-  // if the columns are not yet there.
-  SqliteDatabase sql (filename ());
-  sql.add ("PRAGMA table_info (users);");
-  std::vector <std::string> columns = sql.query () ["name"];
-  if (!filter::string::in_array (static_cast<std::string> ("ldap"), columns)) {
-    sql.clear ();
-    sql.add ("ALTER TABLE users ADD COLUMN ldap boolean;");
-    sql.execute ();
-  }
-  if (!filter::string::in_array (static_cast<std::string> ("disabled"), columns)) {
-    sql.clear ();
-    sql.add ("ALTER TABLE users ADD COLUMN disabled boolean;");
-    sql.execute ();
-  }
+    // Add columns for LDAP authentication and for disabling an account,
+    // if the columns are not yet there.
+    SqliteDatabase sql(filename());
+    sql.add("PRAGMA table_info (users);");
+    const std::vector<std::string> columns = sql.query()["name"];
+    if (not filter::string::in_array(static_cast<std::string>("ldap"), columns))
+    {
+        sql.clear();
+        sql.add("ALTER TABLE users ADD COLUMN ldap boolean;");
+        sql.execute();
+    }
+    if (not filter::string::in_array(static_cast<std::string>("disabled"), columns))
+    {
+        sql.clear();
+        sql.add("ALTER TABLE users ADD COLUMN disabled boolean;");
+        sql.execute();
+    }
 }
 
 
@@ -70,61 +76,62 @@ void Database_Users::trim ()
 }
 
 
-void Database_Users::optimize ()
+void Database_Users::optimize()
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("VACUUM;");
-  sql.execute ();
+    SqliteDatabase sql(filename());
+    sql.add("VACUUM;");
+    sql.execute();
 }
 
 
 // Add the user details to the database.
-void Database_Users::add_user (std::string user, std::string password, int level, std::string email)
+void Database_Users::add_user(const std::string& user, const std::string& password, const int level,
+                              const std::string& email)
 {
-  {
-    SqliteDatabase sql (filename ());
-    sql.add ("INSERT INTO users (username, level, email) VALUES (");
-    sql.add (user);
-    sql.add (",");
-    sql.add (level);
-    sql.add (",");
-    sql.add (email);
-    sql.add (");");
-    sql.execute ();
-  }
-  set_password (user, password);
+    {
+        SqliteDatabase sql(filename());
+        sql.add("INSERT INTO users (username, level, email) VALUES (");
+        sql.add(user);
+        sql.add(",");
+        sql.add(level);
+        sql.add(",");
+        sql.add(email);
+        sql.add(");");
+        sql.execute();
+    }
+    set_password(user, password);
 }
 
 
 // Updates the password for user.
-void Database_Users::set_password (std::string user, std::string password)
+void Database_Users::set_password(const std::string& user, const std::string& password)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("UPDATE users SET password =");
-  sql.add (md5 (password));
-  sql.add ("WHERE username =");
-  sql.add (user);
-  sql.add (";");
-  sql.execute ();
+    SqliteDatabase sql(filename());
+    sql.add("UPDATE users SET password =");
+    sql.add(md5(password));
+    sql.add("WHERE username =");
+    sql.add(user);
+    sql.add(";");
+    sql.execute();
 }
 
 
 // Returns true if the user and password match.
-bool Database_Users::matchUserPassword (std::string user, std::string password)
+bool Database_Users::match_user_password(const std::string& user, const std::string& password) const
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT username FROM users WHERE username =");
-  sql.add (user);
-  sql.add ("AND password =");
-  sql.add (md5 (password));
-  sql.add ("AND (disabled IS NULL OR disabled = 0);");
-  std::vector <std::string> result = sql.query () ["username"];
-  return (!result.empty());
+    SqliteDatabase sql(filename());
+    sql.add("SELECT username FROM users WHERE username =");
+    sql.add(user);
+    sql.add("AND password =");
+    sql.add(md5(password));
+    sql.add("AND (disabled IS NULL OR disabled = 0);");
+    std::vector<std::string> result = sql.query()["username"];
+    return (not result.empty());
 }
 
 
 // Returns true if the email and password match.
-bool Database_Users::matchEmailPassword (std::string email, std::string password)
+bool Database_Users::match_email_password (std::string email, std::string password)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email =");
@@ -138,7 +145,7 @@ bool Database_Users::matchEmailPassword (std::string email, std::string password
 
 
 // Returns the query to execute to add a new user.
-std::string Database_Users::add_userQuery (std::string user, std::string password, int level, std::string email)
+std::string Database_Users::add_user_query (std::string user, std::string password, int level, std::string email)
 {
   user = database::sqlite::no_sql_injection (user);
   password = md5 (password);
@@ -149,7 +156,7 @@ std::string Database_Users::add_userQuery (std::string user, std::string passwor
 
 
 // Returns the username that belongs to the email.
-std::string Database_Users::getEmailToUser (std::string email)
+std::string Database_Users::get_email_to_user (std::string email)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email =");
@@ -187,7 +194,7 @@ bool Database_Users::username_exists (std::string user)
 
 
 // Returns true if the email address exists in the database.
-bool Database_Users::emailExists (std::string email)
+bool Database_Users::email_exists (std::string email)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email = ");
@@ -225,7 +232,7 @@ void Database_Users::set_level (std::string user, int level)
 
 
 // Remove a user from the database.
-void Database_Users::removeUser (std::string user)
+void Database_Users::remove_user (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM users WHERE username =");
@@ -248,7 +255,7 @@ std::vector <std::string> Database_Users::getAdministrators ()
 
 
 // Returns the query to update a user's email address.
-std::string Database_Users::updateEmailQuery (std::string user, std::string email)
+std::string Database_Users::update_email_query (std::string user, std::string email)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET email =");
@@ -261,9 +268,9 @@ std::string Database_Users::updateEmailQuery (std::string user, std::string emai
 
 
 // Updates the "email" for "user".
-void Database_Users::updateUserEmail (std::string user, std::string email)
+void Database_Users::update_user_email (std::string user, std::string email)
 {
-  execute (updateEmailQuery (user, email));
+  execute (update_email_query (user, email));
 }
 
 

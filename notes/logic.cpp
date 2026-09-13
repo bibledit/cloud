@@ -563,8 +563,8 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
   // Or else use the obfuscated email address as the user name.
   std::string username;
   from = filter::string::extract_email (from);
-  if (m_webserver_request.database_users()->emailExists (from)) {
-    username = m_webserver_request.database_users()->getEmailToUser (from);
+  if (m_webserver_request.database_users()->email_exists (from)) {
+    username = m_webserver_request.database_users()->get_email_to_user (from);
   } else {
     username = from;
     username = filter::string::replace ("@", " ", username);
@@ -617,8 +617,8 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
   subject = filter::string::collapse_whitespace (subject);
   // Check that the from address of the email belongs to an existing user.
   from = filter::string::extract_email (from);
-  if (!m_webserver_request.database_users()->emailExists (from)) return false;
-  std::string username = m_webserver_request.database_users()->getEmailToUser (from);
+  if (!m_webserver_request.database_users()->email_exists (from)) return false;
+  std::string username = m_webserver_request.database_users()->get_email_to_user (from);
   // Extract book, chapter, verse, and note summary from the subject
   book_id book {book_id::_unknown};
   int chapter {-1};

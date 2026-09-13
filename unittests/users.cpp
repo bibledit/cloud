@@ -36,7 +36,7 @@ TEST (session, users)
 {
   refresh_sandbox (false);
   Webserver_Request webserver_request;
-  webserver_request.database_users ()->create ();
+  database::users::create();
   webserver_request.session_logic()->set_username ("phpunit");
   EXPECT_EQ (13683715, filter::string::user_identifier (webserver_request));
   webserver_request.session_logic()->set_username ("phpunit2");
@@ -49,67 +49,65 @@ TEST (session, users)
 TEST (database, users1)
 {
   refresh_sandbox (false);
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
+  database::users::create ();
+  database::users::upgrade ();
   
   std::string username = "unit test";
   std::string password = "pazz";
   int level = 10;
   std::string email = "email@site.nl";
   
-  database_users.optimize ();
-  database_users.trim ();
+  database::users::optimize ();
+  database::users::trim ();
   
-  database_users.add_user (username, password, level, email);
+  database::users::add_user (username, password, level, email);
   
-  EXPECT_TRUE (database_users.match_user_password (username, password));
-  EXPECT_FALSE (database_users.match_user_password (username, "wrong password"));
+  EXPECT_TRUE (database::users::match_user_password (username, password));
+  EXPECT_FALSE (database::users::match_user_password (username, "wrong password"));
   
-  EXPECT_TRUE (database_users.match_email_password (email, password));
-  EXPECT_FALSE (database_users.match_email_password (email, "wrong password"));
+  EXPECT_TRUE (database::users::match_email_password (email, password));
+  EXPECT_FALSE (database::users::match_email_password (email, "wrong password"));
   
   // No matches for a disabled account.
-  database_users.set_enabled (username, false);
-  EXPECT_FALSE (database_users.match_user_password (username, password));
-  EXPECT_FALSE (database_users.match_email_password (email, password));
+  database::users::set_enabled (username, false);
+  EXPECT_FALSE (database::users::match_user_password (username, password));
+  EXPECT_FALSE (database::users::match_email_password (email, password));
   
   std::string ref = "INSERT INTO users (username, password, level, email) VALUES ('unit test', '014877e71841e82d44ce524d66dcc732', 10, 'email@site.nl');";
-  std::string act = database_users.add_user_query (username, password, level, email);
+  std::string act = database::users::add_user_query (username, password, level, email);
   EXPECT_EQ (ref, act);
   
-  EXPECT_EQ (username, database_users.get_email_to_user (email));
-  EXPECT_EQ (std::string(), database_users.get_email_to_user ("wrong email"));
+  EXPECT_EQ (username, database::users::get_email_to_user (email));
+  EXPECT_EQ (std::string(), database::users::get_email_to_user ("wrong email"));
   
-  EXPECT_EQ (email, database_users.get_email (username));
-  EXPECT_EQ (std::string(), database_users.get_email ("wrong username"));
+  EXPECT_EQ (email, database::users::get_email (username));
+  EXPECT_EQ (std::string(), database::users::get_email ("wrong username"));
   
-  EXPECT_TRUE (database_users.username_exists (username));
-  EXPECT_FALSE (database_users.username_exists ("invalid username"));
+  EXPECT_TRUE (database::users::username_exists (username));
+  EXPECT_FALSE (database::users::username_exists ("invalid username"));
   
-  EXPECT_TRUE (database_users.email_exists (email));
-  EXPECT_FALSE (database_users.email_exists ("invalid email"));
+  EXPECT_TRUE (database::users::email_exists (email));
+  EXPECT_FALSE (database::users::email_exists ("invalid email"));
   
-  EXPECT_EQ (level, database_users.get_level (username));
-  EXPECT_EQ (roles::guest, database_users.get_level ("invalid username"));
+  EXPECT_EQ (level, database::users::get_level (username));
+  EXPECT_EQ (roles::guest, database::users::get_level ("invalid username"));
   
   level = 7;
-  database_users.set_level (username, level);
-  EXPECT_EQ (level, database_users.get_level (username));
+  database::users::set_level (username, level);
+  EXPECT_EQ (level, database::users::get_level (username));
   
-  database_users.remove_user (username);
-  EXPECT_FALSE (database_users.username_exists (username));
+  database::users::remove_user (username);
+  EXPECT_FALSE (database::users::username_exists (username));
   
-  EXPECT_EQ (" UPDATE users SET email =  'email@site.nl'  WHERE username =  'unit test'  ; ", database_users.update_email_query (username, email));
+  EXPECT_EQ (" UPDATE users SET email =  'email@site.nl'  WHERE username =  'unit test'  ; ", database::users::update_email_query (username, email));
 }
 
 // Test administrators and updating email.
 TEST (database, users2)
 {
   refresh_sandbox (false);
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
+  database::users::create ();
+  database::users::upgrade ();
   
   // Test data for two admins.
   std::string username1 = "unit test1";
@@ -118,87 +116,85 @@ TEST (database, users2)
   int level = roles::admin;
   std::string email = "email@site";
   
-  database_users.add_user (username1, password, level, email);
-  std::vector <std::string> admins = database_users.getAdministrators ();
+  database::users::add_user (username1, password, level, email);
+  std::vector <std::string> admins = database::users::get_administrators ();
   EXPECT_EQ (1, static_cast<int> (admins.size()));
   if (!admins.empty()) EXPECT_EQ (username1, admins [0]);
   
-  database_users.add_user (username2, password, level, email);
-  admins = database_users.getAdministrators ();
+  database::users::add_user (username2, password, level, email);
+  admins = database::users::get_administrators ();
   EXPECT_EQ (2, static_cast<int> (admins.size()));
   
   // Check that a disabled admin account is not included in the number of administrators.
-  database_users.set_enabled (username1, false);
-  admins = database_users.getAdministrators ();
+  database::users::set_enabled (username1, false);
+  admins = database::users::get_administrators ();
   EXPECT_EQ (1, static_cast<int> (admins.size()));
   
   // Check that once an account is enabled, it is included again in the number of administrators.
-  database_users.set_enabled (username1, true);
-  admins = database_users.getAdministrators ();
+  database::users::set_enabled (username1, true);
+  admins = database::users::get_administrators ();
   EXPECT_EQ (2, static_cast<int> (admins.size()));
   
   email = "new@email.address";
-  database_users.update_user_email (username1, email);
-  EXPECT_EQ (email, database_users.get_email (username1));
+  database::users::update_user_email (username1, email);
+  EXPECT_EQ (email, database::users::get_email (username1));
   
-  std::vector <std::string> users = database_users.get_users ();
+  std::vector <std::string> users = database::users::get_users ();
   EXPECT_EQ (2, static_cast<int>(users.size()));
   
-  EXPECT_EQ (md5 (password), database_users.get_md5 (username1));
+  EXPECT_EQ (md5 (password), database::users::get_md5 (username1));
 }
 
 
 TEST (database, users3)
 {
   refresh_sandbox (false);
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
+  database::users::create ();
+  database::users::upgrade ();
   
   // LDAP should be off initially.
   std::string user = "unittest";
-  EXPECT_FALSE (database_users.get_ldap (user));
-  database_users.add_user (user, "password", roles::consultant, "email@site");
-  EXPECT_FALSE ( database_users.get_ldap (user));
+  EXPECT_FALSE (database::users::get_ldap (user));
+  database::users::add_user (user, "password", roles::consultant, "email@site");
+  EXPECT_FALSE ( database::users::get_ldap (user));
   
   // Test LDAP on.
-  database_users.set_ldap (user + "x", true);
-  EXPECT_FALSE (database_users.get_ldap (user));
-  database_users.set_ldap (user, true);
-  EXPECT_TRUE (database_users.get_ldap (user));
+  database::users::set_ldap (user + "x", true);
+  EXPECT_FALSE (database::users::get_ldap (user));
+  database::users::set_ldap (user, true);
+  EXPECT_TRUE (database::users::get_ldap (user));
   
   // Test LDAP off.
-  database_users.set_ldap (user, false);
-  EXPECT_FALSE (database_users.get_ldap (user));
+  database::users::set_ldap (user, false);
+  EXPECT_FALSE (database::users::get_ldap (user));
 }
 
 
 TEST (database, users4)
 {
   refresh_sandbox (false);
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
+  database::users::create ();
+  database::users::upgrade ();
   
   // Non-existing account is disabled.
   std::string user = "unittest";
-  EXPECT_FALSE (database_users.get_enabled (user));
+  EXPECT_FALSE (database::users::get_enabled (user));
   
   // Account should be enabled initially.
-  database_users.add_user (user, "password", roles::consultant, "email@site");
-  EXPECT_TRUE (database_users.get_enabled (user));
+  database::users::add_user (user, "password", roles::consultant, "email@site");
+  EXPECT_TRUE (database::users::get_enabled (user));
   
   // Test disable account of other user.
-  database_users.set_enabled (user + "x", false);
-  EXPECT_TRUE (database_users.get_enabled (user));
+  database::users::set_enabled (user + "x", false);
+  EXPECT_TRUE (database::users::get_enabled (user));
   
   // Test disable account.
-  database_users.set_enabled (user, false);
-  EXPECT_FALSE (database_users.get_enabled (user));
+  database::users::set_enabled (user, false);
+  EXPECT_FALSE (database::users::get_enabled (user));
   
   // Test enable account.
-  database_users.set_enabled (user, true);
-  EXPECT_TRUE (database_users.get_enabled (user));
+  database::users::set_enabled (user, true);
+  EXPECT_TRUE (database::users::get_enabled (user));
 }
 
 

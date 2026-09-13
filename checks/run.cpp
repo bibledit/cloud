@@ -278,7 +278,7 @@ void checks_run (std::string bible)
             return true;
       return false;
     };
-    for (const auto& user : webserver_request.database_users()->get_users() | std::views::filter(mail4user)) {
+    for (const auto& user : database::users::get_users() | std::views::filter(mail4user)) {
       email::schedule (user, subject, body);
     }
   }

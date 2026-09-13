@@ -209,16 +209,15 @@ std::string session_signup ([[maybe_unused]] Webserver_Request& webserver_reques
       form_is_valid = false;
       view.set_variable ("answer_invalid_message", translate("The answer to the question is not correct"));
     }
-    Database_Users database_users;
     if (form_is_valid) {
-      if (database_users.username_exists (user)) {
+      if (database::users::username_exists (user)) {
         const std::string message = translate("The username that you have chosen has already been taken.") + " " + translate("Please choose another one.");
         view.set_variable ("error_message", message);
         form_is_valid = false;
       }
     }
     if (form_is_valid) {
-      if (database_users.email_exists (mail)) {
+      if (database::users::email_exists (mail)) {
         const std::string message = translate("The email address that you have chosen has already been taken.") + " " + translate("Please choose another one.");
         view.set_variable ("error_message", message);
         form_is_valid = false;
@@ -245,7 +244,7 @@ std::string session_signup ([[maybe_unused]] Webserver_Request& webserver_reques
       }
 
       constexpr const int role = static_cast<int>(roles::member);
-      const std::string query = database_users.add_user_query (user, pass, role, mail);
+      const std::string query = database::users::add_user_query (user, pass, role, mail);
 
       // Create the contents for the confirmation email
       // that will be sent after the account has been verified.

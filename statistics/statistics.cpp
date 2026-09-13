@@ -50,7 +50,7 @@ void statistics_statistics ()
   std::vector <std::string> bibles = database::bibles::get_bibles ();
   
   
-  std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+  std::vector <std::string> users = database::users::get_users ();
   for (auto & user : users) {
     
     

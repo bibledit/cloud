@@ -139,26 +139,25 @@ bool Session_Logic::attempt_login (std::string user_or_email, const std::string&
     return false;
   }
 
-  Database_Users database_users = Database_Users ();
   bool login_okay = false;
 
   // Match username and email.
-  if (database_users.match_user_password (user_or_email, password)) {
+  if (database::users::match_user_password (user_or_email, password)) {
     login_okay = true;
   }
 
   // Match password and email.
-  if (database_users.match_email_password (user_or_email, password)) {
+  if (database::users::match_email_password (user_or_email, password)) {
     login_okay = true;
     // Fetch username that belongs to the email address that was used to login.
-    user_or_email = database_users.get_email_to_user (user_or_email);
+    user_or_email = database::users::get_email_to_user (user_or_email);
   }
   
   // The routine can skip the checks, as in the case of a confirmation link.
   if (skip_checks) {
     login_okay = true;
     // When skipping checks, the email is passed, so fetch the username from that.
-    user_or_email = database_users.get_email_to_user (user_or_email);
+    user_or_email = database::users::get_email_to_user (user_or_email);
     if (user_or_email.empty()) login_okay = false;
   }
   
@@ -223,8 +222,7 @@ int Session_Logic::get_level (bool force)
     return m_level;
   if ((m_level == 0) || force) {
     if (m_logged_in) {
-      Database_Users database = Database_Users();
-      m_level = database.get_level (m_username);
+      m_level = database::users::get_level(m_username);
     } else {
       m_level = roles::guest;
     }
@@ -248,15 +246,14 @@ bool Session_Logic::client_access ()
   // log in as the first username in the user database,
   // or as the admin in case no user has been set up yet.
   if (config_globals_client_prepared) {
-    Database_Users database_users;
-    std::vector <std::string> users = database_users.get_users ();
+    std::vector <std::string> users = database::users::get_users ();
     std::string user;
     if (users.empty ()) {
       user = session_admin_credentials ();
       m_level = roles::admin;
     } else {
       user = users.at(0);
-      m_level = database_users.get_level (user);
+      m_level = database::users::get_level (user);
     }
     set_username (user);
     m_logged_in = true;

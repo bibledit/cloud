@@ -37,7 +37,7 @@ TEST (ipc, basic)
   // Initialize.
   refresh_sandbox (false);
   Webserver_Request webserver_request;
-  webserver_request.database_users ()->create ();
+  database::users::create();
   webserver_request.session_logic ()->set_username ("phpunit");
   
   // There should be no note identifier.
@@ -129,8 +129,7 @@ TEST (database, ipc)
   // Test get note.
   {
     refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
+    database::users::create ();
     Webserver_Request webserver_request;
 
     std::string user = "phpunit";
@@ -155,8 +154,7 @@ TEST (database, ipc)
   // Test notes alive.
   {
     refresh_sandbox (true);
-    Database_Users database_users;
-    database_users.create ();
+    database::users::create ();
     Webserver_Request webserver_request;
 
     std::string user = "phpunit";

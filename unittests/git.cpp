@@ -59,7 +59,7 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_reques
   
   webserver_request.remote_address = "127.0.0.1";
   webserver_request.user_agent = "unittest";
-  webserver_request.database_users ()->create ();
+  database::users::create();
   webserver_request.session_logic ()->set_username ("unittest");
   database::bibles::create_bible (bible);
   

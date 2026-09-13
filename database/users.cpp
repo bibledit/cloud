@@ -33,10 +33,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace database::users {
 
 
-} // namespace
+// The filename of the database.
+static const char * filename()
+{
+    return "users";
+}
 
 
-void Database_Users::create() const
+void create()
 {
     SqliteDatabase sql(filename());
     sql.add("CREATE TABLE IF NOT EXISTS users (username text, password text, level integer, email text);");
@@ -44,7 +48,7 @@ void Database_Users::create() const
 }
 
 
-void Database_Users::upgrade() const
+void upgrade()
 {
     // Several extra columns are available in older databases.
     // They are not in use.
@@ -71,12 +75,12 @@ void Database_Users::upgrade() const
 }
 
 
-void Database_Users::trim ()
+void trim()
 {
 }
 
 
-void Database_Users::optimize()
+void optimize()
 {
     SqliteDatabase sql(filename());
     sql.add("VACUUM;");
@@ -85,11 +89,11 @@ void Database_Users::optimize()
 
 
 // Add the user details to the database.
-void Database_Users::add_user(const std::string& user, const std::string& password, const int level,
-                              const std::string& email)
+void add_user(const std::string& user, const std::string& password, const int level,
+              const std::string& email)
 {
     {
-        SqliteDatabase sql(filename());
+        SqliteDatabase sql(database::users::filename());
         sql.add("INSERT INTO users (username, level, email) VALUES (");
         sql.add(user);
         sql.add(",");
@@ -104,9 +108,9 @@ void Database_Users::add_user(const std::string& user, const std::string& passwo
 
 
 // Updates the password for user.
-void Database_Users::set_password(const std::string& user, const std::string& password)
+void set_password(const std::string& user, const std::string& password)
 {
-    SqliteDatabase sql(filename());
+    SqliteDatabase sql(database::users::filename());
     sql.add("UPDATE users SET password =");
     sql.add(md5(password));
     sql.add("WHERE username =");
@@ -117,7 +121,7 @@ void Database_Users::set_password(const std::string& user, const std::string& pa
 
 
 // Returns true if the user and password match.
-bool Database_Users::match_user_password(const std::string& user, const std::string& password) const
+bool match_user_password(const std::string& user, const std::string& password)
 {
     SqliteDatabase sql(filename());
     sql.add("SELECT username FROM users WHERE username =");
@@ -125,244 +129,239 @@ bool Database_Users::match_user_password(const std::string& user, const std::str
     sql.add("AND password =");
     sql.add(md5(password));
     sql.add("AND (disabled IS NULL OR disabled = 0);");
-    std::vector<std::string> result = sql.query()["username"];
+    const std::vector<std::string> result = sql.query()["username"];
     return (not result.empty());
 }
 
 
 // Returns true if the email and password match.
-bool Database_Users::match_email_password (std::string email, std::string password)
+bool match_email_password (const std::string& email, const std::string& password)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT username FROM users WHERE email =");
-  sql.add (email);
-  sql.add ("AND password =");
-  sql.add (md5 (password));
-  sql.add ("AND (disabled IS NULL OR disabled = 0);");
-  std::vector <std::string> result = sql.query () ["username"];
-  return (!result.empty());
+    SqliteDatabase sql (filename ());
+    sql.add ("SELECT username FROM users WHERE email =");
+    sql.add (email);
+    sql.add ("AND password =");
+    sql.add (md5 (password));
+    sql.add ("AND (disabled IS NULL OR disabled = 0);");
+    const std::vector <std::string> result = sql.query () ["username"];
+    return (not result.empty());
 }
 
 
 // Returns the query to execute to add a new user.
-std::string Database_Users::add_user_query (std::string user, std::string password, int level, std::string email)
+std::string add_user_query (std::string user, std::string password, const int level, std::string email)
 {
-  user = database::sqlite::no_sql_injection (user);
-  password = md5 (password);
-  email = database::sqlite::no_sql_injection (email);
-  std::string query = "INSERT INTO users (username, password, level, email) VALUES ('" + user + "', '" + password + "', " + std::to_string (level) + ", '" + email + "');";
-  return query;
+    user = sqlite::no_sql_injection (user);
+    password = md5 (password);
+    email = sqlite::no_sql_injection (email);
+    const std::string query = "INSERT INTO users (username, password, level, email) VALUES ('" + user + "', '" + password + "', " + std::to_string (level) + ", '" + email + "');";
+    return query;
 }
 
 
 // Returns the username that belongs to the email.
-std::string Database_Users::get_email_to_user (std::string email)
+std::string get_email_to_user (const std::string& email)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT username FROM users WHERE email =");
-  sql.add (email);
-  sql.add (";");
-  std::vector <std::string> result = sql.query () ["username"];
-  if (!result.empty()) return result [0];
-  return std::string();
+    SqliteDatabase sql (database::users::filename ());
+    sql.add ("SELECT username FROM users WHERE email =");
+    sql.add (email);
+    sql.add (";");
+    if (const auto result = sql.query()["username"]; not result.empty())
+        return result[0];
+    return {};
 }
 
 
 // Returns the email address that belongs to user.
-std::string Database_Users::get_email (std::string user)
+std::string get_email (const std::string& user)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT email FROM users WHERE username = ");
-  sql.add (user);
-  sql.add (";");
-  std::vector <std::string> result = sql.query () ["email"];
-  if (!result.empty()) return result [0];
-  return std::string();
+    SqliteDatabase sql (filename ());
+    sql.add ("SELECT email FROM users WHERE username = ");
+    sql.add (user);
+    sql.add (";");
+    if (const auto result = sql.query()["email"]; not result.empty())
+        return result[0];
+    return {};
 }
 
 
 // Returns true if the username exists in the database.
-bool Database_Users::username_exists (std::string user)
+bool username_exists (const std::string& user)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT username FROM users WHERE username =");
-  sql.add (user);
-  sql.add (";");
-  std::vector <std::string> result = sql.query () ["username"];
-  return !result.empty ();
+    SqliteDatabase sql (filename ());
+    sql.add ("SELECT username FROM users WHERE username =");
+    sql.add (user);
+    sql.add (";");
+    const std::vector <std::string> result = sql.query () ["username"];
+    return not result.empty ();
 }
 
 
 // Returns true if the email address exists in the database.
-bool Database_Users::email_exists (std::string email)
+bool email_exists (const std::string& email)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT username FROM users WHERE email = ");
-  sql.add (email);
-  sql.add (";");
-  std::vector <std::string> result = sql.query () ["username"];
-  return !result.empty ();
+    SqliteDatabase sql (filename ());
+    sql.add ("SELECT username FROM users WHERE email = ");
+    sql.add (email);
+    sql.add (";");
+    const auto result = sql.query()["username"];
+    return not result.empty ();
 }
 
 
 // Returns the level that belongs to the user.
-int Database_Users::get_level (std::string user)
+int get_level (const std::string& user)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT level FROM users WHERE username = ");
-  sql.add (user);
-  sql.add (";");
-  std::vector <std::string> result = sql.query () ["level"];
-  if (!result.empty()) return filter::string::convert_to_int (result [0]);
-  return roles::guest;
+    SqliteDatabase sql (database::users::filename ());
+    sql.add ("SELECT level FROM users WHERE username = ");
+    sql.add (user);
+    sql.add (";");
+    if (const auto result = sql.query () ["level"]; not result.empty())
+        return filter::string::convert_to_int(result[0]);
+    return roles::guest;
 }
 
 
 // Updates the level of a given user.
-void Database_Users::set_level (std::string user, int level)
+void set_level (const std::string& user, const int level)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("UPDATE users SET level =");
-  sql.add (level);
-  sql.add ("WHERE username =");
-  sql.add (user);
-  sql.add (";");
-  sql.execute ();
+    SqliteDatabase sql (filename ());
+    sql.add ("UPDATE users SET level =");
+    sql.add (level);
+    sql.add ("WHERE username =");
+    sql.add (user);
+    sql.add (";");
+    sql.execute ();
 }
 
 
 // Remove a user from the database.
-void Database_Users::remove_user (std::string user)
+void remove_user (const std::string& user)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("DELETE FROM users WHERE username =");
-  sql.add (user);
-  sql.add (";");
-  sql.execute ();
+    SqliteDatabase sql (filename ());
+    sql.add ("DELETE FROM users WHERE username =");
+    sql.add (user);
+    sql.add (";");
+    sql.execute ();
 }
 
 
 // Returns an array with the usernames of the site administrators.
-std::vector <std::string> Database_Users::getAdministrators ()
+std::vector <std::string> get_administrators ()
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT username FROM users WHERE level =");
-  sql.add (roles::admin);
-  sql.add ("AND (disabled IS NULL OR disabled = 0);");
-  std::vector <std::string> result = sql.query () ["username"];
-  return result;
+    SqliteDatabase sql (filename ());
+    sql.add ("SELECT username FROM users WHERE level =");
+    sql.add (roles::admin);
+    sql.add ("AND (disabled IS NULL OR disabled = 0);");
+    const auto result = sql.query () ["username"];
+    return result;
 }
 
 
 // Returns the query to update a user's email address.
-std::string Database_Users::update_email_query (std::string user, std::string email)
+std::string update_email_query (const std::string& user, const std::string& email)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("UPDATE users SET email =");
-  sql.add (email);
-  sql.add ("WHERE username =");
-  sql.add (user);
-  sql.add (";");
-  return sql.get_sql();
-}
-
-
-// Updates the "email" for "user".
-void Database_Users::update_user_email (std::string user, std::string email)
-{
-  execute (update_email_query (user, email));
-}
-
-
-// Return an array with the available users.
-std::vector <std::string> Database_Users::get_users () const
-{
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT username FROM users;");
-  std::vector <std::string> result = sql.query () ["username"];
-  return result;
-}
-
-
-// Returns the md5 hash for the $user's password.
-std::string Database_Users::get_md5 (std::string user)
-{
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT password FROM users WHERE username =");
-  sql.add (user);
-  sql.add (";");
-  std::vector <std::string> result = sql.query () ["password"];
-  if (!result.empty()) return result [0];
-  return std::string();
+    SqliteDatabase sql (filename ());
+    sql.add ("UPDATE users SET email =");
+    sql.add (email);
+    sql.add ("WHERE username =");
+    sql.add (user);
+    sql.add (";");
+    return sql.get_sql();
 }
 
 
 // Executes the SQL fragment.
-void Database_Users::execute (std::string sqlfragment)
+void execute (const std::string& sql_fragment)
 {
-  SqliteDatabase sql (filename ());
-  sql.set_sql (sqlfragment);
-  sql.execute ();
+    SqliteDatabase sql (filename ());
+    sql.set_sql(sql_fragment);
+    sql.execute ();
+}
+
+
+// Updates the "email" for "user".
+void update_user_email (const std::string& user, const std::string& email)
+{
+    execute (update_email_query (user, email));
+}
+
+
+// Return an array with the available users.
+std::vector <std::string> get_users ()
+{
+    SqliteDatabase sql (filename ());
+    sql.add ("SELECT username FROM users;");
+    const auto result = sql.query () ["username"];
+    return result;
+}
+
+
+// Returns the md5 hash for the $user's password.
+std::string get_md5 (const std::string& user)
+{
+    SqliteDatabase sql (filename ());
+    sql.add ("SELECT password FROM users WHERE username =");
+    sql.add (user);
+    sql.add (";");
+    if (const auto result = sql.query () ["password"]; not result.empty())
+        return result [0];
+    return {};
 }
 
 
 // Set the LDAP state for the $user account $on or off.
-void Database_Users::set_ldap (std::string user, bool on)
+void set_ldap (const std::string& user, const bool on)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("UPDATE users SET ldap =");
-  sql.add (filter::string::convert_to_int (on));
-  sql.add ("WHERE username =");
-  sql.add (user);
-  sql.add (";");
-  sql.execute ();
+    SqliteDatabase sql (database::users::filename ());
+    sql.add ("UPDATE users SET ldap =");
+    sql.add (filter::string::convert_to_int (on));
+    sql.add ("WHERE username =");
+    sql.add (user);
+    sql.add (";");
+    sql.execute ();
 }
 
 
 // Get whether the $user account comes from a LDAP server.
-bool Database_Users::get_ldap (std::string user)
+bool get_ldap (const std::string& user)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT ldap FROM users WHERE username =");
-  sql.add (user);
-  sql.add (";");
-  std::vector <std::string> result = sql.query () ["ldap"];
-  if (!result.empty()) {
-    bool ldap_is_on = filter::string::convert_to_bool (result [0]);
-    return ldap_is_on;
-  }
-  return false;
+    SqliteDatabase sql (filename ());
+    sql.add ("SELECT ldap FROM users WHERE username =");
+    sql.add (user);
+    sql.add (";");
+    if (const auto result = sql.query () ["ldap"]; not result.empty()) {
+        const bool ldap_is_on = filter::string::convert_to_bool (result [0]);
+        return ldap_is_on;
+    }
+    return false;
 }
 
 
 // Enable the $user account.
-void Database_Users::set_enabled (std::string user, bool on)
+void set_enabled (const std::string& user, const bool on)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("UPDATE users SET disabled =");
-  sql.add (filter::string::convert_to_int (!on));
-  sql.add ("WHERE username =");
-  sql.add (user);
-  sql.add (";");
-  sql.execute ();
+    SqliteDatabase sql (filename ());
+    sql.add ("UPDATE users SET disabled =");
+    sql.add (filter::string::convert_to_int (!on));
+    sql.add ("WHERE username =");
+    sql.add (user);
+    sql.add (";");
+    sql.execute ();
 }
 
 
 // Disable the $user account.
-bool Database_Users::get_enabled (std::string user)
+bool get_enabled (const std::string& user)
 {
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT disabled FROM users WHERE username =");
-  sql.add (user);
-  sql.add (";");
-  std::vector <std::string> result = sql.query () ["disabled"];
-  if (!result.empty()) return !filter::string::convert_to_bool (result [0]);
-  return false;
+    SqliteDatabase sql (filename ());
+    sql.add ("SELECT disabled FROM users WHERE username =");
+    sql.add (user);
+    sql.add (";");
+    std::vector <std::string> result = sql.query () ["disabled"];
+    if (!result.empty()) return !filter::string::convert_to_bool (result [0]);
+    return false;
 }
 
 
-// The filename of the database.
-const char * Database_Users::filename () const
-{
-  return "users";
-}
+} // namespace

@@ -115,7 +115,7 @@ bool sendreceive_notes_upload ()
   
   
   // Set the correct user in the session: The sole user on the Client.
-  std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+  std::vector <std::string> users = database::users::get_users ();
   if (users.empty ()) {
     database::logs::log<roles::translator> (sendreceive_notes_text(), translate("No local user found"));
     return false;
@@ -128,8 +128,8 @@ bool sendreceive_notes_upload ()
   // It contains the user's credentials.
   std::map <std::string, std::string> post;
   post ["u"] = filter::string::bin2hex (user);
-  post ["p"] = webserver_request.database_users ()->get_md5 (user);
-  post ["l"] = std::to_string (webserver_request.database_users ()->get_level (user));
+  post ["p"] = database::users::get_md5 (user);
+  post ["l"] = std::to_string (database::users::get_level (user));
   
   
   // Error variable.
@@ -337,14 +337,14 @@ bool sendreceive_notes_download (int lowId, int highId)
   // The server will use this user to find out the Bibles this user has access to,
   // so the server can select the correct notes for this user.
   // The client selects all available notes on the system.
-  std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+  std::vector <std::string> users = database::users::get_users ();
   if (users.empty ()) {
     database::logs::log<roles::translator> (sendreceive_notes_text(), translate("No local user found"));
     return false;
   }
   std::string user = users [0];
   webserver_request.session_logic ()->set_username (user);
-  std::string password = webserver_request.database_users ()->get_md5 (user);
+  std::string password = database::users::get_md5 (user);
 
   
   // Check for the health of the notes databases and take action if needed.

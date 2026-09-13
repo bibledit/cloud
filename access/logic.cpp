@@ -125,19 +125,18 @@ void user_level (Webserver_Request& webserver_request, std::string& user, int& l
     level = webserver_request.session_logic ()->get_level ();
   } else {
     // If a user is given, take the matching level from the database.
-    level = webserver_request.database_users ()->get_level (user);
+    level = database::users::get_level (user);
   }
 }
 
 
 void create_client_files ()
 {
-    constexpr Database_Users database_users;
     const auto create_files = [](const auto& user)
     {
         database_privileges_client_create(user, false);
     };
-    std::ranges::for_each(database_users.get_users(), create_files);
+    std::ranges::for_each(database::users::get_users(), create_files);
 }
 
 

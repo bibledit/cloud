@@ -621,10 +621,9 @@ std::string filter_git_user (std::string user)
 // This takes the email address that belongs to $user,
 // and optionally sets the email address to a valid value,
 // and returns that email address.
-std::string filter_git_email (std::string user)
+std::string filter_git_email (const std::string& user)
 {
-  Database_Users database_users;
-  std::string email = database_users.get_email (user);
+  std::string email = database::users::get_email (user);
   if (email.empty ()) {
     email = database::config::general::get_site_mail_address ();
   }

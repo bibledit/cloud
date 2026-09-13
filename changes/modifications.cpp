@@ -164,7 +164,7 @@ void changes_modifications ()
   // Get the users who will receive the changes entered by the named contributors.
   std::vector <std::string> recipients_named_contributors;
   {
-    const std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+    const std::vector <std::string> users = database::users::get_users ();
     const auto online_on = [&] (const auto& user) {
       if (webserver_request.database_config_user ()->get_contributor_changes_notifications_online (user)) {
         recipients_named_contributors.push_back(user);
@@ -184,7 +184,7 @@ void changes_modifications ()
   // Note: A user will always receive notificatons of changes made by that same user.
   std::map <std::string, std::vector<std::string> > notification_bibles_per_user {};
   {
-    const std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+    const std::vector <std::string> users = database::users::get_users ();
     for (const auto & user : users) {
       const std::vector <std::string> bibles = webserver_request.database_config_user ()->get_change_notifications_bibles_for_user (user);
       notification_bibles_per_user [user] = bibles;
@@ -289,7 +289,7 @@ void changes_modifications ()
     
     
     std::vector <std::string> changeNotificationUsers;
-    std::vector <std::string> all_users = webserver_request.database_users ()->get_users ();
+    std::vector <std::string> all_users = database::users::get_users ();
     for (const auto& user : all_users) {
       if (access_bible::read (webserver_request, bible, user)) {
         if (webserver_request.database_config_user()->get_user_generate_change_notifications (user)) {
@@ -433,7 +433,7 @@ void changes_modifications ()
         if (bodies.size () > 1) {
           subject.append (" (" + std::to_string (b + 1) + "/" + std::to_string (bodies.size ()) + ")");
         }
-        const std::vector <std::string> all_users_2 = webserver_request.database_users ()->get_users ();
+        const std::vector <std::string> all_users_2 = database::users::get_users ();
         for (const auto& user : all_users_2) {
           if (webserver_request.database_config_user()->get_user_bible_changes_notification (user)) {
             if (access_bible::read (webserver_request, bible, user)) {
@@ -479,7 +479,7 @@ void changes_modifications ()
   
   
   // Clear checksum caches.
-  users = webserver_request.database_users ()->get_users ();
+  users = database::users::get_users ();
   for (const auto & user : users) {
     webserver_request.database_config_user ()->set_user_change_notifications_checksum (user, "");
   }

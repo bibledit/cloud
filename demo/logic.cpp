@@ -154,11 +154,11 @@ void demo_clean_data ()
     std::pair (session_admin_credentials (), roles::admin)
   };
   for (const auto& [user, role] : users_roles) {
-    if (!webserver_request.database_users()->username_exists (user)) {
+    if (not database::users::username_exists (user)) {
       const auto password{user};
-      webserver_request.database_users()->add_user(user, password, role, std::string());
+      database::users::add_user(user, password, role, std::string());
     }
-    webserver_request.database_users()->set_level(user, role);
+    database::users::set_level(user, role);
   }
   webserver_request_set_admin_user();
   

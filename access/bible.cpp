@@ -53,7 +53,7 @@ bool read ([[maybe_unused]] Webserver_Request& webserver_request,
       return webserver_request.session_logic ()->get_level ();
     }
     // Take level belonging to user.
-    return webserver_request.database_users ()->get_level (user);
+    return database::users::get_level (user);
   };
   const int role_level = get_role_level();
   
@@ -103,7 +103,7 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
     }
     if (level == 0) {
       // Take level belonging to user.
-      level = webserver_request.database_users ()->get_level (user);
+      level = database::users::get_level (user);
     }
     return level;
   };
@@ -157,7 +157,7 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
     }
     if (level == 0) {
       // Take level belonging to user.
-      level = webserver_request.database_users ()->get_level (user);
+      level = database::users::get_level (user);
     }
     return level;
   };

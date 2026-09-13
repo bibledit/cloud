@@ -24,7 +24,6 @@ Webserver_Request::~Webserver_Request()
 {
     delete session_logic_instance;
     delete database_config_user_instance;
-    delete database_users_instance;
 }
 
 
@@ -60,14 +59,4 @@ Database_Config_User* Webserver_Request::database_config_user()
     if (!database_config_user_instance)
         database_config_user_instance = new Database_Config_User(*this);
     return database_config_user_instance;
-}
-
-
-// Returns a pointer to a live Database_Users object.
-Database_Users* Webserver_Request::database_users()
-{
-    // Single live object during the entire web request.
-    if (!database_users_instance)
-        database_users_instance = new Database_Users();
-    return database_users_instance;
 }

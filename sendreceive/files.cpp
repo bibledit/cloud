@@ -109,7 +109,7 @@ void sendreceive_files ()
 
   
   // The client user is the sole user registered on the system.
-  const std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+  const std::vector <std::string> users = database::users::get_users ();
   if (users.empty ()) {
     database::logs::log<roles::translator> (translate("No user found"));
     sendreceive_files_done ();

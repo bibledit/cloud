@@ -46,5 +46,5 @@ bool filter_git_push (std::string repository, std::vector <std::string> & messag
 bool filter_git_resolve_conflicts (std::string repository, std::vector <std::string> & paths, std::string & error);
 void filter_git_config (std::string repository);
 std::string filter_git_user (std::string user);
-std::string filter_git_email (std::string user);
+std::string filter_git_email (const std::string& user);
 #endif

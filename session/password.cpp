@@ -59,15 +59,14 @@ std::string session_password (Webserver_Request& webserver_request)
       form_is_valid = false;
     }
     std::string email{};
-    Database_Users database_users;
     if (form_is_valid) {
       form_is_valid = false;
-      email = database_users.get_email (user);
+      email = database::users::get_email (user);
       if (!email.empty()) {
         form_is_valid = true;
       }
       if (!form_is_valid) {
-        if (database_users.email_exists (user)) {
+        if (database::users::email_exists (user)) {
           form_is_valid = true;
           email = user;
         }
@@ -77,8 +76,8 @@ std::string session_password (Webserver_Request& webserver_request)
       // Generate and store a new password.
       std::string generated_password = md5 (std::to_string (filter::string::rand (0, 1'000'000)));
       generated_password = generated_password.substr (0, 15);
-      const std::string username = database_users.get_email_to_user (email);
-      database_users.set_password (username, generated_password);
+      const std::string username = database::users::get_email_to_user (email);
+      database::users::set_password (username, generated_password);
       // Send the new password to the user.
       const std::string subject = translate("Account changed");
       std::string body = translate("Somebody requested a new password for your account.");

@@ -28,12 +28,12 @@ std::vector<std::string> access_user::assignees (Webserver_Request& webserver_re
   const int my_level = webserver_request.session_logic()->get_level();
   
   // Get sorted list of users.
-  std::vector<std::string> users = webserver_request.database_users()->get_users();
+  std::vector<std::string> users = database::users::get_users();
   std::ranges::sort(users);
 
   // The filter: Assignees should have a level less than or equal to my level.
   const auto filter_level = [&] (const auto& user) {
-    return webserver_request.database_users()->get_level(user) <= my_level;
+    return database::users::get_level(user) <= my_level;
   };
   auto range = users | std::views::filter(filter_level);
   return filter::string::range2vector(range);

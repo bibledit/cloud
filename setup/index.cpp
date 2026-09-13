@@ -106,7 +106,7 @@ std::string setup_index (Webserver_Request& webserver_request)
   Assets_View view{};
 
   // Get the existing Administrators.
-  const std::vector <std::string> admins = webserver_request.database_users ()->getAdministrators ();
+  const std::vector <std::string> admins = database::users::get_administrators ();
 
   // Admins do not yet exist: Allow to enter an admin.
   if (admins.empty ()) {
@@ -115,9 +115,9 @@ std::string setup_index (Webserver_Request& webserver_request)
       const std::string admin_password = webserver_request.post_get("admin_password");
       const std::string admin_email = webserver_request.post_get("admin_email");
       std::vector <std::string> errors{};
-      if (admin_username.length() < 5) errors.push_back ("Choose a longer username.");
-      if (admin_password.length() < 7) errors.push_back ("Choose a longer password.");
-      if (admin_email.length() < 5) errors.push_back ("Enter a valid email address.");
+      if (admin_username.length() < 5) errors.emplace_back("Choose a longer username.");
+      if (admin_password.length() < 7) errors.emplace_back("Choose a longer password.");
+      if (admin_email.length() < 5) errors.emplace_back("Enter a valid email address.");
       if (errors.empty()) {
         // Store admin details.
         setup_set_admin_details (admin_username, admin_password, admin_email);
@@ -150,7 +150,7 @@ std::string setup_index (Webserver_Request& webserver_request)
         emails.append (" / ");
       }
       usernames.append (admins[i]);
-      emails.append (webserver_request.database_users ()->get_email (admins[i]));
+      emails.append (database::users::get_email(admins[i]));
     }
     view.set_variable ("usernames", usernames);
     view.set_variable ("emails", emails);

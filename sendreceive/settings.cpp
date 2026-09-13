@@ -91,7 +91,7 @@ void sendreceive_settings ()
   }
 
   // Set the correct user in the session: The sole user on the Client.
-  std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+  std::vector <std::string> users = database::users::get_users ();
   if (users.empty ()) {
     database::logs::log<roles::translator> (translate("No user found"));
     sendreceive_settings_done ();
@@ -113,8 +113,8 @@ void sendreceive_settings ()
   // The POST request contains the credentials.
   std::map <std::string, std::string> post;
   post ["u"] = filter::string::bin2hex (user);
-  post ["p"] = webserver_request.database_users ()->get_md5 (user);
-  post ["l"] = std::to_string (webserver_request.database_users ()->get_level (user));
+  post ["p"] = database::users::get_md5 (user);
+  post ["l"] = std::to_string (database::users::get_level (user));
 
   for (auto id : ids) {
 

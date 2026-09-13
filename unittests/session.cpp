@@ -43,9 +43,8 @@ TEST (session, logic1)
   // The session logic depends on users in the database.
   Database_State::create ();
   database::login::create ();
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
+  database::users::create ();
+  database::users::upgrade ();
   
   // In a demo installation, a client is always logged in as user admin, even after logging out.
   config_globals_open_installation = true;
@@ -72,9 +71,8 @@ TEST (session, logic2)
   refresh_sandbox (false);
   Database_State::create ();
   database::login::create ();
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
+  database::users::create ();
+  database::users::upgrade ();
   config_globals_client_prepared = true;
   Webserver_Request request;
   EXPECT_TRUE (request.session_logic ()->get_logged_in ());
@@ -89,12 +87,11 @@ TEST (session, logic3)
   refresh_sandbox (false);
   Database_State::create ();
   database::login::create ();
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
+  database::users::create ();
+  database::users::upgrade ();
   const std::string username = "ঃইঝম";
   const int level = 10;
-  database_users.add_user (username, "password", level, "email");
+  database::users::add_user (username, "password", level, "email");
   config_globals_client_prepared = true;
   Webserver_Request request;
   EXPECT_TRUE (request.session_logic ()->get_logged_in ());
@@ -109,17 +106,16 @@ TEST (session, logic4)
   refresh_sandbox (false);
   Database_State::create ();
   database::login::create ();
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
+  database::users::create ();
+  database::users::upgrade ();
   Webserver_Request request1;
   
   // Enter a user into the database.
   const std::string username = "ঃইঝম";
   const std::string password = "ᨃᨄᨔᨕ";
   const std::string email = "email@website";
-  const int level = 10;
-  database_users.add_user (username, password, level, email);
+  constexpr int level = 10;
+  database::users::add_user (username, password, level, email);
   const std::string session = "abcdefgh";
   
   // Log in by providing username and password.
@@ -186,16 +182,15 @@ TEST (session, logic5)
   refresh_sandbox (false);
   Database_State::create ();
   database::login::create ();
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
+  database::users::create ();
+  database::users::upgrade ();
   
   // Enter a user into the database.
   const std::string username = "username";
   const std::string password = "password";
   const std::string email = "info@bibledit.org";
   constexpr int level = 5;
-  database_users.add_user (username, password, level, email);
+  database::users::add_user (username, password, level, email);
   Webserver_Request request1;
   const std::string session = "abcdefgh";
   
@@ -250,9 +245,8 @@ TEST (session, logic6)
   refresh_sandbox (false);
   Database_State::create ();
   database::login::create ();
-  Database_Users database_users;
-  database_users.create ();
-  database_users.upgrade ();
+  database::users::create ();
+  database::users::upgrade ();
   Webserver_Request request;
   
   // Enter a user into the database.
@@ -260,7 +254,7 @@ TEST (session, logic6)
   const std::string password = "ᨃᨄᨔᨕ";
   const std::string email = "email@website";
   const int level = 10;
-  database_users.add_user (username, password, level, email);
+  database::users::add_user (username, password, level, email);
   const std::string session = "abcdefgh";
   
   // Log in by providing email and incorrect password, but skip checks.

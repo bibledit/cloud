@@ -54,7 +54,7 @@ std::string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
   Assets_View view;
 
   const std::string& username = webserver_request.session_logic ()->get_username ();
-  const std::string email = webserver_request.database_users()->get_email (username);
+  const std::string email = database::users::get_email (username);
 
   bool actions_taken = false;
   std::vector <std::string> success_messages;
@@ -80,30 +80,30 @@ std::string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
         form_is_valid = false;
         view.set_variable ("new_password2_invalid_message", translate("Passwords do not match"));
       }
-      if (!webserver_request.database_users()->match_user_password (username, currentpassword)) {
+      if (not database::users::match_user_password (username, currentpassword)) {
         form_is_valid = false;
         view.set_variable ("current_password_invalid_message", translate("Current password is not valid"));
       }
       if (form_is_valid) {
-        webserver_request.database_users()->set_password (username, newpassword);
+        database::users::set_password (username, newpassword);
         actions_taken = true;
         success_messages.push_back (translate("The new password was saved"));
       }
     }
   
-    if (newemail != "") {
+    if (not newemail.empty()) {
       if (!filter_url_email_is_valid (newemail)) {
         form_is_valid = false;
         view.set_variable ("new_email_invalid_message", translate("Email address is not valid"));
       }
-      if (!webserver_request.database_users()->match_user_password (username, currentpassword)) {
+      if (not database::users::match_user_password (username, currentpassword)) {
         form_is_valid = false;
         view.set_variable ("current_password_invalid_message", translate("Current password is not valid"));
       }
       if (form_is_valid) {
         std::string initial_subject = translate("Email address verification");
         std::string initial_body = translate("Somebody requested to change the email address that belongs to your account.");
-        std::string query = webserver_request.database_users()->update_email_query (username, newemail);
+        std::string query = database::users::update_email_query (username, newemail);
         std::string subsequent_subject = translate("Email address change");
         std::string subsequent_body = translate("The email address that belongs to your account has been changed successfully.");
         confirm::worker::setup (webserver_request, newemail, std::string(), initial_subject, initial_body, query, subsequent_subject, subsequent_body);

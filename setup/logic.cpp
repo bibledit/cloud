@@ -200,8 +200,8 @@ void setup_initialize_data ()
   // This alerts the user that installation is in progress, and is not stuck,
   // as the user might think when the install takes longer than expected.
   config_globals_setup_message = "users";
-  webserver_request.database_users ()->create ();
-  webserver_request.database_users ()->upgrade ();
+  database::users::create();
+  database::users::upgrade();
   config_globals_setup_message = "styles";
   database::styles::create_database ();
   config_globals_setup_message = "bible actions";
@@ -287,9 +287,8 @@ void setup_initialize_data ()
 // Store the admin's details.
 void setup_set_admin_details (const std::string& username, const std::string& password, const std::string& email)
 {
-  Database_Users database_users{};
-  database_users.remove_user (username);
-  database_users.add_user (username, password, roles::admin, email);
+  database::users::remove_user (username);
+  database::users::add_user(username, password, roles::admin, email);
 }
 
 

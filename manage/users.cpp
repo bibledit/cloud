@@ -89,12 +89,12 @@ std::string manage_users (Webserver_Request& webserver_request)
   }
   if (webserver_request.post_count("new")) {
     const std::string user = webserver_request.post_get("entry");
-    if (webserver_request.database_users ()->username_exists (user)) {
+    if (database::users::username_exists (user)) {
       page += assets_page::error (translate("User already exists"));
     } else {
       const std::string password{user};
       constexpr const int role = static_cast<int>(roles::member);
-      webserver_request.database_users ()->add_user(user, password, role, "");
+      database::users::add_user(user, password, role, "");
       user_updated = true;
       page += assets_page::success (translate("User created"));
     }
@@ -103,7 +103,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   // The user to act on.
   const std::string object_username = webserver_request.query["user"];
-  int object_user_level = webserver_request.database_users ()->get_level (object_username);
+  int object_user_level = database::users::get_level (object_username);
   
   
   // Delete a user.
@@ -118,9 +118,9 @@ std::string manage_users (Webserver_Request& webserver_request)
     }
     if (confirm == "yes") {
       std::string role = roles::text (object_user_level);
-      std::string email = webserver_request.database_users ()->get_email (object_username);
-      std::vector <std::string> users = webserver_request.database_users ()->get_users ();
-      std::vector <std::string> administrators = webserver_request.database_users ()->getAdministrators ();
+      std::string email = database::users::get_email (object_username);
+      std::vector <std::string> users = database::users::get_users ();
+      std::vector <std::string> administrators = database::users::get_administrators ();
       if (users.size () == 1) {
         page += assets_page::error (translate("Cannot remove the last user"));
       } else if ((object_user_level >= roles::admin) && (administrators.size () == 1)) {
@@ -144,7 +144,7 @@ std::string manage_users (Webserver_Request& webserver_request)
       const std::string identification = level_identification + std::to_string(u);
       if (webserver_request.post_count(identification)) {
         const std::string value = webserver_request.post_get(identification);
-        webserver_request.database_users ()->set_level (object_username, filter::string::convert_to_int (value));
+        database::users::set_level (object_username, filter::string::convert_to_int (value));
       }
     }
   }
@@ -155,7 +155,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     std::string email = webserver_request.query ["email"];
     if (email == "") {
       std::string question = translate("Please enter an email address for") + " " + object_username;
-      std::string value = webserver_request.database_users ()->get_email (object_username);
+      std::string value = database::users::get_email (object_username);
       Dialog_Entry dialog_entry = Dialog_Entry ("users", question, value, "email", "");
       dialog_entry.add_query ("user", object_username);
       page += dialog_entry.run ();
@@ -166,7 +166,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     std::string email = webserver_request.post_get("entry");
     if (filter_url_email_is_valid (email)) {
       page += assets_page::success (translate("Email address was updated"));
-      webserver_request.database_users ()->update_user_email (object_username, email);
+      database::users::update_user_email (object_username, email);
       user_updated = true;
     } else {
       page += assets_page::error (translate("The email address is not valid"));
@@ -180,12 +180,12 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   // Enable or disable a user account.
   if (webserver_request.query.count ("enable")) {
-    webserver_request.database_users ()->set_enabled (object_username, true);
+    database::users::set_enabled (object_username, true);
     assets_page::success (translate("The user account was enabled"));
   }
   if (webserver_request.query.count ("disable")) {
     // Disable the user in the database.
-    webserver_request.database_users ()->set_enabled (object_username, false);
+    database::users::set_enabled (object_username, false);
     // Remove all login tokens (cookies) for this user, so the user no longer is logged in.
     database::login::remove_tokens (object_username);
     // Feedback.
@@ -211,12 +211,12 @@ std::string manage_users (Webserver_Request& webserver_request)
     const auto& username = users.at(u);
     
     // Gather details for this user account.
-    object_user_level = webserver_request.database_users()->get_level (username);
+    object_user_level = database::users::get_level (username);
     std::string namedrole = roles::text (object_user_level);
-    std::string email = webserver_request.database_users()->get_email (username);
+    std::string email = database::users::get_email (username);
     if (email.empty())
       email = "--";
-    bool enabled = webserver_request.database_users()->get_enabled (username);
+    bool enabled = database::users::get_enabled (username);
     
     // Start a new table row.
     tbody << "<tr>";
@@ -307,7 +307,7 @@ std::string manage_users (Webserver_Request& webserver_request)
       if (my_level > object_user_level) {
         tbody << "<td>│</td>";
         tbody << "<td>";
-        bool account_enabled = webserver_request.database_users ()->get_enabled (username);
+        bool account_enabled = database::users::get_enabled (username);
         if (account_enabled) {
           tbody << "<a href=" << std::quoted("?user=" + username + "&disable") << ">" << translate ("Disable") << "</a>";
         } else {

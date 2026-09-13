@@ -67,14 +67,12 @@ std::string client_logic_url(const std::string& address, const int port, const s
 // It returns an empty string in case of failure or the response from the server.
 std::string client_logic_connection_setup(std::string user, std::string hash)
 {
-    Database_Users database_users{};
-
     if (user.empty())
     {
-        const std::vector<std::string> users = database_users.get_users();
+        const std::vector<std::string> users = database::users::get_users();
         if (users.empty()) return {};
         user = users.at(0);
-        hash = database_users.get_md5(user);
+        hash = database::users::get_md5(user);
     }
 
     const std::string encoded_user = filter::string::bin2hex(user);
@@ -92,9 +90,9 @@ std::string client_logic_connection_setup(std::string user, std::string hash)
     {
         // Set user's role on the client to be the same as on the server.
         // Do this only when it differs, to prevent excessive database writes on the client.
-        if (const int level = database_users.get_level(user); i_response != level)
+        if (const int level = database::users::get_level(user); i_response != level)
         {
-            database_users.set_level(user, i_response);
+            database::users::set_level(user, i_response);
         }
     }
     else
@@ -249,8 +247,7 @@ std::string client_logic_get_username()
     // Or if the database has no users, make the user admin.
     // That happens when disconnected from the Cloud.
     std::string user = session_admin_credentials();
-    Database_Users database_users;
-    std::vector<std::string> users = database_users.get_users();
+    std::vector<std::string> users = database::users::get_users();
     if (!users.empty()) user = users[0];
     return user;
 }

@@ -40,7 +40,7 @@ std::string sync_setup (Webserver_Request& webserver_request)
   constexpr const char* require_secure {"Server requires a secure connection"};
 
   // Check the username presented by the client.
-  if (!webserver_request.database_users ()->username_exists (username)) {
+  if (!database::users::username_exists (username)) {
     if (user_logic_login_failure_check_okay()) {
       database::logs::log("Failed client connection attempt with incorrect username", username);
     }
@@ -49,7 +49,7 @@ std::string sync_setup (Webserver_Request& webserver_request)
   }
 
   // Check the password hash presented by the client.
-  if (const std::string md5 = webserver_request.database_users()->get_md5(username);
+  if (const std::string md5 = database::users::get_md5(username);
       password_hash != md5) {
     if (user_logic_login_failure_check_okay()) {
       database::logs::log("Failed client connection attempt with incorrect password");
@@ -77,5 +77,5 @@ std::string sync_setup (Webserver_Request& webserver_request)
   }
   
   // Return the user level to the client.
-  return std::to_string(webserver_request.database_users()->get_level(username));
+  return std::to_string(database::users::get_level(username));
 }

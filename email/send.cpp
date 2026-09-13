@@ -59,15 +59,14 @@ void send ()
   // The databases involved.
   Webserver_Request webserver_request;
   Database_Mail database_mail (webserver_request);
-  Database_Users database_users;
-  
+
   const auto mails = database_mail.getMailsToSend ();
   for (auto id : mails) {
     
     // Get all details of the mail.
     Database_Mail_Item details = database_mail.get (id);
     std::string username = details.username;
-    std::string email = database_users.get_email (username);
+    std::string email = database::users::get_email(username);
     std::string subject = details.subject;
     std::string body = details.body;
     

@@ -46,7 +46,7 @@ protected:
 
 static void setup (Webserver_Request& request)
 {
-  request.database_users ()->create ();
+  database::users::create();
   request.session_logic ()->set_username ("phpunit");
 }
 

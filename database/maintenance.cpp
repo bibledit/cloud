@@ -65,9 +65,8 @@ void database_maintenance ()
   // Therefore this type of maintenance should not be done automatically.
   
   
-  Database_Users database_users;
-  database_users.trim ();
-  database_users.optimize ();
+  database::users::trim ();
+  database::users::optimize ();
   
   
   Database_Mail database_mail (webserver_request);

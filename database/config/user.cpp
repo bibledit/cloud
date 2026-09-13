@@ -241,8 +241,7 @@ void Database_Config_User::trim()
     // When a user visits the Sprint page after a few days, it will then display the current Sprint.
     // If the Sprint is not reset, the user may enter new tasks in the wrong sprint.
     const int time = filter::date::get_seconds_since_epoch() - (2 * 24 * 3600);
-    Database_Users database_users{};
-    std::ranges::for_each(database_users.get_users(), [time](const auto& user)
+    std::ranges::for_each(database::users::get_users(), [time](const auto& user)
     {
         if (std::string filename = file(user, sprint_month_key); file_or_dir_exists(filename))
             if (filter_url_file_modification_time(filename) < time)

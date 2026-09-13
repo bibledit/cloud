@@ -39,8 +39,7 @@ TEST(database, mail)
     // Optimize / trim.
     {
         refresh_sandbox(false);
-        Database_Users database_users;
-        database_users.create();
+        database::users::create();
         Webserver_Request webserver_request;
         Database_Mail database_mail(webserver_request);
         database_mail.create();
@@ -51,8 +50,7 @@ TEST(database, mail)
     // Empty.
     {
         refresh_sandbox(true);
-        Database_Users database_users;
-        database_users.create();
+        database::users::create();
         Webserver_Request webserver_request;
         Database_Mail database_mail(webserver_request);
         database_mail.create();
@@ -71,8 +69,7 @@ TEST(database, mail)
     // Normal cycle.
     {
         refresh_sandbox(true);
-        Database_Users database_users;
-        database_users.create();
+        database::users::create();
         Webserver_Request webserver_request;
         Database_Mail database_mail(webserver_request);
         database_mail.create();
@@ -99,8 +96,7 @@ TEST(database, mail)
     // Normal postpone.
     {
         refresh_sandbox(true);
-        Database_Users database_users;
-        database_users.create();
+        database::users::create();
         Webserver_Request webserver_request;
         Database_Mail database_mail(webserver_request);
         database_mail.create();

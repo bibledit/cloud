@@ -37,12 +37,11 @@ namespace confirm::worker {
 // Inform the managers about an account change.
 static void inform_managers (const std::string& email, const std::string& body)
 {
-    for (Database_Users database_users{};
-        const auto& user : database_users.get_users())
+    for (const auto& user : database::users::get_users())
     {
-        if (database_users.get_level(user) >= roles::manager)
+        if (database::users::get_level(user) >= roles::manager)
         {
-            const std::string mailto = database_users.get_email(user);
+            const std::string mailto = database::users::get_email(user);
             const std::string subject = translate("User account change");
             std::string new_body = translate("A user account was changed.");
             new_body.append(" ");
@@ -113,7 +112,7 @@ bool handle_link (Webserver_Request& webserver_request, std::string& email)
 
     // An active ID was found: Execute the associated database query.
     const std::string query = database::confirm::get_query(id);
-    webserver_request.database_users()->execute(query);
+    database::users::execute(query);
 
     // Send confirmation mail.
     const std::string mailto = database::confirm::get_mail_to(id);

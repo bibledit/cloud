@@ -128,7 +128,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
   const std::string send = webserver_request.query ["send"];
   if (!send.empty ()) {
     const std::string& me = webserver_request.session_logic ()->get_username ();
-    const std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+    const std::vector <std::string> users = database::users::get_users ();
     for (const auto& user : users) {
       if (user != me) {
         workspace_send (webserver_request, send, user);

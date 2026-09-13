@@ -135,12 +135,11 @@ TEST(database, config_user)
     Webserver_Request request;
     Database_State::create();
     database::login::create();
-    Database_Users database_users;
-    database_users.create();
-    database_users.upgrade();
+    database::users::create();
+    database::users::upgrade();
     const std::string username = "username";
     const std::string password = "password";
-    database_users.add_user(username, password, 5, "");
+    database::users::add_user(username, password, 5, "");
     request.session_logic()->attempt_login(username, password, true);
 
     // Testing setList, getList, plus add/removeUpdatedSetting.

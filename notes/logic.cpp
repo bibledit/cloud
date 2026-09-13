@@ -384,7 +384,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     }
 
     // Users to get subscribed to the note, or to whom the note is to be assigned.
-    std::vector <std::string> users = m_webserver_request.database_users ()->get_users ();
+    const std::vector <std::string> users = database::users::get_users ();
     for (const std::string& user : users) {
       if (access_bible::read (m_webserver_request, bible, user)) {
         if (m_webserver_request.database_config_user ()->get_notify_user_of_any_consultation_notes_edits (user)) {
@@ -424,7 +424,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   // notify only the users with this specific notification set.
   if ((notification == notifyNoteDelete) || (notification == notifyMarkNoteForDeletion)) {
     recipients.clear ();
-    std::vector <std::string> users = m_webserver_request.database_users ()->get_users ();
+    std::vector <std::string> users = database::users::get_users ();
     for (const auto & user : users) {
       if (m_webserver_request.database_config_user ()->get_user_deleted_consultation_note_notification (user)) {
         if (access_bible::read (m_webserver_request, bible, user)) {
@@ -563,8 +563,8 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
   // Or else use the obfuscated email address as the user name.
   std::string username;
   from = filter::string::extract_email (from);
-  if (m_webserver_request.database_users()->email_exists (from)) {
-    username = m_webserver_request.database_users()->get_email_to_user (from);
+  if (database::users::email_exists (from)) {
+    username = database::users::get_email_to_user (from);
   } else {
     username = from;
     username = filter::string::replace ("@", " ", username);
@@ -617,8 +617,8 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
   subject = filter::string::collapse_whitespace (subject);
   // Check that the from address of the email belongs to an existing user.
   from = filter::string::extract_email (from);
-  if (!m_webserver_request.database_users()->email_exists (from)) return false;
-  std::string username = m_webserver_request.database_users()->get_email_to_user (from);
+  if (!database::users::email_exists (from)) return false;
+  std::string username = database::users::get_email_to_user (from);
   // Extract book, chapter, verse, and note summary from the subject
   book_id book {book_id::_unknown};
   int chapter {-1};
@@ -702,8 +702,7 @@ void notes_logic_maintain_note_assignees (bool force)
   Database_NoteAssignment database_noteassignment;
   Webserver_Request webserver_request;
   
-  Database_Users database_users;
-  std::vector <std::string> users = database_users.get_users ();
+  std::vector <std::string> users = database::users::get_users ();
 
   // If even one user's assignees are absent, force rebuilding them for all users.
   for (auto & user : users) {

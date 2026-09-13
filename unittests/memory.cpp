@@ -118,8 +118,7 @@ TEST (DISABLED_memory, basic)
   refresh_sandbox (false);
   {
     Database_State::create ();
-    Database_Users database_users;
-    database_users.create ();
+    database::users::create ();
     database::login::create ();
     demo_create_sample_bible ();
     Webserver_Request request;
@@ -167,8 +166,7 @@ TEST (DISABLED_memory, basic)
     database::config::bible::set_check_patterns (bible, true);
     database::config::bible::set_check_matching_pairs (bible, true);
     database::check::create ();
-    Database_Users database_users;
-    database_users.create ();
+    database::users::create ();
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();

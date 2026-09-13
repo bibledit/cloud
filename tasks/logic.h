@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #include "enums.h"
-#include "database/tasks.h"
 
 namespace tasks {
 std::string_view to_string(enums::task task);
@@ -31,6 +30,8 @@ void tasks_logic_start_thread_pool(std::size_t num_threads);
 void tasks_logic_stop_thread_pool();
 int tasks_logic_queue_size ();
 int tasks_logic_active_jobs_count ();
+void tasks_logic_save();
+void tasks_logic_load();
 
 struct Parameters
 {
@@ -41,5 +42,7 @@ struct Parameters
 };
 
 Parameters extract(std::vector<std::string>&);
+
+void tasks_logic_controlled_cloud_quit();
 
 }

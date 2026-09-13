@@ -48,9 +48,6 @@ void timer_index()
     int previous_second{-1};
     int previous_minute{-1};
     [[maybe_unused]] int google_translate_authentication_token_age_minute{0};
-#ifdef HAVE_CLOUD
-    bool server_restart_attempted {false};
-#endif
 
 #ifdef HAVE_CLOUD
     // Right after startup, update the Google Translate access token.
@@ -81,44 +78,6 @@ void timer_index()
             if (second == previous_second) continue;
             previous_second = second;
 
-            // Bibledit Cloud quits at midnight.
-            // This keeps unlikely resource leaks in check when Bibledit Cloud runs for months or years.
-            // If the binary quits, the shell script or service restarts the binary.
-            // Check on server restart towards the end of the minute.
-            // Then there will be fewer running tasks than at the start of the minute,
-            // because far by most tasks are queued at the full minute.
-#ifdef HAVE_CLOUD
-            if (second == 55)
-            {
-                if (hour == 0 or server_restart_attempted)
-                {
-                    if (minute == 1 or server_restart_attempted)
-                    {
-                        if (not database::config::general::get_just_started())
-                        {
-                            if (tasks::tasks_logic_queue_size() or tasks::tasks_logic_active_jobs_count())
-                            {
-                                database::logs::log("Server is due to restart itself but does not because of", tasks::tasks_logic_queue_size(), "pending and", tasks::tasks_logic_active_jobs_count(), "active jobs");
-                                server_restart_attempted = true;
-                            }
-                            else
-                            {
-                                database::logs::log("Server restarts itself");
-                                std::exit(0);
-                            }
-                        }
-                    }
-                    // Clear flag in preparation of restart next minute.
-                    // This flag also has the purpose of ensuring the server restarts once during that minute,
-                    // rather than restarting repeatedly many times during that minute.
-                    if (minute == 0)
-                    {
-                        database::config::general::set_just_started(false);
-                    }
-                }
-            }
-#endif
-
             // Every second:
             // Check whether client sends/receives Bibles and Consultation Notes and other stuff.
             sendreceive_queue_sync(minute, second);
@@ -128,6 +87,16 @@ void timer_index()
             // Run the part below once per minute.
             if (minute == previous_minute) continue;
             previous_minute = minute;
+
+            // Bibledit Cloud quits at midnight.
+            // This keeps resource leaks in check when Bibledit Cloud runs for months or years.
+            // If the binary quits, the shell script or systemd service restarts the binary.
+#ifdef HAVE_CLOUD
+            if (hour == 0 and minute == 1)
+            {
+                tasks::tasks_logic_controlled_cloud_quit();
+            }
+#endif
 
             // Every minute send out queued email.
             if (!tasks::tasks_logic_queued(tasks::enums::task::send_email))

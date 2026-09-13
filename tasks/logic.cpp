@@ -576,13 +576,27 @@ void tasks_logic_stop_thread_pool()
 int tasks_logic_queue_size()
 {
     std::scoped_lock lock(queue_mutex);
-    return static_cast<decltype(tasks::tasks_logic_queue_size())>(task_queue.size());
+    return static_cast<decltype(tasks_logic_queue_size())>(task_queue.size());
 }
 
 
 int tasks_logic_active_jobs_count ()
 {
     return running_tasks;
+}
+
+
+void tasks_logic_save()
+{
+    std::lock_guard lock(queue_mutex);
+    database::tasks::save(task_queue);
+}
+
+
+void tasks_logic_load()
+{
+    std::lock_guard lock(queue_mutex);
+    task_queue = database::tasks::load();
 }
 
 
@@ -601,6 +615,48 @@ Parameters extract(std::vector<std::string>& task_parameters)
     get_parameter(parameters.p3);
     get_parameter(parameters.p4);
     return parameters;
+}
+
+
+void tasks_logic_controlled_cloud_quit()
+{
+    // A safety net covers the situation that a task is stuck and never ends.
+    auto safety_exit_thread = std::thread ([]
+    {
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(15min);
+        database::logs::log("Exit server despite", tasks::tasks_logic_active_jobs_count(), "stuck task and", tasks::tasks_logic_queue_size(), "queued tasks got lost");
+        for (int i {0}; i < 100; ++i)
+        {
+            exit(EXIT_SUCCESS);
+            std::this_thread::sleep_for(10s);
+        }
+    });
+    safety_exit_thread.detach ();
+
+    auto normal_exit_thread = std::thread ([]
+    {
+        // Wait till all current tasks have completed.
+        if (tasks::tasks_logic_active_jobs_count())
+            database::logs::log("Server is due to restart and waits till", tasks::tasks_logic_active_jobs_count(), "tasks have completed");
+        tasks::tasks_logic_stop_thread_pool();
+
+        // Save queued tasks.
+        if (tasks::tasks_logic_queue_size())
+        {
+            database::logs::log("Storing", tasks::tasks_logic_queue_size(), "queued tasks");
+            tasks::tasks_logic_save();
+        }
+        // Ok, quit now.
+        database::logs::log("Server restarts itself");
+        raise(SIGINT);
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(1s);
+        exit(EXIT_SUCCESS);
+        std::this_thread::sleep_for(1s);
+        std::terminate();
+    });
+    normal_exit_thread.detach();
 }
 
 

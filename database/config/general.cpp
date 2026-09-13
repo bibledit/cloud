@@ -429,19 +429,6 @@ void setInstalledDatabaseVersion(const std::string& value)
 }
 
 
-constexpr auto just_started_key{"just-started"};
-
-bool get_just_started()
-{
-    return get_value<bool>(just_started_key, "");
-}
-
-void set_just_started(const bool value)
-{
-    set_value<bool>(just_started_key, value);
-}
-
-
 constexpr auto paratext_projects_folder_key{"paratext-projects-folder"};
 
 std::string get_paratext_projects_folder()

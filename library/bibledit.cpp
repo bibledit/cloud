@@ -194,13 +194,6 @@ void bibledit_start_library ()
     config_globals_open_installation = true;
   }
 
-  
-#ifdef HAVE_CLOUD
-  // Indicate that the Cloud has started just now.
-  database::config::general::set_just_started (true);
-#endif
-
-  
   // Ignore SIGPIPE signal on Linux: When the browser cancels the request, it won't kill Bibledit.
   // On Windows, this is not needed.
 #ifndef HAVE_WINDOWS
@@ -212,6 +205,7 @@ void bibledit_start_library ()
 
   // Start the thread pools with the workers.
   start_thread_pool();
+  tasks::tasks_logic_load();
   tasks::tasks_logic_start_thread_pool(MAX_PARALLEL_TASKS);
 
   // Run the plain web server in a thread.

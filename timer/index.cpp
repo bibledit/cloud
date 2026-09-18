@@ -91,11 +91,13 @@ void timer_index()
             // Bibledit Cloud quits at midnight.
             // This keeps resource leaks in check when Bibledit Cloud runs for months or years.
             // If the binary quits, the shell script or systemd service restarts the binary.
+            // Without the flag "get_just_started", it would restart repeatedly as long as it is minute 1.
 #ifdef HAVE_CLOUD
-            if (hour == 0 and minute == 1)
-            {
+            if (hour == 0 and minute == 1 and not database::config::general::get_just_started())
                 tasks::tasks_logic_controlled_cloud_quit();
-            }
+            if (minute == 2)
+                if (database::config::general::get_just_started())
+                    database::config::general::set_just_started(false);
 #endif
 
             // Every minute send out queued email.

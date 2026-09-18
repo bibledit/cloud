@@ -284,7 +284,7 @@ void bootstrap_index(Webserver_Request& webserver_request)
     }
 
     // Serve initialization notice.
-    if (config::logic::version() != database::config::general::getInstalledDatabaseVersion())
+    if (config::logic::version() != database::config::general::get_installed_database_version())
     {
         webserver_request.reply = setup_initialization_notice();
         return;

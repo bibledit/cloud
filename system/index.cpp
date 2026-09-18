@@ -234,7 +234,7 @@ std::string system_index (Webserver_Request& webserver_request)
   
   // Re-index consultation notes.
   if (webserver_request.query ["reindex"] == "notes") {
-    database::config::general::setIndexNotes (true);
+    database::config::general::set_index_notes (true);
     tasks::tasks_logic_queue (tasks::enums::task::reindex_notes);
     redirect_browser (webserver_request, journal_index_url ());
     return {};

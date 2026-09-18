@@ -195,7 +195,7 @@ void timer_index()
                 Database_State::create();
                 database::config::general::set_index_bibles(true);
                 tasks::tasks_logic_queue(tasks::enums::task::reindex_bibles);
-                database::config::general::setIndexNotes(true);
+                database::config::general::set_index_notes(true);
                 tasks::tasks_logic_queue(tasks::enums::task::reindex_notes);
             }
 

@@ -65,7 +65,7 @@ void setup_conditionally (const char * package)
   if (p == config_globals_document_root) setup_wait_till_main_folders_present ();
   
   // Run the setup if the versions differ.
-  if (config::logic::version () != database::config::general::getInstalledDatabaseVersion ()) {
+  if (config::logic::version () != database::config::general::get_installed_database_version ()) {
     
     std::vector <std::string> messages {};
 
@@ -93,7 +93,7 @@ void setup_conditionally (const char * package)
 #endif
     
     // Update installed version.
-    database::config::general::setInstalledDatabaseVersion (config::logic::version ());
+    database::config::general::set_installed_database_version (config::logic::version ());
   };
 
   if (config::logic::version () != database::config::general::get_installed_interface_version ()) {

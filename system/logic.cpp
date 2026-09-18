@@ -262,7 +262,7 @@ void system_logic_import_notes_file (std::string tarball)
   filter_url_unlink (tarball);
 
   // Since notes may have been imported or updated, index them all.
-  database::config::general::setIndexNotes (true);
+  database::config::general::set_index_notes (true);
   tasks::tasks_logic_queue (tasks::enums::task::reindex_notes);
 
   // Ready, hallelujah!

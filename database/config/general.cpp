@@ -418,12 +418,12 @@ void set_installed_interface_version(const std::string& value)
 
 constexpr auto installed_database_version_key{"installed-database-version"};
 
-std::string getInstalledDatabaseVersion()
+std::string get_installed_database_version()
 {
     return get_value<std::string>(installed_database_version_key, "");
 }
 
-void setInstalledDatabaseVersion(const std::string& value)
+void set_installed_database_version(const std::string& value)
 {
     set_value<std::string>(installed_database_version_key, value);
 }
@@ -500,12 +500,12 @@ void set_resources_to_cache(const std::vector<std::string>& values)
 
 constexpr auto index_notes_key{"index-notes"};
 
-bool getIndexNotes()
+bool get_index_notes()
 {
     return get_value<bool>(index_notes_key, "");
 }
 
-void setIndexNotes(const bool value)
+void set_index_notes(const bool value)
 {
     set_value<bool>(index_notes_key, value);
 }

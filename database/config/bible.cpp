@@ -30,8 +30,8 @@ namespace database::config::bible {
 // Cache values in memory for better speed.
 // The speed improvement is supposed to come from reading a value from disk only once,
 // and after that to read the value straight from the memory cache.
-static std::map <std::string, std::string> cache;
-
+static std::unordered_map <std::string, std::string> cache;
+static std::shared_mutex mutex;   // guards `cache`
 
 // Functions for getting and setting values or lists of values follow now:
 
@@ -69,8 +69,12 @@ static T get_value(const std::string& bible, const char* key, const char* defaul
     {
         // Check the memory cache.
         const std::string cache_key = map_key(bible, key);
-        if (cache.contains(cache_key))
-            return cache.at(cache_key);
+        {
+            std::shared_lock lock(mutex);
+            if (cache.contains(cache_key))
+                return cache.at(cache_key);
+        }
+
         // Get the setting from file.
         std::string value;
         if (const std::string filename = file(bible, key); 
@@ -79,7 +83,10 @@ static T get_value(const std::string& bible, const char* key, const char* defaul
         else
             value = default_value;
         // Cache it.
-        cache[cache_key] = value;
+        {
+            std::unique_lock lock(mutex);
+            cache[cache_key] = value;
+        }
         // Done.
         return value;
     };
@@ -113,7 +120,10 @@ static void set_value(const std::string& bible, const char* key, const T& value)
         if (bible.empty())
             return;
         // Store in memory cache.
-        cache[map_key(bible, key)] = val;
+        {
+            std::unique_lock lock(mutex);
+            cache[map_key(bible, key)] = val;
+        }
         // Store on disk.
         const std::string filename = file(bible, key);
         if (const std::string dirname = filter_url_dirname(filename); 
@@ -147,6 +157,7 @@ void remove(const std::string& bible)
     const std::string folder = file(bible);
     filter_url_rmdir(folder);
     // Clear cache.
+    std::unique_lock lock(mutex);
     cache.clear();
 }
 
@@ -173,14 +184,14 @@ bool get_check_double_spaces_usfm(const std::string& bible)
 {
     // Check is on by default in the Cloud, and off on a client.
 #ifdef HAVE_CLIENT
-    constexpr const char* standard = "";
+    constexpr auto standard = "";
 #else
-    constexpr const char* standard = "true";
+    constexpr auto standard = "true";
 #endif
     return get_value<bool>(bible, double_spaces_usfm_key, standard);
 }
 
-void set_check_double_spaces_usfm(const std::string& bible, bool value)
+void set_check_double_spaces_usfm(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, double_spaces_usfm_key, value);
 }
@@ -193,7 +204,7 @@ bool get_check_full_stop_in_headings(const std::string& bible)
     return get_value<bool>(bible, full_stop_headings_key, "");
 }
 
-void set_check_full_stop_in_headings(const std::string& bible, bool value)
+void set_check_full_stop_in_headings(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, full_stop_headings_key, value);
 }
@@ -206,7 +217,7 @@ bool get_check_space_before_punctuation(const std::string& bible)
     return get_value<bool>(bible, space_before_punctuation_key, "");
 }
 
-void set_check_space_before_punctuation(const std::string& bible, bool value)
+void set_check_space_before_punctuation(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, space_before_punctuation_key, value);
 }
@@ -219,7 +230,7 @@ bool get_check_space_before_final_note_marker(const std::string& bible)
     return get_value<bool>(bible, space_before_final_note_marker_key, "");
 }
 
-void set_check_space_before_final_note_marker(const std::string& bible, bool value)
+void set_check_space_before_final_note_marker(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, space_before_final_note_marker_key, value);
 }
@@ -232,7 +243,7 @@ bool get_check_sentence_structure(const std::string& bible)
     return get_value<bool>(bible, sentence_structure_key, "");
 }
 
-void set_check_sentence_structure(const std::string& bible, bool value)
+void set_check_sentence_structure(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, sentence_structure_key, value);
 }
@@ -245,7 +256,7 @@ bool get_check_paragraph_structure(const std::string& bible)
     return get_value<bool>(bible, paragraph_structure_key, "");
 }
 
-void set_check_paragraph_structure(const std::string& bible, bool value)
+void set_check_paragraph_structure(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, paragraph_structure_key, value);
 }
@@ -258,7 +269,7 @@ bool get_check_books_versification(const std::string& bible)
     return get_value<bool>(bible, check_books_versification_key, "");
 }
 
-void set_check_books_versification(const std::string& bible, bool value)
+void set_check_books_versification(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, check_books_versification_key, value);
 }
@@ -271,7 +282,7 @@ bool get_check_chapters_verses_versification(const std::string& bible)
     return get_value<bool>(bible, check_chapters_verses_versification_key, "");
 }
 
-void set_check_chapters_verses_versification(const std::string& bible, bool value)
+void set_check_chapters_verses_versification(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, check_chapters_verses_versification_key, value);
 }
@@ -283,14 +294,14 @@ bool get_check_well_formed_usfm(const std::string& bible)
 {
     // Check is on by default in the Cloud, and off on a client.
 #ifdef HAVE_CLIENT
-    const char* standard = "";
+    constexpr auto standard = "";
 #else
-    const char* standard = "true";
+    constexpr auto standard = "true";
 #endif
     return get_value<bool>(bible, check_well_formed_usfm_key, standard);
 }
 
-void set_check_well_formed_usfm(const std::string& bible, bool value)
+void set_check_well_formed_usfm(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, check_well_formed_usfm_key, value);
 }
@@ -303,7 +314,7 @@ bool get_check_missing_punctuation_end_verse(const std::string& bible)
     return get_value<bool>(bible, missing_punctuation_end_verse_key, "");
 }
 
-void set_check_missing_punctuation_end_verse(const std::string& bible, bool value)
+void set_check_missing_punctuation_end_verse(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, missing_punctuation_end_verse_key, value);
 }
@@ -316,7 +327,7 @@ bool get_check_patterns(const std::string& bible)
     return get_value<bool>(bible, check_patterns_key, "");
 }
 
-void set_check_patterns(const std::string& bible, bool value)
+void set_check_patterns(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, check_patterns_key, value);
 }
@@ -500,7 +511,7 @@ bool get_transpose_fix_spaces_notes(const std::string& bible)
     return get_value<bool>(bible, transpose_fix_spaces_notes_key, "");
 }
 
-void set_transpose_fix_spaces_notes(const std::string& bible, bool value)
+void set_transpose_fix_spaces_notes(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, transpose_fix_spaces_notes_key, value);
 }
@@ -513,7 +524,7 @@ bool get_check_valid_utf8_text(const std::string& bible)
     return get_value<bool>(bible, check_valid_utf8_text_key, "");
 }
 
-void set_check_valid_utf8_text(const std::string& bible, bool value)
+void set_check_valid_utf8_text(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, check_valid_utf8_text_key, value);
 }
@@ -552,7 +563,7 @@ bool get_export_chapter_drop_caps_frames(const std::string& bible)
     return get_value<bool>(bible, export_chapter_drop_caps_frames_key, "");
 }
 
-void set_export_chapter_drop_caps_frames(const std::string& bible, bool value)
+void set_export_chapter_drop_caps_frames(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, export_chapter_drop_caps_frames_key, value);
 }
@@ -643,7 +654,7 @@ bool get_date_in_header(const std::string& bible)
     return get_value<bool>(bible, date_in_header_key, "");
 }
 
-void set_date_in_header(const std::string& bible, bool value)
+void set_date_in_header(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, date_in_header_key, value);
 }
@@ -695,7 +706,7 @@ bool get_export_web_during_night(const std::string& bible)
     return get_value<bool>(bible, export_web_during_night_key, "");
 }
 
-void set_export_web_during_night(const std::string& bible, bool value)
+void set_export_web_during_night(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, export_web_during_night_key, value);
 }
@@ -708,7 +719,7 @@ bool get_export_hml_during_night(const std::string& bible)
     return get_value<bool>(bible, export_html_during_night_key, "");
 }
 
-void set_export_hml_during_night(const std::string& bible, bool value)
+void set_export_hml_during_night(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, export_html_during_night_key, value);
 }
@@ -721,7 +732,7 @@ bool get_export_html_notes_on_hover(const std::string& bible)
     return get_value<bool>(bible, export_html_notes_on_hover_key, "");
 }
 
-void set_export_html_notes_on_hover(const std::string& bible, bool value)
+void set_export_html_notes_on_hover(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, export_html_notes_on_hover_key, value);
 }
@@ -734,7 +745,7 @@ bool get_export_usfm_during_night(const std::string& bible)
     return get_value<bool>(bible, export_usfm_during_night_key, "");
 }
 
-void set_export_usfm_during_night(const std::string& bible, bool value)
+void set_export_usfm_during_night(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, export_usfm_during_night_key, value);
 }
@@ -747,7 +758,7 @@ bool get_export_text_during_night(const std::string& bible)
     return get_value<bool>(bible, export_text_during_night_key, "");
 }
 
-void set_export_text_during_night(const std::string& bible, bool value)
+void set_export_text_during_night(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, export_text_during_night_key, value);
 }
@@ -760,7 +771,7 @@ bool get_export_odt_during_night(const std::string& bible)
     return get_value<bool>(bible, export_odt_during_night_key, "");
 }
 
-void set_export_odt_during_night(const std::string& bible, bool value)
+void set_export_odt_during_night(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, export_odt_during_night_key, value);
 }
@@ -773,7 +784,7 @@ bool get_generate_info_during_night(const std::string& bible)
     return get_value<bool>(bible, generate_info_during_night_key, "");
 }
 
-void set_generate_info_during_night(const std::string& bible, bool value)
+void set_generate_info_during_night(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, generate_info_during_night_key, value);
 }
@@ -786,7 +797,7 @@ bool get_export_e_sword_during_night(const std::string& bible)
     return get_value<bool>(bible, export_esword_during_night_key, "");
 }
 
-void set_export_e_sword_during_night(const std::string& bible, bool value)
+void set_export_e_sword_during_night(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, export_esword_during_night_key, value);
 }
@@ -799,7 +810,7 @@ bool get_export_online_bible_during_night(const std::string& bible)
     return get_value<bool>(bible, export_onlinebible_during_night_key, "");
 }
 
-void set_export_online_bible_during_night(const std::string& bible, bool value)
+void set_export_online_bible_during_night(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, export_onlinebible_during_night_key, value);
 }
@@ -825,7 +836,7 @@ bool get_secure_usfm_export(const std::string& bible)
     return get_value<bool>(bible, secure_usfm_export_key, "");
 }
 
-void set_secure_usfm_export(const std::string& bible, bool value)
+void set_secure_usfm_export(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, secure_usfm_export_key, value);
 }
@@ -838,7 +849,7 @@ bool get_secure_odt_export(const std::string& bible)
     return get_value<bool>(bible, secure_odt_export_key, "");
 }
 
-void set_secure_odt_export(const std::string& bible, bool value)
+void set_secure_odt_export(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, secure_odt_export_key, value);
 }
@@ -955,7 +966,7 @@ bool get_paratext_collaboration_enabled(const std::string& bible)
     return get_value<bool>(bible, paratext_collaboration_enabled_key, "");
 }
 
-void set_paratext_collaboration_enabled(const std::string& bible, bool value)
+void set_paratext_collaboration_enabled(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, paratext_collaboration_enabled_key, value);
 }
@@ -980,7 +991,7 @@ int get_letter_spacing(const std::string& bible)
     return get_value<int>(bible, letter_spacing_key, "0");
 }
 
-void set_letter_spacing(const std::string& bible, int value)
+void set_letter_spacing(const std::string& bible, const int value)
 {
     set_value<int>(bible, letter_spacing_key, value);
 }
@@ -993,7 +1004,7 @@ bool get_public_feedback_enabled(const std::string& bible)
     return get_value<bool>(bible, public_feedback_enabled_key, "true");
 }
 
-void set_public_feedback_enabled(const std::string& bible, bool value)
+void set_public_feedback_enabled(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, public_feedback_enabled_key, value);
 }
@@ -1006,7 +1017,7 @@ bool get_read_from_git(const std::string& bible)
     return get_value<bool>(bible, read_from_git_key, "");
 }
 
-void set_read_from_git(const std::string& bible, bool value)
+void set_read_from_git(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, read_from_git_key, value);
 }
@@ -1019,7 +1030,7 @@ bool get_send_changes_to_rss(const std::string& bible)
     return get_value<bool>(bible, send_changes_to_rss_key, "");
 }
 
-void set_send_changes_to_rss(const std::string& bible, bool value)
+void set_send_changes_to_rss(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, send_changes_to_rss_key, value);
 }
@@ -1045,7 +1056,7 @@ bool get_daily_checks_enabled(const std::string& bible)
     return get_value<bool>(bible, daily_checks_enabled_key, "true");
 }
 
-void set_daily_checks_enabled(const std::string& bible, bool value)
+void set_daily_checks_enabled(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, daily_checks_enabled_key, value);
 }
@@ -1058,7 +1069,7 @@ bool get_odt_poetry_verses_left(const std::string& bible)
     return get_value<bool>(bible, odt_poetry_verses_left_key, "");
 }
 
-void set_odt_poetry_verses_left(const std::string& bible, bool value)
+void set_odt_poetry_verses_left(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, odt_poetry_verses_left_key, value);
 }
@@ -1071,7 +1082,7 @@ bool get_odt_automatic_note_caller(const std::string& bible)
     return get_value<bool>(bible, odt_automatic_note_caller_key, "");
 }
 
-void set_odt_automatic_note_caller(const std::string& bible, bool value)
+void set_odt_automatic_note_caller(const std::string& bible, const bool value)
 {
     set_value<bool>(bible, odt_automatic_note_caller_key, value);
 }

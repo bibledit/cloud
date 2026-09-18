@@ -29,16 +29,49 @@ namespace database::config::general {
 // Cache values in memory for better speed.
 // The speed improvement is expected to come from reading a value from disk only once,
 // and after that to read the value straight from the memory cache.
-static std::map<std::string, std::string> cache;
+static std::map<std::string, std::string, std::less<>> cache;
+static std::shared_mutex mutex;
 
 
 // Functions for getting and setting values or lists of values follow here:
 
 
-static std::string file(const char* key)
+static std::string file(const std::string_view key)
 {
-    return filter_url_create_root_path({database_logic_databases(), "config", "general", key});
+    return filter_url_create_root_path({database_logic_databases(), "config", "general", std::string(key)});
 }
+
+
+static std::string get_string(const std::string_view key, const std::string_view default_value)
+{
+    // Fast path: shared lock, single lookup, no temporary key string.
+    {
+        std::shared_lock lock(mutex);
+        if (const auto it = cache.find(key); it != cache.cend())
+            return it->second;
+    }
+
+    // Slow path: read from disk (or default) outside the lock.
+    std::string value;
+    if (const std::string filename = file(key); file_or_dir_exists(filename))
+        value = filter_url_file_get_contents(filename);
+    else
+        value = default_value;
+    // try_emplace keeps an existing entry if another thread cached or set it meanwhile.
+    std::unique_lock lock(mutex);
+    return cache.try_emplace(std::string(key), std::move(value)).first->second;
+}
+
+
+static void set_string(const std::string_view key, const std::string& value)
+{
+    // Cache and disk are updated together under the lock, so they can't diverge.
+    std::unique_lock lock(mutex);
+    cache.insert_or_assign(std::string(key), value);
+    filter_url_file_put_contents(file(key), value);
+}
+
+
 
 // Type constraints.
 template <typename T>
@@ -54,28 +87,10 @@ concept is_vector_string = std::is_same_v<T, std::vector<std::string>>;
 template <typename T>
 concept is_setting = is_string<T> or is_bool<T> or is_int<T> or is_vector_string<T>;
 
-template <typename T>
-requires is_setting<T>
-static T get_value(const char* key, const char* default_value)
+template <is_setting T>
+static T get_value(const std::string_view key, const std::string_view default_value)
 {
-    const auto get_string_value = [key, default_value]
-    {
-        // Check the memory cache.
-        if (cache.contains(key))
-            return cache.at(key);
-        // Get value from disk or default.
-        std::string value;
-        if (const std::string filename = file(key); file_or_dir_exists(filename))
-            value = filter_url_file_get_contents(filename);
-        else
-            value = default_value;
-        // Cache it.
-        cache[key] = value;
-        // Done.
-        return value;
-    };
-
-    std::string value = get_string_value();
+    std::string value = get_string(key, default_value);
     if constexpr (std::is_same_v<T, std::string>)
         return value;
     else if constexpr (std::is_same_v<T, bool>)
@@ -90,27 +105,17 @@ static T get_value(const char* key, const char* default_value)
 }
 
 
-template <typename T>
-requires is_setting<T>
-static void set_value(const char* key, const T& value)
+template <is_setting T>
+static void set_value(const std::string_view key, const T& value)
 {
-    const auto set_string_value = [key] (const std::string& val)
-    {
-        // Store in memory cache.
-        cache[key] = val;
-        // Store on disk.
-        const std::string filename = file(key);
-        filter_url_file_put_contents(filename, val);
-    };
-
     if constexpr (std::is_same_v<T, std::string>)
-        set_string_value(value);
+        set_string(key, value);
     else if constexpr (std::is_same_v<T, bool>)
-        set_string_value(filter::string::convert_to_string(value));
+        set_string(key, filter::string::convert_to_string(value));
     else if constexpr (std::is_same_v<T, int>)
-        set_string_value(std::to_string(value));
+        set_string(key, std::to_string(value));
     else if constexpr (std::is_same_v<T, std::vector<std::string>>)
-        set_value<std::string>(key, filter::string::implode(value, "\n"));
+        set_string(key, filter::string::implode(value, "\n"));
     else
         static_assert(false, "Not implemented");
 }

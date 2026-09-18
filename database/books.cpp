@@ -162,7 +162,7 @@ short get_order_from_id(const book_id id)
 
 book_type get_type(const book_id id)
 {
-    auto default_fn = [] { return book_type::unknown; };
+    auto default_fn = [] noexcept { return book_type::unknown; };
     return lookup_field<&book_record::id, &book_record::type>(id, std::move(default_fn));
 }
 

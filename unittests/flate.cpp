@@ -24,125 +24,124 @@
 #pragma GCC diagnostic ignored "-Wcharacter-conversion"
 #include <gtest/gtest.h>
 #pragma GCC diagnostic pop
-#include <unittests/utilities.h>
 #include <flate/flate.h>
 #include <filter/url.h>
 
 
-static const std::string tests_folder() {
-  return filter_url_create_root_path ({"unittests", "tests"});
-  
+static std::string tests_folder()
+{
+    return filter_url_create_root_path({"unittests", "tests"});
 }
 
-const std::string template_file(const int number) {
-  return filter_url_create_path ({tests_folder(), "flate" + std::to_string(number) + ".html"});
+
+static std::string template_file(const int number)
+{
+    return filter_url_create_path({tests_folder(), "flate" + std::to_string(number) + ".html"});
 }
 
 
 // Test for the flate template engine.
-TEST (flate, basic)
+TEST(flate, basic)
 {
-  {
-    Flate flate {};
-    const std::string desired =
-    "line 1\n"
-    "line 6\n"
-    "LocalizeOne\n"
-    "LocalizeTwo\n";
-    const std::string actual = flate.render (template_file(1));
-    EXPECT_EQ (desired, actual);
-  }
-  
-  {
-    Flate flate {};
-    flate.enable_zone ("one");
-    flate.enable_zone ("two");
-    const std::string desired =
-    "line 1\n"
-    "line 2\n"
-    "line 3\n"
-    "line 4\n"
-    "line 6\n"
-    "LocalizeOne\n"
-    "LocalizeTwo\n";
-    const std::string actual = flate.render (template_file(1));
-    EXPECT_EQ (desired, actual);
-  }
-  
-  {
-    Flate flate;
-    flate.enable_zone ("one");
-    flate.enable_zone ("three");
-    flate.set_variable ("three", "THREE");
-    const std::string desired =
-    "line 1\n"
-    "line 2\n"
-    "line 4\n"
-    "THREE\n"
-    "line 5\n"
-    "line 6\n"
-    "LocalizeOne\n"
-    "LocalizeTwo\n";
-    const std::string actual = flate.render (template_file(1));
-    EXPECT_EQ (desired, actual);
-  }
-  
-  // Test that a variable containing dashes (#) works OK.
-  {
-    Flate flate {};
-    flate.set_variable ("one", "one##one");
-    flate.set_variable ("two", "two####two");
-    flate.set_variable ("three", "three######three");
-    const std::string desired =
-    "one##one\n"
-    "two####two\n"
-    "three######three\n";
-    const std::string actual = flate.render (template_file(2));
-    EXPECT_EQ (desired, actual);
-  }
-  
-  // Test iterations.
-  {
-    Flate flate {};
-    flate.add_iteration ("users", {
-      std::pair ("one", "RenderingOne"),
-      std::pair ("two", "RenderingTwo")
-    });
-    flate.add_iteration ("users", {
-      std::pair ("one", "Translation1"),
-      std::pair ("two", "Translation2")
-    });
-    const std::string actual = flate.render (template_file(3));
-    const std::string desired =
-    "line 1\n"
-    "line 2\n"
-    "RenderingOne\n"
-    "RenderingTwo\n"
-    "line 3\n"
-    "line 2\n"
-    "Translation1\n"
-    "Translation2\n"
-    "line 3\n"
-    "line 4\n";
-    EXPECT_EQ (desired, actual);
-  }
-  {
-    // Test enabling zone with a given name and setting variable with the same name.
-    Flate flate {};
-    flate.enable_zone ("marker");
-    flate.set_variable ("marker", "MARKER");
-    const std::string desired =
-    "line 1\n"
-    "line 2\n"
-    "MARKER\n"
-    "line 3\n"
-    "line 4\n"
-    ;
-    const std::string actual = flate.render (template_file(4));
-    EXPECT_EQ (desired, actual);
-  }
+    {
+        Flate flate{};
+        const std::string desired =
+            "line 1\n"
+            "line 6\n"
+            "LocalizeOne\n"
+            "LocalizeTwo\n";
+        const std::string actual = flate.render(template_file(1));
+        EXPECT_EQ(desired, actual);
+    }
+
+    {
+        Flate flate{};
+        flate.enable_zone("one");
+        flate.enable_zone("two");
+        const std::string desired =
+            "line 1\n"
+            "line 2\n"
+            "line 3\n"
+            "line 4\n"
+            "line 6\n"
+            "LocalizeOne\n"
+            "LocalizeTwo\n";
+        const std::string actual = flate.render(template_file(1));
+        EXPECT_EQ(desired, actual);
+    }
+
+    {
+        Flate flate;
+        flate.enable_zone("one");
+        flate.enable_zone("three");
+        flate.set_variable("three", "THREE");
+        const std::string desired =
+            "line 1\n"
+            "line 2\n"
+            "line 4\n"
+            "THREE\n"
+            "line 5\n"
+            "line 6\n"
+            "LocalizeOne\n"
+            "LocalizeTwo\n";
+        const std::string actual = flate.render(template_file(1));
+        EXPECT_EQ(desired, actual);
+    }
+
+    // Test that a variable containing dashes (#) works OK.
+    {
+        Flate flate{};
+        flate.set_variable("one", "one##one");
+        flate.set_variable("two", "two####two");
+        flate.set_variable("three", "three######three");
+        const std::string desired =
+            "one##one\n"
+            "two####two\n"
+            "three######three\n";
+        const std::string actual = flate.render(template_file(2));
+        EXPECT_EQ(desired, actual);
+    }
+
+    // Test iterations.
+    {
+        Flate flate{};
+        flate.add_iteration("users", {
+                                std::pair("one", "RenderingOne"),
+                                std::pair("two", "RenderingTwo")
+                            });
+        flate.add_iteration("users", {
+                                std::pair("one", "Translation1"),
+                                std::pair("two", "Translation2")
+                            });
+        const std::string actual = flate.render(template_file(3));
+        const std::string desired =
+            "line 1\n"
+            "line 2\n"
+            "RenderingOne\n"
+            "RenderingTwo\n"
+            "line 3\n"
+            "line 2\n"
+            "Translation1\n"
+            "Translation2\n"
+            "line 3\n"
+            "line 4\n";
+        EXPECT_EQ(desired, actual);
+    }
+    {
+        // Test enabling zone with a given name and setting variable with the same name.
+        Flate flate{};
+        flate.enable_zone("marker");
+        flate.set_variable("marker", "MARKER");
+        const std::string desired =
+            "line 1\n"
+            "line 2\n"
+            "MARKER\n"
+            "line 3\n"
+            "line 4\n";
+        const std::string actual = flate.render(template_file(4));
+        EXPECT_EQ(desired, actual);
+    }
 }
 
-  
+
 #endif
-  

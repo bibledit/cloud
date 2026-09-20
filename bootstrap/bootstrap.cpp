@@ -219,18 +219,18 @@ static bool browser_request_security_okay(const Webserver_Request& webserver_req
 }
 
 
-using Acl = bool (*)(Webserver_Request&);
-using Handler = std::string (*)(Webserver_Request&);
+using AclFunc = bool (*)(Webserver_Request&);
+using HandlerFunc = std::string (*)(Webserver_Request&);
 
 namespace {
-struct Route { Acl acl; Handler handler; };
+struct Route { AclFunc acl; HandlerFunc handler; };
 }
 
 static const std::unordered_map<std::string, Route>& get_route_table()
 {
     static const std::unordered_map<std::string, Route> route_table = [] {
         std::unordered_map<std::string, Route> t;
-        const auto add = [&t](const std::string& page_url, const Acl acl, const Handler handler) {
+        const auto add = [&t](const std::string& page_url, const AclFunc acl, const HandlerFunc handler) {
             t.emplace(page_url, Route{.acl = acl, .handler = handler});
             // The .emplace keeps the first entry on duplicates.
         };

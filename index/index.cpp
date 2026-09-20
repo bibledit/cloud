@@ -17,79 +17,74 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <index/index.h>
-#include <assets/view.h>
 #include <assets/header.h>
 #include <assets/page.h>
-#include <filter/roles.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <locale/translate.h>
-#include <edit/index.h>
-#include <notes/index.h>
-#include <resource/index.h>
-#include <changes/changes.h>
-#include <workspace/index.h>
-#include <session/login.h>
+#include <assets/view.h>
 #include <bb/logic.h>
+#include <edit/index.h>
+#include <filter/roles.h>
 #include <filter/webview.h>
+#include <index/index.h>
+#include <locale/translate.h>
 #include <menu/logic.h>
+#include <notes/index.h>
 #include <read/index.h>
+#include <resource/index.h>
 #include <webserver/request.h>
+#include <workspace/index.h>
 
 
-const char * index_index_url ()
+const char* index_index_url()
 {
-  return "index/index";
+    return "index/index";
 }
 
 
-bool index_index_acl (Webserver_Request& webserver_request)
+bool index_index_acl(Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::guest);
+    return roles::access_control(webserver_request, roles::guest);
 }
 
 
-std::string index_index (Webserver_Request& webserver_request)
+std::string index_index(Webserver_Request& webserver_request)
 {
-  filter_webview_log_user_agent (webserver_request.user_agent);
-  
-  Assets_Header header = Assets_Header (translate ("Bibledit"), webserver_request);
+    filter_webview_log_user_agent(webserver_request.user_agent);
 
-  // Basic or advanced mode setting.
-  const std::string mode = webserver_request.query ["mode"];
-  if (!mode.empty ()) {
-    const bool basic = (mode == "basic");
-    webserver_request.database_config_user ()->set_basic_interface_mode (basic);
-    menu_logic_tabbed_mode_save_json (webserver_request);
-  }
+    Assets_Header header(translate("Bibledit"), webserver_request);
 
-  // Upon app start, initialize the JSON for tabbed mode.
-  // It should be done during the setup phase.
-  // But in this case the setup phase does not provide user information.
-  // Here on this page, the user information is available.
-  static bool tabbed_json_initialized = false;
-  if (!tabbed_json_initialized) {
-    if (menu_logic_can_do_tabbed_mode ()) {
-      menu_logic_tabbed_mode_save_json (webserver_request);
+    // Basic or advanced mode setting.
+    const std::string mode = webserver_request.query["mode"];
+    if (not mode.empty())
+    {
+        const bool basic = (mode == "basic");
+        webserver_request.database_config_user()->set_basic_interface_mode(basic);
+        menu_logic_tabbed_mode_save_json(webserver_request);
     }
-    tabbed_json_initialized = true;
-  }
-  
-  // Normally a page does not show the expanded main menu.
-  // This is to save space on the screen.
-  // But the home page of Bibledit shows the extended main menu.
-  if (webserver_request.query.count ("item") == 0) {
-    webserver_request.query ["item"] = "main";
-  }
 
-  std::string page = header.run ();
-  
-  Assets_View view {};
+    // Upon app start, initialize the JSON for tabbed mode.
+    // It should be done during the setup phase.
+    // But in this case the setup phase does not provide user information.
+    // Here on this page, the user information is available.
+    static std::once_flag tabbed_json_flag;
+    std::call_once(tabbed_json_flag, [&webserver_request]
+    {
+        if (menu_logic_can_do_tabbed_mode())
+            menu_logic_tabbed_mode_save_json(webserver_request);
+    });
 
-  view.set_variable ("warning", bible_logic::unsent_unreceived_data_warning ());
-  
-  page += view.render ("index", "index");
-  page += assets_page::footer ();
-  return page;
+    // Normally a page does not show the expanded main menu.
+    // This is to save space on the screen.
+    // But the home page of Bibledit shows the extended main menu.
+    if (not webserver_request.query.contains("item"))
+        webserver_request.query.try_emplace("item", "main");
+
+    std::string page = header.run();
+
+    Assets_View view{};
+
+    view.set_variable("warning", bible_logic::unsent_unreceived_data_warning());
+
+    page += view.render("index", "index");
+    page += assets_page::footer();
+    return page;
 }

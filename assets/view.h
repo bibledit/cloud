@@ -24,14 +24,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Assets_View
 {
 public:
-  Assets_View ();
-  void set_variable (const std::string& key, const std::string& value);
-  void enable_zone (const std::string& zone);
-  void disable_zone (const std::string& zone);
-  void add_iteration (const std::string& key, const std::map <std::string, std::string>& value);
-  std::string render (const std::string& tpl1, const std::string& tpl2);
+    Assets_View();
+    void set_variable(const std::string& key, const std::string& value);
+    void enable_zone(const std::string& zone);
+    void disable_zone(const std::string& zone);
+    void add_iteration(const std::string& key, std::map<std::string, std::string> value);
+    [[nodiscard]] std::string render(const std::string& tpl1, const std::string& tpl2) const;
+
 private:
-  std::map <std::string, std::string> m_variables {};
-  std::map <std::string, bool> m_zones {};
-  std::map <std::string, std::vector <std::map <std::string, std::string> > > m_iterations {};
+    std::map<std::string, std::string> m_variables{};
+    std::set<std::string> m_zones{};
+    std::map<std::string, std::vector<std::map<std::string, std::string>>> m_iterations{};
 };

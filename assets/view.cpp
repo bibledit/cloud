@@ -18,79 +18,80 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <assets/view.h>
-#include <cstdlib>
-#include <iostream>
-#include <filter/url.h>
 #include <config/globals.h>
 #include <database/logs.h>
+#include <filter/url.h>
 #include <flate/flate.h>
 
 
-Assets_View::Assets_View ()
+Assets_View::Assets_View()
 {
-  // On some installations like on iOS / Android / Mac, the browser has no controls.
+    // On some installations like on iOS / Android / Mac, the browser has no controls.
 #ifdef HAVE_BARE_BROWSER
-  enable_zone ("bare_browser");
+    enable_zone("bare_browser");
 #endif
-  set_variable("VERSION", config::logic::version ());
+    set_variable("VERSION", config::logic::version());
 }
 
 
 // Sets a variable (key and value) for the html template.
-void Assets_View::set_variable (const std::string& key, const std::string& value)
+void Assets_View::set_variable(const std::string& key, const std::string& value)
 {
-  m_variables[key] = value;
+    m_variables.insert_or_assign(key, value);
 }
 
 
 // Enable displaying a zone in the html template.
-void Assets_View::enable_zone (const std::string& zone)
+void Assets_View::enable_zone(const std::string& zone)
 {
-  m_zones [zone] = true;
+    m_zones.insert(zone);
 }
 
 
-void Assets_View::disable_zone (const std::string& zone)
+void Assets_View::disable_zone(const std::string& zone)
 {
-  m_zones.erase (zone);
+    m_zones.erase(zone);
 }
 
 
-void Assets_View::add_iteration (const std::string& key, const std::map <std::string, std::string>& value)
+void Assets_View::add_iteration(const std::string& key, std::map<std::string, std::string> value)
 {
-  m_iterations[key].push_back (value);
+    m_iterations[key].push_back(std::move(value));
 }
 
 
 // Renders the "tpl" template through the flate template engine.
-// The "tpl" consists of two bits: 
+// The "tpl" consists of two bits:
 // 1: Relative folder
 // 2: Basename of the html template without the .html extension.
 // Setting the session variables in the template is postponed to the very last moment,
 // since these could change during the course of the calling page.
-std::string Assets_View::render (const std::string& tpl1, const std::string& tpl2)
+std::string Assets_View::render(const std::string& tpl1, const std::string& tpl2) const
 {
-  // Variable tpl is a relative path. Make it a full one.
-  const std::string tpl = filter_url_create_root_path ({tpl1, tpl2 + ".html"});
+    // Variable tpl is a relative path. Make it a full one.
+    const std::string tpl = filter_url_create_root_path({tpl1, tpl2 + ".html"});
 
-  // The flate engine crashes if the template does not exist, so be sure it exists.  
-  if (!file_or_dir_exists (tpl)) {
-    database::logs::log ("Cannot find template file", tpl);
-    return std::string();
-  }
+    // The flate engine crashes if the template does not exist, so be sure it exists.
+    if (not file_or_dir_exists(tpl))
+    {
+        database::logs::log("Cannot find template file", tpl);
+        return {};
+    }
 
-  // Instantiate and fill the template engine. 
-  Flate flate;
+    // Instantiate and fill the template engine.
+    Flate flate;
 
-  // Copy the variables and zones and iterations to the engine.
-  for (auto iter = m_variables.cbegin(); iter != m_variables.cend(); ++iter) {
-    flate.set_variable (iter->first, iter->second);
-  }
-  for (auto iter = m_zones.cbegin(); iter != m_zones.cend(); ++iter) {
-    flate.enable_zone (iter->first);
-  }
-  flate.iterations = m_iterations;
+    // Copy the variables and zones and iterations to the engine.
+    for (const auto & [key, value] : m_variables)
+    {
+        flate.set_variable(key, value);
+    }
+    for (const auto& key : m_zones)
+    {
+        flate.enable_zone(key);
+    }
+    flate.iterations = m_iterations;
 
-  // Get and return the page contents.
-  return flate.render (tpl);
+    // Get and return the page contents.
+    return flate.render(tpl);
 }

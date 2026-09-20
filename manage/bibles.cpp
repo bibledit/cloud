@@ -96,10 +96,10 @@ std::string manage_bibles (Webserver_Request& webserver_request)
         if (write) readwrite++;
       }
       view.add_iteration ("bible", {
-        std::pair ("bible", bible),
-        std::pair ("write", std::to_string(readwrite)),
-        std::pair ("total", std::to_string(books.size())),
-      });
+                              std::pair ("bible", bible),
+                              std::pair ("write", std::to_string(readwrite)),
+                              std::pair ("total", std::to_string(books.size())),
+                          });
     }
     else {
       addable_bibles.push_back(bible);

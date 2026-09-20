@@ -99,8 +99,8 @@ std::string images_index (Webserver_Request& webserver_request)
   const std::vector <std::string> images = database::bible_images::get();
   for (const auto& image : images) {
     view.add_iteration ("images", {
-      std::pair ("image", image),
-    } );
+                            std::pair ("image", image),
+                        } );
   }
   
   view.set_variable ("success", success);

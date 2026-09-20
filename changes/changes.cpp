@@ -259,10 +259,10 @@ std::string changes_changes (Webserver_Request& webserver_request)
     const std::vector <int> ids = database::modifications::getNotificationTeamIdentifiers (username, user, selectedbible);
     if (!ids.empty ()) {
       view.add_iteration ("individual", {
-        std::pair ("user", user),
-        std::pair ("selectedbible", selectedbible),
-        std::pair ("count", std::to_string(ids.size()))
-      });
+                              std::pair ("user", user),
+                              std::pair ("selectedbible", selectedbible),
+                              std::pair ("count", std::to_string(ids.size()))
+                          });
     }
   }
 

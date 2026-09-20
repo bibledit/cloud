@@ -53,10 +53,9 @@ std::string index_index(Webserver_Request& webserver_request)
     Assets_Header header(translate("Bibledit"), webserver_request);
 
     // Basic or advanced mode setting.
-    const std::string mode = webserver_request.query["mode"];
-    if (not mode.empty())
+    if (const std::string mode = webserver_request.query["mode"]; not mode.empty())
     {
-        const bool basic = (mode == "basic");
+        const bool basic = mode == "basic";
         webserver_request.database_config_user()->set_basic_interface_mode(basic);
         menu_logic_tabbed_mode_save_json(webserver_request);
     }

@@ -45,7 +45,7 @@ std::vector<T> array_intersect(std::vector<T> a, std::vector<T> b)
 template <typename T>
 bool in_array(const T& needle, const std::vector<T>& haystack)
 {
-    return (find(haystack.begin(), haystack.end(), needle) != haystack.end());
+    return (std::find(haystack.begin(), haystack.end(), needle) != haystack.end());
 }
 
 
@@ -123,6 +123,24 @@ void quick_sort(std::vector<One>& one, std::vector<Two>& two, const unsigned int
         quick_sort(one, two, beg, l);
         quick_sort(one, two, r, end);
     }
+}
+
+
+template <typename Arg>
+concept one_parameter_stream_writable = requires (std::ostream& os, const Arg& arg)
+{
+    { os << arg } -> std::convertible_to<std::ostream&>;
+};
+
+template <typename ...Args>
+concept stream_writable = (one_parameter_stream_writable<Args> and ...);
+
+template <stream_writable ...Args>
+std::string join_pack_to_string (Args&& ... args)
+{
+    std::ostringstream oss;
+    (void(oss << std::forward<Args>(args)), ...);
+    return std::move(oss).str();
 }
 
 

@@ -127,13 +127,12 @@ std::string bible_import (Webserver_Request& webserver_request)
     // User imported something into this Bible: Set it as the default Bible.
     webserver_request.database_config_user()->set_bible (bible);
   }
-  
-#ifdef HAVE_UPLOAD
-  view.enable_zone ("enable_upload");
-#else
-  view.enable_zone ("disable_upload");
-#endif
-  
+
+  if (config::logic::have_file_upload())
+      view.enable_zone("enable_upload");
+  else
+      view.enable_zone("disable_upload");
+
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
   

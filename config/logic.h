@@ -49,10 +49,10 @@ bool default_bibledit_configuration ();
 std::string google_translate_json_key_path ();
 bool create_no_accounts();
 
-// Quality check whether the platform defines are available,
+// Quality check on the platform defines,
 // as the code below relies on it.
-#if not (defined(HAVE_CLOUD) or defined(HAVE_WINDOWS) or defined(HAVE_ANDROID) or defined(HAVE_MACOS) or defined(HAVE_LINUX) or defined(HAVE_IOS))
-#error "No platform macro defined"
+#if (defined(HAVE_CLOUD) + defined(HAVE_WINDOWS) + defined(HAVE_ANDROID) + defined(HAVE_MACOS) + defined(HAVE_LINUX) + defined(HAVE_IOS)) != 1
+#error "Exactly one platform macro must be defined"
 #endif
 
 // Whether file upload works in the browser on the platform.
@@ -115,5 +115,16 @@ consteval bool work_with_paratext()
     return false;
 }
 
+// Whether the journal is much smaller than normal.
+consteval bool have_tiny_journal()
+{
+#ifdef HAVE_ANDROID
+    return true;
+#endif
+#ifdef HAVE_IOS
+    return true;
+#endif
+    return false;
+}
 
 } // End of namespace.

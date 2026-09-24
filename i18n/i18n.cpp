@@ -173,19 +173,19 @@ int main()
     // Go over all Bible books to internationalize them.
     for (unsigned int i = 0; i < std::size(books_table); ++i)
     {
-        if (std::string english = books_table[i].english; not english.empty())
+        if (std::string english = std::string(books_table[i].english); not english.empty())
         {
             english.insert(0, "translate(\"");
             english.append("\")");
             translatables.push_back(english);
         }
-        if (std::string osis = books_table[i].osis; not osis.empty())
+        if (std::string osis = std::string(books_table[i].osis); not osis.empty())
         {
             osis.insert(0, "translate(\"");
             osis.append("\")");
             translatables.push_back(osis);
         }
-        if (std::string bible_works = books_table[i].bibleworks; not bible_works.empty())
+        if (std::string bible_works = std::string(books_table[i].bibleworks); not bible_works.empty())
         {
             bible_works.insert(0, "translate(\"");
             bible_works.append("\")");

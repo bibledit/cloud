@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-14 20:27+0100\n"
+"POT-Creation-Date: 2026-09-24 19:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,9 +78,6 @@ msgid "Would you like to delete this verse mapping?"
 msgstr ""
 
 msgid "The verse mapping was deleted"
-msgstr ""
-
-msgid "Unknown"
 msgstr ""
 
 msgid "New"
@@ -432,6 +429,9 @@ msgid "December"
 msgstr ""
 
 msgid "Month"
+msgstr ""
+
+msgid "Unknown"
 msgstr ""
 
 msgid "Loaded"
@@ -1087,12 +1087,6 @@ msgstr ""
 msgid "Read"
 msgstr ""
 
-msgid "Bibledit"
-msgstr ""
-
-msgid "Recent changes in the Bible texts"
-msgstr ""
-
 msgid "User account change"
 msgstr ""
 
@@ -1153,7 +1147,7 @@ msgstr ""
 msgid "History forward"
 msgstr ""
 
-msgid "Copying Bible from Bibledit to a Paratext project."
+msgid "Copying Bible from Bibledit to a Paratext project"
 msgstr ""
 
 msgid "Bibledit Bible:"
@@ -1162,7 +1156,7 @@ msgstr ""
 msgid "Paratext project:"
 msgstr ""
 
-msgid "Copying Paratext project to a Bible in Bibledit."
+msgid "Copying Paratext project to a Bible in Bibledit"
 msgstr ""
 
 msgid "Copy Bibledit to Paratext"
@@ -1495,9 +1489,6 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-msgid "none"
-msgstr ""
-
 msgid "Nothing was imported"
 msgstr ""
 
@@ -1795,9 +1786,6 @@ msgstr ""
 msgid "Search Bible for similar Hebrew or Greek words"
 msgstr ""
 
-msgid "Planning"
-msgstr ""
-
 msgid "Develop"
 msgstr ""
 
@@ -1891,7 +1879,7 @@ msgstr ""
 msgid "colon"
 msgstr ""
 
-msgid "Bible bible does not exist: Cannot create book"
+msgid "This Bible does not exist: Cannot create book"
 msgstr ""
 
 msgid "Invalid book while creating a book template"
@@ -2182,9 +2170,6 @@ msgstr ""
 msgid "Choose theme"
 msgstr ""
 
-msgid "Show breadcrumbs."
-msgstr ""
-
 msgid "Workspace menu fade-out delay"
 msgstr ""
 
@@ -2470,7 +2455,10 @@ msgstr ""
 msgid "Make settings for font and text for the Bible editors."
 msgstr ""
 
-msgid "Font"
+msgid "General font"
+msgstr ""
+
+msgid "Verse editor focused verse font"
 msgstr ""
 
 msgid "Enter the name of a locally available font."
@@ -3801,18 +3789,6 @@ msgstr ""
 msgid "Please enter a timezone between -12 and +14"
 msgstr ""
 
-msgid "RSS feed"
-msgstr ""
-
-msgid "RSS feed for the recent changes in the text of the Bible."
-msgstr ""
-
-msgid "Include the author in the RSS feed."
-msgstr ""
-
-msgid "The changes in the following Bibles will be visible in the RSS feed:"
-msgstr ""
-
 msgid "Transfer resources and Bibles"
 msgstr ""
 
@@ -4210,6 +4186,9 @@ msgid "preview"
 msgstr ""
 
 msgid "Compare this Bible with any of the Bibles or USFM Resources below."
+msgstr ""
+
+msgid "Bibledit"
 msgstr ""
 
 msgid "Enable JavaScript to work with Bibledit"
@@ -4887,24 +4866,6 @@ msgid "It displays the resource as translated by Google Translate."
 msgstr ""
 
 msgid "Note that this is a machine translation and may not be accurate."
-msgstr ""
-
-msgid "Sprint"
-msgstr ""
-
-msgid "Sprint Burndown Chart - Remaining Tasks"
-msgstr ""
-
-msgid "Mail information to subscribers"
-msgstr ""
-
-msgid "Add task"
-msgstr ""
-
-msgid "Add"
-msgstr ""
-
-msgid "Enter task completion categories."
 msgstr ""
 
 msgid "chapters"
@@ -7280,6 +7241,9 @@ msgstr ""
 msgid "Each item has an associated estimated time to complete."
 msgstr ""
 
+msgid "Sprint"
+msgstr ""
+
 msgid "A sprint typically takes one month."
 msgstr ""
 
@@ -8987,10 +8951,13 @@ msgstr ""
 msgid "This takes a while."
 msgstr ""
 
-msgid "There will be many technical messages, but there should be no errors."
+msgid "There should be no errors."
 msgstr ""
 
 msgid "Open port 8080 in the firewall."
+msgstr ""
+
+msgid "Copy Bibledit in place."
 msgstr ""
 
 msgid "Start Bibledit."
@@ -11263,6 +11230,9 @@ msgstr ""
 msgid "User created"
 msgstr ""
 
+msgid "Would you like to delete this user?"
+msgstr ""
+
 msgid "Cannot remove the last user"
 msgstr ""
 
@@ -11648,36 +11618,6 @@ msgid "Insufficient privileges to complete operation."
 msgstr ""
 
 msgid "Download resource"
-msgstr ""
-
-msgid "Team's progress in Sprint"
-msgstr ""
-
-msgid "Sprint has started"
-msgstr ""
-
-msgid "Sprint has finished"
-msgstr ""
-
-msgid "Sprint Planning and Team's Progress"
-msgstr ""
-
-msgid "days"
-msgstr ""
-
-msgid "New task added"
-msgstr ""
-
-msgid "The information was mailed to the subscribers"
-msgstr ""
-
-msgid "The task was removed"
-msgstr ""
-
-msgid "The task was moved to the previous sprint"
-msgstr ""
-
-msgid "The task was moved to the next sprint"
 msgstr ""
 
 msgid "You are not yet connected to Bibledit Cloud."

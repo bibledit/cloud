@@ -88,7 +88,7 @@ std::string zip_folder_miniz_internal (std::string folder)
     // The file names in Windows will be backslashes (\) at this point.
     // But the mzip library, in its current configuration, works with forward slashes (/).
     // So the code below, in case of Windows, updates the type of slashes.
-    file = filter::string::replace (std::filesystem::path::preferred_separator, "/", file);
+    file = filter::string::replace (DIRECTORY_SEPARATOR, "/", file);
 #endif
     mz_bool status;
     if (is_dir) {
@@ -127,7 +127,7 @@ std::string unzip_shell_internal ([[maybe_unused]] std::string file)
   std::string folder = filter_url_tempfile ();
 #ifdef HAVE_CLOUD
   filter_url_mkdir (folder);
-  folder += std::filesystem::path::preferred_separator;
+  folder.append (DIRECTORY_SEPARATOR);
   const std::string logfile = filter_url_tempfile () + ".log";
   file = filter_url_escape_shell_argument (file);
   std::string command = std::string(filter::shell::get_executable(filter::shell::Executable::unzip)) + " -o -d " + folder + " " + file + " > " + logfile + " 2>&1";
@@ -299,9 +299,9 @@ std::string untar_gzip (std::string file)
   file = filter_url_escape_shell_argument (file);
   std::string folder = filter_url_tempfile ();
   filter_url_mkdir (folder);
-  folder += std::filesystem::path::preferred_separator;
-  const std::string logfile = filter_url_tempfile () + ".log";
-  const std::string command = "cd " + folder + " && " + std::string(filter::shell::get_executable(filter::shell::Executable::tar)) + " zxf " + file + " > " + logfile + " 2>&1";
+  folder.append (DIRECTORY_SEPARATOR);
+  std::string logfile = filter_url_tempfile () + ".log";
+  std::string command = "cd " + folder + " && " + std::string(filter::shell::get_executable(filter::shell::Executable::tar)) + " zxf " + file + " > " + logfile + " 2>&1";
   int return_var;
 #ifdef HAVE_IOS
   // Crashes on iOS.

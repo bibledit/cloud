@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 #include <config/libraries.h>
-#include "config.h"
 
 class Webserver_Request;
 
@@ -48,12 +47,6 @@ bool indonesian_member_cloud ();
 bool default_bibledit_configuration ();
 std::string google_translate_json_key_path ();
 bool create_no_accounts();
-
-// Quality check whether the platform defines are available,
-// as the code below relies on it.
-#if not (defined(HAVE_CLOUD) or defined(HAVE_WINDOWS) or defined(HAVE_ANDROID) or defined(HAVE_MACOS) or defined(HAVE_LINUX) or defined(HAVE_IOS))
-#error "No platform macro defined"
-#endif
 
 // Whether file upload works in the browser on the platform.
 consteval bool have_file_upload()
@@ -85,22 +78,6 @@ consteval std::size_t max_parallel_background_tasks()
     return 10;
 }
 
-// Whether to run a secure web server.
-consteval bool run_secure_web_server()
-{
-#ifdef HAVE_CLOUD
-    return true;
-#endif
-    return false;
-}
 
-// Whether the system has a bare browser.
-consteval bool has_bare_browser()
-{
-#ifdef HAVE_CLOUD
-    return false;
-#endif
-    return true;
-}
 
 } // End of namespace.

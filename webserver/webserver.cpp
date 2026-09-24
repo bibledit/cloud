@@ -877,8 +877,7 @@ void https_server()
     // On clients, don't run the secure web server.
     // It is not possible to get a https certificate for https://localhost anyway.
     // Not running this secure server saves valuable system resources on low power devices.
-    if constexpr (not config::logic::run_secure_web_server())
-        return;
+#ifdef RUN_SECURE_SERVER
 
     // The https network port to listen on.
     // Port 0..9 means: Don't run the secure web server.
@@ -1077,6 +1076,8 @@ void https_server()
     mbedtls_ctr_drbg_free(&ctr_drbg);
     mbedtls_entropy_free(&entropy);
     mbedtls_psa_crypto_free();
+
+#endif // ifdef RUN_SECURE_SERVER
 }
 
 

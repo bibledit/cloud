@@ -19,7 +19,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
+// ReSharper disable once CppUnusedIncludeDirective
 #include <config/libraries.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include "config.h"
 
 class Webserver_Request;
@@ -49,22 +51,41 @@ bool default_bibledit_configuration ();
 std::string google_translate_json_key_path ();
 bool create_no_accounts();
 
-// Quality check on the platform defines,
-// as the code below relies on it.
-#if (defined(HAVE_CLOUD) + defined(HAVE_WINDOWS) + defined(HAVE_ANDROID) + defined(HAVE_MACOS) + defined(HAVE_LINUX) + defined(HAVE_IOS)) != 1
-#error "Exactly one platform macro must be defined"
+enum class Platform { cloud, windows, android, macos, linux, ios };
+consteval Platform platform()
+{
+#ifdef HAVE_WINDOWS
+     return Platform::windows;
 #endif
+#ifdef HAVE_ANDROID
+    return Platform::android;
+#endif
+#ifdef HAVE_MACOS
+    return Platform::macos;
+#endif
+#ifdef HAVE_LINUX
+    return Platform::linux;
+#endif
+#ifdef HAVE_IOS
+    return Platform::ios;
+#endif
+    return Platform::cloud;
+}
+
+enum class OperationalMode { cloud, client };
+consteval OperationalMode operational_mode()
+{
+    return platform() == Platform::cloud ? OperationalMode::cloud : OperationalMode::client;
+}
 
 // Whether file upload works in the browser on the platform.
 consteval bool have_file_upload()
 {
     // No upload capabilities on Android and iOS, see issue https://github.com/bibledit/cloud/issues/896
-#ifdef HAVE_ANDROID
-    return false;
-#endif
-#ifdef HAVE_IOS
-    return false;
-#endif
+    // ReSharper disable once CppRedundantBooleanExpressionArgument
+    if constexpr (platform() == Platform::android or platform() == Platform::ios)
+        // ReSharper disable once CppConstexprIfDiscardedBranch
+        return false;
     // Enable on all other platforms.
     return true;
 }
@@ -72,59 +93,69 @@ consteval bool have_file_upload()
 // The maximum number of simultaneous background tasks.
 consteval std::size_t max_parallel_background_tasks()
 {
-#ifdef HAVE_WINDOWS
-    return 5;
-#endif
-#ifdef HAVE_ANDROID
-    return 3;
-#endif
-#ifdef HAVE_IOS
-    return 3;
-#endif
-    // Value for all other platforms.
-    return 10;
+    switch (platform())
+    {
+    case Platform::windows:
+        return 5;
+    case Platform::android:
+    case Platform::ios:
+        return 3;
+    case Platform::macos:
+    case Platform::linux:
+    case Platform::cloud:
+    default:
+        return 10;
+    }
 }
 
 // Whether to run a secure web server.
 consteval bool run_secure_web_server()
 {
-#ifdef HAVE_CLOUD
-    return true;
-#endif
-    return false;
+    return platform() == Platform::cloud;
 }
 
 // Whether the system has a bare browser.
 consteval bool has_bare_browser()
 {
-#ifdef HAVE_CLOUD
-    return false;
-#endif
-    return true;
+    return platform() != Platform::cloud;
 }
 
 // Whether Bibledit works with Paratext.
 consteval bool work_with_paratext()
 {
-#ifdef HAVE_WINDOWS
-    return true;
-#endif
-#ifdef HAVE_LINUX
-    return true;
-#endif
-    return false;
+    // ReSharper disable once CppRedundantBooleanExpressionArgument
+    return platform() == Platform::windows or platform() == Platform::linux;
 }
 
 // Whether the journal is much smaller than normal.
 consteval bool have_tiny_journal()
 {
-#ifdef HAVE_ANDROID
-    return true;
-#endif
-#ifdef HAVE_IOS
-    return true;
-#endif
-    return false;
+    // ReSharper disable once CppRedundantBooleanExpressionArgument
+    return platform() == Platform::android or platform() == Platform::ios;
+}
+
+// Whether the operating system is mature enough to rely on std::filesystem.
+consteval bool use_std_filesystem()
+{
+    switch (platform())
+    {
+    case Platform::windows:
+    case Platform::macos:
+        return true;
+    case Platform::android:
+        // Testing the std::filesystem on Android in August 2024.
+        // Results: 5 out of 6 devices tested had crashes in C++.
+        // See https://github.com/bibledit/cloud/issues/952 for more info.
+    case Platform::ios:
+        // The std::filesystem makes the app very slow in the iOS simulator
+        // that it appears to be stuck during the setup phase, where it copies files.
+        // This was tested in August 2024.
+    case Platform::linux:
+        // Older Ubuntu versions (whatever this means in 2024) did not yet have a good std::filesystem support.
+    case Platform::cloud:
+    default:
+        return false;
+    }
 }
 
 } // End of namespace.

@@ -224,58 +224,55 @@ void redirect_browser(Webserver_Request& webserver_request, std::string path)
 // It uses the defined slash as the separator.
 // The std::filesystem could be used, but then the behaviour changes, so that is not done.
 std::string filter_url_dirname(std::string url)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
+  // Remove trailing slash if there.
+  if (!url.empty ()) {
+    if (url.find_last_of (std::filesystem::path::preferred_separator) == url.length () - 1) {
+      url = url.substr (0, url.length () - 1);
+    }
+  }
+  // Not using the standard library call for getting parent path because of different behaviour.
+  const size_t pos = url.find_last_of (std::filesystem::path::preferred_separator);
+  if (pos != std::string::npos)
+    url = url.substr (0, pos);
+  else
+    url.clear();
+  // The . is important in a few cases rather than an empty string.
+  if (url.empty ())
+    url = ".";
+  // Done.
+  return url;
+}
+#else
+{
+    if (!url.empty())
     {
-        // Remove trailing slash if there.
-        if (!url.empty())
+        if (url.find_last_of(std::filesystem::path::preferred_separator) == url.length() - 1)
         {
-            if (url.find_last_of(std::filesystem::path::preferred_separator) == url.length() - 1)
-            {
-                url = url.substr(0, url.length() - 1);
-            }
+            // Remove trailing slash.
+            url = url.substr(0, url.length() - 1);
         }
-        // Not using the standard library call for getting parent path because of different behaviour.
         const size_t pos = url.find_last_of(std::filesystem::path::preferred_separator);
         if (pos != std::string::npos)
             url = url.substr(0, pos);
         else
             url.clear();
-        // The . is important in a few cases rather than an empty string.
-        if (url.empty())
-            url = ".";
-        // Done.
-        return url;
     }
-    else
-    {
-        if (not url.empty())
-        {
-            if (url.find_last_of(std::filesystem::path::preferred_separator) == url.length() - 1)
-            {
-                // Remove trailing slash.
-                url = url.substr(0, url.length() - 1);
-            }
-            const std::size_t pos = url.find_last_of(std::filesystem::path::preferred_separator);
-            if (pos != std::string::npos)
-                url = url.substr(0, pos);
-            else
-                url.clear();
-        }
-        if (url.empty())
-            url = ".";
-        return url;
-    }
+    if (url.empty())
+        url = ".";
+    return url;
 }
+#endif
 
 
 // Dirname routine for the web.
 // It uses the forward slash as the separator.
 std::string filter_url_dirname_web(std::string url)
 {
+    constexpr const auto separator{"/"};
     if (!url.empty())
     {
-        constexpr auto separator{"/"};
         // Remove trailing slash.
         if (url.find_last_of(separator) == url.length() - 1)
         {
@@ -296,37 +293,34 @@ std::string filter_url_dirname_web(std::string url)
 // Basename routine for the operating system.
 // It uses the defined slash as the separator.
 std::string filter_url_basename(std::string url)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        // Remove possible trailing path slash.
-        if (not url.empty())
-        {
-            if (url.find_last_of(std::filesystem::path::preferred_separator) == url.length() - 1)
-            {
-                url = url.substr(0, url.length() - 1);
-            }
-        }
-        // Standard library call for getting base name path.
-        url = std::filesystem::path(url).filename().string();
-        // Done
-        return url;
+  // Remove possible trailing path slash.
+  if (!url.empty ()) {
+    if (url.find_last_of (std::filesystem::path::preferred_separator) == url.length () - 1) {
+      url = url.substr (0, url.length () - 1);
     }
-    else
-    {
-        if (not url.empty())
-        {
-            if (url.find_last_of(std::filesystem::path::preferred_separator) == url.length() - 1)
-            {
-                // Remove trailing slash.
-                url = url.substr(0, url.length() - 1);
-            }
-            if (std::size_t pos = url.find_last_of(std::filesystem::path::preferred_separator); pos != std::string::npos)
-                url = url.substr(pos + 1);
-        }
-        return url;
-    }
+  }
+  // Standard library call for getting base name path.
+  url = std::filesystem::path(url).filename().string();
+  // Done
+  return url;
 }
+#else
+{
+    if (!url.empty())
+    {
+        if (url.find_last_of(std::filesystem::path::preferred_separator) == url.length() - 1)
+        {
+            // Remove trailing slash.
+            url = url.substr(0, url.length() - 1);
+        }
+        size_t pos = url.find_last_of(std::filesystem::path::preferred_separator);
+        if (pos != std::string::npos) url = url.substr(pos + 1);
+    }
+    return url;
+}
+#endif
 
 
 // Basename routine for the web.
@@ -351,80 +345,68 @@ std::string filter_url_basename_web(std::string url)
 
 
 void filter_url_unlink(const std::string& filename)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        try
-        {
-            std::filesystem::path path(filename);
-            std::filesystem::remove(path);
-        }
-        catch (...)
-        {
-        }
-    }
-    else
-    {
-        unlink(filename.c_str());
-    }
+  try {
+    std::filesystem::path path (filename);
+    std::filesystem::remove (path);
+  } catch (...) { }
 }
+#else
+{
+    unlink(filename.c_str());
+}
+#endif
 
 
-void filter_url_rename(const std::string& old_filename, const std::string& new_filename)
+void filter_url_rename(const std::string& oldfilename, const std::string& newfilename)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        try
-        {
-            std::filesystem::path old_path(old_filename);
-            std::filesystem::path new_path(new_filename);
-            std::filesystem::rename(old_path, new_path);
-        }
-        catch (...)
-        {
-        }
-    }
-    else
-    {
-        rename(old_filename.c_str(), new_filename.c_str());
-    }
+  try {
+    std::filesystem::path oldpath (oldfilename);
+    std::filesystem::path newpath (newfilename);
+    std::filesystem::rename(oldpath, newpath);
+  } catch (...) { }
 }
+#else
+{
+    rename(oldfilename.c_str(), newfilename.c_str());
+}
+#endif
 
 
 // Creates a file path out of the components.
 std::string filter_url_create_path(const std::vector<std::string>& parts)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        // Empty path.
-        std::filesystem::path path;
-        for (size_t i = 0; i < parts.size(); i++)
-        {
-            if (i == 0) path += parts.at(i); // Append the part without directory separator.
-            else path /= parts.at(i); // Append the directory separator and then the part.
-        }
-        // Done.
-        return path.string();
-    }
-    else
-    {
-        // Empty path.
-        std::string path;
-        for (size_t i = 0; i < parts.size(); i++)
-        {
-            // Initially append the first part without directory separator.
-            if (i == 0) path += parts[i];
-            else
-            {
-                // Other parts: Append the directory separator and then the part.
-                path += std::filesystem::path::preferred_separator;
-                path += parts[i];
-            }
-        }
-        // Done.
-        return path;
-    }
+  // Empty path.
+  std::filesystem::path path;
+  for (size_t i = 0; i < parts.size(); i++) {
+    if (i == 0) path += parts.at(i); // Append the part without directory separator.
+    else path /= parts.at(i); // Append the directory separator and then the part.
+  }
+  // Done.
+  return path.string();
 }
+#else
+{
+    // Empty path.
+    std::string path;
+    for (size_t i = 0; i < parts.size(); i++)
+    {
+        // Initially append the first part without directory separator.
+        if (i == 0) path += parts[i];
+        else
+        {
+            // Other parts: Append the directory separator and then the part.
+            path += std::filesystem::path::preferred_separator;
+            path += parts[i];
+        }
+    }
+    // Done.
+    return path;
+}
+#endif
 
 
 // Creates a web path out of the components.
@@ -452,191 +434,179 @@ std::string filter_url_create_path_web(const std::vector<std::string>& parts)
 // Creates a file path out of the variable list of components,
 // relative to the server's document root.
 std::string filter_url_create_root_path(const std::vector<std::string>& parts)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        // Construct a path from the document root.
-        std::filesystem::path path(config_globals_document_root);
-        // Add the bits.
-        for (auto part : parts)
-        {
-            // At times a path is created from a URL.
-            // The URL likely starts with a slash, like this: /css/mouse.css
-            // When creating a path out of that, the path will become this: /css/mouse.css
-            // Such a path does not exist.
-            // The path that is wanted is something like this:
-            // /home/foo/bar/bibledit/css/mouse.css
-            // So remove that starting slash.
-            if (not part.empty())
-                if (part[0] == '/')
-                    part = part.erase(0, 1);
-            // Add the part, with a preceding path separator.
-            path /= part;
-        }
-        // Done.
-        return path.string();
-    }
-    else
-    {
-        // Construct path from the document root.
-        std::string path(config_globals_document_root);
-        // Add the bits.
-        for (auto part : parts)
-        {
-            // At times a path is created from a URL.
-            // The URL likely starts with a slash, like this: /css/mouse.css
-            // When creating a path out of that, the path will become this: /css/mouse.css
-            // Such a path does not exist.
-            // The path that is wanted is something like this:
-            // /home/foo/bar/bibledit/css/mouse.css
-            // So remove that starting slash.
-            if (not part.empty())
-                if (part[0] == '/')
-                    part = part.erase(0, 1);
-            // Add the part, with a preceding path separator.
-            path += std::filesystem::path::preferred_separator;
-            path += part;
-        }
-        // Done.
-        return path;
-    }
+  // Construct a path from the document root.
+  std::filesystem::path path (config_globals_document_root);
+  // Add the bits.
+  for (size_t i = 0; i < parts.size(); i++) {
+    std::string part = parts[i];
+    // At times a path is created from a URL.
+    // The URL likely starts with a slash, like this: /css/mouse.css
+    // When creating a path out of that, the path will become this: /css/mouse.css
+    // Such a path does not exist.
+    // The path that is wanted is something like this:
+    // /home/foo/bar/bibledit/css/mouse.css
+    // So remove that starting slash.
+    if (!part.empty()) if (part[0] == '/') part = part.erase(0, 1);
+    // Add the part, with a preceding path separator.
+    path /= part;
+  }
+  // Done.
+  return path.string();
 }
+#else
+{
+    // Construct path from the document root.
+    std::string path(config_globals_document_root);
+    // Add the bits.
+    for (size_t i = 0; i < parts.size(); i++)
+    {
+        std::string part = parts[i];
+        // At times a path is created from a URL.
+        // The URL likely starts with a slash, like this: /css/mouse.css
+        // When creating a path out of that, the path will become this: /css/mouse.css
+        // Such a path does not exist.
+        // The path that is wanted is something like this:
+        // /home/foo/bar/bibledit/css/mouse.css
+        // So remove that starting slash.
+        if (!part.empty()) if (part[0] == '/') part = part.erase(0, 1);
+        // Add the part, with a preceding path separator.
+        path += std::filesystem::path::preferred_separator;
+        path += part;
+    }
+    // Done.
+    return path;
+}
+#endif
 
 
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
 std::string filter_url_get_extension(const std::string& url)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        std::filesystem::path path(url);
-        std::string extension;
-        if (path.has_extension())
-        {
-            // Get the extension with the dot, e.g. ".txt".
-            extension = path.extension().string();
-            // Wanted is the extension without the dot, e.g. "txt".
-            extension.erase(0, 1);
-        }
-        return extension;
-    }
-    else
-    {
-        std::string extension;
-        if (const std::size_t pos = url.find_last_of('.'); pos != std::string::npos)
-            extension = url.substr(pos + 1);
-        return extension;
-    }
+  std::filesystem::path path (url);
+  std::string extension;
+  if (path.has_extension()) {
+    // Get the extension with the dot, e.g. ".txt".
+    extension = path.extension().string();
+    // Wanted is the extension without the dot, e.g. "txt".
+    extension.erase (0, 1);
+  }
+  return extension;
 }
+#else
+{
+    std::string extension;
+    size_t pos = url.find_last_of(".");
+    if (pos != std::string::npos)
+    {
+        extension = url.substr(pos + 1);
+    }
+    return extension;
+}
+#endif
 
 
 // Returns true if the file at $url exists.
 bool file_or_dir_exists(const std::string& url)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        const std::filesystem::path path(url);
-        return std::filesystem::exists(path);
-    }
-    else
-    {
-        // The 'stat' function works as expected on Linux.
-        struct stat buffer{};
-        return (stat(url.c_str(), &buffer) == 0);
-    }
+  std::filesystem::path path (url);
+  return std::filesystem::exists (path);
 }
+#else
+{
+    // The 'stat' function works as expected on Linux.
+    struct stat buffer;
+    return (stat(url.c_str(), &buffer) == 0);
+}
+#endif
 
 
 // Makes a directory.
 // Creates parents where needed.
 void filter_url_mkdir(std::string directory)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
+  try {
+    std::filesystem::path path (directory);
+    std::filesystem::create_directories(path);
+  } catch (...) { }
+}
+#else
+{
+    const int status = mkdir(directory.c_str(), 0777);
+    if (status != 0)
     {
-        try
+        std::vector<std::string> paths;
+        paths.push_back(directory);
+        directory = filter_url_dirname(directory);
+        while (directory.length() > 2)
         {
-            const std::filesystem::path path(directory);
-            std::filesystem::create_directories(path);
-        }
-        catch (...)
-        {
-        }
-    }
-    else
-    {
-        if (const int status = mkdir(directory.c_str(), 0777); status != 0)
-        {
-            std::vector<std::string> paths;
             paths.push_back(directory);
             directory = filter_url_dirname(directory);
-            while (directory.length() > 2)
-            {
-                paths.push_back(directory);
-                directory = filter_url_dirname(directory);
-            }
-            std::ranges::reverse(paths);
-            for (const auto & path : paths)
-            {
-                mkdir(path.c_str(), 0777);
-            }
+        }
+        reverse(paths.begin(), paths.end());
+        for (unsigned int i = 0; i < paths.size(); i++)
+        {
+            mkdir(paths[i].c_str(), 0777);
         }
     }
 }
+#endif
 
 
 // Removes directory recursively.
 void filter_url_rmdir(const std::string& directory)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        try
-        {
-            const std::filesystem::path path(directory);
-            std::filesystem::remove_all(path);
-        }
-        catch (const std::exception& exception)
-        {
-            database::logs::log(exception.what());
-        }
-    }
-    else
-    {
-        // List the files in this directory, include the hidden files.
-        // Reason for including hidden files: https://github.com/bibledit/cloud/issues/1002
-        for (auto path : filter_url_scandir_internal(directory, true))
-        {
-            path = filter_url_create_path({directory, path});
-            if (filter_url_is_dir(path))
-                filter_url_rmdir(path);
-            // On Linux remove the directory or the file.
-            remove(path.c_str());
-        }
-        remove(directory.c_str());
-    }
+  try {
+    std::filesystem::path path (directory);
+    std::filesystem::remove_all(path);
+  }
+  catch (const std::exception& exception)
+  {
+    database::logs::log(exception.what());
+  }
 }
+#else
+{
+    // List the files in this directory, include the hidden files.
+    // Reason for including hidden files: https://github.com/bibledit/cloud/issues/1002
+    std::vector<std::string> files = filter_url_scandir_internal(directory, true);
+    for (auto& path : files)
+    {
+        path = filter_url_create_path({directory, path});
+        if (filter_url_is_dir(path))
+        {
+            filter_url_rmdir(path);
+        }
+        // On Linux remove the directory or the file.
+        remove(path.c_str());
+    }
+    remove(directory.c_str());
+}
+#endif
 
 
 // Returns true is $path points to a directory.
 bool filter_url_is_dir(const std::string& path)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        try
-        {
-            const std::filesystem::path p(path);
-            return std::filesystem::is_directory(p);
-        }
-        catch (...)
-        {
-        }
-        return false;
-    }
-    else
-    {
-        struct stat sb{};
-        stat(path.c_str(), &sb);
-        return (sb.st_mode & S_IFMT) == S_IFDIR;
-    }
+  try {
+    std::filesystem::path p (path);
+    return std::filesystem::is_directory(p);
+  } catch (...) { }
+  return false;
 }
+#else
+{
+    struct stat sb;
+    stat(path.c_str(), &sb);
+    return (sb.st_mode & S_IFMT) == S_IFDIR;
+}
+#endif
 
 
 bool filter_url_get_write_permission(const std::string& path)
@@ -646,28 +616,25 @@ bool filter_url_get_write_permission(const std::string& path)
 {
 #ifdef HAVE_WINDOWS
     std::wstring wpath = filter::string::string2wstring(path);
-    const int result = _waccess(wpath.c_str(), 06);
+    int result = _waccess(wpath.c_str(), 06);
 #else
-    const int result = access(path.c_str(), W_OK);
+    int result = access(path.c_str(), W_OK);
 #endif
     return (result == 0);
 }
 
 
 void filter_url_set_write_permission(const std::string& path)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        const std::filesystem::path p(path);
-        std::filesystem::permissions(
-            p, std::filesystem::perms::owner_all | std::filesystem::perms::group_all |
-            std::filesystem::perms::others_all);
-    }
-    else
-    {
-        chmod(path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
-    }
+  std::filesystem::path p (path);
+  std::filesystem::permissions(p, std::filesystem::perms::owner_all | std::filesystem::perms::group_all | std::filesystem::perms::others_all);
 }
+#else
+{
+    chmod(path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
+}
+#endif
 
 
 // Get and returns the contents of $filename.
@@ -742,37 +709,34 @@ void filter_url_file_put_contents_append(const std::string& filename, const std:
 // Copies the contents of file named "input" to file named "output".
 // It is assumed that the folder where "output" will reside exists.
 bool filter_url_file_cp(const std::string& input, const std::string& output)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        try
-        {
-            std::filesystem::copy(input, output, std::filesystem::copy_options::overwrite_existing);
-        }
-        catch (const std::exception& exception)
-        {
-            database::logs::log(exception.what());
-            return false;
-        }
-        return true;
-    }
-    else
-    {
-        try
-        {
-            std::ifstream source(input, std::ios::binary);
-            std::ofstream dest(output, std::ios::binary | std::ios::trunc);
-            dest << source.rdbuf();
-            source.close();
-            dest.close();
-        }
-        catch (...)
-        {
-            return false;
-        }
-        return true;
-    }
+  try {
+    std::filesystem::copy(input, output, std::filesystem::copy_options::overwrite_existing);
+  }
+  catch (const std::exception& exception) {
+    database::logs::log (exception.what());
+    return false;
+  }
+  return true;
 }
+#else
+{
+    try
+    {
+        std::ifstream source(input, std::ios::binary);
+        std::ofstream dest(output, std::ios::binary | std::ios::trunc);
+        dest << source.rdbuf();
+        source.close();
+        dest.close();
+    }
+    catch (...)
+    {
+        return false;
+    }
+    return true;
+}
+#endif
 
 
 // Copies the entire directory $input to a directory named $output.
@@ -805,70 +769,59 @@ void filter_url_dir_cp(const std::string& input, const std::string& output)
 
 // Get the file's size in bytes.
 int filter_url_filesize(const std::string& filename)
+#ifdef USE_STD_FILESYSTEM
 {
-    using return_type = std::invoke_result_t<decltype(filter_url_filesize), std::string>;
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        try
-        {
-            std::filesystem::path p(filename);
-            return static_cast<return_type>(std::filesystem::file_size(p));
-        }
-        catch (...)
-        {
-        }
-        return 0;
-    }
-    else
-    {
-        struct stat buf{};
-        const int rc = stat(filename.c_str(), &buf);
-        return rc == 0 ? static_cast<return_type>(buf.st_size) : 0;
-    }
+  try {
+    std::filesystem::path p (filename);
+    return std::filesystem::file_size(p);
+  } catch (...) { }
+  return 0;
 }
+#else
+{
+    struct stat buf;
+    const int rc = stat(filename.c_str(), &buf);
+    return rc == 0 ? static_cast<int>(buf.st_size) : 0;
+}
+#endif
 
 
 // Scans the directory for files it contains.
 std::vector<std::string> filter_url_scandir(const std::string& folder)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
+  std::vector <std::string> files;
+  try {
+    std::filesystem::path dir_path (folder);
+    for (const auto& directory_entry : std::filesystem::directory_iterator {dir_path})
     {
-        std::vector<std::string> files;
-        try
-        {
-            std::filesystem::path dir_path(folder);
-            for (const auto& directory_entry : std::filesystem::directory_iterator{dir_path})
-            {
-                // The full path.
-                const std::filesystem::path& entry_path = directory_entry.path();
-                // Get the path as relative to the directory.
-                std::filesystem::path relative_path = std::filesystem::relative(entry_path, dir_path);
-                // Get the name of the relative path.
-                const std::string name = relative_path.string();
-                // Exclude developer temporal files.
-                if (name == ".deps") continue;
-                if (name == ".dirstamp") continue;
-                // Exclude macOS files.
-                if (name == ".DS_Store") continue;
-                // Exclude non-interesting files.
-                if (name == "gitflag") continue;
-                // Store the name.
-                files.push_back(name);
-            }
-        }
-        catch (...)
-        {
-        }
-        std::ranges::sort(files);
-        return files;
+      // The full path.
+      std::filesystem::path entry_path = directory_entry.path();
+      // Get the path as relative to the directory.
+      std::filesystem::path relative_path = std::filesystem::relative(entry_path, dir_path);
+      // Get the name of the relative path.
+      const std::string name = relative_path.string();
+      // Exclude developer temporal files.
+      if (name == ".deps") continue;
+      if (name == ".dirstamp") continue;
+      // Exclude macOS files.
+      if (name == ".DS_Store") continue;
+      // Exclude non-interesting files.
+      if (name == "gitflag") continue;
+      // Store the name.
+      files.push_back (name);
     }
-    else
-    {
-        std::vector<std::string> files = filter_url_scandir_internal(folder);
-        files = filter::string::array_diff(files, {"gitflag"});
-        return files;
-    }
+  } catch (...) { }
+  sort (files.begin(), files.end());
+  return files;
 }
+#else
+{
+    std::vector<std::string> files = filter_url_scandir_internal(folder);
+    files = filter::string::array_diff(files, {"gitflag"});
+    return files;
+}
+#endif
 
 
 // Recursively scans a directory for directories and files.
@@ -888,29 +841,24 @@ void filter_url_recursive_scandir(const std::string& folder, std::vector<std::st
 
 
 // Get the file modification time.
-int filter_url_file_modification_time(const std::string& filename)
+int filter_url_file_modification_time(std::string filename)
+#ifdef USE_STD_FILESYSTEM
 {
-    if constexpr (config::logic::use_std_filesystem())
-    {
-        try
-        {
-            const std::filesystem::path path(filename);
-            const std::filesystem::file_time_type ftime = std::filesystem::last_write_time(path);
-            const int seconds = std::chrono::duration_cast<std::chrono::seconds>(ftime.time_since_epoch()).count();
-            return seconds;
-        }
-        catch (...)
-        {
-        }
-        return 0;
-    }
-    else
-    {
-        struct stat attributes{};
-        stat(filename.c_str(), &attributes);
-        return static_cast<int>(attributes.st_mtime);
-    }
+  try {
+    const std::filesystem::path path (filename);
+    const std::filesystem::file_time_type ftime = std::filesystem::last_write_time(path);
+    const int seconds = std::chrono::duration_cast<std::chrono::seconds>(ftime.time_since_epoch()).count();
+    return seconds;
+  } catch (...) { }
+  return 0;
 }
+#else
+{
+    struct stat attributes;
+    stat(filename.c_str(), &attributes);
+    return static_cast<int>(attributes.st_mtime);
+}
+#endif
 
 
 // A C++ near equivalent for PHP's urldecode function.

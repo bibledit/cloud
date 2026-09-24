@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/date.h>
 #include <chrono>
+#include <filesystem>
 
 
 class filter_url : public testing::Test {

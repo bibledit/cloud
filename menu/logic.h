@@ -76,7 +76,7 @@ std::string menu_logic_editor_settings_text (bool visual, int selection);
 bool menu_logic_editor_enabled (Webserver_Request& webserver_request, bool visual, bool chapter);
 std::string menu_logic_editor_menu_text (bool visual, bool chapter);
 
-bool menu_logic_can_do_tabbed_mode ();
+[[nodiscard]] bool menu_logic_can_do_tabbed_mode () noexcept;
 void menu_logic_tabbed_mode_save_json (Webserver_Request& webserver_request);
 
 std::string menu_logic_verse_separator (std::string separator);

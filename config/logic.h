@@ -72,12 +72,6 @@ consteval Platform platform()
     return Platform::cloud;
 }
 
-enum class OperationalMode { cloud, client };
-consteval OperationalMode operational_mode()
-{
-    return platform() == Platform::cloud ? OperationalMode::cloud : OperationalMode::client;
-}
-
 // Whether file upload works in the browser on the platform.
 consteval bool have_file_upload()
 {

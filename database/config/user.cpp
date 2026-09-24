@@ -166,7 +166,7 @@ std::string Database_Config_User::get_value(const char* key, const char* default
 }
 
 
-bool Database_Config_User::get_boolean_value(const char* key, const bool default_value) const
+bool Database_Config_User::get_boolean_value(const char* key, bool default_value) const
 {
     const std::string value = get_value(key, filter::string::convert_to_string(default_value).c_str());
     return filter::string::convert_to_bool(value);
@@ -1625,18 +1625,20 @@ bool Database_Config_User::get_show_navigation_arrows() const
 {
     // On systems usually without a touch screen, the navigation arrows are on by default.
     // On mobile devices they will be off by default.
-    switch (config::logic::platform())
-    {
-    case config::logic::Platform::android:
-    case config::logic::Platform::ios:
-        return get_boolean_value(show_navigation_arrows_key, false);
-    case config::logic::Platform::cloud:
-    case config::logic::Platform::windows:
-    case config::logic::Platform::macos:
-    case config::logic::Platform::linux:
-    default:
-        return get_boolean_value(show_navigation_arrows_key, true);
-    }
+#if defined(HAVE_CLOUD)
+    constexpr const bool default_value{true};
+#elif defined(HAVE_WINDOWS)
+    constexpr const bool default_value{true};
+#elif defined(HAVE_MACOS)
+    constexpr const bool default_value{true};
+#elif defined(HAVE_LINUX)
+    constexpr const bool default_value{true};
+#elif defined(HAVE_ANDROID)
+    constexpr const bool default_value{false};
+#elif defined(HAVE_IOS)
+    constexpr const bool default_value{false};
+#endif
+    return get_boolean_value(show_navigation_arrows_key, default_value);
 }
 
 void Database_Config_User::set_show_navigation_arrows(const bool value) const

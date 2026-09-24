@@ -325,16 +325,15 @@ void bibledit_stop_library()
     // Clear running flag.
     config_globals_webserver_running = false;
 
-    // ReSharper disable once CppRedundantBooleanExpressionArgument
-    if constexpr (config::logic::platform() != config::logic::Platform::android
-        and config::logic::platform() != config::logic::Platform::ios)
-    {
-        // Schedule a timer to exit(0) the program in case the network stack fails to exit the servers.
-        // This should not be done on devices like Android and iOS
-        // because then the app would quit when the user moves the app to the background,
-        // whereas the user expects the app to stay alive in the background.
-        new std::thread(bibledit_last_ditch_forced_exit);
-    }
+#ifndef HAVE_ANDROID
+#ifndef HAVE_IOS
+    // Schedule a timer to exit(0) the program in case the network stack fails to exit the servers.
+    // This should not be done on devices like Android and iOS
+    // because then the app would quit when the user moves the app to the background,
+    // whereas the user expects the app to stay alive in the background.
+    new std::thread(bibledit_last_ditch_forced_exit);
+#endif
+#endif
 
     std::string error;
 

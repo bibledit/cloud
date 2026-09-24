@@ -241,33 +241,28 @@ std::string unzip_miniz_internal (std::string zipfile)
 
 // Compresses a file identified by $filename into gzipped tar format.
 // Returns the path to the compressed archive it created.
-std::string tar_gzip_file (const std::string& filename)
+std::string tar_gzip_file (std::string filename)
 {
-    std::string tarball = filter_url_tempfile() + ".tar.gz";
-    const std::string dirname = filter_url_escape_shell_argument(filter_url_dirname(filename));
-    const std::string basename = filter_url_escape_shell_argument(filter_url_basename(filename));
-    const std::string logfile = filter_url_tempfile() + ".log";
-    const std::string command = "cd " + dirname + " && "
-    + std::string(filter::shell::get_executable(filter::shell::Executable::tar)) + " -czf "
-    + tarball + " " + basename + " > " + logfile + " 2>&1";
-    int return_var;
-    if constexpr (config::logic::platform() == config::logic::Platform::ios)
-    {
-        // Crashes on iOS.
-        return_var = 1;
-    } else
-    {
-        // Run the command.
-        return_var = system(command.c_str());
-    }
-    if (return_var)
-    {
-        filter_url_unlink(tarball);
-        tarball.clear();
-        std::string errors = filter_url_file_get_contents(logfile);
-        database::logs::log(errors);
-    }
-    return tarball;
+  std::string tarball = filter_url_tempfile () + ".tar.gz";
+  const std::string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
+  const std::string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
+  const std::string logfile = filter_url_tempfile () + ".log";
+  const std::string command = "cd " + dirname + " && " + std::string(filter::shell::get_executable(filter::shell::Executable::tar)) + " -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
+  int return_var;
+#ifdef HAVE_IOS
+  // Crashes on iOS.
+  return_var = 1;
+#else
+  // Run the command.
+  return_var = system (command.c_str());
+#endif
+  if (return_var != 0) {
+    filter_url_unlink (tarball);
+    tarball.clear();
+    std::string errors = filter_url_file_get_contents (logfile);
+    database::logs::log (errors);
+  }
+  return tarball;
 }
 
 
@@ -275,64 +270,53 @@ std::string tar_gzip_file (const std::string& filename)
 // Returns the path to the compressed archive it created.
 std::string tar_gzip_folder (std::string folder)
 {
-    std::string tarball = filter_url_tempfile() + ".tar.gz";
-    folder = filter_url_escape_shell_argument(folder);
-    std::string logfile = filter_url_tempfile() + ".log";
-    std::string command = "cd " + folder + " && " + std::string(
-            filter::shell::get_executable(filter::shell::Executable::tar)) + " -czf " + tarball + " . > " + logfile +
-        " 2>&1";
-    int return_var;
-    if constexpr (config::logic::platform() == config::logic::Platform::ios)
-    {
-        // Crashes on iOS.
-        return_var = 1;
-    } else
-    {
-        // Run the command.
-        return_var = system(command.c_str());
-    }
-    if (return_var)
-    {
-        filter_url_unlink(tarball);
-        tarball.clear();
-        std::string errors = filter_url_file_get_contents(logfile);
-        database::logs::log(std::move(errors));
-    }
-    return tarball;
+  std::string tarball = filter_url_tempfile () + ".tar.gz";
+  folder = filter_url_escape_shell_argument (folder);
+  std::string logfile = filter_url_tempfile () + ".log";
+  std::string command = "cd " + folder + " && " + std::string(filter::shell::get_executable(filter::shell::Executable::tar)) + " -czf " + tarball + " . > " + logfile + " 2>&1";
+  int return_var;
+#ifdef HAVE_IOS
+  // Crashes on iOS.
+  return_var = 1;
+#else
+  // Run the command.
+  return_var = system (command.c_str());
+#endif
+  if (return_var != 0) {
+    filter_url_unlink (tarball);
+    tarball.clear();
+    std::string errors = filter_url_file_get_contents (logfile);
+    database::logs::log (errors);
+  }
+  return tarball;
 }
 
 
 // Uncompresses a .tar.gz archive identified by $file.
 // Returns the path to the folder it created.
-std::string untar_gzip(std::string file)
+std::string untar_gzip (std::string file)
 {
-    file = filter_url_escape_shell_argument(file);
-    std::string folder = filter_url_tempfile();
-    filter_url_mkdir(folder);
-    folder += std::filesystem::path::preferred_separator;
-    const std::string logfile = filter_url_tempfile() + ".log";
-    const auto command = string::join_pack_to_string("cd ", folder, " && ",
-                                                     filter::shell::get_executable(shell::Executable::tar),
-                                                     " zxf ", file, " > ", logfile, " 2>&1");
-    int return_var;
-    if constexpr (config::logic::platform() == config::logic::Platform::ios)
-    {
-        // Crashes on iOS.
-        return_var = 1;
-    }
-    else
-    {
-        // Run the command.
-        return_var = system(command.c_str());
-    }
-    if (return_var != 0)
-    {
-        filter_url_rmdir(folder);
-        folder.clear();
-        std::string errors = filter_url_file_get_contents(logfile);
-        database::logs::log(errors);
-    }
-    return folder;
+  file = filter_url_escape_shell_argument (file);
+  std::string folder = filter_url_tempfile ();
+  filter_url_mkdir (folder);
+  folder += std::filesystem::path::preferred_separator;
+  const std::string logfile = filter_url_tempfile () + ".log";
+  const std::string command = "cd " + folder + " && " + std::string(filter::shell::get_executable(filter::shell::Executable::tar)) + " zxf " + file + " > " + logfile + " 2>&1";
+  int return_var;
+#ifdef HAVE_IOS
+  // Crashes on iOS.
+  return_var = 1;
+#else
+  // Run the command.
+  return_var = system (command.c_str());
+#endif
+  if (return_var != 0) {
+    filter_url_rmdir (folder);
+    folder.clear();
+    std::string errors = filter_url_file_get_contents (logfile);
+    database::logs::log (errors);
+  }
+  return folder;
 }
 
 

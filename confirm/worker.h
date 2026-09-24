@@ -23,6 +23,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 class Webserver_Request;
 
+#ifdef HAVE_CLOUD
+
 namespace confirm::worker {
 
 void setup (Webserver_Request& webserver_request,
@@ -34,3 +36,5 @@ void setup (Webserver_Request& webserver_request,
 bool handle_link (Webserver_Request& webserver_request, std::string& email);
 
 }
+
+#endif

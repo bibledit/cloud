@@ -20,6 +20,14 @@
 #pragma once
 
 
+// Whether file upload works in the browser on the platform.
+#define HAVE_UPLOAD 1
+
+
+// Maximum number of simultaneous background tasks.
+#define MAX_PARALLEL_TASKS 10
+
+
 // The directory separator for the platform: Windows differs from Linux.
 #define DIRECTORY_SEPARATOR "/"
 
@@ -37,6 +45,8 @@
 #define HAVE_CLIENT 1
 #define HAVE_BARE_BROWSER 1
 #define HAVE_PARATEXT 1
+#undef MAX_PARALLEL_TASKS
+#define MAX_PARALLEL_TASKS 5
 #define HAVE_URLSETTINGS 1
 #undef DIRECTORY_SEPARATOR
 #define DIRECTORY_SEPARATOR R"(\)"
@@ -46,8 +56,12 @@
 
 
 #ifdef HAVE_ANDROID
+// Undefine upload capabilities, see issue https://github.com/bibledit/cloud/issues/896
+#undef HAVE_UPLOAD
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
+#undef MAX_PARALLEL_TASKS
+#define MAX_PARALLEL_TASKS 3
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
@@ -76,8 +90,12 @@
 
 
 #ifdef HAVE_IOS
+// Undefine upload capabilities, see issue https://github.com/bibledit/cloud/issues/896
+#undef HAVE_UPLOAD
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
+#undef MAX_PARALLEL_TASKS
+#define MAX_PARALLEL_TASKS 3
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER

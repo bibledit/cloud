@@ -37,9 +37,9 @@ std::string admin_email ();
 bool basic_mode (Webserver_Request& webserver_request);
 std::string site_url (const Webserver_Request& webserver_request);
 std::string manual_user_facing_url ();
-std::string server_key_path (bool force);
-std::string server_certificate_path (bool force);
-std::string authorities_certificates_path (bool force);
+std::string server_key_path (const bool force);
+std::string server_certificate_path (const bool force);
+std::string authorities_certificates_path (const bool force);
 bool enforce_https_browser ();
 bool enforce_https_client ();
 void swipe_enabled (Webserver_Request& webserver_request, std::string& script);
@@ -47,37 +47,5 @@ bool indonesian_member_cloud ();
 bool default_bibledit_configuration ();
 std::string google_translate_json_key_path ();
 bool create_no_accounts();
-
-// Whether file upload works in the browser on the platform.
-consteval bool have_file_upload()
-{
-    // No upload capabilities on Android and iOS, see issue https://github.com/bibledit/cloud/issues/896
-#ifdef HAVE_ANDROID
-    return false;
-#endif
-#ifdef HAVE_IOS
-    return false;
-#endif
-    // Enable on all other platforms.
-    return true;
-}
-
-// The maximum number of simultaneous background tasks.
-consteval std::size_t max_parallel_background_tasks()
-{
-#ifdef HAVE_WINDOWS
-    return 5;
-#endif
-#ifdef HAVE_ANDROID
-    return 3;
-#endif
-#ifdef HAVE_IOS
-    return 3;
-#endif
-    // Value for all other platforms.
-    return 10;
-}
-
-
 
 } // End of namespace.

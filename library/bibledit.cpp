@@ -217,7 +217,7 @@ void bibledit_start_library()
     // Start the thread pools with the workers.
     start_thread_pool();
     tasks::tasks_logic_load();
-    tasks::tasks_logic_start_thread_pool(config::logic::max_parallel_background_tasks());
+    tasks::tasks_logic_start_thread_pool(MAX_PARALLEL_TASKS);
 
     // Run the plain web server in a thread.
     config_globals_http_worker = new std::thread(http_server);

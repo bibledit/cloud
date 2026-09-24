@@ -27,8 +27,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 Assets_View::Assets_View()
 {
     // On some installations like on iOS / Android / Mac, the browser has no controls.
-    if constexpr (config::logic::has_bare_browser())
-        enable_zone("bare_browser");
+#ifdef HAVE_BARE_BROWSER
+    enable_zone("bare_browser");
+#endif
     set_variable("VERSION", config::logic::version());
 }
 

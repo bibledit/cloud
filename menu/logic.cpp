@@ -901,17 +901,16 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
             }
         }
 
-        if constexpr (config::logic::work_with_paratext())
+#ifdef HAVE_PARATEXT
+        if (label == paratext)
         {
-            if (label == paratext)
+            if (paratext_index_acl(webserver_request))
             {
-                if (paratext_index_acl(webserver_request))
-                {
-                    html.push_back(menu_logic_create_item(paratext_index_url(), label, true, "", ""));
-                    tiplabels.push_back(paratext_index_url());
-                }
+                html.push_back(menu_logic_create_item(paratext_index_url(), label, true, "", ""));
+                tiplabels.push_back(paratext_index_url());
             }
         }
+#endif
 
 #ifdef HAVE_CLOUD
         // Logout menu entry only in the Cloud, never on the client.

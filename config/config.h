@@ -29,6 +29,7 @@
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
+#define HAVE_PARATEXT 1
 #define HAVE_URLSETTINGS 1
 #define USE_STD_FILESYSTEM 1
 #endif
@@ -54,6 +55,7 @@
 #ifdef HAVE_LINUX
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
+#define HAVE_PARATEXT 1
 #endif
 
 

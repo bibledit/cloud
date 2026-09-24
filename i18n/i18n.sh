@@ -24,14 +24,14 @@ set -e
 cd "$(dirname "$0")"
 cd "$(dirname "$PWD")"
 SRC=$PWD
-echo "Source directory " $SRC
+echo "Source directory " "$SRC"
 TMP=/tmp/bibledit-i18n
 echo Working directory $TMP
 
 
 echo Synchronizing source files to working directory.
 mkdir -p $TMP
-rsync -a --delete $SRC/ $TMP/
+rsync -a --delete "$SRC"/ $TMP/
 cd $TMP
 
 

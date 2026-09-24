@@ -79,14 +79,11 @@ void rotate()
 
 
     // Timestamp for removing older records, depending on whether it's a tiny journal.
-    constexpr auto get_old_timestamp = [] () -> int
-    {
-        if constexpr (config::logic::have_tiny_journal())
-            return filter::date::get_seconds_since_epoch() - 14400;
-        else
-            return filter::date::get_seconds_since_epoch() - 6 * 86400;
-    };
-    const int old_timestamp = get_old_timestamp();
+#ifdef HAVE_TINY_JOURNAL
+    const int old_timestamp = filter::date::get_seconds_since_epoch() - 14400;
+#else
+    const int old_timestamp = filter::date::get_seconds_since_epoch() - 6 * 86400;
+#endif
 
 
     // Limit the journal entry count in the filesystem.
@@ -94,14 +91,11 @@ void rotate()
     // In previous versions of Bibledit, there were certain conditions
     // that led to an infinite loop, as had been noticed at times,
     // and this quickly exhausted the available inodes on the filesystem.
-    const auto get_limit_file_count = [&files] () -> std::size_t
-    {
-        if constexpr (config::logic::have_tiny_journal())
-            return files.size() - 200;
-        else
-            return files.size() - 2000;
-    };
-    const std::size_t limit_file_count = get_limit_file_count();
+#ifdef HAVE_TINY_JOURNAL
+    const int limit_file_count = static_cast<int>(files.size() - 200);
+#else
+    const int limit_file_count = static_cast<int>(files.size() - 2000);
+#endif
 
 
     bool filtered_entries = false;
@@ -110,7 +104,7 @@ void rotate()
         const std::string path = filter_url_create_path({directory, files.at(i)});
 
         // Limit the number of journal entries.
-        if (i < limit_file_count)
+        if (static_cast<int>(i) < limit_file_count)
         {
             filter_url_unlink(path);
             continue;

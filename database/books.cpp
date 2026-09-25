@@ -156,7 +156,7 @@ std::string get_onlinebible_from_id(const book_id id)
 
 short get_order_from_id(const book_id id)
 {
-    auto default_fn = [] { return static_cast<uint8_t>(0); };
+    auto default_fn = [] () noexcept { return static_cast<uint8_t>(0); };
     return lookup_field<&book_record::id, &book_record::order>(id, std::move(default_fn));
 }
 

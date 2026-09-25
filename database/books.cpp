@@ -150,13 +150,13 @@ book_id get_id_from_onlinebible(const std::string_view onlinebible)
 
 std::string get_onlinebible_from_id(const book_id id)
 {
-    auto default_fn = [] { return std::string_view{}; };
+    auto default_fn = []() noexcept { return std::string_view{}; };
     return std::string{lookup_field<&book_record::id, &book_record::onlinebible>(id, std::move(default_fn))};
 }
 
 short get_order_from_id(const book_id id)
 {
-    auto default_fn = [] () noexcept { return static_cast<uint8_t>(0); };
+    auto default_fn = []() noexcept { return static_cast<uint8_t>(0); };
     return lookup_field<&book_record::id, &book_record::order>(id, std::move(default_fn));
 }
 

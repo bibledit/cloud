@@ -67,25 +67,25 @@ book_id get_id_from_english(const std::string_view english) noexcept
 
 std::string get_english_from_id(const book_id id)
 {
-    auto default_fn = [] { return std::string_view{"Unknown"}; };
+    auto default_fn = [] () noexcept { return std::string_view{"Unknown"}; };
     return std::string{lookup_field<&book_record::id, &book_record::english>(id, std::move(default_fn))};
 }
 
 std::string get_usfm_from_id(const book_id id)
 {
-    auto default_fn = [] { return std::string_view{"XXX"}; };
+    auto default_fn = [] () noexcept { return std::string_view{"XXX"}; };
     return std::string{lookup_field<&book_record::id, &book_record::usfm>(id, std::move(default_fn))};
 }
 
 std::string get_bibleworks_from_id(const book_id id)
 {
-    auto default_fn = [] { return std::string_view{"Xxx"}; };
+    auto default_fn = [] () noexcept { return std::string_view{"Xxx"}; };
     return std::string{lookup_field<&book_record::id, &book_record::bibleworks>(id, std::move(default_fn))};
 }
 
 std::string get_osis_from_id(const book_id id)
 {
-    auto default_fn = [] { return std::string_view{"Unknown"}; };
+    auto default_fn = [] () noexcept { return std::string_view{"Unknown"}; };
     return std::string{lookup_field<&book_record::id, &book_record::osis>(id, std::move(default_fn))};
 }
 

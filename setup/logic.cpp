@@ -300,52 +300,48 @@ void setup_complete_gui ()
 
 
 // Generate the locale databases.
-void setup_generate_locale_databases (bool progress)
+void setup_generate_locale_databases (const bool progress)
 {
-#ifdef HAVE_ANDROID
-  // On Android, do not generate the locale databases.
-  // On this low power device, generating them would take quite a while, as experience shows.
-  // Instead of generating them, the builder and installer put the pre-generated databases into place.
-  return;
-#endif
-#ifdef HAVE_IOS
-  // Same story for iOS.
-  return;
-#endif
-  // Generate databases for all the localizations.
-  const std::map <std::string, std::string> localizations = locale_logic_localizations ();
-  for (const auto& element : localizations) {
-    const std::string localization = element.first;
-    if (localization.empty ()) continue;
-    config_globals_setup_message = "locale " + localization;
-    if (progress) 
-      std::cout << config_globals_setup_message << std::endl;
-    Database_Localization database_localization = Database_Localization (localization);
-    const std::string path = filter_url_create_root_path ({"locale", localization + ".po"});
-    database_localization.create (path);
-  }
+    // On Android and on iOS, do not generate the locale databases.
+    // On this low power device, generating them would take quite a while, as experience shows.
+    // Instead of generating them, the builder and installer put the pre-generated databases into place.
+    if constexpr (config::logic::platform() == config::logic::Platform::android)
+        return;
+    if constexpr (config::logic::platform() == config::logic::Platform::ios)
+        return;
+
+    // Generate databases for all the localizations.
+    const std::map<std::string, std::string> localizations = locale_logic_localizations();
+    for (const auto& localization : localizations | std::views::keys)
+    {
+        if (localization.empty()) continue;
+        config_globals_setup_message = "locale " + localization;
+        if (progress)
+            std::cout << config_globals_setup_message << std::endl;
+        Database_Localization database_localization(localization);
+        const std::string path = filter_url_create_root_path({"locale", localization + ".po"});
+        database_localization.create(path);
+    }
 }
 
 
 // Generate the verse mapping databases.
 void setup_generate_verse_mapping_databases ()
 {
-#ifdef HAVE_ANDROID
-  // On Android, do not generate the verse mapping databases.
-  // On this low power device, generating them would take quite a while, as experience shows.
-  // Instead of generating them, the builder and installer put the pre-generated databases into place.
-  return;
-#endif
-#ifdef HAVE_IOS
-  // Same story for iOS.
-  return;
-#endif
-  // Generate the verse mappings.
-  Database_Mappings database_mappings;
-  database_mappings.create1 ();
-  database_mappings.defaults ();
-  database_mappings.create2 ();
-  database_mappings.optimize ();
+    // On Android and iOS do not generate the verse mapping databases.
+    // On these low power devices generating them would take quite a while as tests show.
+    // Instead of generating them the builder and installer put the pre-generated databases into place.
+    if constexpr (config::logic::platform() == config::logic::Platform::android)
+        return;
+    if constexpr (config::logic::platform() == config::logic::Platform::ios)
+        return;
+
+    // Generate the verse mappings.
+    Database_Mappings database_mappings;
+    database_mappings.create1();
+    database_mappings.defaults();
+    database_mappings.create2();
+    database_mappings.optimize();
 }
 
 

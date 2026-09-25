@@ -29,7 +29,7 @@ std::string zip_folder_miniz_internal (std::string folder);
 std::string unzip (std::string file);
 std::string unzip_shell_internal (std::string file);
 std::string unzip_miniz_internal (std::string zipfile);
-std::string tar_gzip_file (std::string filename);
+std::string tar_gzip_file (const std::string& filename);
 std::string tar_gzip_folder (std::string folder);
 std::string untar_gzip (std::string file);
 std::string decompress (std::string file);

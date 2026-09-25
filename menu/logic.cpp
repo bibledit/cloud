@@ -1324,14 +1324,12 @@ std::string menu_logic_editor_menu_text(bool visual, bool chapter)
 
 
 // Whether the device can do tabbed mode.
-bool menu_logic_can_do_tabbed_mode()
+bool menu_logic_can_do_tabbed_mode() noexcept
 {
-#ifdef HAVE_ANDROID
-    return true;
-#endif
-#ifdef HAVE_IOS
-    return true;
-#endif
+    if constexpr (config::logic::platform() == config::logic::Platform::android)
+        return true;
+    if constexpr (config::logic::platform() == config::logic::Platform::ios)
+        return true;
     return false;
 }
 

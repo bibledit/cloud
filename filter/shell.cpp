@@ -213,17 +213,17 @@ int run (const std::string& command,
 // Does not escape anything in the $command.
 // Returns the exit code of the process.
 // The output of the process, both stdout and stderr, go into $out_err.
-int run (std::string command, std::string& out_err)
+int run(std::string command, std::string& out_err)
 {
-#ifdef HAVE_IOS
-  return 0;
-#else
-  const std::string pipe = filter_url_tempfile ();
-  command.append (" > " + pipe + " 2>&1");
-  const int result = system (command.c_str());
-  out_err = filter_url_file_get_contents (pipe);
-  return result;
-#endif
+    if constexpr (config::logic::platform() == config::logic::Platform::ios)
+        return 0;
+
+    const std::string pipe = filter_url_tempfile();
+    command.append(" > " + pipe + " 2>&1");
+    const int result = system(command.c_str());
+    out_err = filter_url_file_get_contents(pipe);
+    return result;
+
 }
 
 

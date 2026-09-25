@@ -37,22 +37,25 @@ namespace confirm::worker {
 // Inform the managers about an account change.
 static void inform_managers (const std::string& email, const std::string& body)
 {
-    for (const auto& user : database::users::get_users())
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
     {
-        if (database::users::get_level(user) >= roles::manager)
+        for (const auto& user : database::users::get_users())
         {
-            const std::string mailto = database::users::get_email(user);
-            const std::string subject = translate("User account change");
-            std::string new_body = translate("A user account was changed.");
-            new_body.append(" ");
-            new_body.append(translate("Email address:"));
-            new_body.append(" ");
-            new_body.append(email);
-            new_body.append(". \n");
-            new_body.append(translate("The following email was sent to this user:"));
-            new_body.append(" \n");
-            new_body.append(body);
-            email::schedule(mailto, subject, new_body);
+            if (database::users::get_level(user) >= roles::manager)
+            {
+                const std::string mailto = database::users::get_email(user);
+                const std::string subject = translate("User account change");
+                std::string new_body = translate("A user account was changed.");
+                new_body.append(" ");
+                new_body.append(translate("Email address:"));
+                new_body.append(" ");
+                new_body.append(email);
+                new_body.append(". \n");
+                new_body.append(translate("The following email was sent to this user:"));
+                new_body.append(" \n");
+                new_body.append(body);
+                email::schedule(mailto, subject, new_body);
+            }
         }
     }
 }
@@ -73,23 +76,26 @@ void setup (Webserver_Request& webserver_request,
             const std::string& query,
             const std::string& subsequent_subject, const std::string& subsequent_body)
 {
-    const unsigned int confirmation_id = database::confirm::get_new_id();
-    pugi::xml_document document;
-    pugi::xml_node node = document.append_child("p");
-    std::string information;
-    if (config::logic::default_bibledit_configuration())
-        information = translate("Please confirm this request by clicking this following link:");
-    node.text().set(information.c_str());
-    node = document.append_child("p");
-    const std::string site_url = config::logic::site_url(webserver_request);
-    std::string confirmation_url = filter_url_build_http_query(site_url + session_confirm_url(),
-                                                               {{"id", std::to_string(confirmation_id)}});
-    node.text().set(confirmation_url.c_str());
-    std::stringstream output;
-    document.print(output, " ", pugi::format_indent);
-    initial_body.append(output.str());
-    email::schedule(mailto, initial_subject, initial_body);
-    database::confirm::store(confirmation_id, query, mailto, subsequent_subject, subsequent_body, username);
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        const unsigned int confirmation_id = database::confirm::get_new_id();
+        pugi::xml_document document;
+        pugi::xml_node node = document.append_child("p");
+        std::string information;
+        if (config::logic::default_bibledit_configuration())
+            information = translate("Please confirm this request by clicking this following link:");
+        node.text().set(information.c_str());
+        node = document.append_child("p");
+        const std::string site_url = config::logic::site_url(webserver_request);
+        std::string confirmation_url = filter_url_build_http_query(site_url + session_confirm_url(),
+                                                                   {{"id", std::to_string(confirmation_id)}});
+        node.text().set(confirmation_url.c_str());
+        std::stringstream output;
+        document.print(output, " ", pugi::format_indent);
+        initial_body.append(output.str());
+        email::schedule(mailto, initial_subject, initial_body);
+        database::confirm::store(confirmation_id, query, mailto, subsequent_subject, subsequent_body, username);
+    }
 }
 
 
@@ -97,37 +103,40 @@ void setup (Webserver_Request& webserver_request,
 // Returns true if link was valid, else false.
 bool handle_link (Webserver_Request& webserver_request, std::string& email)
 {
-    // Get the confirmation identifier from the link that was clicked.
-    const std::string web_id = webserver_request.query["id"];
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        // Get the confirmation identifier from the link that was clicked.
+        const std::string web_id = webserver_request.query["id"];
 
-    // If the identifier was not given, the link was not handled successfully.
-    if (web_id.empty())
-        return false;
+        // If the identifier was not given, the link was not handled successfully.
+        if (web_id.empty())
+            return false;
 
-    // Find out from the confirmation database whether the subject line contains an active ID.
-    // If not, bail out.
-    const unsigned int id = database::confirm::search_id(web_id);
-    if (not id)
-        return false;
+        // Find out from the confirmation database whether the subject line contains an active ID.
+        // If not, bail out.
+        const unsigned int id = database::confirm::search_id(web_id);
+        if (not id)
+            return false;
 
-    // An active ID was found: Execute the associated database query.
-    const std::string query = database::confirm::get_query(id);
-    database::users::execute(query);
+        // An active ID was found: Execute the associated database query.
+        const std::string query = database::confirm::get_query(id);
+        database::users::execute(query);
 
-    // Send confirmation mail.
-    const std::string mailto = database::confirm::get_mail_to(id);
-    const std::string subject = database::confirm::get_subject(id);
-    const std::string body = database::confirm::get_body(id);
-    email::schedule(mailto, subject, body);
+        // Send confirmation mail.
+        const std::string mailto = database::confirm::get_mail_to(id);
+        const std::string subject = database::confirm::get_subject(id);
+        const std::string body = database::confirm::get_body(id);
+        email::schedule(mailto, subject, body);
 
-    // Delete the confirmation record.
-    database::confirm::erase(id);
+        // Delete the confirmation record.
+        database::confirm::erase(id);
 
-    // Notify the manager(s).
-    inform_managers(mailto, body);
+        // Notify the manager(s).
+        inform_managers(mailto, body);
 
-    // Pass the email address to the caller.
-    email = mailto;
+        // Pass the email address to the caller.
+        email = mailto;
+    }
 
     // Job done.
     return true;

@@ -132,7 +132,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, c
   int new_id = database::bibles::get_chapter_id (bible, book, chapter);
   if (new_id != old_id) {
     database::modifications::recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     if (sendreceive_git_repository_linked (bible)) {
       database::git::store_chapter (username, bible, book, chapter, old_text, new_text);
     }

@@ -36,7 +36,7 @@
 // Returns whether Client mode is enabled.
 bool client_logic_client_enabled()
 {
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
     return false;
 #endif
     return database::config::general::get_client_mode();

@@ -56,7 +56,7 @@ std::string system_index_url ()
 
 bool system_index_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   // Client: Anyone can make system settings.
   return true;
 #else
@@ -133,7 +133,7 @@ std::string system_index (Webserver_Request& webserver_request)
   }
 
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   const bool producebibles = webserver_request.query.count ("producebibles");
   const bool producenotes = webserver_request.query.count ("producenotes");
   const bool produceresources = webserver_request.query.count ("produceresources");
@@ -151,7 +151,7 @@ std::string system_index (Webserver_Request& webserver_request)
 #endif
 
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   const std::string importbibles = "importbibles";
   if (webserver_request.query.count (importbibles)) {
     if (webserver_request.post_count("upload")) {
@@ -175,7 +175,7 @@ std::string system_index (Webserver_Request& webserver_request)
 #endif
 
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   const std::string importnotes = "importnotes";
   if (webserver_request.query.count (importnotes)) {
     if (webserver_request.post_count("upload")) {
@@ -199,7 +199,7 @@ std::string system_index (Webserver_Request& webserver_request)
 #endif
   
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   const std::string importresources = "importresources";
   if (webserver_request.query.count (importresources)) {
     if (webserver_request.post_count("upload")) {
@@ -274,7 +274,7 @@ std::string system_index (Webserver_Request& webserver_request)
   std::stringstream fontsblock;
   for (const auto& font : fonts) {
     fontsblock << "<p>";
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
     fontsblock << "<a href=" << std::quoted ("?deletefont=" + font) << " title=" << std::quoted(translate("Delete font")) << ">" << filter::string::emoji_wastebasket () << "</a>";
 #endif
     fontsblock << font;
@@ -292,7 +292,7 @@ std::string system_index (Webserver_Request& webserver_request)
   
   
   // Handle the setting whether to keep the resource caches for an extended period of time.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   if (checkbox == "keepcache") {
     database::config::general::set_keep_resources_cache_for_long (checked);
     return std::string();
@@ -302,7 +302,7 @@ std::string system_index (Webserver_Request& webserver_request)
 
 
   // Handle display the number of unsent emails and clearing them.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   Database_Mail database_mail (webserver_request);
   if (webserver_request.query.count ("clearemails")) {
     const std::vector <int> mails = database_mail.getAllMails ();
@@ -317,7 +317,7 @@ std::string system_index (Webserver_Request& webserver_request)
 
   
   // Handle the setting whether to keep available OSIS content in the SWORD resources.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   if (checkbox == "keeposis") {
     database::config::general::set_keep_osis_content_in_sword_resources (checked);
     return std::string();
@@ -326,10 +326,10 @@ std::string system_index (Webserver_Request& webserver_request)
 #endif
 
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   view.enable_zone ("cloud");
 #endif
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   view.enable_zone ("client");
   view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_index_url (), std::string()));
 #endif

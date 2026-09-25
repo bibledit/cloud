@@ -45,7 +45,7 @@ std::string checks_settingssentences_url ()
 
 bool checks_settingssentences_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   return true;
 #else
   return roles::access_control (webserver_request, roles::manager);

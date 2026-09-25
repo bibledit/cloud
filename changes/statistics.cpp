@@ -44,7 +44,7 @@ bool changes_statistics_acl (Webserver_Request& webserver_request)
 
 std::string changes_statistics ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   return std::string();
 #endif
 

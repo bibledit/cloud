@@ -150,10 +150,10 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
   // It is not one resource, but made out of two resources.
   // It fetches data from two resources and combines that into one.
   if (is_comparative) {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     return resource_logic_cloud_get_comparison (webserver_request, resource, book, chapter, verse, add_verse_numbers);
 #endif
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     return resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
   }
@@ -163,10 +163,10 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
   // It consists of any of the other types of resources, as the base resource.
   // It gets that data, and then has that translated.
   if (is_translated) {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     return resource_logic_cloud_get_translation (webserver_request, resource, book, chapter, verse, add_verse_numbers);
 #endif
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     return resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
   }
@@ -267,7 +267,7 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
   std::vector <std::string> local_usfms {database::usfm_resources::get_resources ()};
   bool isLocalUsfm = filter::string::in_array (resource, local_usfms);
   std::vector <std::string> remote_usfms {};
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   remote_usfms = client_logic_usfm_resources_get ();
 #endif
   bool isRemoteUsfm = filter::string::in_array (resource, remote_usfms);
@@ -292,7 +292,7 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
   } else if (isRemoteUsfm) {
     data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
   } else if (isExternal) {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     // A client fetches it from the cache or from the Cloud.
     data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #else
@@ -673,7 +673,7 @@ std::string resource_logic_get_divider (std::string resource)
 // It fetches existing content from the cache, and caches new content.
 std::string resource_logic_web_or_cache_get (std::string url, std::string& error)
 {
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
   // On the Cloud, check if the URL is in the cache.
   if (database::cache::file::exists (url)) {
     return database::cache::file::get (url);
@@ -684,7 +684,7 @@ std::string resource_logic_web_or_cache_get (std::string url, std::string& error
   error.clear ();
   std::string html = filter_url_http_get (url, error, false);
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   // In the Cloud, cache the response based on certain criteria.
   const bool cache = database::cache::can_cache (error, html);
   if (cache) {
@@ -1109,7 +1109,7 @@ struct bible_gateway_walker: pugi::xml_tree_walker
 std::string resource_logic_bible_gateway_get (std::string resource, int book, int chapter, int verse)
 {
   std::string result {};
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   // Convert the resource name to a resource abbreviation for biblegateway.com.
   size_t pos = resource.find_last_of ("(");
   if (pos != std::string::npos) {
@@ -1188,7 +1188,7 @@ std::string resource_logic_bible_gateway_get (std::string resource, int book, in
   result = filter::string::collapse_whitespace (result);
   result = filter::string::trim (result);
 #endif
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
   return result;
@@ -1268,7 +1268,7 @@ std::string resource_logic_study_light_get (std::string resource, int book, int 
 {
   std::string result {};
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   // Transform the full name to the abbreviation for the website, e.g.:
   // "Adam Clarke Commentary (acc)" becomes "acc".
   size_t pos = resource.find_last_of ("(");
@@ -1341,7 +1341,7 @@ std::string resource_logic_study_light_get (std::string resource, int book, int 
   }
 #endif
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
 
@@ -1503,13 +1503,13 @@ std::string resource_logic_easy_english_bible_get (int book, int chapter, int ve
 {
   // First handle the easier part:
   // The client will fetch the data from the Cloud.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   std::string resource = resource_logic_easy_english_bible_name ();
   return resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
 
   // Now handle the Cloud part: Fetch and parse the text.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
   // The combined text result taken from the commentary.
   std::string result {};
@@ -1873,7 +1873,7 @@ bool resource_logic_is_bible (std::string resource)
 bool resource_logic_is_usfm (std::string resource)
 {
   std::vector <std::string> names {};
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   names = client_logic_usfm_resources_get ();
 #else
   names = database::usfm_resources::get_resources ();

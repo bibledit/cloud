@@ -36,7 +36,7 @@ std::string sendreceive_tag ()
 
 void sendreceive_sendreceive ([[maybe_unused]] std::string bible)
 {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   // Check on Bible.
   if (bible.empty ()) {
     database::logs::log<roles::translator> (sendreceive_tag(), "No Bible to send and receive");

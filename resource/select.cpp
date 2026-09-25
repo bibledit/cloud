@@ -73,7 +73,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   
 
   std::string disconnected_info {};
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   if (!client_logic_client_enabled ()) {
     disconnected_info = translate ("Connect to Bibledit Cloud to have access to the full range of available resources.");
   }
@@ -109,7 +109,7 @@ std::string resource_select (Webserver_Request& webserver_request)
 
   {
     std::vector<std::string> usfm_resources;
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     // Client takes resources available from the Cloud.
     usfm_resources = client_logic_usfm_resources_get ();
 #else
@@ -235,7 +235,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   {
     std::vector <std::string> resources;
     std::vector<std::string> raw_resources =
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     database::config::general::get_comparative_resources ();
 #else
     resource_logic_comparative_resources_get_list_on_client ();
@@ -265,7 +265,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   {
     std::vector <std::string> resources;
     std::vector<std::string> raw_resources =
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     database::config::general::get_translated_resources ();
 #else
     resource_logic_translated_resources_get_list_on_client ();
@@ -296,7 +296,7 @@ std::string resource_select (Webserver_Request& webserver_request)
 
   // If Google Translate has not yet been set up, then enable a bit of information about that.
   // Do this only in the Cloud.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   auto [ json_key, json_error ] = filter::google::get_json_key_value_error ();
   if (json_key.empty()) view.enable_zone("setup_translated");
 #endif

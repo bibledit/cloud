@@ -504,7 +504,7 @@ void bootstrap_index(Webserver_Request& webserver_request)
         return;
     }
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     if (extension == "tar")
     {
         http_stream_file(webserver_request, false);
@@ -574,7 +574,7 @@ void bootstrap_index(Webserver_Request& webserver_request)
     }
 #endif
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     // For security reasons, this is only available in a client configuration.
     if (url == assets_external_url())
     {

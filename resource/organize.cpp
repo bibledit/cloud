@@ -251,12 +251,12 @@ std::string resource_organize (Webserver_Request& webserver_request)
   }
 
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   view.enable_zone ("client");
 #endif
 
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   view.enable_zone ("cloud");
 #endif
 

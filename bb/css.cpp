@@ -58,7 +58,7 @@ std::string bible_css(Webserver_Request& webserver_request)
     if (webserver_request.post_count("submit"))
     {
         const std::string font = filter::string::trim(webserver_request.post_get("font"));
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
         // Bibledit client storage.
         database::config::bible::set_text_font_client(bible, font);
 #else
@@ -86,7 +86,7 @@ std::string bible_css(Webserver_Request& webserver_request)
         page += assets_page::success("The information was saved.");
     }
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     view.enable_zone("client");
 #endif
 

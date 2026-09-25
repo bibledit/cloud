@@ -86,7 +86,7 @@ void setup_conditionally (const char * package)
       database::logs::log (message);
     }
     
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
     // Cloud updates the available SWORD modules and web resources.
     tasks::tasks_logic_queue (tasks::enums::task::refresh_sword_modules);
     tasks::tasks_logic_queue (tasks::enums::task::refresh_web_resources);
@@ -99,7 +99,7 @@ void setup_conditionally (const char * package)
   if (config::logic::version () != database::config::general::get_installed_interface_version ()) {
     
     // In client mode or in demo mode do not display the page for entering the admin's details.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     setup_complete_gui ();
 #endif
     if (config::logic::demo_enabled ()) setup_complete_gui ();
@@ -126,7 +126,7 @@ void setup_conditionally (const char * package)
   // Once the tasks are really complete, they will clear the flag.
   tasks::tasks_logic_queue (tasks::enums::task::reindex_bibles);
   tasks::tasks_logic_queue (tasks::enums::task::reindex_notes);
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   // Same for the resource downloader, for the client.
   tasks::tasks_logic_queue (tasks::enums::task::sync_resources);
 #endif
@@ -209,14 +209,14 @@ void setup_initialize_data ()
   config_globals_setup_message = "checks";
   database::check::create ();
   setup_generate_locale_databases (false);
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   config_globals_setup_message = "confirmations";
   database::confirm::create ();
   database::confirm::upgrade();
 #endif
   config_globals_setup_message = "jobs";
   database_jobs::create ();
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   config_globals_setup_message = "sprint";
   Database_Sprint database_sprint;
   database_sprint.create ();
@@ -248,7 +248,7 @@ void setup_initialize_data ()
   DatabasePrivileges::create ();
   DatabasePrivileges::upgrade ();
   DatabasePrivileges::optimize ();
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   config_globals_setup_message = "git";
   database::git::create ();
   config_globals_setup_message = "statistics";

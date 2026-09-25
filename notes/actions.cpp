@@ -179,7 +179,7 @@ std::string notes_actions (Webserver_Request& webserver_request)
   else view.enable_zone ("mark");
   
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   view.enable_zone ("cloud");
   view.set_variable ("public", filter::string::get_checkbox_status (database_notes.get_public (id)));
 #endif

@@ -329,11 +329,11 @@ void http_server()
     // Create a listening socket.
     // This represents an endpoint.
     // This prepares to accept incoming connections on.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     // A client listens on IPv4, see also below.
     const int listen_fd = socket(AF_INET, SOCK_STREAM, 0);
 #endif
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     // The Cloud listens on address family AF_INET6 for both IPv4 and IPv6.
     const int listen_fd = socket(AF_INET6, SOCK_STREAM, 0);
 #endif
@@ -360,7 +360,7 @@ void http_server()
     }
 
     // The listening socket will be an endpoint for all requests to a port on this host.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     // When configured as a client, it listens on the IPv4 loopback device.
     // It has been seen on Ubuntu 16.04 that a Bibledit Client would not listen on a IPv6 loopback device.
     struct sockaddr_in server_addr;
@@ -369,7 +369,7 @@ void http_server()
     server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     server_addr.sin_port = htons(filter::string::convert_to_int (config::logic::http_network_port ()));
 #endif
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     // When configured as a server it listens on any IPv6 address.
     sockaddr_in6 server_addr = {};
     server_addr.sin6_flowinfo = 0;

@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <setup/index.h>
 #include <setup/logic.h>
 #include <library/locks.h>
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
 #else
 #include <curl/curl.h>
 #endif
@@ -66,7 +66,7 @@ const char* bibledit_get_network_port()
     if (!config_globals_negotiated_port_number.empty()) return config_globals_negotiated_port_number.c_str();
 
     // On a client device, negotiate a local port number.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     std::vector<int> ports = {9876, 9987, 9998};
     for (auto port : ports)
     {
@@ -95,7 +95,7 @@ void bibledit_initialize_library(const char* package, const char* webroot)
     // Must initialize libcurl before any threads are started.
     // Only on the Cloud because it uses libcurl.
     // The client does not use it.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     curl_global_init(CURL_GLOBAL_ALL);
 #endif
 
@@ -122,12 +122,12 @@ void bibledit_initialize_library(const char* package, const char* webroot)
     std::thread ssl_tls = std::thread(filter_url_ssl_tls_initialize);
     ssl_tls.detach();
 
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
     // Cloud initializes OpenLDAP server access settings (after webroot has been set).
     ldap_logic_initialize();
 #endif
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     // Set local timezone offset in the library on Windows.
     int hours{0};
 #ifdef HAVE_WINDOWS
@@ -190,7 +190,7 @@ void bibledit_start_library()
     bibledit_started = true;
 
     // Setup server behaviour.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     config_globals_client_prepared = true;
 #else
     config_globals_client_prepared = false;
@@ -200,7 +200,7 @@ void bibledit_start_library()
         config_globals_open_installation = true;
     }
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     // Indicate that the Cloud has started just now.
     database::config::general::set_just_started(true);
 #endif

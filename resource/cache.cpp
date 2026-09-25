@@ -75,7 +75,7 @@ std::string resource_cache (Webserver_Request& webserver_request)
   }
   
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   if (!client_logic_client_enabled ()) {
     view.enable_zone ("clientdisconnected");
   }

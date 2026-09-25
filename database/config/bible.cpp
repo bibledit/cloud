@@ -183,7 +183,7 @@ constexpr auto double_spaces_usfm_key{"double-spaces-usfm"};
 bool get_check_double_spaces_usfm(const std::string& bible)
 {
     // Check is on by default in the Cloud, and off on a client.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     constexpr auto standard = "";
 #else
     constexpr auto standard = "true";
@@ -293,7 +293,7 @@ constexpr auto check_well_formed_usfm_key{"check-well-formed-usfm"};
 bool get_check_well_formed_usfm(const std::string& bible)
 {
     // Check is on by default in the Cloud, and off on a client.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     constexpr auto standard = "";
 #else
     constexpr auto standard = "true";

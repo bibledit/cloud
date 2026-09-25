@@ -1413,7 +1413,7 @@ static std::string substitute_xml_entities_into_attributes(const char quote, con
 }
 
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 static std::string handle_unknown_tag(GumboStringPiece *text)
 {
   std::string tagname {};
@@ -1430,7 +1430,7 @@ static std::string handle_unknown_tag(GumboStringPiece *text)
 #endif
 
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 static std::string get_tag_name(GumboNode *node)
 {
   std::string tagname {};
@@ -1448,7 +1448,7 @@ static std::string get_tag_name(GumboNode *node)
 #endif
 
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 static std::string build_doctype(GumboNode *node)
 {
   std::string results {};
@@ -1470,7 +1470,7 @@ static std::string build_doctype(GumboNode *node)
 #endif
 
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 static std::string build_attributes(GumboAttribute * at, bool no_entities)
 {
   std::string atts {};
@@ -1508,13 +1508,13 @@ static std::string build_attributes(GumboAttribute * at, bool no_entities)
 
 
 // Forward declaration
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 static std::string pretty_print (GumboNode*, int lvl, const std::string& indent_chars);
 #endif
 
 
 // Pretty-print children of a node. May be invoked recursively.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 static std::string pretty_print_contents (GumboNode* node, int lvl, const std::string& indent_chars)
 {
   std::string contents {};
@@ -1588,7 +1588,7 @@ static std::string pretty_print_contents (GumboNode* node, int lvl, const std::s
 
 
 // Pretty-print a GumboNode back to html/xhtml. May be invoked recursively
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 static std::string pretty_print(GumboNode* node, int lvl, const std::string& indent_chars)
 {
   // Special case: The document node.
@@ -1683,7 +1683,7 @@ std::string fix_invalid_html_gumbo (std::string html)
     if (!replaced) break;
   }
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   
   // https://github.com/google/gumbo-parser
   GumboOptions options {kGumboDefaultOptions};

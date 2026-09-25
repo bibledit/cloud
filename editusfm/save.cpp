@@ -172,7 +172,7 @@ std::string editusfm_save (Webserver_Request& webserver_request)
   if (!message.empty())
     return message;
 
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
   // Server configuration: Store details for the user's changes.
   const int new_id = database::bibles::get_chapter_id (bible, book, chapter);
   database::modifications::recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);

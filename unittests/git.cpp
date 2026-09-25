@@ -43,7 +43,7 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_reques
                             [[maybe_unused]] std::string psalms_11_data,
                             [[maybe_unused]] std::string song_of_solomon_2_data)
 {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
   refresh_sandbox (true);
   
@@ -90,7 +90,7 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_reques
 
 TEST (git, basic)
 {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   
   std::string bible = "localrepo";
   std::string newbible = "newlocalrepo";
@@ -883,7 +883,7 @@ TEST (git, basic)
 
 TEST (database, git)
 {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
   refresh_sandbox (false);
   

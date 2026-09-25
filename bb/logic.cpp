@@ -53,7 +53,7 @@ void bible_logic::store_chapter(const std::string& bible, const int book, const 
     // Record data of the chapter to be stored prior to storing the new version.
     // Both client and cloud follow this order.
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
 
     // Client stores Bible action.
     const std::string oldusfm = database::bibles::get_chapter(bible, book, chapter);
@@ -64,7 +64,7 @@ void bible_logic::store_chapter(const std::string& bible, const int book, const 
 
 #endif
 
-#ifdef HAVE_CLOUD  // Todo
+#ifdef HAVE_CLOUD // Todo  // Todo
 
     // Server stores diff data.
     database::modifications::storeTeamDiff(bible, book, chapter);
@@ -80,7 +80,7 @@ void bible_logic::delete_chapter(const std::string& bible, const int book, const
 {
     // Cloud and client record data of the chapter to be deleted prior to deletion.
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
 
     // Client stores Bible action.
     const std::string usfm = database::bibles::get_chapter(bible, book, chapter);
@@ -91,7 +91,7 @@ void bible_logic::delete_chapter(const std::string& bible, const int book, const
 
 #endif
 
-#ifdef HAVE_CLOUD  // Todo
+#ifdef HAVE_CLOUD // Todo  // Todo
 
     // Server stores diff data.
     database::modifications::storeTeamDiff(bible, book, chapter);
@@ -107,7 +107,7 @@ void bible_logic::delete_book(const std::string& bible, const int book)
 {
     // Both client and cloud record data of the book to be deleted prior to deletion.
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
 
     // Client stores Bible actions.
     const std::vector<int> chapters = database::bibles::get_chapters(bible, book);
@@ -138,7 +138,7 @@ void bible_logic::delete_bible(const std::string& bible)
 {
     // The client and the cloud record data of the Bible to be deleted prior to deletion.
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
 
     // Client stores Bible actions.
     const std::vector<int> books = database::bibles::get_books(bible);
@@ -257,7 +257,7 @@ void bible_logic::log_change(const std::string& bible,
                              const std::string& summary,
                              [[maybe_unused]] bool force)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     if (!force) return;
 #endif
 
@@ -376,7 +376,7 @@ std::string bible_logic::unsent_unreceived_data_warning()
 {
     std::string warning{};
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
 
     // Time-stamp for oldest unreceived Bible data.
     int data_time = database::config::general::get_unreceived_bible_data_time();

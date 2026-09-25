@@ -105,7 +105,7 @@ std::string resource_sword (Webserver_Request& webserver_request)
   view.set_variable ("moduleblock", moduleblock);
 
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   view.enable_zone ("client");
 #else
   view.enable_zone ("server");

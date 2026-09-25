@@ -38,7 +38,7 @@ bool read ([[maybe_unused]] Webserver_Request& webserver_request,
     [[maybe_unused]] std::string user)
 {
   // Client: User has access to all Bibles.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   return true;
 #endif
 
@@ -85,7 +85,7 @@ bool read ([[maybe_unused]] Webserver_Request& webserver_request,
 // Returns true if the user has write access to the $bible.
 bool write (Webserver_Request& webserver_request, const std::string& bible, std::string user)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   // Client: When not yet connected to the Cloud, the user has access to all Bibles.
   // When connected to the Cloud, this no longer applies,
   // since the client now receives the privileges from the Cloud.
@@ -139,7 +139,7 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
 // then the user is considered not to have write access to the entire $bible.
 bool book_write (Webserver_Request& webserver_request, std::string user, const std::string& bible, const int book)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   // Client: When not yet connected to the Cloud, the user has access to the book.
   // When connected to the Cloud, this no longer applies,
   // since the client now receives the privileges from the Cloud.

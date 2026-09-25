@@ -147,7 +147,7 @@ std::string resource_translated9edit (Webserver_Request& webserver_request)
   
   // If Google Translate has not yet been set up, then enable a bit of information about that.
   // Do this only in the Cloud.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   auto [ json_key, json_error ] = filter::google::get_json_key_value_error ();
   if (json_key.empty()) view.enable_zone("setup_translated");
 #endif

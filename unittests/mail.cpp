@@ -117,7 +117,7 @@ TEST(database, mail)
 
 TEST(filter, mail)
 {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
     const std::string datafolder = filter_url_create_root_path({"unittests", "tests", "emails"});
 

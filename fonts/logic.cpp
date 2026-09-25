@@ -88,7 +88,7 @@ void erase (const std::string& font)
 std::string get_text_font (const std::string& bible)
 {
   std::string font = database::config::bible::get_text_font (bible);
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   const std::string client_font = database::config::bible::get_text_font_client (bible);
   if (!client_font.empty ()) {
     font = client_font;

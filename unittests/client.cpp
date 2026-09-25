@@ -42,7 +42,7 @@ TEST (client, basic)
     // When a client is disabled in config.h, it remains disabled, no matter the setting in the database.
     // It means that this unit test depends on client mode to be off in ./configure.
     enabled = client_logic_client_enabled ();
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
     EXPECT_EQ (false, enabled);
 #endif
     client_logic_enable_client (false);

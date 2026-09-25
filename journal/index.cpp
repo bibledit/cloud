@@ -42,11 +42,11 @@ const char * journal_index_url ()
 bool journal_index_acl ([[maybe_unused]]Webserver_Request& webserver_request)
 {
   // In Client mode, anyone can view the journal.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   return true;
 #endif
   // In the Cloud, the role of Consultant or higher can view the journal.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   if (roles::access_control (webserver_request, roles::consultant)) {
     return true;
   }
@@ -70,7 +70,7 @@ std::string render_journal_entry (std::string filename, [[maybe_unused]] int use
   [[maybe_unused]] int entryLevel = filter::string::convert_to_int (entry);
   // Cloud: Only render journal entries of a sufficiently high level.
   // Client: Render journal entries of any level.
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
   if (entryLevel > userlevel) return std::string();
 #endif
   // Remove the user's level.

@@ -47,7 +47,7 @@ std::string checks_settings_url ()
 
 bool checks_settings_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   return true;
 #else
   return roles::access_control (webserver_request, roles::manager);
@@ -193,7 +193,7 @@ std::string checks_settings (Webserver_Request& webserver_request)
   view.set_variable ("validutf8", filter::string::get_checkbox_status (database::config::bible::get_check_valid_utf8_text (bible)));
 
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   view.enable_zone ("client");
 #else
   view.enable_zone ("cloud");

@@ -70,7 +70,7 @@ void send ()
     std::string subject = details.subject;
     std::string body = details.body;
     
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     
     // On a client, set the email to the username before sending the email to the Cloud for further distribution.
     email = username;
@@ -116,7 +116,7 @@ void send ()
 #ifdef HAVE_CLOUD // Todo
       result.append ("sent successfully");
 #endif
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
       result.append ("queued for sending through the Cloud");
 #endif
       database::logs::log<roles::manager> (result);
@@ -151,7 +151,7 @@ struct upload_status {
 };
 
 
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
 #else
 static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 {
@@ -195,7 +195,7 @@ std::string send ([[maybe_unused]] std::string to_mail,
   if (subject.empty ())
     subject = translate ("Bibledit");
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   
   if (!client_logic_client_enabled ())
     return std::string();
@@ -396,7 +396,7 @@ void schedule (std::string to, std::string subject, std::string body, int time)
 // If everything's OK, it returns nothing.
 std::string setup_information (bool require_send, bool require_receive)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   (void) require_send;
   (void) require_receive;
 #endif

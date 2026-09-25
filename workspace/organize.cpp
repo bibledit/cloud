@@ -165,7 +165,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
     add_operation("settings?name=" + workspace, translate("Edit workspace"), " ✎ ");
     add_text(" | ");
     add_operation("?copy=" + workspace, translate("Copy workspace"), " ⎘ ");
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
     // In the Cloud, one can send the workspace configuration to other users.
     // On a client, sending a workspace to other users does not work.
     add_text(" | ");
@@ -179,7 +179,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
   view.set_variable ("workspaceblock", workspaceblock.str());
 
   
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
     view.enable_zone ("cloud");
 #endif
 

@@ -424,7 +424,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
   view.set_variable ("password", database::config::bible::get_export_password (bible));
  
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   view.enable_zone ("client");
   view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_exports_url (), translate ("Go to Bibledit Cloud to submit the Bible there.")));
 #else

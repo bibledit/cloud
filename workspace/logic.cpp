@@ -507,7 +507,7 @@ void workspace_cache_for_cloud([[maybe_unused]] Webserver_Request& webserver_req
                                [[maybe_unused]] bool widths,
                                [[maybe_unused]] bool heights)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     // For a client, store the setting for sending to the server.
     if (urls)
         webserver_request.database_config_user()->add_updated_setting(Sync_Logic::settings_send_workspace_urls);

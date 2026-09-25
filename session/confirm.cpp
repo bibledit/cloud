@@ -61,7 +61,7 @@ bool session_confirm_acl (Webserver_Request& webserver_request)
 
 std::string session_confirm ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
   std::string email;
   const bool is_valid_confirmation = confirm::worker::handle_link (webserver_request, email);

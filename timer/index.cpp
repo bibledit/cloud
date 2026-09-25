@@ -49,7 +49,7 @@ void timer_index()
     int previous_minute{-1};
     [[maybe_unused]] int google_translate_authentication_token_age_minute{0};
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     // Right after startup, update the Google Translate access token.
     tasks::tasks_logic_queue(tasks::enums::task::get_google_access_token);
 #endif
@@ -70,7 +70,7 @@ void timer_index()
             const int second = filter::date::get_second_within_minute(local_seconds);
             const int minute = filter::date::get_minute_within_hour(local_seconds);
             const int hour = filter::date::get_hour_within_day(local_seconds);
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             const int weekday = filter::date::get_day_within_week(local_seconds);
 #endif
 
@@ -92,7 +92,7 @@ void timer_index()
             // This keeps resource leaks in check when Bibledit Cloud runs for months or years.
             // If the binary quits, the shell script or systemd service restarts the binary.
             // Without the flag "get_just_started", it would restart repeatedly as long as it is minute 1.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             if (hour == 0 and minute == 1 and not database::config::general::get_just_started())
                 tasks::tasks_logic_controlled_cloud_quit();
             if (minute == 2)
@@ -104,7 +104,7 @@ void timer_index()
             if (!tasks::tasks_logic_queued(tasks::enums::task::send_email))
                 tasks::tasks_logic_queue(tasks::enums::task::send_email);
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             // Check for new mail every five minutes.
             // Do not check more often with Gmail else the account may be shut down.
             if (minute % 5 == 0)
@@ -131,7 +131,7 @@ void timer_index()
                 sendreceive_queue_all(send_receive);
             }
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             // Deal with the changes in the Bible made per user.
             // Deal with notifications for the daily changes in the Bibles.
             // This takes a few minutes on a production machine with two Bibles and changes in several chapters.
@@ -142,7 +142,7 @@ void timer_index()
             }
 #endif
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             // Run the checks on the Bibles.
             // This takes 15 minutes on a production machine with two Bibles.
             if (hour == 0 and minute == 30)
@@ -158,7 +158,7 @@ void timer_index()
                 tasks::tasks_logic_queue(tasks::enums::task::maintain_database);
             }
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             // File cache trimming.
             // https://github.com/bibledit/cloud/issues/364
             // This used to be done once a day, and the trimming left files for multiple days.
@@ -172,7 +172,7 @@ void timer_index()
 
 #endif
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             // Export the Bibles to the various output formats.
             // This may take an hour on a production machine.
             // This hour was in PHP. In C++ it is much faster.
@@ -208,7 +208,7 @@ void timer_index()
                 }
             }
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             // Email notes statistics to the users.
             if (hour == 3 and minute == 0)
             {
@@ -217,7 +217,7 @@ void timer_index()
 #endif
 
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             // Update SWORD modules and other web resources once a week.
             if (weekday == 1)
             {
@@ -235,7 +235,7 @@ void timer_index()
             }
 #endif
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             // The Cloud updates the list of USFM resources once a week.
             if (weekday == 1)
             {
@@ -246,7 +246,7 @@ void timer_index()
             }
 #endif
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
             // Keep the Google Translate access token current.
             // From experiments, it appears that the token is valid for one hour.
             // So before the hour has expired, renew the token again.

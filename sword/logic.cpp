@@ -369,7 +369,7 @@ std::vector <std::string> sword_logic_get_installed ()
 
 std::string sword_logic_get_text (const std::string& source, const std::string& module, const int book, const int chapter, const int verse)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
 
   // The resource name consists of source and module, e.g. [CrossWire][NET].
   std::string resource = sword_logic_get_resource_name (source, module);
@@ -589,7 +589,7 @@ void sword_logic_update_installed_modules ()
 // Trims the installed SWORD modules.
 void sword_logic_trim_modules ()
 {
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
   database::logs::log ("Trimming the installed SWORD modules");
   const std::vector <std::string> modules = sword_logic_get_installed ();
   for (auto module : modules) {

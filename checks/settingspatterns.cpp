@@ -38,7 +38,7 @@ std::string checks_settingspatterns_url ()
 
 bool checks_settingspatterns_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   return true;
 #else
   return roles::access_control (webserver_request, roles::manager);

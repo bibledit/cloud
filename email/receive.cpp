@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <database/logs.h>
 #include <email/receive.h>
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
 #include <curl/curl.h>
 #endif
 #include <config/globals.h>
@@ -130,7 +130,7 @@ std::string url ()
 // Returns how many emails are waiting in the mail storage host's POP3 email inbox.
 int receive_count (std::string& error, bool verbose)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   error = "Not implemented with embedded http library";
   if (verbose) {}
   return 0;
@@ -193,7 +193,7 @@ int receive_count (std::string& error, bool verbose)
 
 std::string receive_message (std::string& error)
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   error = "Not implemented with embedded http library";
   return std::string();
 #endif

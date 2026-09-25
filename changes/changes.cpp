@@ -81,7 +81,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
     const int remove = filter::string::convert_to_int (webserver_request.post_get("remove"));
     trash_change_notification (webserver_request, remove);
     database::modifications::deleteNotification (remove);
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     webserver_request.database_config_user ()->add_removed_change (remove);
 #endif
     webserver_request.database_config_user ()->set_change_notifications_checksum ("");
@@ -139,7 +139,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   if (const std::string matching = webserver_request.query ["matching"];
       !matching.empty ()) {
     const std::vector<int> ids = database::modifications::clearNotificationMatches(username, matching, changes_bible_category(), selectedbible);
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     // Client records deletions for sending to the Cloud.
     for (const auto id : ids) {
       webserver_request.database_config_user()->add_removed_change(id);
@@ -156,7 +156,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
     for (const auto id : ids) {
       trash_change_notification(webserver_request, id);
       database::modifications::deleteNotification(id);
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
       webserver_request.database_config_user()->add_removed_change(id);
 #endif
       webserver_request.database_config_user()->set_change_notifications_checksum("");
@@ -170,7 +170,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
     for (const auto id : ids) {
       trash_change_notification (webserver_request, id);
       database::modifications::deleteNotification (id);
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
       webserver_request.database_config_user ()->add_removed_change (id);
 #endif
       webserver_request.database_config_user ()->set_change_notifications_checksum ("");
@@ -185,7 +185,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
     for (auto id : ids) {
       trash_change_notification (webserver_request, id);
       database::modifications::deleteNotification (id);
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
       webserver_request.database_config_user ()->add_removed_change (id);
 #endif
       webserver_request.database_config_user ()->set_change_notifications_checksum ("");

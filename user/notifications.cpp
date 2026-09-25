@@ -233,7 +233,7 @@ std::string user_notifications (Webserver_Request& webserver_request)
   }
   view.set_variable ("sprintprogressnotification", filter::string::get_checkbox_status (database_config_user.get_sprint_progress_notification ()));
   
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   view.enable_zone ("client");
 #else
   view.enable_zone ("server");

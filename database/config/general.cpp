@@ -308,7 +308,7 @@ std::string get_site_url()
     // The site URL is set upon login, normally.
     // In a client setup, there is never a login.
     // Consequently, the site URL is never set.
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
     // In case of a client, return a predefined URL.
     std::string url = "http://localhost:";
     url.append(::config::logic::http_network_port());

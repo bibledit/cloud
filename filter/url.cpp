@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/books.h>
 #include <database/logs.h>
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 #include <curl/curl.h>
 #endif
 #pragma GCC diagnostic push
@@ -1040,7 +1040,7 @@ std::string filter_url_http_get(std::string url, std::string& error, [[maybe_unu
     if constexpr (config::logic::platform() != config::logic::Platform::cloud)
         response = filter_url_http_request_mbed(url, error, {}, "", check_certificate);
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     if (CURL* curl = curl_easy_init())
     {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -1133,7 +1133,7 @@ static void filter_url_curl_debug_dump(const char* text, FILE* stream, unsigned 
 
 
 // The trace function for libcurl.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 [[maybe_unused]]
 static int filter_url_curl_trace(CURL* handle, curl_infotype type, char* data, size_t size, void* userp)
 {
@@ -1193,7 +1193,7 @@ std::string filter_url_http_post(const std::string& url, [[maybe_unused]] std::s
     if constexpr (config::logic::platform() != config::logic::Platform::cloud)
         response = filter_url_http_request_mbed(url, error, post_values, "", check_certificate);
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     // Get a curl handle.
     if (CURL* curl = curl_easy_init())
     {
@@ -1375,7 +1375,7 @@ void filter_url_download_file(std::string url, std::string filename, std::string
     if constexpr (config::logic::platform() != config::logic::Platform::cloud)
         filter_url_http_request_mbed(url, error, {}, filename, check_certificate);
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     if (CURL* curl = curl_easy_init())
     {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -1448,7 +1448,7 @@ std::string filter_url_html_file_name_bible(const std::string& path, int book, i
 
 
 // Callback function for logging cURL debug information.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 int filter_url_curl_debug_callback(void* curl_handle, int curl_info_type, char* data, size_t size, void* userptr)
 {
     if (curl_handle && userptr)
@@ -1472,7 +1472,7 @@ int filter_url_curl_debug_callback(void* curl_handle, int curl_info_type, char* 
 // burst: When true, the server gives a burst response, that is, all data arrives at once after a delay.
 //        When false, the data is supposed to be downloaded gradually.
 // Without these timeouts, the Bibledit client will hang on stalled sync operations.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 void filter_url_curl_set_timeout(void* curl_handle, bool burst)
 {
     CURL* handle = curl_handle;

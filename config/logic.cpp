@@ -159,7 +159,7 @@ std::string site_url (const Webserver_Request& webserver_request)
 // This returns the filtered value of file userfacingurl.conf.
 std::string manual_user_facing_url ()
 {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
   return std::string();
 #else
   // Read the configuration file.

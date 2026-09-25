@@ -132,11 +132,11 @@ void checks_run (std::string bible)
         std::string old_usfm (chapterUsfm);
         const bool transposed = checks::space::transpose_note_space (chapterUsfm);
         if (transposed) {
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
           const int oldID = database::bibles::get_chapter_id (bible, book, chapter);
 #endif
           database::bibles::store_chapter(bible, book, chapter, chapterUsfm);
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
           const int newID = database::bibles::get_chapter_id (bible, book, chapter);
           const std::string username = "Bibledit";
           database::modifications::recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, chapterUsfm);

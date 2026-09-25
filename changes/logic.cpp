@@ -67,7 +67,7 @@ std::string changes_interlinks (Webserver_Request& webserver_request, std::strin
 
   }
   
-#ifndef HAVE_CLIENT
+#ifndef HAVE_CLIENT // Todo
 
   if (changes_statistics_url () != my_url) {
     if (changes_statistics_acl (webserver_request)) {

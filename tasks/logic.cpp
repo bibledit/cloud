@@ -413,42 +413,42 @@ static void tasks_logic_run_one(database::tasks::Task task)
         }
     case enums::task::produce_bibles_transferfile:
         {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
             system_logic_produce_bibles_file(filter::string::convert_to_int(parameter1));
 #endif
             break;
         }
     case enums::task::import_bibles_transferfile:
         {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
             system_logic_import_bibles_file(parameter1);
 #endif
             break;
         }
     case enums::task::produce_notes_transferfile:
         {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
             system_logic_produce_notes_file(filter::string::convert_to_int(parameter1));
 #endif
             break;
         }
     case enums::task::import_notes_transferfile:
         {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
             system_logic_import_notes_file(parameter1);
 #endif
             break;
         }
     case enums::task::produce_resources_transferfile:
         {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
             system_logic_produce_resources_file(filter::string::convert_to_int(parameter1));
 #endif
             break;
         }
     case enums::task::import_resources_transferfile:
         {
-#ifdef HAVE_CLIENT
+#ifdef HAVE_CLIENT // Todo
             system_logic_import_resources_file(parameter1);
 #endif
             break;

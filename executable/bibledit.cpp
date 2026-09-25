@@ -215,9 +215,8 @@ int main()
 
 
     // In Cloud configuration, check the existence of all command line tools that may be needed.
-#ifdef HAVE_CLOUD
-    filter::shell::check_existence_executables();
-#endif
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        filter::shell::check_existence_executables();
 
 
     // Keep running till Bibledit stops or gets interrupted.

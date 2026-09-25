@@ -196,19 +196,17 @@ TEST_F (filter_url, dirname_basename)
 
 TEST_F (filter_url, get_post)
 {
-  // Test http GET and POST
-  std::string result, error;
-  result = filter_url_http_get ("http://localhost/none", error, false);
-#ifdef HAVE_CLOUD
-  EXPECT_EQ ("Could not connect to server", error);
-#endif
-  EXPECT_EQ (std::string(), result);
-  const std::map <std::string, std::string> values = {std::pair ("a", "value1"), std::pair ("b", "value2")};
-  result = filter_url_http_post ("http://localhost/none", std::string(), values, error, false, false, {});
-#ifdef HAVE_CLOUD
-  EXPECT_EQ ("Could not connect to server", error);
-#endif
-  EXPECT_EQ (std::string(), result);
+    // Test http GET and POST
+    std::string result, error;
+    result = filter_url_http_get("http://localhost/none", error, false);
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        EXPECT_EQ("Could not connect to server", error);
+    EXPECT_EQ(std::string(), result);
+    const std::map<std::string, std::string> values = {std::pair("a", "value1"), std::pair("b", "value2")};
+    result = filter_url_http_post("http://localhost/none", std::string(), values, error, false, false, {});
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        EXPECT_EQ("Could not connect to server", error);
+    EXPECT_EQ(std::string(), result);
 }
 
 

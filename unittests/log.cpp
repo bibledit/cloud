@@ -30,64 +30,66 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 
 
-TEST (database, logs_1)
+TEST(database, logs_1)
 {
-  // Tests for Database_Logs.
-  {
-    refresh_sandbox (false);
-    // Log some items.
-    database::logs::log<2> ("description1");
-    database::logs::log<3> ("description2");
-    database::logs::log<4> ("description3");
-    // Rotate the items.
-    database::logs::rotate ();
-    // Get the items from the SQLite database.
-    std::string last_filename;
-    const std::vector <std::string> result = database::logs::get (last_filename);
-    EXPECT_EQ (3, result.size ());
-    refresh_sandbox (false);
-  }
+    // Tests for Database_Logs.
+    {
+        refresh_sandbox(false);
+        // Log some items.
+        database::logs::log<2>("description1");
+        database::logs::log<3>("description2");
+        database::logs::log<4>("description3");
+        // Rotate the items.
+        database::logs::rotate();
+        // Get the items from the SQLite database.
+        std::string last_filename;
+        const std::vector<std::string> result = database::logs::get(last_filename);
+        EXPECT_EQ(3, result.size ());
+        refresh_sandbox(false);
+    }
 }
 
 
-TEST (database, logs_2)
+TEST(database, logs_2)
 {
-  // Test huge journal entry.
-  refresh_sandbox (false);
-  const std::string huge (60'000, 'x');
-  database::logs::log (huge);
-  database::logs::rotate ();
-  std::string s = "0";
-  if (std::vector <std::string> result = database::logs::get (s);
-      result.size () == 1) {
-    s = result.at(0);
-    const std::string path = filter_url_create_path ({database::logs::folder (), s});
-    const std::string contents = filter_url_file_get_contents (path);
-    EXPECT_EQ (50'006, contents.find ("This entry was too large and has been truncated: 60000 bytes"));
-  } else {
-    EXPECT_EQ (1, static_cast<int>(result.size ()));
-  }
-  refresh_sandbox (true, {"This entry was too large and has been truncated"});
+    // Test huge journal entry.
+    refresh_sandbox(false);
+    const std::string huge(60'000, 'x');
+    database::logs::log(huge);
+    database::logs::rotate();
+    std::string s = "0";
+    if (std::vector<std::string> result = database::logs::get(s);
+        result.size() == 1)
+    {
+        s = result.at(0);
+        const std::string path = filter_url_create_path({database::logs::folder(), s});
+        const std::string contents = filter_url_file_get_contents(path);
+        EXPECT_EQ(50'006, contents.find ("This entry was too large and has been truncated: 60000 bytes"));
+    }
+    else
+    {
+        EXPECT_EQ(1, static_cast<int>(result.size ()));
+    }
+    refresh_sandbox(true, {"This entry was too large and has been truncated"});
 }
 
 
-TEST (database, logs_3)
+TEST(database, logs_3)
 {
-  // Test the getNext function of the Journal.
-  refresh_sandbox (false);
-  database::logs::log ("description");
-  const int second = filter::date::get_seconds_since_epoch ();
-  std::string filename = std::to_string (second) + "00000000";
-  // First time: getNext gets the logged entry.
-  std::string s = database::logs::next (filename);
-  EXPECT_NE (std::string(), s);
-  // Since variable "filename" is updated and set to the last filename,
-  // next time function getNext gets nothing.
-  s = database::logs::next (filename);
-  EXPECT_EQ (std::string(), s);
-  refresh_sandbox (false);
+    // Test the getNext function of the Journal.
+    refresh_sandbox(false);
+    database::logs::log("description");
+    const int second = filter::date::get_seconds_since_epoch();
+    std::string filename = std::to_string(second) + "00000000";
+    // First time: getNext gets the logged entry.
+    std::string s = database::logs::next(filename);
+    EXPECT_NE(std::string(), s);
+    // Since variable "filename" is updated and set to the last filename,
+    // next time function getNext gets nothing.
+    s = database::logs::next(filename);
+    EXPECT_EQ(std::string(), s);
+    refresh_sandbox(false);
 }
 
 
 #endif
-

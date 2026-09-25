@@ -34,84 +34,84 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 TEST(database, mail)
 {
-#ifdef HAVE_CLOUD
-
-    // Optimize / trim.
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
     {
-        refresh_sandbox(false);
-        database::users::create();
-        Webserver_Request webserver_request;
-        Database_Mail database_mail(webserver_request);
-        database_mail.create();
-        database_mail.optimize();
-        database_mail.trim();
+        // Optimize / trim.
+        {
+            refresh_sandbox(false);
+            database::users::create();
+            Webserver_Request webserver_request;
+            Database_Mail database_mail(webserver_request);
+            database_mail.create();
+            database_mail.optimize();
+            database_mail.trim();
+        }
+
+        // Empty.
+        {
+            refresh_sandbox(true);
+            database::users::create();
+            Webserver_Request webserver_request;
+            Database_Mail database_mail(webserver_request);
+            database_mail.create();
+            webserver_request.session_logic()->set_username("phpunit");
+
+            const int count = database_mail.getMailCount();
+            EXPECT_EQ(0, count);
+
+            const std::vector<Database_Mail_User> mails = database_mail.getMails();
+            EXPECT_EQ(0, static_cast<int>(mails.size()));
+
+            const std::vector<int> mails_to_send = database_mail.getMailsToSend();
+            EXPECT_EQ(std::vector <int>{}, mails_to_send);
+        }
+
+        // Normal cycle.
+        {
+            refresh_sandbox(true);
+            database::users::create();
+            Webserver_Request webserver_request;
+            Database_Mail database_mail(webserver_request);
+            database_mail.create();
+            webserver_request.session_logic()->set_username("phpunit");
+
+            database_mail.send("phpunit", "subject", "body");
+
+            int count = database_mail.getMailCount();
+            EXPECT_EQ(1, count);
+
+            std::vector<Database_Mail_User> mails = database_mail.getMails();
+            EXPECT_EQ("subject", mails [0].subject);
+
+            Database_Mail_Item mail = database_mail.get(1);
+            EXPECT_EQ("phpunit", mail.username);
+            EXPECT_EQ("body", mail.body);
+
+            database_mail.erase(1);
+
+            count = database_mail.getMailCount();
+            EXPECT_EQ(0, count);
+        }
+
+        // Normal postpone.
+        {
+            refresh_sandbox(true);
+            database::users::create();
+            Webserver_Request webserver_request;
+            Database_Mail database_mail(webserver_request);
+            database_mail.create();
+            webserver_request.session_logic()->set_username("phpunit");
+
+            database_mail.send("phpunit", "subject", "body");
+
+            std::vector<int> mails = database_mail.getMailsToSend();
+            EXPECT_EQ(1, static_cast <int>(mails.size ()));
+
+            database_mail.postpone(1);
+            mails = database_mail.getMailsToSend();
+            EXPECT_EQ(0, static_cast <int>(mails.size ()));
+        }
     }
-
-    // Empty.
-    {
-        refresh_sandbox(true);
-        database::users::create();
-        Webserver_Request webserver_request;
-        Database_Mail database_mail(webserver_request);
-        database_mail.create();
-        webserver_request.session_logic()->set_username("phpunit");
-
-        const int count = database_mail.getMailCount();
-        EXPECT_EQ(0, count);
-
-        const std::vector<Database_Mail_User> mails = database_mail.getMails();
-        EXPECT_EQ(0, static_cast<int>(mails.size()));
-
-        const std::vector<int> mails_to_send = database_mail.getMailsToSend();
-        EXPECT_EQ(std::vector <int>{}, mails_to_send);
-    }
-
-    // Normal cycle.
-    {
-        refresh_sandbox(true);
-        database::users::create();
-        Webserver_Request webserver_request;
-        Database_Mail database_mail(webserver_request);
-        database_mail.create();
-        webserver_request.session_logic()->set_username("phpunit");
-
-        database_mail.send("phpunit", "subject", "body");
-
-        int count = database_mail.getMailCount();
-        EXPECT_EQ(1, count);
-
-        std::vector<Database_Mail_User> mails = database_mail.getMails();
-        EXPECT_EQ("subject", mails [0].subject);
-
-        Database_Mail_Item mail = database_mail.get(1);
-        EXPECT_EQ("phpunit", mail.username);
-        EXPECT_EQ("body", mail.body);
-
-        database_mail.erase(1);
-
-        count = database_mail.getMailCount();
-        EXPECT_EQ(0, count);
-    }
-
-    // Normal postpone.
-    {
-        refresh_sandbox(true);
-        database::users::create();
-        Webserver_Request webserver_request;
-        Database_Mail database_mail(webserver_request);
-        database_mail.create();
-        webserver_request.session_logic()->set_username("phpunit");
-
-        database_mail.send("phpunit", "subject", "body");
-
-        std::vector<int> mails = database_mail.getMailsToSend();
-        EXPECT_EQ(1, static_cast <int>(mails.size ()));
-
-        database_mail.postpone(1);
-        mails = database_mail.getMailsToSend();
-        EXPECT_EQ(0, static_cast <int>(mails.size ()));
-    }
-#endif
 }
 
 

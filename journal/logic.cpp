@@ -56,12 +56,6 @@ bool journal_logic_filter_entry (const std::string& entry)
 }
 
 
-std::string journal_logic_filtered_message ()
-{
-  return translate ("Has been sending and receiving during the past hour");
-}
-
-
 std::string journal_logic_see_journal_for_progress ()
 {
   pugi::xml_document document;

@@ -31,49 +31,48 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 TEST (database, confirm)
 {
-#ifdef HAVE_CLOUD
-  
-  refresh_sandbox (false);
-  database::confirm::create ();
-  database::confirm::upgrade();
-  database::confirm::optimize ();
-  database::confirm::trim ();
-  
-  // New ID generation test.
-  unsigned int id = database::confirm::get_new_id ();
-  if (id < 10'000) EXPECT_EQ (std::string("Should be greater than 10000"), std::to_string(id));
-  
-  // Store data for the ID.
-  database::confirm::store (id, "SELECT x, y, z FROM a;", "email", "subject", "body", "username");
-  
-  // Search for this ID based on subject.
-  unsigned int id2 = database::confirm::search_id ("Subject line CID" + std::to_string (id) + " Re:");
-  EXPECT_EQ (id, id2);
-  
-  // Retrieve data for the ID.
-  std::string query = database::confirm::get_query (id);
-  EXPECT_EQ ("SELECT x, y, z FROM a;", query);
-  
-  std::string to = database::confirm::get_mail_to (id);
-  EXPECT_EQ ("email", to);
-  
-  std::string subject = database::confirm::get_subject (id);
-  EXPECT_EQ ("subject", subject);
-  
-  std::string body = database::confirm::get_body (id);
-  EXPECT_EQ ("body", body);
-  
-  std::string username = database::confirm::get_username(id);
-  EXPECT_EQ ("username", username);
-  username = database::confirm::get_username(id + 1);
-  EXPECT_EQ (std::string(), username);
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        refresh_sandbox (false);
+        database::confirm::create ();
+        database::confirm::upgrade();
+        database::confirm::optimize ();
+        database::confirm::trim ();
 
-  // Delete this ID.
-  database::confirm::erase (id);
-  query = database::confirm::get_query (id);
-  EXPECT_EQ ("", query);
+        // New ID generation test.
+        unsigned int id = database::confirm::get_new_id ();
+        if (id < 10'000) EXPECT_EQ (std::string("Should be greater than 10000"), std::to_string(id));
 
-#endif
+        // Store data for the ID.
+        database::confirm::store (id, "SELECT x, y, z FROM a;", "email", "subject", "body", "username");
+
+        // Search for this ID based on subject.
+        unsigned int id2 = database::confirm::search_id ("Subject line CID" + std::to_string (id) + " Re:");
+        EXPECT_EQ (id, id2);
+
+        // Retrieve data for the ID.
+        std::string query = database::confirm::get_query (id);
+        EXPECT_EQ ("SELECT x, y, z FROM a;", query);
+
+        std::string to = database::confirm::get_mail_to (id);
+        EXPECT_EQ ("email", to);
+
+        std::string subject = database::confirm::get_subject (id);
+        EXPECT_EQ ("subject", subject);
+
+        std::string body = database::confirm::get_body (id);
+        EXPECT_EQ ("body", body);
+
+        std::string username = database::confirm::get_username(id);
+        EXPECT_EQ ("username", username);
+        username = database::confirm::get_username(id + 1);
+        EXPECT_EQ (std::string(), username);
+
+        // Delete this ID.
+        database::confirm::erase (id);
+        query = database::confirm::get_query (id);
+        EXPECT_EQ ("", query);
+    }
 }
 
 #endif

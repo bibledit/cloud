@@ -83,20 +83,21 @@ static const char* get_executable_internal(const Executable executable)
 }
 
 
-#ifdef HAVE_CLOUD
 void check_existence_executables()
 {
-  const int start = static_cast<int>(Executable::__start__);
-  const int end = static_cast<int>(Executable::__end__);
-  for (int i {start + 1}; i < end; i++) {
-    const char* executable = get_executable_internal(static_cast<Executable>(i));
-    if (!is_present (executable)) {
-      absent_executables.insert(static_cast<Executable>(i));
-      log_absent_executable_internal(executable);
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        const int start = static_cast<int>(Executable::__start__);
+        const int end = static_cast<int>(Executable::__end__);
+        for (int i {start + 1}; i < end; i++) {
+            const char* executable = get_executable_internal(static_cast<Executable>(i));
+            if (!is_present (executable)) {
+                absent_executables.insert(static_cast<Executable>(i));
+                log_absent_executable_internal(executable);
+            }
+        }
     }
-  }
 }
-#endif
 
 
 const char* get_executable(const Executable executable)

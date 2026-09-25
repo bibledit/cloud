@@ -119,7 +119,10 @@ TEST (database, users2)
   database::users::add_user (username1, password, level, email);
   std::vector <std::string> admins = database::users::get_administrators ();
   EXPECT_EQ (1, static_cast<int> (admins.size()));
-  if (!admins.empty()) EXPECT_EQ (username1, admins [0]);
+  if (not admins.empty())
+  {
+      EXPECT_EQ (username1, admins [0]);
+  }
   
   database::users::add_user (username2, password, level, email);
   admins = database::users::get_administrators ();

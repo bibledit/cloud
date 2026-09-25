@@ -74,18 +74,26 @@ TEST(filter, archive)
         EXPECT_EQ(true, file_or_dir_exists (zipfile));
         int size = filter_url_filesize(zipfile);
         if (constexpr int min = 3328; size < min)
+        {
             EXPECT_EQ("Should be at least " + std::to_string (min) + " bytes", std::to_string (size));
+        }
         if (constexpr int max = 3334; size > max)
+        {
             EXPECT_EQ("Should be no larger than " + std::to_string (max) + " bytes", std::to_string (size));
+        }
 
         // Zip existing folder through the miniz library.
         zipfile = filter::archive::zip_folder_miniz_internal(directory);
         EXPECT_EQ(true, file_or_dir_exists (zipfile));
         size = filter_url_filesize(zipfile);
         if (size < 2433)
+        {
             EXPECT_EQ("Should be at least 2433 bytes", std::to_string(size));
+        }
         if (size > 2445)
+        {
             EXPECT_EQ("Should be no larger than 2445 bytes", std::to_string(size));
+        }
 
         // Zipping non-existing folder through the shell fails.
         zipfile = filter::archive::zip_folder_shell_internal("xxx");

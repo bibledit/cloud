@@ -117,144 +117,142 @@ TEST(database, mail)
 
 TEST(filter, mail)
 {
-#ifdef HAVE_CLOUD // Todo
-
-    const std::string datafolder = filter_url_create_root_path({"unittests", "tests", "emails"});
-
-    // Standard mimetic library's test message.
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
     {
-        const std::string msgpath = filter_url_create_path({datafolder, "email1.msg"});
-        const std::string msg = filter_url_file_get_contents(msgpath);
-        std::string from, subject, plaintext;
-        filter_mail_dissect(msg, from, subject, plaintext);
-        const std::string txtpath = filter_url_create_path({datafolder, "email1.txt"});
-        const std::string txt = filter_url_file_get_contents(txtpath);
-        EXPECT_EQ("stefano@codesink.org", from);
-        EXPECT_EQ("My picture!", subject);
-        EXPECT_EQ(txt, plaintext);
-    }
+        const std::string datafolder = filter_url_create_root_path({"unittests", "tests", "emails"});
 
-    // A plain text message, that is, not a MIME message.
-    {
-        const std::string msgpath = filter_url_create_path({datafolder, "email2.msg"});
-        const std::string msg = filter_url_file_get_contents(msgpath);
-        std::string from, subject, plaintext;
-        filter_mail_dissect(msg, from, subject, plaintext);
-        const std::string txtpath = filter_url_create_path({datafolder, "email2.txt"});
-        const std::string txt = filter_url_file_get_contents(txtpath);
-        EXPECT_EQ("developer@device.localdomain (Developer)", from);
-        EXPECT_EQ("plain text", subject);
-        EXPECT_EQ(txt, plaintext);
-    }
-
-    // A UTF-8 quoted-printable message.
-    {
-        const std::string msgpath = filter_url_create_path({datafolder, "email3.msg"});
-        const std::string msg = filter_url_file_get_contents(msgpath);
-        std::string from, subject, plaintext;
-        filter_mail_dissect(msg, from, subject, plaintext);
-        const std::string txtpath = filter_url_create_path({datafolder, "email3.txt"});
-        const std::string txt = filter_url_file_get_contents(txtpath);
-        EXPECT_EQ("Sender <sender@domain.net>", from);
-        EXPECT_EQ("Message encoded with quoted-printable", subject);
-        EXPECT_EQ(txt, plaintext);
-    }
-
-    // A UTF-8 base64 encoded message.
-    {
-        const std::string msgpath = filter_url_create_path({datafolder, "email4.msg"});
-        const std::string msg = filter_url_file_get_contents(msgpath);
-        std::string from, subject, plaintext;
-        filter_mail_dissect(msg, from, subject, plaintext);
-        const std::string txtpath = filter_url_create_path({datafolder, "email4.txt"});
-        const std::string txt = filter_url_file_get_contents(txtpath);
-        EXPECT_EQ("Sender <sender@domain.net>", from);
-        EXPECT_EQ("Message encoded in base64", subject);
-        EXPECT_EQ(txt, plaintext);
-    }
-
-    // Test the collection of sample mails.
-    {
-        for (const std::vector<std::string> files = filter_url_scandir(datafolder);
-            const auto& message_file : files)
+        // Standard mimetic library's test message.
         {
-            if (message_file.find('m') != 0) continue;
-            if (filter_url_get_extension(message_file) != "msg") continue;
-            std::string path = filter_url_create_path({datafolder, message_file});
-            std::string contents = filter_url_file_get_contents(path);
+            const std::string msgpath = filter_url_create_path({datafolder, "email1.msg"});
+            const std::string msg = filter_url_file_get_contents(msgpath);
             std::string from, subject, plaintext;
-            filter_mail_dissect(contents, from, subject, plaintext);
-            path += ".txt";
-            contents = filter_url_file_get_contents(path);
-            EXPECT_EQ(contents, plaintext);
+            filter_mail_dissect(msg, from, subject, plaintext);
+            const std::string txtpath = filter_url_create_path({datafolder, "email1.txt"});
+            const std::string txt = filter_url_file_get_contents(txtpath);
+            EXPECT_EQ("stefano@codesink.org", from);
+            EXPECT_EQ("My picture!", subject);
+            EXPECT_EQ(txt, plaintext);
         }
-    }
 
-    // Test cleaning up the name in the To: and From: headers.
-    {
-        EXPECT_EQ(filter_mail_address_name("Ab1 "), "Ab1 ");
-        EXPECT_EQ(filter_mail_address_name(R"(a"b)"), "ab");
-        EXPECT_EQ(filter_mail_address_name("a.b"), "ab");
-        EXPECT_EQ(filter_mail_address_name("äëaBC"), "aBC");
-        EXPECT_EQ(filter_mail_address_name("א"), "");
-    }
-
-    // Test no line length limitation if the body is already short enough or is empty.
-    {
-        EXPECT_TRUE(filter_mail_limit_line_length_rfc5322(std::string(), 10).empty());
-        constexpr std::string_view body{"body"};
-        EXPECT_EQ(filter_mail_limit_line_length_rfc5322(std::string(body), body.length()), body);
-    }
-
-    // Test routine running into the maximum iteration count safety mechanism.
-    {
-        // ReSharper disable once CppVariableCanBeMadeConstexpr
-        const std::string body(1100, '*');
-        const auto result = filter_mail_limit_line_length_rfc5322(body, 1);
-        auto new_line_count = std::ranges::count(result, '\n');
-        EXPECT_EQ(new_line_count, 1000);
-    }
-
-    // Test routine not inserting new lines if no need for that.
-    {
-        constexpr std::string_view body{"1234\n5678\n90"};
-        const auto result = filter_mail_limit_line_length_rfc5322(std::string(body), 4);
-        EXPECT_EQ(result, body);
-        auto new_line_count = std::ranges::count(result, '\n');
-        EXPECT_EQ(new_line_count, 2);
-    }
-
-    // Test routine inserting new lines after the ">" character.
-    {
-        constexpr std::string_view body{"<p>test</p><p>test</p>"};
+        // A plain text message, that is, not a MIME message.
         {
-            const std::string result = filter_mail_limit_line_length_rfc5322(std::string(body), 6);
-            constexpr auto standard = "<p>\ntest\n</p><p>\ntest\n</p>";
-            EXPECT_EQ(result, standard);
+            const std::string msgpath = filter_url_create_path({datafolder, "email2.msg"});
+            const std::string msg = filter_url_file_get_contents(msgpath);
+            std::string from, subject, plaintext;
+            filter_mail_dissect(msg, from, subject, plaintext);
+            const std::string txtpath = filter_url_create_path({datafolder, "email2.txt"});
+            const std::string txt = filter_url_file_get_contents(txtpath);
+            EXPECT_EQ("developer@device.localdomain (Developer)", from);
+            EXPECT_EQ("plain text", subject);
+            EXPECT_EQ(txt, plaintext);
+        }
+
+        // A UTF-8 quoted-printable message.
+        {
+            const std::string msgpath = filter_url_create_path({datafolder, "email3.msg"});
+            const std::string msg = filter_url_file_get_contents(msgpath);
+            std::string from, subject, plaintext;
+            filter_mail_dissect(msg, from, subject, plaintext);
+            const std::string txtpath = filter_url_create_path({datafolder, "email3.txt"});
+            const std::string txt = filter_url_file_get_contents(txtpath);
+            EXPECT_EQ("Sender <sender@domain.net>", from);
+            EXPECT_EQ("Message encoded with quoted-printable", subject);
+            EXPECT_EQ(txt, plaintext);
+        }
+
+        // A UTF-8 base64 encoded message.
+        {
+            const std::string msgpath = filter_url_create_path({datafolder, "email4.msg"});
+            const std::string msg = filter_url_file_get_contents(msgpath);
+            std::string from, subject, plaintext;
+            filter_mail_dissect(msg, from, subject, plaintext);
+            const std::string txtpath = filter_url_create_path({datafolder, "email4.txt"});
+            const std::string txt = filter_url_file_get_contents(txtpath);
+            EXPECT_EQ("Sender <sender@domain.net>", from);
+            EXPECT_EQ("Message encoded in base64", subject);
+            EXPECT_EQ(txt, plaintext);
+        }
+
+        // Test the collection of sample mails.
+        {
+            for (const std::vector<std::string> files = filter_url_scandir(datafolder);
+                 const auto& message_file : files)
+            {
+                if (message_file.find('m') != 0) continue;
+                if (filter_url_get_extension(message_file) != "msg") continue;
+                std::string path = filter_url_create_path({datafolder, message_file});
+                std::string contents = filter_url_file_get_contents(path);
+                std::string from, subject, plaintext;
+                filter_mail_dissect(contents, from, subject, plaintext);
+                path += ".txt";
+                contents = filter_url_file_get_contents(path);
+                EXPECT_EQ(contents, plaintext);
+            }
+        }
+
+        // Test cleaning up the name in the To: and From: headers.
+        {
+            EXPECT_EQ(filter_mail_address_name("Ab1 "), "Ab1 ");
+            EXPECT_EQ(filter_mail_address_name(R"(a"b)"), "ab");
+            EXPECT_EQ(filter_mail_address_name("a.b"), "ab");
+            EXPECT_EQ(filter_mail_address_name("äëaBC"), "aBC");
+            EXPECT_EQ(filter_mail_address_name("א"), "");
+        }
+
+        // Test no line length limitation if the body is already short enough or is empty.
+        {
+            EXPECT_TRUE(filter_mail_limit_line_length_rfc5322(std::string(), 10).empty());
+            constexpr std::string_view body{"body"};
+            EXPECT_EQ(filter_mail_limit_line_length_rfc5322(std::string(body), body.length()), body);
+        }
+
+        // Test routine running into the maximum iteration count safety mechanism.
+        {
+            // ReSharper disable once CppVariableCanBeMadeConstexpr
+            const std::string body(1100, '*');
+            const auto result = filter_mail_limit_line_length_rfc5322(body, 1);
             auto new_line_count = std::ranges::count(result, '\n');
-            EXPECT_EQ(new_line_count, 4);
+            EXPECT_EQ(new_line_count, 1000);
         }
+
+        // Test routine not inserting new lines if no need for that.
         {
-            const std::string result = filter_mail_limit_line_length_rfc5322(std::string(body), 11);
-            constexpr auto standard = "<p>test</p>\n<p>test</p>\n";
-            EXPECT_EQ(result, standard);
+            constexpr std::string_view body{"1234\n5678\n90"};
+            const auto result = filter_mail_limit_line_length_rfc5322(std::string(body), 4);
+            EXPECT_EQ(result, body);
             auto new_line_count = std::ranges::count(result, '\n');
             EXPECT_EQ(new_line_count, 2);
         }
+
+        // Test routine inserting new lines after the ">" character.
+        {
+            constexpr std::string_view body{"<p>test</p><p>test</p>"};
+            {
+                const std::string result = filter_mail_limit_line_length_rfc5322(std::string(body), 6);
+                constexpr auto standard = "<p>\ntest\n</p><p>\ntest\n</p>";
+                EXPECT_EQ(result, standard);
+                auto new_line_count = std::ranges::count(result, '\n');
+                EXPECT_EQ(new_line_count, 4);
+            }
+            {
+                const std::string result = filter_mail_limit_line_length_rfc5322(std::string(body), 11);
+                constexpr auto standard = "<p>test</p>\n<p>test</p>\n";
+                EXPECT_EQ(result, standard);
+                auto new_line_count = std::ranges::count(result, '\n');
+                EXPECT_EQ(new_line_count, 2);
+            }
+        }
+
+        // Test a realistic email whether it cuts it up into lines properly.
+        {
+            const std::string path = filter_url_create_root_path({"unittests", "tests", "email_long_1.txt"});
+            const std::string body = filter_url_file_get_contents(path);
+            const std::string result = filter_mail_limit_line_length_rfc5322(body);
+            const auto line_count = std::ranges::count(result, '\n');
+            EXPECT_EQ(line_count, 45);
+            EXPECT_EQ(result.length(), 22282);
+        }
     }
-
-    // Test a realistic email whether it cuts it up into lines properly.
-    {
-        const std::string path = filter_url_create_root_path({"unittests", "tests", "email_long_1.txt"});
-        const std::string body = filter_url_file_get_contents(path);
-        const std::string result = filter_mail_limit_line_length_rfc5322(body);
-        const auto line_count = std::ranges::count(result, '\n');
-        EXPECT_EQ(line_count, 45);
-        EXPECT_EQ(result.length(), 22282);
-    }
-
-
-#endif
 }
 
 

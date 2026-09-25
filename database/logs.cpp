@@ -74,10 +74,6 @@ void log_internal(std::string description, const int minimum_role)
 
 void rotate()
 {
-    std::string directory = folder();
-    std::vector<std::string> files = filter_url_scandir(directory);
-
-
     // Timestamp for removing older records, depending on whether it's a tiny journal.
     constexpr auto get_old_timestamp = [] () -> int
     {
@@ -88,29 +84,23 @@ void rotate()
     };
     const int old_timestamp = get_old_timestamp();
 
+    std::string directory = folder();
+    std::vector<std::string> files = filter_url_scandir(directory);
 
     // Limit the journal entry count in the filesystem.
     // This speeds up subsequent reading of the journal by the users.
-    // In previous versions of Bibledit, there were certain conditions
-    // that led to an infinite loop, as had been noticed at times,
-    // and this quickly exhausted the available inodes on the filesystem.
-    const auto get_limit_file_count = [&files] () -> std::size_t
-    {
-        if constexpr (config::logic::have_tiny_journal())
-            return files.size() - 200;
-        else
-            return files.size() - 2000;
-    };
-    const std::size_t limit_file_count = get_limit_file_count();
+    // Earlier versions could lead to an infinite logging loop.
+    // This quickly exhausted the available inodes on the filesystem.
+    using file_count_t = int;
+    static_assert(std::is_same_v<file_count_t, int>); // Should be signed.
+    const file_count_t limit_file_count = std::max(0, static_cast<file_count_t>(files.size()) - (config::logic::have_tiny_journal() ? 200 : 2000));
 
-
-    bool filtered_entries = false;
     for (unsigned int i = 0; i < files.size(); ++i)
     {
         const std::string path = filter_url_create_path({directory, files.at(i)});
 
         // Limit the number of journal entries.
-        if (i < limit_file_count)
+        if (static_cast<file_count_t>(i) < limit_file_count)
         {
             filter_url_unlink(path);
             continue;
@@ -125,16 +115,9 @@ void rotate()
         }
 
         // Filtering of certain entries.
-        if (const std::string entry = filter_url_file_get_contents(path);
-            journal_logic_filter_entry(entry))
-        {
-            filtered_entries = true;
+        if (const std::string entry = filter_url_file_get_contents(path); journal_logic_filter_entry(entry))
             filter_url_unlink(path);
-        }
     }
-
-    if (filtered_entries)
-        log(journal_logic_filtered_message());
 }
 
 

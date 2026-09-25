@@ -59,10 +59,10 @@ std::string assets_external_logic_link_addon ()
 {
   // Open an external link in an external browser on most clients.
   // Open an external link in a new tab in some situations.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   return R"(target="_blank")";
 #endif
-#ifndef HAVE_CLOUD
+#ifndef HAVE_CLOUD // Todo
   return R"(class="external")";
 #endif
 }

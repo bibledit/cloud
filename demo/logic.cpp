@@ -327,7 +327,7 @@ void demo_prepare_sample_bible ()
   // Same for the search index.
   search_logic_delete_bible (demo_sample_bible_name ());
   // Clean up the remaining artifacts that were created along the way.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   [[maybe_unused]] int result;
   std::string command;
   command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -path '*logbook/1*' -delete";

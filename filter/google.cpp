@@ -68,9 +68,8 @@ static std::string google_access_token{};
 std::pair<bool, std::string> print_store_access_token()
 {
     // Set the path to the JSON key in the environment for gcloud to use.
-#ifdef HAVE_CLOUD
-    setenv("GOOGLE_APPLICATION_CREDENTIALS", config::logic::google_translate_json_key_path().c_str(), 1);
-#endif
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        setenv("GOOGLE_APPLICATION_CREDENTIALS", config::logic::google_translate_json_key_path().c_str(), 1);
     // Print the access token.
     const std::string command{
         std::string(shell::get_executable(shell::Executable::gcloud)) +

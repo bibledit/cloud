@@ -64,7 +64,7 @@ void bible_logic::store_chapter(const std::string& bible, const int book, const 
 
 #endif
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD  // Todo
 
     // Server stores diff data.
     database::modifications::storeTeamDiff(bible, book, chapter);
@@ -91,7 +91,7 @@ void bible_logic::delete_chapter(const std::string& bible, const int book, const
 
 #endif
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD  // Todo
 
     // Server stores diff data.
     database::modifications::storeTeamDiff(bible, book, chapter);
@@ -122,7 +122,7 @@ void bible_logic::delete_book(const std::string& bible, const int book)
 
 #endif
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
     // Server stores diff data.
     database::modifications::storeTeamDiffBook(bible, book);
@@ -157,7 +157,7 @@ void bible_logic::delete_bible(const std::string& bible)
 
 #endif
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
     // Server stores diff data.
     database::modifications::storeTeamDiffBible(bible);

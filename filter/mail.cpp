@@ -22,9 +22,6 @@
 #undef min
 
 
-#ifdef HAVE_CLOUD
-
-
 // https://www.codesink.org/mimetic_mime_library.html
 
 
@@ -51,12 +48,12 @@
 #pragma GCC diagnostic pop
 
 
-std::string filter_mail_remove_headers_internal (std::string contents)
+static std::string filter_mail_remove_headers_internal (std::string contents)
 {
   bool empty_line_encountered = false;
   std::vector <std::string> cleaned;
   std::vector <std::string> inputlines = filter::string::explode (contents, '\n');
-  for (auto line : inputlines) {
+  for (const auto& line : inputlines) {
     if (line.find ("Content-Type") != std::string::npos) continue;
     if (line.find ("Content-Transfer-Encoding") != std::string::npos) continue;
     if (empty_line_encountered) cleaned.push_back (line);
@@ -68,7 +65,7 @@ std::string filter_mail_remove_headers_internal (std::string contents)
 }
 
 
-void filter_mail_dissect_internal (const mimetic::MimeEntity& me, std::string& plaintext)
+static void filter_mail_dissect_internal (const mimetic::MimeEntity& me, std::string& plaintext)
 {
   // If the plain text of this email has been found already,
   // there's no need to search any further.
@@ -209,9 +206,6 @@ std::string filter_mail_address_name (std::string name)
   std::ranges::copy_if(name, std::back_inserter(output), allowed);
   return output;
 }
-
-
-#endif
 
 
 // Limit the length of one line according to RFC5322 section 2.1.1.

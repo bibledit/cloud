@@ -61,25 +61,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unicode/translit.h>
 #pragma clang diagnostic pop
 #endif
-#ifdef HAVE_CLOUD
-#include <libxml/tree.h>
-#include <libxml/HTMLparser.h>
-#endif
-#ifdef HAVE_CLOUD
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 #include "gumbo/gumbo.h"
 #pragma clang diagnostic pop
-#endif
-#ifdef HAVE_CLOUD
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-//#include <tidy.h>
-//#include <tidybuffio.h>
 #include "tidy/tidy.h"
 #include "tidy/tidybuffio.h"
 #pragma clang diagnostic pop
-#endif
 #include <stdio.h>
 #include <webserver/request.h>
 
@@ -1391,57 +1381,6 @@ std::string html_get_element (std::string html, std::string element)
 }
 
 
-/*
- string filter_string_tidy_invalid_html_leaking (std::string html)
- {
- // Everything in the <head> can be left out: It is not relevant.
- filter::string::replace_between (html, "<head>", "</head>", "");
- 
- // Every <script...</script> can be left out: They are irrelevant.
- int counter = 0;
- while (counter < 100) {
- counter++;
- bool replaced = filter::string::replace_between (html, "<script", "</script>", "");
- if (!replaced) break;
- }
- 
- #ifdef HAVE_CLOUD
- 
- // This method works via libxml2 and there are many memory leaks each call to this.
- // It cannot be used for production code.
- // The leaks are fixable, see the laboratory/tiny code.
- 
- // Create a parser context.
- htmlParserCtxtPtr parser = htmlCreatePushParserCtxt (nullptr, nullptr, nullptr, 0, nullptr, XML_CHAR_ENCODING_UTF8);
- 
- // Set relevant options on the parser context.
- htmlCtxtUseOptions(parser, HTML_PARSE_NOBLANKS | HTML_PARSE_NOERROR | HTML_PARSE_NOWARNING | HTML_PARSE_NONET);
- 
- // Parse the (X)HTML text.
- // char * data : buffer containing part of the web page
- // int len : number of bytes in data
- // Last argument is 0 if the web page isn't complete, and 1 for the final call.
- htmlParseChunk(parser, html.c_str(), static_cast<int> (html.size()), 1);
- 
- // Extract the fixed html
- if (parser->myDoc) {
- xmlChar *s;
- int size;
- xmlDocDumpMemory(parser->myDoc, &s, &size);
- html = reinterpret_cast<char *> (s);
- xmlFree(s);
- }
- 
- // Free memory.
- if (parser) xmlFree (parser);
- 
- #endif
- 
- return html;
- }
- */
-
-
 const std::string nonbreaking_inline_tags {"|a|abbr|acronym|b|bdo|big|cite|code|dfn|em|font|i|img|kbd|nobr|s|small|span|strike|strong|sub|sup|tt|"};
 const std::string empty_tags {"|area|base|basefont|bgsound|br|command|col|embed|event-source|frame|hr|image|img|input|keygen|link|menuitem|meta|param|source|spacer|track|wbr|"};
 const std::string preserve_whitespace_tags {"|pre|textarea|script|style|"};
@@ -1461,7 +1400,6 @@ static std::string substitute_xml_entities_into_text(const std::string& text)
 }
 
 
-#ifdef HAVE_CLOUD
 static std::string substitute_xml_entities_into_attributes(const char quote, const std::string& text)
 {
   std::string result {substitute_xml_entities_into_text (text)};
@@ -1473,7 +1411,6 @@ static std::string substitute_xml_entities_into_attributes(const char quote, con
   }
   return result;
 }
-#endif
 
 
 #ifdef HAVE_CLOUD
@@ -1763,8 +1700,6 @@ std::string fix_invalid_html_gumbo (std::string html)
 
 std::string fix_invalid_html_tidy (std::string html)
 {
-#ifdef HAVE_CLOUD
-  
   // The buffers.
   TidyBuffer output {};
   memset (&output, 0, sizeof(TidyBuffer));
@@ -1814,8 +1749,6 @@ std::string fix_invalid_html_tidy (std::string html)
   tidyBufFree (&output);
   tidyBufFree (&errbuf);
   tidyRelease (tdoc);
-  
-#endif
   
   // Done.
   return html;

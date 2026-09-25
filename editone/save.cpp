@@ -109,7 +109,7 @@ std::string editone_save (Webserver_Request& webserver_request)
   
   // Collect some data about the changes for this user.
   const std::string& username = webserver_request.session_logic ()->get_username ();
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   const int old_id = database::bibles::get_chapter_id (bible, book, chapter);
 #endif
   std::string old_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
@@ -146,7 +146,7 @@ std::string editone_save (Webserver_Request& webserver_request)
       database::bibles::store_chapter (bible, book, chapter, new_chapter_usfm);
       database::logs::log (translate ("Merging chapter."));
     }
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     // The Cloud stores details of the user's changes.
     const int new_id = database::bibles::get_chapter_id (bible, book, chapter);
     database::modifications::recordUserSave (username, bible, book, chapter, old_id, old_chapter_usfm, new_id, new_chapter_usfm);

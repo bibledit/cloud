@@ -157,7 +157,7 @@ std::string edit_update (Webserver_Request& webserver_request)
   
   // Collect some data about the changes for this user.
   const std::string& username = webserver_request.session_logic ()->get_username ();
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   int old_id = 0;
   if (good2go) {
     old_id = database::bibles::get_chapter_id (bible, book, chapter);
@@ -292,7 +292,7 @@ std::string edit_update (Webserver_Request& webserver_request)
   if (good2go && bible_write_access && text_was_edited) {
     // If storing the chapter worked out well, there's no message to display.
     if (message.empty ()) {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
       // The Cloud stores details of the user's changes.
       database::modifications::recordUserSave (username, bible, book, chapter, old_id, old_chapter_usfm, new_id, new_chapter_usfm);
       if (sendreceive_git_repository_linked (bible)) {

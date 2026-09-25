@@ -154,7 +154,7 @@ int main()
         webroot = chars;
     }
 #endif
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
     // The following is for the Cloud configuration only:
     {
         // Get home folder and working directory.

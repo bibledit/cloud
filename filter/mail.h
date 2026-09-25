@@ -21,8 +21,6 @@
 
 #include <config/libraries.h>
 
-#ifdef HAVE_CLOUD
 void filter_mail_dissect (std::string message, std::string & from, std::string & subject, std::string & plaintext);
 std::string filter_mail_address_name (std::string name);
-#endif
 std::string filter_mail_limit_line_length_rfc5322(std::string body, const int length = 500);

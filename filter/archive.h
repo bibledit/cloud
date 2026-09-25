@@ -23,10 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace filter::archive {
 
-std::string zip_folder (std::string folder);
+std::string zip_folder (const std::string& folder);
 std::string zip_folder_shell_internal (std::string folder);
 std::string zip_folder_miniz_internal (std::string folder);
-std::string unzip (std::string file);
+std::string unzip (const std::string& file);
 std::string unzip_shell_internal (std::string file);
 std::string unzip_miniz_internal (std::string zipfile);
 std::string tar_gzip_file (const std::string& filename);

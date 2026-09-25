@@ -36,14 +36,12 @@ namespace filter::archive {
 
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
-std::string zip_folder (std::string folder)
+std::string zip_folder (const std::string& folder)
 {
-#ifdef HAVE_CLOUD
-  return zip_folder_shell_internal (folder);
-#endif
-#ifdef HAVE_CLIENT
-  return zip_folder_miniz_internal (folder);
-#endif
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        return zip_folder_shell_internal (folder);
+    else
+        return zip_folder_miniz_internal (folder);
 }
 
 
@@ -51,23 +49,24 @@ std::string zip_folder (std::string folder)
 // Returns the path to the compressed archive it created.
 std::string zip_folder_shell_internal (std::string folder)
 {
-  if (!file_or_dir_exists (folder)) return std::string();
-  std::string zippedfile = filter_url_tempfile () + ".zip";
-#ifdef HAVE_CLOUD
-  std::string logfile = filter_url_tempfile () + ".log";
-  folder = filter_url_escape_shell_argument (folder);
-  std::string command = "cd " + folder + " && " + filter::shell::get_executable(filter::shell::Executable::zip) + " -r " + zippedfile + " * > " + logfile + " 2>&1";\
-  int return_var;
-  // Run the command.
-  return_var = system (command.c_str());
-  if (return_var != 0) {
-    filter_url_unlink (zippedfile);
-    zippedfile.clear();
-    std::string errors = filter_url_file_get_contents (logfile);
-    database::logs::log (errors);
-  }
-#endif
-  return zippedfile;
+    if (!file_or_dir_exists(folder)) return {};
+    std::string zipped_file = filter_url_tempfile() + ".zip";
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        std::string logfile = filter_url_tempfile() + ".log";
+        folder = filter_url_escape_shell_argument(folder);
+        std::string command = "cd " + folder + " && " + filter::shell::get_executable(filter::shell::Executable::zip) +
+            " -r " + zipped_file + " * > " + logfile + " 2>&1";
+        // Run the command.
+        if (const int return_var = system(command.c_str()); return_var != 0)
+        {
+            filter_url_unlink(zipped_file);
+            zipped_file.clear();
+            std::string errors = filter_url_file_get_contents(logfile);
+            database::logs::log(errors);
+        }
+    }
+    return zipped_file;
 }
 
 
@@ -109,14 +108,12 @@ std::string zip_folder_miniz_internal (std::string folder)
 
 // Uncompresses a zip archive identified by $file.
 // Returns the path to the folder it created.
-std::string unzip (std::string file)
+std::string unzip (const std::string& file)
 {
-#ifdef HAVE_CLOUD
-  return unzip_shell_internal (file);
-#endif
-#ifdef HAVE_CLIENT
-  return unzip_miniz_internal (file);
-#endif
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        return unzip_shell_internal (file);
+    else
+        return unzip_miniz_internal (file);
 }
 
 
@@ -124,27 +121,31 @@ std::string unzip (std::string file)
 // Returns the path to the folder it created.
 std::string unzip_shell_internal ([[maybe_unused]] std::string file)
 {
-  std::string folder = filter_url_tempfile ();
-#ifdef HAVE_CLOUD
-  filter_url_mkdir (folder);
-  folder += std::filesystem::path::preferred_separator;
-  const std::string logfile = filter_url_tempfile () + ".log";
-  file = filter_url_escape_shell_argument (file);
-  std::string command = std::string(filter::shell::get_executable(filter::shell::Executable::unzip)) + " -o -d " + folder + " " + file + " > " + logfile + " 2>&1";
-  // Run the command.
-  int return_var = system (command.c_str());
-  if (return_var != 0) {
-    filter_url_rmdir (folder);
-    folder.clear();
-    std::string errors = filter_url_file_get_contents (logfile);
-    database::logs::log (errors);
-  } else {
-    // Set free permissions after unzipping.
-    command = std::string(filter::shell::get_executable(filter::shell::Executable::chmod)) + " -R 0777 " + folder;
-    [[maybe_unused]] int result = system (command.c_str ());
-  }
-#endif
-  return folder;
+    std::string folder = filter_url_tempfile();
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        filter_url_mkdir(folder);
+        folder += std::filesystem::path::preferred_separator;
+        const std::string logfile = filter_url_tempfile() + ".log";
+        file = filter_url_escape_shell_argument(file);
+        std::string command = std::string(filter::shell::get_executable(filter::shell::Executable::unzip)) + " -o -d " +
+            folder + " " + file + " > " + logfile + " 2>&1";
+        // Run the command.
+        if (const int return_var = system(command.c_str()); return_var != 0)
+        {
+            filter_url_rmdir(folder);
+            folder.clear();
+            std::string errors = filter_url_file_get_contents(logfile);
+            database::logs::log(errors);
+        }
+        else
+        {
+            // Set free permissions after unzipping.
+            command = std::string(filter::shell::get_executable(filter::shell::Executable::chmod)) + " -R 0777 " + folder;
+            [[maybe_unused]] int result = system(command.c_str());
+        }
+    }
+    return folder;
 }
 
 

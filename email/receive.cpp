@@ -36,7 +36,7 @@ namespace email {
 
 void receive ()
 {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   // Bail out when the mail storage host has not been defined, rather than giving an error message.
   if (database::config::general::get_mail_storage_host ().empty()) return;
   
@@ -136,7 +136,7 @@ int receive_count (std::string& error, bool verbose)
   return 0;
 #endif
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   CURL *curl;
   CURLcode res = CURLE_OK;
   
@@ -198,7 +198,7 @@ std::string receive_message (std::string& error)
   return std::string();
 #endif
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   CURLcode res = CURLE_OK;
   
   cstring s{};

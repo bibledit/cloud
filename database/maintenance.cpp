@@ -74,7 +74,7 @@ void database_maintenance ()
   database_mail.optimize ();
   
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   database::confirm::trim ();
   database::confirm::optimize ();
 #endif
@@ -99,7 +99,7 @@ void database_maintenance ()
   database::check::optimize ();
   
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   Database_Sprint database_sprint = Database_Sprint ();
   database_sprint.optimize ();
 #endif
@@ -125,12 +125,12 @@ void database_maintenance ()
   DatabasePrivileges::optimize ();
   
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   database::git::optimize ();
 #endif
 
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   Database_Statistics::optimize ();
 #endif
 
@@ -142,7 +142,7 @@ void database_maintenance ()
   access_logic::create_client_files ();
   
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   sword_logic_trim_modules ();
 #endif
 }

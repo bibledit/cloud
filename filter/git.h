@@ -24,7 +24,6 @@
 
 class Webserver_Request;
 
-#ifdef HAVE_CLOUD
 std::string filter_git_directory (std::string object);
 bool filter_git_init (std::string directory, bool bare = false);
 void filter_git_sync_modifications_to_git (std::string bible, std::string repository);
@@ -47,4 +46,3 @@ bool filter_git_resolve_conflicts (std::string repository, std::vector <std::str
 void filter_git_config (std::string repository);
 std::string filter_git_user (std::string user);
 std::string filter_git_email (const std::string& user);
-#endif

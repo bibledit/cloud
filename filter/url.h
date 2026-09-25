@@ -62,7 +62,7 @@ std::string filter_url_http_get (std::string url, std::string& error, bool check
 std::string filter_url_http_post (const std::string & url, std::string post_data, const std::map <std::string, std::string> & post_values, std::string& error, bool burst, bool check_certificate, const std::vector <std::pair <std::string, std::string> > & headers);
 std::string filter_url_http_response_code_text (int code);
 void filter_url_download_file (std::string url, std::string filename, std::string& error, bool check_certificate);
-std::string filter_url_html_file_name_bible (std::string path = "", int book = 0, int chapter = -1);
+std::string filter_url_html_file_name_bible (const std::string& path = "", int book = 0, int chapter = -1);
 int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char *data, size_t size, void *userptr);
 void filter_url_curl_set_timeout (void *curl_handle, bool burst = false);
 std::string filter_url_plus_to_tag (std::string data);

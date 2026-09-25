@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <database/logs.h>
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
 #include <sys/wait.h>
 #endif
 #ifdef HAVE_WINDOWS
@@ -129,41 +129,44 @@ int run ([[maybe_unused]] std::string directory,
          [[maybe_unused]] std::string* output,
          [[maybe_unused]] std::string* error)
 {
-#ifdef HAVE_CLIENT
-  database::logs::log ("Did not run on client:", command);
-  return 0;
-#else
-  command = escape_argument (command);
-  if (!directory.empty ()) {
-    directory = filter::shell::escape_argument (directory);
-    command.insert (0, "cd " + directory + "; ");
-  }
-  for (std::string parameter : parameters) {
-    parameter = escape_argument (parameter);
-    command.append (" " + parameter);
-  }
-  std::string pipe = filter_url_tempfile ();
-  std::string standardout = pipe + ".out";
-  std::string standarderr = pipe + ".err";
-  command.append (" > " + standardout);
-  command.append (" 2> " + standarderr);
-  const int result = system (command.c_str());
-  std::string contents = filter_url_file_get_contents (standardout);
-  if (output) {
-    output->assign (contents);
-  } else {
-    database::logs::log (contents);
-  }
-  contents = filter_url_file_get_contents (standarderr);
-  if (error) {
-    error->assign (contents);
-  } else {
-    database::logs::log (contents);
-  }
-  filter_url_unlink (standardout);
-  filter_url_unlink (standarderr);
-  return result;
-#endif
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+    {
+        database::logs::log ("Did not run on client:", command);
+        return 0;
+    }
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        command = escape_argument (command);
+        if (!directory.empty ()) {
+            directory = filter::shell::escape_argument (directory);
+            command.insert (0, "cd " + directory + "; ");
+        }
+        for (std::string parameter : parameters) {
+            parameter = escape_argument (parameter);
+            command.append (" " + parameter);
+        }
+        std::string pipe = filter_url_tempfile ();
+        std::string standardout = pipe + ".out";
+        std::string standarderr = pipe + ".err";
+        command.append (" > " + standardout);
+        command.append (" 2> " + standarderr);
+        const int result = system (command.c_str());
+        std::string contents = filter_url_file_get_contents (standardout);
+        if (output) {
+            output->assign (contents);
+        } else {
+            database::logs::log (contents);
+        }
+        contents = filter_url_file_get_contents (standarderr);
+        if (error) {
+            error->assign (contents);
+        } else {
+            database::logs::log (contents);
+        }
+        filter_url_unlink (standardout);
+        filter_url_unlink (standarderr);
+        return result;
+    }
 }
 
 
@@ -173,40 +176,44 @@ int run (const std::string& command,
          [[maybe_unused]] const char* parameter,
          [[maybe_unused]] std::string& output)
 {
-#ifdef HAVE_CLIENT
-  database::logs::log ("Did not run on client:", command);
-  return 0;
-#else
-  // File descriptor for file to write child's stdout to.
-  const std::string path = filter_url_tempfile () + ".txt";
-  const int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
-  
-  // Create child process as a duplicate of this process.
-  const pid_t pid = fork ();
-  
-  if (pid == 0) {
-    
-    // This runs in the child.
-    dup2(fd, 1);
-    close(fd);
-    execlp (command.c_str(), parameter, nullptr);
-    // The above only returns in case of an error.
-    database::logs::log (strerror (errno));
-    // Use_exit instead of exit, so there's no flushing.
-    _exit (1);
-    //close (fd);
-    return -1;
-  }
-  
-  // Wait till child is ready.
-  wait(nullptr);
-  close(fd);
-  
-  // Read the child's output.
-  output = filter_url_file_get_contents (path);
-#endif
-  
-  return 0;
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+    {
+        database::logs::log ("Did not run on client:", command);
+        return 0;
+    }
+
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        // File descriptor for file to write child's stdout to.
+        const std::string path = filter_url_tempfile () + ".txt";
+        const int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
+
+        // Create child process as a duplicate of this process.
+        const pid_t pid = fork ();
+
+        if (pid == 0) {
+
+            // This runs in the child.
+            dup2(fd, 1);
+            close(fd);
+            execlp (command.c_str(), parameter, nullptr);
+            // The above only returns in case of an error.
+            database::logs::log (strerror (errno));
+            // Use_exit instead of exit, so there's no flushing.
+            _exit (1);
+            //close (fd);
+            return -1;
+        }
+
+        // Wait till child is ready.
+        wait(nullptr);
+        close(fd);
+
+        // Read the child's output.
+        output = filter_url_file_get_contents (path);
+    }
+
+    return 0;
 }
 
 
@@ -231,14 +238,16 @@ int run(std::string command, std::string& out_err)
 // Returns true if $program is present on the system.
 bool is_present (const char* program)
 {
-  // No executables in client mode.
-#ifdef HAVE_CLIENT
-  return false;
-#else
-  const std::string command = std::string(get_executable(Executable::which)) + " " + std::string(program) + " > /dev/null 2>&1";
-  const int exitcode = system (command.c_str ());
-  return exitcode == 0;
-#endif
+    // No executables in client mode.
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+        return false;
+
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        const std::string command = string::join_pack_to_string(get_executable(Executable::which), " ", program, " > /dev/null 2>&1");
+        const int exitcode = system(command.c_str());
+        return exitcode == 0;
+    }
 }
 
 
@@ -295,53 +304,62 @@ int vfork ([[maybe_unused]] std::string& output,
            [[maybe_unused]] const char* p12,
            [[maybe_unused]] const char* p13)
 {
-  int status = 0;
-#ifdef HAVE_CLIENT
-  database::logs::log ("Did not run on client:", command);
-#else
-  
-  // File descriptors for files to write child's stdout and stderr to.
-  const std::string path = filter_url_tempfile () + ".txt";
-  const int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
-  
-  // It seems that waiting very shortly before calling vfork ()
-  // enables running threads to continue running.
-  std::this_thread::sleep_for (std::chrono::milliseconds (1));
+    int status = 0;
+
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+        database::logs::log("Did not run on client:", command);
+
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        // File descriptors for files to write child's stdout and stderr to.
+        const std::string path = filter_url_tempfile() + ".txt";
+        const int fd = open(path.c_str(), O_WRONLY | O_CREAT, 0666);
+
+        // It seems that waiting very shortly before calling vfork ()
+        // enables running threads to continue running.
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  const pid_t pid = ::vfork();
+        const pid_t pid = ::vfork();
 #pragma clang diagnostic pop
-  if (pid != 0) {
-    if (pid < 0) {
-      database::logs::log ("Failed to run", command);
-    } else {
-      wait (&status);
+        if (pid != 0)
+        {
+            if (pid < 0)
+            {
+                database::logs::log("Failed to run", command);
+            }
+            else
+            {
+                wait(&status);
+            }
+        }
+        else
+        {
+            // This runs in the child.
+            dup2(fd, 1);
+            dup2(fd, 2);
+            close(fd);
+            if (!directory.empty())
+            {
+                [[maybe_unused]] int result = chdir(directory.c_str());
+            }
+            execlp(command.c_str(), command.c_str(), p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13,
+                   nullptr);
+            // The above only returns in case of an error.
+            database::logs::log(command, ":", strerror(errno));
+            _exit(1);
+            //close (fd);
+            return -1;
+        }
+
+        // Read the child's output.
+        close(fd);
+        output = filter_url_file_get_contents(path);
+        filter_url_unlink(path);
+
     }
-  } else {
-    
-    // This runs in the child.
-    dup2 (fd, 1);
-    dup2 (fd, 2);
-    close (fd);
-    if (!directory.empty ()) {
-      [[maybe_unused]] int result = chdir (directory.c_str());
-    }
-    execlp (command.c_str(), command.c_str(), p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, nullptr);
-    // The above only returns in case of an error.
-    database::logs::log (command, ":", strerror (errno));
-    _exit (1);
-    //close (fd);
-    return -1;
-  }
-  
-  // Read the child's output.
-  close (fd);
-  output = filter_url_file_get_contents (path);
-  filter_url_unlink (path);
-  
-#endif
-  
-  return status;
+
+    return status;
 }
 
 

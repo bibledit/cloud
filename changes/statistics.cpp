@@ -48,7 +48,7 @@ std::string changes_statistics ([[maybe_unused]] Webserver_Request& webserver_re
   return std::string();
 #endif
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
   std::string page {};
   Assets_Header header = Assets_Header (translate("Change statistics"), webserver_request);

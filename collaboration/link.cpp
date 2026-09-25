@@ -33,7 +33,7 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
                          [[maybe_unused]] const int jobid,
                          [[maybe_unused]] const std::string& direction)
 {
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   // Repository details for local and remote.
   const std::string& url = database::config::bible::get_remote_repository_url (object);
   const std::string& path = filter_git_directory (object);

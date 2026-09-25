@@ -239,7 +239,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   
  
   // RSS feed.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   if (checkbox == "rss") {
     if (write_access) {
       database::config::bible::set_send_changes_to_rss (bible, checked);
@@ -288,7 +288,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   
   
   // Automatic daily checks on text.
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   if (checkbox == "checks") {
     if (write_access) {
       database::config::bible::set_daily_checks_enabled (bible, checked);

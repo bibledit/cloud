@@ -52,7 +52,7 @@ std::string collaboration_index (Webserver_Request& webserver_request)
   Assets_View view;
 
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
 
   // The selected Bible to set collaboration up for.

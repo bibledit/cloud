@@ -1036,11 +1036,12 @@ static size_t filter_url_curl_write_function(void* ptr, size_t size, size_t coun
 std::string filter_url_http_get(std::string url, std::string& error, [[maybe_unused]] bool check_certificate)
 {
     std::string response;
-#ifdef HAVE_CLIENT
-    response = filter_url_http_request_mbed(url, error, {}, "", check_certificate);
-#else
-    CURL* curl = curl_easy_init();
-    if (curl)
+
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+        response = filter_url_http_request_mbed(url, error, {}, "", check_certificate);
+
+#ifdef HAVE_CLOUD
+    if (CURL* curl = curl_easy_init())
     {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
@@ -1188,12 +1189,13 @@ std::string filter_url_http_post(const std::string& url, [[maybe_unused]] std::s
                                  [[maybe_unused]] const std::vector<std::pair<std::string, std::string>>& headers)
 {
     std::string response;
-#ifdef HAVE_CLIENT
-    response = filter_url_http_request_mbed(url, error, post_values, "", check_certificate);
-#else
+
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+        response = filter_url_http_request_mbed(url, error, post_values, "", check_certificate);
+
+#ifdef HAVE_CLOUD
     // Get a curl handle.
-    CURL* curl = curl_easy_init();
-    if (curl)
+    if (CURL* curl = curl_easy_init())
     {
         // First set the URL that is about to receive the POST.
         // This can be http or https.
@@ -1226,9 +1228,9 @@ std::string filter_url_http_post(const std::string& url, [[maybe_unused]] std::s
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
         // Optional extra headers.
         curl_slist* list{nullptr};
-        for (auto header : headers)
+        for (const auto& [key, value] : headers)
         {
-            std::string line = header.first + ": " + header.second;
+            std::string line = key + ": " + value;
             list = curl_slist_append(list, line.c_str());
         }
         if (list)
@@ -1370,11 +1372,11 @@ std::string filter_url_http_response_code_text(int code)
 void filter_url_download_file(std::string url, std::string filename, std::string& error,
                               [[maybe_unused]] bool check_certificate)
 {
-#ifdef HAVE_CLIENT
-    filter_url_http_request_mbed(url, error, {}, filename, check_certificate);
-#else
-    CURL* curl = curl_easy_init();
-    if (curl)
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+        filter_url_http_request_mbed(url, error, {}, filename, check_certificate);
+
+#ifdef HAVE_CLOUD
+    if (CURL* curl = curl_easy_init())
     {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         FILE* file = fopen(filename.c_str(), "w");
@@ -1410,12 +1412,12 @@ void filter_url_download_file(std::string url, std::string filename, std::string
  * $book    - The book identifier.
  * $chapter - The chapter number.
  */
-std::string filter_url_html_file_name_bible(std::string path, int book, int chapter)
+std::string filter_url_html_file_name_bible(const std::string& path, int book, int chapter)
 {
     std::string filename;
 
     // If a path is given, prefix it.
-    if (path != "")
+    if (!path.empty())
     {
         filename = path + "/";
     }
@@ -1446,8 +1448,7 @@ std::string filter_url_html_file_name_bible(std::string path, int book, int chap
 
 
 // Callback function for logging cURL debug information.
-#ifdef HAVE_CLIENT
-#else
+#ifdef HAVE_CLOUD
 int filter_url_curl_debug_callback(void* curl_handle, int curl_info_type, char* data, size_t size, void* userptr)
 {
     if (curl_handle && userptr)
@@ -1471,8 +1472,7 @@ int filter_url_curl_debug_callback(void* curl_handle, int curl_info_type, char* 
 // burst: When true, the server gives a burst response, that is, all data arrives at once after a delay.
 //        When false, the data is supposed to be downloaded gradually.
 // Without these timeouts, the Bibledit client will hang on stalled sync operations.
-#ifdef HAVE_CLIENT
-#else
+#ifdef HAVE_CLOUD
 void filter_url_curl_set_timeout(void* curl_handle, bool burst)
 {
     CURL* handle = curl_handle;

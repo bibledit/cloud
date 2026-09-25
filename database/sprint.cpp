@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 constexpr const auto database_name {"sprint"};
 
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
 
 void Database_Sprint::create ()

@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It does not contain essential information.
 
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 
 
 constexpr const char * filename ("confirm");

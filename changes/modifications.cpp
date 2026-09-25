@@ -493,7 +493,7 @@ void changes_modifications ()
   config_globals_change_notifications_available = true;
 
   
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   // Store the statistics in the database.
   if (modification_time_count) {
     // Take average timestamp of all timestamps.

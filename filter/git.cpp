@@ -32,9 +32,6 @@
 #include "database/users.h"
 
 
-#ifdef HAVE_CLOUD
-
-
 // This function returns the directory of the git repository belonging to $object.
 std::string filter_git_directory (std::string object)
 {
@@ -632,6 +629,3 @@ std::string filter_git_email (const std::string& user)
   }
   return email;
 }
-
-
-#endif

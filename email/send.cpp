@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/date.h>
 #include <filter/mail.h>
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
 #include <curl/curl.h>
 #endif
 #include <config/globals.h>
@@ -113,7 +113,7 @@ void send ()
       std::stringstream ss;
       ss << "Email to " << email << " with subject " << std::quoted(subject) << " was ";
       result = ss.str();
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
       result.append ("sent successfully");
 #endif
 #ifdef HAVE_CLIENT
@@ -400,7 +400,7 @@ std::string setup_information (bool require_send, bool require_receive)
   (void) require_send;
   (void) require_receive;
 #endif
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLOUD // Todo
   bool incomplete = false;
   if (database::config::general::get_site_mail_name ().empty ()) incomplete = true;
   if (database::config::general::get_site_mail_address ().empty ()) incomplete = true;

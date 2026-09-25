@@ -1633,7 +1633,7 @@ bool Database_Config_User::get_show_navigation_arrows() const
     case config::logic::Platform::cloud:
     case config::logic::Platform::windows:
     case config::logic::Platform::macos:
-    case config::logic::Platform::linux:
+    case config::logic::Platform::linux_:
     default:
         return get_boolean_value(show_navigation_arrows_key, true);
     }

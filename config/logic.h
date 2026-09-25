@@ -51,7 +51,7 @@ bool default_bibledit_configuration ();
 std::string google_translate_json_key_path ();
 bool create_no_accounts();
 
-enum class Platform { cloud, windows, android, macos, linux, ios };
+enum class Platform { cloud, windows, android, macos, linux_, ios };
 consteval Platform platform()
 {
 #ifdef HAVE_WINDOWS
@@ -64,7 +64,7 @@ consteval Platform platform()
     return Platform::macos;
 #endif
 #ifdef HAVE_LINUX
-    return Platform::linux;
+    return Platform::linux_;
 #endif
 #ifdef HAVE_IOS
     return Platform::ios;
@@ -95,7 +95,7 @@ consteval std::size_t max_parallel_background_tasks()
     case Platform::ios:
         return 3;
     case Platform::macos:
-    case Platform::linux:
+    case Platform::linux_:
     case Platform::cloud:
     default:
         return 10;
@@ -118,7 +118,7 @@ consteval bool has_bare_browser()
 consteval bool work_with_paratext()
 {
     // ReSharper disable once CppRedundantBooleanExpressionArgument
-    return platform() == Platform::windows or platform() == Platform::linux;
+    return platform() == Platform::windows or platform() == Platform::linux_;
 }
 
 // Whether the journal is much smaller than normal.
@@ -144,7 +144,7 @@ consteval bool use_std_filesystem()
         // The std::filesystem makes the app very slow in the iOS simulator
         // that it appears to be stuck during the setup phase, where it copies files.
         // This was tested in August 2024.
-    case Platform::linux:
+    case Platform::linux_:
         // Older Ubuntu versions (whatever this means in 2024) did not yet have a good std::filesystem support.
     case Platform::cloud:
     default:

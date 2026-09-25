@@ -103,4 +103,17 @@ consteval bool has_bare_browser()
     return true;
 }
 
+// Whether Bibledit works with Paratext.
+consteval bool work_with_paratext()
+{
+#ifdef HAVE_WINDOWS
+    return true;
+#endif
+#ifdef HAVE_LINUX
+    return true;
+#endif
+    return false;
+}
+
+
 } // End of namespace.

@@ -20,27 +20,17 @@
 #pragma once
 
 
-// The directory separator for the platform: Windows differs from Linux.
-#define DIRECTORY_SEPARATOR "/"
 
 
 // Whether it runs in Cloud mode.
 #define HAVE_CLOUD 1
 
 
-// Whether it runs the secure webserver.
-#define RUN_SECURE_SERVER 1
-
-
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_BARE_BROWSER 1
 #define HAVE_PARATEXT 1
 #define HAVE_URLSETTINGS 1
-#undef DIRECTORY_SEPARATOR
-#define DIRECTORY_SEPARATOR R"(\)"
-#undef RUN_SECURE_SERVER
 #define USE_STD_FILESYSTEM 1
 #endif
 
@@ -48,9 +38,7 @@
 #ifdef HAVE_ANDROID
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
-#undef RUN_SECURE_SERVER
 // Testing the std::fileystem in August 2024.
 // Results: 5 out of 6 devices tested had crashes in C++.
 // See https://github.com/bibledit/cloud/issues/952 for more info.
@@ -60,8 +48,6 @@
 #ifdef HAVE_MACOS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_BARE_BROWSER 1
-#undef RUN_SECURE_SERVER
 #define USE_STD_FILESYSTEM 1
 #endif
 
@@ -70,17 +56,13 @@
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #define HAVE_PARATEXT 1
-#define HAVE_BARE_BROWSER 1
-#undef RUN_SECURE_SERVER
 #endif
 
 
 #ifdef HAVE_IOS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
-#undef RUN_SECURE_SERVER
 // The std::filesystem makes the app so slow in the iOS simulator
 // that it appears to be stuck during the setup phase, where it copies files.
 // This was tested in August 2024.

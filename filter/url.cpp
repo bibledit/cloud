@@ -248,12 +248,12 @@ std::string filter_url_dirname(std::string url)
 {
     if (!url.empty())
     {
-        if (url.find_last_of(DIRECTORY_SEPARATOR) == url.length() - 1)
+        if (url.find_last_of(std::filesystem::path::preferred_separator) == url.length() - 1)
         {
             // Remove trailing slash.
             url = url.substr(0, url.length() - 1);
         }
-        const size_t pos = url.find_last_of(DIRECTORY_SEPARATOR);
+        const size_t pos = url.find_last_of(std::filesystem::path::preferred_separator);
         if (pos != std::string::npos)
             url = url.substr(0, pos);
         else
@@ -310,12 +310,12 @@ std::string filter_url_basename(std::string url)
 {
     if (!url.empty())
     {
-        if (url.find_last_of(DIRECTORY_SEPARATOR) == url.length() - 1)
+        if (url.find_last_of(std::filesystem::path::preferred_separator) == url.length() - 1)
         {
             // Remove trailing slash.
             url = url.substr(0, url.length() - 1);
         }
-        size_t pos = url.find_last_of(DIRECTORY_SEPARATOR);
+        size_t pos = url.find_last_of(std::filesystem::path::preferred_separator);
         if (pos != std::string::npos) url = url.substr(pos + 1);
     }
     return url;
@@ -399,7 +399,7 @@ std::string filter_url_create_path(const std::vector<std::string>& parts)
         else
         {
             // Other parts: Append the directory separator and then the part.
-            path += DIRECTORY_SEPARATOR;
+            path += std::filesystem::path::preferred_separator;
             path += parts[i];
         }
     }
@@ -472,7 +472,7 @@ std::string filter_url_create_root_path(const std::vector<std::string>& parts)
         // So remove that starting slash.
         if (!part.empty()) if (part[0] == '/') part = part.erase(0, 1);
         // Add the part, with a preceding path separator.
-        path += DIRECTORY_SEPARATOR;
+        path += std::filesystem::path::preferred_separator;
         path += part;
     }
     // Done.
@@ -2191,7 +2191,7 @@ std::string filter_url_filename_unclean(std::string name)
 std::string filter_url_update_directory_separator_if_windows(std::string filename)
 {
 #ifdef HAVE_WINDOWS
-    filename = filter::string::replace("/", DIRECTORY_SEPARATOR, filename);
+    filename = filter::string::replace("/", std::filesystem::path::preferred_separator, filename);
 #endif
     return filename;
 }

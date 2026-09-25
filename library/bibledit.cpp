@@ -342,18 +342,18 @@ void bibledit_stop_library()
     url.append(config::logic::http_network_port());
     filter_url_http_get(url, error, false);
 
-#ifdef RUN_SECURE_SERVER
-    // If the secure server runs, connect to it to initiate its shutdown mechanism.
-    std::string https_port = config::logic::https_network_port();
-    if (https_port.length() > 1)
-    {
-        url = "https://localhost:";
-        url.append(https_port);
-        filter_url_http_get(url, error, false);
-        // Let the connection start, then close it.
-        // The server will then abort the TLS handshake, and shut down.
+    if constexpr (config::logic::run_secure_web_server()) {
+        // If the secure server runs, connect to it to initiate its shutdown mechanism.
+        std::string https_port = config::logic::https_network_port();
+        if (https_port.length() > 1)
+        {
+            url = "https://localhost:";
+            url.append(https_port);
+            filter_url_http_get(url, error, false);
+            // Let the connection start, then close it.
+            // The server will then abort the TLS handshake, and shut down.
+        }
     }
-#endif
 
     // Stop the thread pools for the workers.
     stop_thread_pool();

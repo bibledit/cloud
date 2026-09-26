@@ -235,22 +235,23 @@ std::string menu_logic_main_categories(Webserver_Request& webserver_request, std
         }
     }
 
-#ifdef HAVE_CLOUD // Todo
-    // When a user is not logged in, or if a guest is logged in,
-    // put the public feedback into the main menu, rather than in a sub menu.
-    if (menu_logic_public_or_guest(webserver_request))
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
     {
-        if (!public_logic_bibles().empty())
+        // When a user is not logged in, or if a guest is logged in,
+        // put the public feedback into the main menu, rather than in a sub menu.
+        if (menu_logic_public_or_guest(webserver_request))
         {
-            if (!config::logic::create_no_accounts())
+            if (not public_logic_bibles().empty())
             {
-                html.push_back(menu_logic_create_item(public_index_url(), menu_logic_public_feedback_text(), true, "",
-                                                      ""));
-                tooltipbits.push_back(menu_logic_public_feedback_text());
+                if (not config::logic::create_no_accounts())
+                {
+                    html.push_back(menu_logic_create_item(public_index_url(), menu_logic_public_feedback_text(), true, "",
+                                                          ""));
+                    tooltipbits.push_back(menu_logic_public_feedback_text());
+                }
             }
         }
     }
-#endif
 
     // When a user is logged in, and is a guest, put the Logout into the main menu, rather than in a sub menu.
     if (webserver_request.session_logic()->get_logged_in())
@@ -336,26 +337,27 @@ std::string menu_logic_basic_categories(Webserver_Request& webserver_request)
         html.push_back(menu_logic_create_item(personalize_index_url(), "⋮", true, "", color));
     }
 
-#ifdef HAVE_CLOUD // Todo
-    // When a user is not logged in, or a guest,
-    // put the public feedback into the main menu, rather than in a sub menu.
-    // This is the default configuration.
-    bool public_feedback_possible{true};
-    if (public_feedback_possible)
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
     {
-        if (menu_logic_public_or_guest(webserver_request))
+        // When a user is not logged in, or a guest,
+        // put the public feedback into the main menu, rather than in a sub menu.
+        // This is the default configuration.
+        bool public_feedback_possible{true};
+        if (public_feedback_possible)
         {
-            if (!public_logic_bibles().empty())
+            if (menu_logic_public_or_guest(webserver_request))
             {
-                if (!config::logic::create_no_accounts())
+                if (!public_logic_bibles().empty())
                 {
-                    html.push_back(menu_logic_create_item(public_index_url(), menu_logic_public_feedback_text(), true,
-                                                          "", ""));
+                    if (!config::logic::create_no_accounts())
+                    {
+                        html.push_back(menu_logic_create_item(public_index_url(), menu_logic_public_feedback_text(), true,
+                                                              "", ""));
+                    }
                 }
             }
         }
     }
-#endif
 
     // When not logged in, display Login menu item.
     if (webserver_request.session_logic()->get_username().empty())
@@ -366,18 +368,19 @@ std::string menu_logic_basic_categories(Webserver_Request& webserver_request)
     // When a user is logged in, and is a guest,
     // put the Logout into the main menu,
     // rather than in a sub menu.
-#ifdef HAVE_CLOUD // Todo
-    if (webserver_request.session_logic()->get_logged_in())
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
     {
-        if (webserver_request.session_logic()->get_level() == roles::guest)
+        if (webserver_request.session_logic()->get_logged_in())
         {
-            if (session_logout_acl(webserver_request))
+            if (webserver_request.session_logic()->get_level() == roles::guest)
             {
-                html.push_back(menu_logic_create_item(session_logout_url(), menu_logic_logout_text(), true, "", ""));
+                if (session_logout_acl(webserver_request))
+                {
+                    html.push_back(menu_logic_create_item(session_logout_url(), menu_logic_logout_text(), true, "", ""));
+                }
             }
         }
     }
-#endif
 
     return filter::string::implode(html, "\n");
 }
@@ -478,25 +481,26 @@ std::string menu_logic_translate_category(Webserver_Request& webserver_request, 
 
     // When a user is logged in, but not a guest,
     // put the public feedback into this sub menu, rather than in the main menu.
-#ifndef HAVE_CLIENT // Todo
-    if (!webserver_request.session_logic()->get_username().empty())
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
     {
-        if (!menu_logic_public_or_guest(webserver_request))
+        if (not webserver_request.session_logic()->get_username().empty())
         {
-            if (!public_logic_bibles().empty())
+            if (not menu_logic_public_or_guest(webserver_request))
             {
-                if (!config::logic::create_no_accounts())
+                if (not public_logic_bibles().empty())
                 {
-                    html.push_back(menu_logic_create_item(public_index_url(), menu_logic_public_feedback_text(), true,
-                                                          "", ""));
-                    labels.push_back(menu_logic_public_feedback_text());
+                    if (not config::logic::create_no_accounts())
+                    {
+                        html.push_back(menu_logic_create_item(public_index_url(), menu_logic_public_feedback_text(), true,
+                                                              "", ""));
+                        labels.push_back(menu_logic_public_feedback_text());
+                    }
                 }
             }
         }
     }
-#endif
 
-    if (!html.empty())
+    if (not html.empty())
     {
         html.insert(html.begin(), menu_logic_translate_text() + ": ");
     }
@@ -634,14 +638,16 @@ std::string menu_logic_tools_category(Webserver_Request& webserver_request, std:
         if (label == changes)
         {
             // Downloading revisions only on server, not on client.
-#ifndef HAVE_CLIENT // Todo
-            if (index_listing_acl(webserver_request, "revisions"))
+            if constexpr (config::logic::platform() == config::logic::Platform::cloud)
             {
-                html.push_back(menu_logic_create_item(index_listing_url("revisions"), menu_logic_changes_text(), true,
-                                                      "", ""));
-                tiplabels.push_back(menu_logic_changes_text());
+                if (index_listing_acl(webserver_request, "revisions"))
+                {
+                    html.push_back(menu_logic_create_item(index_listing_url("revisions"), menu_logic_changes_text(),
+                                                          true,
+                                                          "", ""));
+                    tiplabels.push_back(menu_logic_changes_text());
+                }
             }
-#endif
         }
 
         if (label == send_receive)
@@ -785,29 +791,33 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
                                                       false, "", ""));
                 tiplabels.push_back(menu_logic_resources_text());
             }
-#ifdef HAVE_CLIENT // Todo
             // Only client can cache resources.
             // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
             // Many Cloud instances may run on one server, and if the Cloud were to cache resources,
-            // it would be going to use a huge amount of disk space.
-            if (resource_cache_acl(webserver_request))
+            // it would be using a huge amount of disk space.
+            if constexpr (config::logic::platform() != config::logic::Platform::cloud)
             {
-                html.push_back(menu_logic_create_item(resource_cache_url(), menu_logic_resources_text(), true, "", ""));
-                tiplabels.push_back(menu_logic_resources_text());
+                if (resource_cache_acl(webserver_request))
+                {
+                    html.push_back(
+                        menu_logic_create_item(resource_cache_url(), menu_logic_resources_text(), true, "", ""));
+                    tiplabels.push_back(menu_logic_resources_text());
+                }
             }
-#endif
         }
 
         if (label == changes)
         {
-#ifndef HAVE_CLIENT // Todo
             // Managing change notifications only on server, not on client.
-            if (changes_manage_acl(webserver_request))
+            if constexpr (config::logic::platform() == config::logic::Platform::cloud)
             {
-                html.push_back(menu_logic_create_item(changes_manage_url(), menu_logic_changes_text(), true, "", ""));
-                tiplabels.push_back(menu_logic_changes_text());
+                if (changes_manage_acl(webserver_request))
+                {
+                    html.push_back(
+                        menu_logic_create_item(changes_manage_url(), menu_logic_changes_text(), true, "", ""));
+                    tiplabels.push_back(menu_logic_changes_text());
+                }
             }
-#endif
         }
 
         if (label == preferences)
@@ -821,25 +831,27 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
 
         if (label == users)
         {
-#ifndef HAVE_CLIENT // Todo
-            if (manage_users_acl(webserver_request))
+            if constexpr (config::logic::platform() == config::logic::Platform::cloud)
             {
-                html.push_back(menu_logic_create_item(manage_users_url(), menu_logic_manage_users_text(), true, "",
-                                                      ""));
-                tiplabels.push_back(menu_logic_manage_users_text());
+                if (manage_users_acl(webserver_request))
+                {
+                    html.push_back(menu_logic_create_item(manage_users_url(), menu_logic_manage_users_text(), true, "",
+                                                          ""));
+                    tiplabels.push_back(menu_logic_manage_users_text());
+                }
             }
-#endif
         }
 
         if (label == mail)
         {
-#ifndef HAVE_CLIENT // Todo
-            if (email_index_acl(webserver_request))
+            if constexpr (config::logic::platform() == config::logic::Platform::cloud)
             {
-                html.push_back(menu_logic_create_item(email_index_url(), label, true, "", ""));
-                tiplabels.push_back(label);
+                if (email_index_acl(webserver_request))
+                {
+                    html.push_back(menu_logic_create_item(email_index_url(), label, true, "", ""));
+                    tiplabels.push_back(label);
+                }
             }
-#endif
         }
 
         if (label == styles)
@@ -871,26 +883,27 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
             }
         }
 
-#ifndef HAVE_CLIENT // Todo
-        if (label == repository)
+        if constexpr (config::logic::platform() == config::logic::Platform::cloud)
         {
-            if (collaboration_index_acl(webserver_request))
+            if (label == repository)
             {
-                html.push_back(menu_logic_create_item(collaboration_index_url(), label, true, "", ""));
-                tiplabels.push_back(label);
+                if (collaboration_index_acl(webserver_request))
+                {
+                    html.push_back(menu_logic_create_item(collaboration_index_url(), label, true, "", ""));
+                    tiplabels.push_back(label);
+                }
             }
         }
-#endif
 
         if (label == cloud)
         {
             // If the installation is not prepared for Client mode, disable the Cloud menu item.
             // But keep the menu item in an open installation.
             bool cloud_menu = client_index_acl(webserver_request);
-#ifndef HAVE_CLIENT // Todo
-            cloud_menu = false;
-#endif
-            if (config::logic::demo_enabled()) cloud_menu = true;
+            if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+                cloud_menu = false;
+            if (config::logic::demo_enabled())
+                cloud_menu = true;
             if (cloud_menu)
             {
                 if (client_index_acl(webserver_request))
@@ -913,29 +926,30 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
             }
         }
 
-#ifdef HAVE_CLOUD // Todo
-        // Logout menu entry only in the Cloud, never on the client.
-        if (label == menu_logic_logout_text())
+        if constexpr (config::logic::platform() == config::logic::Platform::cloud)
         {
-            // Cannot logout in the demo.
-            if (!demo)
+            // Logout menu entry only in the Cloud, never on the client.
+            if (label == menu_logic_logout_text())
             {
-                // If logged in, but not as guest, put the Logout menu here.
-                if (webserver_request.session_logic()->get_logged_in())
+                // Cannot logout in the demo.
+                if (!demo)
                 {
-                    if (webserver_request.session_logic()->get_level() != roles::guest)
+                    // If logged in, but not as guest, put the Logout menu here.
+                    if (webserver_request.session_logic()->get_logged_in())
                     {
-                        if (session_logout_acl(webserver_request))
+                        if (webserver_request.session_logic()->get_level() != roles::guest)
                         {
-                            html.push_back(
-                                menu_logic_create_item(session_logout_url(), menu_logic_logout_text(), true, "", ""));
-                            tiplabels.push_back(menu_logic_logout_text());
+                            if (session_logout_acl(webserver_request))
+                            {
+                                html.push_back(
+                                    menu_logic_create_item(session_logout_url(), menu_logic_logout_text(), true, "", ""));
+                                tiplabels.push_back(menu_logic_logout_text());
+                            }
                         }
                     }
                 }
             }
         }
-#endif
 
         if (label == notifications)
         {
@@ -946,22 +960,23 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
             }
         }
 
-#ifdef HAVE_CLOUD // Todo
-        if (label == account)
+        if constexpr (config::logic::platform() == config::logic::Platform::cloud)
         {
-            if (!demo)
+            if (label == account)
             {
-                if (!ldap_logic_is_on())
+                if (not demo)
                 {
-                    if (user_account_acl(webserver_request))
+                    if (not ldap_logic_is_on())
                     {
-                        html.push_back(menu_logic_create_item(user_account_url(), label, true, "", ""));
-                        tiplabels.push_back(label);
+                        if (user_account_acl(webserver_request))
+                        {
+                            html.push_back(menu_logic_create_item(user_account_url(), label, true, "", ""));
+                            tiplabels.push_back(label);
+                        }
                     }
                 }
             }
         }
-#endif
 
         if (label == basic_mode)
         {
@@ -1007,65 +1022,59 @@ std::string menu_logic_settings_resources_category([[maybe_unused]] Webserver_Re
 {
     std::vector<std::string> html;
 
-#ifdef HAVE_CLOUD // Todo
-    if (resource_manage_acl(webserver_request))
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
     {
-        html.push_back(menu_logic_create_item(resource_manage_url(), translate("USFM"), true, "", ""));
-    }
-#endif
-
-#ifdef HAVE_CLOUD // Todo
-    if (!config_globals_hide_bible_resources)
-    {
-        if (resource_sword_acl(webserver_request))
+        if (resource_manage_acl(webserver_request))
         {
-            html.push_back(menu_logic_create_item(resource_sword_url(), translate("SWORD"), true, "", ""));
+            html.push_back(menu_logic_create_item(resource_manage_url(), translate("USFM"), true, "", ""));
         }
     }
-#endif
 
-#ifdef HAVE_CLOUD // Todo
-    if (resource_user9edit_acl(webserver_request))
-    {
-        html.push_back(menu_logic_create_item(resource_user9edit_url(), translate("User-defined"), true, "", ""));
-    }
-#endif
-
-#ifdef HAVE_CLOUD // Todo
-    if (!config_globals_hide_bible_resources)
-    {
-        if (resource_biblegateway_acl(webserver_request))
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        if (not config_globals_hide_bible_resources)
         {
-            html.push_back(menu_logic_create_item(resource_biblegateway_url(), "BibleGateway", true, "", ""));
+            if (resource_sword_acl(webserver_request))
+            {
+                html.push_back(menu_logic_create_item(resource_sword_url(), translate("SWORD"), true, "", ""));
+            }
         }
-    }
-#endif
 
-#ifdef HAVE_CLOUD // Todo
-    if (!config_globals_hide_bible_resources)
-    {
-        if (resource_studylight_acl(webserver_request))
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        if (resource_user9edit_acl(webserver_request))
         {
-            html.push_back(menu_logic_create_item(resource_studylight_url(), "StudyLight", true, "", ""));
+            html.push_back(menu_logic_create_item(resource_user9edit_url(), translate("User-defined"), true, "", ""));
         }
-    }
-#endif
 
-#ifdef HAVE_CLOUD // Todo
-    if (resource_comparative9edit_acl(webserver_request))
-    {
-        html.push_back(menu_logic_create_item(resource_comparative9edit_url(), translate("Comparative"), true, "", ""));
-    }
-#endif
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        if (!config_globals_hide_bible_resources)
+        {
+            if (resource_biblegateway_acl(webserver_request))
+            {
+                html.push_back(menu_logic_create_item(resource_biblegateway_url(), "BibleGateway", true, "", ""));
+            }
+        }
 
-#ifdef HAVE_CLOUD // Todo
-    if (resource_translated9edit_acl(webserver_request))
-    {
-        html.push_back(menu_logic_create_item(resource_translated9edit_url(), translate("Translated"), true, "", ""));
-    }
-#endif
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        if (!config_globals_hide_bible_resources)
+        {
+            if (resource_studylight_acl(webserver_request))
+            {
+                html.push_back(menu_logic_create_item(resource_studylight_url(), "StudyLight", true, "", ""));
+            }
+        }
 
-    if (!html.empty())
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        if (resource_comparative9edit_acl(webserver_request))
+            html.push_back(menu_logic_create_item(resource_comparative9edit_url(), translate("Comparative"), true, "", ""));
+
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        if (resource_translated9edit_acl(webserver_request))
+        {
+            html.push_back(
+                menu_logic_create_item(resource_translated9edit_url(), translate("Translated"), true, "", ""));
+        }
+
+    if (not html.empty())
     {
         html.insert(html.begin(), menu_logic_resources_text() + ": ");
     }

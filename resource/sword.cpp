@@ -105,12 +105,11 @@ std::string resource_sword (Webserver_Request& webserver_request)
   view.set_variable ("moduleblock", moduleblock);
 
   
-#ifdef HAVE_CLIENT // Todo
-  view.enable_zone ("client");
-#else
-  view.enable_zone ("server");
-#endif
-  
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        view.enable_zone ("server");
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+        view.enable_zone ("client");
+
   
   page += view.render ("resource", "sword");
   page += assets_page::footer ();

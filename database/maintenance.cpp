@@ -31,9 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/ipc.h>
 #include <database/notes.h>
 #include <database/check.h>
-#include <database/sprint.h>
 #include <database/navigation.h>
-#include <database/sprint.h>
 #include <database/jobs.h>
 #include <database/config/user.h>
 #include <database/cache.h>
@@ -74,11 +72,12 @@ void database_maintenance ()
   database_mail.optimize ();
   
   
-#ifdef HAVE_CLOUD // Todo
-  database::confirm::trim ();
-  database::confirm::optimize ();
-#endif
-  
+  if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+  {
+      database::confirm::trim ();
+      database::confirm::optimize ();
+  }
+
   
   // No need to optimize the following because it is hardly ever written to.
   // Database_Books database_book = Database_Books ();
@@ -99,12 +98,6 @@ void database_maintenance ()
   database::check::optimize ();
   
   
-#ifdef HAVE_CLOUD // Todo
-  Database_Sprint database_sprint = Database_Sprint ();
-  database_sprint.optimize ();
-#endif
-  
-  
   Database_Navigation database_navigation;
   database_navigation.create();
   database_navigation.trim();
@@ -114,8 +107,7 @@ void database_maintenance ()
   database_jobs::optimize ();
   
   
-  Database_Config_User database_config_user (webserver_request);
-  database_config_user.trim ();
+  Database_Config_User::trim ();
   
   
   database::login::trim ();
@@ -125,14 +117,12 @@ void database_maintenance ()
   DatabasePrivileges::optimize ();
   
   
-#ifdef HAVE_CLOUD // Todo
-  database::git::optimize ();
-#endif
+  if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    database::git::optimize ();
 
   
-#ifdef HAVE_CLOUD // Todo
-  Database_Statistics::optimize ();
-#endif
+  if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    Database_Statistics::optimize ();
 
   
   // Only maintain it when it does not yet exist, to avoid unnecessary downloads by the clients.
@@ -142,7 +132,6 @@ void database_maintenance ()
   access_logic::create_client_files ();
   
   
-#ifdef HAVE_CLOUD // Todo
-  sword_logic_trim_modules ();
-#endif
+  if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    sword_logic_trim_modules ();
 }

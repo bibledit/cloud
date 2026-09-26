@@ -28,9 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It is checked and optionally recreated at least once a day.
 
 
-#ifdef HAVE_CLOUD // Todo
-
-
 void Database_Statistics::create ()
 {
   SqliteDatabase sql = SqliteDatabase (name ());
@@ -111,6 +108,3 @@ int Database_Statistics::year_ago ()
   timestamp -= (3600 * 24 * 365);
   return timestamp;
 }
-
-
-#endif

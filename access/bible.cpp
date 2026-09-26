@@ -29,107 +29,113 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 namespace access_bible {
-
-
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
-bool read ([[maybe_unused]] Webserver_Request& webserver_request,
-    [[maybe_unused]] const std::string& bible,
-    [[maybe_unused]] std::string user)
+bool read([[maybe_unused]] Webserver_Request& webserver_request,
+          [[maybe_unused]] const std::string& bible,
+          [[maybe_unused]] std::string user)
 {
-  // Client: User has access to all Bibles.
-#ifdef HAVE_CLIENT // Todo
-  return true;
-#endif
+    // Client: User has access to all Bibles.
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+        return true;
 
-#ifdef HAVE_CLOUD // Todo
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        // Get the level, that is the role, of the given user.
+        const auto get_role_level = [&]
+        {
+            if (user.empty())
+            {
+                // Current user.
+                user = webserver_request.session_logic()->get_username();
+                return webserver_request.session_logic()->get_level();
+            }
+            // Take level belonging to user.
+            return database::users::get_level(user);
+        };
+        const int role_level = get_role_level();
 
-  // Get the level, that is the role, of the given user.
-  const auto get_role_level = [&]
-  {
-    if (user.empty ()) {
-      // Current user.
-      user = webserver_request.session_logic ()->get_username ();
-      return webserver_request.session_logic ()->get_level ();
+        // Managers and higher roles have read access.
+        if (role_level >= roles::manager)
+        {
+            return true;
+        }
+
+        // Read privileges for the user.
+        if (const auto [read, write] = DatabasePrivileges::get_bible(user, bible);
+            read)
+        {
+            return true;
+        }
+
+        // No Bibles assigned: Consultant can view any Bible.
+        if (role_level >= roles::consultant)
+        {
+            if (const int privileges_count = DatabasePrivileges::get_bible_book_count();
+                privileges_count == 0)
+            {
+                return true;
+            }
+        }
     }
-    // Take level belonging to user.
-    return database::users::get_level (user);
-  };
-  const int role_level = get_role_level();
-  
-  // Managers and higher roles have read access.
-  if (role_level >= roles::manager) {
-    return true;
-  }
 
-  // Read privileges for the user.
-  if (const auto [ read, write ] = DatabasePrivileges::get_bible (user, bible);
-      read) {
-    return true;
-  }
-
-  // No Bibles assigned: Consultant can view any Bible.
-  if (role_level >= roles::consultant) {
-    if (const int privileges_count = DatabasePrivileges::get_bible_book_count ();
-        privileges_count == 0) {
-      return true;
-    }
-  }
-#endif
-  
-  // Default.
-  return false;
+    // Default.
+    return false;
 }
 
 
 // Returns true if the user has write access to the $bible.
-bool write (Webserver_Request& webserver_request, const std::string& bible, std::string user)
+bool write(Webserver_Request& webserver_request, const std::string& bible, std::string user)
 {
-#ifdef HAVE_CLIENT // Todo
-  // Client: When not yet connected to the Cloud, the user has access to all Bibles.
-  // When connected to the Cloud, this no longer applies,
-  // since the client now receives the privileges from the Cloud.
-  if (!client_logic_client_enabled ()) {
-    return true;
-  }
-#endif
+    // Client: When not yet connected to the Cloud, the user has access to all Bibles.
+    // When connected to the Cloud, this no longer applies,
+    // since the client now receives the privileges from the Cloud.
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+      if (!client_logic_client_enabled())
+        return true;
 
-  const auto get_level = [&]
-  {
-    int level {0};
-    if (user.empty ()) {
-      user = webserver_request.session_logic ()->get_username ();
-      level = webserver_request.session_logic ()->get_level ();
+    const auto get_level = [&]
+    {
+        int level{0};
+        if (user.empty())
+        {
+            user = webserver_request.session_logic()->get_username();
+            level = webserver_request.session_logic()->get_level();
+        }
+        if (level == 0)
+        {
+            // Take level belonging to user.
+            level = database::users::get_level(user);
+        }
+        return level;
+    };
+    const int level = get_level();
+
+    // Managers and higher roles always have write access.
+    if (level >= roles::manager)
+    {
+        return true;
     }
-    if (level == 0) {
-      // Take level belonging to user.
-      level = database::users::get_level (user);
+
+    // Read the privileges for the user.
+    if (const auto [read, write] = DatabasePrivileges::get_bible(user, bible);
+        write)
+    {
+        return true;
     }
-    return level;
-  };
-  const int level = get_level();
-  
-  // Managers and higher roles always have write access.
-  if (level >= roles::manager) {
-    return true;
-  }
-  
-  // Read the privileges for the user.
-  if (const auto [ read, write ] = DatabasePrivileges::get_bible (user, bible);
-      write) {
-    return true;
-  }
-  
-  // No Bibles assigned: Translator can write to any bible.
-  if (level >= roles::translator) {
-    if (const int privileges_count = DatabasePrivileges::get_bible_book_count ();
-        privileges_count == 0) {
-      return true;
+
+    // No Bibles assigned: Translator can write to any bible.
+    if (level >= roles::translator)
+    {
+        if (const int privileges_count = DatabasePrivileges::get_bible_book_count();
+            privileges_count == 0)
+        {
+            return true;
+        }
     }
-  }
-  
-  // Default.
-  return false;
+
+    // Default.
+    return false;
 }
 
 
@@ -137,105 +143,111 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
 // If no user is given, it takes the currently logged-in user.
 // If the user has read-only access to even one book of the $bible,
 // then the user is considered not to have write access to the entire $bible.
-bool book_write (Webserver_Request& webserver_request, std::string user, const std::string& bible, const int book)
+bool book_write(Webserver_Request& webserver_request, std::string user, const std::string& bible, const int book)
 {
-#ifdef HAVE_CLIENT // Todo
-  // Client: When not yet connected to the Cloud, the user has access to the book.
-  // When connected to the Cloud, this no longer applies,
-  // since the client now receives the privileges from the Cloud.
-  if (!client_logic_client_enabled ()) {
-    return true;
-  }
-#endif
+    // Client: When not yet connected to the Cloud, the user has access to the book.
+    // When connected to the Cloud, this no longer applies,
+    // since the client now receives the privileges from the Cloud.
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+      if (!client_logic_client_enabled())
+        return true;
 
-  // Get the user level (role).
-  const auto get_level = [&] {
-    int level {0};
-    if (user.empty ()) {
-      user = webserver_request.session_logic ()->get_username ();
-      level = webserver_request.session_logic ()->get_level ();
+    // Get the user level (role).
+    const auto get_level = [&]
+    {
+        int level{0};
+        if (user.empty())
+        {
+            user = webserver_request.session_logic()->get_username();
+            level = webserver_request.session_logic()->get_level();
+        }
+        if (level == 0)
+        {
+            // Take level belonging to user.
+            level = database::users::get_level(user);
+        }
+        return level;
+    };
+    const int level = get_level();
+
+    // Managers and higher always have write access.
+    if (level >= roles::manager)
+    {
+        return true;
     }
-    if (level == 0) {
-      // Take level belonging to user.
-      level = database::users::get_level (user);
+
+    // Read the privileges for the user.
+    const auto get_write_access = [&]
+    {
+        bool read{false};
+        bool write{false};
+        DatabasePrivileges::get_bible_book(user, bible, book, read, write);
+        return write;
+    };
+    if (get_write_access())
+    {
+        return true;
     }
-    return level;
-  };
-  const int level = get_level();
 
-  // Managers and higher always have write access.
-  if (level >= roles::manager) {
-    return true;
-  }
-
-  // Read the privileges for the user.
-  const auto get_write_access = [&]
-  {
-    bool read {false};
-    bool write {false};
-    DatabasePrivileges::get_bible_book (user, bible, book, read, write);
-    return write;
-  };
-  if (get_write_access()) {
-    return true;
-  }
-
-  // No Bibles assigned: Translator can write to any bible.
-  if (level >= roles::translator) {
-    if (const int privileges_count = DatabasePrivileges::get_bible_book_count ();
-        privileges_count == 0) {
-      return true;
+    // No Bibles assigned: Translator can write to any bible.
+    if (level >= roles::translator)
+    {
+        if (const int privileges_count = DatabasePrivileges::get_bible_book_count();
+            privileges_count == 0)
+        {
+            return true;
+        }
     }
-  }
-  
-  // Default.
-  return false;
+
+    // Default.
+    return false;
 }
 
 
 // Returns a list of Bibles the user has read access to.
 // If no user is given, it takes the currently logged-in user.
-std::vector<std::string> bibles (Webserver_Request& webserver_request, std::string user)
+std::vector<std::string> bibles(Webserver_Request& webserver_request, std::string user)
 {
-  const auto has_read_access = [&](const auto& bible) {
-    return read (webserver_request, bible, user);
-  };
-  auto r = database::bibles::get_bibles() | std::views::filter(has_read_access);
-  return filter::string::range2vector(r);
+    const auto has_read_access = [&](const auto& bible)
+    {
+        return read(webserver_request, bible, user);
+    };
+    auto r = database::bibles::get_bibles() | std::views::filter(has_read_access);
+    return filter::string::range2vector(r);
 }
 
 
 // This function clamps bible.
 // It returns the $bible if the currently logged-in user has access to it.
 // Else it returns another accessible bible or nothing.
-std::string clamp (Webserver_Request& webserver_request, std::string bible)
+std::string clamp(Webserver_Request& webserver_request, std::string bible)
 {
-  if (!read (webserver_request, bible)) {
-    bible.clear();
-    if (const std::vector<std::string> bibles = access_bible::bibles (webserver_request);
-        !bibles.empty())
-      bible = bibles.front();
-    webserver_request.database_config_user ()->set_bible (bible);
-  }
-  return bible;
+    if (!read(webserver_request, bible))
+    {
+        bible.clear();
+        if (const std::vector<std::string> bibles = access_bible::bibles(webserver_request);
+            !bibles.empty())
+            bible = bibles.front();
+        webserver_request.database_config_user()->set_bible(bible);
+    }
+    return bible;
 }
 
 
 // This function checks whether the user in the $webserver_request
 // has $read or $write access to one or more Bibles.
 // It returns a tuple <read, write>.
-std::tuple<bool, bool> any (Webserver_Request& webserver_request)
+std::tuple<bool, bool> any(Webserver_Request& webserver_request)
 {
-  bool read {false};
-  bool write {false};
-  for (const std::vector<std::string> bibles = database::bibles::get_bibles ();
-      const auto& bible : bibles) {
-    if (access_bible::read (webserver_request, bible)) read = true;
-    if (access_bible::write (webserver_request, bible)) write = true;
-  }
-  // The results consists of <read, write>.
-  return std::make_tuple(read, write);
+    bool read{false};
+    bool write{false};
+    for (const std::vector<std::string> bibles = database::bibles::get_bibles();
+         const auto& bible : bibles)
+    {
+        if (access_bible::read(webserver_request, bible)) read = true;
+        if (access_bible::write(webserver_request, bible)) write = true;
+    }
+    // The results consists of <read, write>.
+    return std::make_tuple(read, write);
 }
-
-
 }

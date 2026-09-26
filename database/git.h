@@ -23,9 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-#ifdef HAVE_CLOUD // Todo
-
-
 namespace database::git {
 
 void create ();
@@ -41,6 +38,3 @@ void erase_row_id (int row_id);
 void touch_timestamps (int timestamp);
 
 }
-
-
-#endif

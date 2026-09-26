@@ -75,11 +75,9 @@ std::string resource_cache (Webserver_Request& webserver_request)
   }
   
   
-#ifdef HAVE_CLIENT // Todo
-  if (!client_logic_client_enabled ()) {
-    view.enable_zone ("clientdisconnected");
-  }
-#endif
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
+        if (not client_logic_client_enabled())
+            view.enable_zone("clientdisconnected");
 
   
   // The first resources listed will be the active one from the resource organizer.

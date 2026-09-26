@@ -49,10 +49,9 @@ void timer_index()
     int previous_minute{-1};
     [[maybe_unused]] int google_translate_authentication_token_age_minute{0};
 
-#ifdef HAVE_CLOUD // Todo
-    // Right after startup, update the Google Translate access token.
-    tasks::tasks_logic_queue(tasks::enums::task::get_google_access_token);
-#endif
+    // Right after Cloud startup, update the Google Translate access token.
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+        tasks::tasks_logic_queue(tasks::enums::task::get_google_access_token);
 
     while (config_globals_webserver_running)
     {

@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <tasks/logic.h>
-#ifndef HAVE_CLIENT // Todo
+#ifdef HAVE_CLOUD
 #include <sources/etcbc4.h>
 #include <sources/kjv.h>
 #include <sources/morphgnt.h>

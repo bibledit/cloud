@@ -35,8 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <setup/index.h>
 #include <setup/logic.h>
 #include <library/locks.h>
-#ifdef HAVE_CLIENT // Todo
-#else
+#ifdef HAVE_CLOUD
 #include <curl/curl.h>
 #endif
 #include <sendreceive/logic.h>
@@ -66,17 +65,18 @@ const char* bibledit_get_network_port()
     if (!config_globals_negotiated_port_number.empty()) return config_globals_negotiated_port_number.c_str();
 
     // On a client device, negotiate a local port number.
-#ifdef HAVE_CLIENT // Todo
-    std::vector<int> ports = {9876, 9987, 9998};
-    for (auto port : ports)
+    if constexpr (config::logic::platform() != config::logic::Platform::cloud)
     {
-        if (!filter_url_port_can_connect("localhost", port))
+        std::vector<int> ports = {9876, 9987, 9998};
+        for (auto port : ports)
         {
-            config_globals_negotiated_port_number = std::to_string(port);
-            break;
+            if (not filter_url_port_can_connect("localhost", port))
+            {
+                config_globals_negotiated_port_number = std::to_string(port);
+                break;
+            }
         }
     }
-#endif
 
     // Set the port number.
     config::logic::http_network_port();

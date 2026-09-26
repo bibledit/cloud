@@ -493,20 +493,21 @@ void changes_modifications ()
   config_globals_change_notifications_available = true;
 
   
-#ifdef HAVE_CLOUD // Todo
-  // Store the statistics in the database.
-  if (modification_time_count) {
-    // Take average timestamp of all timestamps.
-    const int timestamp = static_cast <int> (round (modification_time_total / static_cast<float>(modification_time_count)));
-    for (const auto & element : user_change_statistics) {
-      // Store dated change statistics per user.
-      const std::string& user = element.first;
-      const int count = element.second;
-      Database_Statistics::store_changes (timestamp, user, count);
+    if constexpr (config::logic::platform() == config::logic::Platform::cloud)
+    {
+        // Store the statistics in the database.
+        if (modification_time_count) {
+            // Take average timestamp of all timestamps.
+            const int timestamp = static_cast <int> (round (modification_time_total / static_cast<float>(modification_time_count)));
+            for (const auto & element : user_change_statistics) {
+                // Store dated change statistics per user.
+                const std::string& user = element.first;
+                const int count = element.second;
+                Database_Statistics::store_changes (timestamp, user, count);
+            }
+        }
     }
-  }
-#endif
-  
+
 
   database::logs::log<roles::translator> ("Change notifications: Ready");
 }

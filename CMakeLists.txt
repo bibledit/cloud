@@ -219,7 +219,6 @@ add_library(bibledit STATIC
         database/logic.cpp
         database/oshb.cpp
         database/sblgnt.cpp
-        database/sprint.cpp
         database/mail.cpp
         database/navigation.cpp
         database/usfmresources.cpp

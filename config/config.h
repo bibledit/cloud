@@ -65,7 +65,7 @@
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
-// Testing the std::fileystem in August 2024.
+// Testing the std::filesystem in August 2024.
 // Results: 5 out of 6 devices tested had crashes in C++.
 // See https://github.com/bibledit/cloud/issues/952 for more info.
 #endif
@@ -102,4 +102,9 @@
 // The std::filesystem makes the app so slow in the iOS simulator
 // that it appears to be stuck during the setup phase, where it copies files.
 // This was tested in August 2024.
+#endif
+
+
+#ifdef HAVE_CLOUD
+#define USE_STD_FILESYSTEM 1
 #endif

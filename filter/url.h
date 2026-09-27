@@ -49,7 +49,7 @@ void filter_url_dir_cp (const std::string & input, const std::string & output);
 int filter_url_filesize (const std::string& filename);
 std::vector <std::string> filter_url_scandir (const std::string& folder);
 void filter_url_recursive_scandir (const std::string& folder, std::vector <std::string> & paths);
-int filter_url_file_modification_time (std::string filename);
+int filter_url_file_modification_time (const std::string& filename);
 std::string filter_url_urldecode (std::string url);
 std::string filter_url_urlencode (std::string url);
 const char * filter_url_temp_dir ();

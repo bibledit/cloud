@@ -102,7 +102,7 @@ static mbedtls_ctr_drbg_context ctr_drbg_context;
 static mbedtls_entropy_context entropy_context;
 
 
-static std::vector<std::string> filter_url_scandir_internal(std::string folder, bool include_hidden = false)
+[[maybe_unused]] static std::vector<std::string> filter_url_scandir_internal(std::string folder, bool include_hidden = false)
 {
     std::vector<std::string> files;
 
@@ -773,7 +773,7 @@ int filter_url_filesize(const std::string& filename)
 {
   try {
     std::filesystem::path p (filename);
-    return std::filesystem::file_size(p);
+    return static_cast<int> (std::filesystem::file_size(p));
   } catch (...) { }
   return 0;
 }
@@ -841,13 +841,13 @@ void filter_url_recursive_scandir(const std::string& folder, std::vector<std::st
 
 
 // Get the file modification time.
-int filter_url_file_modification_time(std::string filename)
+int filter_url_file_modification_time(const std::string& filename)
 #ifdef USE_STD_FILESYSTEM
 {
   try {
     const std::filesystem::path path (filename);
     const std::filesystem::file_time_type ftime = std::filesystem::last_write_time(path);
-    const int seconds = std::chrono::duration_cast<std::chrono::seconds>(ftime.time_since_epoch()).count();
+    const int seconds = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(ftime.time_since_epoch()).count());
     return seconds;
   } catch (...) { }
   return 0;

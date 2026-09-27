@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace filter::text {
 passage_marker_value::passage_marker_value(int book, int chapter, std::string verse, std::string marker,
-                                           std::string value) :
+                                           std::string value) noexcept :
 m_book(book), m_chapter( chapter), m_verse(std::move(verse)), m_marker(std::move(marker)), m_value(std::move(value))
 {
 }

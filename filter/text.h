@@ -34,7 +34,7 @@ namespace filter::text {
 
 struct passage_marker_value
 {
-  explicit passage_marker_value (int book, int chapter, std::string verse, std::string marker, std::string value);
+  explicit passage_marker_value (int book, int chapter, std::string verse, std::string marker, std::string value) noexcept;
   int m_book {0};
   int m_chapter {0};
   std::string m_verse {};

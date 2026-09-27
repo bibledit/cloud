@@ -363,11 +363,10 @@ void http_server()
 #ifdef HAVE_CLIENT
     // When configured as a client, it listens on the IPv4 loopback device.
     // It has been seen on Ubuntu 16.04 that a Bibledit Client would not listen on a IPv6 loopback device.
-    struct sockaddr_in server_addr;
-    memset(&server_addr, 0, sizeof (server_addr));
+    sockaddr_in server_addr{};
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    server_addr.sin_port = htons(filter::string::convert_to_int (config::logic::http_network_port ()));
+    server_addr.sin_port = htons(static_cast<decltype(server_addr.sin_port)>(filter::string::convert_to_int (config::logic::http_network_port())));
 #endif
 #ifdef HAVE_CLOUD
     // When configured as a server it listens on any IPv6 address.
@@ -576,7 +575,7 @@ void http_server()
 
 
 // Processes a single request from a web client.
-static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_net_context client_fd)
+[[maybe_unused]] static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_net_context client_fd)
 {
     // Socket receive timeout, secure https.
 #ifndef HAVE_WINDOWS

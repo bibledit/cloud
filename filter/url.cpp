@@ -971,7 +971,7 @@ std::string filter_url_build_http_query(std::string url,
 }
 
 
-static size_t filter_url_curl_write_function(void* ptr, size_t size, size_t count, void* stream)
+[[maybe_unused]] static size_t filter_url_curl_write_function(void* ptr, size_t size, size_t count, void* stream)
 {
     static_cast<std::string*>(stream)->append(static_cast<char*>(ptr), 0, size * count);
     return size * count;
@@ -1047,7 +1047,7 @@ std::string filter_url_http_get(std::string url, std::string& error, [[maybe_unu
 
 
 // The debug function for libcurl, it dumps the data as specified.
-static void filter_url_curl_debug_dump(const char* text, FILE* stream, unsigned char* ptr, size_t size)
+[[maybe_unused]] static void filter_url_curl_debug_dump(const char* text, FILE* stream, unsigned char* ptr, size_t size)
 {
     size_t i;
     size_t c;

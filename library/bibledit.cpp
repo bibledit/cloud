@@ -137,9 +137,9 @@ void bibledit_initialize_library(const char* package, const char* webroot)
 #else
     // Set local timezone offset in the library on Linux.
     time_t t = time(nullptr);
-    struct tm lt = {};
+    tm lt = {};
     localtime_r(&t, &lt);
-    hours = static_cast<int>(round(lt.tm_gmtoff / 3600));
+    hours = static_cast<int>(round(static_cast<double>(lt.tm_gmtoff) / 3600));
 #endif
     config_globals_timezone_offset_utc = hours;
     database::logs::log("Timezone offset in hours:", hours);

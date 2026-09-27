@@ -1449,7 +1449,7 @@ const std::string no_entity_substitution_tags {"|script|style|"};
 const std::string treat_like_inline_tags {"|p|"};
 
 
-static std::string substitute_xml_entities_into_text(const std::string& text)
+[[maybe_unused]] static std::string substitute_xml_entities_into_text(const std::string& text)
 {
   std::string result {text};
   // Replacing & must come first.

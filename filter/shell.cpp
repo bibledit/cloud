@@ -110,7 +110,7 @@ const char* get_executable(const Executable executable)
 }
 
 
-static std::string escape_argument (std::string argument)
+[[maybe_unused]] static std::string escape_argument (std::string argument)
 {
   argument = string::replace ("'", "\\'", argument);
   argument.insert (0, "'");
@@ -232,6 +232,7 @@ bool is_present (const char* program)
 {
   // No executables in client mode.
 #ifdef HAVE_CLIENT
+  (void) program;
   return false;
 #else
   const std::string command = std::string(get_executable(Executable::which)) + " " + std::string(program) + " > /dev/null 2>&1";

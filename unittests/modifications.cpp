@@ -138,12 +138,10 @@ TEST (database, modifications_user)
 
   // Timestamp
   {
-    refresh_sandbox (true);
-    database::modifications::recordUserSave (unittest1, "bible", 1, 2, 3, "old1", 4, "new1");
-    const int time = database::modifications::getUserTimestamp (unittest1, "bible", 1, 2, 4);
-    if (const int current_time = filter::date::get_seconds_since_epoch ();
-        time < current_time - 1 or time > current_time + 1)
-        EXPECT_EQ (current_time, time);
+      refresh_sandbox(true);
+      database::modifications::recordUserSave(unittest1, "bible", 1, 2, 3, "old1", 4, "new1");
+      const int time = database::modifications::getUserTimestamp(unittest1, "bible", 1, 2, 4);
+      EXPECT_NEAR (time, filter::date::get_seconds_since_epoch (), 1);
   }
 }
 
@@ -488,15 +486,13 @@ TEST (database, modifications_notifications)
     database::modifications::create ();
 
     int timestamp = database::modifications::getNotificationTimeStamp (0);
-    int current_time = filter::date::get_seconds_since_epoch ();
-    if ((timestamp < current_time) || (timestamp > current_time + 1))
-        EXPECT_EQ (current_time, timestamp);
+    EXPECT_NEAR(timestamp, filter::date::get_seconds_since_epoch (), 1);
 
     int time = filter::date::get_seconds_since_epoch () - 21600;
     database::modifications::recordNotification ({unittest0}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     timestamp = database::modifications::getNotificationTimeStamp (1);
-    if ((timestamp < time) || (timestamp > time + 1)) EXPECT_EQ (time, timestamp);
+    EXPECT_NEAR(timestamp, time, 1);
   }
 
   // Category.

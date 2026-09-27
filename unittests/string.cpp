@@ -183,13 +183,17 @@ TEST(filter, string)
         int ceiling = 999'999;
         int r1 = filter::string::rand(floor, ceiling);
         if (r1 < floor or r1 > ceiling)
-            EXPECT_EQ("Random generator out of bounds", std::to_string (r1));
+        {
+            FAIL() << "Random generator out of bounds: " << r1;
+        }
         int r2 = filter::string::rand(floor, ceiling);
         if (r2 < floor or r2 > ceiling)
-            EXPECT_EQ("Random generator out of bounds", std::to_string (r2));
-        if (r1 == r2)
-            EXPECT_EQ("Random generator should generate different values",
-                  std::to_string (r1) + " " + std::to_string (r2));
+        {
+            FAIL() << "Random generator out of bounds: " << r2;
+        }
+        if (r1 == r2) {
+            FAIL() << "Random generator should generate different values: " << r1 << " " << r2;
+        }
     }
 
     // Convert HTML to plain text.

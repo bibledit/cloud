@@ -114,7 +114,7 @@ TEST(tasks, database)
         const auto& [task, parameters] = queue2.front();
         EXPECT_EQ(task, create_css);
         EXPECT_EQ(parameters.size(), 4);
-        EXPECT_TRUE(std::ranges::all_of(parameters, [](const auto& p) { return p.empty(); }));
+        EXPECT_TRUE(std::ranges::all_of(parameters, [](const auto& p) noexcept { return p.empty(); }));
     }
 
     // Save two tasks with varying parameters. Test properly loading them.

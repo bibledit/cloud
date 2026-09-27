@@ -81,9 +81,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unordered_map>
 #include <memory>
 #include <tuple>
-#ifdef USE_STD_FILESYSTEM
 #include <filesystem>
-#endif
 #include <optional>
 #include <list>
 #include <variant>

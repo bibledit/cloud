@@ -578,15 +578,15 @@ TEST (database, modifications_notifications)
     database::modifications::recordNotification ({unittest1, unittest2, unittest3}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database::modifications::indexTrimAllNotifications ();
     std::vector <int> ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
-    EXPECT_EQ (3, static_cast <int>(ids.size ()));
+    EXPECT_EQ (3u, ids.size());
 
     database::modifications::clearNotificationsUser (unittest2);
 
     ids = database::modifications::getNotificationIdentifiers (any_user, any_bible);
-    EXPECT_EQ (2, static_cast <int>(ids.size ()));
+    EXPECT_EQ (2u, ids.size());
 
     ids = database::modifications::getNotificationIdentifiers (unittest2, "");
-    EXPECT_EQ (0, static_cast <int>(ids.size ()));
+    EXPECT_EQ (0u, ids.size());
   }
 
   // Clear matches one.

@@ -185,12 +185,6 @@ int main()
             osis.append("\")");
             translatables.push_back(osis);
         }
-        if (std::string bible_works = books_table[i].bibleworks; not bible_works.empty())
-        {
-            bible_works.insert(0, "translate(\"");
-            bible_works.append("\")");
-            translatables.push_back(bible_works);
-        }
     }
 
     // Store translatable strings.

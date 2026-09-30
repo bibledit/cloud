@@ -152,7 +152,6 @@ namespace database::books {
 [[nodiscard]] std::string get_osis_from_id (book_id id);
 [[nodiscard]] book_id get_id_from_usfm (std::string_view usfm);
 [[nodiscard]] book_id get_id_from_osis (std::string_view osis);
-[[nodiscard]] book_id get_id_from_bibleworks (std::string_view bibleworks);
 [[nodiscard]] book_id get_id_like_text (const std::string & text);
 [[nodiscard]] book_id get_id_from_onlinebible (std::string_view onlinebible);
 [[nodiscard]] std::string get_onlinebible_from_id (book_id id);

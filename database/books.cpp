@@ -95,13 +95,6 @@ book_id get_id_from_osis(const std::string_view osis)
     return lookup_field<&book_record::osis, &book_record::id>(osis, std::move(default_fn));
 }
 
-book_id get_id_from_bibleworks(const std::string_view bibleworks)
-{
-    auto default_fn = [] () noexcept { return book_id::_unknown; };
-    return lookup_field<&book_record::bibleworks, &book_record::id>(bibleworks, std::move(default_fn));
-}
-
-
 // Tries to interpret $text as the name of a Bible book.
 // Returns the book's identifier if it succeeds.
 // If it fails, it returns 0.
@@ -126,7 +119,6 @@ book_id get_id_like_text(const std::string& text)
         candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(std::string{record.osis})));
         // USFM is canonical uppercase: Leave it like that.
         candidates.emplace_back(record.id, filter_diff_character_similarity(text, std::string{record.usfm}));
-        candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(std::string{record.bibleworks})));
         candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(std::string{record.onlinebible})));
     }
 

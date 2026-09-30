@@ -103,13 +103,6 @@ book_id filter_passage_interpret_book(std::string book)
             return identifier;
     }
 
-    // Recognize the BibleWorks book abbreviations.
-    {
-        if (const book_id identifier = database::books::get_id_from_bibleworks(book);
-            identifier != book_id::_unknown)
-            return identifier;
-    }
-
     // Handle names from BibleWorks when copying the verse list to the clipboard.
     // These are not handled elsewhere.
     if (book == "Cant") return book_id::_song_of_solomon;

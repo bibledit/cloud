@@ -37,7 +37,6 @@ TEST (database, books)
   EXPECT_EQ (static_cast<int>(book_id::_unknown), static_cast<int>(database::books::get_id_from_english ("exodus")));
   EXPECT_EQ ("Leviticus", database::books::get_english_from_id (book_id::_leviticus));
   EXPECT_EQ ("NUM", database::books::get_usfm_from_id (book_id::_numbers));
-  EXPECT_EQ ("Deu", database::books::get_bibleworks_from_id (book_id::_deuteronomy));
   EXPECT_EQ (static_cast<int>(book_id::_song_of_solomon), static_cast<int>(database::books::get_id_from_usfm ("SNG")));
   EXPECT_EQ (static_cast<int>(book_id::_1_chronicles), static_cast<int>(database::books::get_id_from_osis ("1Chr")));
   EXPECT_EQ (static_cast<int>(book_id::_2_kings), static_cast<int>(database::books::get_id_from_bibleworks ("2Ki")));

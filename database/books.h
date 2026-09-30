@@ -149,7 +149,6 @@ namespace database::books {
 [[nodiscard]] book_id get_id_from_english (std::string_view english) noexcept;
 [[nodiscard]] std::string get_english_from_id (book_id id);
 [[nodiscard]] std::string get_usfm_from_id (book_id id);
-[[nodiscard]] std::string get_bibleworks_from_id (book_id id);
 [[nodiscard]] std::string get_osis_from_id (book_id id);
 [[nodiscard]] book_id get_id_from_usfm (std::string_view usfm);
 [[nodiscard]] book_id get_id_from_osis (std::string_view osis);

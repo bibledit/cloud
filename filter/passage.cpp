@@ -170,19 +170,6 @@ book_id filter_passage_interpret_book(std::string book)
         if (nospacebook == filter::string::unicode_string_casefold(localized)) return identifier;
     }
 
-    // Try the abbreviations of BibleWorks.
-    for (const auto identifier : book_ids)
-    {
-        std::string bibleworks = database::books::get_bibleworks_from_id(identifier);
-        if (bibleworks.empty()) continue;
-        if (book == filter::string::unicode_string_casefold(bibleworks)) return identifier;
-        if (nospacebook == filter::string::unicode_string_casefold(bibleworks)) return identifier;
-        std::string localized = translate(bibleworks);
-        if (localized.empty()) continue;
-        if (book == filter::string::unicode_string_casefold(localized)) return identifier;
-        if (nospacebook == filter::string::unicode_string_casefold(localized)) return identifier;
-    }
-
     // Try the abbreviations of the Online Bible.
     for (auto identifier : book_ids)
     {

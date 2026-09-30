@@ -77,12 +77,6 @@ std::string get_usfm_from_id(const book_id id)
     return std::string{lookup_field<&book_record::id, &book_record::usfm>(id, std::move(default_fn))};
 }
 
-std::string get_bibleworks_from_id(const book_id id)
-{
-    auto default_fn = [] () noexcept { return std::string_view{"Xxx"}; };
-    return std::string{lookup_field<&book_record::id, &book_record::bibleworks>(id, std::move(default_fn))};
-}
-
 std::string get_osis_from_id(const book_id id)
 {
     auto default_fn = [] () noexcept { return std::string_view{"Unknown"}; };

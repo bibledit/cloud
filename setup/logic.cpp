@@ -153,15 +153,24 @@ void setup_copy_library (const char * package)
 }
 
 
-void setup_write_access ()
+void setup_write_access()
 {
-  std::vector <std::string> folders = {"exports", "git", "revisions", "dyncss", database_logic_databases (), "bibles", "fonts", "logbook", filter_url_temp_dir ()};
-  for (const auto& folder : folders) {
-    const std::string path = filter_url_create_root_path ({folder});
-    if (!filter_url_get_write_permission (path)) {
-      filter_url_set_write_permission (path);
+    const std::vector<std::string> folders = {
+        "exports", "git", "revisions", "dyncss", database_logic_databases(), "bibles", "fonts", "logbook",
+        filter_url_temp_dir()
+    };
+    for (const auto& folder : folders)
+    {
+        try
+        {
+            if (const std::string path = filter_url_create_root_path({folder}); not filter_url_get_write_permission(path))
+                filter_url_set_write_permission(path);
+        }
+        catch (const std::exception& exception)
+        {
+            database::logs::log(exception.what());
+        }
     }
-  }
 }
 
 

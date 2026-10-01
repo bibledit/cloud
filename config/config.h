@@ -65,9 +65,7 @@
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
-// Testing the std::filesystem in August 2024.
-// Results: 5 out of 6 devices tested had crashes in C++.
-// See https://github.com/bibledit/cloud/issues/952 for more info.
+#define USE_STD_FILESYSTEM 1
 #endif
 
 

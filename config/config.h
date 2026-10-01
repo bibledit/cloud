@@ -99,9 +99,7 @@
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
-// The std::filesystem makes the app so slow in the iOS simulator
-// that it appears to be stuck during the setup phase, where it copies files.
-// This was tested in August 2024.
+#define USE_STD_FILESYSTEM 1
 #endif
 
 

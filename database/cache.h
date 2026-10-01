@@ -22,35 +22,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 namespace database::cache::sql {
-
-std::string fragment ();
-void create (const std::string& resource, int book);
-void remove (const std::string& resource);
-void remove (const std::string&, int book);
-bool exists (const std::string& resource);
-bool exists (const std::string& resource, int book);
-bool exists (const std::string& resource, int book, int chapter, int verse);
-void cache (const std::string& resource, int book, int chapter, int verse, const std::string& value);
-std::string retrieve (const std::string& resource, int book, int chapter, int verse);
-int count (const std::string& resource);
-bool ready (const std::string& resource, int book);
-void ready (const std::string& resource, int book, bool ready);
-int size (const std::string& resource, int book);
-std::string path (const std::string& resource, int book);
-
+std::string fragment();
+void create(const std::string& resource, int book);
+void remove(const std::string& resource);
+void remove(const std::string&, int book);
+bool exists(const std::string& resource);
+bool exists(const std::string& resource, int book);
+bool exists(const std::string& resource, int book, int chapter, int verse);
+void cache(const std::string& resource, int book, int chapter, int verse, const std::string& value);
+std::string retrieve(const std::string& resource, int book, int chapter, int verse);
+int count(const std::string& resource);
+bool ready(const std::string& resource, int book);
+void ready(const std::string& resource, int book, bool ready);
+int size(const std::string& resource, int book);
+std::string path(const std::string& resource, int book);
 }
 
 namespace database::cache::file {
-
-bool exists (std::string schema);
-void put (std::string schema, const std::string& contents);
-std::string get (std::string schema);
-void trim (bool clear);
-
+bool exists(std::string schema);
+void put(std::string schema, const std::string& contents);
+std::string get(std::string schema);
+void trim(bool clear);
 }
 
 namespace database::cache {
-
-bool can_cache (const std::string & error, const std::string & html);
-
+bool can_cache(const std::string& error, const std::string& html);
 }

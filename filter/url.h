@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Webserver_Request;
 
 std::string get_base_url (const Webserver_Request& webserver_request);
-void redirect_browser (Webserver_Request& webserver_request, std::string url);
+void redirect_browser (Webserver_Request& webserver_request, const std::string& url);
 std::string filter_url_dirname (std::string url);
 std::string filter_url_dirname_web (std::string url);
 std::string filter_url_basename (std::string url);

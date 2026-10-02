@@ -102,7 +102,7 @@ static mbedtls_ctr_drbg_context ctr_drbg_context;
 static mbedtls_entropy_context entropy_context;
 
 
-[[maybe_unused]] static std::vector<std::string> filter_url_scandir_internal(std::string folder, bool include_hidden = false)
+static std::vector<std::string> filter_url_scandir_internal(const std::string& folder, const bool include_hidden = false)
 {
     std::vector<std::string> files;
 
@@ -183,7 +183,7 @@ std::string get_base_url(const Webserver_Request& webserver_request)
 
 // This function redirects the browser to "path".
 // The "path" is an absolute value.
-void redirect_browser(Webserver_Request& webserver_request, std::string path)
+void redirect_browser(Webserver_Request& webserver_request, const std::string& url)
 {
     // A location header should contain an absolute url, like http://localhost/some/path.
     // See 14.30 in the specification https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
@@ -204,7 +204,7 @@ void redirect_browser(Webserver_Request& webserver_request, std::string path)
         location = filter::string::replace(":" + plainport, ":" + secureport, location);
     }
 
-    location.append(path);
+    location.append(url);
 
     // If the page contains the topbar suppressing query,
     // the same query will be appended to the URL of the redirected page.
@@ -224,46 +224,26 @@ void redirect_browser(Webserver_Request& webserver_request, std::string path)
 // It uses the defined slash as the separator.
 // The std::filesystem could be used, but then the behaviour changes, so that is not done.
 std::string filter_url_dirname(std::string url)
-#ifdef USE_STD_FILESYSTEM
 {
-  // Remove trailing slash if there.
-  if (!url.empty ()) {
-    if (url.find_last_of (std::filesystem::path::preferred_separator) == url.length () - 1) {
-      url = url.substr (0, url.length () - 1);
-    }
-  }
-  // Not using the standard library call for getting parent path because of different behaviour.
-  const size_t pos = url.find_last_of (std::filesystem::path::preferred_separator);
-  if (pos != std::string::npos)
-    url = url.substr (0, pos);
-  else
-    url.clear();
-  // The . is important in a few cases rather than an empty string.
-  if (url.empty ())
-    url = ".";
-  // Done.
-  return url;
-}
-#else
-{
-    if (!url.empty())
+    // Remove trailing slash if there.
+    if (not url.empty())
     {
-        if (url.find_last_of(DIRECTORY_SEPARATOR) == url.length() - 1)
+        if (url.find_last_of(std::filesystem::path::preferred_separator) == url.length() - 1)
         {
-            // Remove trailing slash.
             url = url.substr(0, url.length() - 1);
         }
-        const size_t pos = url.find_last_of(DIRECTORY_SEPARATOR);
-        if (pos != std::string::npos)
-            url = url.substr(0, pos);
-        else
-            url.clear();
     }
+    // Not using the standard library call for getting parent path because of different behaviour.
+    if (const size_t pos = url.find_last_of(std::filesystem::path::preferred_separator); pos != std::string::npos)
+        url = url.substr(0, pos);
+    else
+        url.clear();
+    // The . is important in a few cases rather than an empty string.
     if (url.empty())
         url = ".";
+    // Done.
     return url;
 }
-#endif
 
 
 // Dirname routine for the web.

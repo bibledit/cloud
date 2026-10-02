@@ -36,110 +36,129 @@
 #include <journal/logic.h>
 
 
-std::string bible_import_url ()
+std::string bible_import_url()
 {
-  return "bible/import";
+    return "bible/import";
 }
 
 
-bool bible_import_acl (Webserver_Request& webserver_request)
+bool bible_import_acl(Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager);
+    return roles::access_control(webserver_request, roles::manager);
 }
 
 
-std::string bible_import (Webserver_Request& webserver_request)
+std::string bible_import(Webserver_Request& webserver_request)
 {
-  Assets_Header header (translate("Import"), webserver_request);
-  header.set_navigator ();
-  std::string page = header.run ();
-  
-  Assets_View view {};
-  
-  std::string success_message {};
-  std::string error_message {};
-  
-  // The name of the Bible.
-  const std::string bible = access_bible::clamp (webserver_request, webserver_request.query["bible"]);
-  view.set_variable ("bible", filter::string::escape_special_xml_characters (bible));
-  
-  const int book = ipc_focus::get_book (webserver_request);
-  const int chapter = ipc_focus::get_chapter (webserver_request);
+    Assets_Header header(translate("Import"), webserver_request);
+    header.set_navigator();
+    std::string page = header.run();
 
-  // Whether the user has write access to this Bible.
-  if (bool write_access = access_bible::write (webserver_request, bible); write_access) {
-    view.enable_zone ("write_access");
-  }
+    Assets_View view{};
 
-  // USFM data submission.
-  if (webserver_request.post_count("submit")) {
-    // Submission may take long if there's a lot of data or the network is slow.
-    std::string data = webserver_request.post_get("data");
-    data = filter_url_tag_to_plus (data);
-    data = filter::string::trim (data);
-    if (!data.empty()) {
-      if (filter::string::unicode_string_is_valid (data)) {
-        const std::string datafile = filter_url_tempfile ();
-        filter_url_file_put_contents (datafile, data);
-        success_message = translate("Import has started.");
-        view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-        tasks::tasks_logic_queue (tasks::enums::task::import_bible, { datafile, bible, std::to_string (book), std::to_string (chapter) });
-      } else {
-        error_message = translate("Please supply valid Unicode UTF-8 text.");
-      }
-    } else {
-      success_message = translate("Nothing was imported.");
+    std::string success_message{};
+    std::string error_message{};
+
+    // The name of the Bible.
+    const std::string bible = access_bible::clamp(webserver_request, webserver_request.query["bible"]);
+    view.set_variable("bible", filter::string::escape_special_xml_characters(bible));
+
+    const int book = ipc_focus::get_book(webserver_request);
+    const int chapter = ipc_focus::get_chapter(webserver_request);
+
+    // Whether the user has write access to this Bible.
+    if (bool write_access = access_bible::write(webserver_request, bible); write_access)
+    {
+        view.enable_zone("write_access");
     }
-    // User imported something into this Bible: Set it as the default Bible.
-    webserver_request.database_config_user()->set_bible (bible);
-  }
 
-  // Handle (multiple) file upload.
-  if (webserver_request.post_count("upload")) {
-    bool success {false};
-    std::string filename{};
-    std::string data{};
-    const auto upload = [&success, &bible, &book, &chapter, &filename, &data]() {
-      const std::string datafile = filter_url_tempfile() + filename;
-      filter_url_file_put_contents (datafile, data);
-      tasks::tasks_logic_queue (tasks::enums::task::import_bible, { datafile, bible, std::to_string (book), std::to_string (chapter) });
-      success = true;
-    };
-    for (const auto& [key, value] : webserver_request.post) {
-      if (key == "data")
-        data = value;
-      if (key == "filename")
-        filename = value;
-      if (!filename.empty() and !data.empty()) {
-        upload();
-        filename.clear();
-        data.clear();
-      }
+    // USFM data submission.
+    if (webserver_request.post_count("submit"))
+    {
+        // Submission may take long if there's a lot of data or the network is slow.
+        std::string data = webserver_request.post_get("data");
+        data = filter_url_tag_to_plus(data);
+        data = filter::string::trim(data);
+        if (!data.empty())
+        {
+            if (filter::string::unicode_string_is_valid(data))
+            {
+                const std::string datafile = filter_url_tempfile();
+                filter_url_file_put_contents(datafile, data);
+                success_message = translate("Import has started.");
+                view.set_variable("journal", journal_logic_see_journal_for_progress());
+                tasks::tasks_logic_queue(tasks::enums::task::import_bible, {
+                                             datafile, bible, std::to_string(book), std::to_string(chapter)
+                                         });
+            }
+            else
+            {
+                error_message = translate("Please supply valid Unicode UTF-8 text.");
+            }
+        }
+        else
+        {
+            success_message = translate("Nothing was imported.");
+        }
+        // User imported something into this Bible: Set it as the default Bible.
+        webserver_request.database_config_user()->set_bible(bible);
     }
-    if (success) {
-      success_message = translate("Import has started.");
-      view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-    } else {
-      error_message = translate ("Nothing was uploaded");
+
+    // Handle (multiple) file upload.
+    if (webserver_request.post_count("upload"))
+    {
+        bool success{false};
+        std::string filename{};
+        std::string data{};
+        const auto upload = [&success, &bible, &book, &chapter, &filename, &data]()
+        {
+            const std::string datafile = filter_url_tempfile() + filename;
+            filter_url_file_put_contents(datafile, data);
+            tasks::tasks_logic_queue(tasks::enums::task::import_bible, {
+                                         datafile, bible, std::to_string(book), std::to_string(chapter)
+                                     });
+            success = true;
+        };
+        for (const auto& [key, value] : webserver_request.post)
+        {
+            if (key == "data")
+                data = value;
+            if (key == "filename")
+                filename = value;
+            if (!filename.empty() and !data.empty())
+            {
+                upload();
+                filename.clear();
+                data.clear();
+            }
+        }
+        if (success)
+        {
+            success_message = translate("Import has started.");
+            view.set_variable("journal", journal_logic_see_journal_for_progress());
+        }
+        else
+        {
+            error_message = translate("Nothing was uploaded");
+        }
+        // User imported something into this Bible: Set it as the default Bible.
+        webserver_request.database_config_user()->set_bible(bible);
     }
-    // User imported something into this Bible: Set it as the default Bible.
-    webserver_request.database_config_user()->set_bible (bible);
-  }
 
-  if constexpr (config::logic::have_upload())
-    view.enable_zone ("enable_upload");
-  else
-    view.enable_zone ("disable_upload");
+    if constexpr (config::logic::have_upload())
+        view.enable_zone("enable_upload");
+    else
+        view.enable_zone("disable_upload");
 
 
-  view.set_variable ("success_message", success_message);
-  view.set_variable ("error_message", error_message);
-  
-  view.set_variable ("external", assets_external_logic_link_addon ());
+    view.set_variable("success_message", success_message);
+    view.set_variable("error_message", error_message);
 
-  page += view.render ("bb", "import");
-  
-  page += assets_page::footer ();
-  
-  return page;
+    view.set_variable("external", assets_external_logic_link_addon());
+
+    page += view.render("bb", "import");
+
+    page += assets_page::footer();
+
+    return page;
 }

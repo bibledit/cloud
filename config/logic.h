@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 #include <config/libraries.h>
+#include <config/config.h>
 
 class Webserver_Request;
 
@@ -47,5 +48,43 @@ bool indonesian_member_cloud ();
 bool default_bibledit_configuration ();
 std::string google_translate_json_key_path ();
 bool create_no_accounts();
+
+// Whether file upload works in the browser on the platform.
+consteval bool have_upload()
+{
+#if defined(HAVE_ANDROID) or defined(HAVE_IOS)
+    // No upload see https://github.com/bibledit/cloud/issues/896
+    return false;
+#else
+    return true;
+#endif
+}
+
+
+// Quality check that exactly one platform has been defined.
+consteval int count_defined_platforms()
+{
+    int count {0};
+#ifdef HAVE_CLOUD
+    count++;
+#endif
+#ifdef HAVE_WINDOWS
+    count++;
+#endif
+#ifdef HAVE_ANDROID
+    count++;
+#endif
+#ifdef HAVE_MACOS
+    count++;
+#endif
+#ifdef HAVE_LINUX
+    count++;
+#endif
+#ifdef HAVE_IOS
+    count++;
+#endif
+    return count;
+}
+static_assert(count_defined_platforms() == 1, "Exactly one platform should be defined");
 
 } // End of namespace.

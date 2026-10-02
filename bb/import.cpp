@@ -50,11 +50,9 @@ bool bible_import_acl (Webserver_Request& webserver_request)
 
 std::string bible_import (Webserver_Request& webserver_request)
 {
-  std::string page {};
-  
-  Assets_Header header = Assets_Header (translate("Import"), webserver_request);
+  Assets_Header header (translate("Import"), webserver_request);
   header.set_navigator ();
-  page = header.run ();
+  std::string page = header.run ();
   
   Assets_View view {};
   
@@ -127,13 +125,13 @@ std::string bible_import (Webserver_Request& webserver_request)
     // User imported something into this Bible: Set it as the default Bible.
     webserver_request.database_config_user()->set_bible (bible);
   }
-  
-#ifdef HAVE_UPLOAD
-  view.enable_zone ("enable_upload");
-#else
-  view.enable_zone ("disable_upload");
-#endif
-  
+
+  if constexpr (config::logic::have_upload())
+    view.enable_zone ("enable_upload");
+  else
+    view.enable_zone ("disable_upload");
+
+
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
   

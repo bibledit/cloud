@@ -29,9 +29,6 @@
 #include <access/bible.h>
 #include <tasks/logic.h>
 #include <ipc/focus.h>
-#include <config/config.h>
-#include <menu/logic.h>
-#include <bb/manage.h>
 #include <assets/external.h>
 #include <journal/logic.h>
 
@@ -67,10 +64,8 @@ std::string bible_import(Webserver_Request& webserver_request)
     const int chapter = ipc_focus::get_chapter(webserver_request);
 
     // Whether the user has write access to this Bible.
-    if (bool write_access = access_bible::write(webserver_request, bible); write_access)
-    {
+    if (access_bible::write(webserver_request, bible))
         view.enable_zone("write_access");
-    }
 
     // USFM data submission.
     if (webserver_request.post_count("submit"))
@@ -110,7 +105,7 @@ std::string bible_import(Webserver_Request& webserver_request)
         bool success{false};
         std::string filename{};
         std::string data{};
-        const auto upload = [&success, &bible, &book, &chapter, &filename, &data]()
+        const auto upload = [&success, &bible, &book, &chapter, &filename, &data]
         {
             const std::string datafile = filter_url_tempfile() + filename;
             filter_url_file_put_contents(datafile, data);
@@ -145,11 +140,7 @@ std::string bible_import(Webserver_Request& webserver_request)
         webserver_request.database_config_user()->set_bible(bible);
     }
 
-    if constexpr (config::logic::have_upload())
-        view.enable_zone("enable_upload");
-    else
-        view.enable_zone("disable_upload");
-
+    view.enable_zone(config::logic::have_upload() ? "enable_upload" : "disable_upload");
 
     view.set_variable("success_message", success_message);
     view.set_variable("error_message", error_message);

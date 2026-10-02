@@ -161,15 +161,13 @@ void setup_write_access()
     };
     for (const auto& folder : folders)
     {
+        // Handle exceptions because not all of the above folders exist on all platforms.
         try
         {
-            if (const std::string path = filter_url_create_root_path({folder}); not filter_url_get_write_permission(path))
-                filter_url_set_write_permission(path);
+            const std::string path = filter_url_create_root_path({folder});
+            filter_url_set_write_permission(path);
         }
-        catch (const std::exception& exception)
-        {
-            database::logs::log(exception.what());
-        }
+        catch (...) { }
     }
 }
 

@@ -609,21 +609,6 @@ bool filter_url_is_dir(const std::string& path)
 #endif
 
 
-bool filter_url_get_write_permission(const std::string& path)
-// It would be good if std::filesystem could be used to check on write permissions.
-// But currently the std::filesystem does not have this facility.
-// The only known option is to use the "access" call.
-{
-#ifdef HAVE_WINDOWS
-    std::wstring wpath = filter::string::string2wstring(path);
-    int result = _waccess(wpath.c_str(), 06);
-#else
-    int result = access(path.c_str(), W_OK);
-#endif
-    return (result == 0);
-}
-
-
 void filter_url_set_write_permission(const std::string& path)
 #ifdef USE_STD_FILESYSTEM
 {

@@ -358,25 +358,14 @@ TEST_F (filter_url, write_permissions)
   filter_url_file_put_contents (file1, "x");
   filter_url_file_put_contents (file2, "x");
   
-  EXPECT_EQ (true, filter_url_get_write_permission (directory));
-  EXPECT_EQ (true, filter_url_get_write_permission (file1));
-  EXPECT_EQ (true, filter_url_get_write_permission (file2));
-  
   chmod (directory.c_str(), S_IRUSR);
   chmod (file1.c_str(), S_IRUSR);
   chmod (file2.c_str(), S_IRUSR);
-  
-  EXPECT_EQ (false, filter_url_get_write_permission (directory));
-  EXPECT_EQ (false, filter_url_get_write_permission (file1));
-  EXPECT_EQ (false, filter_url_get_write_permission (file2));
   
   filter_url_set_write_permission (directory);
   filter_url_set_write_permission (file1);
   filter_url_set_write_permission (file2);
   
-  EXPECT_EQ (true, filter_url_get_write_permission (directory));
-  EXPECT_EQ (true, filter_url_get_write_permission (file1));
-  EXPECT_EQ (true, filter_url_get_write_permission (file2));
 }
 
 

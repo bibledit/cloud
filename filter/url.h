@@ -39,7 +39,6 @@ bool file_or_dir_exists (const std::string& url);
 void filter_url_mkdir (std::string directory);
 void filter_url_rmdir (const std::string& directory);
 bool filter_url_is_dir (const std::string& path);
-bool filter_url_get_write_permission (const std::string& path);
 void filter_url_set_write_permission (const std::string& path);
 std::string filter_url_file_get_contents (const std::string& filename);
 void filter_url_file_put_contents (const std::string& filename, const std::string& contents);

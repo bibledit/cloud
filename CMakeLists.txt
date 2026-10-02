@@ -23,18 +23,19 @@ cmake_minimum_required(VERSION 3.28)
 message(STATUS "Processing ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
-# Start a project by setting the project name and version.
-project(bibledit VERSION 5.1.059)
+# Start the project.
+project(bibledit
+	VERSION 5.1.059
+	LANGUAGES C CXX
+)
 message(STATUS "Bibledit version ${bibledit_VERSION}")
 
 
-set(bibledit_VERSION "${bibledit_VERSION_MAJOR}.${bibledit_VERSION_MINOR}.${bibledit_VERSION_PATCH}")
-
-
+set(COMPILER_GCC OFF)
+set(COMPILER_CLANG OFF)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(COMPILER_GCC ON)
-endif()
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang") # Clang, AppleClang, ...
     set(COMPILER_CLANG ON)
 endif()
 

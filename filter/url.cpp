@@ -1932,7 +1932,7 @@ std::string filter_url_filename_unclean(std::string name)
 std::string filter_url_update_directory_separator_if_windows(std::string filename)
 {
 #ifdef HAVE_WINDOWS
-    filename = filter::string::replace("/", DIRECTORY_SEPARATOR, filename);
+    filename = filter::string::replace("/", directory_separator, filename);
 #endif
     return filename;
 }

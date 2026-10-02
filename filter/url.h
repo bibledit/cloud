@@ -23,6 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 class Webserver_Request;
 
+// ReSharper disable once CppRedundantCastExpression
+// The cast is needed for on Windows, as the preferred_separator is of type wchar_t there.
+constexpr auto directory_separator {static_cast<const char>(std::filesystem::path::preferred_separator)};
+
 std::string get_base_url (const Webserver_Request& webserver_request);
 void redirect_browser (Webserver_Request& webserver_request, const std::string& url);
 std::string filter_url_dirname (std::string url);

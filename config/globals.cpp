@@ -23,7 +23,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #undef max
 
 
-std::string config_globals_document_root {DIRECTORY_SEPARATOR};
+// ReSharper disable once CppRedundantCastExpression
+std::string config_globals_document_root {static_cast<const char>(std::filesystem::path::preferred_separator)};
 bool config_globals_unit_testing {false};
 bool config_globals_open_installation {false};
 bool config_globals_client_prepared {false};

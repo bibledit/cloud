@@ -28,10 +28,6 @@
 #define MAX_PARALLEL_TASKS 10
 
 
-// The directory separator for the platform: Windows differs from Linux.
-#define DIRECTORY_SEPARATOR "/"
-
-
 // Whether it runs in Cloud mode.
 #define HAVE_CLOUD 1
 
@@ -48,8 +44,6 @@
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 5
 #define HAVE_URLSETTINGS 1
-#undef DIRECTORY_SEPARATOR
-#define DIRECTORY_SEPARATOR R"(\)"
 #undef RUN_SECURE_SERVER
 #endif
 

@@ -673,7 +673,7 @@ std::string resource_logic_get_divider (std::string resource)
 // It fetches existing content from the cache, and caches new content.
 std::string resource_logic_web_or_cache_get (std::string url, std::string& error)
 {
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   // On the Cloud, check if the URL is in the cache.
   if (database::cache::file::exists (url)) {
     return database::cache::file::get (url);

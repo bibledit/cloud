@@ -589,7 +589,7 @@ void sword_logic_update_installed_modules ()
 // Trims the installed SWORD modules.
 void sword_logic_trim_modules ()
 {
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   database::logs::log ("Trimming the installed SWORD modules");
   const std::vector <std::string> modules = sword_logic_get_installed ();
   for (auto module : modules) {

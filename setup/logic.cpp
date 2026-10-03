@@ -86,7 +86,7 @@ void setup_conditionally (const char * package)
       database::logs::log (message);
     }
     
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
     // Cloud updates the available SWORD modules and web resources.
     tasks::tasks_logic_queue (tasks::enums::task::refresh_sword_modules);
     tasks::tasks_logic_queue (tasks::enums::task::refresh_web_resources);

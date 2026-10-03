@@ -122,7 +122,7 @@ void bibledit_initialize_library(const char* package, const char* webroot)
     std::thread ssl_tls = std::thread(filter_url_ssl_tls_initialize);
     ssl_tls.detach();
 
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
     // Cloud initializes OpenLDAP server access settings (after webroot has been set).
     ldap_logic_initialize();
 #endif

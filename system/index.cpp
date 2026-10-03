@@ -274,7 +274,7 @@ std::string system_index (Webserver_Request& webserver_request)
   std::stringstream fontsblock;
   for (const auto& font : fonts) {
     fontsblock << "<p>";
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
     fontsblock << "<a href=" << std::quoted ("?deletefont=" + font) << " title=" << std::quoted(translate("Delete font")) << ">" << filter::string::emoji_wastebasket () << "</a>";
 #endif
     fontsblock << font;

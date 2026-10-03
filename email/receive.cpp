@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <database/logs.h>
 #include <email/receive.h>
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
 #include <curl/curl.h>
 #endif
 #include <config/globals.h>

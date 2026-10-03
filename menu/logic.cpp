@@ -478,7 +478,7 @@ std::string menu_logic_translate_category(Webserver_Request& webserver_request, 
 
     // When a user is logged in, but not a guest,
     // put the public feedback into this sub menu, rather than in the main menu.
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
     if (!webserver_request.session_logic()->get_username().empty())
     {
         if (!menu_logic_public_or_guest(webserver_request))
@@ -634,7 +634,7 @@ std::string menu_logic_tools_category(Webserver_Request& webserver_request, std:
         if (label == changes)
         {
             // Downloading revisions only on server, not on client.
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
             if (index_listing_acl(webserver_request, "revisions"))
             {
                 html.push_back(menu_logic_create_item(index_listing_url("revisions"), menu_logic_changes_text(), true,
@@ -800,7 +800,7 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
 
         if (label == changes)
         {
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
             // Managing change notifications only on server, not on client.
             if (changes_manage_acl(webserver_request))
             {
@@ -821,7 +821,7 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
 
         if (label == users)
         {
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
             if (manage_users_acl(webserver_request))
             {
                 html.push_back(menu_logic_create_item(manage_users_url(), menu_logic_manage_users_text(), true, "",
@@ -833,7 +833,7 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
 
         if (label == mail)
         {
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
             if (email_index_acl(webserver_request))
             {
                 html.push_back(menu_logic_create_item(email_index_url(), label, true, "", ""));
@@ -871,7 +871,7 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
             }
         }
 
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
         if (label == repository)
         {
             if (collaboration_index_acl(webserver_request))
@@ -887,7 +887,7 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
             // If the installation is not prepared for Client mode, disable the Cloud menu item.
             // But keep the menu item in an open installation.
             bool cloud_menu = client_index_acl(webserver_request);
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
             cloud_menu = false;
 #endif
             if (config::logic::demo_enabled()) cloud_menu = true;

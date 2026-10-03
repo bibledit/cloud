@@ -62,7 +62,7 @@ std::string assets_external_logic_link_addon ()
 #ifdef HAVE_CLOUD
   return R"(target="_blank")";
 #endif
-#ifndef HAVE_CLOUD
+#ifdef HAVE_CLIENT
   return R"(class="external")";
 #endif
 }

@@ -70,7 +70,7 @@ std::string render_journal_entry (std::string filename, [[maybe_unused]] int use
   [[maybe_unused]] int entryLevel = filter::string::convert_to_int (entry);
   // Cloud: Only render journal entries of a sufficiently high level.
   // Client: Render journal entries of any level.
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   if (entryLevel > userlevel) return std::string();
 #endif
   // Remove the user's level.

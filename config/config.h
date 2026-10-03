@@ -27,8 +27,6 @@
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_BARE_BROWSER 1
-#define HAVE_PARATEXT 1
 #define HAVE_URLSETTINGS 1
 #endif
 
@@ -36,7 +34,6 @@
 #ifdef HAVE_ANDROID
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #endif
 
@@ -44,21 +41,17 @@
 #ifdef HAVE_MACOS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_BARE_BROWSER 1
 #endif
 
 
 #ifdef HAVE_LINUX
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_PARATEXT 1
-#define HAVE_BARE_BROWSER 1
 #endif
 
 
 #ifdef HAVE_IOS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #endif

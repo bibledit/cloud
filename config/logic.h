@@ -52,7 +52,7 @@ bool create_no_accounts();
 // Whether file upload works in the browser on the platform.
 consteval bool have_upload()
 {
-#if defined(HAVE_ANDROID) or defined(HAVE_IOS)
+#if defined(HAVE_ANDROID) || defined(HAVE_IOS)
     // No upload see https://github.com/bibledit/cloud/issues/896
     return false;
 #else
@@ -73,12 +73,32 @@ consteval bool run_secure_server()
 // Maximum number of simultaneous background tasks.
 consteval int maximum_simultaneous_background_tasks ()
 {
-#if defined(HAVE_ANDROID) or defined(HAVE_IOS)
+#if defined(HAVE_ANDROID) || defined(HAVE_IOS)
     return 3;
 #elif defined(HAVE_WINDOWS)
     return 5;
 #else
     return 10; // Default.
+#endif
+}
+
+// Whether it runs a "bare" browser, that is, one without controls etc.
+consteval bool have_bare_browser()
+{
+#ifdef HAVE_CLOUD
+    return false;
+#else
+    return true;
+#endif
+}
+
+// Whether it works with Paratext on the same platform.
+consteval bool work_with_paratext()
+{
+#if defined(HAVE_WINDOWS) || defined(HAVE_LINUX)
+    return true;
+#else
+    return false;
 #endif
 }
 

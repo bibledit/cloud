@@ -52,9 +52,6 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   // Initialize SSL/TLS (after webroot has been set).
   filter_url_ssl_tls_initialize ();
 
-  // Flag for unit tests.
-  config_globals_unit_testing = true;
-
   refresh_sandbox (false);
   
   int gtest_result {0};

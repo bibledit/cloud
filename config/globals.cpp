@@ -25,14 +25,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // ReSharper disable once CppRedundantCastExpression
 std::string config_globals_document_root {static_cast<const char>(std::filesystem::path::preferred_separator)};
-bool config_globals_unit_testing {false};
 bool config_globals_open_installation {false};
 bool config_globals_client_prepared {false};
 bool config_globals_webserver_running {true};
-std::thread * config_globals_http_worker {nullptr};
-std::thread * config_globals_https_worker {nullptr};
-std::thread * config_globals_timer {nullptr};
-bool config_globals_mail_receive_running {false};
 int config_globals_touch_enabled {0};
 int config_globals_timezone_offset_utc {100};
 bool config_globals_change_notifications_available {true};

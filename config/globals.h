@@ -21,14 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 extern std::string config_globals_document_root;
-extern bool config_globals_unit_testing;
 extern bool config_globals_open_installation;
 extern bool config_globals_client_prepared;
 extern bool config_globals_webserver_running;
-extern std::thread * config_globals_http_worker;
-extern std::thread * config_globals_https_worker;
-extern std::thread * config_globals_timer;
-extern bool config_globals_mail_receive_running;
 extern int config_globals_touch_enabled;
 extern int config_globals_timezone_offset_utc;
 extern bool config_globals_change_notifications_available;

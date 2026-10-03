@@ -47,7 +47,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "tasks/logic.h"
 
 
-bool bibledit_started{false};
+static bool bibledit_started{false};
+static std::thread * timer_thread_ptr {nullptr};
+static std::thread * plain_web_server_thread_ptr {nullptr};
+static std::thread * secure_web_server_thread_ptr {nullptr};
 
 
 // Get Bibledit's version number.
@@ -220,13 +223,13 @@ void bibledit_start_library()
     tasks::tasks_logic_start_thread_pool(config::logic::maximum_simultaneous_background_tasks());
 
     // Run the plain web server in a thread.
-    config_globals_http_worker = new std::thread(http_server);
+    plain_web_server_thread_ptr = new std::thread(http_server);
 
     // Run the secure web server in a thread.
-    config_globals_https_worker = new std::thread(https_server);
+    secure_web_server_thread_ptr = new std::thread(https_server);
 
     // Run the timers in a thread.
-    config_globals_timer = new std::thread(timer_index);
+    timer_thread_ptr = new std::thread(timer_index);
 
     // Client should sync right after wake up.
     sendreceive_queue_startup();
@@ -364,14 +367,17 @@ void bibledit_stop_library()
     // That signal will unblock the blocking BSD sockets, and so allow the shutdown process to proceed.
 
     // Wait till the servers and the timers shut down.
-    config_globals_http_worker->join();
-    config_globals_https_worker->join();
-    config_globals_timer->join();
+    plain_web_server_thread_ptr->join();
+    secure_web_server_thread_ptr->join();
+    timer_thread_ptr->join();
 
     // Clear memory.
-    delete config_globals_http_worker;
-    delete config_globals_https_worker;
-    delete config_globals_timer;
+    delete plain_web_server_thread_ptr;
+    delete secure_web_server_thread_ptr;
+    delete timer_thread_ptr;
+    plain_web_server_thread_ptr = nullptr;
+    secure_web_server_thread_ptr = nullptr;
+    timer_thread_ptr = nullptr;
 }
 
 

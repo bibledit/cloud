@@ -27,7 +27,6 @@
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_URLSETTINGS 1
 #endif
 
 

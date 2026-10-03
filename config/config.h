@@ -20,10 +20,6 @@
 #pragma once
 
 
-// Maximum number of simultaneous background tasks.
-#define MAX_PARALLEL_TASKS 10
-
-
 // Whether it runs in Cloud mode.
 #define HAVE_CLOUD 1
 
@@ -33,8 +29,6 @@
 #define HAVE_CLIENT 1
 #define HAVE_BARE_BROWSER 1
 #define HAVE_PARATEXT 1
-#undef MAX_PARALLEL_TASKS
-#define MAX_PARALLEL_TASKS 5
 #define HAVE_URLSETTINGS 1
 #endif
 
@@ -42,8 +36,6 @@
 #ifdef HAVE_ANDROID
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#undef MAX_PARALLEL_TASKS
-#define MAX_PARALLEL_TASKS 3
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #endif
@@ -67,8 +59,6 @@
 #ifdef HAVE_IOS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#undef MAX_PARALLEL_TASKS
-#define MAX_PARALLEL_TASKS 3
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #endif

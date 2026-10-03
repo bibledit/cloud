@@ -70,6 +70,17 @@ consteval bool run_secure_server()
 #endif
 }
 
+// Maximum number of simultaneous background tasks.
+consteval int maximum_simultaneous_background_tasks ()
+{
+#if defined(HAVE_ANDROID) or defined(HAVE_IOS)
+    return 3;
+#elif defined(HAVE_WINDOWS)
+    return 5;
+#else
+    return 10; // Default.
+#endif
+}
 
 // Quality check: Exactly one platform should be defined.
 consteval int count_defined_platforms()

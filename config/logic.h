@@ -60,8 +60,18 @@ consteval bool have_upload()
 #endif
 }
 
+// Whether it runs the secure webserver.
+consteval bool run_secure_server()
+{
+#ifdef HAVE_CLOUD
+    return true;
+#else
+    return false;
+#endif
+}
 
-// Quality check that exactly one platform has been defined.
+
+// Quality check: Exactly one platform should be defined.
 consteval int count_defined_platforms()
 {
     int count {0};

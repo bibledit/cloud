@@ -28,10 +28,6 @@
 #define HAVE_CLOUD 1
 
 
-// Whether it runs the secure webserver.
-#define RUN_SECURE_SERVER 1
-
-
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
@@ -40,7 +36,6 @@
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 5
 #define HAVE_URLSETTINGS 1
-#undef RUN_SECURE_SERVER
 #endif
 
 
@@ -51,7 +46,6 @@
 #define MAX_PARALLEL_TASKS 3
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
-#undef RUN_SECURE_SERVER
 #endif
 
 
@@ -59,7 +53,6 @@
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #define HAVE_BARE_BROWSER 1
-#undef RUN_SECURE_SERVER
 #endif
 
 
@@ -68,7 +61,6 @@
 #define HAVE_CLIENT 1
 #define HAVE_PARATEXT 1
 #define HAVE_BARE_BROWSER 1
-#undef RUN_SECURE_SERVER
 #endif
 
 
@@ -79,5 +71,4 @@
 #define MAX_PARALLEL_TASKS 3
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
-#undef RUN_SECURE_SERVER
 #endif

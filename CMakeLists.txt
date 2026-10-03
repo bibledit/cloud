@@ -63,6 +63,17 @@ option(HAVE_IOS "Build for iOS" OFF)
 message(STATUS "Build for iOS ${HAVE_IOS} (enable: $cmake -DHAVE_IOS=ON)")
 
 
+if (NOT HAVE_WINDOWS AND NOT HAVE_ANDROID AND NOT HAVE_MACOS AND NOT HAVE_LINUX AND NOT HAVE_IOS)
+	set(HAVE_CLOUD ON)
+	set(HAVE_CLIENT OFF)
+else ()
+	set(HAVE_CLOUD OFF)
+	set(HAVE_CLIENT ON)
+endif ()
+message(STATUS "Build for Cloud ${HAVE_CLOUD} (when no other platform is enabled)")
+message(STATUS "Build as client ${HAVE_CLIENT} (when any platform is enabled)")
+
+
 # Handle the install prefix.
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set_property(CACHE CMAKE_INSTALL_PREFIX PROPERTY VALUE "/usr")

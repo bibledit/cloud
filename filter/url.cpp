@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/http.h>
 #include <webserver/request.h>
 #include <config/globals.h>
-#include <config/config.h>
+#include <config.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <filter/UriCodec.hpp>

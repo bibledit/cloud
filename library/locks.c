@@ -19,7 +19,6 @@
 
 // Config.h to be included.
 #include <config.h>
-#include <config/config.h>
 #include <library/locks.h>
 #ifdef HAVE_CLOUD
 #include <openssl/crypto.h>

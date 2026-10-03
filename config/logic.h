@@ -102,6 +102,16 @@ consteval bool work_with_paratext()
 #endif
 }
 
+// Whether the journal is kept tiny as compared to the usual size.
+consteval bool have_tiny_journal()
+{
+#if defined(HAVE_ANDROID) || defined(HAVE_IOS)
+    return true;
+#else
+    return false;
+#endif
+}
+
 // Quality check: Exactly one platform should be defined.
 consteval int count_defined_platforms()
 {

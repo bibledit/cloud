@@ -79,11 +79,7 @@ void rotate()
 
 
     // Timestamp for removing older records, depending on whether it's a tiny journal.
-#ifdef HAVE_TINY_JOURNAL
-    const int old_timestamp = filter::date::get_seconds_since_epoch() - 14400;
-#else
-    const int old_timestamp = filter::date::get_seconds_since_epoch() - 6 * 86400;
-#endif
+    const int old_timestamp = config::logic::have_tiny_journal() ? filter::date::get_seconds_since_epoch() - 14400 : filter::date::get_seconds_since_epoch() - 6 * 86400;
 
 
     // Limit the journal entry count in the filesystem.
@@ -91,12 +87,7 @@ void rotate()
     // In previous versions of Bibledit, there were certain conditions
     // that led to an infinite loop, as had been noticed at times,
     // and this quickly exhausted the available inodes on the filesystem.
-#ifdef HAVE_TINY_JOURNAL
-    const int limit_file_count = static_cast<int>(files.size() - 200);
-#else
-    const int limit_file_count = static_cast<int>(files.size() - 2000);
-#endif
-
+    const int limit_file_count = config::logic::have_tiny_journal() ? static_cast<int>(files.size() - 200) : static_cast<int>(files.size() - 2000);
 
     bool filtered_entries = false;
     for (unsigned int i = 0; i < files.size(); ++i)

@@ -34,7 +34,6 @@
 #ifdef HAVE_ANDROID
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_TINY_JOURNAL 1
 #endif
 
 
@@ -53,5 +52,4 @@
 #ifdef HAVE_IOS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
-#define HAVE_TINY_JOURNAL 1
 #endif

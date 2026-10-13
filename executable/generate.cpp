@@ -29,93 +29,109 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sources/styles.h>
 #include <sources/abbott-smith.h>
 
+#include "database/books.h"
 
-int main (int argc, char **argv)
+
+int main(int argc, char** argv)
 {
-  std::cout << "Data Generator " << config::logic::version () << std::endl;
-  
-  if (argc < 2) {
-    std::cerr << "Please pass the document root folder as the first argument" << std::endl;
-    return EXIT_FAILURE;
-  }
-  config_globals_document_root = argv [1];
-  std::cout << "Document root folder: " << config_globals_document_root << std::endl;
-  if (!file_or_dir_exists (config_globals_document_root)) {
-    std::cerr << "Please pass an existing document root folder" << std::endl;
-    return EXIT_FAILURE;
-  }
-  
-  if (argc < 3) {
-    std::cerr << "Please pass a command as the second argument" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::string command = argv [2];
+    std::cout << "Data Generator " << config::logic::version() << std::endl;
 
-  std::string locale_command {"locale"};
-  std::string sample_bible_command {"samplebible"};
-  std::string mappings_command {"mappings"};
-  std::string versifications_command {"versifications"};
-  std::string morphhb_command {"morphhb"};
-  std::string oshb_command {"oshb"};
-  std::string stylesheet_command {"styles"};
-  std::string abbott_smith_command {"abbott-smith"};
+    if (argc < 2)
+    {
+        std::cerr << "Please pass the document root folder as the first argument" << std::endl;
+        return EXIT_FAILURE;
+    }
+    config_globals_document_root = argv[1];
+    std::cout << "Document root folder: " << config_globals_document_root << std::endl;
+    if (not file_or_dir_exists(config_globals_document_root))
+    {
+        std::cerr << "Please pass an existing document root folder" << std::endl;
+        return EXIT_FAILURE;
+    }
 
-  if (command == locale_command) {
-  
-    std::cout << "Generating locale databases from the *.po files in folder locale" << std::endl;
-    setup_generate_locale_databases (true);
-    
-  } else if (command == sample_bible_command) {
+    if (argc < 3)
+    {
+        std::cerr << "Please pass a command as the second argument" << std::endl;
+        return EXIT_FAILURE;
+    }
+    std::string command = argv[2];
 
-    std::cout << "Generating the sample Bible" << std::endl;
-    demo_prepare_sample_bible ();
+    constexpr auto locale_command{"locale"};
+    constexpr auto sample_bible_command{"samplebible"};
+    constexpr auto mappings_command{"mappings"};
+    constexpr auto versifications_command{"versifications"};
+    constexpr auto morphhb_command{"morphhb"};
+    constexpr auto oshb_command{"oshb"};
+    constexpr auto stylesheet_command{"styles"};
+    constexpr auto abbott_smith_command{"abbott-smith"};
+    constexpr auto books{"books"};
 
-  } else if (command == mappings_command) {
+    if (command == locale_command)
+    {
+        std::cout << "Generating locale databases from the *.po files in folder locale" << std::endl;
+        setup_generate_locale_databases(true);
+    }
+    else if (command == sample_bible_command)
+    {
+        std::cout << "Generating the sample Bible" << std::endl;
+        demo_prepare_sample_bible();
+    }
+    else if (command == mappings_command)
+    {
+        std::cout << "Generating the verse mappings database" << std::endl;
+        setup_generate_verse_mapping_databases();
+    }
+    else if (command == versifications_command)
+    {
+        std::cout << "Generating the versifications database" << std::endl;
+        setup_generate_versification_databases();
+    }
+    else if (command == morphhb_command)
+    {
+        std::cout << "Parsing Open Scriptures Hebrew with limited morphology into the morphhb database" << std::endl;
+        sources_morphhb_parse();
+    }
+    else if (command == oshb_command)
+    {
+        std::cout << "Parsing Open Scriptures Hebrew Bible with morphology into the oshb database" << std::endl;
+        sources_oshb_parse();
+    }
+    else if (command == stylesheet_command)
+    {
+        std::cout << "Parsing style values and importing them into the default styles" << std::endl;
+        sources_styles_parse();
+    }
+    else if (command == abbott_smith_command)
+    {
+        std::cout << "Parsing Abbott-Smith's Manual Greek Lexicon into the abbottsmith database" << std::endl;
+        sources_abbott_smith_parse();
+    }
+    else if (command == books)
+    {
+        std::cout << "Exporting books database to JSON" << std::endl;
+        std::cerr << database::books::get_books_json() << std::endl; // Todo
+    }
+    else
+    {
+        std::cerr << "This command is unknown" << std::endl;
+        std::cerr << "The following commands are supported:" << std::endl;
+        constexpr auto help = std::to_array<std::pair<std::string_view,std::string_view>> ({
+            {locale_command, "Generate locale databases from the *.po files in folder locale"},
+            {sample_bible_command, "Generate the sample Bible"},
+            {mappings_command, "Generate the default verse mappings database"},
+            {versifications_command, "Generate the default versifications database"},
+            {morphhb_command, "Parse Open Scriptures Hebrew with limited morphology into the morphhb database"},
+            {oshb_command, "Parse Open Scriptures Hebrew Bible with morphology into the oshb database"},
+            {stylesheet_command, "Parse style values and import them into the default styles"},
+            {abbott_smith_command, "Parse Abbott-Smith's Manual Greek Lexicon into the abbottsmith database"},
+            {books, "Export the books database to JSON"},
+        });
+        std::ranges::for_each(help, [](const auto& data)
+        {
+           std::cerr << " " << data.first << ": " << data.second << std::endl;
+        });
+        return EXIT_FAILURE;
+    }
 
-    std::cout << "Generating the verse mappings database" << std::endl;
-    setup_generate_verse_mapping_databases ();
-
-  } else if (command == versifications_command) {
-    
-    std::cout << "Generating the versifications database" << std::endl;
-    setup_generate_versification_databases ();
-    
-  } else if (command == morphhb_command) {
-    
-    std::cout << "Parsing Open Scriptures Hebrew with limited morphology into the morphhb database" << std::endl;
-    sources_morphhb_parse ();
-    
-  } else if (command == oshb_command) {
-    
-    std::cout << "Parsing Open Scriptures Hebrew Bible with morphology into the oshb database" << std::endl;
-    sources_oshb_parse ();
-    
-  } else if (command == stylesheet_command) {
-    
-    std::cout << "Parsing style values and importing them into the default styles" << std::endl;
-    sources_styles_parse ();
-
-  } else if (command == abbott_smith_command) {
-
-    std::cout << "Parsing Abbott-Smith's Manual Greek Lexicon into the abbottsmith database" << std::endl;
-    sources_abbott_smith_parse ();
-    
-  } else {
-    
-    std::cerr << "This command is unknown" << std::endl;
-    std::cerr << "The following commands are supported:" << std::endl;
-    std::cerr << locale_command << ": Generate locale databases from the *.po files in folder locale" << std::endl;
-    std::cerr << sample_bible_command << ": Generate the sample Bible" << std::endl;
-    std::cerr << mappings_command << ": Generate the default verse mappings database" << std::endl;
-    std::cerr << versifications_command << ": Generate the default versifications database" << std::endl;
-    std::cerr << morphhb_command << ": Parse Open Scriptures Hebrew with limited morphology into the morphhb database" << std::endl;
-    std::cerr << oshb_command << ": Parse Open Scriptures Hebrew Bible with morphology into the oshb database" << std::endl;
-    std::cerr << stylesheet_command << ": Parse style values and import them into the default styles" << std::endl;
-    std::cout << abbott_smith_command << ": Parse Abbott-Smith's Manual Greek Lexicon into the abbottsmith database" << std::endl;
-    
-    return EXIT_FAILURE;
-    
-  }
-  
-  return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/booksdata.h>
 #include <filter/diff.h>
 #include <filter/string.h>
+#include <nlohmann/json.hpp>
+
 
 
 namespace database::books {
@@ -165,4 +167,44 @@ std::string book_type_to_string(const book_type type)
     default: return {};
     }
 }
+
+
+std::string get_books_json()
+{
+    // Name of a book type, as used in the JSON output.
+    const auto books_json_type_name = [](const book_type type) -> std::string_view
+    {
+        switch (type)
+        {
+        case book_type::front_back:
+            return "frontback";
+        case book_type::old_testament:
+            return "ot";
+        case book_type::new_testament:
+            return "nt";
+        case book_type::other:
+            return "other";
+        case book_type::apocryphal:
+            return "ap";
+        case book_type::unknown:
+        default:
+            return "unknown";
+        }
+    };
+
+    // Exports all book data to JSON.
+    nlohmann::json books = nlohmann::json::array();
+    for (const book_record& book : books_table) {
+        books.push_back({
+            {"english", book.english},
+            {"osis", book.osis},
+            {"usfm", book.usfm},
+            {"order", static_cast<int>(book.order)},
+            {"type", books_json_type_name(book.type)},
+        });
+    }
+    return books.dump(2);
+}
+
+
 } // End of namespace.

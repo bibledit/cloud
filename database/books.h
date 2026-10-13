@@ -158,5 +158,6 @@ namespace database::books {
 [[nodiscard]] short get_order_from_id (book_id id);
 [[nodiscard]] book_type get_type (book_id id);
 [[nodiscard]] std::string book_type_to_string (book_type type);
+[[nodiscard]] std::string get_books_json();
 
 }

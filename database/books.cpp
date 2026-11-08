@@ -199,6 +199,7 @@ std::string get_books_json()
             {"english", book.english},
             {"osis", book.osis},
             {"usfm", book.usfm},
+            {"id", static_cast<int>(book.id)},
             {"order", static_cast<int>(book.order)},
             {"type", books_json_type_name(book.type)},
         });

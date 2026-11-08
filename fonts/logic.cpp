@@ -34,17 +34,17 @@ static std::string folder()
 
 std::vector<std::string> get_fonts()
 {
-    constexpr std::array<std::string_view, 5> excluded_extensions {
-        "txt", "html", "h", "cpp", "o"
-    };
-
-    const auto is_font = [&](const std::string& file) {
-        const std::string suffix = filter_url_get_extension(file);
-        return std::ranges::find(excluded_extensions, suffix) == excluded_extensions.end();
-    };
-
-    std::vector<std::string> fonts;
-    std::ranges::copy_if(filter_url_scandir(folder()), std::back_inserter(fonts), is_font);
+    const std::vector <std::string> files = filter_url_scandir (folder ());
+    std::vector <std::string> fonts;
+    for (const auto& file : files) {
+        const std::string suffix = filter_url_get_extension (file);
+        if (suffix == "txt") continue;
+        if (suffix == "html") continue;
+        if (suffix == "h") continue;
+        if (suffix == "cpp") continue;
+        if (suffix == "o") continue;
+        fonts.push_back (file);
+    }
     return fonts;
 }
 

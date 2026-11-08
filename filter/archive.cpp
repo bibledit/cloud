@@ -88,7 +88,7 @@ std::string zip_folder_miniz_internal (std::string folder)
     // The file names in Windows will be backslashes (\) at this point.
     // But the mzip library, in its current configuration, works with forward slashes (/).
     // So the code below, in case of Windows, updates the type of slashes.
-    file = filter::string::replace (directory_separator, "/", file);
+    file = filter::string::replace (std::string(1, directory_separator), "/", file);
 #endif
     mz_bool status;
     if (is_dir) {

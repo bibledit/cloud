@@ -127,8 +127,8 @@ std::string editone_index(Webserver_Request& webserver_request)
     view.set_variable("active_editor_theme_color", filter::css::theme_picker(current_theme_index, 3));
     view.set_variable("custom_class", custom_class);
     const std::string custom_css = filter::css::get_css(custom_class,
-                                                        fonts::logic::get_font_path(font),
-                                                        fonts::logic::get_font_path(focused_verse_font),
+                                                        fonts::logic::get_web_font_path(font),
+                                                        fonts::logic::get_web_font_path(focused_verse_font),
                                                         direction, line_height, letter_spacing);
     view.set_variable("custom_css", custom_css);
 

@@ -359,7 +359,7 @@ void Styles_Css::customize(const std::string& bible)
     const std::string cls = filter::css::get_class(bible);
     std::string font = fonts::logic::get_text_font(bible);
     const bool uploaded_font = fonts::logic::font_exists(font);
-    font = fonts::logic::get_font_path(font);
+    font = fonts::logic::get_web_font_path(font);
     const int direction = database::config::bible::get_text_direction(bible);
     std::string css = filter::css::get_css(cls, font, "", direction);
     if (uploaded_font)

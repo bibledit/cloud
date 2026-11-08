@@ -25,7 +25,7 @@ namespace fonts::logic {
 
 std::vector <std::string> get_fonts ();
 bool font_exists (const std::string& font);
-std::string get_font_path (const std::string& font);
+std::string get_web_font_path (const std::string& font);
 void erase (const std::string& font);
 std::string get_text_font (const std::string& bible);
 bool is_font (const std::string& suffix);

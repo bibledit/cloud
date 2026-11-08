@@ -34,9 +34,8 @@ static std::string folder()
 
 std::vector<std::string> get_fonts()
 {
-    const std::vector <std::string> files = filter_url_scandir (folder ());
     std::vector <std::string> fonts;
-    for (const auto& file : files) {
+    for (const auto& file : filter_url_scandir (folder ())) {
         const std::string suffix = filter_url_get_extension (file);
         if (suffix == "txt") continue;
         if (suffix == "html") continue;
@@ -56,7 +55,9 @@ bool font_exists(const std::string& font)
 }
 
 
-std::string get_font_path(const std::string& font)
+// Get path to font for web.
+// So always use the forward slashes for the web.
+std::string get_web_font_path(const std::string& font)
 {
     // Case of no font.
     if (font.empty())
@@ -65,8 +66,7 @@ std::string get_font_path(const std::string& font)
     // Case when the font exists within Bibledit.
     if (font_exists(font))
     {
-        const auto font_path = filter_url_create_path({"..", "fonts", font});
-        database::logs::log("Font", font, "is at path", font_path); // Todo
+        const auto font_path = filter_url_create_path_web({"..", "fonts", font});
         return font_path;
     }
 

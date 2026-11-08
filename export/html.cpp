@@ -64,7 +64,7 @@ void export_html_book (const std::string& bible, const int book, const bool log)
   const std::string font = fonts::logic::get_text_font (bible);
   if (!font.empty ()) {
     if (fonts::logic::font_exists (font)) {
-      std::string fontpath = fonts::logic::get_font_path (font);
+      std::string fontpath = fonts::logic::get_web_font_path (font);
       const std::string contents = filter_url_file_get_contents (fontpath);
       fontpath = filter_url_create_path ({directory, font});
       filter_url_file_put_contents (fontpath, contents);

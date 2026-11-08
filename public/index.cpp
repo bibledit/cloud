@@ -109,7 +109,7 @@ std::string public_index (Webserver_Request& webserver_request)
   const int lineheight = database::config::bible::get_line_height (bible);
   const int letterspacing = database::config::bible::get_letter_spacing (bible);
   view.set_variable ("custom_class", clss);
-  view.set_variable("custom_css", filter::css::get_css(clss, fonts::logic::get_font_path(font), {},
+  view.set_variable("custom_css", filter::css::get_css(clss, fonts::logic::get_web_font_path(font), {},
                                                        direction, lineheight, letterspacing));
   
   Styles_Css styles_css (stylesheet);

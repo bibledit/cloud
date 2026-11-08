@@ -251,7 +251,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
   }
 
   
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   view.enable_zone ("client");
 #endif
 

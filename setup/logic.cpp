@@ -99,7 +99,7 @@ void setup_conditionally (const char * package)
   if (config::logic::version () != database::config::general::get_installed_interface_version ()) {
     
     // In client mode or in demo mode do not display the page for entering the admin's details.
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     setup_complete_gui ();
 #endif
     if (config::logic::demo_enabled ()) setup_complete_gui ();
@@ -126,7 +126,7 @@ void setup_conditionally (const char * package)
   // Once the tasks are really complete, they will clear the flag.
   tasks::tasks_logic_queue (tasks::enums::task::reindex_bibles);
   tasks::tasks_logic_queue (tasks::enums::task::reindex_notes);
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   // Same for the resource downloader, for the client.
   tasks::tasks_logic_queue (tasks::enums::task::sync_resources);
 #endif

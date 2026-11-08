@@ -73,7 +73,7 @@ std::string resource_select (Webserver_Request& webserver_request)
   
 
   std::string disconnected_info {};
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   if (!client_logic_client_enabled ()) {
     disconnected_info = translate ("Connect to Bibledit Cloud to have access to the full range of available resources.");
   }
@@ -109,7 +109,7 @@ std::string resource_select (Webserver_Request& webserver_request)
 
   {
     std::vector<std::string> usfm_resources;
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     // Client takes resources available from the Cloud.
     usfm_resources = client_logic_usfm_resources_get ();
 #else

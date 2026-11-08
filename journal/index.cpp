@@ -42,7 +42,7 @@ const char * journal_index_url ()
 bool journal_index_acl ([[maybe_unused]]Webserver_Request& webserver_request)
 {
   // In Client mode, anyone can view the journal.
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   return true;
 #endif
   // In the Cloud, the role of Consultant or higher can view the journal.

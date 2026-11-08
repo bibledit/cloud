@@ -145,7 +145,7 @@ std::string url()
 // Returns how many emails are waiting in the mail storage host's POP3 email inbox.
 int receive_count(std::string& error, bool verbose)
 {
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     error = "Not implemented with embedded http library";
     if (verbose)
     {
@@ -215,7 +215,7 @@ int receive_count(std::string& error, bool verbose)
 
 std::string receive_message(std::string& error)
 {
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     error = "Not implemented with embedded http library";
     return std::string();
 #endif

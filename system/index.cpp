@@ -56,7 +56,7 @@ std::string system_index_url ()
 
 bool system_index_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   // Client: Anyone can make system settings.
   return true;
 #else
@@ -133,7 +133,7 @@ std::string system_index (Webserver_Request& webserver_request)
   }
 
   
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   const bool producebibles = webserver_request.query.count ("producebibles");
   const bool producenotes = webserver_request.query.count ("producenotes");
   const bool produceresources = webserver_request.query.count ("produceresources");
@@ -151,7 +151,7 @@ std::string system_index (Webserver_Request& webserver_request)
 #endif
 
   
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   const std::string importbibles = "importbibles";
   if (webserver_request.query.count (importbibles)) {
     if (webserver_request.post_count("upload")) {
@@ -175,7 +175,7 @@ std::string system_index (Webserver_Request& webserver_request)
 #endif
 
   
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   const std::string importnotes = "importnotes";
   if (webserver_request.query.count (importnotes)) {
     if (webserver_request.post_count("upload")) {
@@ -199,7 +199,7 @@ std::string system_index (Webserver_Request& webserver_request)
 #endif
   
   
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   const std::string importresources = "importresources";
   if (webserver_request.query.count (importresources)) {
     if (webserver_request.post_count("upload")) {
@@ -329,7 +329,7 @@ std::string system_index (Webserver_Request& webserver_request)
 #ifdef HAVE_CLOUD
   view.enable_zone ("cloud");
 #endif
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   view.enable_zone ("client");
   view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_index_url (), std::string()));
 #endif

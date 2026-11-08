@@ -153,7 +153,7 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
 #ifdef HAVE_CLOUD
     return resource_logic_cloud_get_comparison (webserver_request, resource, book, chapter, verse, add_verse_numbers);
 #endif
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     return resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
   }
@@ -166,7 +166,7 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
 #ifdef HAVE_CLOUD
     return resource_logic_cloud_get_translation (webserver_request, resource, book, chapter, verse, add_verse_numbers);
 #endif
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     return resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
   }
@@ -267,7 +267,7 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
   std::vector <std::string> local_usfms {database::usfm_resources::get_resources ()};
   bool isLocalUsfm = filter::string::in_array (resource, local_usfms);
   std::vector <std::string> remote_usfms {};
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   remote_usfms = client_logic_usfm_resources_get ();
 #endif
   bool isRemoteUsfm = filter::string::in_array (resource, remote_usfms);
@@ -292,7 +292,7 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
   } else if (isRemoteUsfm) {
     data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
   } else if (isExternal) {
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     // A client fetches it from the cache or from the Cloud.
     data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #else
@@ -1188,7 +1188,7 @@ std::string resource_logic_bible_gateway_get (std::string resource, int book, in
   result = filter::string::collapse_whitespace (result);
   result = filter::string::trim (result);
 #endif
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
   return result;
@@ -1341,7 +1341,7 @@ std::string resource_logic_study_light_get (std::string resource, int book, int 
   }
 #endif
 
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
 
@@ -1503,7 +1503,7 @@ std::string resource_logic_easy_english_bible_get (int book, int chapter, int ve
 {
   // First handle the easier part:
   // The client will fetch the data from the Cloud.
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   std::string resource = resource_logic_easy_english_bible_name ();
   return resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
@@ -1873,7 +1873,7 @@ bool resource_logic_is_bible (std::string resource)
 bool resource_logic_is_usfm (std::string resource)
 {
   std::vector <std::string> names {};
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   names = client_logic_usfm_resources_get ();
 #else
   names = database::usfm_resources::get_resources ();

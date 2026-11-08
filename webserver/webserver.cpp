@@ -329,7 +329,7 @@ void http_server()
     // Create a listening socket.
     // This represents an endpoint.
     // This prepares to accept incoming connections on.
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     // A client listens on IPv4, see also below.
     const int listen_fd = socket(AF_INET, SOCK_STREAM, 0);
 #endif
@@ -360,7 +360,7 @@ void http_server()
     }
 
     // The listening socket will be an endpoint for all requests to a port on this host.
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     // When configured as a client, it listens on the IPv4 loopback device.
     // It has been seen on Ubuntu 16.04 that a Bibledit Client would not listen on a IPv6 loopback device.
     sockaddr_in server_addr{};

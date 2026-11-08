@@ -369,7 +369,7 @@ std::vector <std::string> sword_logic_get_installed ()
 
 std::string sword_logic_get_text (const std::string& source, const std::string& module, const int book, const int chapter, const int verse)
 {
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
 
   // The resource name consists of source and module, e.g. [CrossWire][NET].
   std::string resource = sword_logic_get_resource_name (source, module);

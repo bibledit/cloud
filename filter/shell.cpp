@@ -128,7 +128,7 @@ int run ([[maybe_unused]] std::string directory,
          [[maybe_unused]] std::string* output,
          [[maybe_unused]] std::string* error)
 {
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   database::logs::log ("Did not run on client:", command);
   return 0;
 #else
@@ -172,7 +172,7 @@ int run (const std::string& command,
          [[maybe_unused]] const char* parameter,
          [[maybe_unused]] std::string& output)
 {
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   database::logs::log ("Did not run on client:", command);
   return 0;
 #else
@@ -231,7 +231,7 @@ int run (std::string command, std::string& out_err)
 bool is_present (const char* program)
 {
   // No executables in client mode.
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   (void) program;
   return false;
 #else
@@ -296,7 +296,7 @@ int vfork ([[maybe_unused]] std::string& output,
            [[maybe_unused]] const char* p13)
 {
   int status = 0;
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   database::logs::log ("Did not run on client:", command);
 #else
   

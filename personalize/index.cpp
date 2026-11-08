@@ -482,7 +482,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   }
 
   
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   view.enable_zone ("client_mode");
   if (client_logic_client_enabled ()) {
     view.enable_zone ("client_connected");

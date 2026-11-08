@@ -725,7 +725,7 @@ std::string filter_url_build_http_query(std::string url,
 std::string filter_url_http_get(std::string url, std::string& error, [[maybe_unused]] bool check_certificate)
 {
     std::string response;
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     response = filter_url_http_request_mbed(url, error, {}, "", check_certificate);
 #else
     CURL* curl = curl_easy_init();
@@ -877,7 +877,7 @@ std::string filter_url_http_post(const std::string& url, [[maybe_unused]] std::s
                                  [[maybe_unused]] const std::vector<std::pair<std::string, std::string>>& headers)
 {
     std::string response;
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     response = filter_url_http_request_mbed(url, error, post_values, "", check_certificate);
 #else
     // Get a curl handle.
@@ -1059,7 +1059,7 @@ std::string filter_url_http_response_code_text(int code)
 void filter_url_download_file(std::string url, std::string filename, std::string& error,
                               [[maybe_unused]] bool check_certificate)
 {
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
     filter_url_http_request_mbed(url, error, {}, filename, check_certificate);
 #else
     CURL* curl = curl_easy_init();
@@ -1135,7 +1135,7 @@ std::string filter_url_html_file_name_bible(std::string path, int book, int chap
 
 
 // Callback function for logging cURL debug information.
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
 #else
 int filter_url_curl_debug_callback(void* curl_handle, int curl_info_type, char* data, size_t size, void* userptr)
 {
@@ -1160,7 +1160,7 @@ int filter_url_curl_debug_callback(void* curl_handle, int curl_info_type, char* 
 // burst: When true, the server gives a burst response, that is, all data arrives at once after a delay.
 //        When false, the data is supposed to be downloaded gradually.
 // Without these timeouts, the Bibledit client will hang on stalled sync operations.
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
 #else
 void filter_url_curl_set_timeout(void* curl_handle, bool burst)
 {

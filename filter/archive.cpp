@@ -41,7 +41,7 @@ std::string zip_folder (std::string folder)
 #ifdef HAVE_CLOUD
   return zip_folder_shell_internal (folder);
 #endif
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   return zip_folder_miniz_internal (folder);
 #endif
 }
@@ -114,7 +114,7 @@ std::string unzip (std::string file)
 #ifdef HAVE_CLOUD
   return unzip_shell_internal (file);
 #endif
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   return unzip_miniz_internal (file);
 #endif
 }

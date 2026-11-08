@@ -45,7 +45,7 @@ std::string checks_settingspairs_url ()
 
 bool checks_settingspairs_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
   return true;
 #else
   return roles::access_control (webserver_request, roles::manager);

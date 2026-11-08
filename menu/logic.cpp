@@ -785,7 +785,7 @@ std::string menu_logic_settings_category(Webserver_Request& webserver_request, s
                                                       false, "", ""));
                 tiplabels.push_back(menu_logic_resources_text());
             }
-#ifdef HAVE_CLIENT
+#ifndef HAVE_CLOUD
             // Only client can cache resources.
             // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
             // Many Cloud instances may run on one server, and if the Cloud were to cache resources,

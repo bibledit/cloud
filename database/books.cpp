@@ -57,7 +57,7 @@ template <auto search_member, auto result_member, typename DefaultFn>
 {
     if (const auto iter = std::ranges::find(books_table, key, search_member);
         iter != std::ranges::cend(books_table))
-        return iter->*result_member;
+        return std::invoke(result_member, *iter);
     return std::invoke(std::forward<DefaultFn>(default_fn));
 }
 
@@ -99,8 +99,7 @@ book_id get_id_from_osis(const std::string_view osis)
 
 // Tries to interpret $text as the name of a Bible book.
 // Returns the book's identifier if it succeeds.
-// If it fails, it returns 0.
-
+// It cannot fail, it always returns the best match, however bad the match is.
 book_id get_id_like_text(const std::string& text)
 {
     struct candidate
@@ -113,8 +112,6 @@ book_id get_id_like_text(const std::string& text)
 
     // Go through all known book names and abbreviations.
     // Store how much parameter "text" differs from the known names.
-    std::vector<int> ids{};
-    std::vector<int> similarities{};
     for (const auto & record : books_table)
     {
         candidates.emplace_back(record.id, filter_diff_character_similarity(text, filter::string::unicode_string_casefold(std::string{record.english})));

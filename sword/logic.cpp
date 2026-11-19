@@ -180,85 +180,93 @@ void sword_logic_refresh_module_list()
 }
 
 
-std::string sword_logic_module_list_path ()
+std::string sword_logic_module_list_path()
 {
-  return filter_url_create_root_path ({database_logic_databases (), "client", "sword_modules.txt"});
+    return filter_url_create_root_path({database_logic_databases(), "client", "sword_modules.txt"});
 }
 
 
 // Gets the name of the remote source of the $line like this:
 // [CrossWire] *[Shona] (1.1) - Shona Bible
-std::string sword_logic_get_source (std::string line)
+std::string sword_logic_get_source(std::string line)
 {
-  if (line.length () < 10) return std::string();
-  line.erase (0, 1);
-  size_t pos = line.find ("]");
-  if (pos == std::string::npos) return std::string();
-  line.erase (pos);
-  return line;
+    if (line.length() < 10)
+        return {};
+    line.erase(0, 1);
+    const size_t pos = line.find(']');
+    if (pos == std::string::npos)
+        return {};
+    line.erase(pos);
+    return line;
 }
 
 
 // Gets the module name of the $line like this:
 // [CrossWire] *[Shona] (1.1) - Shona Bible
-std::string sword_logic_get_remote_module (std::string line)
+std::string sword_logic_get_remote_module(std::string line)
 {
-  if (line.length () < 10) return std::string();
-  line.erase (0, 2);
-  if (line.length () < 10) return std::string();
-  size_t pos = line.find ("[");
-  if (pos == std::string::npos) return std::string();
-  line.erase (0, pos + 1);
-  pos = line.find ("]");
-  if (pos == std::string::npos) return std::string();
-  line.erase (pos);
-  return line;
+    if (line.length() < 10)
+        return {};
+    line.erase(0, 2);
+    if (line.length() < 10)
+        return {};
+    size_t pos = line.find('[');
+    if (pos == std::string::npos)
+        return {};
+    line.erase(0, pos + 1);
+    pos = line.find(']');
+    if (pos == std::string::npos)
+        return {};
+    line.erase(pos);
+    return line;
 }
 
 
 // Gets the module name of the $line like this:
 // [Shona]  (1.1)  - Shona Bible
-std::string sword_logic_get_installed_module (std::string line)
+std::string sword_logic_get_installed_module(std::string line)
 {
-  line = filter::string::trim (line);
-  if (line.length () > 10) {
-    line.erase (0, 1);
-    size_t pos = line.find ("]");
-    if (pos != std::string::npos) line.erase (pos);
-  }
-  return line;
+    line = filter::string::trim(line);
+    if (line.length() > 10)
+    {
+        line.erase(0, 1);
+        if (const size_t pos = line.find(']'); pos != std::string::npos)
+            line.erase(pos);
+    }
+    return line;
 }
 
 
 // Gets the version number of a module of the $line like this:
 // [Shona]  (1.1)  - Shona Bible
-std::string sword_logic_get_version (std::string line)
+std::string sword_logic_get_version(std::string line)
 {
-  line = filter::string::trim (line);
-  if (line.length () > 10) {
-    line.erase (0, 3);
-  }
-  if (line.length () > 10) {
-    size_t pos = line.find ("(");
-    if (pos != std::string::npos) line.erase (0, pos + 1);
-    pos = line.find (")");
-    if (pos != std::string::npos) line.erase (pos);
-  }
-  return line;
+    line = filter::string::trim(line);
+    if (line.length() > 10)
+        line.erase(0, 3);
+    if (line.length() > 10)
+    {
+        size_t pos = line.find('(');
+        if (pos != std::string::npos)
+            line.erase(0, pos + 1);
+        pos = line.find(')');
+        if (pos != std::string::npos)
+            line.erase(pos);
+    }
+    return line;
 }
 
 
 // Gets the human-readable name of a $line like this:
 // [CrossWire] *[Shona] (1.1) - Shona Bible
-std::string sword_logic_get_name (std::string line)
+std::string sword_logic_get_name(std::string line)
 {
-  std::vector <std::string> bits = filter::string::explode (line, '-');
-  if (bits.size () >= 2) {
-    bits.erase (bits.begin ());
-  }
-  line = filter::string::implode (bits, "-");
-  line = filter::string::trim (line);
-  return line;
+    std::vector<std::string> bits = filter::string::explode(line, '-');
+    if (bits.size() >= 2)
+        bits.erase(bits.begin());
+    line = filter::string::implode(bits, "-");
+    line = filter::string::trim(line);
+    return line;
 }
 
 
@@ -678,156 +686,6 @@ void sword_logic_run_scheduled_module_install (const std::string& source, const 
   sword_logic_installer_mutex.unlock ();
 }
 
-
-void sword_logic_installmgr_initialize ()
-{
-#ifdef HAVE_SWORDTodo
-  sword::SWMgr *mgr = new sword::SWMgr();
-  if (!mgr->config) database::logs::log ("ERROR: Please configure SWORD first.");
-
-  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
-  
-  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
-  installMgr->setUserDisclaimerConfirmed (true);
-  
-  sword::SWBuf confPath = baseDir + "/InstallMgr.conf";
-  sword::FileMgr::createParent (confPath.c_str());
-  remove(confPath.c_str());
-  
-  sword::InstallSource is("FTP");
-  is.caption = "CrossWire";
-  is.source = "ftp.crosswire.org";
-  is.directory = "/pub/sword/raw";
-  
-  sword::SWConfig config(confPath.c_str());
-  config["General"]["PassiveFTP"] = "true";
-  config["Sources"]["FTPSource"] = is.getConfEnt();
-  config.Save();
-
-  delete installMgr;
-  delete mgr;
-#endif
-}
-
-
-bool sword_logic_installmgr_synchronize_configuration_with_master ()
-{
-  bool success = true;
-#ifdef HAVE_SWORDTodo
-  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
-  
-  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
-  installMgr->setUserDisclaimerConfirmed (true);
-  
-  if (installMgr->refreshRemoteSourceConfiguration()) {
-    success = false;
-  }
-  
-  delete installMgr;
-#endif
-  return success;
-}
-
-
-void sword_logic_installmgr_list_remote_sources ([[maybe_unused]] const std::vector <std::string>& sources)
-{
-#ifdef HAVE_SWORDTodo
-  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
-  
-  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
-  installMgr->setUserDisclaimerConfirmed (true);
-  
-  for (sword::InstallSourceMap::iterator it = installMgr->sources.begin(); it != installMgr->sources.end(); it++) {
-    const std::string caption (it->second->caption);
-    sources.push_back (caption);
-    /*
-    std::string description;
-    description.append (caption);
-    description.append (" - ");
-    description.append (it->second->type);
-    description.append (" - ");
-    description.append (it->second->source);
-    description.append (" - ");
-    description.append (it->second->directory);
-    database::logs::log (description);
-    */
-  }
-  
-  delete installMgr;
-#endif
-}
-
-
-bool sword_logic_installmgr_refresh_remote_source ([[maybe_unused]] const std::string& name)
-{
-  bool success = true;
-#ifdef HAVE_SWORDTodo
-  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
-  
-  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
-  installMgr->setUserDisclaimerConfirmed (true);
-
-  sword::InstallSourceMap::iterator source = installMgr->sources.find(name.c_str ());
-  if (source == installMgr->sources.end()) {
-    database::logs::log ("Could not find remote source", name);
-  } else {
-    if (installMgr->refreshRemoteSource(source->second)) {
-      success = false;
-    }
-  }
-  
-  delete installMgr;
-#endif
-  return success;
-}
-
-
-void sword_logic_installmgr_list_remote_modules ([[maybe_unused]] const std::string& source_name,
-                                                 [[maybe_unused]] std::vector <std::string>& modules)
-{
-#ifdef HAVE_SWORDTodo
-  sword::SWMgr *mgr = new sword::SWMgr();
-  
-  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
-  
-  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
-  installMgr->setUserDisclaimerConfirmed (true);
-  
-  sword::InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
-  if (source == installMgr->sources.end()) {
-    database::logs::log ("Could not find remote source", source_name);
-  } else {
-    sword::SWMgr *otherMgr = source->second->getMgr();
-    sword::SWModule *module;
-    if (!otherMgr) otherMgr = mgr;
-    std::map<sword::SWModule *, int> mods = sword::InstallMgr::getModuleStatus(*mgr, *otherMgr);
-    for (std::map<sword::SWModule *, int>::iterator it = mods.begin(); it != mods.end(); it++) {
-      module = it->first;
-      sword::SWBuf version = module->getConfigEntry("Version");
-      sword::SWBuf status = " ";
-      if (it->second & sword::InstallMgr::MODSTAT_NEW) status = "*";
-      if (it->second & sword::InstallMgr::MODSTAT_OLDER) status = "-";
-      if (it->second & sword::InstallMgr::MODSTAT_UPDATED) status = "+";
-      std::string module_name (status);
-      module_name.append ("[");
-      module_name.append (module->getName());
-      module_name.append ("]  \t(");
-      module_name.append (version);
-      module_name.append (")  \t- ");
-      module_name.append (module->getDescription());
-      // Check if the module is a verse-based Bible or commentary.
-      bool verse_based = false;
-      std::string module_type = module->getType ();
-      if (module_type == "Biblical Texts") verse_based = true;
-      if (module_type == "Commentaries") verse_based = true;
-      if (verse_based) modules.push_back (module_name);
-    }
-  }
-  
-  delete installMgr;
-  delete mgr;
-#endif
-}
 
 /*
  This function works, but there are cases where it crashes as follows:

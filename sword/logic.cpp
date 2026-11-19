@@ -17,156 +17,166 @@
  */
 
 
-#include <sword/logic.h>
-#include <webserver/request.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <filter/archive.h>
-#include <filter/shell.h>
-#include <locale/translate.h>
 #include <client/logic.h>
-#include <database/logs.h>
 #include <database/books.h>
 #include <database/cache.h>
+#include <database/logic.h>
+#include <database/logs.h>
 #include <database/config/general.h>
-#include <database/versifications.h>
+#include <demo/logic.h>
+#include <developer/logic.h>
+#include <filter/shell.h>
+#include <filter/string.h>
+#include <filter/url.h>
+#include <sword/logic.h>
 #include <sync/resources.h>
 #include <tasks/logic.h>
-#include <demo/logic.h>
 #ifdef HAVE_SWORD
-#include <swmgr.h>
-#include <installmgr.h>
 #include <filemgr.h>
+#include <installmgr.h>
+#include <remotetrans.h>
+#include <swbuf.h>
+#include <swmgr.h>
 #include <swmodule.h>
+#include <versekey.h>
 #endif
-#include <developer/logic.h>
-#include <database/logic.h>
 
 
-std::mutex sword_logic_installer_mutex {};
-bool sword_logic_installing_module {false};
-#ifdef HAVE_SWORD
-std::mutex sword_logic_library_access_mutex {};
-#endif
-std::mutex sword_logic_diatheke_run_mutex {};
+static std::mutex sword_logic_installer_mutex {};
+static bool sword_logic_installing_module {false};
+static std::mutex sword_logic_library_access_mutex {};
+static std::mutex sword_logic_diatheke_run_mutex {};
 
 
-std::string sword_logic_get_path ()
+[[nodiscard]] static std::string get_sword_install_mgr_path()
 {
-  std::string sword_path {"."};
-  char * home = getenv ("HOME");
-  if (home) sword_path = home;
-  sword_path.append ("/.sword/InstallMgr");
-  return sword_path;
+    std::string home_directory{"."};
+    if (const char* home = getenv("HOME"))
+        home_directory = home;
+    return std::filesystem::path{home_directory} / ".sword" / "InstallMgr";
 }
 
 
-void sword_logic_refresh_module_list ()
+static void initialize_sword_structures()
 {
-  database::logs::log ("Refreshing list of SWORD modules");
-  
-  std::string out_err {};
-  
-  // Initialize SWORD directory structure and configuration.
-  std::string sword_path = sword_logic_get_path ();
-  filter_url_mkdir (sword_path);
-  std::string swordconf = "[Install]\n"
-                     "DataPath=" + sword_path + "/\n";
-  filter_url_file_put_contents (filter_url_create_path ({sword_path, "sword.conf"}), swordconf);
-  std::string config_files_path = filter_url_create_root_path ({"sword"});
-  filter::shell::run ("cp -r " + config_files_path + "/locales.d " + sword_path, out_err);
-  sword_logic_log (out_err);
-  filter::shell::run ("cp -r " + config_files_path + "/mods.d " + sword_path, out_err);
-  sword_logic_log (out_err);
-  
-  // Initialize basic user configuration.
-#ifdef HAVE_SWORD
-  sword_logic_installmgr_initialize ();
-#else
-  filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -init", out_err);
-  sword_logic_log (out_err);
-#endif
-  
-  // Sync the configuration with the online known remote repository list.
-#ifdef HAVE_SWORD
-  if (!sword_logic_installmgr_synchronize_configuration_with_master ()) {
-    database::logs::log ("Failed to synchronize SWORD configuration with the master remote source list");
-    // Since this could be a network failure, exit from the entire update routine.
-    // The advantage of existing already at this stage is that the list of known SWORD resources
-    // will be left untouched in case of a network error.
-    return;
-  }
-#else
-  filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -sc", out_err);
-  filter::string::replace_between (out_err, "WARNING", "enable? [no]", "");
-  sword_logic_log (out_err);
-#endif
-  
-  // List the remote sources.
-  std::vector <std::string> remote_sources {};
-#ifdef HAVE_SWORD
-  sword_logic_installmgr_list_remote_sources (remote_sources);
-#else
-  filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -s", out_err);
-  sword_logic_log (out_err);
-  std::vector <std::string> lines = filter::string::explode (out_err, '\n');
-  for (auto line : lines) {
-    line = filter::string::trim (line);
-    if (line.find ("[") != std::string::npos) {
-      line.erase (0, 1);
-      if (line.find ("]") != std::string::npos) {
-        line.erase (line.length () - 1, 1);
-        remote_sources.push_back (line);
-        database::logs::log (line);
-      }
-    }
-  }
-#endif
-  
-  std::vector <std::string> sword_modules {};
-  
-  for (const auto& remote_source : remote_sources) {
-    
-#ifdef HAVE_SWORD
-    if (!sword_logic_installmgr_refresh_remote_source (remote_source)) {
-      database::logs::log ("Error refreshing remote source", remote_source);
-    }
-#else
-    filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -r \"" + remote_source + "\"", out_err);
-    filter::string::replace_between (out_err, "WARNING", "type yes at the prompt", "");
-    sword_logic_log (out_err);
-#endif
+    // Initialize SWORD directory structure.
+    const std::string sword_path = get_sword_install_mgr_path();
+    const std::filesystem::path path(sword_path);
+    std::filesystem::create_directories(path);
+    const sword::SWBuf base_dir = get_sword_install_mgr_path().c_str ();
 
-    std::vector <std::string> modules {};
-#ifdef HAVE_SWORD
-    sword_logic_installmgr_list_remote_modules (remote_source, modules);
-    for (const auto& module : modules) {
-      sword_modules.push_back ("[" + remote_source + "]" + " " + module);
+    // The installmgr needs these directories to exist:
+    sword::FileMgr::createParent (base_dir + "/mods.d/placeholder");
+    sword::FileMgr::createParent (base_dir + "/modules/placeholder");
+
+    // The constructor creates the InstallMgr config directory and reads InstallMgr.conf.
+    // If there is none, it falls back to the default CrossWire source.
+    sword::InstallMgr installMgr (base_dir, nullptr);
+
+    // Equivalent of --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom.
+    installMgr.setUserDisclaimerConfirmed (true);
+
+    // Write InstallMgr.conf to disk. This is what "-init" boils down to.
+    installMgr.saveInstallConf ();
+    database::logs::log("Initialized SWORD install manager in", base_dir);
+
+    // Sync the configuration with the online known remote repository list.
+    if (installMgr.refreshRemoteSourceConfiguration ())
+        database::logs::log("Could not refresh the remote source configuration");
+}
+
+
+void sword_logic_refresh_module_list()
+{
+    initialize_sword_structures();
+
+    database::logs::log("Refreshing list of SWORD modules");
+
+    const sword::SWBuf base_dir = get_sword_install_mgr_path().c_str ();
+    sword::InstallMgr install_manager(base_dir, nullptr);
+    install_manager.setUserDisclaimerConfirmed(true);
+
+    // Get the remote sources.
+    std::vector<std::string> remote_sources{};
+    for (const sword::InstallSource* install_source : install_manager.sources | std::views::values)
+        remote_sources.emplace_back(install_source->caption.c_str());
+    database::logs::log("Remote sources:", filter::string::implode(remote_sources, " - "));
+
+    std::vector<std::string> sword_modules{};
+
+    for (const std::string& remote_source : remote_sources)
+    {
+        auto source_iter = install_manager.sources.find(remote_source.c_str ());
+        if (source_iter == install_manager.sources.cend())
+            database::logs::log("Could not find remote source", remote_source);
+        // Download the module list of this source.
+        if (const int error = install_manager.refreshRemoteSource (source_iter->second))
+        {
+            database::logs::log("Could not refresh remote source", remote_source, "error", error);
+            continue;
+        }
+        sword::SWMgr sword_manager (base_dir);
+        sword::SWMgr* other_manager = source_iter->second->getMgr();
+        if (not other_manager)
+            other_manager = std::addressof(sword_manager);
+        // ReSharper disable once CppTooWideScopeInitStatement
+        const std::map<sword::SWModule*, int> mods = sword::InstallMgr::getModuleStatus(sword_manager, *other_manager);
+        std::size_t usable_module_count{};
+        std::size_t encrypted_module_count{};
+        std::size_t non_verse_based_module_count{};
+        for (const auto& module_ptr : mods | std::views::keys)
+        {
+            const sword::SWModule* module = module_ptr;
+
+            // Get module properties.
+            std::string name = module->getName();
+            const auto get_version = [module]
+            {
+                if (const char* version = module->getConfigEntry("Version"))
+                    return version;
+                return "";
+            };
+            std::string version = get_version();
+            std::string description = module->getDescription();
+
+            // No CipherKey entry: the module is not encrypted.
+            // Skip encrypted module (no CipherKey to decrypt it).
+            if (module->getConfigEntry("CipherKey"))
+            {
+                ++encrypted_module_count;
+                continue;
+            }
+
+            // Skip module if it is not verse-based (Bible or commentary).
+            const auto verse_based = [module]
+            {
+                const std::string module_type = module->getType();
+                if (module_type == sword::SWMgr::MODTYPE_BIBLES)
+                    return true;
+                if (module_type == sword::SWMgr::MODTYPE_COMMENTARIES)
+                    return true;
+                return false;
+            };
+            if (not verse_based())
+            {
+                ++non_verse_based_module_count;
+                continue;
+            }
+
+            std::ostringstream oss{};
+            oss << "[" << remote_source << "] *[" << name << "]  (" << version << ") - " << description;
+            ++usable_module_count;
+            sword_modules.push_back(std::move(oss).str());
+        }
+        database::logs::log("Remote source", remote_source, "has", usable_module_count, "modules excluding", encrypted_module_count, "encrypted and", non_verse_based_module_count, "non verse-based");
     }
-#else
-    filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -rl \"" + remote_source + "\"", out_err);
-    lines = filter::string::explode (out_err, '\n');
-    for (auto line : lines) {
-      line = filter::string::trim (line);
-      if (line.empty ()) continue;
-      if (line.find ("[") == std::string::npos) continue;
-      if (line.find ("]") == std::string::npos) continue;
-      modules.push_back ("[" + remote_source + "]" + " " + line);
-    }
-    for (const auto& module : modules) {
-      sword_modules.push_back (module);
-    }
-#endif
-    database::logs::log (remote_source, ":", modules.size (), "modules");
-  }
-  
-  // Store the list of remote sources and their modules.
-  // It is stored in the client files area.
-  // Clients can access it from there too.
-  std::string path = sword_logic_module_list_path ();
-  filter_url_file_put_contents (path, filter::string::implode (sword_modules, "\n"));
-  
-  database::logs::log ("Ready refreshing SWORD module list");
+
+    // Store the list of remote sources and their modules.
+    // It is stored in the client files area.
+    // Clients can access it from there too.
+    filter_url_file_put_contents(sword_logic_module_list_path(), filter::string::implode(sword_modules, "\n"));
+
+    database::logs::log("Ready refreshing SWORD module list");
 }
 
 
@@ -275,15 +285,15 @@ void sword_logic_install_module_schedule (const std::string& source, const std::
 void sword_logic_install_module (const std::string& source_name, const std::string& module_name)
 {
   database::logs::log ("Install SWORD module", module_name, "from source", source_name);
-  std::string sword_path {sword_logic_get_path ()};
+  std::string sword_path {get_sword_install_mgr_path ()};
 
   // Installation through SWORD InstallMgr does not yet work.
   // When running it from the ~/.sword/InstallMgr directory, it works.
-#ifdef HAVE_SWORD
+#ifdef HAVE_SWORDTodo
   
   sword::SWMgr *mgr = new sword::SWMgr();
   
-  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
   installMgr->setUserDisclaimerConfirmed (true);
@@ -335,7 +345,7 @@ void sword_logic_uninstall_module (const std::string& module)
 {
   database::logs::log ("Uninstall SWORD module", module);
   std::string out_err;
-  const std::string sword_path {sword_logic_get_path ()};
+  const std::string sword_path {get_sword_install_mgr_path ()};
   filter::shell::run ("cd " + sword_path + "; " + std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -u \"" + module + "\"", out_err);
   sword_logic_log (out_err);
 }
@@ -354,7 +364,7 @@ std::vector <std::string> sword_logic_get_installed ()
 {
   std::vector <std::string> modules {};
   std::string out_err {};
-  const std::string sword_path {sword_logic_get_path ()};
+  const std::string sword_path {get_sword_install_mgr_path ()};
   filter::shell::run ("cd " + sword_path + "; " + std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -l", out_err);
   std::vector <std::string> lines = filter::string::explode (out_err, '\n');
   for (auto line : lines) {
@@ -428,7 +438,7 @@ std::string sword_logic_get_text (const std::string& source, const std::string& 
   // module_text = sword_logic_diatheke (module, osis, chapter, verse, module_available);
   
   // Running diatheke only works when it runs in the SWORD installation directory.
-  const std::string sword_path = sword_logic_get_path ();
+  const std::string sword_path = get_sword_install_mgr_path ();
   // Running several instances of diatheke simultaneously fails.
   sword_logic_diatheke_run_mutex.lock ();
   // The server fetches the module text as follows:
@@ -520,7 +530,7 @@ std::map <int, std::string> sword_logic_get_bulk_text (const std::string& module
   // diatheke -b AB -k Ezra
   std::string error {};
   std::string bulk_text {};
-  const int result = filter::shell::run (sword_logic_get_path (), std::string(filter::shell::get_executable(filter::shell::Executable::diatheke)), { "-b", module, "-k", osis, std::to_string (chapter) }, &bulk_text, &error);
+  const int result = filter::shell::run (get_sword_install_mgr_path (), std::string(filter::shell::get_executable(filter::shell::Executable::diatheke)), { "-b", module, "-k", osis, std::to_string (chapter) }, &bulk_text, &error);
   bulk_text.append (error);
   if (result != 0) database::logs::log (error);
   // This is how the output would look.
@@ -671,11 +681,11 @@ void sword_logic_run_scheduled_module_install (const std::string& source, const 
 
 void sword_logic_installmgr_initialize ()
 {
-#ifdef HAVE_SWORD
+#ifdef HAVE_SWORDTodo
   sword::SWMgr *mgr = new sword::SWMgr();
   if (!mgr->config) database::logs::log ("ERROR: Please configure SWORD first.");
 
-  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
   installMgr->setUserDisclaimerConfirmed (true);
@@ -703,8 +713,8 @@ void sword_logic_installmgr_initialize ()
 bool sword_logic_installmgr_synchronize_configuration_with_master ()
 {
   bool success = true;
-#ifdef HAVE_SWORD
-  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+#ifdef HAVE_SWORDTodo
+  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
   installMgr->setUserDisclaimerConfirmed (true);
@@ -721,8 +731,8 @@ bool sword_logic_installmgr_synchronize_configuration_with_master ()
 
 void sword_logic_installmgr_list_remote_sources ([[maybe_unused]] const std::vector <std::string>& sources)
 {
-#ifdef HAVE_SWORD
-  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+#ifdef HAVE_SWORDTodo
+  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
   installMgr->setUserDisclaimerConfirmed (true);
@@ -751,8 +761,8 @@ void sword_logic_installmgr_list_remote_sources ([[maybe_unused]] const std::vec
 bool sword_logic_installmgr_refresh_remote_source ([[maybe_unused]] const std::string& name)
 {
   bool success = true;
-#ifdef HAVE_SWORD
-  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+#ifdef HAVE_SWORDTodo
+  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
   installMgr->setUserDisclaimerConfirmed (true);
@@ -775,10 +785,10 @@ bool sword_logic_installmgr_refresh_remote_source ([[maybe_unused]] const std::s
 void sword_logic_installmgr_list_remote_modules ([[maybe_unused]] const std::string& source_name,
                                                  [[maybe_unused]] std::vector <std::string>& modules)
 {
-#ifdef HAVE_SWORD
+#ifdef HAVE_SWORDTodo
   sword::SWMgr *mgr = new sword::SWMgr();
   
-  sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
+  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
   
   sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
   installMgr->setUserDisclaimerConfirmed (true);
@@ -839,13 +849,13 @@ std::string sword_logic_diatheke ([[maybe_unused]] const std::string& module_nam
                                   [[maybe_unused]] bool& available)
 {
   std::string rendering {};
-#ifdef HAVE_SWORD
+#ifdef HAVE_SWORDTodo
   // When accessing the SWORD library from multiple threads simultaneously, the library often crashes.
   // A mutex fixes this behaviour.
   sword_logic_library_access_mutex.lock ();
   
   // The SWORD manager should be pointed to the path of the library, in order to work.
-  sword::SWMgr manager (sword_logic_get_path ().c_str ());
+  sword::SWMgr manager (get_sword_install_mgr_path ().c_str ());
   
   manager.setGlobalOption("Footnotes", "Off");
   manager.setGlobalOption("Headings", "Off");

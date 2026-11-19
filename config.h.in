@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #cmakedefine HAVE_ICU
 #cmakedefine HAVE_UTF8PROC
 #cmakedefine HAVE_PUGIXML
+#cmakedefine HAVE_SWORD
 #cmakedefine HAVE_GTEST
 #define PACKAGE_DATA_DIR "@PACKAGE_DATA_DIR@"
 #define PACKAGE_PREFIX_DIR "@PACKAGE_PREFIX_DIR@"

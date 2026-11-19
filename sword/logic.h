@@ -21,7 +21,6 @@
 
 #include <config/libraries.h>
 
-std::string sword_logic_get_path ();
 void sword_logic_refresh_module_list ();
 std::string sword_logic_module_list_path ();
 std::string sword_logic_get_source (std::string line);
@@ -34,8 +33,8 @@ void sword_logic_install_module (const std::string& source, const std::string& m
 void sword_logic_uninstall_module (const std::string& module);
 std::vector <std::string> sword_logic_get_available ();
 std::vector <std::string> sword_logic_get_installed ();
-std::string sword_logic_get_text (const std::string& source, const std::string& module, const int book, const int chapter, const int verse);
-std::map <int, std::string> sword_logic_get_bulk_text (const std::string& module, const int book, const int chapter, const std::vector <int>& verses);
+std::string sword_logic_get_text (const std::string& source, const std::string& module, int book, int chapter, int verse);
+std::map <int, std::string> sword_logic_get_bulk_text (const std::string& module, int book, int chapter, const std::vector <int>& verses);
 void sword_logic_update_installed_modules ();
 void sword_logic_trim_modules ();
 std::string sword_logic_installing_module_text ();

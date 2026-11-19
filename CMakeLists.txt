@@ -974,6 +974,21 @@ if (PUGIXML_FOUND)
     target_link_libraries(generate ${PUGIXML_LIBRARIES})
 endif ()
 
+# The SWORD library to be installed on macOS manually: Add the search path
+set(ENV{PKG_CONFIG_PATH} "/usr/local/lib/pkgconfig:$ENV{PKG_CONFIG_PATH}")
+pkg_check_modules(SWORD REQUIRED IMPORTED_TARGET sword)
+if (SWORD_FOUND)
+	set(HAVE_SWORD ON)
+#	target_include_directories(bibledit PUBLIC ${SWORD_INCLUDE_DIRS})
+#	target_compile_options(bibledit PUBLIC ${SWORD_CFLAGS_OTHER})
+#	target_link_directories(bibledit PUBLIC ${SWORD_LIBRARY_DIRS})
+#	target_link_libraries(server ${SWORD_LIBRARIES})
+	target_link_libraries(bibledit PRIVATE
+		PkgConfig::SWORD
+	)
+endif ()
+
+
 pkg_check_modules(GTEST gtest>=1.10.0)
 if (GTEST_FOUND)
     set(HAVE_GTEST ON)

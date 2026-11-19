@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define HAVE_ICU
 #define HAVE_UTF8PROC
 #define HAVE_PUGIXML
+#define HAVE_SWORD
 #define HAVE_GTEST
 #define PACKAGE_DATA_DIR "/usr/share/bibledit"
 #define PACKAGE_PREFIX_DIR "/usr"

@@ -43,7 +43,7 @@
 
 
 static std::mutex sword_logic_installer_mutex {};
-static bool sword_logic_installing_module {false};
+static std::atomic<bool> sword_logic_installing_module {false};
 static std::mutex sword_logic_library_access_mutex {};
 static std::mutex sword_logic_diatheke_run_mutex {};
 
@@ -270,92 +270,93 @@ std::string sword_logic_get_name(std::string line)
 }
 
 
-// Schedule SWORD module installation.
-void sword_logic_install_module_schedule (const std::string& source, const std::string& module)
+// Schedule SWORD module extraction.
+void sword_logic_extract_module_schedule(const std::string& source, const std::string& module)
 {
-  // No source: Done.
-  if (source.empty ()) return;
-  
-  // No module: Done.
-  // There have been cases with more than 6000 scheduled SWORD module installation tasks,
-  // all trying to install an empty $module.
-  // So it's important to check on that.
-  if (module.empty ()) return;
-  
-  // Check whether the module installation has been scheduled already.
-  if (tasks::tasks_logic_queued (tasks::enums::task::install_sword_module, {source, module})) return;
-  
-  // Schedule it.
-  tasks::tasks_logic_queue (tasks::enums::task::install_sword_module, {source, module});
+    // No source: Done.
+    if (source.empty())
+        return;
+
+    // No module: Done.
+    // There have been cases with more than 6000 scheduled SWORD module installation tasks,
+    // all trying to install an empty $module.
+    // So it's important to check on that.
+    if (module.empty())
+        return;
+
+    // Schedule the module installation and extraction if it has not yet been scheduled.
+    if (tasks::tasks_logic_queued(tasks::enums::task::extract_sword_module, {source, module}))
+        return;
+    tasks::tasks_logic_queue(tasks::enums::task::extract_sword_module, {source, module});
 }
 
 
-void sword_logic_install_module (const std::string& source_name, const std::string& module_name)
+void sword_logic_install_module(const std::string& source_name, const std::string& module_name)
 {
-  database::logs::log ("Install SWORD module", module_name, "from source", source_name);
-  std::string sword_path {get_sword_install_mgr_path ()};
-
-  // Installation through SWORD InstallMgr does not yet work.
-  // When running it from the ~/.sword/InstallMgr directory, it works.
-#ifdef HAVE_SWORDTodo
-  
-  sword::SWMgr *mgr = new sword::SWMgr();
-  
-  sword::SWBuf baseDir = get_sword_install_mgr_path ().c_str ();
-  
-  sword::InstallMgr *installMgr = new sword::InstallMgr (baseDir, NULL);
-  installMgr->setUserDisclaimerConfirmed (true);
-  
-  sword::InstallSourceMap::iterator source = installMgr->sources.find(source_name.c_str ());
-  if (source == installMgr->sources.end()) {
-    database::logs::log ("Could not find remote source", source_name);
-  } else {
-    sword::InstallSource *is = source->second;
-    sword::SWMgr *rmgr = is->getMgr();
-    sword::SWModule *module;
-    sword::ModMap::iterator it = rmgr->Modules.find(module_name.c_str());
-    if (it == rmgr->Modules.end()) {
-      database::logs::log ("Remote source", source_name, "does not make available module", module_name);
-    } else {
-      module = it->second;
-      int error = installMgr->installModule(mgr, 0, module->getName(), is);
-      if (error) {
-        database::logs::log ("Error installing module", module_name);
-      } else {
-        database::logs::log ("Installed module", module_name);
-      }
+    database::logs::log("Installing SWORD module", module_name, "from source", source_name);
+    const sword::SWBuf base_dir {get_sword_install_mgr_path().c_str()};
+    sword::SWMgr sword_mgr(base_dir); // Only installs if path set.
+    sword::InstallMgr installMgr (base_dir, nullptr);
+    installMgr.setUserDisclaimerConfirmed (true);
+    const auto source = installMgr.sources.find(source_name.c_str());
+    if (source == installMgr.sources.end())
+    {
+        database::logs::log("Could not find remote source", source_name);
+        return;
     }
-  }
+    sword::InstallSource *install_source = source->second;
+    sword::SWMgr *remote_manager = install_source->getMgr();
+    const auto module_iter = remote_manager->Modules.find(module_name.c_str());
+    if (module_iter == remote_manager->Modules.end())
+    {
+        database::logs::log("Remote source", source_name, "does not make available module", module_name);
+        return;
+    }
+    const sword::SWModule *module = module_iter->second;
+    if (const int error = installMgr.installModule(&sword_mgr, nullptr, module->getName(), install_source);
+        error != 0)
+    {
+        database::logs::log("Error installing SWORD module", module_name);
+        return;
+    }
+    database::logs::log("Installed SWORD module", module_name);
 
-  delete installMgr;
-  delete mgr;
-  
-#else
-  std::string out_err {};
-  std::string command = "cd " + sword_path + "; " + std::string(filter::shell::get_executable_name(filter::shell::Executable::installmgr))+ " --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -ri \"" + source_name + "\" \"" + module_name + "\"";
-  database::logs::log (command);
-  const int result = filter::shell::run (command, out_err);
-  database::logs::log("Result is ", result);
-  sword_logic_log (out_err);
-  
-#endif
-
-  // After the installation is complete, write some temporal some data.
-  // This temporal data indicates the last access time for this SWORD module.
-  {
-    const std::string path = sword_logic_access_tracker (module_name);
-    filter_url_file_put_contents (path, "SWORD");
-  }
+    // After the installation is complete, write some temporal some data.
+    // This temporal data indicates the last access time for this SWORD module.
+    {
+        const std::string path = sword_logic_access_tracker(module_name);
+        filter_url_file_put_contents(path, "SWORD");
+    }
 }
 
 
-void sword_logic_uninstall_module (const std::string& module)
+void sword_logic_uninstall_module(const std::string& module)
 {
-  database::logs::log ("Uninstall SWORD module", module);
-  std::string out_err;
-  const std::string sword_path {get_sword_install_mgr_path ()};
-  filter::shell::run ("cd " + sword_path + "; " + std::string(filter::shell::get_executable_name(filter::shell::Executable::installmgr)) + " -u \"" + module + "\"", out_err);
-  sword_logic_log (out_err);
+    database::logs::log("Uninstalling SWORD module", module);
+    const sword::SWBuf base_dir {get_sword_install_mgr_path().c_str()};
+    sword::SWMgr sword_mgr (base_dir);
+    sword::InstallMgr installMgr (base_dir, nullptr);
+    const auto module_iter = sword_mgr.Modules.find(module.c_str());
+    if (module_iter == sword_mgr.Modules.end())
+    {
+        database::logs::log("SWORD module", module, "is not installed");
+        return;
+    }
+    const sword::SWModule* sw_module = module_iter->second;
+    if (const int error = installMgr.removeModule(&sword_mgr, sw_module->getName()); error != 0)
+    {
+        database::logs::log("Error uninstalling SWORD module", module);
+        return;
+    }
+    database::logs::log("Uninstalled SWORD module", module);
+    // Todo
+    // std::string out_err;
+    // const std::string sword_path{get_sword_install_mgr_path()};
+    // filter::shell::run(
+    //     "cd " + sword_path + "; " + std::string(
+    //         filter::shell::get_executable_name(filter::shell::Executable::installmgr)) + " -u \"" + module + "\"",
+    //     out_err);
+    // sword_logic_log(out_err);
 }
 
 
@@ -480,7 +481,9 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
     database::logs::log ("Run in", sword_path);// Todo
     database::logs::log ("Program:", filter::shell::get_executable_path(filter::shell::Executable::diatheke), "Parameters:", filter::string::implode(parameters, " ")); // Todo
     if (result != 0)
-        return sword_logic_fetch_failure_text();
+    {
+        // Todo return sword_logic_fetch_failure_text();
+    }
 
     // Touch the temporal file
     // so the server knows that the module has been accessed just now
@@ -510,7 +513,7 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
             //       in long waiting times and caused Bibledit Cloud to become unresponsive.
             //       Therefore, this function now returns immediately with an informative
             //       message, without waiting for the installation to complete.
-            sword_logic_install_module_schedule(source, module);
+            sword_logic_extract_module_schedule(source, module);
             // Return standard 'installing' information. Client knows not to cache this.
             return sword_logic_installing_module_text();
         }
@@ -610,7 +613,7 @@ void sword_logic_update_installed_modules ()
           // Uninstall module.
           sword_logic_uninstall_module (module);
           // Schedule module installation.
-          sword_logic_install_module_schedule (source, module);
+          sword_logic_extract_module_schedule (source, module);
         }
         continue;
       }
@@ -663,44 +666,40 @@ std::string sword_logic_access_tracker (const std::string& module)
 }
 
 
-// The functions runs a scheduled module installation.
-// The purpose of this function is that only one module installation occurs at a time,
+// The function runs a scheduled module installation and extraction.
+// The purpose of this function is that only one such operation occurs at a time,
 // rather than simultaneously installing modules, which clogs the system.
-void sword_logic_run_scheduled_module_install (const std::string& source, const std::string& module)
+void sword_logic_run_scheduled_module_extract(const std::string& source, const std::string& module)
 {
-  // If a module is being installed,
-  // and a call is made for another module installation,
-  // re-schedule this module installation to postpone it,
-  // till after this one is ready.
-  sword_logic_installer_mutex.lock ();
-  const bool installing = sword_logic_installing_module;
-  sword_logic_installer_mutex.unlock ();
-  if (installing) {
-    sword_logic_install_module_schedule (source, module);
-    return;
-  }
-
-  // Set flag for current module installation running.
-  sword_logic_installer_mutex.lock ();
-  sword_logic_installing_module = true;
-  sword_logic_installer_mutex.unlock ();
-
-  // Run the installer if the module is not yet installed.
-  const std::vector <std::string> modules {sword_logic_get_installed ()};
-  bool already_installed = false;
-  for (const auto& installed_module : modules) {
-    if (installed_module.find ("[" + module + "]") != std::string::npos) {
-      already_installed = true;
+    // If another module installation and extraction is already in progress,
+    // postpone this task by re-scheduling it.
+    // Only one task can run at a time:
+    // This task must wait until the current one has completed.
+    if (sword_logic_installing_module)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(10)); // Prevent rapid rescheduling multiple tasks.
+        sword_logic_extract_module_schedule(source, module);
+        return;
     }
-  }
-  if (!already_installed) {
-    sword_logic_install_module (source, module);
-  }
-  
-  // Clear flag as current module installation is ready.
-  sword_logic_installer_mutex.lock ();
-  sword_logic_installing_module = false;
-  sword_logic_installer_mutex.unlock ();
+
+    // Set flag for current module installation running, clear it on scope end.
+    sword_logic_installing_module = true;
+    const auto flag_guard = std::unique_ptr<void, decltype([](void*) {
+        sword_logic_installing_module = false;
+    })> (reinterpret_cast<void*>(1));
+
+    // Uninstall the module if installed.
+    for (const auto& installed_module : sword_logic_get_installed()) {
+        if (installed_module.find ("[" + module + "]") != std::string::npos) {
+            sword_logic_uninstall_module(module);
+        }
+    }
+
+    // Install the module.
+    sword_logic_install_module(source, module);
+
+
+    // Todo working here.
 }
 
 

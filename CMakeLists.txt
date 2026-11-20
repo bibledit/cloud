@@ -252,6 +252,7 @@ add_library(bibledit STATIC
         database/userresources.cpp
         database/statistics.cpp
         database/sample.cpp
+		database/sword.cpp
         session/logic.cpp
         session/login.cpp
         session/logout.cpp
@@ -814,7 +815,8 @@ if (BUILD_UNITTESTS)
             unittests/image.cpp
             unittests/scraper.cpp
             unittests/consistency.cpp
-	    unittests/numbers.cpp
+	        unittests/numbers.cpp
+	        unittests/sword.cpp
     )
     target_link_libraries(unittest bibledit)
 endif ()

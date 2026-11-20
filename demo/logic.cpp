@@ -330,13 +330,13 @@ void demo_prepare_sample_bible ()
 #ifdef HAVE_CLOUD
   [[maybe_unused]] int result;
   std::string command;
-  command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -path '*logbook/1*' -delete";
+  command = std::string(filter::shell::get_executable_name(filter::shell::Executable::find)) + " . -path '*logbook/1*' -delete";
   result = system (command.c_str());
-  command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -path '*logbook/2*' -delete";
+  command = std::string(filter::shell::get_executable_name(filter::shell::Executable::find)) + " . -path '*logbook/2*' -delete";
   result = system (command.c_str());
-  command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -name state.sqlite -delete";
+  command = std::string(filter::shell::get_executable_name(filter::shell::Executable::find)) + " . -name state.sqlite -delete";
   result = system (command.c_str());
-  command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -name 'Sample.*' -delete";
+  command = std::string(filter::shell::get_executable_name(filter::shell::Executable::find)) + " . -name 'Sample.*' -delete";
   result = system (command.c_str());
 #endif
 }

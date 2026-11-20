@@ -100,7 +100,7 @@ std::string collaboration_index (Webserver_Request& webserver_request)
   // So the following is used instead.
   if (!object.empty ()) {
     std::string status_output, status_error;
-    filter::shell::run (repository_folder, filter::shell::get_executable(filter::shell::Executable::git), {"status"}, &status_output, &status_error);
+    filter::shell::run (repository_folder, filter::shell::get_executable_name(filter::shell::Executable::git), {"status"}, &status_output, &status_error);
     view.set_variable ("status", status_output + " " + status_error);
   }
 

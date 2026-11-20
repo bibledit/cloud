@@ -99,14 +99,34 @@ void check_existence_executables()
 #endif
 
 
-const char* get_executable(const Executable executable)
+const char* get_executable_name(const Executable executable)
 {
   if (const auto iter = std::ranges::find(absent_executables, executable);
       iter != absent_executables.cend()) {
     log_absent_executable_internal(get_executable_internal(executable));
-    return "false";
+    return "false"; // If ran, exit code will be != 0.
   }
   return get_executable_internal(executable);
+}
+
+
+std::string get_executable_path(const Executable executable) // Todo write it.
+{
+    const std::string command {"which " + std::string(get_executable_name(executable))};
+
+    const auto pipe = std::unique_ptr<FILE, decltype(&pclose)>{
+        popen(command.c_str(), "r"), pclose
+    };
+    if (not pipe)
+        return {};
+
+    std::array<char, 1024> buffer{};
+    std::string result;
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
+        result += buffer.data();
+
+    // "which" returns a newline-terminated path.
+    return filter::string::trim(result);
 }
 
 
@@ -235,7 +255,7 @@ bool is_present (const char* program)
   (void) program;
   return false;
 #else
-  const std::string command = std::string(get_executable(Executable::which)) + " " + std::string(program) + " > /dev/null 2>&1";
+  const std::string command = std::string(get_executable_name(Executable::which)) + " " + std::string(program) + " > /dev/null 2>&1";
   const int exitcode = system (command.c_str ());
   return exitcode == 0;
 #endif
@@ -265,7 +285,7 @@ std::vector<std::string> active_processes ()
 #else
   
   std::string output;
-  run (std::string(get_executable(Executable::ps)) + " ax", output);
+  run (std::string(get_executable_name(Executable::ps)) + " ax", output);
   processes = string::explode (output, '\n');
   
 #endif

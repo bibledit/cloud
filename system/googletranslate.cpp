@@ -68,7 +68,7 @@ std::string system_googletranslate(Webserver_Request& webserver_request)
     if (error.empty())
     {
         const bool gcloud_present = filter::shell::is_present(
-            filter::shell::get_executable(filter::shell::Executable::gcloud));
+            filter::shell::get_executable_name(filter::shell::Executable::gcloud));
         if (not gcloud_present)
         {
             error.assign("The gcloud CLI was not found on the server.");

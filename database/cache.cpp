@@ -341,7 +341,7 @@ void trim(bool clear)
 
     // Get the free space on the file system that contains the cache.
     std::string output, error;
-    filter::shell::run(path, filter::shell::get_executable(filter::shell::Executable::df), {"."}, &output, &error);
+    filter::shell::run(path, filter::shell::get_executable_name(filter::shell::Executable::df), {"."}, &output, &error);
     if (not error.empty())
         logs::log(error);
     int percentage_disk_in_use{0};
@@ -389,7 +389,7 @@ void trim(bool clear)
     // The fix is to do "cd /path/to/cache; find . ...".
     output.clear();
     error.clear();
-    filter::shell::run(path, filter::shell::get_executable(filter::shell::Executable::find),
+    filter::shell::run(path, filter::shell::get_executable_name(filter::shell::Executable::find),
                        {".", "-amin", minutes, "-delete"}, &output, &error);
     if (!output.empty()) logs::log(output);
     if (!error.empty()) logs::log(error);
@@ -397,7 +397,7 @@ void trim(bool clear)
     // Remove empty directories.
     output.clear();
     error.clear();
-    filter::shell::run(path, filter::shell::get_executable(filter::shell::Executable::find),
+    filter::shell::run(path, filter::shell::get_executable_name(filter::shell::Executable::find),
                        {".", "-type", "d", "-empty", "-delete"}, &output, &error);
     if (!output.empty()) logs::log(output);
     if (!error.empty()) logs::log(error);
@@ -432,7 +432,7 @@ void trim(bool clear)
     // Remove database-based cached files that have not been modified for x days.
     output.clear();
     error.clear();
-    filter::shell::run(path, filter::shell::get_executable(filter::shell::Executable::find), {
+    filter::shell::run(path, filter::shell::get_executable_name(filter::shell::Executable::find), {
                            path, "-name", sql::fragment() + "*", "-atime", days, "-delete"
                        }, &output, &error);
     if (!output.empty()) logs::log(output);

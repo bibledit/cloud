@@ -46,7 +46,8 @@ enum class Executable {
 #ifdef HAVE_CLOUD
 void check_existence_executables();
 #endif
-const char* get_executable(const Executable executable);
+const char* get_executable_name(Executable executable);
+std::string get_executable_path(Executable executable);
 int run (std::string directory, std::string command, const std::vector<std::string>& parameters,
          std::string* output, std::string* error);
 int run (const std::string& command, const char* parameter, std::string& output);

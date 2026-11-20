@@ -35,7 +35,7 @@ TEST (folders, basic)
   // If there were such empty folders, they would not be included in the git.
   // Apart from any empty folders in the ./git folder itself,
   // and apart from project-related data.
-  const std::string command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -type d -empty -not -path './.git/*' -not -path './cmake-build-debug/*' -not -path './build/*' -not -path './.idea/*' > /tmp/bibledittest.txt";
+  const std::string command = std::string(filter::shell::get_executable_name(filter::shell::Executable::find)) + " . -type d -empty -not -path './.git/*' -not -path './cmake-build-debug/*' -not -path './build/*' -not -path './.idea/*' > /tmp/bibledittest.txt";
   const int result = system (command.c_str());
   EXPECT_EQ (0, result);
   const std::string contents = filter_url_file_get_contents ("/tmp/bibledittest.txt");

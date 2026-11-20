@@ -51,7 +51,7 @@ std::pair<std::string, std::string> get_json_key_value_error()
 std::pair<bool, std::string> activate_service_account()
 {
     std::ostringstream command;
-    command << filter::shell::get_executable(filter::shell::Executable::gcloud);
+    command << filter::shell::get_executable_name(filter::shell::Executable::gcloud);
     command << " auth activate-service-account --quiet --key-file=";
     command << std::quoted(config::logic::google_translate_json_key_path());
     std::string out_err;
@@ -73,7 +73,7 @@ std::pair<bool, std::string> print_store_access_token()
 #endif
     // Print the access token.
     const std::string command{
-        std::string(shell::get_executable(shell::Executable::gcloud)) +
+        std::string(shell::get_executable_name(shell::Executable::gcloud)) +
         " auth application-default print-access-token"
     };
     std::string out_err;

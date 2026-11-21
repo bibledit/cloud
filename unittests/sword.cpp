@@ -34,22 +34,33 @@ TEST (database, sword)
 
     constexpr auto module1 {"module1"};
     constexpr auto module2 {"module2"};
-    constexpr auto data1 {"data1"};
-    constexpr auto data2 {"data2"};
+    const std::vector<database::sword::VerseText> data1 {
+        { 11, 12, 13, "14" },
+        { 12, 13, 14, "15" }
+    };
+    const std::vector<database::sword::VerseText> data2 {
+        { 21, 22, 23, "24" },
+        { 22, 23, 24, "25" }
+    };
 
     EXPECT_FALSE(database::sword::exists(module1));
     EXPECT_FALSE(database::sword::exists(module2));
 
-    database::sword::store(module1, data1);
+    database::sword::store_all(module1, data1);
     EXPECT_TRUE(database::sword::exists(module1));
     EXPECT_FALSE(database::sword::exists(module2));
 
-    database::sword::store(module2, data2);
+    database::sword::store_all(module2, data2);
     EXPECT_TRUE(database::sword::exists(module1));
     EXPECT_TRUE(database::sword::exists(module2));
 
-    EXPECT_EQ(database::sword::retrieve(module1), data1);
-    EXPECT_EQ(database::sword::retrieve(module2), data2);
+    EXPECT_EQ(database::sword::get_verse(module1, 1, 2, 3), "");
+    EXPECT_EQ(database::sword::get_verse(module1, 11, 12, 13), "14");
+    EXPECT_EQ(database::sword::get_verse(module1, 12, 13, 14), "15");
+
+    EXPECT_EQ(database::sword::get_verse(module2, 1, 2, 3), "");
+    EXPECT_EQ(database::sword::get_verse(module2, 21, 22, 23), "24");
+    EXPECT_EQ(database::sword::get_verse(module2, 22, 23, 24), "25");
 
     database::sword::remove(module1);
     EXPECT_FALSE(database::sword::exists(module1));

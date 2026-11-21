@@ -22,9 +22,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace database::sword {
 
+struct VerseText
+{
+    int book {};
+    int chapter {};
+    int verse {};
+    std::string text{};
+};
+
 bool exists(const std::string& module);
-void store(const std::string& module, const std::string& data);
-std::string retrieve(const std::string& module);
+void store_all(const std::string& module, const std::vector<VerseText>& data);
+std::string get_verse(const std::string& module, int book, int chapter, int verse);
 void remove(const std::string& module);
 
 }

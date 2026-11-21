@@ -44,16 +44,19 @@ void store_all(const std::string& module, const std::vector<VerseText>& data)
 
     SqliteDatabase sql(database_path(module));
 
+    // Greatly speed up data insertion.
     sql.add("PRAGMA synchronous=OFF;");
     sql.execute();
 
     sql.clear();
 
+    // The primary key speeds up verse text retrieval.
     sql.add("CREATE TABLE verses (book INTEGER, chapter INTEGER, verse INTEGER, text TEXT, PRIMARY KEY (book, chapter, verse));");
     sql.execute();
 
     sql.clear();
 
+    // Use transaction to speed insertion up a lot.
     sql.add("BEGIN;");
     sql.execute();
 

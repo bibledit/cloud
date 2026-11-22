@@ -34,5 +34,6 @@ bool exists(const std::string& module);
 void store_all(const std::string& module, const std::vector<VerseText>& data);
 std::string get_verse(const std::string& module, int book, int chapter, int verse);
 void remove(const std::string& module);
+void remove_all();
 
 }

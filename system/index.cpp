@@ -43,6 +43,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tasks/logic.h>
 #include <webserver/request.h>
 
+#include "database/sword.h"
+
 
 std::string system_index_url()
 {
@@ -320,6 +322,7 @@ std::string system_index(Webserver_Request& webserver_request)
     {
         tasks::tasks_logic_queue(tasks::enums::task::clear_caches);
         database::config::general::set_resources_to_cache ({});
+        database::sword::remove_all();
         redirect_browser(webserver_request, journal_index_url());
         return std::string();
     }

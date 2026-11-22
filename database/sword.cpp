@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <filter/url.h>
 
+#include "filter/string.h"
+
 // Databases resilience:
 // They contain cached data.
 // Rarely written to.
@@ -99,6 +101,14 @@ std::string get_verse(const std::string& module, const int book, const int chapt
 void remove(const std::string& module)
 {
     filter_url_unlink(database_path(module));
+}
+
+void remove_all()
+{
+    constexpr auto tag {"removeall"};
+    const std::string path = filter::string::replace(tag, "*", database_path(tag));
+    const std::string command = "rm " + path;
+    system (command.c_str());
 }
 
 }

@@ -20,7 +20,7 @@ jobs:
     - name: apt update
       run: sudo apt update
     - name: apt install
-      run: sudo apt install cmake git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev libsword-dev googletest
+      run: sudo apt install cmake git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev libsword-dev googletest
     - name: configure
       run: cmake -B build
     - name: make

@@ -49,8 +49,6 @@ static const char* get_executable_internal(const Executable executable)
       return "chmod";
     case Executable::df:
       return "df";
-    case Executable::diatheke:
-      return "diatheke";
     case Executable::find:
       return "find";
     case Executable::gcloud:

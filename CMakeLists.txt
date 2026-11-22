@@ -160,7 +160,6 @@ find_program(TAR tar REQUIRED)
 find_program(ZIP zip REQUIRED)
 find_program(UNZIP unzip REQUIRED)
 find_program(INSTALLMGR installmgr)
-find_program(DIATHEKE diatheke)
 
 
 # The C++ standard to use, and it is mandatory.

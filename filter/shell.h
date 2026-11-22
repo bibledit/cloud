@@ -27,7 +27,6 @@ enum class Executable {
   __start__,
   chmod,
   df,
-  diatheke,
   find,
   gcloud,
   git,

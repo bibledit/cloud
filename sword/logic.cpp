@@ -58,6 +58,12 @@ static std::mutex sword_logic_diatheke_run_mutex{};
 }
 
 
+[[nodiscard]] static std::string sword_logic_module_list_path()
+{
+    return filter_url_create_root_path({database_logic_databases(), "client", "sword_modules.txt"});
+}
+
+
 static void initialize_sword_structures()
 {
     // Initialize SWORD directory structure.
@@ -179,12 +185,6 @@ void sword_logic_refresh_module_list()
     filter_url_file_put_contents(sword_logic_module_list_path(), filter::string::implode(sword_modules, "\n"));
 
     database::logs::log("Ready refreshing SWORD module list");
-}
-
-
-std::string sword_logic_module_list_path()
-{
-    return filter_url_create_root_path({database_logic_databases(), "client", "sword_modules.txt"});
 }
 
 
@@ -421,12 +421,7 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
     // Client caches this info for later.
     // Except in case of predefined responses from the Cloud.
     if (html != sword_logic_installing_module_text())
-    {
-        if (html != sword_logic_fetch_failure_text())
-        {
-            database::cache::sql::cache(resource, book, chapter, verse, html);
-        }
-    }
+        database::cache::sql::cache(resource, book, chapter, verse, html);
 
     return html;
 
@@ -499,14 +494,6 @@ std::string sword_logic_installing_module_text()
 {
     return
         "The requested SWORD module is not yet installed. Bibledit Cloud will install it shortly. Please check back after a few minutes.";
-}
-
-
-// Text stating fetch failure.
-// Client knows not to cache this.
-std::string sword_logic_fetch_failure_text()
-{
-    return "Failure to fetch SWORD content.";
 }
 
 

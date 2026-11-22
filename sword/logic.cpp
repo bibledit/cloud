@@ -797,6 +797,10 @@ void sword_logic_run_scheduled_module_extract(const std::string& source, const s
     // Save it in the SWORD database.
     database::sword::store_all(module, verse_texts);
     database::logs::log("Completed importing SWORD module", module);
+
+    // Uninstall the module again.
+    sword_logic_uninstall_module(module);
+
 }
 
 

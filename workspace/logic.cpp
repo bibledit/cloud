@@ -610,7 +610,7 @@ std::optional<std::string> get_first_bible_from_urls(const std::map<int, std::st
                 if (std::vector<std::string> key_value = filter::string::explode(fragment, '=');
                     key_value.size() == 2)
                     if (key_value.at(0) == "bible")
-                        return filter_url_urldecode(key_value.at(1));
+                        return filter_url_url_decode(key_value.at(1));
             }
         }
     }

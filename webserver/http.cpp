@@ -92,7 +92,7 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
             webserver_request.query[key_value.at(0)] = std::string();
           // Handle normal situation: Both key and value are given.
           if (key_value.size() == 2)
-            webserver_request.query[key_value.at(0)] = filter_url_urldecode(key_value.at(1));
+            webserver_request.query[key_value.at(0)] = filter_url_url_decode(key_value.at(1));
         }
       }
     } catch (...) {
@@ -312,7 +312,7 @@ void http_assemble_response (Webserver_Request& webserver_request)
 void http_stream_file (Webserver_Request& webserver_request, bool enable_cache)
 {
   // Full path to the file.
-  const std::string url = filter_url_urldecode (webserver_request.get);
+  const std::string url = filter_url_url_decode (webserver_request.get);
   // The URL likely starts with a slash, like this: /css/mouse.css
   // When creating a path out of that, the path will become this: /css/mouse.css
   // Such a path does not exist.
@@ -444,7 +444,7 @@ static std::vector<std::pair<std::string,std::string>> parse_application_x_www_f
       result.emplace_back(key_value.at(0), std::string());
     // Handle normal situation: Both key and value are given.
     if (key_value.size() == 2)
-      result.emplace_back(key_value.at(0), filter_url_urldecode(key_value.at(1)));
+      result.emplace_back(key_value.at(0), filter_url_url_decode(key_value.at(1)));
   }
 
   return result;

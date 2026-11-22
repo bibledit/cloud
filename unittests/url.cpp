@@ -135,24 +135,24 @@ TEST_F (filter_url, escape_shell_argument)
 TEST_F (filter_url, decode)
 {
   // Test URL decoder.
-  EXPECT_EQ ("Store settings", filter_url_urldecode ("Store+settings"));
-  EXPECT_EQ ("test@mail", filter_url_urldecode ("test%40mail"));
-  EXPECT_EQ ("ᨀab\\d@a", filter_url_urldecode ("%E1%A8%80ab%5Cd%40a"));
-  EXPECT_EQ ("\xFF", filter_url_urldecode ("%FF"));
-  EXPECT_EQ ("\xFF", filter_url_urldecode ("%ff"));
+  EXPECT_EQ ("Store settings", filter_url_url_decode ("Store+settings"));
+  EXPECT_EQ ("test@mail", filter_url_url_decode ("test%40mail"));
+  EXPECT_EQ ("ᨀab\\d@a", filter_url_url_decode ("%E1%A8%80ab%5Cd%40a"));
+  EXPECT_EQ ("\xFF", filter_url_url_decode ("%FF"));
+  EXPECT_EQ ("\xFF", filter_url_url_decode ("%ff"));
 }
 
 
 TEST_F (filter_url, encode)
 {
   // Test URL encoder.
-  EXPECT_EQ ("Store%20settings", filter_url_urlencode ("Store settings"));
-  EXPECT_EQ ("test%40mail", filter_url_urlencode ("test@mail"));
-  EXPECT_EQ ("%E1%A8%80ab%5Cd%40a", filter_url_urlencode ("ᨀab\\d@a"));
-  EXPECT_EQ ("foo%3Dbar%26baz%3D", filter_url_urlencode ("foo=bar&baz="));
-  EXPECT_EQ ("%D7%91%D6%BC%D6%B0%D7%A8%D6%B5%D7%90%D7%A9%D7%81%D6%B4%D6%96%D7%99%D7%AA", filter_url_urlencode ("בְּרֵאשִׁ֖ית"));
-  EXPECT_EQ ("ABC", filter_url_urlencode ("ABC"));
-  EXPECT_EQ ("%FF", filter_url_urlencode ("\xFF"));
+  EXPECT_EQ ("Store%20settings", filter_url_url_encode ("Store settings"));
+  EXPECT_EQ ("test%40mail", filter_url_url_encode ("test@mail"));
+  EXPECT_EQ ("%E1%A8%80ab%5Cd%40a", filter_url_url_encode ("ᨀab\\d@a"));
+  EXPECT_EQ ("foo%3Dbar%26baz%3D", filter_url_url_encode ("foo=bar&baz="));
+  EXPECT_EQ ("%D7%91%D6%BC%D6%B0%D7%A8%D6%B5%D7%90%D7%A9%D7%81%D6%B4%D6%96%D7%99%D7%AA", filter_url_url_encode ("בְּרֵאשִׁ֖ית"));
+  EXPECT_EQ ("ABC", filter_url_url_encode ("ABC"));
+  EXPECT_EQ ("%FF", filter_url_url_encode ("\xFF"));
 }
 
 
@@ -161,8 +161,8 @@ TEST_F (filter_url, encode_decode_roundtrip)
   // Test encode and decode round trip.
   std::string original ("\0\1\2", 3);
   std::string encoded ("%00%01%02");
-  EXPECT_EQ (encoded, filter_url_urlencode (original));
-  EXPECT_EQ (original, filter_url_urldecode (encoded));
+  EXPECT_EQ (encoded, filter_url_url_encode (original));
+  EXPECT_EQ (original, filter_url_url_decode (encoded));
 }
 
 
@@ -170,9 +170,9 @@ TEST_F (filter_url, encode_decode_unsafe_chars)
 {
   // Test encode and decode unsafe chars, RFC1738.
   std::string unsafe (" <>#{}|\\^~[]`");
-  std::string unsafe_encoded = filter_url_urlencode (unsafe);
+  std::string unsafe_encoded = filter_url_url_encode (unsafe);
   EXPECT_EQ (true, unsafe_encoded.find_first_of (unsafe) == std::string::npos);
-  EXPECT_EQ (unsafe, filter_url_urldecode (unsafe_encoded));
+  EXPECT_EQ (unsafe, filter_url_url_decode (unsafe_encoded));
 }
 
 

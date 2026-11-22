@@ -236,7 +236,7 @@ void sendreceive_files ()
         {"v", std::to_string (version)},
         {"d", std::to_string (d)},
         {"u", filter::string::bin2hex (user)},
-        {"f", filter_url_urlencode (file)},
+        {"f", filter_url_url_encode (file)},
       });
       // Download and save file locally.
       filter_url_download_file (download_url, fullpath, error, true);

@@ -361,9 +361,10 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
 
     // The resource name consists of source and module, e.g. [CrossWire][NET].
     std::string resource = sword_logic_get_resource_name(source, module);
+    std::cout << "resource: " << resource << std::endl; // Todo
 
     // Client checks for and optionally creates the cache for this SWORD source/module.
-    if (!database::cache::sql::exists(resource, book))
+    if (not database::cache::sql::exists(resource, book))
     {
         database::cache::sql::create(resource, book);
     }
@@ -385,11 +386,12 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
         port = demo_port();
     }
     const std::string url = filter_url_build_http_query(client_logic_url(address, port, sync_resources_url()), {
-                                                            {"r", resource},
+                                                            {"r", filter_url_url_encode(resource)}, // May contain space.
                                                             {"b", std::to_string(book)},
                                                             {"c", std::to_string(chapter)},
                                                             {"v", std::to_string(verse)},
                                                         });
+    std::cout << "url: " << url << std::endl; // Todo
     std::string error{};
     std::string html = filter_url_http_get(url, error, true);
 

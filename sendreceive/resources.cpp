@@ -123,7 +123,7 @@ void sendreceive_resources ()
     port = demo_port ();
   }
   const std::string cloud_url = client_logic_url (address, port, sync_resources_url ());
-  const std::string resource_url = filter_url_build_http_query(cloud_url, {{"r", filter_url_urlencode (resource)}});
+  const std::string resource_url = filter_url_build_http_query(cloud_url, {{"r", filter_url_url_encode (resource)}});
 
   // Go through all Bible books.
   Database_Versifications database_versifications;
@@ -152,7 +152,7 @@ void sendreceive_resources ()
         if (error.empty ()) {
           // At this stage the file size is known, plus the fragment of the path in the Cloud.
           // Check whether the file is already available on the client, fully downloaded.
-          std::string client_path = filter_url_create_root_path ({filter_url_urldecode (response2)});
+          std::string client_path = filter_url_create_root_path ({filter_url_url_decode (response2)});
           int client_size = filter_url_filesize (client_path);
           if (server_size != client_size) {
             // Download it.

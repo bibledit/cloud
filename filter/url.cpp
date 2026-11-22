@@ -603,19 +603,17 @@ int filter_url_file_modification_time(const std::string& filename)
 
 
 // A C++ near equivalent for PHP's urldecode function.
-std::string filter_url_urldecode(std::string url)
+std::string filter_url_url_decode(std::string url)
 {
     url = UriDecode(url);
-    std::replace(url.begin(), url.end(), '+', ' ');
+    std::ranges::replace(url, '+', ' ');
     return url;
 }
 
 
-// A C++ near equivalent for PHP's urlencode function.
-std::string filter_url_urlencode(std::string url)
+std::string filter_url_url_encode(const std::string& url)
 {
-    url = UriEncode(url);
-    return url;
+    return UriEncode(url);
 }
 
 
@@ -893,7 +891,7 @@ std::string filter_url_http_post(const std::string& url, [[maybe_unused]] std::s
             if (!post_data.empty()) post_data.append("&");
             post_data.append(element.first);
             post_data.append("=");
-            post_data.append(filter_url_urlencode(element.second));
+            post_data.append(filter_url_url_encode(element.second));
         }
         // Specify the POST data to curl, e.g.: "name=foo&project=bar"
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_data.c_str());
@@ -1532,7 +1530,7 @@ std::string filter_url_http_request_mbed(std::string url, std::string& error,
         if (!postdata.empty()) postdata.append("&");
         postdata.append(element.first);
         postdata.append("=");
-        postdata.append(filter_url_urlencode(element.second));
+        postdata.append(filter_url_url_encode(element.second));
     }
 
 

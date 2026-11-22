@@ -30,10 +30,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //    This is acceptable, because translation work can still continue.
 
 
-constexpr const auto database_name {"sprint"};
-
-
 #ifdef HAVE_CLOUD
+
+
+constexpr auto database_name {"sprint"};
 
 
 void Database_Sprint::create ()

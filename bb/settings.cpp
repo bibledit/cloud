@@ -80,7 +80,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   if (bible.empty()) bible = webserver_request.post_get("val1");
   bible = access_bible::clamp (webserver_request, bible);
   view.set_variable ("bible", filter::string::escape_special_xml_characters (bible));
-  view.set_variable ("urlbible", filter_url_urlencode(filter::string::escape_special_xml_characters (bible)));
+  view.set_variable ("urlbible", filter_url_url_encode(filter::string::escape_special_xml_characters (bible)));
 
   
   // Whether the user has write access to this Bible.

@@ -67,7 +67,7 @@ std::string index_listing (Webserver_Request& webserver_request, std::string url
 {
   std::string page = assets_page::header (translate ("Bibledit"), webserver_request);
   Assets_View view;
-  url = filter_url_urldecode (url);
+  url = filter_url_url_decode (url);
   url = filter_url_create_path_web ({std::string(), url});
   view.set_variable ("url", url);
   const std::string parent = filter_url_dirname_web (url);

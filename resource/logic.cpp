@@ -610,7 +610,7 @@ std::string resource_logic_client_fetch_cache_from_cloud(std::string resource, i
     }
 
     const std::string url = filter_url_build_http_query(client_logic_url(address, port, sync_resources_url()), {
-                                                            {"r", filter_url_urlencode(resource)},
+                                                            {"r", filter_url_url_encode(resource)},
                                                             {"b", std::to_string(book)},
                                                             {"c", std::to_string(chapter)},
                                                             {"v", std::to_string(verse)},
@@ -1047,7 +1047,7 @@ std::string resource_logic_bible_gateway_book(int book)
         std::pair(65, "Jude"),
         std::pair(66, "Revelation")
     };
-    return filter_url_urlencode(mapping[book]);
+    return filter_url_url_encode(mapping[book]);
 }
 
 

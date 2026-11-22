@@ -1442,11 +1442,11 @@ std::string html_get_element (std::string html, std::string element)
  */
 
 
-const std::string nonbreaking_inline_tags {"|a|abbr|acronym|b|bdo|big|cite|code|dfn|em|font|i|img|kbd|nobr|s|small|span|strike|strong|sub|sup|tt|"};
-const std::string empty_tags {"|area|base|basefont|bgsound|br|command|col|embed|event-source|frame|hr|image|img|input|keygen|link|menuitem|meta|param|source|spacer|track|wbr|"};
-const std::string preserve_whitespace_tags {"|pre|textarea|script|style|"};
-const std::string no_entity_substitution_tags {"|script|style|"};
-const std::string treat_like_inline_tags {"|p|"};
+[[maybe_unused]] const std::string nonbreaking_inline_tags {"|a|abbr|acronym|b|bdo|big|cite|code|dfn|em|font|i|img|kbd|nobr|s|small|span|strike|strong|sub|sup|tt|"};
+[[maybe_unused]] const std::string empty_tags {"|area|base|basefont|bgsound|br|command|col|embed|event-source|frame|hr|image|img|input|keygen|link|menuitem|meta|param|source|spacer|track|wbr|"};
+[[maybe_unused]] const std::string preserve_whitespace_tags {"|pre|textarea|script|style|"};
+[[maybe_unused]] const std::string no_entity_substitution_tags {"|script|style|"};
+[[maybe_unused]] const std::string treat_like_inline_tags {"|p|"};
 
 
 [[maybe_unused]] static std::string substitute_xml_entities_into_text(const std::string& text)

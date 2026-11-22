@@ -924,7 +924,7 @@ static std::string resource_external_get_net_bible(const int book, const int cha
         std::string url = bookname + " " + std::to_string(chapter);
         if (include_verse)
             url.append(+":" + std::to_string(verse));
-        return filter_url_urlencode(std::move(url));
+        return filter_url_url_encode(std::move(url));
     };
 
     std::string text;
@@ -1109,21 +1109,21 @@ static std::string resource_external_get_blue_letter_bible(int book, int chapter
 
     std::string output;
 
-    std::string url = "https://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode(bookname) + "&c=$" +
+    std::string url = "https://www.blueletterbible.org/Bible.cfm?b=" + filter_url_url_encode(bookname) + "&c=$" +
         std::to_string(chapter) + "&t=KJV&ss=1";
 
     output += "<a href=\"" + url + "\">KJV</a>";
 
     output += " | ";
 
-    url = "https://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode(bookname) + "&c=" +
+    url = "https://www.blueletterbible.org/Bible.cfm?b=" + filter_url_url_encode(bookname) + "&c=" +
         std::to_string(chapter) + "&t=WLC";
 
     output += "<a href=\"" + url + "\">WLC</a>";
 
     output += " | ";
 
-    url = "https://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode(bookname) + "&c=" +
+    url = "https://www.blueletterbible.org/Bible.cfm?b=" + filter_url_url_encode(bookname) + "&c=" +
         std::to_string(chapter) + "&t=mGNT";
 
     output += "<a href=\"" + url + "\">mGNT</a>";

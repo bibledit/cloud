@@ -58,7 +58,7 @@ std::string fragment()
 std::string path(const std::string& resource, const int book)
 {
     return filter_url_create_path({
-        database_logic_databases(), filename(filter_url_urlencode(resource), book) + sqlite::suffix()
+        database_logic_databases(), filename(filter_url_url_encode(resource), book) + sqlite::suffix()
     });
 }
 

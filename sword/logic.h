@@ -31,7 +31,6 @@ void sword_logic_extract_module_schedule(const std::string& source, const std::s
 void sword_logic_install_module(const std::string& source, const std::string& module);
 void sword_logic_uninstall_module(const std::string& module);
 std::vector<std::string> sword_logic_get_available();
-std::vector<std::string> sword_logic_get_installed();
 std::string sword_logic_get_text(const std::string& source, const std::string& module,
                                  int book, int chapter, int verse);
 std::string sword_logic_installing_module_text();

@@ -70,16 +70,6 @@ std::string resource_sword (Webserver_Request& webserver_request)
   Assets_View view;
 
   
-  std::map <std::string, std::string> installed_modules;
-  {
-    std::vector <std::string> modules = sword_logic_get_installed ();
-    for (auto module : modules) {
-      std::string name = sword_logic_get_installed_module (module);
-      std::string version = sword_logic_get_version (module);
-      installed_modules [name] = version;
-    }
-  }
-  
   std::vector <std::string> available_modules = sword_logic_get_available ();
   std::string moduleblock;
   for (auto & available_module : available_modules) {
@@ -87,13 +77,6 @@ std::string resource_sword (Webserver_Request& webserver_request)
     std::string module = sword_logic_get_remote_module (available_module);
     moduleblock.append ("<p>");
     moduleblock.append (available_module);
-    if (!installed_modules [module].empty ()) {
-      moduleblock.append (" (" + translate ("installed") + ") ");
-      std::string version = sword_logic_get_version (available_module);
-      if (version != installed_modules[module]) {
-        moduleblock.append (" (" + translate ("to be updated") + ")");
-      }
-    }
     moduleblock.append ("</p>\n");
   }
   view.set_variable ("moduleblock", moduleblock);

@@ -354,27 +354,6 @@ std::vector<std::string> sword_logic_get_available()
 }
 
 
-// Get installed SWORD modules.
-std::vector<std::string> sword_logic_get_installed()
-{
-    std::vector<std::string> modules{};
-    std::string out_err{};
-    const std::string sword_path{get_sword_install_mgr_path()};
-    filter::shell::run(
-        "cd " + sword_path + "; " + std::string(
-            filter::shell::get_executable_name(filter::shell::Executable::installmgr)) + " -l", out_err);
-    std::vector<std::string> lines = filter::string::explode(out_err, '\n');
-    for (auto line : lines)
-    {
-        line = filter::string::trim(line);
-        if (line.empty()) continue;
-        if (line.find('[') == std::string::npos) continue;
-        modules.push_back(line);
-    }
-    return modules;
-}
-
-
 std::string sword_logic_get_text(const std::string& source, const std::string& module,
                                  const int book, const int chapter, const int verse)
 {
@@ -483,15 +462,6 @@ void sword_logic_run_scheduled_module_extract(const std::string& source, const s
     extracting_module = true;
     using flag_destructor = decltype([](void*) { extracting_module = false; });
     const auto flag_guard{std::unique_ptr<void, flag_destructor>(reinterpret_cast<void*>(1))};
-
-    // Uninstall the module if installed.
-    for (const auto& installed_module : sword_logic_get_installed())
-    {
-        if (installed_module.find("[" + module + "]") != std::string::npos)
-        {
-            sword_logic_uninstall_module(module);
-        }
-    }
 
     // Install the module.
     sword_logic_install_module(source, module);

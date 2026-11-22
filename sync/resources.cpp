@@ -89,7 +89,7 @@ std::string sync_resources (Webserver_Request& webserver_request)
           signatures.push_back (signature);
           database::config::general::set_resources_to_cache (signatures);
         }
-        if (!tasks::tasks_logic_queued (tasks::enums::task::cache_resources)) {
+        if (!tasks::tasks_logic_queued_or_running (tasks::enums::task::cache_resources)) {
           tasks::tasks_logic_queue (tasks::enums::task::cache_resources);
         }
         return "0";

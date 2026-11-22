@@ -84,29 +84,29 @@ void sendreceive_queue_sync (int minute, int second)
 
     // Only queue a sync task if it is not running at the moment.
     if (sync_bibles) {
-      if (tasks::tasks_logic_queued (tasks::enums::task::sync_bibles)) {
+      if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_bibles)) {
         database::logs::log ("About to start synchronizing Bibles");
       } else {
         tasks::tasks_logic_queue (tasks::enums::task::sync_bibles);
       }
     }
     if (sync_rest) {
-      if (tasks::tasks_logic_queued (tasks::enums::task::sync_notes)) {
+      if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_notes)) {
         database::logs::log ("About to start synchronizing Notes");
       } else {
         tasks::tasks_logic_queue (tasks::enums::task::sync_notes);
       }
-      if (tasks::tasks_logic_queued (tasks::enums::task::sync_settings)) {
+      if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_settings)) {
         database::logs::log ("About to start synchronizing Settings");
       } else {
         tasks::tasks_logic_queue (tasks::enums::task::sync_settings);
       }
-      if (tasks::tasks_logic_queued (tasks::enums::task::sync_changes)) {
+      if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_changes)) {
         database::logs::log ("About to start synchronizing Changes");
       } else {
         tasks::tasks_logic_queue (tasks::enums::task::sync_changes);
       }
-      if (tasks::tasks_logic_queued (tasks::enums::task::sync_files)) {
+      if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_files)) {
         database::logs::log ("About to start synchronizing Files");
       } else {
         tasks::tasks_logic_queue (tasks::enums::task::sync_files);
@@ -127,11 +127,11 @@ void sendreceive_queue_sync (int minute, int second)
 // Returns the result as a boolean.
 bool sendreceive_sync_queued ()
 {
-  if (tasks::tasks_logic_queued (tasks::enums::task::sync_notes)) return true;
-  if (tasks::tasks_logic_queued (tasks::enums::task::sync_bibles)) return true;
-  if (tasks::tasks_logic_queued (tasks::enums::task::sync_settings)) return true;
-  if (tasks::tasks_logic_queued (tasks::enums::task::sync_changes)) return true;
-  if (tasks::tasks_logic_queued (tasks::enums::task::sync_files)) return true;
+  if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_notes)) return true;
+  if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_bibles)) return true;
+  if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_settings)) return true;
+  if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_changes)) return true;
+  if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_files)) return true;
   return false;
 }
 
@@ -154,7 +154,7 @@ void sendreceive_queue_paratext ([[maybe_unused]] tasks::enums::paratext_sync me
 // Returns the result as a boolean.
 bool sendreceive_paratext_queued ()
 {
-  if (tasks::tasks_logic_queued (tasks::enums::task::sync_paratext)) return true;
+  if (tasks::tasks_logic_queued_or_running (tasks::enums::task::sync_paratext)) return true;
   return false;
 }
 

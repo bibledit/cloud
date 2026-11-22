@@ -27,7 +27,7 @@ std::string sword_logic_get_remote_module(std::string line);
 std::string sword_logic_get_installed_module(std::string line);
 std::string sword_logic_get_version(std::string line);
 std::string sword_logic_get_name(std::string line);
-void sword_logic_extract_module_schedule(const std::string& source, const std::string& module);
+void sword_logic_schedule_module_extraction(const std::string& source, const std::string& module);
 void sword_logic_install_module(const std::string& source, const std::string& module);
 void sword_logic_uninstall_module(const std::string& module);
 std::vector<std::string> sword_logic_get_available();

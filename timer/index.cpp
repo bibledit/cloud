@@ -101,7 +101,7 @@ void timer_index()
 #endif
 
             // Every minute send out queued email.
-            if (!tasks::tasks_logic_queued(tasks::enums::task::send_email))
+            if (!tasks::tasks_logic_queued_or_running(tasks::enums::task::send_email))
                 tasks::tasks_logic_queue(tasks::enums::task::send_email);
 
 #ifdef HAVE_CLOUD

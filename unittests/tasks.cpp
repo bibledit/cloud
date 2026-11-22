@@ -43,14 +43,14 @@ TEST(tasks, queuing)
     tasks::tasks_logic_queue( task1 );
     tasks::tasks_logic_queue( task3 );
     tasks::tasks_logic_queue( task4,  { parameter(1), parameter(2)});
-    EXPECT_TRUE (tasks::tasks_logic_queued ( task1 ));
-    EXPECT_FALSE(tasks::tasks_logic_queued ( task2 ));
-    EXPECT_FALSE(tasks::tasks_logic_queued ( task1, { parameter() }));
-    EXPECT_FALSE(tasks::tasks_logic_queued ( task4 ));
-    EXPECT_FALSE(tasks::tasks_logic_queued ( task4, { parameter(1) }));
-    EXPECT_TRUE (tasks::tasks_logic_queued ( task4, { parameter(1), parameter(2) }));
-    EXPECT_FALSE(tasks::tasks_logic_queued ( task4, { parameter(1), parameter(3) }));
-    EXPECT_FALSE(tasks::tasks_logic_queued ( task4, { parameter(2) }));
+    EXPECT_TRUE (tasks::tasks_logic_queued_or_running ( task1 ));
+    EXPECT_FALSE(tasks::tasks_logic_queued_or_running ( task2 ));
+    EXPECT_FALSE(tasks::tasks_logic_queued_or_running ( task1, { parameter() }));
+    EXPECT_FALSE(tasks::tasks_logic_queued_or_running ( task4 ));
+    EXPECT_FALSE(tasks::tasks_logic_queued_or_running ( task4, { parameter(1) }));
+    EXPECT_TRUE (tasks::tasks_logic_queued_or_running ( task4, { parameter(1), parameter(2) }));
+    EXPECT_FALSE(tasks::tasks_logic_queued_or_running ( task4, { parameter(1), parameter(3) }));
+    EXPECT_FALSE(tasks::tasks_logic_queued_or_running ( task4, { parameter(2) }));
 }
 
 

@@ -143,33 +143,38 @@ static std::ostream& operator<<(std::ostream& os, const database::tasks::Task& t
 }
 
 
-static std::deque<database::tasks::Task> task_queue{};
+static std::deque<database::tasks::Task> queued_tasks{};
+static std::list<database::tasks::Task> running_tasks{};
 static std::mutex queue_mutex{};
 static std::vector<std::thread> thread_pool;
 static std::condition_variable thread_cv;
 static std::atomic run_pool{false};
-static std::atomic running_tasks(0);
 
 
 void tasks_logic_queue(const enums::task task, std::vector<std::string> parameters)
 {
     {
         std::lock_guard lock(queue_mutex);
-        task_queue.emplace_back(task, std::move(parameters));
+        queued_tasks.emplace_back(task, std::move(parameters));
     }
     thread_cv.notify_one();
 }
 
 
-bool tasks_logic_queued(const enums::task task, const std::vector<std::string>& parameters)
+bool tasks_logic_queued_or_running(const enums::task task, const std::vector<std::string>& parameters) // Todo rename.
 {
     std::lock_guard lock(queue_mutex);
-    return std::ranges::any_of(task_queue, [&](const database::tasks::Task& t) noexcept {
+    const auto matches = [&](const database::tasks::Task& t) noexcept {
         return t.task == task && t.parameters == parameters;
-    });
+    };
+    return std::ranges::any_of(queued_tasks, matches) or std::ranges::any_of(running_tasks, matches);
 }
 
 
+/**
+ *
+ * @param task Copied to process it safely.
+ */
 static void tasks_logic_run_one(database::tasks::Task task)
 {
     const auto [parameter1, parameter2, parameter3, parameter4] = extract(task.parameters);
@@ -500,6 +505,7 @@ void tasks_logic_start_thread_pool(const std::size_t num_threads)
             while (true)
             {
                 database::tasks::Task task{};
+                std::list<database::tasks::Task>::iterator running_iterator;
                 // The reason for putting the below code here is to unlock the queue
                 // before executing the task so that other threads can perform enqueue tasks.
                 {
@@ -510,7 +516,7 @@ void tasks_logic_start_thread_pool(const std::size_t num_threads)
                     // While in .wait it unlocks the mutex on the queue.
                     thread_cv.wait(lock, []
                     {
-                        return not task_queue.empty() or not run_pool;
+                        return not queued_tasks.empty() or not run_pool;
                     });
 
                     // Exit the thread in case the pool is stopped, disregarding pending http requests.
@@ -518,19 +524,28 @@ void tasks_logic_start_thread_pool(const std::size_t num_threads)
                         return;
 
                     // Get the next task from the queue.
-                    task = std::move(task_queue.front());
-                    task_queue.pop_front();
+                    task = std::move(queued_tasks.front());
+                    queued_tasks.pop_front();
+
+                    // Copy task into the running tasks container under the same lock.
+                    running_iterator = running_tasks.insert(running_tasks.end(), task);
                 }
+
+                // Remove the task from the running list when done, even on exception.
+                struct RunningTask
+                {
+                    std::list<database::tasks::Task>::iterator iterator;
+                    ~RunningTask()
+                    {
+                        std::lock_guard lock(queue_mutex);
+                        running_tasks.erase(iterator);
+                    }
+                };
+                const RunningTask running_task_raii_wrapper{running_iterator};
 
                 // Run the task in this thread.
                 try
                 {
-                    struct RunningTasks
-                    {
-                        explicit RunningTasks() { ++running_tasks; }
-                        ~RunningTasks() { --running_tasks; }
-                    };
-                    RunningTasks running_tasks_raii_wrapper;
                     tasks_logic_run_one(task);
                 }
                 catch (const std::exception& exception)
@@ -570,27 +585,28 @@ void tasks_logic_stop_thread_pool()
 int tasks_logic_queue_size()
 {
     std::scoped_lock lock(queue_mutex);
-    return static_cast<decltype(tasks_logic_queue_size())>(task_queue.size());
+    return static_cast<decltype(tasks_logic_queue_size())>(queued_tasks.size());
 }
 
 
 int tasks_logic_active_jobs_count ()
 {
-    return running_tasks;
+    std::lock_guard lock(queue_mutex);
+    return static_cast<int>(running_tasks.size());
 }
 
 
 void tasks_logic_save()
 {
     std::lock_guard lock(queue_mutex);
-    database::tasks::save(task_queue);
+    database::tasks::save(queued_tasks);
 }
 
 
 void tasks_logic_load()
 {
     std::lock_guard lock(queue_mutex);
-    task_queue = database::tasks::load();
+    queued_tasks = database::tasks::load();
 }
 
 

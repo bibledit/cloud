@@ -26,7 +26,6 @@
 #include <database/config/general.h>
 #include <demo/logic.h>
 #include <developer/logic.h>
-#include <filter/shell.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <sword/logic.h>
@@ -43,9 +42,7 @@
 #endif
 
 
-static std::mutex sword_logic_installer_mutex{};
 static std::atomic extracting_module{false};
-static std::mutex sword_logic_library_access_mutex{};
 
 
 [[nodiscard]] static std::string get_sword_install_mgr_path()
@@ -272,7 +269,7 @@ std::string sword_logic_get_name(std::string line)
 
 
 // Schedule SWORD module extraction.
-void sword_logic_extract_module_schedule(const std::string& source, const std::string& module)
+void sword_logic_schedule_module_extraction(const std::string& source, const std::string& module)
 {
     // No source: Done.
     if (source.empty())
@@ -285,8 +282,11 @@ void sword_logic_extract_module_schedule(const std::string& source, const std::s
     if (module.empty())
         return;
 
-    // Schedule the module installation and extraction if it has not yet been scheduled.
-    if (tasks::tasks_logic_queued(tasks::enums::task::extract_sword_module, {source, module}))
+    // Schedule the module installation and extraction
+    // if it has not yet been scheduled and has not yet been extracted.
+    if (tasks::tasks_logic_queued_or_running(tasks::enums::task::extract_sword_module, {source, module}))
+        return;
+    if (database::sword::exists(module))
         return;
     tasks::tasks_logic_queue(tasks::enums::task::extract_sword_module, {source, module});
 }
@@ -413,7 +413,6 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
 
     if (database::sword::exists(module))
         return database::sword::get_verse(module, book, chapter, verse);
-    // Todo return sword_logic_fetch_failure_text(); Handle this situation somehow, unlikely it can though.
 
     // At this point the extracted SWORD text is not available.
     // Check if the module exists, if so, schedule its installation and extraction.
@@ -423,7 +422,7 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
         modules.find("[" + module + "]") != std::string::npos)
     {
         // Schedule SWORD module installation and extraction.
-        sword_logic_extract_module_schedule(source, module);
+        sword_logic_schedule_module_extraction(source, module);
         // Return standard 'installing' information. Client knows not to cache this.
         return sword_logic_installing_module_text();
     }
@@ -445,7 +444,7 @@ std::string sword_logic_installing_module_text()
 // The function runs a scheduled module installation and extraction.
 // The purpose of this function is that only one such operation occurs at a time,
 // rather than simultaneously installing modules, which clogs the system.
-void sword_logic_run_scheduled_module_extract(const std::string& source, const std::string& module) // Todo
+void sword_logic_run_scheduled_module_extract(const std::string& source, const std::string& module)
 {
     // If another module installation and extraction is already in progress,
     // postpone this task by re-scheduling it.
@@ -454,7 +453,7 @@ void sword_logic_run_scheduled_module_extract(const std::string& source, const s
     if (extracting_module)
     {
         std::this_thread::sleep_for(std::chrono::seconds(10)); // Prevent rapid rescheduling multiple tasks.
-        sword_logic_extract_module_schedule(source, module);
+        sword_logic_schedule_module_extraction(source, module);
         return;
     }
 

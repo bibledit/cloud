@@ -35,8 +35,6 @@ std::vector<std::string> sword_logic_get_available();
 std::vector<std::string> sword_logic_get_installed();
 std::string sword_logic_get_text(const std::string& source, const std::string& module, int book, int chapter,
                                  int verse);
-std::map<int, std::string> sword_logic_get_bulk_text(const std::string& module, int book, int chapter,
-                                                     const std::vector<int>& verses);
 void sword_logic_update_installed_modules();
 std::string sword_logic_installing_module_text();
 std::string sword_logic_fetch_failure_text();

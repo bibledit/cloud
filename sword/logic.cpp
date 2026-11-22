@@ -460,69 +460,6 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
 }
 
 
-std::map<int, std::string> sword_logic_get_bulk_text(const std::string& module, const int book, const int chapter,
-                                                     const std::vector<int>& verses)
-{
-    // The name of the book to pass to diatheke.
-    const std::string osis = database::books::get_osis_from_id(static_cast<book_id>(book));
-
-    // Cannot run more than one "diatheke" per user, so use a mutex for that.
-    sword_logic_diatheke_run_mutex.lock();
-
-    // Here is how to speed up SWORD text retrieval.
-    // The main point is to not pass just one verse,
-    // but to pass the chapter number without the verse.
-    // So it returns the entire chapter in one go.
-    // One would even be able to pass the book only, so it returns the entire book.
-    // But that would not add much to increasing the speed.
-    // cd ~/.sword/InstallMgr
-    // diatheke -b AB -k Ezra 5:1
-    // diatheke -b AB -k Ezra 5
-    // diatheke -b AB -k Ezra
-    std::string error{};
-    std::string bulk_text{};
-    const int result = filter::shell::run(get_sword_install_mgr_path(),
-                                          std::string(
-                                              filter::shell::get_executable_path(filter::shell::Executable::diatheke)),
-                                          {"-b", module, "-k", osis, std::to_string(chapter)}, &bulk_text, &error);
-    bulk_text.append(error);
-    if (result != 0) database::logs::log(error);
-    // This is how the output would look.
-    // Malachi 3:1: <verse osisID="Mal.3.1">Behold, I send forth My messenger, and he shall survey the way before Me: and the Lord, whom you seek, shall suddenly come into His temple, even the Messenger of the covenant, whom you take pleasure in: behold, He is coming, says the Lord Almighty.
-
-    sword_logic_diatheke_run_mutex.unlock();
-
-    // Resulting verse text.
-    std::map<int, std::string> output{};
-
-    // Iterate over all requested verses to extract the correct content from the chapter.
-    // This works well in general.
-    // It has been seen in a sample module, the "AB", that some verses in the SWORD module were empty.
-    // In case of such verses, there's no content to extract from the chapter.
-    // The cause in such verses is in the module builder.
-    for (const auto verse : verses)
-    {
-        const std::string starter = " " + std::to_string(chapter) + ":" + std::to_string(verse) + ":";
-        size_t pos1 = bulk_text.find(starter);
-        if (pos1 == std::string::npos)
-        {
-            //database::logs::log("Cannot find starter: |" + starter + "|");
-            continue;
-        }
-        const std::string finisher = "\n";
-        size_t pos2 = bulk_text.find(finisher, pos1);
-        if (pos2 == std::string::npos) pos2 = bulk_text.length() + 1;
-        pos1 += starter.length();
-        std::string text = bulk_text.substr(pos1, pos2 - pos1);
-        text = sword_logic_clean_verse(module, chapter, verse, text);
-        output[verse] = text;
-    }
-
-    // Done.
-    return output;
-}
-
-
 // Checks the installed modules, whether they need to be updated.
 void sword_logic_update_installed_modules()
 {

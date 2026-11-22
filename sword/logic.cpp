@@ -44,7 +44,7 @@
 
 
 static std::mutex sword_logic_installer_mutex {};
-static std::atomic<bool> extracting_module {false};
+static std::atomic extracting_module {false};
 static std::mutex sword_logic_library_access_mutex {};
 static std::mutex sword_logic_diatheke_run_mutex {};
 
@@ -379,8 +379,8 @@ std::vector <std::string> sword_logic_get_installed ()
 }
 
 
-std::string sword_logic_get_text(const std::string& source, const std::string& module, const int book,
-                                 const int chapter, const int verse)
+std::string sword_logic_get_text(const std::string& source, const std::string& module,
+                                 const int book, const int chapter, const int verse)
 {
 #ifndef HAVE_CLOUD
 
@@ -435,91 +435,29 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
 
 #else
 
-    std::string module_text;
-    bool module_available{false};
+    // This it the Bibledit Cloud side (not the client).
 
-    const std::string osis = database::books::get_osis_from_id(static_cast<book_id>(book));
-    const std::string chapter_verse = std::to_string(chapter) + ":" + std::to_string(verse);
+    // Todo Do some mutex here so no installation runs parallel to this.
+    // If mutex locked, proceed to installation.
+    // No dead-locks.
 
-    // See notes on function sword_logic_diatheke
-    // for why it is not currently fetching content via a SWORD library call.
-    // module_text = sword_logic_diatheke (module, osis, chapter, verse, module_available);
+    if (database::sword::exists(module))
+        return database::sword::get_verse(module, book, chapter, verse);
+    // Todo return sword_logic_fetch_failure_text(); Handle this situation somehow, unlikely it can though.
 
-    // Running diatheke only works when it runs in the SWORD installation directory.
-    const std::string sword_path = get_sword_install_mgr_path();
-    // Running several instances of diatheke simultaneously fails.
-    sword_logic_diatheke_run_mutex.lock();
-    // The server fetches the module text as follows:
-    // diatheke -b KJV -k Jn 3:16
-    // To included, run this instead: $ diatheke -b KJV -o n -k Jn 3:16
-    std::vector<std::string> parameters{"-b", module};
-    parameters.emplace_back("-o");
-    std::string module_options{};
-    if (database::config::general::get_keep_osis_content_in_sword_resources())
+    // At this point the extracted SWORD text is not available.
+    // Check if the module exists, if so, schedule its installation and extraction.
+    // Return appropriate message to the caller.
+
+    if (const std::string modules = filter::string::implode(sword_logic_get_available(), std::string());
+        modules.find("[" + module + "]") != std::string::npos)
     {
-        module_options.append("n");
+        // Schedule SWORD module installation and extraction.
+        sword_logic_extract_module_schedule(source, module);
+        // Return standard 'installing' information. Client knows not to cache this.
+        return sword_logic_installing_module_text();
     }
-    module_options.append("cvapr");
-    // Hebrew cantillation / Hebrew vowels / Greek accents / Arabic vowels / Arabic shaping.
-    parameters.push_back(module_options);
-    parameters.emplace_back("-k");
-    parameters.push_back(osis);
-    parameters.push_back(chapter_verse);
-    std::string error{};
-    const int result = filter::shell::run(
-        sword_path, std::string(filter::shell::get_executable_path(filter::shell::Executable::diatheke)), parameters,
-        &module_text, &error);
-    module_text.append(error);
-    sword_logic_diatheke_run_mutex.unlock();
-    database::logs::log ("Run in", sword_path);// Todo
-    database::logs::log ("Program:", filter::shell::get_executable_path(filter::shell::Executable::diatheke), "Parameters:", filter::string::implode(parameters, " ")); // Todo
-    if (result != 0)
-    {
-        // Todo return sword_logic_fetch_failure_text();
-    }
-
-    // Touch the temporal file
-    // so the server knows that the module has been accessed just now
-    // and won't uninstall it too soon.
-    {
-        const std::string path = sword_logic_access_tracker(module);
-        filter_url_file_put_contents(path, "access");
-    }
-
-    // If the module has not been installed, the output of "diatheke" will be empty.
-    // If the module was installed, but the requested passage is out of range,
-    // the output of "diatheke" contains the module name, so it won't be empty.
-    module_available = !module_text.empty();
-
-    if (!module_available)
-    {
-        // Check whether the SWORD module exists.
-        std::vector<std::string> modules{sword_logic_get_available()};
-        const std::string smodules = filter::string::implode(modules, std::string());
-        if (smodules.find("[" + module + "]") != std::string::npos)
-        {
-            // Schedule SWORD module installation.
-            // Note: Previously, this function would wait until the SWORD module had been
-            //       installed before returning the text from that module.
-            //       However, when multiple modules were queued for installation, each
-            //       installation had to wait for the previous one to finish. This resulted
-            //       in long waiting times and caused Bibledit Cloud to become unresponsive.
-            //       Therefore, this function now returns immediately with an informative
-            //       message, without waiting for the installation to complete.
-            sword_logic_extract_module_schedule(source, module);
-            // Return standard 'installing' information. Client knows not to cache this.
-            return sword_logic_installing_module_text();
-        }
-        else
-        {
-            return "Cannot find SWORD module " + module;
-        }
-    }
-
-    // Clean it up.
-    module_text = sword_logic_clean_verse(module, chapter, verse, module_text);
-
-    return module_text;
+    return "Cannot find SWORD module " + module; // Sorry, can't help you.
 
 #endif
 }

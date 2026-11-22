@@ -319,6 +319,7 @@ std::string system_index(Webserver_Request& webserver_request)
     if (webserver_request.query.contains("clearcache"))
     {
         tasks::tasks_logic_queue(tasks::enums::task::clear_caches);
+        database::config::general::set_resources_to_cache ({});
         redirect_browser(webserver_request, journal_index_url());
         return std::string();
     }

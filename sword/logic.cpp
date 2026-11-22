@@ -407,10 +407,6 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
 
     // This it the Bibledit Cloud side (not the client).
 
-    // Todo Do some mutex here so no installation runs parallel to this.
-    // If mutex locked, proceed to installation.
-    // No dead-locks.
-
     if (database::sword::exists(module))
         return database::sword::get_verse(module, book, chapter, verse);
 

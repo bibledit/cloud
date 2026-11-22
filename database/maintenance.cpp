@@ -140,9 +140,4 @@ void database_maintenance ()
   
   
   access_logic::create_client_files ();
-  
-  
-#ifdef HAVE_CLOUD
-  sword_logic_trim_modules ();
-#endif
 }

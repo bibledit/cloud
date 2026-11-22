@@ -21,27 +21,25 @@
 
 #include <config/libraries.h>
 
-void sword_logic_refresh_module_list ();
-std::string sword_logic_module_list_path ();
-std::string sword_logic_get_source (std::string line);
-std::string sword_logic_get_remote_module (std::string line);
-std::string sword_logic_get_installed_module (std::string line);
-std::string sword_logic_get_version (std::string line);
-std::string sword_logic_get_name (std::string line);
-void sword_logic_extract_module_schedule (const std::string& source, const std::string& module);
-void sword_logic_install_module (const std::string& source, const std::string& module);
+void sword_logic_refresh_module_list();
+std::string sword_logic_module_list_path();
+std::string sword_logic_get_source(std::string line);
+std::string sword_logic_get_remote_module(std::string line);
+std::string sword_logic_get_installed_module(std::string line);
+std::string sword_logic_get_version(std::string line);
+std::string sword_logic_get_name(std::string line);
+void sword_logic_extract_module_schedule(const std::string& source, const std::string& module);
+void sword_logic_install_module(const std::string& source, const std::string& module);
 void sword_logic_uninstall_module(const std::string& module);
-std::vector <std::string> sword_logic_get_available ();
-std::vector <std::string> sword_logic_get_installed ();
-std::string sword_logic_get_text (const std::string& source, const std::string& module, int book, int chapter, int verse);
-std::map <int, std::string> sword_logic_get_bulk_text (const std::string& module, int book, int chapter, const std::vector <int>& verses);
-void sword_logic_update_installed_modules ();
-void sword_logic_trim_modules ();
-std::string sword_logic_installing_module_text ();
-std::string sword_logic_fetch_failure_text ();
-std::string sword_logic_access_tracker (const std::string & module);
-void sword_logic_run_scheduled_module_extract (const std::string& source, const std::string& module);
-std::string sword_logic_diatheke (const std::string & module_name, const std::string& osis, int chapter, int verse, bool & available);
-void sword_logic_log (std::string message);
-std::string sword_logic_clean_verse (const std::string & module, int chapter, int verse, std::string text);
-std::string sword_logic_get_resource_name (const std::string & source, const std::string & module);
+std::vector<std::string> sword_logic_get_available();
+std::vector<std::string> sword_logic_get_installed();
+std::string sword_logic_get_text(const std::string& source, const std::string& module, int book, int chapter,
+                                 int verse);
+std::map<int, std::string> sword_logic_get_bulk_text(const std::string& module, int book, int chapter,
+                                                     const std::vector<int>& verses);
+void sword_logic_update_installed_modules();
+std::string sword_logic_installing_module_text();
+std::string sword_logic_fetch_failure_text();
+void sword_logic_run_scheduled_module_extract(const std::string& source, const std::string& module);
+std::string sword_logic_clean_verse(const std::string& module, int chapter, int verse, std::string text);
+std::string sword_logic_get_resource_name(const std::string& source, const std::string& module);

@@ -538,10 +538,6 @@
 /setup/index.html
 /setup/splash.jpg
 /setup/stylesheet.css
-/slip
-/slip/example.html
-/slip/readme.txt
-/slip/slip.js
 /sources
 /sources/abbott-smith
 /sources/abbott-smith/abbott-smith.tei_lemma.xml

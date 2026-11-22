@@ -17,55 +17,5 @@
  */
 
 document.addEventListener("DOMContentLoaded", function(e) {
-  function setupSlip(list) {
-    list.addEventListener("slip:beforereorder", function (e) {}, false);
 
-    list.addEventListener("slip:beforeswipe", function (e) {}, false);
-
-    list.addEventListener(
-      "slip:beforewait",
-      function (e) {
-        if (e.target.classList.contains("instant")) {
-          e.preventDefault();
-        }
-      },
-      false
-    );
-
-    list.addEventListener(
-      "slip:afterswipe",
-      function (e) {
-        e.target.parentNode.appendChild(e.target);
-      },
-      false
-    );
-
-    list.addEventListener(
-      "slip:reorder",
-      function (e) {
-        fetch("organize", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams([ ["movefrom", e.detail.originalIndex], ["moveto", e.detail.spliceIndex], ["type", (e.target.parentNode.id == "list-def" ? "def" : "no")] ]).toString(),
-        })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(response.status);
-          }
-          return response.text();
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
-        return false;
-      },
-      false
-    );
-
-    return new Slip(list);
-  }
-
-  setupSlip(document.getElementById("list"));
-  setupSlip(document.getElementById("list-def"));
 });

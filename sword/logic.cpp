@@ -361,7 +361,6 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
 
     // The resource name consists of source and module, e.g. [CrossWire][NET].
     std::string resource = sword_logic_get_resource_name(source, module);
-    std::cout << "resource: " << resource << std::endl; // Todo
 
     // Client checks for and optionally creates the cache for this SWORD source/module.
     if (not database::cache::sql::exists(resource, book))
@@ -391,7 +390,6 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
                                                             {"c", std::to_string(chapter)},
                                                             {"v", std::to_string(verse)},
                                                         });
-    std::cout << "url: " << url << std::endl; // Todo
     std::string error{};
     std::string html = filter_url_http_get(url, error, true);
 

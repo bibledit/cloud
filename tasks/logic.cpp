@@ -161,7 +161,7 @@ void tasks_logic_queue(const enums::task task, std::vector<std::string> paramete
 }
 
 
-bool tasks_logic_queued_or_running(const enums::task task, const std::vector<std::string>& parameters) // Todo rename.
+bool tasks_logic_queued_or_running(const enums::task task, const std::vector<std::string>& parameters)
 {
     std::lock_guard lock(queue_mutex);
     const auto matches = [&](const database::tasks::Task& t) noexcept {

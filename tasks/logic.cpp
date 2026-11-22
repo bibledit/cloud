@@ -113,7 +113,6 @@ std::string_view to_string(const enums::task task)
     case enums::task::sync_paratext: return "sync paratext";
     case enums::task::refresh_sword_modules: return "refresh sword modules";
     case enums::task::extract_sword_module: return "extract sword module";
-    case enums::task::update_sword_modules: return "update sword modules";
     case enums::task::list_usfm_resources: return "list usfm resources";
     case enums::task::create_sample_bible: return "create sample bible";
     case enums::task::cache_resources: return "cache resources";
@@ -383,11 +382,6 @@ static void tasks_logic_run_one(database::tasks::Task task)
     case enums::task::extract_sword_module:
         {
             sword_logic_run_scheduled_module_extract(parameter1, parameter2);
-            break;
-        }
-    case enums::task::update_sword_modules:
-        {
-            sword_logic_update_installed_modules();
             break;
         }
     case enums::task::list_usfm_resources:

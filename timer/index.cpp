@@ -227,11 +227,6 @@ void timer_index()
                     tasks::tasks_logic_queue(tasks::enums::task::refresh_sword_modules);
                     tasks::tasks_logic_queue(tasks::enums::task::refresh_web_resources);
                 }
-                // Update installed SWORD modules, shortly after the module list has been refreshed.
-                if (hour == 3 and minute == 15)
-                {
-                    tasks::tasks_logic_queue(tasks::enums::task::update_sword_modules);
-                }
             }
 #endif
 

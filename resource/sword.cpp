@@ -54,12 +54,6 @@ std::string resource_sword (Webserver_Request& webserver_request)
   }
 
   
-  if (webserver_request.query.count ("update")) {
-    tasks::tasks_logic_queue (tasks::enums::task::update_sword_modules, {});
-    redirect_browser (webserver_request, journal_index_url ());
-  }
-  
-  
   /*
    It used to be possible to manually install or uninstall SWORD modules.
    However it was observed that on the open Bibledit demo, 

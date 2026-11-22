@@ -63,7 +63,6 @@ enum class task : uint8_t
     sync_paratext,
     refresh_sword_modules,
     extract_sword_module,
-    update_sword_modules,
     list_usfm_resources,
     create_sample_bible,
     cache_resources,

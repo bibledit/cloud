@@ -454,39 +454,6 @@ std::string sword_logic_get_text(const std::string& source, const std::string& m
 }
 
 
-// Checks the installed modules, whether they need to be updated.
-void sword_logic_update_installed_modules()
-{
-    database::logs::log("Updating installed SWORD modules");
-
-    std::vector<std::string> available_modules = sword_logic_get_available();
-
-    std::vector<std::string> installed_modules = sword_logic_get_installed();
-    for (const auto& installed_module : installed_modules)
-    {
-        const std::string module = sword_logic_get_installed_module(installed_module);
-        const std::string installed_version = sword_logic_get_version(installed_module);
-        for (const auto& available_module : available_modules)
-        {
-            if (sword_logic_get_remote_module(available_module) == module)
-            {
-                if (sword_logic_get_version(available_module) != installed_version)
-                {
-                    const std::string source = sword_logic_get_source(available_module);
-                    // Uninstall module.
-                    sword_logic_uninstall_module(module);
-                    // Schedule module installation.
-                    sword_logic_extract_module_schedule(source, module);
-                }
-                continue;
-            }
-        }
-    }
-
-    database::logs::log("Ready updating installed SWORD modules");
-}
-
-
 // Text saying that the Cloud will install the requested SWORD module.
 // Client knows not to cache this.
 std::string sword_logic_installing_module_text()

@@ -34,7 +34,6 @@ std::vector<std::string> sword_logic_get_available();
 std::vector<std::string> sword_logic_get_installed();
 std::string sword_logic_get_text(const std::string& source, const std::string& module,
                                  int book, int chapter, int verse);
-void sword_logic_update_installed_modules();
 std::string sword_logic_installing_module_text();
 void sword_logic_run_scheduled_module_extract(const std::string& source, const std::string& module);
 std::string sword_logic_get_resource_name(const std::string& source, const std::string& module);

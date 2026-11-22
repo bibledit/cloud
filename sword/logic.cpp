@@ -46,7 +46,6 @@
 static std::mutex sword_logic_installer_mutex{};
 static std::atomic extracting_module{false};
 static std::mutex sword_logic_library_access_mutex{};
-static std::mutex sword_logic_diatheke_run_mutex{};
 
 
 [[nodiscard]] static std::string get_sword_install_mgr_path()
@@ -369,7 +368,7 @@ std::vector<std::string> sword_logic_get_installed()
     {
         line = filter::string::trim(line);
         if (line.empty()) continue;
-        if (line.find("[") == std::string::npos) continue;
+        if (line.find('[') == std::string::npos) continue;
         modules.push_back(line);
     }
     return modules;
@@ -640,40 +639,6 @@ void sword_logic_run_scheduled_module_extract(const std::string& source, const s
 
     // Uninstall the module again.
     sword_logic_uninstall_module(module);
-}
-
-
-std::string sword_logic_clean_verse(const std::string& module, int chapter, int verse, std::string text)
-{
-    // Remove any OSIS elements or make those elements displayable.
-    if (database::config::general::get_keep_osis_content_in_sword_resources())
-    {
-        text = filter::string::escape_special_xml_characters(text);
-    }
-    else
-    {
-        filter::string::replace_between(text, "<", ">", "");
-    }
-
-    // Remove the passage name that diatheke adds.
-    // A reliable signature for this is the chapter and verse plus subsequent colon.
-    const std::string chapter_verse = std::to_string(chapter) + ":" + std::to_string(verse);
-    size_t pos = text.find(" " + chapter_verse + ":");
-    if (pos != std::string::npos)
-    {
-        pos += 2;
-        pos += chapter_verse.size();
-        text.erase(0, pos);
-    }
-
-    // Remove the module name that diatheke adds.
-    text = filter::string::replace("(" + module + ")", "", text);
-
-    // Clean whitespace away.
-    text = filter::string::trim(text);
-
-    // Done.
-    return text;
 }
 
 

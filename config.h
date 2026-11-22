@@ -35,10 +35,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define PACKAGE_PREFIX_DIR "/usr"
 /* #undef COMPILER_GCC */
 #define COMPILER_CLANG
-#define HAVE_CLOUD
+/* #undef HAVE_CLOUD */
 /* #undef HAVE_WINDOWS */
 /* #undef WIN32 */
 /* #undef HAVE_ANDROID */
 /* #undef HAVE_MACOS */
 /* #undef HAVE_LINUX */
 /* #undef HAVE_IOS */
+#define HAVE_TEST_CLIENT

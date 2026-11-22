@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace email {
 
 
-static bool mail_receive_running{false};
+[[maybe_unused]] static bool mail_receive_running{false};
 
 
 class flag_guard

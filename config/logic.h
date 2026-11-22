@@ -133,6 +133,9 @@ consteval int count_defined_platforms()
 #ifdef HAVE_IOS
     count++;
 #endif
+#ifdef HAVE_TEST_CLIENT
+    count++;
+#endif
     return count;
 }
 static_assert(count_defined_platforms() == 1, "Exactly one platform should be defined");

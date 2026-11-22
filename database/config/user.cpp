@@ -1637,6 +1637,8 @@ bool Database_Config_User::get_show_navigation_arrows() const
     constexpr const bool default_value{false};
 #elif defined(HAVE_IOS)
     constexpr const bool default_value{false};
+#elif defined(HAVE_TEST_CLIENT)
+    constexpr const bool default_value{false};
 #endif
     return get_boolean_value(show_navigation_arrows_key, default_value);
 }

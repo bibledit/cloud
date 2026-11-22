@@ -63,7 +63,12 @@ option(HAVE_IOS "Build for iOS" OFF)
 message(STATUS "Build for iOS ${HAVE_IOS} (enable: $cmake -DHAVE_IOS=ON)")
 
 
-if (NOT HAVE_WINDOWS AND NOT HAVE_ANDROID AND NOT HAVE_MACOS AND NOT HAVE_LINUX AND NOT HAVE_IOS)
+option(HAVE_TEST_CLIENT "Build generic client for testing" OFF)
+message(STATUS "Build generic client for testing ${HAVE_TEST_CLIENT} (enable: $cmake -DHAVE_TEST_CLIENT=ON)")
+
+
+if (NOT HAVE_WINDOWS AND NOT HAVE_LINUX AND NOT HAVE_TEST_CLIENT
+	AND NOT HAVE_ANDROID AND NOT HAVE_MACOS AND NOT HAVE_IOS)
 	set(HAVE_CLOUD ON)
 else ()
 	set(HAVE_CLOUD OFF)

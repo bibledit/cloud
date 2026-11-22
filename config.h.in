@@ -42,3 +42,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #cmakedefine HAVE_MACOS
 #cmakedefine HAVE_LINUX
 #cmakedefine HAVE_IOS
+#cmakedefine HAVE_TEST_CLIENT

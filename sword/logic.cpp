@@ -22,6 +22,7 @@
 #include <database/cache.h>
 #include <database/logic.h>
 #include <database/logs.h>
+#include <database/sword.h>
 #include <database/config/general.h>
 #include <demo/logic.h>
 #include <developer/logic.h>
@@ -43,7 +44,7 @@
 
 
 static std::mutex sword_logic_installer_mutex {};
-static std::atomic<bool> sword_logic_installing_module {false};
+static std::atomic<bool> extracting_module {false};
 static std::mutex sword_logic_library_access_mutex {};
 static std::mutex sword_logic_diatheke_run_mutex {};
 
@@ -319,7 +320,7 @@ void sword_logic_install_module(const std::string& source_name, const std::strin
         database::logs::log("Error installing SWORD module", module_name);
         return;
     }
-    database::logs::log("Installed SWORD module", module_name);
+    database::logs::log("Completed installing SWORD module", module_name);
 
     // After the installation is complete, write some temporal some data.
     // This temporal data indicates the last access time for this SWORD module.
@@ -349,14 +350,6 @@ void sword_logic_uninstall_module(const std::string& module)
         return;
     }
     database::logs::log("Uninstalled SWORD module", module);
-    // Todo
-    // std::string out_err;
-    // const std::string sword_path{get_sword_install_mgr_path()};
-    // filter::shell::run(
-    //     "cd " + sword_path + "; " + std::string(
-    //         filter::shell::get_executable_name(filter::shell::Executable::installmgr)) + " -u \"" + module + "\"",
-    //     out_err);
-    // sword_logic_log(out_err);
 }
 
 
@@ -669,24 +662,23 @@ std::string sword_logic_access_tracker (const std::string& module)
 // The function runs a scheduled module installation and extraction.
 // The purpose of this function is that only one such operation occurs at a time,
 // rather than simultaneously installing modules, which clogs the system.
-void sword_logic_run_scheduled_module_extract(const std::string& source, const std::string& module)
+void sword_logic_run_scheduled_module_extract(const std::string& source, const std::string& module) // Todo
 {
     // If another module installation and extraction is already in progress,
     // postpone this task by re-scheduling it.
     // Only one task can run at a time:
     // This task must wait until the current one has completed.
-    if (sword_logic_installing_module)
+    if (extracting_module)
     {
         std::this_thread::sleep_for(std::chrono::seconds(10)); // Prevent rapid rescheduling multiple tasks.
         sword_logic_extract_module_schedule(source, module);
         return;
     }
 
-    // Set flag for current module installation running, clear it on scope end.
-    sword_logic_installing_module = true;
-    const auto flag_guard = std::unique_ptr<void, decltype([](void*) {
-        sword_logic_installing_module = false;
-    })> (reinterpret_cast<void*>(1));
+    // Set flag for current module extraction running, clear it on scope end.
+    extracting_module = true;
+    using flag_destructor = decltype([](void*) { extracting_module = false; });
+    const auto flag_guard {std::unique_ptr<void, flag_destructor>(reinterpret_cast<void*>(1))};
 
     // Uninstall the module if installed.
     for (const auto& installed_module : sword_logic_get_installed()) {
@@ -698,8 +690,113 @@ void sword_logic_run_scheduled_module_extract(const std::string& source, const s
     // Install the module.
     sword_logic_install_module(source, module);
 
+    database::logs::log("Importing SWORD module", module);
 
-    // Todo working here.
+    const bool keep_osis_content = database::config::general::get_keep_osis_content_in_sword_resources();
+
+    // The SWORD manager should be pointed to the path of the library, else it fails.
+    sword::SWMgr sword_manager (get_sword_install_mgr_path().c_str ());
+
+    // Set options that influence the text content.
+    sword_manager.setGlobalOption("Footnotes", "Off");
+    sword_manager.setGlobalOption("Headings", "Off");
+    sword_manager.setGlobalOption("Strong's Numbers", "Off");
+    sword_manager.setGlobalOption("Morphological Tags", "Off");
+    sword_manager.setGlobalOption("Hebrew Cantillation", "On");
+    sword_manager.setGlobalOption("Hebrew Vowel Points", "On");
+    sword_manager.setGlobalOption("Greek Accents", "On");
+    sword_manager.setGlobalOption("Lemmas", "Off");
+    sword_manager.setGlobalOption("Cross-references", "Off");
+    sword_manager.setGlobalOption("Words of Christ in Red", "Off");
+    sword_manager.setGlobalOption("Arabic Vowel Points", "On");
+    sword_manager.setGlobalOption("Glosses", "Off");
+    sword_manager.setGlobalOption("Transliterated Forms", "Off");
+    sword_manager.setGlobalOption("Enumerations", "Off");
+    sword_manager.setGlobalOption("Transliteration", "Off");
+    sword_manager.setGlobalOption("Textual Variants", "All Readings");
+    //manager.setGlobalOption("Textual Variants", "Secondary Reading");
+    //manager.setGlobalOption("Textual Variants", "Primary Reading");
+
+    sword::SWModule* sw_module = sword_manager.getModule(module.c_str());
+    if (not sw_module)
+    {
+        database::logs::log("SWORD module", module, "is not available");
+        return;
+    }
+
+    // Use the module's own key, so the versification matches the module.
+    auto *verse_key = dynamic_cast<sword::VerseKey *>(sw_module->getKey());
+    if (not verse_key)
+    {
+        database::logs::log("SWORD module", module, "does not use a verse key");
+        return;
+    }
+
+    // Don't let setters jump to neighboring books.
+    verse_key->setAutoNormalize(false);
+
+    // Container with verse content.
+    std::vector<database::sword::VerseText> verse_texts;
+
+    // Iterate over both Testaments.
+    // The Old Testament may also contain Apocrypha for some verse systems.
+    for (const char testament : std::initializer_list<char>{1, 2})
+    {
+        verse_key->setTestament(testament);
+        // Go over the books in this testament.
+        for (int book = 1; book <= verse_key->getBookMax(); ++book)
+        {
+            verse_key->setBook(static_cast<char>(book));
+
+            // Info about book: name and id.
+            //const std::string name = verse_key->getBookName();
+            const std::string module_osis_book_name {verse_key->getOSISBookName()};
+            //database::logs::log("Extracting", module_osis_book_name, "from SWORD module", module);
+            const int book_id = static_cast<int>(database::books::get_id_from_osis(module_osis_book_name));
+
+            // Go over the chapters in this book.
+            for (int chapter = 1; chapter <= verse_key->getChapterMax(); ++chapter)
+            {
+                verse_key->setChapter(chapter);
+
+                // Go over the verses in this chapter.
+                for (int verse = 1; verse <= verse_key->getVerseMax(); ++verse)
+                {
+                    verse_key->setVerse(verse);
+                    // The versification may define books the module does not contain, e.g. an NT-only module.
+                    if (not sw_module->hasEntry(verse_key))
+                        continue;
+
+                    // Get verse text.
+                    std::string rendering = sw_module->renderText().c_str();
+
+                    // Remove any OSIS elements or make those elements displayable.
+                    if (keep_osis_content)
+                        rendering = filter::string::escape_special_xml_characters (rendering);
+                    else
+                        filter::string::replace_between (rendering, "<", ">", "");
+
+                    // Remove double spaces and lean whitespace away.
+                    rendering = filter::string::replace ("  ", " ", rendering);
+                    rendering = filter::string::trim (rendering);
+
+                    // Store it.
+                    verse_texts.emplace_back(
+                        database::sword::VerseText{
+                            .book = book_id,
+                            .chapter = chapter,
+                            .verse = verse,
+                            .text = rendering,
+                        }
+                    );
+                }
+            }
+        }
+    }
+
+    // Save it in the SWORD database.
+    database::sword::store_all(module, verse_texts);
+    database::logs::log("Completed importing SWORD module", module);
 }
 
 

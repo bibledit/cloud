@@ -25,77 +25,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/http.h>
 #include <webserver/request.h>
 #include <webserver/webserver.h>
-#pragma GCC diagnostic push
-#pragma clang diagnostic ignored "-Wc99-extensions"
-#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
-#pragma clang diagnostic ignored "-Wold-style-cast"
-#pragma clang diagnostic ignored "-Wswitch-enum"
-#include <mbedtls/platform.h>
-#include <mbedtls/version.h>
-#include "assets/page.h"
-#include "mbedtls/ctr_drbg.h"
-#include "mbedtls/debug.h"
-#include "mbedtls/entropy.h"
-#include "mbedtls/error.h"
-#include "mbedtls/net_sockets.h"
-#include "mbedtls/ssl.h"
-#include "mbedtls/ssl_cache.h"
-#include "mbedtls/x509.h"
-#pragma GCC diagnostic pop
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <openssl/pem.h>
+#include <openssl/x509.h>
 #ifdef HAVE_WINDOWS
 #include <io.h>
-#endif
-
-
-// Static check on required definitions, taken from the ssl_server.c example.
-#ifndef MBEDTLS_BIGNUM_C
-static_assert (false, "MBEDTLS_BIGNUM_C should be defined");
-#endif
-#ifndef MBEDTLS_PEM_PARSE_C
-static_assert (false, "MBEDTLS_PEM_PARSE_C should be defined");
-#endif
-#ifndef MBEDTLS_ENTROPY_C
-static_assert (false, "MBEDTLS_ENTROPY_C should be defined");
-#endif
-#ifndef MBEDTLS_SSL_TLS_C
-static_assert (false, "MBEDTLS_SSL_TLS_C should be defined");
-#endif
-#ifndef MBEDTLS_SSL_CLI_C
-static_assert (false, "MBEDTLS_SSL_CLI_C should be defined");
-#endif
-#ifndef MBEDTLS_SSL_SRV_C
-static_assert (false, "MBEDTLS_SSL_SRV_C should be defined");
-#endif
-#ifndef MBEDTLS_NET_C
-static_assert (false, "MBEDTLS_NET_C should be defined");
-#endif
-#ifndef MBEDTLS_RSA_C
-static_assert (false, "MBEDTLS_RSA_C should be defined");
-#endif
-#ifndef MBEDTLS_PEM_PARSE_C
-static_assert (false, "MBEDTLS_PEM_PARSE_C should be defined");
-#endif
-#ifndef MBEDTLS_CTR_DRBG_C
-static_assert (false, "MBEDTLS_CTR_DRBG_C should be defined");
-#endif
-#ifndef MBEDTLS_X509_CRT_PARSE_C
-static_assert (false, "MBEDTLS_X509_CRT_PARSE_C should be defined");
-#endif
-#ifndef MBEDTLS_FS_IO
-static_assert (false, "MBEDTLS_FS_IO should be defined");
-#endif
-//#ifndef MBEDTLS_USE_PSA_CRYPTO
-//static_assert (false, "MBEDTLS_USE_PSA_CRYPTO should be defined");
-//#endif
-#ifdef MBEDTLS_X509_REMOVE_INFO
-static_assert (false, "MBEDTLS_X509_REMOVE_INFO should not be defined");
-#endif
-
-
-#if MBEDTLS_VERSION_MAJOR == 2
-#elif MBEDTLS_VERSION_MAJOR == 3
-#else
-static_assert (false, "MbedTLS version other than 2 or 3");
 #endif
 
 
@@ -574,15 +509,88 @@ void http_server()
 #endif
 
 
+static void webserver_log_ssl_errors(const std::string& prefix, const std::string& remote_address = {})
+{
+    while (const unsigned long error = ERR_get_error())
+    {
+        char text[256];
+        ERR_error_string_n(error, text, sizeof(text));
+        std::string message = prefix + ": " + text;
+        if (!remote_address.empty()) message.append(" (IP address " + remote_address + ")");
+        database::logs::log(message);
+    }
+}
+
+
+// Adds the certificate authorities chain to the SSL context.
+static bool webserver_add_certificate_chain(SSL_CTX* context, const std::string& path)
+{
+    FILE* file = fopen(path.c_str(), "r");
+    if (!file) return false;
+    bool result{true};
+    while (X509* certificate = PEM_read_X509(file, nullptr, nullptr, nullptr))
+    {
+        if (SSL_CTX_add_extra_chain_cert(context, certificate) != 1)
+        {
+            X509_free(certificate);
+            result = false;
+            break;
+        }
+        // The context owns the certificate after it has been added successfully.
+    }
+    // Reaching the end of the file is not an error.
+    ERR_clear_error();
+    fclose(file);
+    return result;
+}
+
+
+// Reads one byte from an SSL connection.
+// Returns 1 on success, 0 on EOF, and -1 on error.
+static int webserver_ssl_read_byte(SSL* ssl, char& character)
+{
+    int result{0};
+    do
+    {
+        result = SSL_read(ssl, &character, 1);
+    } while (result < 0 && SSL_get_error(ssl, result) == SSL_ERROR_WANT_READ);
+    if (result == 1) return 1;
+    if (result == 0) return 0;
+    webserver_log_ssl_errors("Error reading from secure connection");
+    return -1;
+}
+
+
+// Writes all bytes to an SSL connection.
+static bool webserver_ssl_write_all(SSL* ssl, const char* data, size_t length)
+{
+    while (length > 0)
+    {
+        const int written = SSL_write(ssl, data, static_cast<int>(length));
+        if (written > 0)
+        {
+            data += written;
+            length -= static_cast<size_t>(written);
+            continue;
+        }
+        const int error = SSL_get_error(ssl, written);
+        if (error == SSL_ERROR_WANT_READ || error == SSL_ERROR_WANT_WRITE) continue;
+        webserver_log_ssl_errors("Error writing to secure connection");
+        return false;
+    }
+    return true;
+}
+
+
 // Processes a single request from a web client.
-[[maybe_unused]] static void secure_webserver_process_request(mbedtls_ssl_config* conf, mbedtls_net_context client_fd)
+[[maybe_unused]] static void secure_webserver_process_request(SSL_CTX* context, int client_fd)
 {
     // Socket receive timeout, secure https.
 #ifndef HAVE_WINDOWS
-    timeval tv {};
+    timeval tv{};
     tv.tv_sec = 60;
     tv.tv_usec = 0;
-    setsockopt(client_fd.fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+    setsockopt(client_fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 #endif
 
     // The environment for this request.
@@ -593,9 +601,18 @@ void http_server()
     // This is the secure http server.
     request.secure = true;
 
-    // SSL/TSL data.
-    mbedtls_ssl_context ssl;
-    mbedtls_ssl_init(&ssl);
+    SSL* ssl = SSL_new(context);
+    if (!ssl)
+    {
+        webserver_log_ssl_errors("Failure to create a secure connection");
+#ifdef HAVE_WINDOWS
+        closesocket(client_fd);
+#else
+        close(client_fd);
+#endif
+        return;
+    }
+    SSL_set_fd(ssl, client_fd);
 
     try
     {
@@ -607,7 +624,7 @@ void http_server()
             {
                 sockaddr_storage client_addr{};
                 socklen_t socklen = sizeof(client_addr);
-                getpeername(client_fd.fd, reinterpret_cast<sockaddr*>(&client_addr), &socklen);
+                getpeername(client_fd, reinterpret_cast<sockaddr*>(&client_addr), &socklen);
                 char remote_address[256];
                 if (client_addr.ss_family == AF_INET)
                 {
@@ -619,43 +636,19 @@ void http_server()
                     auto* s = reinterpret_cast<sockaddr_in6*>(&client_addr);
                     inet_ntop(AF_INET6, &s->sin6_addr, remote_address, sizeof remote_address);
                 }
+                else remote_address[0] = '\0';
                 request.remote_address = remote_address;
                 convert_ipv6_notation_to_pure_ipv4_notation(request.remote_address);
             }
 
             // This flag indicates a healthy connection: One that can proceed.
             bool connection_healthy = true;
-            // Function results.
-            int ret;
-
-            if (connection_healthy)
-            {
-                ret = mbedtls_ssl_setup(&ssl, conf);
-                if (ret != 0)
-                {
-                    filter_url_display_mbed_tls_error(ret, nullptr, true, request.remote_address);
-                    connection_healthy = false;
-                }
-            }
-
-            if (connection_healthy)
-            {
-                mbedtls_ssl_set_bio(&ssl, &client_fd, mbedtls_net_send, mbedtls_net_recv, nullptr);
-            }
 
             // SSL / TLS handshake.
-            while (connection_healthy && (ret = mbedtls_ssl_handshake(&ssl)) != 0)
+            if (SSL_accept(ssl) != 1)
             {
-                if (ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE)
-                {
-                    if (config_globals_webserver_running)
-                    {
-                        // In case the secure server runs, display the error.
-                        // And in case the server is interrupted by e.g. Ctrl-C, don't display this error.
-                        filter_url_display_mbed_tls_error(ret, nullptr, true, request.remote_address);
-                    }
-                    connection_healthy = false;
-                }
+                webserver_log_ssl_errors("Secure connection handshake failed", request.remote_address);
+                connection_healthy = false;
             }
 
             // Read the HTTP headers.
@@ -663,28 +656,14 @@ void http_server()
             std::string header_line{};
             while (connection_healthy && header_parsed)
             {
-                // Read the client's request.
-                // With the HTTP protocol it is not possible to read the request till EOF,
-                // because EOF does not always come,
-                // since the browser may keep the connection open for the response.
-                // The HTTP protocol works per line.
                 // Read and parse one line of data from the client.
-                // An empty line marks the end of the headers.
-                unsigned char buffer[1] = {};
-                ret = mbedtls_ssl_read(&ssl, buffer, 1);
-                if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
-                if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-                if (ret == 0) header_parsed = false; // 0: EOF
-                if (ret < 0) connection_healthy = false;
+                char c{0};
+                const int result = webserver_ssl_read_byte(ssl, c);
+                if (result == 0) header_parsed = false; // EOF
+                if (result < 0) connection_healthy = false;
                 if (connection_healthy && header_parsed)
                 {
-                    char c = static_cast<char>(buffer[0]);
-                    // The request contains a carriage return (\r) and a line feed (\n).
-                    // The traditional order of this is \r\n.
-                    // Therefore, when a \r is encountered, just disregard it.
-                    // A \n will follow to mark the end of the header line.
                     if (c == '\r') continue;
-                    // At a new line, parse the received header line.
                     if (c == '\n')
                     {
                         header_parsed = http_parse_header(header_line, request);
@@ -700,32 +679,23 @@ void http_server()
 
             if (request.is_post)
             {
-                // In the case of a POST request, more data follows:
-                // The POST request itself.
-                // The length of that data is indicated in the header's Content-Length line.
-                // Read that data.
                 std::string post_data{};
                 bool done_reading = false;
                 int total_bytes_read = 0;
                 while (connection_healthy && !done_reading)
                 {
-                    unsigned char buffer[1] = {};
-                    ret = mbedtls_ssl_read(&ssl, buffer, 1);
-                    if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
-                    if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-                    if (ret == 0) done_reading = true; // 0: EOF
-                    if (ret < 0) connection_healthy = false;
+                    char c{0};
+                    const int result = webserver_ssl_read_byte(ssl, c);
+                    if (result == 0) done_reading = true; // EOF
+                    if (result < 0) connection_healthy = false;
                     if (connection_healthy && !done_reading)
                     {
-                        char c = static_cast<char>(buffer[0]);
                         post_data += c;
                         total_bytes_read++;
                     }
-                    // "Content-Length" bytes read: Done.
                     if (total_bytes_read >= request.content_length) done_reading = true;
                 }
                 if (total_bytes_read < request.content_length) connection_healthy = false;
-                // Parse the POSTed data.
                 if (connection_healthy)
                 {
                     http_parse_post(post_data, request);
@@ -740,41 +710,13 @@ void http_server()
             }
 
             // Write the response to the browser.
-            const char* output = request.reply.c_str();
-            const auto* buf = reinterpret_cast<const unsigned char*>(output);
-            // The C function strlen () fails on null characters in the reply, so take string::size()
-            size_t len = request.reply.size();
-            while (connection_healthy && len > 0)
+            if (connection_healthy && !request.reply.empty())
             {
-                // Function
-                // int ret = mbedtls_ssl_write (&ssl, buf, len)
-                // will do partial writes in some cases.
-                // If the return value is non-negative but less than length,
-                // the function must be called again with updated arguments:
-                // buf + ret, len - ret
-                // until it returns a value equal to the last 'len' argument.
-                ret = mbedtls_ssl_write(&ssl, buf, len);
-                if (ret > 0)
-                {
-                    buf += ret;
-                    len -= static_cast<size_t>(ret);
-                }
-                else
-                {
-                    // When it returns MBEDTLS_ERR_SSL_WANT_WRITE/READ,
-                    // it must be called later with the *same* arguments,
-                    // until it returns a positive value.
-                    if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
-                    if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-                    filter_url_display_mbed_tls_error(ret, nullptr, true, request.remote_address);
-                    connection_healthy = false;
-                }
+                connection_healthy = webserver_ssl_write_all(ssl, request.reply.data(), request.reply.size());
             }
 
-            // When streaming a file, copy file contents straight from disk to the network file descriptor.
-            // Do not load the entire file into memory.
-            // This enables large file transfers on low-memory devices.
-            if (!request.stream_file.empty())
+            // When streaming a file, copy file contents straight from disk to the network connection.
+            if (connection_healthy && !request.stream_file.empty())
             {
                 int filefd =
 #ifdef HAVE_WINDOWS
@@ -794,36 +736,13 @@ void http_server()
                         read
 #endif
                         (filefd, buffer, 1024));
-                    int remaining_length = bytecount;
-                    const auto* buffer_ptr = reinterpret_cast<const unsigned char*>(&buffer);
-                    while (connection_healthy && remaining_length > 0)
+                    if (bytecount > 0)
                     {
-                        // Function
-                        // int ret = mbedtls_ssl_write (&ssl, buf, len)
-                        // will do partial writes in some cases.
-                        // If the return value is non-negative but less than length,
-                        // the function must be called again with updated arguments:
-                        // buf + ret, len - ret
-                        // until it returns a value equal to the last 'len' argument.
-                        ret = mbedtls_ssl_write(&ssl, buffer_ptr, static_cast<size_t>(remaining_length));
-                        if (ret > 0)
-                        {
-                            buffer_ptr += ret;
-                            remaining_length -= ret;
-                        }
-                        else
-                        {
-                            // When it returns MBEDTLS_ERR_SSL_WANT_WRITE/READ,
-                            // it must be called later with the *same* arguments,
-                            // until it returns a positive value.
-                            if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
-                            if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-                            filter_url_display_mbed_tls_error(ret, nullptr, true, request.remote_address);
-                            connection_healthy = false;
-                        }
+                        connection_healthy = webserver_ssl_write_all(
+                            ssl, reinterpret_cast<const char*>(buffer), static_cast<size_t>(bytecount));
                     }
                 }
-                while (bytecount > 0);
+                while (connection_healthy && bytecount > 0);
 #ifdef HAVE_WINDOWS
                 _close
 #else
@@ -833,17 +752,7 @@ void http_server()
             }
 
             // Close SSL/TLS connection.
-            if (connection_healthy)
-            {
-                while ((ret = mbedtls_ssl_close_notify(&ssl)) < 0)
-                {
-                    if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
-                    if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-                    filter_url_display_mbed_tls_error(ret, nullptr, true, request.remote_address);
-                    connection_healthy = false;
-                    break;
-                }
-            }
+            if (connection_healthy) SSL_shutdown(ssl);
         }
     }
     catch (const std::exception& e)
@@ -863,11 +772,13 @@ void http_server()
         database::logs::log("A general internal error occurred");
     }
 
-    // Close client network connection.
-    mbedtls_net_free(&client_fd);
-
-    // Done with the SSL context.
-    mbedtls_ssl_free(&ssl);
+    // Done with the SSL object, then close the client network connection.
+    SSL_free(ssl);
+#ifdef HAVE_WINDOWS
+    closesocket(client_fd);
+#else
+    close(client_fd);
+#endif
 }
 
 
@@ -932,102 +843,64 @@ void https_server()
         return;
     }
 
-    // File descriptor for the listener.
-    mbedtls_net_context listen_fd;
-    mbedtls_net_init(&listen_fd);
-
-    // The SSL configuration for the lifetime of the server.
-    // This is done during initialization of mbed TLS.
-    mbedtls_ssl_config conf;
-    mbedtls_ssl_config_init(&conf);
-
-    mbedtls_ssl_cache_context cache;
-    mbedtls_ssl_cache_init(&cache);
-
-    // A single entropy source that is used in all the threads.
-    mbedtls_entropy_context entropy;
-    mbedtls_entropy_init(&entropy);
-
-    mbedtls_ctr_drbg_context ctr_drbg;
-    mbedtls_ctr_drbg_init(&ctr_drbg);
-
-    const psa_status_t psa_status = psa_crypto_init();
-#pragma GCC diagnostic push
-#pragma clang diagnostic ignored "-Wold-style-cast"
-    if (psa_status != PSA_SUCCESS)
+    // The SSL context for the lifetime of the server.
+    std::unique_ptr<SSL_CTX, decltype(&SSL_CTX_free)> context{SSL_CTX_new(TLS_server_method()), SSL_CTX_free};
+    if (!context)
     {
-#pragma GCC diagnostic pop
-        database::logs::log("Failure to run PSA crypto initialization: Not running the secure server");
+        webserver_log_ssl_errors("Failure to create the secure server context: Not running the secure server");
         return;
     }
-
-    // Load the private RSA server key.
-    mbedtls_pk_context pkey;
-    mbedtls_pk_init(&pkey);
-    int ret =
-        mbedtls_pk_parse_keyfile(&pkey, server_key_path.c_str(), nullptr, mbedtls_ctr_drbg_random, &ctr_drbg);
-    if (ret != 0)
+    SSL_CTX_set_min_proto_version(context.get(), TLS1_2_VERSION);
+    if (SSL_CTX_use_certificate_file(context.get(), server_certificate_path.c_str(), SSL_FILETYPE_PEM) != 1)
     {
-        filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
-        database::logs::log("Invalid", server_key_path, "so not running secure server");
+        webserver_log_ssl_errors("Cannot load server certificate: Not running the secure server");
         return;
     }
-
-    // Server certificates store.
-    mbedtls_x509_crt srvcert;
-    mbedtls_x509_crt_init(&srvcert);
-
-    // Load the server certificate.
-    ret = mbedtls_x509_crt_parse_file(&srvcert, server_certificate_path.c_str());
-    if (ret != 0)
+    if (!webserver_add_certificate_chain(context.get(), authorities_certificates_path))
     {
-        filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
-        database::logs::log("Invalid", server_certificate_path, "so not running secure server");
+        webserver_log_ssl_errors("Cannot load certificate authorities chain: Not running the secure server");
         return;
     }
-
-    // Load the chain of certificates of the certificate authorities.
-    ret = mbedtls_x509_crt_parse_file(&srvcert, authorities_certificates_path.c_str());
-    if (ret != 0)
+    if (SSL_CTX_use_PrivateKey_file(context.get(), server_key_path.c_str(), SSL_FILETYPE_PEM) != 1)
     {
-        filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
-        database::logs::log("Invalid", authorities_certificates_path, "so not running secure server");
+        webserver_log_ssl_errors("Cannot load server private key: Not running the secure server");
         return;
     }
-
-    // Seed the random number generator.
-    auto* pers = "Cloud";
-    ret = mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy, reinterpret_cast<const unsigned char*>(pers),
-                                strlen(pers));
-    if (ret != 0)
+    if (SSL_CTX_check_private_key(context.get()) != 1)
     {
-        filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
+        webserver_log_ssl_errors("Server private key does not match the certificate: Not running the secure server");
         return;
     }
+    SSL_CTX_load_verify_locations(context.get(), authorities_certificates_path.c_str(), nullptr);
+    SSL_CTX_set_session_cache_mode(context.get(), SSL_SESS_CACHE_SERVER);
 
     // Setup the listening TCP socket.
-    ret = mbedtls_net_bind(&listen_fd, nullptr, network_port.c_str(), MBEDTLS_NET_PROTO_TCP);
-    if (ret != 0)
+    const int listen_fd = socket(AF_INET6, SOCK_STREAM, 0);
+    if (listen_fd < 0)
     {
-        filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
+        database::logs::log("Error opening secure socket:", strerror(errno));
         return;
     }
-
-    // Setup SSL/TLS default values for the lifetime of the https server.
-    ret = mbedtls_ssl_config_defaults(&conf, MBEDTLS_SSL_IS_SERVER, MBEDTLS_SSL_TRANSPORT_STREAM,
-                                      MBEDTLS_SSL_PRESET_DEFAULT);
-    if (ret != 0)
+    int opt_val{1};
+    setsockopt(listen_fd, SOL_SOCKET, SO_REUSEADDR, &opt_val, sizeof(opt_val));
+#ifdef IPV6_V6ONLY
+    opt_val = 0;
+    setsockopt(listen_fd, IPPROTO_IPV6, IPV6_V6ONLY, &opt_val, sizeof(opt_val));
+#endif
+    sockaddr_in6 server_addr{};
+    server_addr.sin6_family = AF_INET6;
+    server_addr.sin6_addr = in6addr_any;
+    server_addr.sin6_port = htons(static_cast<uint16_t>(filter::string::convert_to_int(network_port)));
+    if (bind(listen_fd, reinterpret_cast<sockaddr*>(&server_addr), sizeof(server_addr)) != 0)
     {
-        filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
+        database::logs::log("Error binding secure server to socket:", strerror(errno));
+        close(listen_fd);
         return;
     }
-    mbedtls_ssl_conf_rng(&conf, mbedtls_ctr_drbg_random, &ctr_drbg);
-    mbedtls_ssl_conf_session_cache(&conf, &cache, mbedtls_ssl_cache_get, mbedtls_ssl_cache_set);
-    mbedtls_ssl_conf_ca_chain(&conf, srvcert.next, nullptr);
-    ret = mbedtls_ssl_conf_own_cert(&conf, &srvcert, &pkey);
-    if (ret != 0)
+    if (listen(listen_fd, 100) != 0)
     {
-        filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
+        database::logs::log("Error listening on secure socket:", strerror(errno));
+        close(listen_fd);
         return;
     }
 
@@ -1040,42 +913,27 @@ void https_server()
 
     std::cout << "Listening on https://localhost:" << network_port << std::endl;
 
-    // Keep preparing for, accepting, and processing client connections.
+    // Keep accepting and processing client connections.
     while (config_globals_webserver_running)
     {
-        // Client connection file descriptor.
-        mbedtls_net_context client_fd;
-        mbedtls_net_init(&client_fd);
-
-        // Wait until a client connects.
-        ret = mbedtls_net_accept(&listen_fd, &client_fd, nullptr, 0, nullptr);
-        if (ret != 0)
+        sockaddr_in6 client_addr{};
+        socklen_t client_len = sizeof(client_addr);
+        const int client_fd = accept(listen_fd, reinterpret_cast<sockaddr*>(&client_addr), &client_len);
+        if (client_fd < 0)
         {
-            filter_url_display_mbed_tls_error(ret, nullptr, true, std::string());
+            if (config_globals_webserver_running)
+                database::logs::log("Error accepting secure connection:", strerror(errno));
             continue;
         }
-
-        // Handle this request via the thread pool, enabling parallel requests.
-        const auto conf_ptr = std::addressof(conf);
-        enqueue_task([conf_ptr, client_fd] { secure_webserver_process_request(conf_ptr, client_fd); });
+        enqueue_task([ctx = context.get(), client_fd] { secure_webserver_process_request(ctx, client_fd); });
     }
 
     // Wait shortly to give sufficient time to let the connection fail,
-    // before the local SSL/TLS variables get out of scope,
-    // which would lead to a segmentation fault if those variables were still in use.
+    // before the SSL context gets out of scope.
     std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
     // Close listening socket, freeing it for a possible subsequent server process.
-    mbedtls_net_free(&listen_fd);
-
-    // Shutting down mbed TLS.
-    mbedtls_x509_crt_free(&srvcert);
-    mbedtls_pk_free(&pkey);
-    mbedtls_ssl_config_free(&conf);
-    mbedtls_ssl_cache_free(&cache);
-    mbedtls_ctr_drbg_free(&ctr_drbg);
-    mbedtls_entropy_free(&entropy);
-    mbedtls_psa_crypto_free();
+    close(listen_fd);
 }
 
 

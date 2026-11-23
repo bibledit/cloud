@@ -26,10 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic pop
 #include <unittests/utilities.h>
 #include <filter/md5.h>
-#include <mbedtls/md5.h>
 
 
-// Test the md5 from the mbedtls library.
+// Test the md5 implementation.
 TEST (filter, md5)
 {
   std::string apple = "apple";

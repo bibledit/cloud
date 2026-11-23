@@ -43,8 +43,6 @@ sed -i.bak '/\.cpp$/d' pkgdata/files.txt
 sed -i.bak '/\.c$/d' pkgdata/files.txt
 sed -i.bak '/\.h$/d' pkgdata/files.txt
 sed -i.bak '/\.hpp$/d' pkgdata/files.txt
-sed -i.bak '/^\/psa/d' pkgdata/files.txt
-sed -i.bak '/^\/mbedtls/d' pkgdata/files.txt
 sed -i.bak '/^\/mimetic098/d' pkgdata/files.txt
 
 # No git repository data.

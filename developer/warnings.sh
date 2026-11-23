@@ -1,26 +1,5 @@
 #!/bin/bash
 
-#ls ../mbedtls/*.h > files.txt
-#
-#while read -r file; do
-#
-#  echo $file
-#  mv $file tmpc
-#  echo '#pragma GCC system_header' >> $file
-#  cat tmpc >> $file
-#  rm tmpc
-#
-#done < files.txt
-
-ls ../mbedtls/*.c > files.txt
-while read -r file; do
-  echo $file
-  mv $file tmpc
-  echo '#pragma clang diagnostic ignored "-Wunknown-warning-option"' >> $file
-  cat tmpc >> $file
-  rm tmpc
-done < files.txt
-
 #find ../mimetic098 -name "*.cxx" > files.txt
 
 #while read -r file; do

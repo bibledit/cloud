@@ -42,7 +42,6 @@ rm -rf dtl
 rm -rf flate
 rm -rf jsonxx
 rm -rf man
-rm -rf mbedtls*
 rm -rf microtar
 rm -rf mimetic098
 rm -rf miniz

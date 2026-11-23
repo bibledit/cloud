@@ -292,7 +292,7 @@ void sword_logic_schedule_module_extraction(const std::string& source, const std
 }
 
 
-void sword_logic_install_module(const std::string& source_name, const std::string& module_name)
+static void sword_logic_install_module(const std::string& source_name, const std::string& module_name)
 {
     database::logs::log("Installing SWORD module", module_name, "from source", source_name);
     const sword::SWBuf base_dir{get_sword_install_mgr_path().c_str()};
@@ -324,7 +324,7 @@ void sword_logic_install_module(const std::string& source_name, const std::strin
 }
 
 
-void sword_logic_uninstall_module(const std::string& module)
+static void sword_logic_uninstall_module(const std::string& module)
 {
     database::logs::log("Uninstalling SWORD module", module);
     const sword::SWBuf base_dir{get_sword_install_mgr_path().c_str()};
@@ -449,7 +449,7 @@ void sword_logic_run_scheduled_module_extract(const std::string& source, const s
     if (extracting_module)
     {
         std::this_thread::sleep_for(std::chrono::seconds(10)); // Prevent rapid rescheduling multiple tasks.
-        sword_logic_schedule_module_extraction(source, module);
+        tasks::tasks_logic_queue(tasks::enums::task::extract_sword_module, {source, module});
         return;
     }
 

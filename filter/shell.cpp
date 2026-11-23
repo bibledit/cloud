@@ -108,26 +108,6 @@ const char* get_executable_name(const Executable executable)
 }
 
 
-std::string get_executable_path(const Executable executable) // Todo write it.
-{
-    const std::string command {"which " + std::string(get_executable_name(executable))};
-
-    const auto pipe = std::unique_ptr<FILE, decltype(&pclose)>{
-        popen(command.c_str(), "r"), pclose
-    };
-    if (not pipe)
-        return {};
-
-    std::array<char, 1024> buffer{};
-    std::string result;
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
-        result += buffer.data();
-
-    // "which" returns a newline-terminated path.
-    return filter::string::trim(result);
-}
-
-
 [[maybe_unused]] static std::string escape_argument (std::string argument)
 {
   argument = string::replace ("'", "\\'", argument);

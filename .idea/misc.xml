@@ -4,4 +4,28 @@
     <option name="pythonIntegrationState" value="YES" />
   </component>
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
+  <component name="CidrRootsConfiguration">
+    <excludeRoots>
+      <file path="$PROJECT_DIR$/locale/af.po" />
+      <file path="$PROJECT_DIR$/locale/bibledit.pot" />
+      <file path="$PROJECT_DIR$/locale/cs.po" />
+      <file path="$PROJECT_DIR$/locale/de.po" />
+      <file path="$PROJECT_DIR$/locale/en_GB.po" />
+      <file path="$PROJECT_DIR$/locale/es.po" />
+      <file path="$PROJECT_DIR$/locale/fr.po" />
+      <file path="$PROJECT_DIR$/locale/id.po" />
+      <file path="$PROJECT_DIR$/locale/it.po" />
+      <file path="$PROJECT_DIR$/locale/kab.po" />
+      <file path="$PROJECT_DIR$/locale/ku.po" />
+      <file path="$PROJECT_DIR$/locale/lt.po" />
+      <file path="$PROJECT_DIR$/locale/nl.po" />
+      <file path="$PROJECT_DIR$/locale/ny.po" />
+      <file path="$PROJECT_DIR$/locale/pt.po" />
+      <file path="$PROJECT_DIR$/locale/pt_BR.po" />
+      <file path="$PROJECT_DIR$/locale/sv.po" />
+      <file path="$PROJECT_DIR$/locale/tr.po" />
+      <file path="$PROJECT_DIR$/locale/uk.po" />
+      <file path="$PROJECT_DIR$/locale/zh_TW.po" />
+    </excludeRoots>
+  </component>
 </project>

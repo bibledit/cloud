@@ -109,7 +109,7 @@ int main(int argc, char** argv)
     else if (command == books)
     {
         std::cout << "Exporting books database to JSON" << std::endl;
-        std::cerr << database::books::get_books_json() << std::endl; // Todo
+        std::cerr << database::books::get_books_json() << std::endl;
     }
     else
     {

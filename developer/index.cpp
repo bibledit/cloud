@@ -124,7 +124,7 @@ std::string developer_index(Webserver_Request& webserver_request)
     {
         view.set_variable("success", "Fetching data via IPv6");
         std::string error{};
-        std::string response = filter_url_http_request_mbed("http://ipv6.google.com", error, {}, "", true);
+        std::string response = filter_url_http_request("http://ipv6.google.com", error, {}, "", true);
         page.append(response);
         view.set_variable("error", error);
     }
@@ -133,7 +133,7 @@ std::string developer_index(Webserver_Request& webserver_request)
     {
         view.set_variable("success", "Securely fetching data via IPv6");
         std::string error{};
-        std::string response = filter_url_http_request_mbed("https://ipv6.google.com", error, {}, "", true);
+        std::string response = filter_url_http_request("https://ipv6.google.com", error, {}, "", true);
         page.append(response);
         view.set_variable("error", error);
     }

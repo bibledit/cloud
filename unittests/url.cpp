@@ -215,9 +215,9 @@ TEST_F (filter_url, error_unknown_host)
 {
   // Test low-level http(s) client error for unknown host.
   std::string result, error;
-  result = filter_url_http_request_mbed ("http://unknownhost", error, {}, "", false);
+  result = filter_url_http_request("http://unknownhost", error, {}, "", false);
   EXPECT_EQ ("", result);
-  EXPECT_EQ ("Internet connection failure: unknownhost: nodename nor servname provided, or not known", error);
+  EXPECT_FALSE (error.empty());
 }
 
 
@@ -225,9 +225,9 @@ TEST_F (filter_url, error_closed_port)
 {
   // Test low-level http(s) client error for closed port.
   std::string result, error;
-  result = filter_url_http_request_mbed ("http://bibledit.org:8086/non-existing", error, {}, std::string(), false);
+  result = filter_url_http_request("http://bibledit.org:8086/non-existing", error, {}, std::string(), false);
   EXPECT_EQ (std::string(), result);
-  EXPECT_EQ ("bibledit.org:8086: Connection refused | bibledit.org:8086: Connection refused", error);
+  EXPECT_FALSE (error.empty());
 }
 
 
@@ -235,7 +235,7 @@ TEST_F (filter_url, client_result_fixed_ip)
 {
   // Test low-level http(s) client result.
   std::string error;
-  const std::string result = filter_url_http_request_mbed ("http://212.132.105.87", error, {}, "", false);
+  const std::string result = filter_url_http_request("http://212.132.105.87", error, {}, "", false);
   EXPECT_EQ (true, result.find ("God") != std::string::npos);
   EXPECT_EQ (true, result.find ("bless") != std::string::npos);
   EXPECT_EQ (true, result.find ("you") != std::string::npos);
@@ -247,7 +247,7 @@ TEST_F (filter_url, client_result_bibledit_org)
 {
   // Test low-level http(s) client result.
   std::string error;
-  const std::string result = filter_url_http_request_mbed ("https://bibledit.org", error, {}, "", false);
+  const std::string result = filter_url_http_request("https://bibledit.org", error, {}, "", false);
   EXPECT_EQ (true, result.find ("Bibledit") != std::string::npos);
   EXPECT_EQ (true, result.find ("Linux") != std::string::npos);
   EXPECT_EQ (true, result.find ("Cloud") != std::string::npos);
@@ -320,18 +320,18 @@ TEST_F (filter_url, https)
   url = filter_url_set_scheme ("http://localhost", true);
   EXPECT_EQ ("https://localhost", url);
   
-  result = filter_url_http_request_mbed ("http://httpforever.com/", error, {}, "", false);
+  result = filter_url_http_request("http://httpforever.com/", error, {}, "", false);
   EXPECT_TRUE (result.find ("insecure") != std::string::npos);
   EXPECT_TRUE (result.find ("WiFi") != std::string::npos);
   EXPECT_EQ (std::string(), error);
 
-  result = filter_url_http_request_mbed ("https://www.google.com", error, {}, "", false);
+  result = filter_url_http_request("https://www.google.com", error, {}, "", false);
   EXPECT_TRUE (result.find ("google") != std::string::npos);
   EXPECT_TRUE (result.find ("search") != std::string::npos);
   EXPECT_TRUE (result.find ("background") != std::string::npos);
   EXPECT_EQ (std::string(), error);
 
-  result = filter_url_http_request_mbed ("https://bibledit.org:8091/index/index", error, {}, "", false);
+  result = filter_url_http_request("https://bibledit.org:8091/index/index", error, {}, "", false);
   EXPECT_EQ (std::string(), error);
   EXPECT_TRUE (result.find ("Enable JavaScript to work with Bibledit") != std::string::npos);
   

@@ -18,20 +18,19 @@
 
 
 #include <filter/md5.h>
-#include <mbedtls/md5.h>
+#include <openssl/evp.h>
 
 
 std::string md5(const std::string& str)
 {
-    const auto* input = reinterpret_cast<const unsigned char*>(str.c_str());
-
-    unsigned char md5sum[16];
-    mbedtls_md5(input, str.size(), md5sum);
+    unsigned char md5sum[EVP_MAX_MD_SIZE];
+    unsigned int md5sum_length{0};
+    EVP_Digest(str.data(), str.size(), md5sum, &md5sum_length, EVP_md5(), nullptr);
 
     // Space for 32 bytes of hexits and one terminating null byte.
     char hexits[32 + 1] = {};
 
-    for (int i = 0; i < 16; i++)
+    for (unsigned int i = 0; i < md5sum_length; i++)
         snprintf(&hexits[i * 2], 3, "%02x", static_cast<unsigned int>(md5sum[i]));
 
     // Resulting hexits.

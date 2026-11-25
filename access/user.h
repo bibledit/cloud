@@ -19,12 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <vector>
+#include <string>
 
 class Webserver_Request;
 
 namespace access_user {
 
-std::vector <std::string> assignees (Webserver_Request& webserver_request);
+std::vector<std::string> assignees (Webserver_Request& webserver_request);
 
 }

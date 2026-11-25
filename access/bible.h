@@ -19,7 +19,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+#include <tuple>
 
 class Webserver_Request;
 
@@ -28,8 +30,8 @@ namespace access_bible {
 bool read (Webserver_Request& webserver_request, const std::string & bible, std::string user = std::string());
 bool write (Webserver_Request& webserver_request, const std::string & bible, std::string user = std::string());
 bool book_write (Webserver_Request& webserver_request, std::string user, const std::string & bible, int book);
-std::vector <std::string> bibles (Webserver_Request& webserver_request, std::string user = std::string());
-std::string clamp (Webserver_Request& webserver_request, std::string bible);
-std::tuple <bool, bool> any (Webserver_Request& webserver_request);
+std::vector<std::string> bibles (Webserver_Request& webserver_request, std::string user = std::string());
+std::string clamp(Webserver_Request& webserver_request, std::string bible);
+std::tuple<bool, bool> any (Webserver_Request& webserver_request);
 
 }

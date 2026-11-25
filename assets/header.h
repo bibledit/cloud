@@ -19,7 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
 #include <assets/view.h>
 
 class Webserver_Request;
@@ -35,7 +36,7 @@ public:
   void set_navigator ();
   void set_stylesheet ();
   void set_editor_stylesheet ();
-  bool display_topbar () const;
+  [[nodiscard]] bool display_topbar () const;
   void refresh (int seconds, const std::string& url = "");
   void set_fading_menu (const std::string& html);
   void set_focus_group(int focus_group);

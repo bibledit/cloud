@@ -22,13 +22,6 @@
 #include <filter/string.h>
 #include <filter/passage.h>
 #include <pugixml/include.h>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wold-style-cast"
-#pragma GCC diagnostic ignored "-Wsuggest-override"
-#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-#pragma GCC diagnostic ignored "-Wunnecessary-virtual-specifier"
-#pragma GCC diagnostic ignored "-Wsign-conversion"
 #ifdef HAVE_ICU
 #include <unicode/ustdio.h>
 #include <unicode/normlzr.h>
@@ -36,7 +29,6 @@
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
 #endif
-#pragma GCC diagnostic pop
 
 
 int entry_element_count {0};

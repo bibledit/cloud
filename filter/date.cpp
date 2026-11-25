@@ -53,10 +53,6 @@ int get_day_within_month(const int seconds)
     const std::chrono::year_month_day year_month_day{std::chrono::floor<std::chrono::days>(epoch_plus_duration)};
     const auto day_of_month = static_cast<int>(static_cast<unsigned>(year_month_day.day()));
     return day_of_month;
-    // const time_t tt = seconds; // Todo goes out if the above compiles on all OSes.
-    // const tm utc_tm = *gmtime(&tt);
-    // const int day = utc_tm.tm_mday;
-    // return day;
 }
 
 
@@ -72,10 +68,6 @@ int get_day_within_week(const int seconds)
     // Get numeric index.
     using func_return_type = decltype(get_day_within_week(0));
     return static_cast<func_return_type>(weekday.c_encoding());
-    // const time_t tt = seconds; // Todo goes out if the above compiles on all OSes.
-    // const tm utc_tm = *gmtime(&tt);
-    // const int day = utc_tm.tm_wday;
-    // return day;
 }
 
 
@@ -91,11 +83,6 @@ int get_month_within_year(const int seconds)
     // Get numeric index (1 = January, 2 = February, ..., 12 = December).
     const auto month_index = static_cast<unsigned int>(month);
     return static_cast<decltype(get_month_within_year(0))>(month_index);
-    // Todo remove the below if the above compiles on all OSes.
-    // const time_t tt = seconds;
-    // const tm utc_tm = *gmtime(&tt);
-    // const int month = utc_tm.tm_mon + 1;
-    // return month;
 }
 
 
@@ -109,12 +96,6 @@ int get_year_ad(const int seconds)
     // Extract the year.
     int year = static_cast<int>(year_month_day.year());
     return year;
-    // Todo code below can go out once the code above compiles on all OSes.
-    // const time_t tt = seconds;
-    // const tm utc_tm = *gmtime(&tt);
-    // // Get years since 1900, and correct to get years since birth of Christ.
-    // const int year = utc_tm.tm_year + 1900;
-    // return year;
 }
 
 

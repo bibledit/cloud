@@ -851,7 +851,7 @@ target_link_libraries(bibledit PUBLIC
 	${CMAKE_DL_LIBS}
 )
 
-if (NOT HAVE_LINUX)
+if (HAVE_CLOUD)
 	find_package(CURL 7.20.0 REQUIRED)
 	find_package(OpenSSL 1.1.1 REQUIRED)
 	target_link_libraries(bibledit PUBLIC

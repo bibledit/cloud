@@ -23,9 +23,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define VERSION_PATCH 061
 #define VERSION "5.1.061"
 #define HAVE_LIBMBEDTLS
-/* #undef HAVE_LIBPROC */
-/* #undef HAVE_EXECINFO */
-/* #undef HAVE_MACH_MACH */
+#define HAVE_LIBPROC
+#define HAVE_EXECINFO
+#define HAVE_MACH_MACH
 #define HAVE_ICU
 #define HAVE_UTF8PROC
 #define HAVE_PUGIXML

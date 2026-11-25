@@ -466,7 +466,7 @@ function oneverseEditorStatus(text) {
     if (status)
         status.innerHTML = text;
     // Just update the status, don't do the intrusive popups.
-    // On Alt-Tab switching on Anndroid the popup would appear.
+    // On Alt-Tab switching on Android the popup would appear.
 }
 
 

@@ -101,6 +101,11 @@ inline bool operator==(const istring& is, const std::string& s)
             std::max(is.length(),s.length())) );
 }
 
+inline bool operator==(const istring& a, const istring& b)
+{
+    return a == static_cast<const std::string&>(b);
+}
+
 inline bool operator!=(const istring& is, const std::string& s)
 {
     return (0 != ichar_traits::compare(is.c_str(),s.c_str(),

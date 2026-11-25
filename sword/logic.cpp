@@ -42,9 +42,12 @@
 #endif
 
 
+#ifdef HAVE_CLOUD
 static std::atomic extracting_module{false};
+#endif
 
 
+#ifdef HAVE_CLOUD
 [[nodiscard]] static std::string get_sword_install_mgr_path()
 {
     std::string home_directory{"."};
@@ -52,6 +55,7 @@ static std::atomic extracting_module{false};
         home_directory = home;
     return std::filesystem::path{home_directory} / ".sword" / "InstallMgr";
 }
+#endif
 
 
 [[nodiscard]] static std::string sword_logic_module_list_path()
@@ -60,6 +64,7 @@ static std::atomic extracting_module{false};
 }
 
 
+#ifdef HAVE_CLOUD
 static void initialize_sword_structures()
 {
     // Initialize SWORD directory structure.
@@ -87,10 +92,12 @@ static void initialize_sword_structures()
     if (installMgr.refreshRemoteSourceConfiguration())
         database::logs::log("Could not refresh the remote source configuration");
 }
+#endif
 
 
 void sword_logic_refresh_module_list()
 {
+#ifdef HAVE_CLOUD
     initialize_sword_structures();
 
     database::logs::log("Refreshing list of SWORD modules");
@@ -181,6 +188,7 @@ void sword_logic_refresh_module_list()
     filter_url_file_put_contents(sword_logic_module_list_path(), filter::string::implode(sword_modules, "\n"));
 
     database::logs::log("Ready refreshing SWORD module list");
+#endif
 }
 
 
@@ -269,8 +277,9 @@ std::string sword_logic_get_name(std::string line)
 
 
 // Schedule SWORD module extraction.
-void sword_logic_schedule_module_extraction(const std::string& source, const std::string& module)
+void sword_logic_schedule_module_extraction([[maybe_unused]] const std::string& source, [[maybe_unused]] const std::string& module)
 {
+#ifdef HAVE_CLOUD
     // No source: Done.
     if (source.empty())
         return;
@@ -289,9 +298,11 @@ void sword_logic_schedule_module_extraction(const std::string& source, const std
     if (database::sword::exists(module))
         return;
     tasks::tasks_logic_queue(tasks::enums::task::extract_sword_module, {source, module});
+#endif
 }
 
 
+#ifdef HAVE_CLOUD
 static void sword_logic_install_module(const std::string& source_name, const std::string& module_name)
 {
     database::logs::log("Installing SWORD module", module_name, "from source", source_name);
@@ -322,8 +333,11 @@ static void sword_logic_install_module(const std::string& source_name, const std
     }
     database::logs::log("Completed installing SWORD module", module_name);
 }
+#endif
 
 
+
+#ifdef HAVE_CLOUD
 static void sword_logic_uninstall_module(const std::string& module)
 {
     database::logs::log("Uninstalling SWORD module", module);
@@ -344,6 +358,7 @@ static void sword_logic_uninstall_module(const std::string& module)
     }
     database::logs::log("Uninstalled SWORD module", module);
 }
+#endif
 
 
 // Get available SWORD modules.
@@ -440,8 +455,9 @@ std::string sword_logic_installing_module_text()
 // The function runs a scheduled module installation and extraction.
 // The purpose of this function is that only one such operation occurs at a time,
 // rather than simultaneously installing modules, which clogs the system.
-void sword_logic_run_scheduled_module_extract(const std::string& source, const std::string& module)
+void sword_logic_run_scheduled_module_extract([[maybe_unused]] const std::string& source, [[maybe_unused]] const std::string& module)
 {
+#ifdef HAVE_CLOUD
     // If another module installation and extraction is already in progress,
     // postpone this task by re-scheduling it.
     // Only one task can run at a time:
@@ -571,6 +587,7 @@ void sword_logic_run_scheduled_module_extract(const std::string& source, const s
 
     // Uninstall the module again.
     sword_logic_uninstall_module(module);
+#endif
 }
 
 

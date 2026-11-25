@@ -27,10 +27,8 @@
 #include <iostream>
 #include <thread>
 #include "library/bibledit.h"
-#pragma GCC diagnostic push
 #include <webkit2/webkit2.h>
 #include <gtk/gtk.h>
-#pragma GCC diagnostic pop
 
 gint bibledit_window_root_x = 0;
 gint bibledit_window_root_y = 0;

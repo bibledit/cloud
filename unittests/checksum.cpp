@@ -19,11 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#pragma GCC diagnostic ignored "-Wcharacter-conversion"
 #include <gtest/gtest.h>
-#pragma GCC diagnostic pop
 #include <checksum/logic.h>
 #include <database/bibles.h>
 #include <database/state.h>

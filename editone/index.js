@@ -465,7 +465,8 @@ function oneverseEditorStatus(text) {
     var status = document.querySelector("#onestatus");
     if (status)
         status.innerHTML = text;
-    oneverseEditorSelectiveNotification(text);
+    // Just update the status, don't do the intrusive popups.
+    // On Alt-Tab switching on Anndroid the popup would appear.
 }
 
 
@@ -482,18 +483,6 @@ function oneverseActiveStylesFeedback() {
     var styles = paragraph + " " + character;
     var element = document.querySelector("#oneverseactivestyles");
     element.innerHTML = styles;
-}
-
-
-function oneverseEditorSelectiveNotification(message) {
-    return; // Todo only status messages, notifications are too intrusive.
-    if (message == oneverseEditorVerseLoaded) return;
-    if (message == oneverseEditorWillSave) return;
-    if (message == oneverseEditorVerseSaving) return;
-    if (message == oneverseEditorVerseSaved) return;
-    if (message == oneverseEditorVerseUpdating) return;
-    if (message == oneverseEditorVerseUpdated) return;
-    notifyError(message);
 }
 
 

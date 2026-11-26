@@ -17,6 +17,7 @@
  */
 
 
+#include <config.h>
 #include <bb/settings.h>
 #include <assets/view.h>
 #include <assets/page.h>

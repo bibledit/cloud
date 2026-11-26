@@ -888,13 +888,16 @@ if (pugixml_FOUND)
 	target_link_libraries(bibledit PUBLIC pugixml::pugixml)
 endif ()
 
-if (APPLE)
-	# The SWORD library to be installed on macOS manually so add the search path.
-	list(APPEND CMAKE_PREFIX_PATH /usr/local)
+if (HAVE_CLOUD)
+	# In case of Cloud configuration, SWORD should be available.
+	if (APPLE)
+		# The SWORD library to be installed on macOS manually so add the search path.
+		list(APPEND CMAKE_PREFIX_PATH /usr/local)
+	endif ()
+	pkg_check_modules(SWORD REQUIRED IMPORTED_TARGET sword)
+	set(HAVE_SWORD ON)
+	target_link_libraries(bibledit PRIVATE PkgConfig::SWORD)
 endif ()
-pkg_check_modules(SWORD REQUIRED IMPORTED_TARGET sword)
-set(HAVE_SWORD ON)
-target_link_libraries(bibledit PRIVATE PkgConfig::SWORD)
 
 if (BUILD_UNITTESTS)
 	find_package(GTest 1.10.0)

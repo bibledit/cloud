@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
 
 struct Merge_Conflict
 {

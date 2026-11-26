@@ -31,7 +31,7 @@
 #include <sword/logic.h>
 #include <sync/resources.h>
 #include <tasks/logic.h>
-#ifdef HAVE_SWORD
+#ifdef HAVE_CLOUD
 #include <filemgr.h>
 #include <installmgr.h>
 #include <remotetrans.h>

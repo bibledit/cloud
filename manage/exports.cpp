@@ -17,30 +17,33 @@
  */
 
 
-#include <manage/exports.h>
-#include <assets/view.h>
-#include <assets/page.h>
+#include <config.h>
+#include <map>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
+#include <access/bible.h>
+#include <assets/external.h>
 #include <assets/header.h>
-#include <filter/url.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <client/logic.h>
+#include <database/state.h>
+#include <database/config/bible.h>
+#include <database/config/user.h>
+#include <dialog/entry.h>
+#include <dialog/select.h>
+#include <export/logic.h>
 #include <filter/roles.h>
 #include <filter/string.h>
-#include <filter/archive.h>
+#include <filter/url.h>
 #include <filter/usfm.h>
-#include <dialog/select.h>
-#include <dialog/entry.h>
-#include <access/bible.h>
-#include <locale/translate.h>
-#include <export/logic.h>
-#include <database/config/bible.h>
-#include <database/state.h>
-#include <client/logic.h>
-#include <tasks/logic.h>
-#include <menu/logic.h>
-#include <assets/external.h>
 #include <locale/logic.h>
+#include <locale/translate.h>
+#include <manage/exports.h>
 #include <styles/logic.h>
 #include <webserver/request.h>
-
 #include "database/styles.h"
 
 

@@ -17,17 +17,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <user/account.h>
-#include <assets/view.h>
-#include <assets/page.h>
-#include <filter/roles.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <webserver/request.h>
-#include <confirm/worker.h>
-#include <locale/translate.h>
+#include <config.h>
+#include <string>
+#include <vector>
 #include <assets/header.h>
-#include <menu/logic.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <confirm/worker.h>
+#include <database/users.h>
+#include <filter/roles.h>
+#include <filter/string.h>
+#include <filter/url.h>
+#include <locale/translate.h>
+#include <session/logic.h>
+#include <user/account.h>
+#include <webserver/request.h>
 
 
 std::string user_account_url ()

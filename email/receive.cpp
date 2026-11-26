@@ -22,6 +22,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_CLOUD
 #include <curl/curl.h>
 #endif
+#include <config.h>
+#include <stdlib.h>
+#include <string.h>
+#include <string>
+#include <vector>
 #include <database/config/general.h>
 #include <filter/mail.h>
 #include <filter/string.h>

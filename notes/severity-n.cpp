@@ -17,21 +17,16 @@
  */
 
 
-#include <notes/severity-n.h>
-#include <assets/view.h>
-#include <assets/page.h>
+#include <iomanip>
+#include <sstream>
+#include <vector>
 #include <assets/header.h>
-#include <filter/roles.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <webserver/request.h>
-#include <locale/translate.h>
+#include <assets/page.h>
+#include <assets/view.h>
 #include <database/notes.h>
-#include <notes/logic.h>
-#include <access/bible.h>
-#include <ipc/focus.h>
-#include <navigation/passage.h>
-#include <notes/actions.h>
+#include <filter/roles.h>
+#include <locale/translate.h>
+#include <notes/severity-n.h>
 
 
 std::string notes_severity_n_url ()

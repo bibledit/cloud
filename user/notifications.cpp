@@ -17,23 +17,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <user/notifications.h>
-#include <assets/view.h>
-#include <assets/page.h>
-#include <filter/roles.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <webserver/request.h>
-#include <database/config/user.h>
-#include <database/config/general.h>
-#include <database/noteassignment.h>
-#include <locale/translate.h>
-#include <client/logic.h>
-#include <assets/header.h>
-#include <menu/logic.h>
-#include <access/logic.h>
+#include <config.h>
+#include <map>
+#include <string>
+#include <vector>
 #include <access/bible.h>
+#include <access/logic.h>
+#include <assets/header.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <client/logic.h>
+#include <database/noteassignment.h>
+#include <database/config/user.h>
 #include <email/send.h>
+#include <filter/roles.h>
+#include <filter/string.h>
+#include <filter/string.hpp>
+#include <locale/translate.h>
+#include <session/logic.h>
+#include <user/notifications.h>
+#include <webserver/request.h>
 
 
 std::string user_notifications_url ()

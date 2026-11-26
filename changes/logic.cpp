@@ -17,6 +17,7 @@
  */
 
 
+#include <config.h>
 #include <changes/logic.h>
 #include <changes/changes.h>
 #include <changes/statistics.h>

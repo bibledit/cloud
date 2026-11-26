@@ -957,3 +957,13 @@ add_custom_target(dist
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         VERBATIM
 )
+
+
+option(ENABLE_IWYU "Run include-what-you-use" OFF)
+message(STATUS "Check includes ${ENABLE_IWYU} (enable: $cmake -DENABLE_IWYU=ON)")
+if(ENABLE_IWYU)
+	find_program(IWYU_PATH NAMES include-what-you-use iwyu REQUIRED)
+	set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${IWYU_PATH}
+		-Xiwyu --no_default_mappings
+	)
+endif()

@@ -19,8 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
-
+#include <string>
 class Webserver_Request;
 
 std::string help_index_html (const std::string& url);

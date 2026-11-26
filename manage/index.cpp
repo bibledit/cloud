@@ -17,13 +17,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <manage/index.h>
-#include <assets/view.h>
+#include <string>
+#include <assets/header.h>
 #include <assets/page.h>
+#include <assets/view.h>
 #include <filter/roles.h>
 #include <locale/translate.h>
-#include <assets/header.h>
-#include <menu/logic.h>
+#include <manage/index.h>
 
 
 std::string manage_index_url ()

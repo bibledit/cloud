@@ -17,6 +17,7 @@
  */
 
 
+#include <config.h>
 #include <changes/statistics.h>
 #include <assets/header.h>
 #include <assets/view.h>

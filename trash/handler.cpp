@@ -17,11 +17,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <trash/handler.h>
-#include <filter/string.h>
-#include <database/modifications.h>
+#include <string>
+#include <vector>
 #include <database/logs.h>
+#include <database/modifications.h>
 #include <database/notes.h>
+#include <filter/passage.h>
+#include <filter/string.h>
+#include <session/logic.h>
+#include <trash/handler.h>
 #include <webserver/request.h>
 
 

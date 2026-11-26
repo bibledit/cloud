@@ -19,7 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
 
 namespace database::bibles {
 
@@ -31,23 +32,23 @@ void create_bible (const std::string& bible);
 
 void delete_bible (const std::string& bible);
 
-void store_chapter (const std::string& bible, const int book, const int chapter_number, std::string chapter_text);
+void store_chapter (const std::string& bible, int book, int chapter_number, std::string chapter_text);
 
-void update_search_fields (const std::string& bible, const int book, const int chapter);
+void update_search_fields (const std::string& bible, int book, int chapter);
 
 std::vector <int> get_books (const std::string& bible);
 
 void delete_book (const std::string& bible, int book);
 
-std::vector <int> get_chapters (const std::string& bible, const int book);
+std::vector <int> get_chapters (const std::string& bible, int book);
 
-void delete_chapter (const std::string& bible, const int book, const int chapter);
+void delete_chapter (const std::string& bible, int book, int chapter);
 
-std::string get_chapter (const std::string& bible, const int book, const int chapter);
+std::string get_chapter (const std::string& bible, int book, int chapter);
 
-int get_chapter_id (const std::string& bible, const int book, const int chapter);
+int get_chapter_id (const std::string& bible, int book, int chapter);
 
-int get_chapter_age (const std::string& bible, const int book, const int chapter);
+int get_chapter_age (const std::string& bible, int book, int chapter);
 
 void optimize ();
 

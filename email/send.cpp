@@ -17,28 +17,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <email/send.h>
-#include <email/index.h>
-#include <webserver/request.h>
 #include <database/logs.h>
 #include <database/mail.h>
 #include <database/users.h>
 #include <database/config/general.h>
-#include <filter/url.h>
-#include <filter/roles.h>
-#include <filter/string.h>
-#include <filter/md5.h>
+#include <email/index.h>
+#include <email/send.h>
 #include <filter/date.h>
 #include <filter/mail.h>
+#include <filter/md5.h>
+#include <filter/roles.h>
+#include <filter/string.h>
+#include <filter/url.h>
+#include <webserver/request.h>
 #ifdef HAVE_CLOUD
 #include <curl/curl.h>
 #endif
-#include <config/globals.h>
-#include <tasks/logic.h>
-#include <sync/mail.h>
-#include <sync/logic.h>
+#include <algorithm>
+#include <config.h>
+#include <iomanip>
+#include <mutex>
+#include <sstream>
+#include <string.h>
+#include <string>
+#include <utility>
+#include <vector>
 #include <client/logic.h>
+#include <config/globals.h>
 #include <locale/translate.h>
+#include <sync/logic.h>
+#include <sync/mail.h>
+#include <tasks/enums.h>
+#include <tasks/logic.h>
 
 
 namespace email {

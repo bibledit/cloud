@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
 enum class book_id;
 
 bool book_create (const std::string & bible, book_id book, int chapter, std::vector <std::string> & feedback);

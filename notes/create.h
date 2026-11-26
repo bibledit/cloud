@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <config/libraries.h>
-
+#include <string>
 class Webserver_Request;
 
 std::string notes_create_url ();

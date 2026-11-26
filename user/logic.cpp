@@ -17,21 +17,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <user/logic.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <filter/md5.h>
-#include <filter/date.h>
-#include <filter/roles.h>
+#include <ostream>
+#include <string>
+#include <database/login.h>
+#include <database/logs.h>
+#include <database/noteassignment.h>
+#include <database/privileges.h>
 #include <database/users.h>
 #include <database/config/user.h>
-#include <database/config/general.h>
-#include <database/logs.h>
-#include <database/privileges.h>
-#include <database/login.h>
-#include <database/noteassignment.h>
-#include <email/send.h>
+#include <filter/date.h>
+#include <filter/md5.h>
+#include <filter/roles.h>
 #include <ldap/logic.h>
+#include <user/logic.h>
 #include <webserver/request.h>
 
 

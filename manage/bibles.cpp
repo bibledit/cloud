@@ -17,23 +17,21 @@
  */
 
 
-#include <database/bibles.h>
-
-#include <manage/bibles.h>
-#include <assets/view.h>
-#include <assets/page.h>
-#include <assets/header.h>
-#include <filter/roles.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <filter/css.h>
-#include <webserver/request.h>
-#include <locale/translate.h>
-#include <database/privileges.h>
+#include <map>
+#include <optional>
+#include <string>
+#include <utility>
 #include <access/logic.h>
-#include <menu/logic.h>
-#include <manage/users.h>
+#include <assets/header.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <database/bibles.h>
+#include <database/privileges.h>
 #include <dialog/select.h>
+#include <filter/roles.h>
+#include <locale/translate.h>
+#include <manage/bibles.h>
+#include <webserver/request.h>
 
 
 std::string manage_bibles_url ()

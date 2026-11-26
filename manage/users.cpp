@@ -17,35 +17,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <manage/users.h>
-#include <assets/view.h>
-#include <assets/page.h>
+#include <iomanip>
+#include <map>
+#include <optional>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
+#include <access/user.h>
 #include <assets/header.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <config/logic.h>
+#include <database/bibles.h>
+#include <database/login.h>
+#include <database/privileges.h>
+#include <database/users.h>
 #include <dialog/entry.h>
 #include <dialog/select.h>
-#include <filter/roles.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <filter/date.h>
-#include <tasks/logic.h>
-#include <webserver/request.h>
-#include <journal/index.h>
-#include <database/config/general.h>
-#include <database/logs.h>
-#include <database/privileges.h>
-#include <database/login.h>
-#include <database/noteassignment.h>
-#include <access/user.h>
-#include <access/logic.h>
-#include <locale/translate.h>
-#include <notes/logic.h>
-#include <menu/logic.h>
-#include <session/switch.h>
-#include <ldap/logic.h>
-#include <user/logic.h>
 #include <dialog/yes.h>
-
-#include <database/bibles.h>
+#include <filter/roles.h>
+#include <filter/string.h>
+#include <filter/url.h>
+#include <ldap/logic.h>
+#include <locale/translate.h>
+#include <manage/users.h>
+#include <notes/logic.h>
+#include <session/logic.h>
+#include <session/switch.h>
+#include <user/logic.h>
+#include <webserver/request.h>
 
 
 std::string manage_users_url ()

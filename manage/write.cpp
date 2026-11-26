@@ -17,22 +17,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <manage/write.h>
-#include <assets/view.h>
-#include <assets/page.h>
+#include <map>
+#include <stddef.h>
+#include <string>
+#include <utility>
+#include <vector>
 #include <assets/header.h>
-#include <filter/roles.h>
-#include <filter/url.h>
-#include <filter/string.h>
-#include <webserver/request.h>
-#include <database/books.h>
-#include <database/temporal.h>
-#include <locale/translate.h>
-#include <menu/logic.h>
-#include <manage/users.h>
-#include <database/privileges.h>
-
+#include <assets/page.h>
+#include <assets/view.h>
 #include <database/bibles.h>
+#include <database/books.h>
+#include <database/privileges.h>
+#include <database/temporal.h>
+#include <filter/roles.h>
+#include <filter/string.h>
+#include <locale/translate.h>
+#include <manage/write.h>
+#include <webserver/request.h>
 
 
 std::string manage_write_url ()

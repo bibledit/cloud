@@ -17,26 +17,28 @@
  */
 
 
-#include <notes/bulk.h>
-#include <assets/view.h>
-#include <assets/page.h>
+#include <map>
+#include <ostream>
+#include <vector>
+#include <access/bible.h>
 #include <assets/header.h>
-#include <filter/roles.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <webserver/request.h>
-#include <locale/translate.h>
-#include <database/notes.h>
-#include <database/temporal.h>
+#include <assets/page.h>
+#include <assets/view.h>
 #include <database/logs.h>
 #include <database/noteassignment.h>
-#include <notes/logic.h>
-#include <access/bible.h>
-#include <ipc/focus.h>
-#include <notes/index.h>
+#include <database/notes.h>
+#include <database/temporal.h>
+#include <database/config/user.h>
 #include <dialog/yes.h>
-#include <trash/handler.h>
-#include <menu/logic.h>
+#include <filter/roles.h>
+#include <filter/string.h>
+#include <filter/string.hpp>
+#include <ipc/focus.h>
+#include <locale/translate.h>
+#include <notes/bulk.h>
+#include <notes/logic.h>
+#include <session/logic.h>
+#include <webserver/request.h>
 
 
 std::string notes_bulk_url ()

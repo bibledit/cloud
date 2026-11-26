@@ -17,14 +17,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <help/index.h>
-#include <assets/view.h>
+#include <vector>
+#include <assets/external.h>
+#include <assets/header.h>
 #include <assets/page.h>
+#include <assets/view.h>
+#include <config/logic.h>
 #include <filter/roles.h>
 #include <filter/url.h>
+#include <help/index.h>
 #include <locale/translate.h>
-#include <assets/header.h>
-#include <assets/external.h>
 
 
 std::string help_index_html (const std::string& url)

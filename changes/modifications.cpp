@@ -17,6 +17,7 @@
  */
 
 
+#include <config.h>
 #include <changes/modifications.h>
 #include <filter/string.h>
 #include <filter/url.h>

@@ -17,15 +17,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config.h>
+#include <map>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <config/logic.h>
 #include <confirm/worker.h>
 #include <database/confirm.h>
+#include <database/users.h>
 #include <email/send.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <locale/translate.h>
+#include <pugixml/include.h>
 #include <session/confirm.h>
 #include <webserver/request.h>
-#include <pugixml/include.h>
 
 
 #ifdef HAVE_CLOUD

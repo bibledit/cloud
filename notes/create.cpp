@@ -17,27 +17,29 @@
  */
 
 
-#include <notes/create.h>
-#include <assets/view.h>
-#include <assets/page.h>
+#include <map>
+#include <access/bible.h>
+#include <access/logic.h>
 #include <assets/header.h>
-#include <filter/roles.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <database/bibles.h>
+#include <database/modifications.h>
+#include <database/notes.h>
 #include <filter/string.h>
+#include <filter/text.h>
 #include <filter/url.h>
 #include <filter/usfm.h>
-#include <filter/text.h>
-#include <webserver/request.h>
-#include <locale/translate.h>
-#include <database/notes.h>
-#include <notes/logic.h>
-#include <access/bible.h>
 #include <ipc/focus.h>
+#include <locale/translate.h>
+#include <notes/create.h>
 #include <notes/index.h>
-#include <database/modifications.h>
-#include <menu/logic.h>
-#include <access/logic.h>
-
-#include <database/bibles.h>
+#include <notes/logic.h>
+#include <webserver/request.h>
+#include "database/config/user.h"
+#include "filter/passage.h"
+#include "styles/logic.h"
+#include "text/text.h"
 
 
 std::string notes_create_url ()

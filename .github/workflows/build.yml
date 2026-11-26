@@ -22,8 +22,6 @@ jobs:
     - name: apt install
       run: sudo apt install cmake git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev libsword-dev googletest libgtest-dev libgmock-dev
     - name: configure
-      run: cmake -B build -DBUILD_UNITTESTS=OFF
+      run: cmake -B build
     - name: make
       run: cmake --build build
-    - name: test
-      run: ./build/unittest

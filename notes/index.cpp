@@ -17,16 +17,19 @@
  */
 
 
-#include <notes/index.h>
-#include <assets/view.h>
-#include <assets/page.h>
-#include <assets/header.h>
-#include <filter/roles.h>
-#include <webserver/request.h>
-#include <locale/translate.h>
-#include <database/notes.h>
-#include <menu/logic.h>
+#include <map>
 #include <access/logic.h>
+#include <assets/header.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <config/logic.h>
+#include <database/notes.h>
+#include <database/config/user.h>
+#include <filter/roles.h>
+#include <locale/translate.h>
+#include <notes/index.h>
+#include <session/logic.h>
+#include <webserver/request.h>
 
 
 std::string notes_index_url ()

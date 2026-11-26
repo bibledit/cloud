@@ -17,22 +17,23 @@
  */
 
 
-#include <notes/edit.h>
-#include <assets/view.h>
-#include <assets/page.h>
+#include <map>
+#include <stddef.h>
+#include <vector>
 #include <assets/header.h>
+#include <assets/page.h>
+#include <assets/view.h>
+#include <database/notes.h>
+#include <filter/css.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <filter/css.h>
-#include <webserver/request.h>
 #include <locale/translate.h>
-#include <database/notes.h>
+#include <notes/edit.h>
 #include <notes/logic.h>
-#include <access/bible.h>
-#include <ipc/focus.h>
-#include <navigation/passage.h>
 #include <notes/note.h>
+#include <session/logic.h>
+#include <webserver/request.h>
 
 
 std::string notes_edit_url ()

@@ -37,6 +37,8 @@
 #include <locale/logic.h>
 #include <pugixml/include.h>
 
+#include <session/logic.h>
+
 
 std::string changes_change_url ()
 {
@@ -69,7 +71,7 @@ std::string changes_change (Webserver_Request& webserver_request)
   if (webserver_request.post_count ("unassign")) {
     std::string unassign = webserver_request.post_get("unassign");
     unassign.erase (0, 8);
-    notes_logic.unassignUser (filter::string::convert_to_int (unassign), webserver_request.session_logic ()->get_username ());
+    notes_logic.unassignUser (filter::string::convert_to_int (unassign), webserver_request.session_logic()->get_username());
     return std::string();
   }
   
@@ -86,8 +88,8 @@ std::string changes_change (Webserver_Request& webserver_request)
   
   // From here on the script will produce output.
   Assets_View view {};
-  const std::string& username {webserver_request.session_logic ()->get_username ()};
-  const int level {webserver_request.session_logic ()->get_level ()};
+  const std::string& username {webserver_request.session_logic()->get_username()};
+  const int level {webserver_request.session_logic()->get_level ()};
   
                       
   // The identifier of the change notification.

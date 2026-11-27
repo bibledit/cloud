@@ -34,7 +34,7 @@ std::string client_logic_link_to_cloud (std::string path, std::string linktext);
 std::string client_logic_usfm_resources_path ();
 void client_logic_usfm_resources_update ();
 std::vector <std::string> client_logic_usfm_resources_get ();
-std::string client_logic_get_username ();
+std::string client_logic_get_username();
 std::string client_logic_no_cache_resources_path ();
 void client_logic_no_cache_resource_add (std::string name);
 void client_logic_no_cache_resource_remove (std::string name);

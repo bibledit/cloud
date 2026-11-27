@@ -26,6 +26,8 @@
 #include <database/versifications.h>
 #include <access/logic.h>
 
+#include <database/config/user.h>
+
 
 std::string resource_get_url ()
 {
@@ -89,7 +91,7 @@ std::string resource_get (Webserver_Request& webserver_request)
   std::vector<std::string> bits;
 
   
-  std::string bible = webserver_request.database_config_user ()->get_bible ();
+  std::string bible = webserver_request.database_config_user()->get_bible ();
   std::string versification = database::config::bible::get_versification_system (bible);
   Database_Versifications database_versifications;
   std::vector <int> chapters = database_versifications.getChapters (versification, book);
@@ -97,9 +99,9 @@ std::string resource_get (Webserver_Request& webserver_request)
   
   // Whether to add extra verse numbers, for clarity in case of viewing more than one verse.
   bool add_verse_numbers = false;
-  int context_before = webserver_request.database_config_user ()->get_resource_verses_before ();
+  int context_before = webserver_request.database_config_user()->get_resource_verses_before ();
   if (context_before) add_verse_numbers = true;
-  int context_after = webserver_request.database_config_user ()->get_resource_verses_after ();
+  int context_after = webserver_request.database_config_user()->get_resource_verses_after ();
   if (context_after) add_verse_numbers = true;
   
   

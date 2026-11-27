@@ -27,14 +27,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ipc/focus.h>
 #include <filter/string.h>
 
+#include "database/users.h"
+#include <session/logic.h>
 
-TEST (ipc, basic)
+
+TEST(ipc, basic)
 {
   // Initialize.
   refresh_sandbox (false);
   Webserver_Request webserver_request;
   database::users::create();
-  webserver_request.session_logic ()->set_username ("phpunit");
+  webserver_request.session_logic()->set_username ("phpunit");
   
   // There should be no note identifier.
   int identifier = ipc_notes::get (webserver_request);
@@ -129,7 +132,7 @@ TEST (database, ipc)
     Webserver_Request webserver_request;
 
     std::string user = "phpunit";
-    webserver_request.session_logic ()->set_username (user);
+    webserver_request.session_logic()->set_username (user);
     std::string channel = "channel";
     std::string command = "opennote";
 
@@ -154,7 +157,7 @@ TEST (database, ipc)
     Webserver_Request webserver_request;
 
     std::string user = "phpunit";
-    webserver_request.session_logic ()->set_username (user);
+    webserver_request.session_logic()->set_username (user);
     std::string channel = "channel";
     std::string command = "notesalive";
     

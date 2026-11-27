@@ -36,8 +36,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/logic.h>
 #include <sync/logic.h>
 
+#include "database/users.h"
+#include <database/config/user.h>
+#include <session/logic.h>
 
-TEST (notes, database_noteactions)
+
+TEST(notes, database_noteactions)
 {
 
   // Basic tests: create / clear / optimize.

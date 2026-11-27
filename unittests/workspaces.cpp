@@ -24,6 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <workspace/logic.h>
 
+#include "database/users.h"
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 class workspaces : public testing::Test
 {

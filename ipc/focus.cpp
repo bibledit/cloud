@@ -22,6 +22,8 @@
 #include <database/cache.h>
 #include <filter/string.h>
 
+#include <database/config/user.h>
+
 
 namespace ipc_focus {
 

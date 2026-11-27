@@ -52,6 +52,7 @@
 
 #include <database/bibles.h>
 #include "database/styles.h"
+#include "database/users.h"
 
 
 void setup_conditionally (const char * package)

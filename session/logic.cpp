@@ -192,7 +192,7 @@ bool Session_Logic::get_logged_in ()
 }
 
 
-const std::string& Session_Logic::get_username () const
+const std::string& Session_Logic::get_username() const
 {
   return m_username;
 }

@@ -41,6 +41,9 @@
 #include <bb/logic.h>
 #include <notes/logic.h>
 
+#include "database/users.h"
+#include <session/logic.h>
+
 
 int sendreceive_notes_watchdog = 0;
 
@@ -121,7 +124,7 @@ bool sendreceive_notes_upload ()
     return false;
   }
   std::string user = users [0];
-  webserver_request.session_logic ()->set_username (user);
+  webserver_request.session_logic()->set_username (user);
   
   
   // The basic request to be POSTed to the server.
@@ -343,7 +346,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     return false;
   }
   std::string user = users [0];
-  webserver_request.session_logic ()->set_username (user);
+  webserver_request.session_logic()->set_username (user);
   std::string password = database::users::get_md5 (user);
 
   

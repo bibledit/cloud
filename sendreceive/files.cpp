@@ -36,6 +36,8 @@
 #include <database/config/general.h>
 #include <database/privileges.h>
 
+#include "database/users.h"
+
 
 int sendreceive_files_watchdog {0};
 

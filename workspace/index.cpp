@@ -32,6 +32,8 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 
+#include <database/config/user.h>
+
 
 std::string workspace_index_url()
 {

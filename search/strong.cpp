@@ -33,6 +33,8 @@
 #include <menu/logic.h>
 #include <access/bible.h>
 
+#include <database/config/user.h>
+
 
 std::string search_strong_url ()
 {

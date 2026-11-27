@@ -24,6 +24,8 @@
 #include <user/logic.h>
 #include <webserver/request.h>
 
+#include "database/users.h"
+
 
 std::string sync_setup_url ()
 {

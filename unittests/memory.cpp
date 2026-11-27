@@ -45,6 +45,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/onlinebible.h>
 #include <sword/logic.h>
 
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 bool test_memory_run = false;
 uint64_t max_memory_usage = 0;
@@ -118,11 +121,11 @@ TEST (DISABLED_memory, basic)
     database::login::create ();
     demo_create_sample_bible ();
     Webserver_Request request;
-    request.session_logic ()->set_username (session_admin_credentials ());
-    request.database_config_user ()->set_generate_change_notifications (true);
-    request.database_config_user ()->set_user_changes_notification (true);
-    request.database_config_user ()->set_user_changes_notifications_online (true);
-    request.database_config_user ()->set_contributor_changes_notifications_online (true);
+    request.session_logic()->set_username (session_admin_credentials ());
+    request.database_config_user()->set_generate_change_notifications (true);
+    request.database_config_user()->set_user_changes_notification (true);
+    request.database_config_user()->set_user_changes_notifications_online (true);
+    request.database_config_user()->set_contributor_changes_notifications_online (true);
     std::string bible = demo_sample_bible_name ();
     for (int book = 1; book <= 1; book++) {
       for (int chapter = 1; chapter <= 1; chapter++) {

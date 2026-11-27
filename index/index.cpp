@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/index.h>
 #include <webserver/request.h>
 #include <workspace/index.h>
+#include <database/config/user.h>
 
 
 const char* index_index_url()

@@ -23,6 +23,8 @@
 #include <navigation/update.h>
 #include <webserver/request.h>
 
+#include <database/config/user.h>
+
 
 std::string navigation_update_url ()
 {

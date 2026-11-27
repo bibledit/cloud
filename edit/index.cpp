@@ -42,6 +42,8 @@
 
 #include <database/bibles.h>
 
+#include <database/config/user.h>
+
 
 std::string edit_index_url ()
 {
@@ -137,7 +139,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   script_stream << "var editorChapterSaved = " << std::quoted(locale_logic_text_saved ()) << ";\n";
   script_stream << "var editorChapterRetrying = " << std::quoted(locale_logic_text_retrying ()) << ";\n";
   script_stream << "var editorChapterVerseUpdatedLoaded = " << std::quoted(locale_logic_text_reload ()) << ";\n";
-  script_stream << "var verticalCaretPosition = " << webserver_request.database_config_user ()->get_vertical_caret_position () << ";\n";
+  script_stream << "var verticalCaretPosition = " << webserver_request.database_config_user()->get_vertical_caret_position () << ";\n";
   script_stream << "var verseSeparator = " << std::quoted(database::config::general::get_notes_verse_separator ()) << ";\n";
   std::string script = script_stream.str();
   config::logic::swipe_enabled (webserver_request, script);
@@ -146,7 +148,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   
   const std::string clss = filter::css::get_class (bible);
   const std::string font = fonts::logic::get_text_font (bible);
-  const int current_theme_index = webserver_request.database_config_user ()->get_current_theme ();
+  const int current_theme_index = webserver_request.database_config_user()->get_current_theme ();
   const int direction = database::config::bible::get_text_direction (bible);
   const int lineheight = database::config::bible::get_line_height (bible);
   const int letterspacing = database::config::bible::get_letter_spacing (bible);
@@ -168,19 +170,19 @@ std::string edit_index (Webserver_Request& webserver_request)
   
   
   // Whether to enable fast Bible editor switching.
-  if (!basic_mode && webserver_request.database_config_user ()->get_fast_editor_switching_available ()) {
+  if (!basic_mode && webserver_request.database_config_user()->get_fast_editor_switching_available ()) {
     view.enable_zone ("fastswitcheditor");
   }
 
   
   // Whether to enable the styles button.
-  if (webserver_request.database_config_user ()->get_enable_styles_button_visual_editors ()) {
+  if (webserver_request.database_config_user()->get_enable_styles_button_visual_editors ()) {
     view.enable_zone ("stylesbutton");
   }
   
   
   // Whether to enable spell check.
-  view.set_variable ("spellcheck", filter::string::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
+  view.set_variable ("spellcheck", filter::string::convert_to_true_false(webserver_request.database_config_user()->get_enable_spell_check()));
 
   
   page.append (view.render ("edit", "index"));

@@ -35,6 +35,8 @@
 #include <resource/logic.h>
 #include <menu/logic.h>
 
+#include <database/config/user.h>
+
 
 std::string consistency_index_url()
 {

@@ -40,6 +40,8 @@
 #include <bb/logic.h>
 #include <sendreceive/logic.h>
 
+#include <session/logic.h>
+
 
 std::string sync_bibles_url ()
 {
@@ -63,7 +65,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, c
   std::string checksum = webserver_request.post_get("s");
 
   
-  const std::string& username = webserver_request.session_logic ()->get_username ();
+  const std::string& username = webserver_request.session_logic()->get_username();
   std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   
   
@@ -178,7 +180,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
       // checks which Bibles this user has access to,
       // calculate the checksum of all chapters in those Bibles,
       // and returns this checksum to the client.
-      const std::string& username = webserver_request.session_logic ()->get_username ();
+      const std::string& username = webserver_request.session_logic()->get_username();
       std::vector <std::string> bibles = access_bible::bibles (webserver_request, username);
       std::string server_checksum = checksum_logic::get_bibles (bibles);
       return server_checksum;
@@ -187,7 +189,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
     {
       // The server reads the credentials from the client's user,
       // and responds with a list of Bibles this user has access to.
-      const std::string& username = webserver_request.session_logic ()->get_username ();
+      const std::string& username = webserver_request.session_logic()->get_username();
       std::vector <std::string> bibles = access_bible::bibles (webserver_request, username);
       std::string checksum = checksum_logic::get (bibles);
       std::string s_bibles = filter::string::implode (bibles, "\n");

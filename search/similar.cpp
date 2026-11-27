@@ -33,6 +33,8 @@
 #include <menu/logic.h>
 #include <access/bible.h>
 
+#include <database/config/user.h>
+
 
 std::string search_similar_url ()
 {
@@ -55,7 +57,7 @@ std::string search_similar (Webserver_Request& webserver_request)
   
   
   std::string bible = webserver_request.database_config_user()->get_bible ();
-  if (webserver_request.query.count ("b")) {
+  if (webserver_request.query.contains ("b")) {
     bible = webserver_request.query ["b"];
   }
 

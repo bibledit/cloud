@@ -39,6 +39,9 @@
 #include <bb/logic.h>
 #include <notes/logic.h>
 
+#include "database/users.h"
+#include <session/logic.h>
+
 
 std::string sync_notes_url ()
 {
@@ -93,7 +96,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
       return std::string();
     }
   }
-  webserver_request.session_logic ()->set_username (user);
+  webserver_request.session_logic()->set_username (user);
   
   
   // Note lower and upper limits.

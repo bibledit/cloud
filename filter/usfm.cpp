@@ -30,9 +30,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 #include <locale/translate.h>
 #include <developer/logic.h>
-
 #include <database/bibles.h>
 #include <pugixml/include.h>
+#include <database/config/user.h>
+
+#include <session/logic.h>
 
 
 namespace filter::usfm {
@@ -675,9 +677,9 @@ std::string save_is_safe (Webserver_Request& webserver_request,
   // Allowed percentage difference.
   int allowed_percentage = 0;
   if (chapter)
-    allowed_percentage = webserver_request.database_config_user ()->get_editing_allowed_difference_chapter ();
+    allowed_percentage = webserver_request.database_config_user()->get_editing_allowed_difference_chapter ();
   else
-    allowed_percentage = webserver_request.database_config_user ()->get_editing_allowed_difference_verse ();
+    allowed_percentage = webserver_request.database_config_user()->get_editing_allowed_difference_verse ();
 
   // When the verse editor has an empty verse, it should allow for 100% change.
   // Same for the chapter editor, if it has empty verses, allow for a 100% change.
@@ -765,7 +767,7 @@ std::string safely_store_chapter (Webserver_Request& webserver_request,
   if (!message.empty ()) return message;
 
   // Record the change in the journal.
-  const std::string& user = webserver_request.session_logic ()->get_username ();
+  const std::string& user = webserver_request.session_logic()->get_username();
   bible_logic::log_change (bible, book, chapter, usfm, user, translate ("Saving chapter"), false);
   
   // Safety checks have passed: Save chapter.
@@ -890,7 +892,7 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   }
 
   // Record the change in the journal.
-  const std::string& user = webserver_request.session_logic ()->get_username ();
+  const std::string& user = webserver_request.session_logic()->get_username();
   bible_logic::log_change (bible, book, chapter, chapter_usfm, user, translate ("Saving verse"), false);
   
   // Safety checks have passed: Save chapter.

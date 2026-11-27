@@ -17,6 +17,8 @@
  */
 
 
+#include <session/logic.h>
+
 #include <database/books.h>
 #include <database/logs.h>
 #include <developer/logic.h>

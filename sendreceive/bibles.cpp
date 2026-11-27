@@ -41,6 +41,9 @@
 #include <bb/logic.h>
 #include <demo/logic.h>
 
+#include "database/users.h"
+#include <session/logic.h>
+
 
 int sendreceive_bibles_watchdog {0};
 
@@ -108,7 +111,7 @@ void sendreceive_bibles ()
     return;
   }
   std::string user = users [0];
-  webserver_request.session_logic ()->set_username (user);
+  webserver_request.session_logic()->set_username (user);
   std::string password = database::users::get_md5 (user);
   
   

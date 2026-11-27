@@ -32,6 +32,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <config/logic.h>
 
+#include "database/users.h"
+#include <session/logic.h>
+
 
 const char * public_login_url ()
 {
@@ -116,18 +119,18 @@ std::string public_login (Webserver_Request& webserver_request)
       // For public login, the password is taken to be the same as the username.
       if (webserver_request.session_logic()->attempt_login (name, name, touch_enabled)) {
         // Log the login.
-        database::logs::log ("User", webserver_request.session_logic ()->get_username(), "logged in");
+        database::logs::log ("User", webserver_request.session_logic()->get_username(), "logged in");
       } else {
         // Add a new user and login.
         database::users::add_user(name, name, roles::guest, email);
         webserver_request.session_logic()->attempt_login (name, name, touch_enabled);
-        database::logs::log ("Public account created for user", webserver_request.session_logic ()->get_username (), "with email", email);
+        database::logs::log ("Public account created for user", webserver_request.session_logic()->get_username(), "with email", email);
       }
     }
   }
 
 
-  if (webserver_request.session_logic ()->get_logged_in ()) {
+  if (webserver_request.session_logic()->get_logged_in ()) {
     redirect_browser (webserver_request, public_index_url ());
     return std::string();
   }

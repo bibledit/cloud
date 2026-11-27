@@ -34,6 +34,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <user/logic.h>
 
+#include "logic.h"
+
 
 struct Verification
 {
@@ -54,7 +56,7 @@ bool session_confirm_acl (Webserver_Request& webserver_request)
   // Find the level of the user.
   // This confirmation page only allows access if the user is not yet logged in.
   // Such a situation produces level 1, that is the guest level.
-  int level = webserver_request.session_logic ()->get_level ();
+  int level = webserver_request.session_logic()->get_level ();
   return (level == roles::guest);
 }
 
@@ -72,7 +74,7 @@ std::string session_confirm ([[maybe_unused]] Webserver_Request& webserver_reque
     // Authenticate against local database, but skipping some checks.
     if (webserver_request.session_logic()->attempt_login (email, std::string(), true, true)) {
       // Log the login.
-      database::logs::log (webserver_request.session_logic ()->get_username (), "confirmed account and logged in");
+      database::logs::log (webserver_request.session_logic()->get_username(), "confirmed account and logged in");
       // Store web site's base URL.
       const std::string site_url = get_base_url (webserver_request);
       database::config::general::set_site_url (site_url);

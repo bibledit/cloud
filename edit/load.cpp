@@ -33,6 +33,8 @@
 
 #include <database/bibles.h>
 
+#include <session/logic.h>
+
 
 std::string edit_load_url ()
 {
@@ -77,7 +79,7 @@ std::string edit_load (Webserver_Request& webserver_request)
     html = filter::string::replace (search, replace, html);
   }
   
-  const std::string& user = webserver_request.session_logic ()->get_username ();
+  const std::string& user = webserver_request.session_logic()->get_username();
   const bool write = access_bible::book_write (webserver_request, user, bible, book);
   
   return checksum_logic::send (html, write);

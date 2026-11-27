@@ -35,6 +35,8 @@
 #include <navigation/passage.h>
 #include <webserver/request.h>
 
+#include <database/config/user.h>
+
 
 std::string editone_index_url()
 {

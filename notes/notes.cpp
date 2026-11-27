@@ -34,6 +34,9 @@
 
 #include <database/bibles.h>
 
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 std::string notes_notes_url ()
 {
@@ -75,14 +78,14 @@ std::string notes_notes (Webserver_Request& webserver_request)
   // The Bibles the current user has access to or else the Bible selector.
   std::vector<std::string> bibles{};
   if (bible_selector.empty())
-    bibles = access_bible::bibles (webserver_request, webserver_request.session_logic ()->get_username ());
+    bibles = access_bible::bibles (webserver_request, webserver_request.session_logic()->get_username());
   else
     bibles = {webserver_request.database_config_user()->get_consultation_notes_bible_selector()};
   
   
   // The admin disables notes selection on Bibles,
   // so the admin sees all notes, including notes referring to non-existing Bibles.
-  if (webserver_request.session_logic ()->get_level () == roles::admin) bibles.clear ();
+  if (webserver_request.session_logic()->get_level () == roles::admin) bibles.clear ();
   
   
   Database_Notes::Selector selector {
@@ -122,9 +125,9 @@ std::string notes_notes (Webserver_Request& webserver_request)
   }
 
 
-  const bool show_bible_in_notes_list = webserver_request.database_config_user ()->get_show_bible_in_notes_list ();
-  const bool show_note_status = webserver_request.database_config_user ()->get_show_note_status ();
-  const bool color_note_status = webserver_request.database_config_user ()->get_use_colored_note_status_labels ();
+  const bool show_bible_in_notes_list = webserver_request.database_config_user()->get_show_bible_in_notes_list ();
+  const bool show_note_status = webserver_request.database_config_user()->get_show_note_status ();
+  const bool color_note_status = webserver_request.database_config_user()->get_use_colored_note_status_labels ();
   std::stringstream notesblock;
   for (auto & identifier : identifiers) {
 

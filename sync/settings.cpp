@@ -31,6 +31,8 @@
 #include <webserver/request.h>
 #include <sync/logic.h>
 
+#include <database/config/user.h>
+
 
 std::string sync_settings_url ()
 {

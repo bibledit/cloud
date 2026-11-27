@@ -17,6 +17,8 @@
  */
 
 
+#include <session/logic.h>
+
 #include <consistency/index.h>
 #include <database/logs.h>
 #include <edit/index.h>
@@ -31,6 +33,8 @@
 #include <sync/logic.h>
 #include <webserver/request.h>
 #include <workspace/logic.h>
+
+#include <database/config/user.h>
 
 
 std::vector<std::string> workspace_get_default_names()

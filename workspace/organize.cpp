@@ -32,6 +32,10 @@
 #include <menu/logic.h>
 #include <pugixml/include.h>
 
+#include "database/users.h"
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 std::string workspace_organize_url()
 {

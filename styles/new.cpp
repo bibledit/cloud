@@ -29,6 +29,7 @@
 #include <styles/sheets.h>
 #include <assets/header.h>
 #include "database/styles.h"
+#include <session/logic.h>
 
 
 std::string styles_new_url()

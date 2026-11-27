@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <database/logs.h>
 #include <filter/date.h>
+#include <session/logic.h>
 
 
 // Handles mail sent from Bibledit to the users.
@@ -105,7 +106,7 @@ void Database_Mail::send (std::string to, std::string subject, std::string body,
 // Get number of mails for the current user.
 int Database_Mail::getMailCount ()
 {
-  const std::string& user = m_webserver_request.session_logic ()->get_username();
+  const std::string& user = m_webserver_request.session_logic()->get_username();
   SqliteDatabase sql (mail);
   sql.add ("SELECT count(*) FROM mail WHERE username =");
   sql.add (user);
@@ -122,7 +123,7 @@ int Database_Mail::getMailCount ()
 std::vector <Database_Mail_User> Database_Mail::getMails ()
 {
   std::vector <Database_Mail_User> mails;
-  const std::string& user = m_webserver_request.session_logic ()->get_username();
+  const std::string& user = m_webserver_request.session_logic()->get_username();
   SqliteDatabase sql (mail);
   sql.add ("SELECT rowid, timestamp, subject FROM mail WHERE username =");
   sql.add (user);

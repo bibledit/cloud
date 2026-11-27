@@ -29,6 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <bb/logic.h>
 
+#include <database/config/user.h>
+
 
 static constexpr const char* bible {"bible"};
 
@@ -398,7 +400,7 @@ TEST (bibles, safely_store_verse_with_too_large_content_difference)
   Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (40);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (40);
     const std::string data = "\\v 2 vERSE TWO TWO two two two two.\n";
     std::string explanation;
     const std::string stored = filter::usfm::safely_store_verse (webserver_request, bible, 1, 1, 2, data, explanation, false);
@@ -409,7 +411,7 @@ TEST (bibles, safely_store_verse_with_too_large_content_difference)
   }
   {
     test_store_bible_data_safely_setup (usfm_separate);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (40);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (40);
     const std::string data = "\\v 2 vERSE TWO TWO two two two two.\n";
     std::string explanation;
     const std::string stored = filter::usfm::safely_store_verse (webserver_request, bible, 1, 1, 2, data, explanation, true);
@@ -427,7 +429,7 @@ TEST (bibles, safely_store_usfm_without_verse_to_verse_2_fails)
   Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (40);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (40);
     const std::string data = "\\p Verse 2.\n";
     std::string explanation;
     constexpr const auto quill {false};
@@ -439,7 +441,7 @@ TEST (bibles, safely_store_usfm_without_verse_to_verse_2_fails)
   }
   {
     test_store_bible_data_safely_setup (usfm_separate);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (40);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (40);
     const std::string data = "\\p Verse 2.\n";
     std::string explanation;
     constexpr const auto quill {true};
@@ -458,7 +460,7 @@ TEST (bibles, safely_store_usfm_with_two_verses_fails)
   Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (40);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (40);
     const std::string data = "\\v 2 Verse 2.\n\\v 3 3";
     std::string explanation;
     constexpr const auto quill {false};
@@ -470,7 +472,7 @@ TEST (bibles, safely_store_usfm_with_two_verses_fails)
   }
   {
     test_store_bible_data_safely_setup (usfm_separate);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (40);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (40);
     const std::string data = "\\v 2 Verse 2.\n\\v 3 3";
     std::string explanation;
     constexpr const auto quill {true};
@@ -494,7 +496,7 @@ TEST (bibles, safely_store_usfm_with_invalid_chapter_fails)
   
   {
     test_store_bible_data_safely_setup (usfm_separate);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (100);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (100);
     constexpr const auto data =
     R"(\c 1)" "\n"
     R"(\p)" "\n"
@@ -511,7 +513,7 @@ TEST (bibles, safely_store_usfm_with_invalid_chapter_fails)
 
   {
     test_store_bible_data_safely_setup (usfm_separate);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (100);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (100);
     constexpr const auto data =
     R"(\c 2)" "\n"
     R"(\p)"
@@ -527,7 +529,7 @@ TEST (bibles, safely_store_usfm_with_invalid_chapter_fails)
 
   {
     test_store_bible_data_safely_setup (usfm_separate);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (100);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (100);
     constexpr const auto data =
     R"(\c 1)" "\n"
     R"(\p)" "\n"
@@ -545,7 +547,7 @@ TEST (bibles, safely_store_usfm_with_invalid_chapter_fails)
 
   {
     test_store_bible_data_safely_setup (usfm_separate);
-    webserver_request.database_config_user ()->set_editing_allowed_difference_verse (100);
+    webserver_request.database_config_user()->set_editing_allowed_difference_verse (100);
     constexpr const auto data =
     R"(\c 1)" "\n"
     R"(\p)" "\n"

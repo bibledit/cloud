@@ -43,6 +43,8 @@
 #include <sendreceive/logic.h>
 #include <database/bibles.h>
 
+#include <session/logic.h>
+
 
 std::string edit_update_url ()
 {
@@ -156,7 +158,7 @@ std::string edit_update (Webserver_Request& webserver_request)
 
   
   // Collect some data about the changes for this user.
-  const std::string& username = webserver_request.session_logic ()->get_username ();
+  const std::string& username = webserver_request.session_logic()->get_username();
 #ifdef HAVE_CLOUD
   int old_id = 0;
   if (good2go) {

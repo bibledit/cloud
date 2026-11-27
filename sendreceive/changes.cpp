@@ -34,6 +34,10 @@
 #include <sync/changes.h>
 #include <checksum/logic.h>
 
+#include "database/users.h"
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 int sendreceive_changes_watchdog {0};
 
@@ -108,7 +112,7 @@ void sendreceive_changes ()
     return;
   }
   std::string user = users [0];
-  webserver_request.session_logic ()->set_username (user);
+  webserver_request.session_logic()->set_username (user);
   std::string password = database::users::get_md5 (user);
   
   
@@ -132,7 +136,7 @@ void sendreceive_changes ()
   
   
   // Send the removed change notifications to the server.
-  std::vector <int> ids = webserver_request.database_config_user ()->get_removed_changes ();
+  std::vector <int> ids = webserver_request.database_config_user()->get_removed_changes ();
   if (!ids.empty ()) database::logs::log<roles::translator> (sendreceive_changes_text(), "Sending removed notifications:", ids.size());
   for (auto & id : ids) {
     post ["a"] = std::to_string (Sync_Logic::changes_delete_modification);
@@ -143,7 +147,7 @@ void sendreceive_changes ()
       database::logs::log<roles::translator> (sendreceive_changes_text(), "Failure sending removed notification:", error);
     }
     else {
-      webserver_request.database_config_user ()->remove_removed_change (id);
+      webserver_request.database_config_user()->remove_removed_change (id);
     }
   }
   
@@ -158,10 +162,10 @@ void sendreceive_changes ()
   // Compare the total checksum for the change notifications for the active user on client and server.
   // Checksum is cached for future re-use.
   // Take actions based on that.
-  std::string client_checksum = webserver_request.database_config_user ()->get_change_notifications_checksum ();
+  std::string client_checksum = webserver_request.database_config_user()->get_change_notifications_checksum ();
   if (client_checksum.empty ()) {
     client_checksum = Sync_Logic::changes_checksum (user);
-    webserver_request.database_config_user ()->set_change_notifications_checksum (client_checksum);
+    webserver_request.database_config_user()->set_change_notifications_checksum (client_checksum);
   }
   std::string server_checksum;
   post ["a"] = std::to_string (Sync_Logic::changes_get_checksum);
@@ -201,7 +205,7 @@ void sendreceive_changes ()
   std::vector <int> remove_identifiers = filter::string::array_diff (client_identifiers, server_identifiers);
   for (auto & id : remove_identifiers) {
     database::modifications::deleteNotification (id);
-    webserver_request.database_config_user ()->set_change_notifications_checksum ("");
+    webserver_request.database_config_user()->set_change_notifications_checksum ("");
     database::logs::log<roles::translator> (sendreceive_changes_text(), "Removing notification:", id);
   }
 
@@ -261,7 +265,7 @@ void sendreceive_changes ()
         lines.erase (lines.begin ());
       }
       database::modifications::storeClientNotification (id, user, category, bible, book, chapter, verse, oldtext, modification, newtext);
-      webserver_request.database_config_user ()->set_change_notifications_checksum ("");
+      webserver_request.database_config_user()->set_change_notifications_checksum ("");
     }
   }
   

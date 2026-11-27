@@ -47,6 +47,9 @@
 #include <sendreceive/logic.h>
 #include <database/bibles.h>
 
+#include "database/users.h"
+#include <database/config/user.h>
+
 
 void checks_run (std::string bible)
 {

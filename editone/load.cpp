@@ -32,6 +32,8 @@
 
 #include <database/bibles.h>
 
+#include <session/logic.h>
+
 
 std::string editone_load_url ()
 {
@@ -115,7 +117,7 @@ std::string editone_load (Webserver_Request& webserver_request)
   data.append ("#_be_#");
   data.append (suffix_html);
   
-  const std::string& user = webserver_request.session_logic ()->get_username ();
+  const std::string& user = webserver_request.session_logic()->get_username();
   const bool write = access_bible::book_write (webserver_request, user, bible, book);
   data = checksum_logic::send (data, write);
 

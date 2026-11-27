@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <index/index.h>
+#include <session/logic.h>
 
 
 const char * session_logout_url ()
@@ -37,7 +38,7 @@ bool session_logout_acl (Webserver_Request& webserver_request)
 
 std::string session_logout (Webserver_Request& webserver_request)
 {
-  webserver_request.session_logic ()->logout ();
+  webserver_request.session_logic()->logout ();
   redirect_browser (webserver_request, index_index_url ());
   return std::string();
 }

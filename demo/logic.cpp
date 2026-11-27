@@ -17,7 +17,7 @@
  */
 
 
-#include "session/logic.h"
+#include <session/logic.h>
 #include <bb/logic.h>
 #include <client/logic.h>
 #include <database/books.h>
@@ -48,6 +48,8 @@
 
 #include <database/bibles.h>
 #include "database/styles.h"
+#include "database/users.h"
+#include <database/config/user.h>
 
 
 /*
@@ -119,7 +121,7 @@ void demo_clean_data ()
   // Set the username to the demo credentials (admin).
   // This is the user who is always logged-in in a demo installation.
   const auto webserver_request_set_admin_user = [&] {
-    webserver_request.session_logic ()->set_username (session_admin_credentials ());
+    webserver_request.session_logic()->set_username (session_admin_credentials ());
   };
   webserver_request_set_admin_user();
   
@@ -208,7 +210,7 @@ void demo_clean_data ()
   
   
   // No flipped basic <> advanded mode.
-  webserver_request.database_config_user ()->set_basic_interface_mode(false);
+  webserver_request.database_config_user()->set_basic_interface_mode(false);
 }
 
 

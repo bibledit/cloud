@@ -22,6 +22,8 @@
 #include <webserver/request.h>
 #include <database/ipc.h>
 
+#include <session/logic.h>
+
 
 // Deals with the consultation notes stuff.
 

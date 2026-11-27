@@ -31,6 +31,8 @@
 #include <assets/view.h>
 #include <access/bible.h>
 
+#include <database/config/user.h>
+
 
 std::string edit_edit_url ()
 {

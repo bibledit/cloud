@@ -35,6 +35,10 @@
 #include <sync/settings.h>
 #include <user/logic.h>
 
+#include "database/users.h"
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 int sendreceive_settings_watchdog = 0;
 
@@ -98,7 +102,7 @@ void sendreceive_settings ()
     return;
   }
   std::string user = users [0];
-  webserver_request.session_logic ()->set_username (user);
+  webserver_request.session_logic()->set_username (user);
   
   std::string address = database::config::general::get_server_address ();
   int port = database::config::general::get_server_port ();

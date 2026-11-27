@@ -32,6 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ldap/logic.h>
 #include <user/logic.h>
 
+#include "logic.h"
+
 
 const char * session_login_url ()
 {
@@ -92,7 +94,7 @@ std::string session_login (Webserver_Request& webserver_request)
       // Authenticate against local database.
       if (webserver_request.session_logic()->attempt_login (user, pass, touch_enabled)) {
         // Log the login.
-        database::logs::log (webserver_request.session_logic ()->get_username (), "logged in");
+        database::logs::log (webserver_request.session_logic()->get_username(), "logged in");
         // Store web site's base URL.
         const std::string site_url = get_base_url (webserver_request);
         database::config::general::set_site_url (site_url);
@@ -122,7 +124,7 @@ std::string session_login (Webserver_Request& webserver_request)
 
   const std::string forward = webserver_request.query ["request"];
   
-  if (webserver_request.session_logic ()->get_logged_in ()) {
+  if (webserver_request.session_logic()->get_logged_in ()) {
     if (!forward.empty()) {
       // After login, the user is forwarded to the originally requested URL, if any.
       redirect_browser (webserver_request, forward);

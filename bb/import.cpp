@@ -32,6 +32,8 @@
 #include <assets/external.h>
 #include <journal/logic.h>
 
+#include <database/config/user.h>
+
 
 std::string bible_import_url()
 {

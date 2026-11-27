@@ -31,6 +31,7 @@
 #include <styles/sheets.h>
 #include <webserver/request.h>
 #include "database/styles.h"
+#include <session/logic.h>
 
 
 std::string styles_indexm_url()

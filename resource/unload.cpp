@@ -24,6 +24,8 @@
 #include <access/logic.h>
 #include <config/globals.h>
 
+#include <session/logic.h>
+
 
 std::string resource_unload_url ()
 {
@@ -45,7 +47,7 @@ std::string resource_unload (Webserver_Request& webserver_request)
   if (position > 5000) position = 5000;
   // Store the position in volatile memory so it gets retained while the app is on,
   // and gets reset after app startup.
-  const std::string& username = webserver_request.session_logic ()->get_username ();
+  const std::string& username = webserver_request.session_logic()->get_username();
   config_globals_resource_window_positions [username] = position;
   return std::string();
 }

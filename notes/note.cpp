@@ -35,6 +35,9 @@
 #include <notes/index.h>
 #include <access/logic.h>
 
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 std::string notes_note_url ()
 {
@@ -108,14 +111,14 @@ std::string notes_note (Webserver_Request& webserver_request)
   view.set_variable ("summary", summary);
 
   
-  bool show_note_status = webserver_request.database_config_user ()->get_show_note_status ();
+  bool show_note_status = webserver_request.database_config_user()->get_show_note_status ();
   if (show_note_status) {
     std::string status = database_notes.get_status (id);
     view.set_variable ("status", status);
   }
   
   
-  if (webserver_request.session_logic ()->get_level () >= roles::translator) {
+  if (webserver_request.session_logic()->get_level () >= roles::translator) {
     view.enable_zone ("editlevel");
   }
   
@@ -131,7 +134,7 @@ std::string notes_note (Webserver_Request& webserver_request)
   view.set_variable ("brs", filter_html_android_brs ());
   
 
-  if (webserver_request.database_config_user ()->get_quick_note_edit_link ()) {
+  if (webserver_request.database_config_user()->get_quick_note_edit_link ()) {
     view.enable_zone ("editcontent");
   }
     

@@ -19,12 +19,16 @@
 
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
+#include "database/users.h"
+
 #include <gtest/gtest.h>
 #include <unittests/utilities.h>
 #include <webserver/request.h>
 #include <filter/string.h>
 #include <filter/roles.h>
 #include <filter/md5.h>
+
+#include <session/logic.h>
 
 
 // Tests for a user's identifier.

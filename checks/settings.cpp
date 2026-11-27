@@ -38,6 +38,8 @@
 #include <menu/logic.h>
 #include <journal/logic.h>
 
+#include <database/config/user.h>
+
 
 std::string checks_settings_url ()
 {

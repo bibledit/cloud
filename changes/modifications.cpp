@@ -46,6 +46,9 @@
 
 #include <database/bibles.h>
 
+#include "database/users.h"
+#include <database/config/user.h>
+
 
 // Helper function.
 // $user: The user whose changes are being processed.
@@ -167,7 +170,7 @@ void changes_modifications ()
   {
     const std::vector <std::string> users = database::users::get_users ();
     const auto online_on = [&] (const auto& user) {
-      if (webserver_request.database_config_user ()->get_contributor_changes_notifications_online (user)) {
+      if (webserver_request.database_config_user()->get_contributor_changes_notifications_online (user)) {
         recipients_named_contributors.push_back(user);
       }
     };
@@ -187,7 +190,7 @@ void changes_modifications ()
   {
     const std::vector <std::string> users = database::users::get_users ();
     for (const auto & user : users) {
-      const std::vector <std::string> bibles = webserver_request.database_config_user ()->get_change_notifications_bibles_for_user (user);
+      const std::vector <std::string> bibles = webserver_request.database_config_user()->get_change_notifications_bibles_for_user (user);
       notification_bibles_per_user [user] = bibles;
     }
   }
@@ -275,7 +278,7 @@ void changes_modifications ()
     
     
     // Clear checksum cache.
-    webserver_request.database_config_user ()->set_user_change_notifications_checksum (user, "");
+    webserver_request.database_config_user()->set_user_change_notifications_checksum (user, "");
   }
   
   
@@ -482,7 +485,7 @@ void changes_modifications ()
   // Clear checksum caches.
   users = database::users::get_users ();
   for (const auto & user : users) {
-    webserver_request.database_config_user ()->set_user_change_notifications_checksum (user, "");
+    webserver_request.database_config_user()->set_user_change_notifications_checksum (user, "");
   }
   
   

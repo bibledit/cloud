@@ -40,6 +40,8 @@
 #include <config/globals.h>
 #include <tasks/enums.h>
 
+#include <database/config/user.h>
+
 
 std::string sendreceive_index_url ()
 {

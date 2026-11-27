@@ -35,6 +35,9 @@
 #include <database/config/general.h>
 #include <ipc/focus.h>
 
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 std::string resource_index_url ()
 {
@@ -90,7 +93,7 @@ std::string resource_index (Webserver_Request& webserver_request)
   
   
   size_t resource_count = resources.size ();
-  const std::string& username = webserver_request.session_logic ()->get_username ();
+  const std::string& username = webserver_request.session_logic()->get_username();
   const int window_position = config_globals_resource_window_positions [username];
   std::string script =
   "var resourceCount = " + std::to_string (resource_count) + ";\n"

@@ -287,7 +287,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
   database::logs::log<roles::translator> (synchronizeStartText ());
   
   
-  const std::string username = client_logic_get_username ();
+  const std::string username = client_logic_get_username();
 
   
   // When Bibledit writes changes to Paratext's USFM files, 

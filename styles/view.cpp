@@ -32,6 +32,7 @@
 #include <assets/header.h>
 #include <assets/external.h>
 #include "database/styles.h"
+#include <session/logic.h>
 
 
 std::string styles_view_url ()
@@ -84,8 +85,8 @@ std::string styles_view (Webserver_Request& webserver_request)
   
   
   // Whether the logged-in user has write access to the stylesheet.
-  const std::string& username = webserver_request.session_logic ()->get_username ();
-  const int userlevel = webserver_request.session_logic ()->get_level ();
+  const std::string& username = webserver_request.session_logic()->get_username();
+  const int userlevel = webserver_request.session_logic()->get_level ();
   bool write = database::styles::has_write_access (username, sheet);
   if (userlevel >= roles::admin) write = true;
 

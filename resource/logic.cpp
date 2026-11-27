@@ -53,6 +53,7 @@
 #include <database/bibles.h>
 
 #include "database/sword.h"
+#include <database/config/user.h>
 
 
 /*

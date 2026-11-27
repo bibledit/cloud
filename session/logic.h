@@ -35,7 +35,7 @@ public:
   bool attempt_login (std::string user_or_email, const std::string& password, bool touch_enabled,
                      bool skip_checks = false);
   bool get_logged_in ();
-  const std::string& get_username () const;
+  const std::string& get_username() const;
   bool get_touch_enabled ();
   int get_level (bool force = false);
   void logout ();

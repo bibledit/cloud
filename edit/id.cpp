@@ -29,6 +29,8 @@
 
 #include <database/bibles.h>
 
+#include <database/config/user.h>
+
 
 std::string edit_id_url ()
 {

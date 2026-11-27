@@ -30,6 +30,8 @@
 #include <tasks/logic.h>
 #include <database/jobs.h>
 
+#include <session/logic.h>
+
 
 std::string jobs_index_url ()
 {

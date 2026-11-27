@@ -41,6 +41,8 @@
 
 #include <database/bibles.h>
 
+#include <database/config/user.h>
+
 
 std::string resource_cache_url ()
 {

@@ -38,6 +38,9 @@
 #include <menu/logic.h>
 #include <pugixml/include.h>
 
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 std::string changes_changes_url ()
 {
@@ -82,9 +85,9 @@ std::string changes_changes (Webserver_Request& webserver_request)
     trash_change_notification (webserver_request, remove);
     database::modifications::deleteNotification (remove);
 #ifndef HAVE_CLOUD
-    webserver_request.database_config_user ()->add_removed_change (remove);
+    webserver_request.database_config_user()->add_removed_change (remove);
 #endif
-    webserver_request.database_config_user ()->set_change_notifications_checksum ("");
+    webserver_request.database_config_user()->set_change_notifications_checksum ("");
     return std::string();
   }
   
@@ -109,15 +112,15 @@ std::string changes_changes (Webserver_Request& webserver_request)
   // Handle query to update the sorting order.
   const std::string sort = webserver_request.query ["sort"];
   if (sort == "verse") {
-    webserver_request.database_config_user ()->set_order_changes_by_author (false);
+    webserver_request.database_config_user()->set_order_changes_by_author (false);
   }
   if (sort == "author") {
-    webserver_request.database_config_user ()->set_order_changes_by_author (true);
+    webserver_request.database_config_user()->set_order_changes_by_author (true);
   }
 
   
-  const std::string& username = webserver_request.session_logic ()->get_username ();
-  const bool touch = webserver_request.session_logic ()->get_touch_enabled ();
+  const std::string& username = webserver_request.session_logic()->get_username();
+  const bool touch = webserver_request.session_logic()->get_touch_enabled ();
   
   
   std::string page {};
@@ -146,7 +149,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
     }
 #endif
     // Clear checksum cache.
-    webserver_request.database_config_user ()->set_change_notifications_checksum ("");
+    webserver_request.database_config_user()->set_change_notifications_checksum ("");
   }
   
   
@@ -171,9 +174,9 @@ std::string changes_changes (Webserver_Request& webserver_request)
       trash_change_notification (webserver_request, id);
       database::modifications::deleteNotification (id);
 #ifndef HAVE_CLOUD
-      webserver_request.database_config_user ()->add_removed_change (id);
+      webserver_request.database_config_user()->add_removed_change (id);
 #endif
-      webserver_request.database_config_user ()->set_change_notifications_checksum ("");
+      webserver_request.database_config_user()->set_change_notifications_checksum ("");
     }
   }
   
@@ -186,9 +189,9 @@ std::string changes_changes (Webserver_Request& webserver_request)
       trash_change_notification (webserver_request, id);
       database::modifications::deleteNotification (id);
 #ifndef HAVE_CLOUD
-      webserver_request.database_config_user ()->add_removed_change (id);
+      webserver_request.database_config_user()->add_removed_change (id);
 #endif
-      webserver_request.database_config_user ()->set_change_notifications_checksum ("");
+      webserver_request.database_config_user()->set_change_notifications_checksum ("");
     }
   }
   
@@ -294,7 +297,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   // Create data for the link for how to sort the change notifications.
   std::string sortquery {};
   std::string sorttext {};
-  if (webserver_request.database_config_user ()->get_order_changes_by_author ()) {
+  if (webserver_request.database_config_user()->get_order_changes_by_author ()) {
     sortquery = "verse";
     sorttext = translate ("Sort on verse" );
   } else {
@@ -309,7 +312,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   if (!notification_ids.empty ()) {
     // Whether to put those controls at the bottom of the page, as the default location,
     // or whether to put them at the top of the page.
-    if (webserver_request.database_config_user ()->get_dismiss_changes_at_top ()) {
+    if (webserver_request.database_config_user()->get_dismiss_changes_at_top ()) {
       view.enable_zone ("controlsattop");
     } else {
       view.enable_zone ("controlsatbottom");

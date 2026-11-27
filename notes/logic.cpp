@@ -17,6 +17,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <session/logic.h>
+
 #include <access/bible.h>
 #include <client/logic.h>
 #include <database/books.h>
@@ -37,6 +39,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workspace/index.h>
 
 #include <database/bibles.h>
+
+#include "database/users.h"
+#include <database/config/user.h>
 
 Notes_Logic::Notes_Logic (Webserver_Request& webserver_request):
 m_webserver_request (webserver_request)
@@ -68,13 +73,13 @@ int Notes_Logic::createNote (std::string bible, int book, int chapter, int verse
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     Database_NoteActions database_noteactions;
-    database_noteactions.record (m_webserver_request.session_logic ()->get_username (), note_id, Sync_Logic::notes_put_create_initiate, "");
-    database_noteactions.record (m_webserver_request.session_logic ()->get_username (), note_id, Sync_Logic::notes_put_summary, "");
+    database_noteactions.record (m_webserver_request.session_logic()->get_username(), note_id, Sync_Logic::notes_put_create_initiate, "");
+    database_noteactions.record (m_webserver_request.session_logic()->get_username(), note_id, Sync_Logic::notes_put_summary, "");
     // The contents to submit to the server, take it from the database, as it was updated in the logic above.
-    database_noteactions.record (m_webserver_request.session_logic ()->get_username (), note_id, Sync_Logic::notes_put_contents, database_notes.get_contents (note_id));
-    database_noteactions.record (m_webserver_request.session_logic ()->get_username (), note_id, Sync_Logic::notes_put_bible, "");
-    database_noteactions.record (m_webserver_request.session_logic ()->get_username (), note_id, Sync_Logic::notes_put_passages, "");
-    database_noteactions.record (m_webserver_request.session_logic ()->get_username (), note_id, Sync_Logic::notes_put_create_complete, "");
+    database_noteactions.record (m_webserver_request.session_logic()->get_username(), note_id, Sync_Logic::notes_put_contents, database_notes.get_contents (note_id));
+    database_noteactions.record (m_webserver_request.session_logic()->get_username(), note_id, Sync_Logic::notes_put_bible, "");
+    database_noteactions.record (m_webserver_request.session_logic()->get_username(), note_id, Sync_Logic::notes_put_passages, "");
+    database_noteactions.record (m_webserver_request.session_logic()->get_username(), note_id, Sync_Logic::notes_put_create_complete, "");
   } else {
     // Server: do the notifications.
     handlerNewNote (note_id);
@@ -94,7 +99,7 @@ void Notes_Logic::setContent (int identifier, const std::string& content)
 
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_contents, content);
   } else {
@@ -114,7 +119,7 @@ void Notes_Logic::addComment (int identifier, const std::string& comment)
   database_notes.add_comment (identifier, comment);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_comment, comment);
   } else {
@@ -130,7 +135,7 @@ void Notes_Logic::set_summary (int identifier, const std::string& summary)
   database_notes.set_summary (identifier, summary);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_summary, "");
   } else {
@@ -145,7 +150,7 @@ void Notes_Logic::subscribe (int identifier)
   database_notes.subscribe (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_subscribe, "");
   } else {
@@ -160,7 +165,7 @@ void Notes_Logic::unsubscribe (int identifier)
   database_notes.unsubscribe (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_unsubscribe, "");
   } else {
@@ -174,7 +179,7 @@ void Notes_Logic::assignUser (int identifier, const std::string& user)
   Database_Notes database_notes (m_webserver_request);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& myuser = m_webserver_request.session_logic ()->get_username ();
+    const std::string& myuser = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions;
     database_noteactions.record (myuser, identifier, Sync_Logic::notes_put_assign, user);
   } else {
@@ -192,7 +197,7 @@ void Notes_Logic::unassignUser (int identifier, const std::string& user)
   database_notes.unassign_user (identifier, user);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& myuser = m_webserver_request.session_logic ()->get_username ();
+    const std::string& myuser = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (myuser, identifier, Sync_Logic::notes_put_unassign, user);
   } else {
@@ -207,7 +212,7 @@ void Notes_Logic::setStatus (int identifier, const std::string& status)
   database_notes.set_status (identifier, status);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_status, "");
   } else {
@@ -223,7 +228,7 @@ void Notes_Logic::setPassages (int identifier, const std::vector <Passage> & pas
   database_notes.set_passages (identifier, passages);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_passages, "");
   } else {
@@ -239,7 +244,7 @@ void Notes_Logic::setRawSeverity (int identifier, int severity)
   database_notes.set_raw_severity (identifier, severity);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_severity, "");
   } else {
@@ -255,7 +260,7 @@ void Notes_Logic::setBible (int identifier, const std::string& bible)
   database_notes.set_bible (identifier, bible);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_bible, "");
   } else {
@@ -271,7 +276,7 @@ void Notes_Logic::markForDeletion (int identifier)
   trash_consultation_note (m_webserver_request, identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_mark_delete, "");
   } else {
@@ -287,7 +292,7 @@ void Notes_Logic::unmarkForDeletion (int identifier)
   database_notes.unmark_for_deletion (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_unmark_delete, "");
   } else {
@@ -301,7 +306,7 @@ void Notes_Logic::erase (int identifier)
   Database_Notes database_notes (m_webserver_request);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    const std::string& user = m_webserver_request.session_logic ()->get_username ();
+    const std::string& user = m_webserver_request.session_logic()->get_username();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_delete, "");
   } else {
@@ -379,7 +384,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   if (notification != notifyMarkNoteForDeletion) {
 
     // Whether current user gets subscribed to the note.
-    if (m_webserver_request.database_config_user ()->get_subscribe_to_consultation_notes_edited_by_me ()) {
+    if (m_webserver_request.database_config_user()->get_subscribe_to_consultation_notes_edited_by_me ()) {
       database_notes.subscribe (identifier);
     }
 
@@ -387,15 +392,15 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     const std::vector <std::string> users = database::users::get_users ();
     for (const std::string& user : users) {
       if (access_bible::read (m_webserver_request, bible, user)) {
-        if (m_webserver_request.database_config_user ()->get_notify_user_of_any_consultation_notes_edits (user)) {
+        if (m_webserver_request.database_config_user()->get_notify_user_of_any_consultation_notes_edits (user)) {
           database_notes.subscribe_user (identifier, user);
         }
-        if (m_webserver_request.database_config_user ()->get_user_assigned_to_consultation_notes_changes (user)) {
+        if (m_webserver_request.database_config_user()->get_user_assigned_to_consultation_notes_changes (user)) {
           database_notes.assign_user (identifier, user);
         }
       }
     }
-    std::vector <std::string> auto_assignees = m_webserver_request.database_config_user ()->get_automatic_note_assignment ();
+    std::vector <std::string> auto_assignees = m_webserver_request.database_config_user()->get_automatic_note_assignment ();
     for (auto assignee : auto_assignees) {
       database_notes.assign_user (identifier, assignee);
     }
@@ -407,7 +412,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   // Subscribers who receive email.
   std::vector <std::string> subscribers = database_notes.get_subscribers (identifier);
   for (const std::string& subscriber : subscribers) {
-    if (m_webserver_request.database_config_user ()->get_user_subscribed_consultation_note_notification (subscriber)) {
+    if (m_webserver_request.database_config_user()->get_user_subscribed_consultation_note_notification (subscriber)) {
       recipients.push_back (subscriber);
     }
   }
@@ -415,7 +420,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   // Assignees who receive email.
   std::vector <std::string> assignees = database_notes.get_assignees (identifier);
   for (const std::string& assignee : assignees) {
-    if (m_webserver_request.database_config_user ()->get_user_assigned_consultation_note_notification (assignee)) {
+    if (m_webserver_request.database_config_user()->get_user_assigned_consultation_note_notification (assignee)) {
       recipients.push_back (assignee);
     }
   }
@@ -426,7 +431,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     recipients.clear ();
     std::vector <std::string> users = database::users::get_users ();
     for (const auto & user : users) {
-      if (m_webserver_request.database_config_user ()->get_user_deleted_consultation_note_notification (user)) {
+      if (m_webserver_request.database_config_user()->get_user_deleted_consultation_note_notification (user)) {
         if (access_bible::read (m_webserver_request, bible, user)) {
           recipients.push_back (user);
         }
@@ -439,8 +444,8 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   recipients.assign (unique.begin (), unique.end());
 
   // Deal with suppressing mail to the user when he made the update himself.
-  const std::string& username = m_webserver_request.session_logic ()->get_username ();
-  if (m_webserver_request.database_config_user ()->get_user_suppress_mail_from_your_updates_notes (username)) {
+  const std::string& username = m_webserver_request.session_logic()->get_username();
+  if (m_webserver_request.database_config_user()->get_user_suppress_mail_from_your_updates_notes (username)) {
     recipients.erase (remove (recipients.begin(), recipients.end(), username), recipients.end());
   }
 
@@ -457,7 +462,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   // Optional postponing sending email.
   bool postpone = false;
   if (notification == notifyNoteNew) {
-    if (m_webserver_request.database_config_user ()->get_postpone_new_notes_mails ()) {
+    if (m_webserver_request.database_config_user()->get_postpone_new_notes_mails ()) {
       postpone = true;
     }
   }
@@ -579,10 +584,10 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
   // when the many new lines take up a lot of space.
   body = filter::string::replace ("\n", " ", body);
   // Make comment on the consultation note.
-  const std::string& sessionuser = m_webserver_request.session_logic ()->get_username ();
-  m_webserver_request.session_logic ()->set_username (username);
+  const std::string& sessionuser = m_webserver_request.session_logic()->get_username();
+  m_webserver_request.session_logic()->set_username (username);
   addComment (identifier, body);
-  m_webserver_request.session_logic ()->set_username (sessionuser);
+  m_webserver_request.session_logic()->set_username (sessionuser);
   // Mail confirmation to the username.
   if (m_webserver_request.database_config_user()->get_user_notify_me_of_my_posts (username)) {
     std::string confirm_subject = translate("Your comment was posted");
@@ -662,7 +667,7 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
   // Clean the email's body.
   body = filter::string::extract_body (body);
   // Post the note.
-  const std::string& sessionuser = m_webserver_request.session_logic ()->get_username ();
+  const std::string& sessionuser = m_webserver_request.session_logic()->get_username();
   m_webserver_request.session_logic()->set_username (username);
   Database_Notes database_notes (m_webserver_request);
   std::string bible = m_webserver_request.database_config_user()->get_bible ();

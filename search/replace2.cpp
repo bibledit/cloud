@@ -33,6 +33,8 @@
 #include <menu/logic.h>
 #include <dialog/select.h>
 
+#include <database/config/user.h>
+
 
 std::string search_replace2_url ()
 {
@@ -62,7 +64,7 @@ std::string search_replace2 (Webserver_Request& webserver_request)
     constexpr const char* identification {"bibleselect"};
     if (webserver_request.post_count(identification)) {
       bible = webserver_request.post_get(identification);
-      webserver_request.database_config_user ()->set_bible (bible);
+      webserver_request.database_config_user()->set_bible (bible);
     }
     dialog::select::Settings settings {
       .identification = identification,

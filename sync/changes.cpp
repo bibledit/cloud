@@ -33,6 +33,8 @@
 #include <checksum/logic.h>
 #include <config/globals.h>
 
+#include <database/config/user.h>
+
 
 std::string sync_changes_url ()
 {
@@ -73,16 +75,16 @@ std::string sync_changes (Webserver_Request& webserver_request)
       // The server deletes the change notification.
       database::modifications::deleteNotification (id);
       database::logs::log<roles::translator> ("Client deletes change notification from server:", id);
-      webserver_request.database_config_user ()->set_change_notifications_checksum ("");
+      webserver_request.database_config_user()->set_change_notifications_checksum ("");
       return std::string();
     }
     case Sync_Logic::changes_get_checksum:
     {
       // The server responds with the possibly cached total checksum for the user's change notifications.
-      std::string checksum = webserver_request.database_config_user ()->get_change_notifications_checksum ();
+      std::string checksum = webserver_request.database_config_user()->get_change_notifications_checksum ();
       if (checksum.empty ()) {
         checksum = Sync_Logic::changes_checksum (user);
-        webserver_request.database_config_user ()->set_change_notifications_checksum (checksum);
+        webserver_request.database_config_user()->set_change_notifications_checksum (checksum);
       }
       return checksum;
     }

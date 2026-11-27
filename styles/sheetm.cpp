@@ -30,6 +30,8 @@
 #include "database/styles.h"
 #include <pugixml/include.h>
 
+#include <session/logic.h>
+
 
 std::string styles_sheetm_url()
 {

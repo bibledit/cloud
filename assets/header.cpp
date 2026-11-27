@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <navigation/passage.h>
 #include <webserver/request.h>
+#include <database/config/user.h>
 
 
 Assets_Header::Assets_Header (const std::string& title, Webserver_Request& webserver_request) :
@@ -160,7 +161,7 @@ std::string Assets_Header::run ()
     const std::string item = m_webserver_request.query ["item"];
     bool main_menu_always_on = false;
     if (item.empty ())
-      if (m_webserver_request.database_config_user ()->get_main_menu_always_visible ()) {
+      if (m_webserver_request.database_config_user()->get_main_menu_always_visible ()) {
         main_menu_always_on = true;
         // Add the main menu status as a JavaScript variable.
         m_view->set_variable ("mainmenualwayson", filter::string::convert_to_string (main_menu_always_on));
@@ -205,7 +206,7 @@ std::string Assets_Header::run ()
     if (!m_fading_menu.empty ()) {
       m_view->enable_zone ("fading_menu");
       m_view->set_variable ("fadingmenu", m_fading_menu);
-      std::string delay = std::to_string (m_webserver_request.database_config_user ()->get_workspace_menu_fadeout_delay ()) + "000";
+      std::string delay = std::to_string (m_webserver_request.database_config_user()->get_workspace_menu_fadeout_delay ()) + "000";
       m_view->set_variable ("fadingmenudelay", delay);
       m_fading_menu.clear ();
     }
@@ -220,27 +221,27 @@ std::string Assets_Header::run ()
   }
 
   std::vector <std::string> embedded_css {};
-  int fontsize = m_webserver_request.database_config_user ()->get_general_font_size ();
+  int fontsize = m_webserver_request.database_config_user()->get_general_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back ("body { font-size: " + std::to_string (fontsize) + "%; }");
   }
-  fontsize = m_webserver_request.database_config_user ()->get_menu_font_size ();
+  fontsize = m_webserver_request.database_config_user()->get_menu_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + std::to_string (fontsize) + "%; }");
   }
-  fontsize = m_webserver_request.database_config_user ()->get_bible_editors_font_size ();
+  fontsize = m_webserver_request.database_config_user()->get_bible_editors_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back (".bibleeditor { font-size: " + std::to_string (fontsize) + "% !important; }");
   }
-  fontsize = m_webserver_request.database_config_user ()->get_resources_font_size ();
+  fontsize = m_webserver_request.database_config_user()->get_resources_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back (".resource { font-size: " + std::to_string (fontsize) + "% !important; }");
   }
-  fontsize = m_webserver_request.database_config_user ()->get_hebrew_font_size ();
+  fontsize = m_webserver_request.database_config_user()->get_hebrew_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back (".hebrew { font-size: " + std::to_string (fontsize) + "%!important; }");
   }
-  fontsize = m_webserver_request.database_config_user ()->get_greek_font_size ();
+  fontsize = m_webserver_request.database_config_user()->get_greek_font_size ();
   if (fontsize != 100) {
     embedded_css.push_back (".greek { font-size: " + std::to_string (fontsize) + "%!important; }");
   }
@@ -248,7 +249,7 @@ std::string Assets_Header::run ()
     m_view->set_variable ("embedded_css", filter::string::implode (embedded_css, "\n"));
   }
 
-  int current_theme_index = m_webserver_request.database_config_user ()->get_current_theme ();
+  int current_theme_index = m_webserver_request.database_config_user()->get_current_theme ();
   // Add the theme color CSS class selector name on the body element.
   m_view->set_variable ("body_theme_color", filter::css::theme_picker (current_theme_index, 0));
   // Add the workspacewrapper div element.

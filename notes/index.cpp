@@ -72,7 +72,7 @@ std::string notes_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user()->set_consultation_notes_text_selector (false);
     std::string preset_selector = webserver_request.query ["presetselection"];
     if (preset_selector == "assigned") {
-      webserver_request.database_config_user()->set_consultation_notes_assignment_selector (webserver_request.session_logic ()->get_username ());
+      webserver_request.database_config_user()->set_consultation_notes_assignment_selector (webserver_request.session_logic()->get_username());
     }
     if (preset_selector == "subscribed") {
       webserver_request.database_config_user()->set_consultation_notes_subscription_selector (true);
@@ -90,7 +90,7 @@ std::string notes_index (Webserver_Request& webserver_request)
     }
   }
 
-  const int level = webserver_request.session_logic ()->get_level ();
+  const int level = webserver_request.session_logic()->get_level ();
   // Manager roles and higher can do mass updates on the notes.
   if (level >= roles::manager) {
     // No mass updates in basic mode.

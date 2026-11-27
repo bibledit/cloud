@@ -17,6 +17,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <session/logic.h>
+
 #include <sync/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -31,6 +33,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <user/logic.h>
 #include <webserver/request.h>
+
+#include "database/users.h"
+#include <database/config/user.h>
 
 
 class Webserver_Request;
@@ -88,7 +93,7 @@ bool Sync_Logic::credentials_okay ()
   }
   
   // Set username in session.
-  m_webserver_request.session_logic ()->set_username (username);
+  m_webserver_request.session_logic()->set_username (username);
   
   // OK.
   return true;

@@ -27,6 +27,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ipc/focus.h>
 #include <client/logic.h>
 
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 std::string navigation_paratext_url ()
 {
@@ -44,7 +47,7 @@ std::string navigation_paratext (Webserver_Request& webserver_request)
     previous_from = from;
     database::logs::log("Paratext is at", from);
     // User should have set to receive references from Paratext.
-    if (webserver_request.database_config_user ()->get_receive_focused_reference_from_paratext ()) {
+    if (webserver_request.database_config_user()->get_receive_focused_reference_from_paratext ()) {
       // Parse the reference from Paratext.
       std::vector<std::string> book_rest = filter::string::explode (from, ' ');
       if (book_rest.size() == 2) {
@@ -54,7 +57,7 @@ std::string navigation_paratext (Webserver_Request& webserver_request)
           int chapter = filter::string::convert_to_int(chapter_verse[0]);
           int verse = filter::string::convert_to_int(chapter_verse[1]);
           // Set the user name on this client device.
-          const std::string& user = client_logic_get_username ();
+          const std::string& user = client_logic_get_username();
           webserver_request.session_logic()->set_username(user);
           // "I believe how SantaFe works on Windows is
           // that it always sends a standardised verse reference.
@@ -64,7 +67,7 @@ std::string navigation_paratext (Webserver_Request& webserver_request)
           // it means that the reference from Paratext
           // may need to be mapped to the local versification system.
           // Get the active Bible and its versification system.
-          std::string bible = webserver_request.database_config_user ()->get_bible ();
+          std::string bible = webserver_request.database_config_user()->get_bible ();
           std::string versification = database::config::bible::get_versification_system (bible);
           std::vector <Passage> passages;
           Database_Mappings database_mappings;

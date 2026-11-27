@@ -37,6 +37,8 @@
 #include <sendreceive/logic.h>
 #include <database/bibles.h>
 
+#include <session/logic.h>
+
 
 std::string editusfm_save_url ()
 {
@@ -127,7 +129,7 @@ std::string editusfm_save (Webserver_Request& webserver_request)
   const std::string ancestor_usfm = get_loaded_usfm (webserver_request, bible, book, chapter, unique_id);
   
   // Collect some data about the changes for this user.
-  const std::string& username = webserver_request.session_logic ()->get_username ();
+  const std::string& username = webserver_request.session_logic()->get_username();
   [[maybe_unused]] const int old_id = database::bibles::get_chapter_id (bible, book, chapter);
   const std::string old_text = ancestor_usfm;
   const std::string new_text = chapter_data_to_save;

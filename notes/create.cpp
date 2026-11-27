@@ -36,7 +36,7 @@
 #include <notes/index.h>
 #include <notes/logic.h>
 #include <webserver/request.h>
-#include "database/config/user.h"
+#include <database/config/user.h>
 #include "filter/passage.h"
 #include "styles/logic.h"
 #include "text/text.h"
@@ -126,7 +126,7 @@ std::string notes_create (Webserver_Request& webserver_request)
   view.set_variable ("verse", std::to_string (verse));
   std::string passage = filter_passage_display (book, chapter, std::to_string (verse));
   view.set_variable ("passage", passage);
-  if (webserver_request.database_config_user ()->get_show_verse_text_at_create_note ()) {
+  if (webserver_request.database_config_user()->get_show_verse_text_at_create_note ()) {
     std::string versetext;
     std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
     std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);

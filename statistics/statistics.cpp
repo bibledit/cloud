@@ -34,6 +34,10 @@
 
 #include <database/bibles.h>
 
+#include "database/users.h"
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 void statistics_statistics ()
 {
@@ -84,7 +88,7 @@ void statistics_statistics ()
     if (webserver_request.database_config_user()->get_user_subscribed_notes_statistics_notification (user)) {
       body << "<p>" << translate("Number of consultation notes you are subscribed to") << ":</p>" << std::endl;
       body << "<ul>" << std::endl;
-      webserver_request.session_logic ()->set_username (user);
+      webserver_request.session_logic()->set_username (user);
       
       std::vector<int> ids;
       {
@@ -115,7 +119,7 @@ void statistics_statistics ()
       }
       body << "<li><a href=" << std::quoted (siteUrl + notes_index_url () + "?presetselection=subscribedweekidle") << ">" << translate("Inactive for a week") << "</a>: " << ids.size() << "</li>" << std::endl;
       body << "</ul>" << std::endl;
-      webserver_request.session_logic ()->set_username ("");
+      webserver_request.session_logic()->set_username ("");
     }
 
     

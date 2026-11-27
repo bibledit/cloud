@@ -28,6 +28,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <database/bibles.h>
 
+#include "database/users.h"
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 namespace access_bible {
 
@@ -50,8 +54,8 @@ bool read ([[maybe_unused]] Webserver_Request& webserver_request,
   {
     if (user.empty ()) {
       // Current user.
-      user = webserver_request.session_logic ()->get_username ();
-      return webserver_request.session_logic ()->get_level ();
+      user = webserver_request.session_logic()->get_username();
+      return webserver_request.session_logic()->get_level ();
     }
     // Take level belonging to user.
     return database::users::get_level (user);
@@ -99,8 +103,8 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
   {
     int level {0};
     if (user.empty ()) {
-      user = webserver_request.session_logic ()->get_username ();
-      level = webserver_request.session_logic ()->get_level ();
+      user = webserver_request.session_logic()->get_username();
+      level = webserver_request.session_logic()->get_level ();
     }
     if (level == 0) {
       // Take level belonging to user.
@@ -153,8 +157,8 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
   const auto get_level = [&] {
     int level {0};
     if (user.empty ()) {
-      user = webserver_request.session_logic ()->get_username ();
-      level = webserver_request.session_logic ()->get_level ();
+      user = webserver_request.session_logic()->get_username();
+      level = webserver_request.session_logic()->get_level ();
     }
     if (level == 0) {
       // Take level belonging to user.
@@ -216,7 +220,7 @@ std::string clamp (Webserver_Request& webserver_request, std::string bible)
     if (const std::vector<std::string> bibles = access_bible::bibles (webserver_request);
         !bibles.empty())
       bible = bibles.front();
-    webserver_request.database_config_user ()->set_bible (bible);
+    webserver_request.database_config_user()->set_bible (bible);
   }
   return bible;
 }

@@ -19,10 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
-#include <session/logic.h>
-#include <database/config/user.h>
-#include <database/users.h>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
+class Database_Config_User;
+class Session_Logic;
+
 
 class Webserver_Request
 {

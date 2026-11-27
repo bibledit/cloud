@@ -32,6 +32,8 @@
 #include <editusfm/index.h>
 #include <webserver/request.h>
 
+#include <database/config/user.h>
+
 
 std::string editor_select_url ()
 {

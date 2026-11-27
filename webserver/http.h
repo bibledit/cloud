@@ -19,8 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
-
+#include <string>
 class Webserver_Request;
 
 constexpr const char* application_x_www_form_urlencoded {"application/x-www-form-urlencoded"};

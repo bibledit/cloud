@@ -35,6 +35,9 @@
 #include <access/logic.h>
 #include <dialog/select.h>
 
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 std::string notes_select_url ()
 {
@@ -173,7 +176,7 @@ std::string notes_select (Webserver_Request& webserver_request)
   // is gathered from the Bibles the user has access to.
   std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   // The administrator can select from all Bibles in the notes, even Bibles that do not exist.
-  if (webserver_request.session_logic ()->get_level () == roles::admin) {
+  if (webserver_request.session_logic()->get_level () == roles::admin) {
     std::vector <std::string> notesbibles = database_notes.get_all_bibles ();
     bibles.insert (bibles.end (), notesbibles.begin (), notesbibles.end ());
     bibles = filter::string::array_unique (bibles);

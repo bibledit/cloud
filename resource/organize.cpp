@@ -38,6 +38,9 @@
 #include <tasks/logic.h>
 #include <database/config/general.h>
 
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 std::string resource_organize_url()
 {

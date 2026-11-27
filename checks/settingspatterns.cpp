@@ -29,6 +29,8 @@
 #include <menu/logic.h>
 #include <checks/settings.h>
 
+#include <database/config/user.h>
+
 
 std::string checks_settingspatterns_url ()
 {

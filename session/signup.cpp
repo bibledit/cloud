@@ -34,6 +34,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <pugixml/include.h>
 #include <tasks/logic.h>
 
+#include "database/users.h"
+
 
 struct Verification
 {

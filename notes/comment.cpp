@@ -34,6 +34,8 @@
 #include <notes/note.h>
 #include <access/logic.h>
 
+#include <database/config/user.h>
+
 
 std::string notes_comment_url ()
 {
@@ -95,7 +97,7 @@ std::string notes_comment (Webserver_Request& webserver_request)
   view.set_variable ("summary", summary);
 
   
-  bool show_note_status = webserver_request.database_config_user ()->get_show_note_status ();
+  bool show_note_status = webserver_request.database_config_user()->get_show_note_status ();
   if (show_note_status) {
     std::string status = database_notes.get_status (id);
     view.set_variable ("status", status);

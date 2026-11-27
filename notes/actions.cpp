@@ -37,6 +37,8 @@
 #include <styles/logic.h>
 #include <access/logic.h>
 
+#include <session/logic.h>
+
 
 std::string notes_actions_url ()
 {
@@ -64,7 +66,7 @@ std::string notes_actions (Webserver_Request& webserver_request)
   std::string success, error;
 
   
-  const std::string& user = webserver_request.session_logic ()->get_username ();
+  const std::string& user = webserver_request.session_logic()->get_username();
   int level = webserver_request.session_logic()->get_level ();
 
   

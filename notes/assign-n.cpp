@@ -34,6 +34,8 @@
 #include <navigation/passage.h>
 #include <notes/actions.h>
 
+#include <session/logic.h>
+
 
 std::string notes_assign_n_url ()
 {
@@ -59,7 +61,7 @@ std::string notes_assign_n (Webserver_Request& webserver_request)
   Assets_View view;
 
   
-  const std::string& user = webserver_request.session_logic ()->get_username ();
+  const std::string& user = webserver_request.session_logic()->get_username();
  
   
   // Notes can be assigned to the assignees.

@@ -30,6 +30,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <setup/logic.h>
 
+#include "database/users.h"
+
 
 // Returns a html page with a Bibledit splash screen.
 // In case of $refresh, it refreshes to the home page.

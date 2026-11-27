@@ -39,6 +39,8 @@
 
 #include <database/bibles.h>
 
+#include <database/config/user.h>
+
 
 std::string public_create_url ()
 {

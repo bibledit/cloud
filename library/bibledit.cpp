@@ -35,8 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <setup/index.h>
 #include <setup/logic.h>
 #include <library/locks.h>
-#ifndef HAVE_CLOUD
-#else
+#ifdef HAVE_CLOUD
 #include <curl/curl.h>
 #endif
 #include <sendreceive/logic.h>
@@ -45,6 +44,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ipc/focus.h>
 #include <client/logic.h>
 #include "tasks/logic.h"
+#include <session/logic.h>
+#include <database/config/user.h>
 
 
 static bool bibledit_started{false};

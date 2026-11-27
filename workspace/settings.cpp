@@ -33,6 +33,8 @@
 #include <menu/logic.h>
 #include <workspace/organize.h>
 
+#include <database/config/user.h>
+
 
 std::string workspace_settings_url ()
 {

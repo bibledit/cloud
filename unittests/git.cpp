@@ -31,6 +31,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/shell.h>
 #include <filter/date.h>
 
+#include "database/users.h"
+#include <session/logic.h>
+
 
 void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_request,
                             [[maybe_unused]] std::string bible,
@@ -56,7 +59,7 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_reques
   webserver_request.remote_address = "127.0.0.1";
   webserver_request.user_agent = "unittest";
   database::users::create();
-  webserver_request.session_logic ()->set_username ("unittest");
+  webserver_request.session_logic()->set_username ("unittest");
   database::bibles::create_bible (bible);
   
   bool result;

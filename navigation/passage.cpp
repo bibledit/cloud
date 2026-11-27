@@ -32,6 +32,9 @@
 #include <database/bibles.h>
 #include <pugixml/include.h>
 
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 /*
  On the iPad, Bibledit uses the UIWebView class as the web browser.
@@ -170,7 +173,7 @@ std::string get_mouse_navigator (Webserver_Request& webserver_request, const std
 {
   Database_Navigation database_navigation;
   
-  const std::string& user = webserver_request.session_logic ()->get_username ();
+  const std::string& user = webserver_request.session_logic()->get_username();
   
   bool passage_clipped = false;
   
@@ -616,7 +619,7 @@ void record_history (Webserver_Request& webserver_request, const int book, const
 void go_back (Webserver_Request& webserver_request)
 {
   Database_Navigation database_navigation;
-  const std::string& user = webserver_request.session_logic ()->get_username ();
+  const std::string& user = webserver_request.session_logic()->get_username();
   const int focus_group = ipc_focus::get_focus_group(webserver_request);
   const Passage passage = database_navigation.get_previous (user, focus_group);
   if (passage.book()) {
@@ -628,7 +631,7 @@ void go_back (Webserver_Request& webserver_request)
 void go_forward (Webserver_Request& webserver_request)
 {
   Database_Navigation database_navigation;
-  const std::string& user = webserver_request.session_logic ()->get_username ();
+  const std::string& user = webserver_request.session_logic()->get_username();
   const int focus_group = ipc_focus::get_focus_group(webserver_request);
   const Passage passage = database_navigation.get_next (user, focus_group);
   if (passage.book()) {
@@ -754,7 +757,7 @@ std::string get_history_back (Webserver_Request& webserver_request)
 {
   // Get the whole history from the database.
   Database_Navigation database_navigation {};
-  const std::string& user {webserver_request.session_logic ()->get_username ()};
+  const std::string& user {webserver_request.session_logic()->get_username()};
   const int focus_group = ipc_focus::get_focus_group(webserver_request);
   const std::vector<Passage> passages = database_navigation.get_history(user, -1, focus_group);
   // Take the most recent nnn history items and render them.
@@ -779,7 +782,7 @@ std::string get_history_forward (Webserver_Request& webserver_request)
 {
   // Get the whole history from the database.
   Database_Navigation database_navigation;
-  const std::string& user {webserver_request.session_logic ()->get_username ()};
+  const std::string& user {webserver_request.session_logic()->get_username()};
   const int focus_group = ipc_focus::get_focus_group(webserver_request);
   const std::vector<Passage> passages {database_navigation.get_history(user, 1, focus_group)};
   // Take the most recent nnn history items and render them.

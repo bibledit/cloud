@@ -40,6 +40,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/date.h>
 #include <database/logs.h>
+
+#include <session/logic.h>
 #ifdef HAVE_UTF8PROC
 #include <utf8proc.h>
 #else
@@ -1069,7 +1071,7 @@ std::vector <std::string> search_needles (const std::string& search, const std::
 // Returns an integer identifier based on the name of the current user.
 int user_identifier (Webserver_Request& webserver_request)
 {
-  const std::string& username = webserver_request.session_logic()->get_username ();
+  const std::string& username = webserver_request.session_logic()->get_username();
   const std::string hash = md5 (username).substr (0, 5);
   const int identifier = std::stoi (hash, nullptr, 36);
   return identifier;

@@ -88,7 +88,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/comparative9edit.h>
 #include <resource/translated9edit.h>
 #include <webserver/request.h>
-
+#include <database/config/user.h>
+#include <session/logic.h>
 
 std::string menu_logic_href(std::string href)
 {

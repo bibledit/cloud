@@ -51,6 +51,9 @@
 #include "database/styles.h"
 #include <pugixml/include.h>
 
+#include <database/config/user.h>
+#include <session/logic.h>
+
 
 std::string bible_settings_url ()
 {
@@ -90,7 +93,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   
   
   // Whether the user has the privilege to change the stylesheet.
-  const std::string& current_user = webserver_request.session_logic ()->get_username ();
+  const std::string& current_user = webserver_request.session_logic()->get_username();
   bool privilege_stylesheet = access_logic::privilege_set_stylesheets (webserver_request, current_user);
   if (privilege_stylesheet) view.enable_zone ("privilege_stylesheet");
 
@@ -200,7 +203,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   }
 
   
-  const int level = webserver_request.session_logic ()->get_level ();
+  const int level = webserver_request.session_logic()->get_level ();
   const bool manager_level = (level >= roles::manager);
   if (manager_level) view.enable_zone ("manager");
 

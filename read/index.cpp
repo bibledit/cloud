@@ -43,6 +43,8 @@
 #include <public/new.h>
 #include <public/notes.h>
 
+#include <database/config/user.h>
+
 
 std::string read_index_url ()
 {
@@ -72,7 +74,7 @@ std::string read_index (Webserver_Request& webserver_request)
   // Set the user chosen Bible as the current Bible.
   if (webserver_request.post_count("bibleselect")) {
     std::string bibleselect = webserver_request.post_get("bibleselect");
-    webserver_request.database_config_user ()->set_bible (bibleselect);
+    webserver_request.database_config_user()->set_bible (bibleselect);
     return std::string();
   }
 
@@ -117,7 +119,7 @@ std::string read_index (Webserver_Request& webserver_request)
   script_stream << "var readEditorVerseSaved = " << std::quoted(locale_logic_text_saved ()) << ";\n";
   script_stream << "var readEditorVerseRetrying = " << std::quoted(locale_logic_text_retrying ()) << ";\n";
   script_stream << "var readEditorVerseUpdatedLoaded = " << std::quoted(locale_logic_text_reload ()) << ";\n";
-  int verticalCaretPosition = webserver_request.database_config_user ()->get_vertical_caret_position ();
+  int verticalCaretPosition = webserver_request.database_config_user()->get_vertical_caret_position ();
   script_stream << "var verticalCaretPosition = " << verticalCaretPosition << ";\n";
   script_stream << "var verseSeparator = " << std::quoted(database::config::general::get_notes_verse_separator ()) << ";\n";
   std::string script {script_stream.str()};
@@ -126,7 +128,7 @@ std::string read_index (Webserver_Request& webserver_request)
 
   std::string cls = filter::css::get_class (bible);
   std::string font = fonts::logic::get_text_font (bible);
-  int current_theme_index = webserver_request.database_config_user ()->get_current_theme ();
+  int current_theme_index = webserver_request.database_config_user()->get_current_theme ();
   int direction = database::config::bible::get_text_direction (bible);
   int lineheight = database::config::bible::get_line_height (bible);
   int letterspacing = database::config::bible::get_letter_spacing (bible);
@@ -141,12 +143,12 @@ std::string read_index (Webserver_Request& webserver_request)
                                                        letterspacing));
   
   // Whether to enable fast Bible editor switching.
-  if (webserver_request.database_config_user ()->get_fast_editor_switching_available ()) {
+  if (webserver_request.database_config_user()->get_fast_editor_switching_available ()) {
     view.enable_zone ("fastswitcheditor");
   }
 
   // Whether to enable the styles button.
-  if (webserver_request.database_config_user ()->get_enable_styles_button_visual_editors ()) {
+  if (webserver_request.database_config_user()->get_enable_styles_button_visual_editors ()) {
     view.enable_zone ("stylesbutton");
   }
 

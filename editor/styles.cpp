@@ -28,6 +28,8 @@
 #include <database/config/bible.h>
 #include <pugixml/include.h>
 
+#include <database/config/user.h>
+
 
 std::string Editor_Styles::get_recently_used (Webserver_Request& webserver_request)
 {

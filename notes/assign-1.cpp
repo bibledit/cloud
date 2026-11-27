@@ -34,6 +34,8 @@
 #include <navigation/passage.h>
 #include <notes/actions.h>
 
+#include <session/logic.h>
+
 
 std::string notes_assign_1_url ()
 {
@@ -61,7 +63,7 @@ std::string notes_assign_1 (Webserver_Request& webserver_request)
   std::string success, error;
 
   
-  const std::string& user = webserver_request.session_logic ()->get_username ();
+  const std::string& user = webserver_request.session_logic()->get_username();
 
   
   int id = filter::string::convert_to_int (webserver_request.query ["id"]);

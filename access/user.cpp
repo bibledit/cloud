@@ -21,6 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <filter/string.h>
 
+#include "database/users.h"
+#include <session/logic.h>
+
 
 // This function returns users assigned to the logged-in user.
 std::vector<std::string> access_user::assignees (Webserver_Request& webserver_request)
